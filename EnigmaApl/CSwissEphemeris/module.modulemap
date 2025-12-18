@@ -1,0 +1,5 @@
+module CSwissEphemeris {
+    header "swephexp.h"
+    link "swe"
+    export *
+}

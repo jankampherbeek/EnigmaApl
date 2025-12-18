@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings (German)
+  internationaliozation
+  
+  Created by Jan Kampherbeek on 12/07/2025.
+*/
+
+// Greetings
+"hello" = "Hallo";
+"goodbye" = "Auf Wiedersehen";
+"welcome" = "Willkommen";
+
+// Common actions
+"save" = "Speichern";
+"cancel" = "Abbrechen";
+"delete" = "Löschen";
+"edit" = "Bearbeiten";
+
+// Messages
+"loading" = "Laden...";
+"error" = "Fehler";
+"success" = "Erfolg";
+"please_wait" = "Bitte warten...";
+
+// Numbers and dates
+"today" = "Heute";
+"yesterday" = "Gestern";
+"tomorrow" = "Morgen";
+

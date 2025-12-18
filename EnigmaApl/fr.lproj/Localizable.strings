@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings (French)
+  internationaliozation
+  
+  Created by Jan Kampherbeek on 12/07/2025.
+*/
+
+// Greetings
+"hello" = "Bonjour";
+"goodbye" = "Au revoir";
+"welcome" = "Bienvenue";
+
+// Common actions
+"save" = "Enregistrer";
+"cancel" = "Annuler";
+"delete" = "Supprimer";
+"edit" = "Modifier";
+
+// Messages
+"loading" = "Chargement...";
+"error" = "Erreur";
+"success" = "Succès";
+"please_wait" = "Veuillez patienter...";
+
+// Numbers and dates
+"today" = "Aujourd'hui";
+"yesterday" = "Hier";
+"tomorrow" = "Demain";
+
