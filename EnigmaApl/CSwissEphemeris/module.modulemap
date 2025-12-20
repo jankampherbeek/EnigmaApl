@@ -1,5 +1,9 @@
-module CSwissEphemeris {
-    header "swephexp.h"
-    link "swe"
+module SwissEphC {
+    header "SwissEphBridge.h"
     export *
+    
+    // Link with the Swiss Ephemeris library
+    link "swe"
+    link "m"
+    link "dl"
 }

@@ -67,10 +67,6 @@ struct ContentView: View {
                 // Alternative explicit approach for debugging:
                 // Text(String(localized: "hello"))
                 
-
-                
-                
-                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 5) {
                         ForEach(availableFontFamilies, id: \.self) { fontFamily in
@@ -83,6 +79,9 @@ struct ContentView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .onAppear {
+                SeTest.PerformTest()
+            }
         }
     }
 
