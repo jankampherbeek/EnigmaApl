@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "8F4737FE-148D-44CD-9F78-580000691929",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EnigmaApl.xcodeproj",
+      "identifier" : "AF6EB8112EF019960070CE12",
+      "name" : "EnigmaApl"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EnigmaApl.xcodeproj",
+        "identifier" : "AF6EB8202EF019970070CE12",
+        "name" : "EnigmaAplTests"
+      }
+    }
+  ],
+  "version" : 1
+}
