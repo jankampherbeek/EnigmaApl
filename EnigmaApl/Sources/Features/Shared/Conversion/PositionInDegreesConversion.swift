@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PositionInDegrees {
+struct PositionInDegreesConversion {
     
     /// Converts a double to a formatted string with degrees, minutes, and seconds.
     /// Format: "degrees°minutes'seconds"" with zero-padding for minutes/seconds < 10.

@@ -25,6 +25,8 @@ void swe_set_jpl_file(const char *fname);
 void swe_set_topo(double geolon, double geolat, double geoalt);
 void swe_set_sid_mode(int32_t sid_mode, double t0, double ayan_t0);
 void swe_close(void);
+void swe_azalt(double tjd_ut, int32_t calc_flag, double *geopos, double atpress, double attemp, double *xin, double *xaz);
+void swe_cotrans(double *xpo, double *xpn, double eps);
 
 // Planet constants
 #define SE_SUN          0

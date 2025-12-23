@@ -1,10 +1,10 @@
+// swift-tools-version: 5.9
 //  Package.swift
 //  EnigmaApl
 //
 //  Created by Jan Kampherbeek on 16/12/2025.
 //
 
-// swift-tools-version: 5.9
 import PackageDescription
 
 let package = Package(
@@ -18,11 +18,12 @@ let package = Package(
     targets: [
         .target(
             name: "YourSwiftTarget",
-            dependencies: ["CSwissEphemeris"]),
+            dependencies: ["CSwissEphemeris"],
+            path: "../Sources"),
 
         .target(
             name: "CSwissEphemeris",
-            path: "CSwissEphemeris",
+            path: "../CSwissEphemeris",
             publicHeadersPath: "include",
             cSettings: [
                 .headerSearchPath("include")

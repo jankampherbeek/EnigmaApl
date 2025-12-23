@@ -10,7 +10,7 @@
 		AF6EB83F2EF01A850070CE12 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB83E2EF01A7C0070CE12 /* readme.md */; };
 		AF6EB8412EF01B740070CE12 /* License in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8402EF01B6C0070CE12 /* License */; };
 		AF6EB8432EF01BDA0070CE12 /* se_license.html in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8422EF01BD30070CE12 /* se_license.html */; };
-		AF6EB8442EF01BD40070CE12 /* se in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8452EF01BD50070CE12 /* se */; };
+		AF6EB8442EF01BD40070CE12 /* EnigmaApl/CSwissEphemeris/se in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8452EF01BD50070CE12 /* EnigmaApl/CSwissEphemeris/se */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,14 +31,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AF22EB532EF1FC0A0036EA59 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		AF6EB8122EF019960070CE12 /* EnigmaApl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnigmaApl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF6EB8212EF019970070CE12 /* EnigmaAplTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnigmaAplTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF6EB82B2EF019970070CE12 /* EnigmaAplUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnigmaAplUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF6EB83E2EF01A7C0070CE12 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		AF6EB8402EF01B6C0070CE12 /* License */ = {isa = PBXFileReference; lastKnownFileType = text; path = License; sourceTree = "<group>"; };
 		AF6EB8422EF01BD30070CE12 /* se_license.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = se_license.html; sourceTree = "<group>"; };
-		AF6EB8452EF01BD50070CE12 /* se */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EnigmaApl/CSwissEphemeris/se; sourceTree = "<group>"; };
+		AF6EB8452EF01BD50070CE12 /* EnigmaApl/CSwissEphemeris/se */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EnigmaApl/CSwissEphemeris/se; sourceTree = "<group>"; };
+		AFEBE2AD2EF741010036FB36 /* EnigmaApl.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EnigmaApl.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -116,7 +116,7 @@
 		AF6EB8092EF019960070CE12 = {
 			isa = PBXGroup;
 			children = (
-				AF22EB532EF1FC0A0036EA59 /* Package.swift */,
+				AFEBE2AD2EF741010036FB36 /* EnigmaApl.xctestplan */,
 				AF6EB8422EF01BD30070CE12 /* se_license.html */,
 				AF6EB8402EF01B6C0070CE12 /* License */,
 				AF6EB83E2EF01A7C0070CE12 /* readme.md */,
@@ -124,7 +124,7 @@
 				AF6EB8242EF019970070CE12 /* EnigmaAplTests */,
 				AF6EB82E2EF019970070CE12 /* EnigmaAplUITests */,
 				AF6EB8132EF019960070CE12 /* Products */,
-				AF6EB8452EF01BD50070CE12 /* se */,
+				AF6EB8452EF01BD50070CE12 /* EnigmaApl/CSwissEphemeris/se */,
 			);
 			sourceTree = "<group>";
 		};
@@ -262,7 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF6EB8442EF01BD40070CE12 /* se in Resources */,
+				AF6EB8442EF01BD40070CE12 /* EnigmaApl/CSwissEphemeris/se in Resources */,
 				AF6EB8432EF01BDA0070CE12 /* se_license.html in Resources */,
 				AF6EB8412EF01B740070CE12 /* License in Resources */,
 				AF6EB83F2EF01A850070CE12 /* readme.md in Resources */,
@@ -559,9 +559,17 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8WZZNQCN35;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-Xcc -fmodule-map-file=$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jankampherbeek.EnigmaAplTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -585,9 +593,17 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8WZZNQCN35;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-Xcc -fmodule-map-file=$(PROJECT_DIR)/EnigmaApl/CSwissEphemeris/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jankampherbeek.EnigmaAplTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

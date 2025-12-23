@@ -8,7 +8,7 @@
 import Foundation
 
 /// Validate geographic coordinates (latitude and longitude)
-public struct Coordinates {
+public struct CoordinateValidation {
     
     /// Validates a longitude value
     /// - Parameter value: The longitude value to validate

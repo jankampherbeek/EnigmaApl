@@ -169,14 +169,6 @@ public class SwissEph {
             }
         }
         
-        // Development fallback - check source directory
-        if sePath.isEmpty {
-            let devPath = "/Volumes/extSSD/dev/EnigmaApl/EnigmaApl/CSwissEphemeris/se"
-            if FileManager.default.fileExists(atPath: devPath) {
-                sePath = devPath
-            }
-        }
-        
         if sePath.isEmpty {
             print("ERROR: Could not find se directory. Tried paths:")
             if let resourcePath = Bundle.main.resourcePath {
@@ -192,7 +184,10 @@ public class SwissEph {
             print("Resource path: \(Bundle.main.resourcePath ?? "nil")")
         } else {
             print("Setting Swiss Ephemeris path to: \(sePath)")
-            swe_set_ephe_path(sePath)
+            // Use withCString to ensure the C string is valid for the duration of the call
+            sePath.withCString { cString in
+                swe_set_ephe_path(cString)
+            }
         }
         
         // Initialize Swiss Ephemeris with default settings
@@ -226,10 +221,13 @@ public class SwissEph {
         var result = [Double](repeating: 0.0, count: 6)
         var error = [CChar](repeating: 0, count: 256)
         
+        // Note: Arrays are stack-allocated, automatically cleaned up when function returns
+        // The error buffer is zero-initialized and used by the C function
         let returnCode = swe_calc_ut(julianDay, planet.rawValue, flags.rawValue, &result, &error)
         
         guard returnCode >= 0 else {
-            print("Error calculating planet position: \(String(cString: error))")
+            let errorMessage = String(cString: error)
+            print("Error calculating planet position: \(errorMessage)")
             return nil
         }
         
@@ -250,10 +248,11 @@ public class SwissEph {
         var cusps = [Double](repeating: 0.0, count: 13) // 12 houses + 1 extra
         var ascmc = [Double](repeating: 0.0, count: 10)
         
+        // Note: Arrays are stack-allocated, automatically cleaned up when function returns
         let returnCode = swe_houses(julianDay, latitude, longitude, Int32(houseSystem.rawValue), &cusps, &ascmc)
         
         guard returnCode >= 0 else {
-            print("Error calculating houses")
+            print("Error calculating houses (return code: \(returnCode))")
             return nil
         }
         
@@ -299,12 +298,18 @@ public class SwissEph {
     public func version() -> String {
         print("Calling swe_version...")
         var versionString = [CChar](repeating: 0, count: 256)
+        
+        // Note: Buffer is stack-allocated, automatically cleaned up
+        // swe_version returns a pointer to static memory (no cleanup needed)
         let versionPtr = swe_version(&versionString)
         if let ptr = versionPtr {
+            // swe_version returns a pointer to static memory (no need to free)
+            // Copy to Swift String immediately to ensure we have the value
             let version = String(cString: ptr)
             print("Version returned: \(version)")
             return version
         } else {
+            // Fallback: use the buffer we provided
             let version = versionString.withUnsafeBufferPointer { buffer in
                 String(cString: buffer.baseAddress!)
             }
@@ -316,10 +321,16 @@ public class SwissEph {
     // MARK: - Planet Names
     public func planetName(_ planet: Planet) -> String {
         var name = [CChar](repeating: 0, count: 256)
+        
+        // Note: Buffer is stack-allocated, automatically cleaned up
+        // swe_get_planet_name returns a pointer to static memory (no cleanup needed)
         let namePtr = swe_get_planet_name(planet.rawValue, &name)
         if let ptr = namePtr {
+            // swe_get_planet_name returns a pointer to static memory (no need to free)
+            // Copy to Swift String immediately to ensure we have the value
             return String(cString: ptr)
         } else {
+            // Fallback: use the buffer we provided
             return name.withUnsafeBufferPointer { buffer in
                 String(cString: buffer.baseAddress!)
             }
