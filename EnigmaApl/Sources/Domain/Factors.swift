@@ -7,6 +7,27 @@
 
 import Foundation
 
+// MARK: - CalculationTypes
+/// Methods for the calculation of a factor
+/// CommonSE: Calculation of celestial points via the Swiss Ephemeris.
+/// CommonElements: Calculation of celestial points based on ecliptical elements.
+/// CommonFormula: Calculation of celestial points based on a formula.
+/// Mundane: Calculation of mundane points, either via the Swiss Ephemeris of based on a formula.
+/// Lots: Calculation of Hellenistic lots.
+public enum CalculationTypes: Int, CaseIterable {
+    case Unknown = 0
+    case CommonSe = 1
+    case CommonElements = 2
+    case CommonFormulaLongitude = 3
+    case CommonFormulaFull = 4
+    case Mundane = 5
+    case Lots = 6
+    case ZodiacFixed = 7
+    case Apsides = 8
+}
+
+// MARK: - Factors
+
 /// Factors, lgihts, planets, mathematical points etc. Solar system points. .
 public enum Factors: Int, CaseIterable {
     case sun = 0
@@ -75,18 +96,29 @@ public enum Factors: Int, CaseIterable {
     case fortunaNoSect = 4002
     
     /// Indicates if the calculation of this point can be performed by the Swiss Ephemeris
-    var se: Bool {
+    var calculationType: CalculationTypes {
         switch self {
         case .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
              .northNodeMean, .northNodeTrue, .apogeeMean, .apogeeCorrected, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
              .apogeeInterpolated, .perigeeInterpolated, .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
-             .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea,
-             .persephoneRam, .hermesRam, .demeterRam, .persephoneCarteret, .vulcanusCarteret,
-             .priapus, .priapusCorrected, .dragon, .beast, .southNodeMean, .southNodeTrue, .blackSun, .diamond,
-             .mc, .ascendant, .eastPoint, .vertex, .zeroAries, .fortunaSect, .fortunaNoSect:
-            return true
+             .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea:
+            return .CommonSe
+        case .persephoneRam, .hermesRam, .demeterRam:
+            return .CommonElements
+        case .persephoneCarteret, .vulcanusCarteret:
+            return .CommonFormulaLongitude
+        case .priapus, .priapusCorrected, .dragon, .beast,. southNodeMean, .southNodeTrue:
+            return .CommonFormulaFull
+        case .mc, .ascendant, .eastPoint, .vertex:
+            return .Mundane
+        case .zeroAries:
+            return .ZodiacFixed
+        case .fortunaSect, .fortunaNoSect:
+            return .Lots
+        case .blackSun, .diamond:
+            return .Apsides
         default:
-            return false
+            return .Unknown
         }
     }
     

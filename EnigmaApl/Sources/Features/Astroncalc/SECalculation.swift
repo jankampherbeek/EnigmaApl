@@ -9,10 +9,10 @@ import Foundation
 
 public struct SECalculation {
     
-    /// Performs a full chart calculation based on the provided request
+    /// Calculates the positions for all factors in the request
     /// - Parameter request: The SERequest containing calculation parameters
-    /// - Returns: A FullChart with all calculated positions and house data
-    public static func PerformCalculation(_ request: SERequest) -> FullChart {
+    /// - Returns: A tuple containing a dictionary of factor positions and the obliquity value
+    public static func CalculateFactors(_ request: SERequest) -> ([Factors: FullFactorPosition], Double) {
         let seWrapper = SEWrapper()
         let julianDay = request.JulianDay
         
@@ -89,6 +89,18 @@ public struct SECalculation {
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
+        return (coordinates, obliquity)
+    }
+    
+    /// Calculates house positions (cusps, ascendant, MC, vertex, and eastpoint)
+    /// - Parameters:
+    ///   - request: The SERequest containing calculation parameters
+    ///   - obliquity: The obliquity value needed for coordinate conversions
+    /// - Returns: A HousePositions struct with all calculated house data
+    public static func CalculateHouses(_ request: SERequest, obliquity: Double) -> HousePositions {
+        let seWrapper = SEWrapper()
+        let julianDay = request.JulianDay
+        
         // Calculate ecliptical positions of houses
         var cusps: [Int: Double] = [:]
         var mc = 0.0
@@ -126,7 +138,6 @@ public struct SECalculation {
         }
         
         // Convert longitude of houses to full housepositions
-   
         func createFullCuspPosition(eclipticLongitude: Double) -> FullCuspPosition {
             // Latitude for houses is always zero
             let eclipticCoords = [eclipticLongitude, 0.0]
@@ -166,24 +177,14 @@ public struct SECalculation {
         let fullEastpoint = createFullCuspPosition(eclipticLongitude: eastpoint)
         
         // Create HousePositions struct
-        let housePositions = HousePositions(
+        return HousePositions(
             cusps: fullCusps,
             ascendant: fullAscendant,
             midheaven: fullMidheaven,
             eastpoint: fullEastpoint,
             vertex: fullVertex
         )
-        
-        // Calculate sidereal time
-        let siderealTime = seWrapper.siderealTime(julianDay: julianDay)
-        
-        return FullChart(
-            Coordinates: coordinates,
-            HousePositions: housePositions,
-            SiderealTime: siderealTime,
-            JulianDay: julianDay,
-            Obliquity: obliquity
-        )
     }
+    
 }
 
