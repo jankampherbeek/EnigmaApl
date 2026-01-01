@@ -111,6 +111,9 @@ public struct HouseResult {
 }
 
 // MARK: - Swiss Ephemeris Wrapper
+/// This class is kept for reference only and should not be used in production code.
+/// Use `SEWrapper` instead for all Swiss Ephemeris calculations.
+@available(*, unavailable, message: "SwissEph is kept for reference only. Use SEWrapper instead.")
 public class SwissEph {
     
     // MARK: - Properties
@@ -170,20 +173,18 @@ public class SwissEph {
         }
         
         if sePath.isEmpty {
-            print("ERROR: Could not find se directory. Tried paths:")
+            var triedPaths: [String] = []
             if let resourcePath = Bundle.main.resourcePath {
-                print("  - \(resourcePath)/se")
-                print("  - \(resourcePath)/CSwissEphemeris/se")
+                triedPaths.append("  - \(resourcePath)/se")
+                triedPaths.append("  - \(resourcePath)/CSwissEphemeris/se")
             }
-            print("  - \(Bundle.main.bundlePath)/Contents/Resources/se")
-            print("  - \(Bundle.main.bundlePath)/Contents/Resources/CSwissEphemeris/se")
-            print("  - \(Bundle.main.bundlePath)/se")
-            print("  - \(Bundle.main.bundlePath)/CSwissEphemeris/se")
-            print("Current working directory: \(FileManager.default.currentDirectoryPath)")
-            print("Bundle path: \(Bundle.main.bundlePath)")
-            print("Resource path: \(Bundle.main.resourcePath ?? "nil")")
+            triedPaths.append("  - \(Bundle.main.bundlePath)/Contents/Resources/se")
+            triedPaths.append("  - \(Bundle.main.bundlePath)/Contents/Resources/CSwissEphemeris/se")
+            triedPaths.append("  - \(Bundle.main.bundlePath)/se")
+            triedPaths.append("  - \(Bundle.main.bundlePath)/CSwissEphemeris/se")
+            Logger.log.error("Could not find se directory. Tried paths:\n\(triedPaths.joined(separator: "\n"))\nCurrent working directory: \(FileManager.default.currentDirectoryPath)\nBundle path: \(Bundle.main.bundlePath)\nResource path: \(Bundle.main.resourcePath ?? "nil")")
         } else {
-            print("Setting Swiss Ephemeris path to: \(sePath)")
+            Logger.log.info("Setting Swiss Ephemeris path to: \(sePath)")
             // Use withCString to ensure the C string is valid for the duration of the call
             sePath.withCString { cString in
                 swe_set_ephe_path(cString)
@@ -191,18 +192,18 @@ public class SwissEph {
         }
         
         // Initialize Swiss Ephemeris with default settings
-        print("Initializing Swiss Ephemeris settings...")
+        Logger.log.debug("Initializing Swiss Ephemeris settings...")
         
         // Set default sidereal mode (Lahiri)
-        swe_set_sid_mode(1, 0, 0) // Lahiri ayanamsa
-        print("Sidereal mode set to Lahiri")
+        //swe_set_sid_mode(1, 0, 0) // Lahiri ayanamsa
+        //Logger.log.debug("Sidereal mode set to Lahiri")
         
         // Set default topocentric position (can be overridden later)
         swe_set_topo(0, 0, 0) // Default to geocentric
-        print("Topocentric position set to geocentric")
+        Logger.log.debug("Topocentric position set to geocentric")
         
         isInitialized = true
-        print("Swiss Ephemeris initialization completed successfully")
+        Logger.log.info("Swiss Ephemeris initialization completed successfully")
     }
     
     private func close() {
@@ -214,7 +215,7 @@ public class SwissEph {
     // MARK: - Planet Position Calculation
     public func calculatePlanetPosition(julianDay: Double, planet: Planet, flags: CalculationFlags = [.swissEph]) -> Position? {
         guard isInitialized else {
-            print("ERROR: Swiss Ephemeris not initialized")
+            Logger.log.error("Swiss Ephemeris not initialized")
             return nil
         }
         
@@ -227,7 +228,7 @@ public class SwissEph {
         
         guard returnCode >= 0 else {
             let errorMessage = String(cString: error)
-            print("Error calculating planet position: \(errorMessage)")
+            Logger.log.error("Error calculating planet position: \(errorMessage)")
             return nil
         }
         
@@ -252,7 +253,7 @@ public class SwissEph {
         let returnCode = swe_houses(julianDay, latitude, longitude, Int32(houseSystem.rawValue), &cusps, &ascmc)
         
         guard returnCode >= 0 else {
-            print("Error calculating houses (return code: \(returnCode))")
+            Logger.log.error("Error calculating houses (return code: \(returnCode))")
             return nil
         }
         
@@ -296,7 +297,7 @@ public class SwissEph {
     
     // MARK: - Version Information
     public func version() -> String {
-        print("Calling swe_version...")
+        Logger.log.debug("Calling swe_version...")
         var versionString = [CChar](repeating: 0, count: 256)
         
         // Note: Buffer is stack-allocated, automatically cleaned up
@@ -306,14 +307,14 @@ public class SwissEph {
             // swe_version returns a pointer to static memory (no need to free)
             // Copy to Swift String immediately to ensure we have the value
             let version = String(cString: ptr)
-            print("Version returned: \(version)")
+            Logger.log.debug("Version returned: \(version)")
             return version
         } else {
             // Fallback: use the buffer we provided
             let version = versionString.withUnsafeBufferPointer { buffer in
                 String(cString: buffer.baseAddress!)
             }
-            print("Version returned: \(version)")
+            Logger.log.debug("Version returned: \(version)")
             return version
         }
     }

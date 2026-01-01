@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF18FCDC2EFDD50400E6BB9A /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = AF18FCDA2EFDD50400E6BB9A /* SwiftyBeaver */; };
+		AF18FCDD2EFDD50400E6BB9A /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = AF18FCDB2EFDD50400E6BB9A /* SwiftyBeaver */; };
 		AF6EB83F2EF01A850070CE12 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB83E2EF01A7C0070CE12 /* readme.md */; };
 		AF6EB8412EF01B740070CE12 /* License in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8402EF01B6C0070CE12 /* License */; };
 		AF6EB8432EF01BDA0070CE12 /* se_license.html in Resources */ = {isa = PBXBuildFile; fileRef = AF6EB8422EF01BD30070CE12 /* se_license.html */; };
@@ -86,6 +88,11 @@
 			path = EnigmaAplUITests;
 			sourceTree = "<group>";
 		};
+		AFD863E82EFEC5B3008A6DC3 /* Docs */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Docs;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF18FCDC2EFDD50400E6BB9A /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF18FCDD2EFDD50400E6BB9A /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,9 +122,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF18F3DA2EFDD35800E6BB9A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AF6EB8092EF019960070CE12 = {
 			isa = PBXGroup;
 			children = (
+				AFD863E82EFEC5B3008A6DC3 /* Docs */,
 				AFEBE2AD2EF741010036FB36 /* EnigmaApl.xctestplan */,
 				AF6EB8422EF01BD30070CE12 /* se_license.html */,
 				AF6EB8402EF01B6C0070CE12 /* License */,
@@ -125,6 +142,7 @@
 				AF6EB82E2EF019970070CE12 /* EnigmaAplUITests */,
 				AF6EB8132EF019960070CE12 /* Products */,
 				AF6EB8452EF01BD50070CE12 /* EnigmaApl/CSwissEphemeris/se */,
+				AF18F3DA2EFDD35800E6BB9A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,9 +173,11 @@
 			);
 			fileSystemSynchronizedGroups = (
 				AF6EB8142EF019960070CE12 /* EnigmaApl */,
+				AFD863E82EFEC5B3008A6DC3 /* Docs */,
 			);
 			name = EnigmaApl;
 			packageProductDependencies = (
+				AF18FCDA2EFDD50400E6BB9A /* SwiftyBeaver */,
 			);
 			productName = EnigmaApl;
 			productReference = AF6EB8122EF019960070CE12 /* EnigmaApl.app */;
@@ -181,6 +201,7 @@
 			);
 			name = EnigmaAplTests;
 			packageProductDependencies = (
+				AF18FCDB2EFDD50400E6BB9A /* SwiftyBeaver */,
 			);
 			productName = EnigmaAplTests;
 			productReference = AF6EB8212EF019970070CE12 /* EnigmaAplTests.xctest */;
@@ -245,6 +266,9 @@
 			);
 			mainGroup = AF6EB8092EF019960070CE12;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF18FCD92EFDD50400E6BB9A /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AF6EB8132EF019960070CE12 /* Products */;
 			projectDirPath = "";
@@ -709,6 +733,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AF18FCD92EFDD50400E6BB9A /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AF18FCDA2EFDD50400E6BB9A /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF18FCD92EFDD50400E6BB9A /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+		AF18FCDB2EFDD50400E6BB9A /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF18FCD92EFDD50400E6BB9A /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AF6EB80A2EF019960070CE12 /* Project object */;
 }

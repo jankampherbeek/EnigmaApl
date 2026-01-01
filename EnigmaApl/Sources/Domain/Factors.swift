@@ -107,7 +107,7 @@ public enum Factors: Int, CaseIterable {
             return .CommonElements
         case .persephoneCarteret, .vulcanusCarteret:
             return .CommonFormulaLongitude
-        case .priapus, .priapusCorrected, .dragon, .beast,. southNodeMean, .southNodeTrue:
+        case .priapus, .priapusCorrected, .dragon, .beast, .southNodeMean, .southNodeTrue:
             return .CommonFormulaFull
         case .mc, .ascendant, .eastPoint, .vertex:
             return .Mundane

@@ -10,6 +10,11 @@ import SwiftData
 
 @main
 struct EnigmaAplApp: App {
+    init() {
+        // Initialize logging
+        Logger.configure()
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -19,6 +24,7 @@ struct EnigmaAplApp: App {
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
+            Logger.log.error("Could not create ModelContainer: \(error)")
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()

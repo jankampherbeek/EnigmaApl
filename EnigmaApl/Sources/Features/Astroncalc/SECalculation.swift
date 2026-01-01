@@ -24,17 +24,17 @@ public struct SECalculation {
         var coordinates: [Factors: FullFactorPosition] = [:]
         
         for factor in request.FactorsToUse {
-            let factorId = factor.rawValue
+            let factorId = factor.seId
             
             // Calculate ecliptical position
-            let eclipticalPos = seWrapper.calculatePlanetPosition(
+            let eclipticalPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
                 planet: factorId,
                 flags: eclipticalFlags
             )
             
             // Calculate equatorial position
-            let equatorialPos = seWrapper.calculatePlanetPosition(
+            let equatorialPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
                 planet: factorId,
                 flags: equatorialFlags
@@ -82,7 +82,7 @@ public struct SECalculation {
         }
         
         // Calculate obliquity using id -1
-        let obliquityPosition = seWrapper.calculatePlanetPosition(
+        let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
             planet: -1,
             flags: eclipticalFlags
@@ -134,7 +134,7 @@ public struct SECalculation {
             if ascmc.count > 4 { eastpoint = ascmc[4] }
         } catch {
             // If house calculation fails, use default values (already set above)
-            print("Warning: House calculation failed: \(error)")
+            Logger.log.warning("House calculation failed: \(error)")
         }
         
         // Convert longitude of houses to full housepositions

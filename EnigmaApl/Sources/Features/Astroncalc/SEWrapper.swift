@@ -11,6 +11,7 @@ import Foundation
 import SwissEphC
 
 // MARK: - Errors
+/// TODO: Implement specific error handling and remove this enum.
 public enum SEError: Error {
     case initializationFailed(String)
     case calculationFailed(String)
@@ -51,56 +52,64 @@ public class SEWrapper {
         // Try multiple possible locations for the se folder
         var sePath = ""
         
-        // First, try to find it in the bundle's resources
-        if let resourcePath = Bundle.main.resourcePath {
-            let resourceSePath = (resourcePath as NSString).appendingPathComponent("se")
-            if FileManager.default.fileExists(atPath: resourceSePath) {
-                sePath = resourceSePath
+        // Helper function to check if a path exists and is a directory
+        func checkPath(_ path: String) -> Bool {
+            var isDirectory: ObjCBool = false
+            let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+            return exists && isDirectory.boolValue
+        }
+        
+        // First, try to find it in the bundle's resources (main bundle or test bundle)
+        let bundlesToCheck: [Bundle] = [Bundle.main, Bundle(for: type(of: self))]
+        
+        for bundle in bundlesToCheck {
+            if let resourcePath = bundle.resourcePath {
+                let resourceSePath = (resourcePath as NSString).appendingPathComponent("se")
+                if checkPath(resourceSePath) {
+                    sePath = resourceSePath
+                    break
+                }
             }
         }
         
         // Try CSwissEphemeris/se in bundle resources
         if sePath.isEmpty {
-            if let resourcePath = Bundle.main.resourcePath {
-                let csEphSePath = (resourcePath as NSString).appendingPathComponent("CSwissEphemeris/se")
-                if FileManager.default.fileExists(atPath: csEphSePath) {
-                    sePath = csEphSePath
+            for bundle in bundlesToCheck {
+                if let resourcePath = bundle.resourcePath {
+                    let csEphSePath = (resourcePath as NSString).appendingPathComponent("CSwissEphemeris/se/")
+                    if checkPath(csEphSePath) {
+                        sePath = csEphSePath
+                        break
+                    }
                 }
             }
         }
         
         // Try in the bundle path itself (for macOS apps)
         if sePath.isEmpty {
-            let possiblePaths = [
-                Bundle.main.bundlePath + "/Contents/Resources/se",
-                Bundle.main.bundlePath + "/Contents/Resources/CSwissEphemeris/se",
-                Bundle.main.bundlePath + "/se",
-                Bundle.main.bundlePath + "/CSwissEphemeris/se",
-                Bundle.main.bundlePath + "/EnigmaApl/CSwissEphemeris/se"
-            ]
+            var possiblePaths: [String] = []
+            for bundle in bundlesToCheck {
+                possiblePaths.append(contentsOf: [
+                    bundle.bundlePath + "/Contents/Resources/se/",
+                ])
+            }
             
             for path in possiblePaths {
-                if FileManager.default.fileExists(atPath: path) {
+                if checkPath(path) {
                     sePath = path
                     break
                 }
             }
         }
         
+        // Try relative to the current working directory (for tests and development)
         if sePath.isEmpty {
-            print("ERROR: Could not find se directory. Tried paths:")
-            if let resourcePath = Bundle.main.resourcePath {
-                print("  - \(resourcePath)/se")
-                print("  - \(resourcePath)/CSwissEphemeris/se")
-            }
-            print("  - \(Bundle.main.bundlePath)/Contents/Resources/se")
-            print("  - \(Bundle.main.bundlePath)/Contents/Resources/CSwissEphemeris/se")
-            print("  - \(Bundle.main.bundlePath)/se")
-            print("  - \(Bundle.main.bundlePath)/CSwissEphemeris/se")
-            print("Current working directory: \(FileManager.default.currentDirectoryPath)")
-            print("Bundle path: \(Bundle.main.bundlePath)")
-            print("Resource path: \(Bundle.main.resourcePath ?? "nil")")
-            // Don't initialize if path is not found - this will cause errors later
+            let currentDir = FileManager.default.currentDirectoryPath
+            sePath = currentDir + "/EnigmaApl/CSwissEphemeris/se"
+        }
+        
+        if sePath.isEmpty {
+            Logger.log.error("Could not find se directory")
             return
         }
         
@@ -109,46 +118,24 @@ public class SEWrapper {
         let pathExists = FileManager.default.fileExists(atPath: sePath, isDirectory: &isDirectory)
         
         guard pathExists && isDirectory.boolValue else {
-            print("ERROR: Path exists but is not a directory or is not accessible: \(sePath)")
+            Logger.log.error("Path exists but is not a directory or is not accessible: \(sePath)")
             return
         }
         
         // Only set the path once globally to avoid memory management issues
         SEWrapper.pathSetLock.lock()
         if !SEWrapper.pathSet {
-            print("Setting Swiss Ephemeris path to: \(sePath)")
-            
-            // Ensure the path ends with a trailing slash as Swiss Ephemeris expects
-            let normalizedPath: String
-            if sePath.hasSuffix("/") {
-                normalizedPath = sePath
-            } else {
-                normalizedPath = sePath + "/"
-            }
-            
-            // Store the path in a static variable to keep it alive
-            // Use withCString to ensure the C string is valid for the duration of the call
-            normalizedPath.withCString { cString in
+            Logger.log.info("Setting Swiss Ephemeris path to: \(sePath)")
+            sePath.withCString { cString in
                 swe_set_ephe_path(cString)
             }
-            
             SEWrapper.pathSet = true
         }
         SEWrapper.pathSetLock.unlock()
         
-        // Initialize Swiss Ephemeris with default settings
-        print("Initializing Swiss Ephemeris settings...")
-        
-        // Set default sidereal mode (Lahiri)
-        swe_set_sid_mode(1, 0, 0) // Lahiri ayanamsa
-        print("Sidereal mode set to Lahiri")
-        
-        // Set default topocentric position (can be overridden later)
-        swe_set_topo(0, 0, 0) // Default to geocentric
-        print("Topocentric position set to geocentric")
-        
+
         isInitialized = true
-        print("Swiss Ephemeris initialization completed successfully")
+        Logger.log.info("Swiss Ephemeris initialization completed successfully")
     }
     
     private func close() {
@@ -176,6 +163,7 @@ public class SEWrapper {
     // MARK: - Julian Day Conversion
     /// Convert date and time (using UT) to a Julian Day Number.
     public func julianDay(date: AstronomicalDate, time: AstronomicalTime) -> Double {
+        Logger.log.verbose("AstronomicalDate \(date.Year)-\(date.Month)-\(date.Day) AstronomicalTime \(time.HourDecimal)")
         let gregflag = date.Gregorian ? 1 : 0
         let ut = time.HourDecimal
         return swe_julday(Int32(date.Year), Int32(date.Month), Int32(date.Day), ut, Int32(gregflag))
@@ -200,25 +188,25 @@ public class SEWrapper {
     
     
     // MARK: - Planet Position Calculation
-    public func calculatePlanetPosition(julianDay: Double, planet: Int, flags: Int) -> MainAstronomicalPosition? {
+    /// Calculate the position of a factor.
+    public func calculateFactorPosition(julianDay: Double, planet: Int, flags: Int) -> MainAstronomicalPosition? {
         guard isInitialized else {
-            print("ERROR: Swiss Ephemeris not initialized")
+            Logger.log.error("Swiss Ephemeris not initialized")
             return nil
         }
         
         var result = [Double](repeating: 0.0, count: 6)
         var error = [CChar](repeating: 0, count: 256)
+
+        let preciseJD = julianDay
         
-        // Note: Arrays are stack-allocated, automatically cleaned up when function returns
-        // The error buffer is zero-initialized and used by the C function
-        let returnCode = swe_calc_ut(julianDay, Int32(planet), Int32(flags), &result, &error)
-        
+        let returnCode = swe_calc_ut(preciseJD, Int32(planet), Int32(flags), &result, &error)
         guard returnCode >= 0 else {
             let errorMessage = String(cString: error)
-            print("Error calculating planet position: \(errorMessage)")
+            Logger.log.error("Error calculating planet position: \(errorMessage)")
             return nil
         }
-        
+            
         return MainAstronomicalPosition(
             mainPos: result[0],
             deviation: result[1],
@@ -230,6 +218,7 @@ public class SEWrapper {
     }
     
     // MARK: - House Calculation
+    /// Calculate the position of house cusps
     public func calculateHouses(julianDay: Double, latitude: Double, longitude: Double, houseSystem: Int) throws -> ([Double], [Double]) {
 
         let gauquelinIndex = 71
@@ -239,18 +228,26 @@ public class SEWrapper {
         
         guard isInitialized else { return (cusps, ascmc) }
         
-        let returnCode = swe_houses(julianDay, latitude, longitude, Int32(houseSystem), &cusps, &ascmc)
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseJulianDay: Double = julianDay
+        let preciseLatitude: Double = latitude
+        let preciseLongitude: Double = longitude
+        
+        let returnCode = swe_houses(preciseJulianDay, preciseLatitude, preciseLongitude, Int32(houseSystem), &cusps, &ascmc)
             
         guard returnCode >= 0 else {
-            print("Error calculating houses (return code: \(returnCode))")
+            Logger.log.error("Error calculating houses (return code: \(returnCode))")
             throw SEError.houseCalculationFailed(returnCode)
         }
         return (cusps, ascmc)
     }
     
     // MARK: - Sidereal Time
+    /// Calculate siderealTime at Greenwich
     public func siderealTime(julianDay: Double) -> Double {
-        return swe_sidtime(julianDay)
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseJulianDay: Double = julianDay
+        return swe_sidtime(preciseJulianDay)
     }
     
     // MARK: - Azimuth and altitude
@@ -265,13 +262,18 @@ public class SEWrapper {
         let atPress = 0.0       // ignore atmospheric pressure
         let atTemp = 0.0        // ignore atmospheric temperature
         var azimuthAltitude = [Double](repeating: 0.0, count: 3)
-        swe_azalt(julianDay, Int32(flag), &geoPos, atPress, atTemp, &equCoordinates, &azimuthAltitude)
+        
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseJulianDay: Double = julianDay
+        swe_azalt(preciseJulianDay, Int32(flag), &geoPos, atPress, atTemp, &equCoordinates, &azimuthAltitude)
         let azimuth = azimuthAltitude[0]
         let altitude = azimuthAltitude[1]
         return (azimuth, altitude)
     }
     
     // MARK: - Coordinate transfer from ecliptic to equatorial
+    /// Calclate right ascension and declination using longitude, latitude and obliquity as input
+    /// The array eclipticCoordinates contains longitude and latitude in that order
     public func eclipticToEquatorial(eclipticCoordinates: [Double], obliquity: Double) -> (rightAscension: Double, declination: Double) {
         let negativeObliquity = -obliquity     // negative obliquity required for transferring ecliptic to equatorial coordinates
         let distance = 1.0    // ignore distance as it won't change

@@ -10,9 +10,13 @@ import Foundation
 
 struct SeTest {
     
+    /// This test is disabled because it uses SwissEph which is kept for reference only.
+    /// Use SEWrapper for all Swiss Ephemeris calculations.
     static func PerformTest() {
+        Logger.log.info("SeTest.PerformTest() is disabled - SwissEph is kept for reference only. Use SEWrapper instead.")
+        return
         
-        
+        /*
         print("POC for accessing the Swiss Ephemeris")
         
         
@@ -112,6 +116,6 @@ struct SeTest {
         print(String(repeating: "=", count: 60))
         
         print("\nSwiss Ephemeris bridge demonstration completed!")
-        
+        */
     }
 }

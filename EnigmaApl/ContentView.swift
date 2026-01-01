@@ -80,7 +80,7 @@ struct ContentView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .onAppear {
-                SeTest.PerformTest()
+                // SeTest.PerformTest() // Disabled: SeTest uses SwissEph which is kept for reference only
             }
         }
     }
