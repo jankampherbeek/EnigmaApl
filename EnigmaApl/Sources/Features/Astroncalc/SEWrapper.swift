@@ -7,7 +7,7 @@
 
 /// Wrapper for the functions of the Swiss Ephemeris
 
-import Foundation
+@preconcurrency import Foundation
 import SwissEphC
 
 // MARK: - Errors
@@ -60,6 +60,8 @@ public class SEWrapper {
         }
         
         // First, try to find it in the bundle's resources (main bundle or test bundle)
+        // Bundle.main is thread-safe to access from any thread, despite Swift's strict concurrency checking
+        // We access it directly - the nonisolated context makes this safe
         let bundlesToCheck: [Bundle] = [Bundle.main, Bundle(for: type(of: self))]
         
         for bundle in bundlesToCheck {

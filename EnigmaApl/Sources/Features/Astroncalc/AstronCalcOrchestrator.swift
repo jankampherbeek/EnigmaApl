@@ -12,9 +12,7 @@ public struct AstronCalcOrchestrator {
     /// Performs a full chart calculation based on the provided request
     /// - Parameter request: The SERequest containing calculation parameters
     /// - Returns: A FullChart with all calculated positions and house data
-    /// - Note: Marked as `nonisolated` because this is a pure calculation function
-    ///   that doesn't require main actor isolation
-    public nonisolated static func PerformCalculation(_ request: SERequest) -> FullChart {
+    public static func PerformCalculation(_ request: SERequest) -> FullChart {
         // Create and initialize SEWrapper early to ensure Swiss Ephemeris is initialized
         // This ensures the ephemeris path is set and the library is ready
         // The init() already calls initialize(), creating the wrapper ensures initialization happens
