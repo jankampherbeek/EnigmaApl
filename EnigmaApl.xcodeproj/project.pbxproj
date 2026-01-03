@@ -62,16 +62,28 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Sources/Features/Astroncalc/.swift,
 			);
 			target = AF6EB8112EF019960070CE12 /* EnigmaApl */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		AFB80F382F09AC3E00838C53 /* Exceptions for "EnigmaApl" folder in "Compile Sources" phase from "EnigmaApl" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = AF6EB80E2EF019960070CE12 /* Sources */;
+			membershipExceptions = (
+				Sources/Features/Astroncalc/.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AF6EB8142EF019960070CE12 /* EnigmaApl */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				AF9201E02EF0955F00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaApl" target */,
+				AFB80F382F09AC3E00838C53 /* Exceptions for "EnigmaApl" folder in "Compile Sources" phase from "EnigmaApl" target */,
 				AF9201DD2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplTests" target */,
 				AF9201DE2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplUITests" target */,
 			);

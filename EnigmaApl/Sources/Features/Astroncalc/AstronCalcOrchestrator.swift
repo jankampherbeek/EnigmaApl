@@ -45,8 +45,7 @@ public struct AstronCalcOrchestrator {
         
         // Handle other calculation types (placeholders for now)
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
-            let commonElementsCoordinates = calculateCommonElementsFactors(
-                factors: commonElementsFactors,
+            let commonElementsCoordinates = CommonElementsCalc.calculateCommonElementsFactors(
                 request: request
             )
             allCoordinates.merge(commonElementsCoordinates) { (_, new) in new }
@@ -126,23 +125,7 @@ public struct AstronCalcOrchestrator {
     // MARK: - Placeholder calculation methods
     
     /// Placeholder for CommonElements calculation
-    private static func calculateCommonElementsFactors(
-        factors: [Factors],
-        request: SERequest
-    ) -> [Factors: FullFactorPosition] {
-        // TODO: Implement CommonElements calculation
-        var coordinates: [Factors: FullFactorPosition] = [:]
-        for factor in factors {
-            // Placeholder: return zero positions
-            let zeroPosition = FullFactorPosition(
-                ecliptical: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                equatorial: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                horizontal: [HorizontalPosition(azimuth: 0.0, altitude: 0.0)]
-            )
-            coordinates[factor] = zeroPosition
-        }
-        return coordinates
-    }
+
     
     /// Placeholder for CommonFormulaLongitude calculation
     private static func calculateCommonFormulaLongitudeFactors(
