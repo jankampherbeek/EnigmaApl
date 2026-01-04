@@ -45,7 +45,7 @@ public struct AstronCalcOrchestrator {
         
         // Handle other calculation types (placeholders for now)
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
-            let commonElementsCoordinates = CommonElementsCalc.calculateCommonElementsFactors(
+            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(
                 request: request
             )
             allCoordinates.merge(commonElementsCoordinates) { (_, new) in new }

@@ -62,7 +62,7 @@ struct CommonElementsCalcTests {
         ]
         
         // Perform calculation
-        let result = CommonElementsCalc.calculateCommonElementsFactors(
+        let result = ElementsCalc.calculateElementsFactors(
             request: request
         )
         

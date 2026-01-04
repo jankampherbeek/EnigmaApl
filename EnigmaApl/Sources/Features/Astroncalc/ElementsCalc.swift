@@ -122,9 +122,9 @@ struct CalcHelioPos {
 
 // MARK: - Common Elements Calculator
 
-public struct CommonElementsCalc {
+public struct ElementsCalc {
     
-    public static func calculateCommonElementsFactors(
+    public static func calculateElementsFactors(
         request: SERequest
     ) -> [Factors: FullFactorPosition] {
         let seWrapper = SEWrapper()

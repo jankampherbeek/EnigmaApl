@@ -19,7 +19,7 @@ struct FactorsTests {
         #expect(allCases.contains(.moon))
         #expect(allCases.contains(.ascendant))
         #expect(allCases.contains(.mc))
-        #expect(allCases.contains(.fortunaSect))
+        #expect(allCases.contains(.parsfortuna))
         #expect(allCases.count > 0)
     }
     
@@ -42,8 +42,7 @@ struct FactorsTests {
     
     @Test("Factors: calculationType - CommonSe for nodes and apogees")
     func testCalculationTypeCommonSeForNodes() {
-        #expect(Factors.northNodeMean.calculationType == .CommonSe)
-        #expect(Factors.northNodeTrue.calculationType == .CommonSe)
+        #expect(Factors.northNode.calculationType == .CommonSe)
         #expect(Factors.apogeeMean.calculationType == .CommonSe)
         #expect(Factors.apogeeCorrected.calculationType == .CommonSe)
         #expect(Factors.apogeeInterpolated.calculationType == .CommonSe)
@@ -108,8 +107,7 @@ struct FactorsTests {
         #expect(Factors.priapusCorrected.calculationType == .CommonFormulaFull)
         #expect(Factors.dragon.calculationType == .CommonFormulaFull)
         #expect(Factors.beast.calculationType == .CommonFormulaFull)
-        #expect(Factors.southNodeMean.calculationType == .CommonFormulaFull)
-        #expect(Factors.southNodeTrue.calculationType == .CommonFormulaFull)
+        #expect(Factors.southNode.calculationType == .CommonFormulaFull)
     }
     
     @Test("Factors: calculationType - Mundane for house system factors")
@@ -127,8 +125,7 @@ struct FactorsTests {
     
     @Test("Factors: calculationType - Lots for lot calculations")
     func testCalculationTypeLots() {
-        #expect(Factors.fortunaSect.calculationType == .Lots)
-        #expect(Factors.fortunaNoSect.calculationType == .Lots)
+        #expect(Factors.parsfortuna.calculationType == .Lots)
     }
     
     @Test("Factors: calculationType - Apsides for apside calculations")
@@ -155,8 +152,7 @@ struct FactorsTests {
     
     @Test("Factors: seId - nodes and apogees")
     func testSeIdNodesAndApogees() {
-        #expect(Factors.northNodeMean.seId == 10)
-        #expect(Factors.northNodeTrue.seId == 11)
+        #expect(Factors.northNode.seId == 10)
         #expect(Factors.apogeeMean.seId == 12)
         #expect(Factors.apogeeCorrected.seId == 13)
         #expect(Factors.earth.seId == 14)
@@ -222,8 +218,7 @@ struct FactorsTests {
         #expect(Factors.priapusCorrected.seId == 502)
         #expect(Factors.dragon.seId == 503)
         #expect(Factors.beast.seId == 504)
-        #expect(Factors.southNodeMean.seId == 505)
-        #expect(Factors.southNodeTrue.seId == 506)
+        #expect(Factors.southNode.seId == 505)
     }
     
     @Test("Factors: seId - apsides")
@@ -243,8 +238,7 @@ struct FactorsTests {
     @Test("Factors: seId - fixed points and lots")
     func testSeIdFixedAndLots() {
         #expect(Factors.zeroAries.seId == 800)
-        #expect(Factors.fortunaSect.seId == 900)
-        #expect(Factors.fortunaNoSect.seId == 901)
+        #expect(Factors.parsfortuna.seId == 900)
     }
     
     // MARK: - LocalizedName Tests
@@ -266,10 +260,8 @@ struct FactorsTests {
     
     @Test("Factors: localizedName - nodes")
     func testLocalizedNameNodes() {
-        #expect(Factors.northNodeMean.localizedName == "enum.factor.northnode")
-        #expect(Factors.northNodeTrue.localizedName == "enum.factor.truenode")
-        #expect(Factors.southNodeMean.localizedName == "enum.factor.southnodemean")
-        #expect(Factors.southNodeTrue.localizedName == "enum.factor.southnodetrue")
+        #expect(Factors.northNode.localizedName == "enum.factor.northnode")
+        #expect(Factors.southNode.localizedName == "enum.factor.southnode")
     }
     
     @Test("Factors: localizedName - asteroids")
@@ -291,8 +283,7 @@ struct FactorsTests {
     
     @Test("Factors: localizedName - lots")
     func testLocalizedNameLots() {
-        #expect(Factors.fortunaSect.localizedName == "enum.factor.fortunasect")
-        #expect(Factors.fortunaNoSect.localizedName == "enum.factor.fortunanosect")
+        #expect(Factors.parsfortuna.localizedName == "enum.factor.parsfortuna")
     }
     
     @Test("Factors: localizedName - all factors have localization keys")
@@ -380,7 +371,7 @@ struct FactorsTests {
         #expect(Factors.ascendant.rawValue == 1001)
         #expect(Factors.mc.rawValue == 1002)
         #expect(Factors.zeroAries.rawValue == 3001)
-        #expect(Factors.fortunaSect.rawValue == 4001)
+        #expect(Factors.parsfortuna.rawValue == 4001)
     }
     
     // MARK: - Comprehensive Tests
@@ -407,7 +398,7 @@ struct FactorsTests {
     func testCommonSeFactorsHaveValidSeIds() {
         let commonSeFactors: [Factors] = [
             .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
-            .northNodeMean, .northNodeTrue, .apogeeMean, .apogeeCorrected, .chiron, .pholus,
+            .northNode, .apogeeMean, .apogeeCorrected, .chiron, .pholus,
             .ceres, .pallas, .juno, .vesta, .apogeeInterpolated, .perigeeInterpolated,
             .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra,
             .vulcanusUra, .poseidonUra, .isis, .eris, .nessus, .huya, .varuna, .ixion,

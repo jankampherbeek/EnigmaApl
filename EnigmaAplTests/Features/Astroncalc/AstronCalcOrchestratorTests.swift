@@ -45,7 +45,7 @@ struct AstronCalcOrchestratorTests {
 //            .uranus: 58.16797398938692,
 //            .neptune: 359.4311236308796,
 //            .pluto: 302.5029947885921,
-//            .northNodeMean: 342.55901588929106,
+//            .northNode: 342.55901588929106,
 //            .chiron: 22.637018721021366
 //            .cupidoUra: 279.16931746657514,
 //            .hadesUra: 105.03630685625903,
