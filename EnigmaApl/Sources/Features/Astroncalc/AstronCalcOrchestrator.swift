@@ -43,7 +43,6 @@ public struct AstronCalcOrchestrator {
             obliquity = calculatedObliquity
         }
         
-        // Handle other calculation types (placeholders for now)
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
             let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(
                 request: request
@@ -52,10 +51,8 @@ public struct AstronCalcOrchestrator {
         }
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
-            let commonFormulaLongitudeCoordinates = calculateCommonFormulaLongitudeFactors(
-                factors: commonFormulaLongitudeFactors,
-                request: request
-            )
+            let fCalc = FormulaCalc()
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: request, obliquity: obliquity)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         

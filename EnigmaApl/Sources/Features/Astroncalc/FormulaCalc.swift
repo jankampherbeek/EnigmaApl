@@ -34,24 +34,69 @@ public struct FormulaCalc {
     ///   - factor: A point that should be calculated with a specific formula
     ///   - julianDay: Julian day for UT
     /// - Returns: Array with longitude, latitude and distance in that sequence
-    public func calculate(_ factor: Factors, julianDay: Double) -> [Double] {
-        switch factor {
-        case .persephoneCarteret:
-            let longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 212.0, yearlySpeed: 1.0)
-            return [longitude, 0.0, 0.0]
+    public func calculateFormulaFactors(seRequest: SERequest, obliquity: Double) -> [Factors: FullFactorPosition] {
+                
+        var coordinates: [Factors: FullFactorPosition] = [:]
+        let julianDay = seRequest.JulianDay
+        let distance = 0.0          // distance is unknown or irrelevant
+        let latitude = 0.0          // latitude is unknown
+        let height = 0.0            // height of the observer is unknnown
+        
+        for factor in seRequest.FactorsToUse {
+            var longitude = 0.0
+            switch factor {
+            case .persephoneCarteret:
+                longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 212.0, yearlySpeed: 1.0)
+            case .vulcanusCarteret:
+                longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 15.7, yearlySpeed: 0.55)
+            case .apogeeCorrected:
+                longitude = calcApogeeDuval(julianDay: julianDay)
+            default :
+                Logger.log.error ("Unsupported factor \(factor) in FormulaCalc")
+                break;
+            }
+                    
+            let eclipticalPos = MainAstronomicalPosition(
+                mainPos: longitude,
+                deviation: latitude,
+                distance: distance
+            )
             
-        case .vulcanusCarteret:
-            let longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 15.7, yearlySpeed: 0.55)
-            return [longitude, 0.0, 0.0]
-            
-        case .apogeeCorrected:
-            let longitude = calcApogeeDuval(julianDay: julianDay)
-            return [longitude, 0.0, 0.0]
-            
-        default:
-            return [0.0, 0.0, 0.0]
+            let (rightAscension, declination) = seWrapper.eclipticToEquatorial(
+                eclipticCoordinates: [longitude, latitude],
+                obliquity: obliquity
+            )
+            let equatorialPos = MainAstronomicalPosition(
+                mainPos: rightAscension,
+                deviation: declination,
+                distance: distance
+            )
+                    
+            let (azimuth, altitude) = seWrapper.azimuthAndAltitude(
+                julianDay: julianDay,
+                rightAscension: rightAscension,
+                declination: declination,
+                observerLatitude: seRequest.Latitude,
+                observerLongitude: seRequest.Longitude,
+                height: height
+            )
+            let horizontalPos = HorizontalPosition(azimuth: azimuth, altitude: altitude)
+                    
+            let fullPosition = FullFactorPosition(
+                ecliptical: [eclipticalPos],
+                equatorial: [equatorialPos],
+                horizontal: [horizontalPos]
+            )
+                    
+            coordinates[factor] = fullPosition
+
         }
+        return coordinates
     }
+    
+
+    
+    
     
     // MARK: - Private Calculation Methods
     
