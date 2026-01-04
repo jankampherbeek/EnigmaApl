@@ -52,7 +52,7 @@ public struct AstronCalcOrchestrator {
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
             let fCalc = FormulaCalc()
-            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: request, obliquity: obliquity)
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: request)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         

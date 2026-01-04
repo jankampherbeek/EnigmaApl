@@ -30,17 +30,17 @@ public struct FormulaCalc {
     }
     
     /// Calculate the position for a factor using a formula
-    /// - Parameters:
-    ///   - factor: A point that should be calculated with a specific formula
-    ///   - julianDay: Julian day for UT
-    /// - Returns: Array with longitude, latitude and distance in that sequence
-    public func calculateFormulaFactors(seRequest: SERequest, obliquity: Double) -> [Factors: FullFactorPosition] {
+    /// Latitude is unknown so we use zero for latitude, ra, declination, azimuth and altitude
+    public func calculateFormulaFactors(seRequest: SERequest) -> [Factors: FullFactorPosition] {
                 
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
         let distance = 0.0          // distance is unknown or irrelevant
         let latitude = 0.0          // latitude is unknown
         let height = 0.0            // height of the observer is unknnown
+        
+        let zeroEqCoordinate = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
+        let zeroHorizontalCoordinate = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
         
         for factor in seRequest.FactorsToUse {
             var longitude = 0.0
@@ -61,33 +61,12 @@ public struct FormulaCalc {
                 deviation: latitude,
                 distance: distance
             )
-            
-            let (rightAscension, declination) = seWrapper.eclipticToEquatorial(
-                eclipticCoordinates: [longitude, latitude],
-                obliquity: obliquity
-            )
-            let equatorialPos = MainAstronomicalPosition(
-                mainPos: rightAscension,
-                deviation: declination,
-                distance: distance
-            )
-                    
-            let (azimuth, altitude) = seWrapper.azimuthAndAltitude(
-                julianDay: julianDay,
-                rightAscension: rightAscension,
-                declination: declination,
-                observerLatitude: seRequest.Latitude,
-                observerLongitude: seRequest.Longitude,
-                height: height
-            )
-            let horizontalPos = HorizontalPosition(azimuth: azimuth, altitude: altitude)
-                    
             let fullPosition = FullFactorPosition(
                 ecliptical: [eclipticalPos],
-                equatorial: [equatorialPos],
-                horizontal: [horizontalPos]
+                equatorial: [zeroEqCoordinate],
+                horizontal: [zeroHorizontalCoordinate]
             )
-                    
+                
             coordinates[factor] = fullPosition
 
         }
