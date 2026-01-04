@@ -189,7 +189,7 @@ public class SEWrapper {
     
     
     
-    // MARK: - Planet Position Calculation
+    // MARK: - Factor Position Calculation
     /// Calculate the position of a factor.
     public func calculateFactorPosition(julianDay: Double, planet: Int, flags: Int) -> MainAstronomicalPosition? {
         guard isInitialized else {

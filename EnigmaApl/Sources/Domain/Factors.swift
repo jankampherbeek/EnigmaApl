@@ -28,7 +28,7 @@ public enum CalculationTypes: Int, CaseIterable {
 
 // MARK: - Factors
 
-/// Factors, lgihts, planets, mathematical points etc. Solar system points. .
+/// Factors, lights, planets, mathematical points etc. 
 public enum Factors: Int, CaseIterable {
     case sun = 0
     case moon = 1
@@ -41,8 +41,7 @@ public enum Factors: Int, CaseIterable {
     case uranus = 8
     case neptune = 9
     case pluto = 10
-    case northNodeMean = 11
-    case northNodeTrue = 12
+    case northNode = 11
     case chiron = 13
     case persephoneRam = 14
     case hermesRam = 15
@@ -83,8 +82,7 @@ public enum Factors: Int, CaseIterable {
     case priapusCorrected = 51
     case dragon = 52
     case beast = 53
-    case southNodeMean = 54
-    case southNodeTrue = 55
+    case southNode = 54
     case blackSun = 56
     case diamond = 57
     case ascendant = 1001
@@ -92,14 +90,13 @@ public enum Factors: Int, CaseIterable {
     case eastPoint = 1003
     case vertex = 1004
     case zeroAries = 3001
-    case fortunaSect = 4001
-    case fortunaNoSect = 4002
+    case parsfortuna = 4001
     
     /// Indicates if the calculation of this point can be performed by the Swiss Ephemeris
     var calculationType: CalculationTypes {
         switch self {
         case .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
-             .northNodeMean, .northNodeTrue, .apogeeMean, .apogeeCorrected, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
+             .northNode, .apogeeMean, .apogeeCorrected, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
              .apogeeInterpolated, .perigeeInterpolated, .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
              .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea:
             return .CommonSe
@@ -107,13 +104,13 @@ public enum Factors: Int, CaseIterable {
             return .CommonElements
         case .persephoneCarteret, .vulcanusCarteret:
             return .CommonFormulaLongitude
-        case .priapus, .priapusCorrected, .dragon, .beast, .southNodeMean, .southNodeTrue:
+        case .priapus, .priapusCorrected, .dragon, .beast, .southNode:
             return .CommonFormulaFull
         case .mc, .ascendant, .eastPoint, .vertex:
             return .Mundane
         case .zeroAries:
             return .ZodiacFixed
-        case .fortunaSect, .fortunaNoSect:
+        case .parsfortuna:
             return .Lots
         case .blackSun, .diamond:
             return .Apsides
@@ -135,8 +132,7 @@ public enum Factors: Int, CaseIterable {
         case .uranus: return 7
         case .neptune: return 8
         case .pluto: return 9
-        case .northNodeMean: return 10
-        case .northNodeTrue: return 11
+        case .northNode: return 10
         case .apogeeMean: return 12
         case .apogeeCorrected: return 13
         case .earth: return 14
@@ -178,8 +174,7 @@ public enum Factors: Int, CaseIterable {
         case .priapusCorrected: return 502
         case .dragon: return 503
         case .beast: return 504
-        case .southNodeMean: return 505
-        case .southNodeTrue: return 506  // TODO check
+        case .southNode: return 505
         case .blackSun: return 601
         case .diamond: return 602
         case .mc: return 700
@@ -187,8 +182,7 @@ public enum Factors: Int, CaseIterable {
         case .eastPoint: return 702
         case .vertex: return 703
         case .zeroAries: return 800
-        case .fortunaSect: return 900
-        case .fortunaNoSect: return 901
+        case .parsfortuna: return 900
         default: return 0
         }
     }
@@ -206,8 +200,7 @@ public enum Factors: Int, CaseIterable {
         case .uranus: return "enum.factor.uranus"
         case .neptune: return "enum.factor.neptune"
         case .pluto: return "enum.factor.pluto"
-        case .northNodeMean: return "enum.factor.northnode"
-        case .northNodeTrue: return "enum.factor.truenode"
+        case .northNode: return "enum.factor.northnode"
         case .chiron: return "enum.factor.chiron"
         case .persephoneRam: return "enum.factor.persephoneram"
         case .hermesRam: return "enum.factor.hermesram"
@@ -248,8 +241,7 @@ public enum Factors: Int, CaseIterable {
         case .priapusCorrected: return "enum.factor.priapuscorrected"
         case .dragon: return "enum.factor.dragon"
         case .beast: return "enum.factor.beast"
-        case .southNodeMean: return "enum.factor.southnodemean"
-        case .southNodeTrue: return "enum.factor.southnodetrue"
+        case .southNode: return "enum.factor.southnode"
         case .blackSun: return "enum.factor.blacksun"
         case .diamond: return "enum.factor.diamond"
         case .ascendant: return "enum.factor.ascendant"
@@ -257,8 +249,7 @@ public enum Factors: Int, CaseIterable {
         case .eastPoint: return "enum.factor.eastpoint"
         case .vertex: return "enum.factor.vertex"
         case .zeroAries: return "enum.factor.zeroaries"
-        case .fortunaSect: return "enum.factor.fortunasect"
-        case .fortunaNoSect: return "enum.factor.fortunanosect"
+        case .parsfortuna: return "enum.factor.parsfortuna"
         }
     }
     

@@ -68,6 +68,10 @@
 "enum.ayanamsha.truerevati" = "Ware Revati";
 "enum.ayanamsha.ushashashi" = "Usha Shashi";
 "enum.ayanamsha.yukteshwar" = "Yukteshwar";
+// Black Moon correction type
+"enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
+"enum.blackmooncorrectiontype.interpolated" = "Geïnterpoleerd";
+"enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
 // Factors
 "enum.factor.sun" = "Zon";
 "enum.factor.moon" = "Maan";
@@ -80,8 +84,7 @@
 "enum.factor.uranus" = "Uranus";
 "enum.factor.neptune" = "Neptunus";
 "enum.factor.pluto" = "Pluto";
-"enum.factor.northnode" = "Noordelijke Maanknoop (gemiddeld)";
-"enum.factor.truenode" = "Noordelijke Maanknoop (waar)";
+"enum.factor.northnode" = "Noordelijke Maanknoop";
 "enum.factor.chiron" = "Chiron";
 "enum.factor.persephoneram" = "Persephone (Ram)";
 "enum.factor.hermesram" = "Hermes (Ram)";
@@ -122,8 +125,7 @@
 "enum.factor.priapuscorrected" = "Priapus (gecorrigeerd)";
 "enum.factor.dragon" = "Draak";
 "enum.factor.beast" = "Beest";
-"enum.factor.southnodemean" = "Zuidelijke Maanknoop (gemiddeld)";
-"enum.factor.southnodetrue" = "Zuidelijke Maanknoop (waar)";
+"enum.factor.southnode" = "Zuidelijke Maanknoop";
 "enum.factor.blacksun" = "Zwarte Zon";
 "enum.factor.diamond" = "Diamant";
 "enum.factor.ascendant" = "Ascendant";
@@ -131,8 +133,7 @@
 "enum.factor.eastpoint" = "Oostpunt";
 "enum.factor.vertex" = "Vertex";
 "enum.factor.zeroaries" = " 0° Ram";
-"enum.factor.fortunasect" = "Gelukspunt (met sect)";
-"enum.factor.fortunanosect" = "Gelukspunt (zonder)";
+"enum.factor.parsfortuna" = "Gelukspunt";
 // House systems
 "enum.housesystem.nohouses" = "Geen huizen";
 "enum.housesystem.placidus" = "Placidus";
@@ -159,6 +160,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (sinusoidaal verschil)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (sinusoidale ratio)";
 "enum.housesystem.sripati" = "Sripati";
+// Lots types
+"enum.lotstypes.nosect" = "Zonder sect";
+"enum.lotstypes.sect" = "Met sect";
+// Lunar node types
+"enum.lunarnodetypes.mean" = "Gemiddelde maanknoop";
+"enum.lunarnodetypes.true" = "Ware maanknoop";
 // Observer positions
 "enum.observerpos.geocentric" = "Geocentrisch";
 "enum.observerpos.topocentric" = "Topocentrisch";

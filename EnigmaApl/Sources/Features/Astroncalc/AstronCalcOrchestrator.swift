@@ -124,7 +124,6 @@ public struct AstronCalcOrchestrator {
     
     // MARK: - Placeholder calculation methods
     
-    /// Placeholder for CommonElements calculation
 
     
     /// Placeholder for CommonFormulaLongitude calculation

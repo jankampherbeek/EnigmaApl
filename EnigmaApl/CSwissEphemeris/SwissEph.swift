@@ -8,6 +8,8 @@
 import Foundation
 import SwissEphC
 
+// TODO remove SwissEph
+
 // MARK: - Planet Constants
 public enum Planet: Int32 {
     case sun = 0

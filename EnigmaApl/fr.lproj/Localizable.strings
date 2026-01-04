@@ -68,6 +68,10 @@
 "enum.ayanamsha.truerevati" = "Vrai Revati";
 "enum.ayanamsha.ushashashi" = "Vrai Shashi";
 "enum.ayanamsha.yukteshwar" = "Yukteshwar";
+// Black Moon correction type
+"enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
+"enum.blackmooncorrectiontype.interpolated" = "Interpolé";
+"enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
 // Factors
 "enum.factor.sun" = "Soleil";
 "enum.factor.moon" = "Lune";
@@ -80,8 +84,7 @@
 "enum.factor.uranus" = "Uranus";
 "enum.factor.neptune" = "Neptune";
 "enum.factor.pluto" = "Pluto";
-"enum.factor.northnode" = "Nœud Nord Lunaire (moyen)";
-"enum.factor.truenode" = "Nœud Nord Lunaire (vrais)";
+"enum.factor.northnode" = "Nœud Nord Lunaire";
 "enum.factor.chiron" = "Chiron";
 "enum.factor.persephoneram" = "Perséphone (Ram)";
 "enum.factor.hermesram" = "Hermès (Ram)";
@@ -122,8 +125,7 @@
 "enum.factor.priapuscorrected" = "Priape (corrigé)";
 "enum.factor.dragon" = "Dragon";
 "enum.factor.beast" = "Bête";
-"enum.factor.southnodemean" = "Nœud Sud Lunaire (moyen)";
-"enum.factor.southnodetrue" = "Nœud Sud Lunaire (vrais)";
+"enum.factor.southnode" = "Nœud Sud Lunaire";
 "enum.factor.blacksun" = "Soleil Noir";
 "enum.factor.diamond" = "Diamant";
 "enum.factor.ascendant" = "Ascendant";
@@ -131,8 +133,7 @@
 "enum.factor.eastpoint" = "Point Est";
 "enum.factor.vertex" = "Vertex";
 "enum.factor.zeroaries" = "0° Bélier";
-"enum.factor.fortunasect" = "Part de Fortune (avec secte)";
-"enum.factor.fortunanosect" = "Part de Fortune (sans secte)";
+"enum.factor.parsfortuna" = "Part de Fortune";
 // House systems
 "enum.housesystem.nohouses" = "Pas de maisons";
 "enum.housesystem.placidus" = "Placidus";
@@ -159,6 +160,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (différence sinusoïdale)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (rapport sinusoïdal)";
 "enum.housesystem.sripati" = "Sripati";
+// Lots types
+"enum.lotstypes.nosect" = "Sans secte";
+"enum.lotstypes.sect" = "Avec secte";
+// Lunar node types
+"enum.lunarnodetypes.mean" = "Nœud lunaire moyen";
+"enum.lunarnodetypes.true" = "Nœud lunaire vrai";
 // Observer positions
 "enum.observerpos.geocentric" = "Géocentrique";
 "enum.observerpos.topocentric" = "Topocentrique";
