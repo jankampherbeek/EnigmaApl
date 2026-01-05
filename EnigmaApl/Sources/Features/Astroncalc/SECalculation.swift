@@ -12,7 +12,7 @@ public struct SECalculation {
     /// Calculates the positions for all factors in the request
     /// - Parameter request: The SERequest containing calculation parameters
     /// - Returns: A tuple containing a dictionary of factor positions and the obliquity value
-    public static func CalculateFactors(_ request: SERequest) -> ([Factors: FullFactorPosition], Double) {
+    public static func CalculateFactors(_ request: SERequest) -> ([Factors: FullFactorPosition]) {
         let seWrapper = SEWrapper()
         let julianDay = request.JulianDay
         
@@ -81,15 +81,7 @@ public struct SECalculation {
             coordinates[factor] = fullPosition
         }
         
-        // Calculate obliquity using id -1
-        let obliquityPosition = seWrapper.calculateFactorPosition(
-            julianDay: julianDay,
-            planet: -1,
-            flags: eclipticalFlags
-        )
-        let obliquity = obliquityPosition?.mainPos ?? 0.0
-        
-        return (coordinates, obliquity)
+        return coordinates
     }
     
     /// Calculates house positions (cusps, ascendant, MC, vertex, and eastpoint)

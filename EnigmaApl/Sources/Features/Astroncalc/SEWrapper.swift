@@ -287,4 +287,60 @@ public class SEWrapper {
         return (ra, dec)
     }
     
+    // MARK: - Orbital Elements Calculation
+    /// Calculate orbital elements for a planet
+    /// - Parameters:
+    ///   - julianDay: Julian day for ET (Ephemeris Time). Note: This function requires ET, not UT.
+    ///     For most purposes, ET ≈ UT, but for high precision, convert UT to ET first.
+    ///   - planet: Swiss Ephemeris planet ID
+    ///   - flags: Calculation flags (e.g., SEFLG_SWIEPH)
+    /// - Returns: OrbitalElements if calculation succeeds, nil otherwise
+    public func calcOrbitalElements(julianDay: Double, planet: Int, flags: Int) -> OrbitalElements? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+        
+        var result = [Double](repeating: 0.0, count: 12)
+        var error = [CChar](repeating: 0, count: 256)
+        
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseJD = julianDay
+        
+        let returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(flags), &result, &error)
+        guard returnCode >= 0 else {
+            let errorMessage = String(cString: error)
+            Logger.log.error("Error calculating orbital elements: \(errorMessage)")
+            return nil
+        }
+        
+        // Swiss Ephemeris returns 12 values in the result array:
+        // [0] = semi-major axis (a) in AU
+        // [1] = eccentricity (e)
+        // [2] = inclination (i) in degrees
+        // [3] = argument of perihelion (ω) in degrees
+        // [4] = ascending node (Ω) in degrees
+        // [5] = mean anomaly (M) in degrees
+        // [6] = true anomaly (v) in degrees
+        // [7] = eccentric anomaly (E) in degrees
+        // [8] = mean longitude (L) in degrees
+        // [9] = true longitude (L') in degrees
+        // [10] = distance (r) in AU
+        // [11] = speed (v) in AU/day
+        return OrbitalElements(
+            semiMajorAxis: result[0],
+            eccentricity: result[1],
+            inclination: result[2],
+            argumentOfPerihelion: result[3],
+            ascendingNode: result[4],
+            meanAnomaly: result[5],
+            trueAnomaly: result[6],
+            eccentricAnomaly: result[7],
+            meanLongitude: result[8],
+            trueLongitude: result[9],
+            distance: result[10],
+            speed: result[11]
+        )
+    }
+    
 }

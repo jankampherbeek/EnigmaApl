@@ -86,3 +86,61 @@ public struct HousePositions {
         self.vertex = vertex
     }
 }
+
+// MARK: - Orbital Elements
+/// Orbital elements of a celestial body
+/// All angles are in degrees, distances in AU
+public struct OrbitalElements {
+    /// Semi-major axis (a) in AU
+    public let semiMajorAxis: Double
+    /// Eccentricity (e)
+    public let eccentricity: Double
+    /// Inclination (i) in degrees
+    public let inclination: Double
+    /// Argument of perihelion (ω) in degrees
+    public let argumentOfPerihelion: Double
+    /// Ascending node (Ω) in degrees
+    public let ascendingNode: Double
+    /// Mean anomaly (M) in degrees
+    public let meanAnomaly: Double
+    /// True anomaly (v) in degrees
+    public let trueAnomaly: Double
+    /// Eccentric anomaly (E) in degrees
+    public let eccentricAnomaly: Double
+    /// Mean longitude (L) in degrees
+    public let meanLongitude: Double
+    /// True longitude (L') in degrees
+    public let trueLongitude: Double
+    /// Distance (r) in AU
+    public let distance: Double
+    /// Speed (v) in AU/day
+    public let speed: Double
+    
+    public init(
+        semiMajorAxis: Double,
+        eccentricity: Double,
+        inclination: Double,
+        argumentOfPerihelion: Double,
+        ascendingNode: Double,
+        meanAnomaly: Double,
+        trueAnomaly: Double,
+        eccentricAnomaly: Double,
+        meanLongitude: Double,
+        trueLongitude: Double,
+        distance: Double,
+        speed: Double
+    ) {
+        self.semiMajorAxis = semiMajorAxis
+        self.eccentricity = eccentricity
+        self.inclination = inclination
+        self.argumentOfPerihelion = argumentOfPerihelion
+        self.ascendingNode = ascendingNode
+        self.meanAnomaly = meanAnomaly
+        self.trueAnomaly = trueAnomaly
+        self.eccentricAnomaly = eccentricAnomaly
+        self.meanLongitude = meanLongitude
+        self.trueLongitude = trueLongitude
+        self.distance = distance
+        self.speed = speed
+    }
+}
