@@ -28,6 +28,7 @@ public struct LotsCalc {
     /// - Returns: A dictionary of factor positions
     public func calculateLotsFactors(
         seRequest: SERequest,
+        obliquity: Double,
         ascendantLongitude: Double,
         sunLongitude: Double,
         moonLongitude: Double

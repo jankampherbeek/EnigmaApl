@@ -205,46 +205,14 @@ public struct FormulaFullCalc {
                 if longitude >= 360.0 { longitude -= 360.0 }
                 if longitude < 0.0 { longitude += 360.0 }
                 
-                let eclipticPosSpeed = MainAstronomicalPosition(
-                    mainPos: longitude,
-                    deviation: latitude,
-                    distance: 0.0,
-                    mainPosSpeed: 0.0,
-                    deviationSpeed: 0.0,
-                    distanceSpeed: 0.0
-                )
-                
-                // Calculate equatorial coordinates
-                let (ra, decl) = seWrapper.eclipticToEquatorial(
-                    eclipticCoordinates: [longitude, latitude],
-                    obliquity: obliquity
-                )
-                
-                let equatorialPosSpeed = MainAstronomicalPosition(
-                    mainPos: ra,
-                    deviation: decl,
-                    distance: 0.0,
-                    mainPosSpeed: 0.0,
-                    deviationSpeed: 0.0,
-                    distanceSpeed: 0.0
-                )
-                
-                // Calculate horizontal coordinates
-                let (azimuth, altitude) = seWrapper.azimuthAndAltitude(
+                let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
+                let fullPointPos = fullPositionCalc.createFullPositionFromLongitude(
+                    longitude: longitude,
                     julianDay: julianDay,
-                    rightAscension: ra,
-                    declination: decl,
                     observerLatitude: seRequest.Latitude,
                     observerLongitude: seRequest.Longitude,
-                    height: 0.0
-                )
-                
-                let horCoord = HorizontalPosition(azimuth: azimuth, altitude: altitude)
-                
-                let fullPointPos = FullFactorPosition(
-                    ecliptical: [eclipticPosSpeed],
-                    equatorial: [equatorialPosSpeed],
-                    horizontal: [horCoord]
+                    obliquity: obliquity,
+                    eclipticalLatitude: latitude
                 )
                 coordinates[factor] = fullPointPos
                 

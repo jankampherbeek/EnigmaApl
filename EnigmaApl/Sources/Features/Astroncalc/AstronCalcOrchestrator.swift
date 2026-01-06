@@ -92,6 +92,7 @@ public struct AstronCalcOrchestrator {
                 )
                 let lotsCoordinates = lotsCalc.calculateLotsFactors(
                     seRequest: lotsRequest,
+                    obliquity: obliquity,
                     ascendantLongitude: ascendantLongitude,
                     sunLongitude: sunLongitude,
                     moonLongitude: moonLongitude

@@ -28,72 +28,18 @@ public struct ZodiacFixedCalc {
                 break;
             }
                     
-            let fullPosition = createFullPositionFromLongitude(seWrapper: seWrapper,longitude: longitude, julianDay: julianDay, observerLatitude: observerLat, observerLongitude: observerLong, obliquity: obliquity)
+            let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
+            let fullPosition = fullPositionCalc.createFullPositionFromLongitude(
+                longitude: longitude,
+                julianDay: julianDay,
+                observerLatitude: observerLat,
+                observerLongitude: observerLong,
+                obliquity: obliquity
+            )
             
             coordinates[factor] = fullPosition
 
         }
         return coordinates
     }
-    
-    
-    /// Create full position from ecliptical longitude
-    /// - Parameters:
-    ///   - longitude: Ecliptical longitude in degrees
-    ///   - julianDay: Julian day for UT
-    ///   - latitude: Observer latitude
-    ///   - longitude: Observer longitude (for horizontal coordinates)
-    ///   - obliquity: Obliquity of the ecliptic
-    /// - Returns: FullFactorPosition with all coordinate systems
-    private func createFullPositionFromLongitude(
-        seWrapper: SEWrapper,
-        longitude: Double,
-        julianDay: Double,
-        observerLatitude: Double,
-        observerLongitude : Double,
-        obliquity: Double
-    ) -> FullFactorPosition {
-        let eclipticalPos = MainAstronomicalPosition(
-            mainPos: longitude,
-            deviation: 0.0,
-            distance: 0.0,
-            mainPosSpeed: 0.0,
-            deviationSpeed: 0.0,
-            distanceSpeed: 0.0
-        )
-        
-        // Convert to equatorial coordinates
-        let (ra, decl) = seWrapper.eclipticToEquatorial(
-            eclipticCoordinates: [longitude, 0.0],
-            obliquity: obliquity
-        )
-        
-        let equatorialPos = MainAstronomicalPosition(
-            mainPos: ra,
-            deviation: decl,
-            distance: 0.0,
-            mainPosSpeed: 0.0,
-            deviationSpeed: 0.0,
-            distanceSpeed: 0.0
-        )
-        
-        // Calculate horizontal position using equatorial coordinates
-        let (azimuth, altitude) = seWrapper.azimuthAndAltitude(
-            julianDay: julianDay,
-            rightAscension: ra,
-            declination: decl,
-            observerLatitude: observerLatitude,
-            observerLongitude: observerLongitude,
-            height: 0.0
-        )
-        
-        let horizontalPos = HorizontalPosition(azimuth: azimuth, altitude: altitude)
-        
-        return FullFactorPosition(
-            ecliptical: [eclipticalPos],
-            equatorial: [equatorialPos],
-            horizontal: [horizontalPos]
-        )
-    }
-    
 }

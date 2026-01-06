@@ -23,6 +23,17 @@ struct CommonElementsCalcTests {
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
+        // Create ConfigData with default values
+        let configData = ConfigData(
+            houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
+            ayanamsha: .tropical,
+            observerPosition: .geoCentric,
+            projectionType: .twoDimensional,
+            blackMoonCorrectionType: .duval,
+            lunarNodeType: .meanNode,
+            lotsType: .sect
+        )
+        
         // Create SERequest
         let request = SERequest(
             JulianDay: julianDay,
@@ -30,7 +41,8 @@ struct CommonElementsCalcTests {
             HouseSystem: houseSystem,
             SEFlags: seFlags,
             Latitude: latitude,
-            Longitude: longitude
+            Longitude: longitude,
+            ConfigData: configData
         )
         
         // Expected values (converted from comma to period decimal separator)

@@ -25,6 +25,17 @@ struct SECalculationTests {
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
+        // Create ConfigData with default values
+        let configData = ConfigData(
+            houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
+            ayanamsha: .tropical,
+            observerPosition: .geoCentric,
+            projectionType: .twoDimensional,
+            blackMoonCorrectionType: .duval,
+            lunarNodeType: .meanNode,
+            lotsType: .sect
+        )
+        
         // Create SERequest
         let request = SERequest(
             JulianDay: julianDay,
@@ -32,7 +43,8 @@ struct SECalculationTests {
             HouseSystem: houseSystem,
             SEFlags: seFlags,
             Latitude: latitude,
-            Longitude: longitude
+            Longitude: longitude,
+            ConfigData: configData
         )
         
         // Expected values (converted from comma to period decimal separator)
@@ -128,13 +140,24 @@ struct SECalculationTests {
         ]
         
         // Perform calculation
-        let (result, obliquity) = SECalculation.CalculateFactors(request)
+        let result = SECalculation.CalculateFactors(request)
+        
+        // Calculate obliquity separately for verification (using id -1)
+        let seWrapper = SEWrapper()
+        let obliquityPosition = seWrapper.calculateFactorPosition(
+            julianDay: julianDay,
+            planet: -1,
+            flags: 258
+        )
+        let obliquity = obliquityPosition?.mainPos ?? 0.0
         
         // Verify obliquity is calculated (should be a reasonable value between 23 and 24 degrees)
         #expect(obliquity > 23.0 && obliquity < 24.0, "Obliquity should be between 23 and 24 degrees, got \(obliquity)")
         
         // Verify all factors are present in the result
-        #expect(result.count == factorsToUse.count, "All factors should be calculated, expected \(factorsToUse.count), got \(result.count)")
+        let expectedCount = factorsToUse.count
+        let actualCount = result.count
+        #expect(actualCount == expectedCount, "All factors should be calculated, expected \(expectedCount), got \(actualCount)")
         
         // Verify each factor's values
         for (factor, expected) in expectedValues {

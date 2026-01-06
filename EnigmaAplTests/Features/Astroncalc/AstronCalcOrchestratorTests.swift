@@ -78,6 +78,17 @@ struct AstronCalcOrchestratorTests {
         // Create factors list from expected longitudes keys
         let factorsToUse = Array(expectedLongitudes.keys)
         
+        // Create ConfigData with default values
+        let configData = ConfigData(
+            houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
+            ayanamsha: .tropical,
+            observerPosition: .geoCentric,
+            projectionType: .twoDimensional,
+            blackMoonCorrectionType: .duval,
+            lunarNodeType: .meanNode,
+            lotsType: .sect
+        )
+        
         // Create SERequest
         let request = SERequest(
             JulianDay: julianDay,
@@ -85,7 +96,8 @@ struct AstronCalcOrchestratorTests {
             HouseSystem: houseSystem,
             SEFlags: seFlags,
             Latitude: latitude,
-            Longitude: longitude
+            Longitude: longitude,
+            ConfigData: configData
         )
         
         // Perform calculation
