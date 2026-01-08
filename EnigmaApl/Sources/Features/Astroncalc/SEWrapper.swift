@@ -343,4 +343,53 @@ public class SEWrapper {
         )
     }
     
+    // MARK: - Apsides Calculation
+    /// Calculate nodes and apsides (perihelion/aphelion for planets, perigee/apogee for Moon)
+    /// - Parameters:
+    ///   - julianDay: Julian day for UT
+    ///   - planet: Swiss Ephemeris planet ID
+    ///   - flags: Calculation flags (e.g., SEFLG_SWIEPH)
+    ///   - method: Method flag (SE_NODBIT_MEAN = 1 for mean, SE_NODBIT_OSCU = 2 for osculating)
+    /// - Returns: ApsidesResult containing nodes and apsides positions, or nil if calculation fails
+    public func calculateApsides(julianDay: Double, planet: Int, flags: Int, method: Int = 1) -> ApsidesResult? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+        
+        var xnasc = [Double](repeating: 0.0, count: 3)  // ascending node [longitude, latitude, distance]
+        var xndsc = [Double](repeating: 0.0, count: 3)  // descending node [longitude, latitude, distance]
+        var xperi = [Double](repeating: 0.0, count: 3) // perihelion/perigee [longitude, latitude, distance]
+        var xaphe = [Double](repeating: 0.0, count: 3) // aphelion/apogee [longitude, latitude, distance]
+        var error = [CChar](repeating: 0, count: 256)
+        
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseJD = julianDay
+        
+        let returnCode = swe_nod_aps_ut(
+            preciseJD,
+            Int32(planet),
+            Int32(flags),
+            Int32(method),
+            &xnasc,
+            &xndsc,
+            &xperi,
+            &xaphe,
+            &error
+        )
+        
+        guard returnCode >= 0 else {
+            let errorMessage = String(cString: error)
+            Logger.log.error("Error calculating apsides: \(errorMessage)")
+            return nil
+        }
+        
+        return ApsidesResult(
+            ascendingNode: xnasc,
+            descendingNode: xndsc,
+            perihelion: xperi,
+            aphelion: xaphe
+        )
+    }
+    
 }

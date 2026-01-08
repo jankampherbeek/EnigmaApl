@@ -144,3 +144,24 @@ public struct OrbitalElements {
         self.speed = speed
     }
 }
+
+// MARK: - Apsides Result
+/// Result of apsides calculation containing nodes and apsides positions
+/// Each position contains [longitude, latitude, distance]
+public struct ApsidesResult {
+    /// Ascending node position [longitude, latitude, distance]
+    public let ascendingNode: [Double]
+    /// Descending node position [longitude, latitude, distance]
+    public let descendingNode: [Double]
+    /// Perihelion (for planets) or Perigee (for Moon) position [longitude, latitude, distance]
+    public let perihelion: [Double]
+    /// Aphelion (for planets) or Apogee (for Moon) position [longitude, latitude, distance]
+    public let aphelion: [Double]
+    
+    public init(ascendingNode: [Double], descendingNode: [Double], perihelion: [Double], aphelion: [Double]) {
+        self.ascendingNode = ascendingNode
+        self.descendingNode = descendingNode
+        self.perihelion = perihelion
+        self.aphelion = aphelion
+    }
+}

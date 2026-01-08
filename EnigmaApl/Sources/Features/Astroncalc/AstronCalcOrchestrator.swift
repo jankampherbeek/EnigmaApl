@@ -102,18 +102,23 @@ public struct AstronCalcOrchestrator {
         }
         
         if let zodiacFixedFactors = factorsByType[.ZodiacFixed], !zodiacFixedFactors.isEmpty {
-            let zodiacFixedCoordinates = calculateZodiacFixedFactors(
-                factors: zodiacFixedFactors,
-                request: request
-            )
+            let zodiacFixedCalc = ZodiacFixedCalc()
+            let zodiacFixedCoordinates = zodiacFixedCalc.zodiacFixedFactors(seRequest: request, obliquity: obliquity, seWrapper: seWrapper)
             allCoordinates.merge(zodiacFixedCoordinates) { (_, new) in new }
         }
         
         if let apsidesFactors = factorsByType[.Apsides], !apsidesFactors.isEmpty {
-            let apsidesCoordinates = calculateApsidesFactors(
-                factors: apsidesFactors,
-                request: request
+            let apsidesCalc = ApsidesCalc(seWrapper: seWrapper)
+            let apsidesRequest = SERequest(
+                JulianDay: request.JulianDay,
+                FactorsToUse: apsidesFactors,
+                HouseSystem: request.HouseSystem,
+                SEFlags: request.SEFlags,
+                Latitude: request.Latitude,
+                Longitude: request.Longitude,
+                ConfigData: request.ConfigData
             )
+            let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest)
             allCoordinates.merge(apsidesCoordinates) { (_, new) in new }
         }
         
@@ -168,45 +173,7 @@ public struct AstronCalcOrchestrator {
         return coordinates
     }
     
-    
-    /// Placeholder for ZodiacFixed calculation
-    private static func calculateZodiacFixedFactors(
-        factors: [Factors],
-        request: SERequest
-    ) -> [Factors: FullFactorPosition] {
-        // TODO: Implement ZodiacFixed calculation
-        var coordinates: [Factors: FullFactorPosition] = [:]
-        for factor in factors {
-            // Placeholder: return zero positions
-            let zeroPosition = FullFactorPosition(
-                ecliptical: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                equatorial: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                horizontal: [HorizontalPosition(azimuth: 0.0, altitude: 0.0)]
-            )
-            coordinates[factor] = zeroPosition
-        }
-        return coordinates
-    }
-    
-    /// Placeholder for Apsides calculation
-    private static func calculateApsidesFactors(
-        factors: [Factors],
-        request: SERequest
-    ) -> [Factors: FullFactorPosition] {
-        // TODO: Implement Apsides calculation
-        var coordinates: [Factors: FullFactorPosition] = [:]
-        for factor in factors {
-            // Placeholder: return zero positions
-            let zeroPosition = FullFactorPosition(
-                ecliptical: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                equatorial: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                horizontal: [HorizontalPosition(azimuth: 0.0, altitude: 0.0)]
-            )
-            coordinates[factor] = zeroPosition
-        }
-        return coordinates
-    }
-    
+
     /// Placeholder for Unknown calculation
     private static func calculateUnknownFactors(
         factors: [Factors],
