@@ -122,23 +122,6 @@ public struct AstronCalcOrchestrator {
             allCoordinates.merge(apsidesCoordinates) { (_, new) in new }
         }
         
-        if let mundaneFactors = factorsByType[.Mundane], !mundaneFactors.isEmpty {
-            let mundaneCoordinates = calculateMundaneFactors(
-                factors: mundaneFactors,
-                request: request
-            )
-            allCoordinates.merge(mundaneCoordinates) { (_, new) in new }
-        }
-        
-        if let unknownFactors = factorsByType[.Unknown], !unknownFactors.isEmpty {
-            let unknownCoordinates = calculateUnknownFactors(
-                factors: unknownFactors,
-                request: request
-            )
-            allCoordinates.merge(unknownCoordinates) { (_, new) in new }
-        }
-        
-
         
         return FullChart(
             Coordinates: allCoordinates,
@@ -149,48 +132,6 @@ public struct AstronCalcOrchestrator {
         )
     }
     
-    // MARK: - Placeholder calculation methods
-    
-
-    
-       
-    /// Placeholder for Mundane calculation
-    private static func calculateMundaneFactors(
-        factors: [Factors],
-        request: SERequest
-    ) -> [Factors: FullFactorPosition] {
-        // TODO: Implement Mundane calculation
-        var coordinates: [Factors: FullFactorPosition] = [:]
-        for factor in factors {
-            // Placeholder: return zero positions
-            let zeroPosition = FullFactorPosition(
-                ecliptical: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                equatorial: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                horizontal: [HorizontalPosition(azimuth: 0.0, altitude: 0.0)]
-            )
-            coordinates[factor] = zeroPosition
-        }
-        return coordinates
-    }
-    
-
-    /// Placeholder for Unknown calculation
-    private static func calculateUnknownFactors(
-        factors: [Factors],
-        request: SERequest
-    ) -> [Factors: FullFactorPosition] {
-        // TODO: Handle Unknown calculation type
-        var coordinates: [Factors: FullFactorPosition] = [:]
-        for factor in factors {
-            // Placeholder: return zero positions
-            let zeroPosition = FullFactorPosition(
-                ecliptical: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                equatorial: [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)],
-                horizontal: [HorizontalPosition(azimuth: 0.0, altitude: 0.0)]
-            )
-            coordinates[factor] = zeroPosition
-        }
-        return coordinates
-    }
+  
 }
 
