@@ -4,6 +4,10 @@
 //
 //  Created on 03/01/2026.
 //
+//  NOTE: These tests are now managed by AstronCalcTestCoordinator to ensure
+//  thread-safety. The test functions below are kept for reference but should
+//  not be run directly. Use AstronCalcTestCoordinator instead.
+//
 
 import Testing
 import Foundation
@@ -11,9 +15,9 @@ import Foundation
 
 struct CommonElementsCalcTests {
     
-    @Test("CommonElementsCalc: calculateCommonElementsFactors for January 1, 2020 0:00 UT")
-    @MainActor
-    func testCalculateCommonElementsFactors() {
+    // MARK: - Test Functions (called by AstronCalcTestCoordinator)
+    
+    static func testCalculateCommonElementsFactors(seWrapper: SEWrapper) {
         // Julian Day for January 1, 2010 0:00 UT
         let julianDay = 2455197.5
         // Test parameters
@@ -73,9 +77,7 @@ struct CommonElementsCalcTests {
             )
         ]
         
-        // Create SEWrapper instance for the test
-        let seWrapper = SEWrapper()
-        
+        // Use provided SEWrapper (from AstronCalcTestCoordinator)
         // Perform calculation
         let result = ElementsCalc.calculateElementsFactors(
             request: request,
@@ -83,7 +85,10 @@ struct CommonElementsCalcTests {
         )
         
         // Verify all factors are present in the result
-        #expect(result.count == factorsToUse.count, "All factors should be calculated")
+        if result.count != factorsToUse.count {
+            Issue.record("All factors should be calculated, expected \(factorsToUse.count), got \(result.count)")
+            return
+        }
         
         // Verify each factor's values
         for (factor, expected) in expectedValues {
@@ -105,10 +110,14 @@ struct CommonElementsCalcTests {
             // Handle -0.0 case by comparing absolute values
             let latDiff = abs(actualLatitude - expected.latitude)
             
-            #expect(longDiff < 1e-6,
-                   "Factor \(factor) longitude: expected \(expected.longitude), got \(actualLongitude), difference: \(longDiff)")
-            #expect(latDiff < 1e-6,
-                   "Factor \(factor) latitude: expected \(expected.latitude), got \(actualLatitude), difference: \(latDiff)")
+            if longDiff >= 1e-6 {
+                Issue.record("Factor \(factor) longitude: expected \(expected.longitude), got \(actualLongitude), difference: \(longDiff)")
+                continue
+            }
+            if latDiff >= 1e-6 {
+                Issue.record("Factor \(factor) latitude: expected \(expected.latitude), got \(actualLatitude), difference: \(latDiff)")
+                continue
+            }
             
             // Verify equatorial position (right ascension and declination)
             guard let equatorialPosition = factorPosition.equatorial.first else {
@@ -122,10 +131,14 @@ struct CommonElementsCalcTests {
             let raDiff = abs(actualRA - expected.rightAscension)
             let declDiff = abs(actualDecl - expected.declination)
             
-            #expect(raDiff < 1e-6,
-                   "Factor \(factor) right ascension: expected \(expected.rightAscension), got \(actualRA), difference: \(raDiff)")
-            #expect(declDiff < 1e-6,
-                   "Factor \(factor) declination: expected \(expected.declination), got \(actualDecl), difference: \(declDiff)")
+            if raDiff >= 1e-6 {
+                Issue.record("Factor \(factor) right ascension: expected \(expected.rightAscension), got \(actualRA), difference: \(raDiff)")
+                continue
+            }
+            if declDiff >= 1e-6 {
+                Issue.record("Factor \(factor) declination: expected \(expected.declination), got \(actualDecl), difference: \(declDiff)")
+                continue
+            }
             
             // Verify horizontal position (azimuth and altitude)
             guard let horizontalPosition = factorPosition.horizontal.first else {
@@ -139,10 +152,14 @@ struct CommonElementsCalcTests {
             let aziDiff = abs(actualAzimuth - expected.azimuth)
             let altDiff = abs(actualAltitude - expected.altitude)
             
-            #expect(aziDiff < 1e-6,
-                   "Factor \(factor) azimuth: expected \(expected.azimuth), got \(actualAzimuth), difference: \(aziDiff)")
-            #expect(altDiff < 1e-6,
-                   "Factor \(factor) altitude: expected \(expected.altitude), got \(actualAltitude), difference: \(altDiff)")
+            if aziDiff >= 1e-6 {
+                Issue.record("Factor \(factor) azimuth: expected \(expected.azimuth), got \(actualAzimuth), difference: \(aziDiff)")
+                continue
+            }
+            if altDiff >= 1e-6 {
+                Issue.record("Factor \(factor) altitude: expected \(expected.altitude), got \(actualAltitude), difference: \(altDiff)")
+                continue
+            }
         }
     }
 }

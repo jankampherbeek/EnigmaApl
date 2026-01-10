@@ -12,7 +12,9 @@ import Foundation
 
 struct AstronCalcOrchestratorTests {
     
-    @Test("PerformCalculation: verify factor longitudes with expected values")
+    // MARK: - Individual Tests (commented out - use AstronCalcTestCoordinator instead)
+    
+    // @Test("PerformCalculation: verify factor longitudes with expected values")
     func testPerformCalculationFactorLongitudes() async throws {
         // Test data
         // Julian Day for 2025-12-24 at 16:00:00 UT

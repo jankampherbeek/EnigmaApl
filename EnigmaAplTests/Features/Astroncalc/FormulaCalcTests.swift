@@ -4,6 +4,10 @@
 //
 //  Created on 04/01/2026.
 //
+//  NOTE: These tests are now managed by AstronCalcTestCoordinator to ensure
+//  thread-safety. The test functions below are kept for reference but should
+//  not be run directly. Use AstronCalcTestCoordinator instead.
+//
 
 import Testing
 import Foundation
@@ -11,9 +15,9 @@ import Foundation
 
 struct FormulaCalcTests {
     
-    @Test("FormulaCalc: calculateFormulaFactors for apogeeCorrected, persephoneCarteret, vulcanusCarteret")
-    @MainActor
-    func testCalculateFormulaFactors() {
+    // MARK: - Test Functions (called by AstronCalcTestCoordinator)
+    
+    static func testCalculateFormulaFactors(seWrapper: SEWrapper) {
         // Test parameters
         let julianDay = 2455197.5
         let factorsToUse: [Factors] = [.apogeeCorrected, .persephoneCarteret, .vulcanusCarteret]
@@ -44,8 +48,8 @@ struct FormulaCalcTests {
             ConfigData: configData
         )
         
+        // Use provided SEWrapper (from AstronCalcTestCoordinator)
         // Calculate obliquity (as requested by user, though not directly used in FormulaCalc)
-        let seWrapper = SEWrapper()
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
             planet: -1,
@@ -54,7 +58,10 @@ struct FormulaCalcTests {
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
         // Verify obliquity is calculated (should be a reasonable value between 23 and 24 degrees)
-        #expect(obliquity > 23.0 && obliquity < 24.0, "Obliquity should be between 23 and 24 degrees, got \(obliquity)")
+        if !(obliquity > 23.0 && obliquity < 24.0) {
+            Issue.record("Obliquity should be between 23 and 24 degrees, got \(obliquity)")
+            return
+        }
         
         // Expected values (converted from comma to period decimal separator)
         let expectedValues: [Factors: (longitude: Double, latitude: Double, rightAscension: Double, declination: Double, azimuth: Double, altitude: Double)] = [
@@ -89,7 +96,10 @@ struct FormulaCalcTests {
         let result = formulaCalc.calculateFormulaFactors(seRequest: request)
         
         // Verify all factors are present in the result
-        #expect(result.count == factorsToUse.count, "All factors should be calculated, expected \(factorsToUse.count), got \(result.count)")
+        if result.count != factorsToUse.count {
+            Issue.record("All factors should be calculated, expected \(factorsToUse.count), got \(result.count)")
+            return
+        }
         
         // Verify each factor's values
         for (factor, expected) in expectedValues {
@@ -110,10 +120,14 @@ struct FormulaCalcTests {
             let longDiff = abs(actualLongitude - expected.longitude)
             let latDiff = abs(actualLatitude - expected.latitude)
             
-            #expect(longDiff < 1e-5,
-                   "Factor \(factor) longitude: expected \(expected.longitude), got \(actualLongitude), difference: \(longDiff)")
-            #expect(latDiff < 1e-6,
-                   "Factor \(factor) latitude: expected \(expected.latitude), got \(actualLatitude), difference: \(latDiff)")
+            if longDiff >= 1e-5 {
+                Issue.record("Factor \(factor) longitude: expected \(expected.longitude), got \(actualLongitude), difference: \(longDiff)")
+                continue
+            }
+            if latDiff >= 1e-6 {
+                Issue.record("Factor \(factor) latitude: expected \(expected.latitude), got \(actualLatitude), difference: \(latDiff)")
+                continue
+            }
             
             // Verify equatorial position (right ascension and declination) - should be 0
             guard let equatorialPosition = factorPosition.equatorial.first else {
@@ -127,10 +141,14 @@ struct FormulaCalcTests {
             let raDiff = abs(actualRA - expected.rightAscension)
             let declDiff = abs(actualDecl - expected.declination)
             
-            #expect(raDiff < 1e-6,
-                   "Factor \(factor) right ascension: expected \(expected.rightAscension), got \(actualRA), difference: \(raDiff)")
-            #expect(declDiff < 1e-6,
-                   "Factor \(factor) declination: expected \(expected.declination), got \(actualDecl), difference: \(declDiff)")
+            if raDiff >= 1e-6 {
+                Issue.record("Factor \(factor) right ascension: expected \(expected.rightAscension), got \(actualRA), difference: \(raDiff)")
+                continue
+            }
+            if declDiff >= 1e-6 {
+                Issue.record("Factor \(factor) declination: expected \(expected.declination), got \(actualDecl), difference: \(declDiff)")
+                continue
+            }
             
             // Verify horizontal position (azimuth and altitude) - should be 0
             guard let horizontalPosition = factorPosition.horizontal.first else {
@@ -144,10 +162,14 @@ struct FormulaCalcTests {
             let aziDiff = abs(actualAzimuth - expected.azimuth)
             let altDiff = abs(actualAltitude - expected.altitude)
             
-            #expect(aziDiff < 1e-6,
-                   "Factor \(factor) azimuth: expected \(expected.azimuth), got \(actualAzimuth), difference: \(aziDiff)")
-            #expect(altDiff < 1e-6,
-                   "Factor \(factor) altitude: expected \(expected.altitude), got \(actualAltitude), difference: \(altDiff)")
+            if aziDiff >= 1e-6 {
+                Issue.record("Factor \(factor) azimuth: expected \(expected.azimuth), got \(actualAzimuth), difference: \(aziDiff)")
+                continue
+            }
+            if altDiff >= 1e-6 {
+                Issue.record("Factor \(factor) altitude: expected \(expected.altitude), got \(actualAltitude), difference: \(altDiff)")
+                continue
+            }
         }
     }
 }

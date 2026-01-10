@@ -31,7 +31,8 @@ public struct LotsCalc {
         obliquity: Double,
         ascendantLongitude: Double,
         sunLongitude: Double,
-        moonLongitude: Double
+        moonLongitude: Double,
+        isDayChart: Bool
     ) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
@@ -41,11 +42,11 @@ public struct LotsCalc {
             switch factor {
             case .parsfortuna:
                 // Calculate Pars Fortuna
-                // Formula: With sect (day chart): Ascendant + Moon - Sun
-                //          Without sect (night chart): Ascendant + Sun - Moon
+                // Formula: With sect (only if night chart): Ascendant + Moon - Sun
+                //          Without sect (for day and night chart): Ascendant + Sun - Moon
                 
                 let parsFortunaLongitude: Double
-                if configData.lotsType == .sect {
+                if configData.lotsType == .sect && !isDayChart {
                     // With sect: Ascendant + Moon - Sun
                     parsFortunaLongitude = RangeUtil.valueToRange(
                         ascendantLongitude + moonLongitude - sunLongitude,
@@ -53,7 +54,7 @@ public struct LotsCalc {
                         upperLimit: 360.0
                     )
                 } else {
-                    // Without sect: Ascendant + Sun - Moon
+                    // Without sect or any day chart: Ascendant + Sun - Moon
                     parsFortunaLongitude = RangeUtil.valueToRange(
                         ascendantLongitude + sunLongitude - moonLongitude,
                         lowerLimit: 0.0,

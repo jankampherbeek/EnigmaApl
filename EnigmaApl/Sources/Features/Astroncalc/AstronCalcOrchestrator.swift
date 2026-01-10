@@ -78,6 +78,7 @@ public struct AstronCalcOrchestrator {
             let ascendantLongitude = housePositions.ascendant.longitude
             let sunLongitude = allCoordinates[.sun]?.ecliptical.first?.mainPos ?? -1.0
             let moonLongitude = allCoordinates[.moon]?.ecliptical.first?.mainPos ?? -1.0
+            let isDayChart = (allCoordinates[.sun]?.horizontal.first?.altitude ?? 0.0) >= 0.0
             if (sunLongitude > 0.0 && moonLongitude > 0.0) {
                 
                 let lotsCalc = LotsCalc(seWrapper: seWrapper)
@@ -95,7 +96,8 @@ public struct AstronCalcOrchestrator {
                     obliquity: obliquity,
                     ascendantLongitude: ascendantLongitude,
                     sunLongitude: sunLongitude,
-                    moonLongitude: moonLongitude
+                    moonLongitude: moonLongitude,
+                    isDayChart: isDayChart
                 )
                 allCoordinates.merge(lotsCoordinates) { (_, new) in new }
             }
