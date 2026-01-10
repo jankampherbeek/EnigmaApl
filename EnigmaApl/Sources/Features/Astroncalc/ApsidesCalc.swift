@@ -35,12 +35,7 @@ public struct ApsidesCalc {
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
-//        // For blackSun and diamond, we calculate Earth's apsides (perihelion/aphelion)
-//        // Earth's orbit around the Sun gives us the Sun's apparent apsides from Earth's perspective
-//        let planetId = Factors.earth.seId  // Earth = 14
-        
-
-        
+            
         let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
         
         for factor in seRequest.FactorsToUse {

@@ -366,20 +366,38 @@ public class SEWrapper {
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseJD = julianDay
         
-        let returnCode = swe_nod_aps_ut(
-            preciseJD,
-            Int32(planet),
-            Int32(flags),
-            Int32(method),
-            &xnasc,
-            &xndsc,
-            &xperi,
-            &xaphe,
-            &error
-        )
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing multiple arrays to C function
+        // This ensures all arrays are properly aligned and contiguous in memory
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+        
+        xnasc.withUnsafeMutableBufferPointer { xnascBuffer in
+            xndsc.withUnsafeMutableBufferPointer { xndscBuffer in
+                xperi.withUnsafeMutableBufferPointer { xperiBuffer in
+                    xaphe.withUnsafeMutableBufferPointer { xapheBuffer in
+                        error.withUnsafeMutableBufferPointer { errorBuffer in
+                            returnCode = swe_nod_aps_ut(
+                                preciseJD,
+                                Int32(planet),
+                                Int32(flags),
+                                Int32(method),
+                                xnascBuffer.baseAddress!,
+                                xndscBuffer.baseAddress!,
+                                xperiBuffer.baseAddress!,
+                                xapheBuffer.baseAddress!,
+                                errorBuffer.baseAddress!
+                            )
+                            
+                            if returnCode < 0 {
+                                errorMessage = String(cString: errorBuffer.baseAddress!)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
         guard returnCode >= 0 else {
-            let errorMessage = String(cString: error)
             Logger.log.error("Error calculating apsides: \(errorMessage)")
             return nil
         }
