@@ -267,9 +267,42 @@ public class SEWrapper {
         
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseJulianDay: Double = julianDay
-        swe_azalt(preciseJulianDay, Int32(flag), &geoPos, atPress, atTemp, &equCoordinates, &azimuthAltitude)
-        let azimuth = azimuthAltitude[0]
-        let altitude = azimuthAltitude[1]
+        
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var azimuth: Double = 0.0
+        var altitude: Double = 0.0
+        
+        geoPos.withUnsafeMutableBufferPointer { geoPosBuffer in
+            equCoordinates.withUnsafeMutableBufferPointer { equCoordinatesBuffer in
+                azimuthAltitude.withUnsafeMutableBufferPointer { azimuthAltitudeBuffer in
+                    // Ensure all base addresses are non-nil before calling C function
+                    guard let geoPosPtr = geoPosBuffer.baseAddress,
+                          let equCoordinatesPtr = equCoordinatesBuffer.baseAddress,
+                          let azimuthAltitudePtr = azimuthAltitudeBuffer.baseAddress else {
+                        Logger.log.error("Failed to get valid pointers for azimuth and altitude calculation")
+                        return
+                    }
+                    
+                    swe_azalt(
+                        preciseJulianDay,
+                        Int32(flag),
+                        geoPosPtr,
+                        atPress,
+                        atTemp,
+                        equCoordinatesPtr,
+                        azimuthAltitudePtr
+                    )
+                    
+                    // Extract results from the buffer - C function modifies the memory directly
+                    if azimuthAltitudeBuffer.count >= 2 {
+                        azimuth = azimuthAltitudeBuffer[0]
+                        altitude = azimuthAltitudeBuffer[1]
+                    }
+                }
+            }
+        }
+        
         return (azimuth, altitude)
     }
     
@@ -281,9 +314,31 @@ public class SEWrapper {
         let distance = 1.0    // ignore distance as it won't change
         var allEclipticCoordinates: [Double] = [eclipticCoordinates[0], eclipticCoordinates[1], distance]
         var equCoordinates: [Double] = [Double](repeating: 0.0, count: 3)
-        swe_cotrans(&allEclipticCoordinates, &equCoordinates, negativeObliquity)
-        let ra = equCoordinates[0]
-        let dec = equCoordinates[1]
+        
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var ra: Double = 0.0
+        var dec: Double = 0.0
+        
+        allEclipticCoordinates.withUnsafeMutableBufferPointer { eclipticBuffer in
+            equCoordinates.withUnsafeMutableBufferPointer { equBuffer in
+                // Ensure all base addresses are non-nil before calling C function
+                guard let eclipticPtr = eclipticBuffer.baseAddress,
+                      let equPtr = equBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for coordinate transformation")
+                    return
+                }
+                
+                swe_cotrans(eclipticPtr, equPtr, negativeObliquity)
+                
+                // Extract results from the buffer - C function modifies the memory directly
+                if equBuffer.count >= 2 {
+                    ra = equBuffer[0]
+                    dec = equBuffer[1]
+                }
+            }
+        }
+        
         return (ra, dec)
     }
     
@@ -376,20 +431,30 @@ public class SEWrapper {
                 xperi.withUnsafeMutableBufferPointer { xperiBuffer in
                     xaphe.withUnsafeMutableBufferPointer { xapheBuffer in
                         error.withUnsafeMutableBufferPointer { errorBuffer in
+                            // Ensure all base addresses are non-nil before calling C function
+                            guard let xnascPtr = xnascBuffer.baseAddress,
+                                  let xndscPtr = xndscBuffer.baseAddress,
+                                  let xperiPtr = xperiBuffer.baseAddress,
+                                  let xaphePtr = xapheBuffer.baseAddress,
+                                  let errorPtr = errorBuffer.baseAddress else {
+                                Logger.log.error("Failed to get valid pointers for apsides calculation")
+                                return
+                            }
+                            
                             returnCode = swe_nod_aps_ut(
                                 preciseJD,
                                 Int32(planet),
                                 Int32(flags),
                                 Int32(method),
-                                xnascBuffer.baseAddress!,
-                                xndscBuffer.baseAddress!,
-                                xperiBuffer.baseAddress!,
-                                xapheBuffer.baseAddress!,
-                                errorBuffer.baseAddress!
+                                xnascPtr,
+                                xndscPtr,
+                                xperiPtr,
+                                xaphePtr,
+                                errorPtr
                             )
                             
                             if returnCode < 0 {
-                                errorMessage = String(cString: errorBuffer.baseAddress!)
+                                errorMessage = String(cString: errorPtr)
                             }
                         }
                     }

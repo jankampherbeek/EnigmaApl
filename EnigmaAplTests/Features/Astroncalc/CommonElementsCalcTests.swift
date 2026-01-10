@@ -73,9 +73,13 @@ struct CommonElementsCalcTests {
             )
         ]
         
+        // Create SEWrapper instance for the test
+        let seWrapper = SEWrapper()
+        
         // Perform calculation
         let result = ElementsCalc.calculateElementsFactors(
-            request: request
+            request: request,
+            seWrapper: seWrapper
         )
         
         // Verify all factors are present in the result

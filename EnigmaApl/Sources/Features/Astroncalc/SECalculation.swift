@@ -10,10 +10,11 @@ import Foundation
 public struct SECalculation {
     
     /// Calculates the positions for all factors in the request
-    /// - Parameter request: The SERequest containing calculation parameters
+    /// - Parameters:
+    ///   - request: The SERequest containing calculation parameters
+    ///   - seWrapper: The SEWrapper instance to use (must be shared across calculations to avoid thread-safety issues)
     /// - Returns: A tuple containing a dictionary of factor positions and the obliquity value
-    public static func CalculateFactors(_ request: SERequest) -> ([Factors: FullFactorPosition]) {
-        let seWrapper = SEWrapper()
+    public static func CalculateFactors(_ request: SERequest, seWrapper: SEWrapper) -> ([Factors: FullFactorPosition]) {
         let julianDay = request.JulianDay
         
         // Flags: 258 = SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
@@ -88,9 +89,9 @@ public struct SECalculation {
     /// - Parameters:
     ///   - request: The SERequest containing calculation parameters
     ///   - obliquity: The obliquity value needed for coordinate conversions
+    ///   - seWrapper: The SEWrapper instance to use (must be shared across calculations to avoid thread-safety issues)
     /// - Returns: A HousePositions struct with all calculated house data
-    public static func CalculateHouses(_ request: SERequest, obliquity: Double) -> HousePositions {
-        let seWrapper = SEWrapper()
+    public static func CalculateHouses(_ request: SERequest, obliquity: Double, seWrapper: SEWrapper) -> HousePositions {
         let julianDay = request.JulianDay
         
         // Calculate ecliptical positions of houses

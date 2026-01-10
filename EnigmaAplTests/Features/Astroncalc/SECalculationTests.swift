@@ -139,11 +139,13 @@ struct SECalculationTests {
             )
         ]
         
+        // Create SEWrapper instance for the test
+        let seWrapper = SEWrapper()
+        
         // Perform calculation
-        let result = SECalculation.CalculateFactors(request)
+        let result = SECalculation.CalculateFactors(request, seWrapper: seWrapper)
         
         // Calculate obliquity separately for verification (using id -1)
-        let seWrapper = SEWrapper()
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
             planet: -1,

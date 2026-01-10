@@ -29,7 +29,7 @@ public struct AstronCalcOrchestrator {
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
         let siderealTime = seWrapper.siderealTime(julianDay: julianDay)
-        let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity)
+        let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
         
         // Group factors by calculation type
         let factorsByType = Dictionary(grouping: request.FactorsToUse) { $0.calculationType }
@@ -51,24 +51,24 @@ public struct AstronCalcOrchestrator {
                 Longitude: request.Longitude,
                 ConfigData: request.ConfigData
             )
-            let commonSeCoordinates = SECalculation.CalculateFactors(commonSeRequest)
+            let commonSeCoordinates = SECalculation.CalculateFactors(commonSeRequest, seWrapper: seWrapper)
             allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
             longitudeSun = commonSeCoordinates[.sun]?.ecliptical.first?.mainPos ?? -1.0
             longitudeMoon = commonSeCoordinates[.moon]?.ecliptical.first?.mainPos ?? -1.0
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
-            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: request)
+            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: request, seWrapper: seWrapper)
             allCoordinates.merge(commonElementsCoordinates) { (_, new) in new }
         }
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
-            let fCalc = FormulaCalc()
+            let fCalc = FormulaCalc(seWrapper: seWrapper)
             let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: request)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         
         if let commonFormulaFullFactors = factorsByType[.CommonFormulaFull], !commonFormulaFullFactors.isEmpty {
-            let fFullCalc = FormulaFullCalc()
+            let fFullCalc = FormulaFullCalc(seWrapper: seWrapper)
             let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: request, obliquity: obliquity)
             allCoordinates.merge(commonFormulaFullCoordinates) { (_, new) in new }
         }
@@ -120,6 +120,85 @@ public struct AstronCalcOrchestrator {
             )
             let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest)
             allCoordinates.merge(apsidesCoordinates) { (_, new) in new }
+        }
+        
+        if (request.ConfigData.projectionType == ProjectionTypes.obliqueLongitude) {
+            // exchange all longitudes with their oblique longitude equivalents
+            
+            let armc = housePositions.midheaven.rightAscension
+            
+            let ayanamshaOffset: Double
+            if request.ConfigData.ayanamsha == .tropical {
+                ayanamshaOffset = 0.0
+            } else {
+                // TODO: Calculate ayanamsha offset using SEWrapper
+                // For now, using 0.0 as placeholder - this may need to be calculated
+                ayanamshaOffset = 0.0
+            }
+            
+            // Build array of NamedEclipticCoordinates from allCoordinates
+            var celPointCoordinates: [NamedEclipticCoordinates] = []
+            for (factor, position) in allCoordinates {
+                if let ecliptical = position.ecliptical.first {
+                    celPointCoordinates.append(NamedEclipticCoordinates(
+                        factor: factor,
+                        longitude: ecliptical.mainPos,
+                        latitude: ecliptical.deviation
+                    ))
+                }
+            }
+            
+            // Calculate oblique longitudes
+            let obliqueLongitudeCalc = ObliqueLongitudeCalc()
+            let obliqueLongitudes = obliqueLongitudeCalc.ObliqueLongitudeForFactor(
+                armc: armc,
+                obliquity: obliquity,
+                geoLat: request.Latitude,
+                celPointCoordinates: celPointCoordinates,
+                ayanamshaOffset: ayanamshaOffset
+            )
+            
+            // Create a dictionary mapping factors to their oblique longitudes
+            let obliqueLongitudeMap = Dictionary(uniqueKeysWithValues: obliqueLongitudes.map { ($0.factor, $0.obliqueLongitude) })
+            
+            // Create a copy of allCoordinates with oblique longitudes replacing ecliptical longitudes
+            var updatedCoordinates: [Factors: FullFactorPosition] = [:]
+            for (factor, position) in allCoordinates {
+                if let obliqueLongitude = obliqueLongitudeMap[factor],
+                   let originalEcliptical = position.ecliptical.first {
+                    // Create new ecliptical positions array, updating the first position with oblique longitude
+                    var updatedEclipticalPositions: [MainAstronomicalPosition] = []
+                    for (index, eclipticalPos) in position.ecliptical.enumerated() {
+                        if index == 0 {
+                            // Replace longitude with oblique longitude for the first position
+                            updatedEclipticalPositions.append(MainAstronomicalPosition(
+                                mainPos: obliqueLongitude,
+                                deviation: eclipticalPos.deviation,
+                                distance: eclipticalPos.distance,
+                                mainPosSpeed: eclipticalPos.mainPosSpeed,
+                                deviationSpeed: eclipticalPos.deviationSpeed,
+                                distanceSpeed: eclipticalPos.distanceSpeed
+                            ))
+                        } else {
+                            // Keep other ecliptical positions unchanged
+                            updatedEclipticalPositions.append(eclipticalPos)
+                        }
+                    }
+                    // Create new FullFactorPosition with updated ecliptical positions
+                    let updatedPosition = FullFactorPosition(
+                        ecliptical: updatedEclipticalPositions,
+                        equatorial: position.equatorial,
+                        horizontal: position.horizontal
+                    )
+                    updatedCoordinates[factor] = updatedPosition
+                } else {
+                    // Keep original position if no oblique longitude was calculated
+                    updatedCoordinates[factor] = position
+                }
+            }
+            
+            // Replace allCoordinates with the updated version
+            allCoordinates = updatedCoordinates
         }
         
         

@@ -125,9 +125,9 @@ struct CalcHelioPos {
 public struct ElementsCalc {
     
     public static func calculateElementsFactors(
-        request: SERequest
+        request: SERequest,
+        seWrapper: SEWrapper
     ) -> [Factors: FullFactorPosition] {
-        let seWrapper = SEWrapper()
         let julianDay = request.JulianDay
         
         // Calculate obliquity (needed for coordinate conversion)
