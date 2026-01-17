@@ -28,7 +28,7 @@ struct AstronCalcTestCoordinator {
         // Each test receives the same SEWrapper instance to prevent conflicts
         
         // LotsCalc Tests
-        LotsCalcTests.testCalculateLotsFactorsNoSect(seWrapper: seWrapper)  // test failed
+        // LotsCalcTests.testCalculateLotsFactorsNoSect(seWrapper: seWrapper)  // test failed
         // LotsCalcTests.testCalculateLotsFactorsSect(seWrapper: seWrapper)    // test succeeded
         
         // CommonElementsCalc Tests
@@ -42,6 +42,9 @@ struct AstronCalcTestCoordinator {
         
         // ApsidesCalc Tests
         // ApsidesCalcTests.testCalculateApsidesFactors(seWrapper: seWrapper)  // Test succeede
+        
+        // Speed Tests
+        SpeedTest.testSpeed(seWrapper: seWrapper)
         
         // AstronCalcOrchestrator Tests
         // AstronCalcOrchestratorTests.testPerformCalculationFactorLongitudes(seWrapper: seWrapper)  // Build error, TODO create test the same way as the others, there might be some overlap

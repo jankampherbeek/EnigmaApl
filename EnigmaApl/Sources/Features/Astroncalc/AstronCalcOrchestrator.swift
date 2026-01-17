@@ -10,13 +10,16 @@ import Foundation
 public struct AstronCalcOrchestrator {
     
     /// Performs a full chart calculation based on the provided request
-    /// - Parameter request: The SERequest containing calculation parameters
+    /// - Parameters:
+    ///   - request: The SERequest containing calculation parameters
+    ///   - seWrapper: Optional SEWrapper instance. If provided, uses this instance (for testing/thread-safety).
+    ///                If nil, creates a new SEWrapper instance (default behavior for production code).
     /// - Returns: A FullChart with all calculated positions and house data
-    public static func PerformCalculation(_ request: SERequest) -> FullChart {
-        // Create and initialize SEWrapper early to ensure Swiss Ephemeris is initialized
-        // This ensures the ephemeris path is set and the library is ready
-        // The init() already calls initialize(), creating the wrapper ensures initialization happens
-        let seWrapper = SEWrapper()
+    public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper? = nil) -> FullChart {
+        // Use provided SEWrapper or create a new one
+        // For tests, pass a shared instance to ensure thread-safety with Swiss Ephemeris
+        // For production code, create a new instance (default behavior)
+        let seWrapper = seWrapper ?? SEWrapper()
         
         let julianDay = request.JulianDay
         
