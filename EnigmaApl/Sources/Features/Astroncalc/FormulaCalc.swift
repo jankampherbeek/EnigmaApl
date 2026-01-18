@@ -23,15 +23,15 @@ private enum AstronomicalConstants {
 /// Calculate geocentric ecliptical position for celestial points that are not supported by the SE,
 /// using specific formulas.
 public struct FormulaCalc {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
+//    private let seWrapper: SEWrapper
+//    
+//    public init(seWrapper: SEWrapper = SEWrapper()) {
+//        self.seWrapper = seWrapper
+//    }
     
     /// Calculate the position for a factor using a formula
     /// Latitude is unknown so we use zero for latitude, ra, declination, azimuth and altitude
-    public func calculateFormulaFactors(seRequest: SERequest) -> [Factors: FullFactorPosition] {
+    public func calculateFormulaFactors(seWrapper: SEWrapper, seRequest: SERequest) -> [Factors: FullFactorPosition] {
                 
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
@@ -58,10 +58,10 @@ public struct FormulaCalc {
                 longitudePrevious = calcCarteretHypPlanet(julianDay: julianDayPrevious, startPoint: 15.7, yearlySpeed: 0.55)
                 longitudeNext = calcCarteretHypPlanet(julianDay: julianDayNext, startPoint: 15.7, yearlySpeed: 0.55)
             case .apogeeCorrected:
-                let apogeeCalc = ApogeeDuvalCalc(seWrapper: seWrapper)
-                longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay)
-                longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious)
-                longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext)
+                let apogeeCalc = ApogeeDuvalCalc()
+                longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper)
+                longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper)
+                longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper)
             default :
                 Logger.log.error ("Unsupported factor \(factor) in FormulaCalc")
                 break;

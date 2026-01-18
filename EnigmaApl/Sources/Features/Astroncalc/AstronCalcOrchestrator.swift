@@ -12,14 +12,10 @@ public struct AstronCalcOrchestrator {
     /// Performs a full chart calculation based on the provided request
     /// - Parameters:
     ///   - request: The SERequest containing calculation parameters
-    ///   - seWrapper: Optional SEWrapper instance. If provided, uses this instance (for testing/thread-safety).
-    ///                If nil, creates a new SEWrapper instance (default behavior for production code).
+    ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with Swiss Ephemeris.
+    ///                For production, use the app-level instance. For tests, use SEWrapperTestCoordinator.shared.getSEWrapper()
     /// - Returns: A FullChart with all calculated positions and house data
-    public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper? = nil) -> FullChart {
-        // Use provided SEWrapper or create a new one
-        // For tests, pass a shared instance to ensure thread-safety with Swiss Ephemeris
-        // For production code, create a new instance (default behavior)
-        let seWrapper = seWrapper ?? SEWrapper()
+    public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper) -> FullChart {
         
         let julianDay = request.JulianDay
         
@@ -75,7 +71,7 @@ public struct AstronCalcOrchestrator {
         }
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
-            let fCalc = FormulaCalc(seWrapper: seWrapper)
+            let fCalc = FormulaCalc()
             let commonFormulaLongitudeRequest = SERequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: commonFormulaLongitudeFactors,
@@ -85,7 +81,7 @@ public struct AstronCalcOrchestrator {
                 Longitude: request.Longitude,
                 ConfigData: request.ConfigData
             )
-            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: commonFormulaLongitudeRequest)
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, seRequest: commonFormulaLongitudeRequest)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         
@@ -142,7 +138,7 @@ public struct AstronCalcOrchestrator {
         }
         
         if let apsidesFactors = factorsByType[.Apsides], !apsidesFactors.isEmpty {
-            let apsidesCalc = ApsidesCalc(seWrapper: seWrapper)
+            let apsidesCalc = ApsidesCalc()
             let apsidesRequest = SERequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: apsidesFactors,
@@ -152,7 +148,7 @@ public struct AstronCalcOrchestrator {
                 Longitude: request.Longitude,
                 ConfigData: request.ConfigData
             )
-            let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest)
+            let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest, seWrapper: seWrapper)
             allCoordinates.merge(apsidesCoordinates) { (_, new) in new }
         }
         

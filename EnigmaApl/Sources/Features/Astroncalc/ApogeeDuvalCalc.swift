@@ -11,16 +11,13 @@ import Foundation
 
 /// Calculate corrected apogee using Duval's formula
 public struct ApogeeDuvalCalc {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
     
     /// Calculate corrected apogee using Duval's formula
-    /// - Parameter julianDay: Julian day for UT
+    /// - Parameters:
+    ///   - julianDay: Julian day for UT
+    ///   - seWrapper: SEWrapper instance for calculations
     /// - Returns: Longitude in degrees (0-360)
-    public func calcApogeeDuval(julianDay: Double) -> Double {
+    public func calcApogeeDuval(julianDay: Double, seWrapper: SEWrapper) -> Double {
         let flagsEcl = 2 + 256  // use SE + speed
         
         // Get Sun longitude

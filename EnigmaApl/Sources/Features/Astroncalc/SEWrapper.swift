@@ -345,6 +345,11 @@ public class SEWrapper {
     /// Calclate right ascension and declination using longitude, latitude and obliquity as input
     /// The array eclipticCoordinates contains longitude and latitude in that order
     public func eclipticToEquatorial(eclipticCoordinates: [Double], obliquity: Double) -> (rightAscension: Double, declination: Double) {
+        guard eclipticCoordinates.count >= 2 else {
+            Logger.log.error("eclipticToEquatorial requires at least 2 coordinates (longitude, latitude)")
+            return (0.0, 0.0)
+        }
+        
         let negativeObliquity = -obliquity     // negative obliquity required for transferring ecliptic to equatorial coordinates
         let distance = 1.0    // ignore distance as it won't change
         var allEclipticCoordinates: [Double] = [eclipticCoordinates[0], eclipticCoordinates[1], distance]
@@ -380,8 +385,7 @@ public class SEWrapper {
     // MARK: - Orbital Elements Calculation
     /// Calculate orbital elements for a planet
     /// - Parameters:
-    ///   - julianDay: Julian day for ET (Ephemeris Time). Note: This function requires ET, not UT.
-    ///     For most purposes, ET ≈ UT, but for high precision, convert UT to ET first.
+    ///   - julianDay: Julian day for UT (Universal Time). This will be converted to ET internally.
     ///   - planet: Swiss Ephemeris planet ID
     ///   - flags: Calculation flags (e.g., SEFLG_SWIEPH)
     /// - Returns: OrbitalElements if calculation succeeds, nil otherwise
@@ -390,18 +394,25 @@ public class SEWrapper {
             Logger.log.error("Swiss Ephemeris not initialized")
             return nil
         }
-        
-        var result = [Double](repeating: 0.0, count: 12)
+        Logger.log.info("Starting calculation of orbital elements")
+        var result = [Double](repeating: 0.0, count: 17)
         var error = [CChar](repeating: 0, count: 256)
         
-        // Ensure maximum precision by storing in a local variable with explicit type
-        let preciseJD = julianDay
+        // Convert UT to ET (Ephemeris Time) - swe_get_orbital_elements requires ET, not UT
+        // delta_t = ET - UT, so ET = UT + delta_t
+        let deltaT = swe_deltat(julianDay)
+        let preciseJD = julianDay + deltaT
+        
+        // swe_get_orbital_elements may not support all flags - remove SPEED flag and use only SWIEPH
+        // SPEED flag (256) might cause issues with orbital elements calculation
+        let orbitalElementsFlags = flags & ~256  // Remove SPEED flag (256), keep only SWIEPH (2) and other flags
         
         // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
         // This prevents EXC_BAD_ACCESS errors from invalid pointer access
         var returnCode: Int32 = 0
         var errorMessage: String = ""
-        
+
+        Logger.log.info("Handling memory for orbital elements")
         result.withUnsafeMutableBufferPointer { resultBuffer in
             error.withUnsafeMutableBufferPointer { errorBuffer in
                 // Ensure all base addresses are non-nil before calling C function
@@ -410,9 +421,9 @@ public class SEWrapper {
                     Logger.log.error("Failed to get valid pointers for orbital elements calculation")
                     return
                 }
-                
-                returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(flags), resultPtr, errorPtr)
-                
+                Logger.log.info("About to call SE for orbital elements")
+                returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(orbitalElementsFlags), resultPtr, errorPtr)
+                Logger.log.info("Just called SE for orbital elements")
                 if returnCode < 0 {
                     errorMessage = String(cString: errorPtr)
                 }

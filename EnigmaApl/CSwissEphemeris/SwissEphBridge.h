@@ -27,6 +27,7 @@ void swe_set_sid_mode(int32_t sid_mode, double t0, double ayan_t0);
 void swe_close(void);
 void swe_azalt(double tjd_ut, int32_t calc_flag, double *geopos, double atpress, double attemp, double *xin, double *xaz);
 void swe_cotrans(double *xpo, double *xpn, double eps);
+double swe_deltat(double tjd);
 int32_t swe_get_orbital_elements(double tjd_et, int32_t ipl, int32_t iflag, double *dret, char *serr);
 int32_t swe_nod_aps_ut(double tjd_ut, int32_t ipl, int32_t iflag, int32_t method, double *xnasc, double *xndsc, double *xperi, double *xaphe, char *serr);
 

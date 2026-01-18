@@ -28,13 +28,14 @@ public struct ZodiacFixedCalc {
                 break;
             }
                     
-            let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
+            let fullPositionCalc = FullPositionFromLongitude()
             let fullPosition = fullPositionCalc.createFullPositionFromLongitude(
                 longitude: longitude,
                 julianDay: julianDay,
                 observerLatitude: observerLat,
                 observerLongitude: observerLong,
-                obliquity: obliquity
+                obliquity: obliquity,
+                seWrapper: seWrapper
             )
             
             coordinates[factor] = fullPosition

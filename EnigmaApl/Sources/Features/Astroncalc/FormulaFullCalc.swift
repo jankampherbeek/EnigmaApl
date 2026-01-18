@@ -29,6 +29,11 @@ public struct FormulaFullCalc {
         let flagsEquatorial = 258 + 2048  // Add equatorial flag (2048)
         let configData = seRequest.ConfigData
         
+        let seIdMoon = Factors.moon.seId
+    //    let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical)
+        let inclination = 5.0
+        
+        
         for factor in seRequest.FactorsToUse {
             switch factor {
             case .southNode:
@@ -112,10 +117,10 @@ public struct FormulaFullCalc {
                 
                 // If using Duval correction, calculate via formula
                 if apogeeFactor == .apogeeCorrected && configData.blackMoonCorrectionType == .duval {
-                    let apogeeCalc = ApogeeDuvalCalc(seWrapper: seWrapper)
-                    let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay)
-                    let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious)
-                    let longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext)
+                    let apogeeCalc = ApogeeDuvalCalc()
+                    let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper)
+                    let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper)
+                    let longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper)
                     let longitudeSpeed = longitudeNext - longitudePrevious
                     let zeroPos = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
                     let zeroHor = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
@@ -201,21 +206,9 @@ public struct FormulaFullCalc {
                 let longSpeedNode = fullPointPosNode.ecliptical.first?.mainPosSpeed ?? 0.0
                 
                 
-                let seIdMoon = Factors.moon.seId
-                guard let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical) else {
-                    continue
-                }
-                guard let orbitalElementsPrevious = seWrapper.calcOrbitalElements(julianDay: julianDayPrevious, planet: seIdMoon, flags: flagsEcliptical) else {
-                    continue
-                }
-                guard let orbitalElementsNext = seWrapper.calcOrbitalElements(julianDay: julianDayNext, planet: seIdMoon, flags: flagsEcliptical) else {
-                    continue
-                }
 
-                let inclination = orbitalElements.inclination
-                let inclinationPrevious = orbitalElementsPrevious.inclination
-                let inclinationNext = orbitalElementsNext.inclination
-                let latitudeSpeed = inclinationNext - inclinationPrevious
+
+                let latitudeSpeed = 0.0     // latitude is defined by inclination which is relatively constant
                 
                 let deltaNode = factor == .dragon ? 90.0 : -90.0
                 let latitude = factor == .dragon ? inclination : -inclination
@@ -225,18 +218,17 @@ public struct FormulaFullCalc {
   
                 let previousLong = eclLongNode - (longSpeedNode / 2.0)
                 let nextLong = eclLongNode + (longSpeedNode / 2.0)
-                let previousLat = latitude - (latitudeSpeed / 2.0)
-                let nextLat = latitude + (latitudeSpeed / 2.0)
+
                 
                 
                 let (rightAscension, declination) = seWrapper.eclipticToEquatorial(
                     eclipticCoordinates: [eclLongNode, latitude],
                     obliquity: obliquity)
                 let (previousRightAscension, previousDeclination) = seWrapper.eclipticToEquatorial(
-                    eclipticCoordinates: [previousLong, previousLat],
+                    eclipticCoordinates: [previousLong, latitude],
                     obliquity: obliquity)
                 let (nextRightAscension, nextDeclination) = seWrapper.eclipticToEquatorial(
-                    eclipticCoordinates: [nextLong, nextLat],
+                    eclipticCoordinates: [nextLong, latitude],
                     obliquity: obliquity)
                 let raSpeed = nextRightAscension - previousRightAscension
                 let declinationSpeed = nextDeclination - previousDeclination

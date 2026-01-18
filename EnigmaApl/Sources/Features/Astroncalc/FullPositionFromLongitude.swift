@@ -11,11 +11,6 @@ import Foundation
 
 /// Utility struct for creating full factor positions from ecliptical longitude
 public struct FullPositionFromLongitude {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
     
     /// Create full position from ecliptical longitude
     /// - Parameters:
@@ -25,6 +20,7 @@ public struct FullPositionFromLongitude {
     ///   - observerLongitude: Observer longitude in degrees (for horizontal coordinates)
     ///   - obliquity: Obliquity of the ecliptic in degrees
     ///   - eclipticalLatitude: Optional ecliptical latitude in degrees (defaults to 0.0)
+    ///   - seWrapper: SEWrapper instance for calculations
     /// - Returns: FullFactorPosition with all coordinate systems
     public func createFullPositionFromLongitude(
         longitude: Double,
@@ -32,7 +28,8 @@ public struct FullPositionFromLongitude {
         observerLatitude: Double,
         observerLongitude: Double,
         obliquity: Double,
-        eclipticalLatitude: Double = 0.0
+        eclipticalLatitude: Double = 0.0,
+        seWrapper: SEWrapper
     ) -> FullFactorPosition {
         let eclipticalPos = MainAstronomicalPosition(
             mainPos: longitude,

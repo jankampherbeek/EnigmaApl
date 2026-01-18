@@ -18,6 +18,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     @State private var sunLongitude: Double? = nil
+    @State private var isCalculating: Bool = false
     
     // SEWrapper instance passed from app level for thread-safety
     let seWrapper: SEWrapper
@@ -90,12 +91,17 @@ struct ContentView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .onAppear {
+                // Prevent overlapping calculations - onAppear can be called multiple times
+                guard !isCalculating else { return }
+                isCalculating = true
+                defer { isCalculating = false }
+                
                 // SeTest.PerformTest() // Disabled: SeTest uses SwissEph which is kept for reference only
                 
                 // Create ConfigData
                 let configData = ConfigData(
                     houseSystem: .noHouses,
-                    ayanamsha: .tropical,
+                    ayanamsha: .fagan,
                     observerPosition: .geoCentric,
                     projectionType: .twoDimensional,
                     blackMoonCorrectionType: .duval,
@@ -108,7 +114,11 @@ struct ContentView: View {
                     JulianDay: 2455197.5,
                     FactorsToUse: [
                         .sun, .moon, .mercury, .venus, .mars,
-                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron, .persephoneRam, .hermesRam, .demeterRam, .persephoneCarteret, .vulcanusCarteret, .priapus, .dragon, .beast, .southNode, .parsfortuna
+                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron,
+                        .persephoneRam, .hermesRam, .demeterRam,
+                        .persephoneCarteret, .vulcanusCarteret,
+                        .priapus, .dragon, .beast, .southNode,
+                        .parsfortuna
                     ],
                     HouseSystem: 0,
                     SEFlags: 258,
@@ -121,37 +131,37 @@ struct ContentView: View {
                 let fullChart = AstronCalcOrchestrator.PerformCalculation(seRequest, seWrapper: seWrapper)
                 
                 // Print all factors and positions to console
-                print("\n=== All Factors and Positions ===")
-                for (factor, position) in fullChart.Coordinates.sorted(by: { $0.key.rawValue < $1.key.rawValue }) {
-                    print("\nFactor: \(factor)")
-                    
-                    // Ecliptical positions
-                    if !position.ecliptical.isEmpty {
-                        print("  Ecliptical:")
-                        for (index, ecliptical) in position.ecliptical.enumerated() {
-                            print("    [\(index)] Longitude: \(String(format: "%.6f", ecliptical.mainPos))°, Latitude: \(String(format: "%.6f", ecliptical.deviation))°, Distance: \(String(format: "%.6f", ecliptical.distance)) AU")
-                            print("       Speed - Longitude: \(String(format: "%.6f", ecliptical.mainPosSpeed))°/day, Latitude: \(String(format: "%.6f", ecliptical.deviationSpeed))°/day, Distance: \(String(format: "%.6f", ecliptical.distanceSpeed)) AU/day")
-                        }
-                    }
-                    
-                    // Equatorial positions
-                    if !position.equatorial.isEmpty {
-                        print("  Equatorial:")
-                        for (index, equatorial) in position.equatorial.enumerated() {
-                            print("    [\(index)] RA: \(String(format: "%.6f", equatorial.mainPos))°, Declination: \(String(format: "%.6f", equatorial.deviation))°, Distance: \(String(format: "%.6f", equatorial.distance)) AU")
-                            print("       Speed - RA: \(String(format: "%.6f", equatorial.mainPosSpeed))°/day, Declination: \(String(format: "%.6f", equatorial.deviationSpeed))°/day, Distance: \(String(format: "%.6f", equatorial.distanceSpeed)) AU/day")
-                        }
-                    }
-                    
-                    // Horizontal positions
-                    if !position.horizontal.isEmpty {
-                        print("  Horizontal:")
-                        for (index, horizontal) in position.horizontal.enumerated() {
-                            print("    [\(index)] Azimuth: \(String(format: "%.6f", horizontal.azimuth))°, Altitude: \(String(format: "%.6f", horizontal.altitude))°")
-                        }
-                    }
-                }
-                print("\n=== End of Factors and Positions ===\n")
+//                print("\n=== All Factors and Positions ===")
+//                for (factor, position) in fullChart.Coordinates.sorted(by: { $0.key.rawValue < $1.key.rawValue }) {
+//                    print("\nFactor: \(factor)")
+//                    
+//                    // Ecliptical positions
+//                    if !position.ecliptical.isEmpty {
+//                        print("  Ecliptical:")
+//                        for (index, ecliptical) in position.ecliptical.enumerated() {
+//                            print("    [\(index)] Longitude: \(String(format: "%.6f", ecliptical.mainPos))°, Latitude: \(String(format: "%.6f", ecliptical.deviation))°, Distance: \(String(format: "%.6f", ecliptical.distance)) AU")
+//                            print("       Speed - Longitude: \(String(format: "%.6f", ecliptical.mainPosSpeed))°/day, Latitude: \(String(format: "%.6f", ecliptical.deviationSpeed))°/day, Distance: \(String(format: "%.6f", ecliptical.distanceSpeed)) AU/day")
+//                        }
+//                    }
+//                    
+//                    // Equatorial positions
+//                    if !position.equatorial.isEmpty {
+//                        print("  Equatorial:")
+//                        for (index, equatorial) in position.equatorial.enumerated() {
+//                            print("    [\(index)] RA: \(String(format: "%.6f", equatorial.mainPos))°, Declination: \(String(format: "%.6f", equatorial.deviation))°, Distance: \(String(format: "%.6f", equatorial.distance)) AU")
+//                            print("       Speed - RA: \(String(format: "%.6f", equatorial.mainPosSpeed))°/day, Declination: \(String(format: "%.6f", equatorial.deviationSpeed))°/day, Distance: \(String(format: "%.6f", equatorial.distanceSpeed)) AU/day")
+//                        }
+//                    }
+//                    
+//                    // Horizontal positions
+//                    if !position.horizontal.isEmpty {
+//                        print("  Horizontal:")
+//                        for (index, horizontal) in position.horizontal.enumerated() {
+//                            print("    [\(index)] Azimuth: \(String(format: "%.6f", horizontal.azimuth))°, Altitude: \(String(format: "%.6f", horizontal.altitude))°")
+//                        }
+//                    }
+//                }
+//                print("\n=== End of Factors and Positions ===\n")
                 
                 // Get Sun's longitude
                 if let sunPosition = fullChart.Coordinates[.sun],

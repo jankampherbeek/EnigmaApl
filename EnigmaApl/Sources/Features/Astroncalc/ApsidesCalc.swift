@@ -11,16 +11,13 @@ import Foundation
 
 /// Calculate apsides (perihelion/aphelion for planets, perigee/apogee for Moon) using Swiss Ephemeris
 public struct ApsidesCalc {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
     
     /// Calculate apsides factors
-    /// - Parameter seRequest: The SERequest containing calculation parameters
+    /// - Parameters:
+    ///   - seRequest: The SERequest containing calculation parameters
+    ///   - seWrapper: SEWrapper instance for calculations
     /// - Returns: A dictionary of factor positions
-    public func calculateApsidesFactors(seRequest: SERequest) -> [Factors: FullFactorPosition] {
+    public func calculateApsidesFactors(seRequest: SERequest, seWrapper: SEWrapper) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
         let flags = seRequest.SEFlags
@@ -35,8 +32,7 @@ public struct ApsidesCalc {
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
-            
-        let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
+        let fullPositionCalc = FullPositionFromLongitude()
         
         for factor in seRequest.FactorsToUse {
             var longitude = 0.0
@@ -74,7 +70,8 @@ public struct ApsidesCalc {
                 observerLatitude: seRequest.Latitude,
                 observerLongitude: seRequest.Longitude,
                 obliquity: obliquity,
-                eclipticalLatitude: latitude
+                eclipticalLatitude: latitude,
+                seWrapper: seWrapper
             )
             
             coordinates[factor] = fullPosition

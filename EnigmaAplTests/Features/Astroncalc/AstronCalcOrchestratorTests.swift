@@ -102,8 +102,9 @@ struct AstronCalcOrchestratorTests {
             ConfigData: configData
         )
         
-        // Perform calculation
-        let result = AstronCalcOrchestrator.PerformCalculation(request)
+        // Perform calculation using shared SEWrapper instance for thread-safety
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let result = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
         
         // Verify all factors are present in the result
         #expect(result.Coordinates.count == expectedLongitudes.count, "All factors should be calculated")
