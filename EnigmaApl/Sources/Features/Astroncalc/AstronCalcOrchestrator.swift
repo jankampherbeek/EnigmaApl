@@ -18,7 +18,6 @@ public struct AstronCalcOrchestrator {
     public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper) -> FullChart {
         
         let julianDay = request.JulianDay
-        
         // Calculate obliquity using id -1
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
@@ -27,6 +26,12 @@ public struct AstronCalcOrchestrator {
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
+        var ayanamshaOffset = 0.0;
+        if (request.ConfigData.ayanamsha != Ayanamshas.tropical) {
+            seWrapper.setAyanamsha(idAyanamsha: Ayanamshas.tropical.seId)
+            ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
+        }
+        Logger.log.info("Ayanamsha offset \(ayanamshaOffset)")
         let siderealTime = seWrapper.siderealTime(julianDay: julianDay)
         let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
         

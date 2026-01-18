@@ -18,8 +18,8 @@ public struct SECalculation {
         let julianDay = request.JulianDay
         
         // Flags: 258 = SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
-        let eclipticalFlags = 258
-        let equatorialFlags = 258 + 2048  // Add equatorial flag (2048)
+        let eclipticalFlags = request.SEFlags
+        let equatorialFlags = request.SEFlags + 2048  // Add equatorial flag (2048)
         
         // Calculate positions for each factor
         var coordinates: [Factors: FullFactorPosition] = [:]

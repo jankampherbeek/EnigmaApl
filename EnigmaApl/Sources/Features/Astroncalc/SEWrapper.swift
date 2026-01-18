@@ -161,6 +161,27 @@ public class SEWrapper {
         isInitialized = false
     }
     
+    // MARK: - Define and get ayanamsha
+    /// Define Ayanamsha for calculation of sidereal positions.
+    /// idAyanamsha is seId for the ayanamsa
+    /// Run this method if sidereal calculations will be used. If this method has not run during the current session, Fagan/Bradley is used as default ayanamsha.
+    /// The method from the CommonSE dll is called using parameters t0 and t1 with the value 0, these will be ignored for all prdefined ayanamsha's.</remarks>
+    public func setAyanamsha(idAyanamsha: Int)
+    {
+        if (idAyanamsha >= -1 && idAyanamsha <= 39)
+        {
+            swe_set_sid_mode(Int32(idAyanamsha), 0, 0);
+        }
+    }
+
+    public func getAyanamshaOffset(jdUt: Double) -> Double
+    {
+        let epheFlag = 2
+        var ayanamshaValue = 0.0
+        var serr = String(256)
+        var result = swe_get_ayanamsa_ut(jdUt)
+        return result
+    }
     
     // MARK: - Julian Day Conversion
     /// Convert date and time (using UT) to a Julian Day Number.
