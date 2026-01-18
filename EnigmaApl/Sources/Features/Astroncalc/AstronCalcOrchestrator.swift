@@ -60,19 +60,47 @@ public struct AstronCalcOrchestrator {
             longitudeMoon = commonSeCoordinates[.moon]?.ecliptical.first?.mainPos ?? -1.0
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
-            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: request, seWrapper: seWrapper)
+            let commonElementsRequest = SERequest(
+                JulianDay: request.JulianDay,
+                FactorsToUse: commonElementsFactors,
+                HouseSystem: request.HouseSystem,
+                SEFlags: request.SEFlags,
+                Latitude: request.Latitude,
+                Longitude: request.Longitude,
+                ConfigData: request.ConfigData
+            )
+    
+            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: commonElementsRequest, seWrapper: seWrapper)
             allCoordinates.merge(commonElementsCoordinates) { (_, new) in new }
         }
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
             let fCalc = FormulaCalc(seWrapper: seWrapper)
-            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: request)
+            let commonFormulaLongitudeRequest = SERequest(
+                JulianDay: request.JulianDay,
+                FactorsToUse: commonFormulaLongitudeFactors,
+                HouseSystem: request.HouseSystem,
+                SEFlags: request.SEFlags,
+                Latitude: request.Latitude,
+                Longitude: request.Longitude,
+                ConfigData: request.ConfigData
+            )
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seRequest: commonFormulaLongitudeRequest)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         
         if let commonFormulaFullFactors = factorsByType[.CommonFormulaFull], !commonFormulaFullFactors.isEmpty {
-            let fFullCalc = FormulaFullCalc(seWrapper: seWrapper)
-            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: request, obliquity: obliquity)
+            let fFullCalc = FormulaFullCalc()
+            let formulaFullCalcRequest = SERequest(
+                JulianDay: request.JulianDay,
+                FactorsToUse: commonFormulaFullFactors,
+                HouseSystem: request.HouseSystem,
+                SEFlags: request.SEFlags,
+                Latitude: request.Latitude,
+                Longitude: request.Longitude,
+                ConfigData: request.ConfigData
+            )
+            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: formulaFullCalcRequest, obliquity: obliquity)
             allCoordinates.merge(commonFormulaFullCoordinates) { (_, new) in new }
         }
         

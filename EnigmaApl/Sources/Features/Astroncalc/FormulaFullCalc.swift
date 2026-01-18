@@ -12,11 +12,7 @@ import Foundation
 /// Calculate full positions for factors that require full coordinate system calculations
 /// (South Node, Priapus, Dragon, Beast)
 public struct FormulaFullCalc {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
+
     
     /// Calculate full positions for factors that require full coordinate system calculations
     /// - Parameters:
@@ -27,6 +23,8 @@ public struct FormulaFullCalc {
     public func CalculateFormulaFullFactors(seWrapper: SEWrapper, seRequest: SERequest, obliquity: Double) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
+        let julianDayPrevious = julianDay - 0.5
+        let julianDayNext = julianDay + 0.5
         let flagsEcliptical = 258  // SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
         let flagsEquatorial = 258 + 2048  // Add equatorial flag (2048)
         let configData = seRequest.ConfigData
@@ -39,6 +37,7 @@ public struct FormulaFullCalc {
                 let nodeSeId = configData.lunarNodeType == .trueNode ? 11 : 10
                 
                 guard let nodePos = calculateFullPositionForSePointWithId(
+                    seWrapper: seWrapper,
                     seId: nodeSeId,
                     julianDay: julianDay,
                     latitude: seRequest.Latitude,
@@ -115,15 +114,19 @@ public struct FormulaFullCalc {
                 if apogeeFactor == .apogeeCorrected && configData.blackMoonCorrectionType == .duval {
                     let apogeeCalc = ApogeeDuvalCalc(seWrapper: seWrapper)
                     let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay)
+                    let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious)
+                    let longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext)
+                    let longitudeSpeed = longitudeNext - longitudePrevious
                     let zeroPos = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
                     let zeroHor = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
                     fullPointPosApogee = FullFactorPosition(
-                        ecliptical: [MainAstronomicalPosition(mainPos: longitude, deviation: 0.0, distance: 0.0)],
+                        ecliptical: [MainAstronomicalPosition(mainPos: longitude, deviation: 0.0, distance: 0.0, mainPosSpeed: longitudeSpeed, deviationSpeed: 0.0, distanceSpeed: 0.0)],
                         equatorial: [zeroPos],
                         horizontal: [zeroHor]
                     )
                 } else {
                     fullPointPosApogee = calculateFullPositionForSePoint(
+                        seWrapper: SEWrapper(),
                         factor: apogeeFactor,
                         julianDay: julianDay,
                         latitude: seRequest.Latitude,
@@ -183,6 +186,7 @@ public struct FormulaFullCalc {
                 let nodeSeId = configData.lunarNodeType == .trueNode ? 11 : 10
                 
                 guard let fullPointPosNode = calculateFullPositionForSePointWithId(
+                    seWrapper: SEWrapper(),
                     seId: nodeSeId,
                     julianDay: julianDay,
                     latitude: seRequest.Latitude,
@@ -192,28 +196,68 @@ public struct FormulaFullCalc {
                 ) else {
                     continue
                 }
-                
+                let lunarOrbDistance = fullPointPosNode.ecliptical.first?.distance ?? 0.0
                 let eclLongNode = fullPointPosNode.ecliptical.first?.mainPos ?? 0.0
+                let longSpeedNode = fullPointPosNode.ecliptical.first?.mainPosSpeed ?? 0.0
+                
+                
                 let seIdMoon = Factors.moon.seId
                 guard let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical) else {
                     continue
                 }
+                guard let orbitalElementsPrevious = seWrapper.calcOrbitalElements(julianDay: julianDayPrevious, planet: seIdMoon, flags: flagsEcliptical) else {
+                    continue
+                }
+                guard let orbitalElementsNext = seWrapper.calcOrbitalElements(julianDay: julianDayNext, planet: seIdMoon, flags: flagsEcliptical) else {
+                    continue
+                }
+
                 let inclination = orbitalElements.inclination
+                let inclinationPrevious = orbitalElementsPrevious.inclination
+                let inclinationNext = orbitalElementsNext.inclination
+                let latitudeSpeed = inclinationNext - inclinationPrevious
+                
                 let deltaNode = factor == .dragon ? 90.0 : -90.0
                 let latitude = factor == .dragon ? inclination : -inclination
                 var longitude = eclLongNode + deltaNode
                 if longitude >= 360.0 { longitude -= 360.0 }
                 if longitude < 0.0 { longitude += 360.0 }
+  
+                let previousLong = eclLongNode - (longSpeedNode / 2.0)
+                let nextLong = eclLongNode + (longSpeedNode / 2.0)
+                let previousLat = latitude - (latitudeSpeed / 2.0)
+                let nextLat = latitude + (latitudeSpeed / 2.0)
                 
-                let fullPositionCalc = FullPositionFromLongitude(seWrapper: seWrapper)
-                let fullPointPos = fullPositionCalc.createFullPositionFromLongitude(
-                    longitude: longitude,
-                    julianDay: julianDay,
-                    observerLatitude: seRequest.Latitude,
-                    observerLongitude: seRequest.Longitude,
-                    obliquity: obliquity,
-                    eclipticalLatitude: latitude
-                )
+                
+                let (rightAscension, declination) = seWrapper.eclipticToEquatorial(
+                    eclipticCoordinates: [eclLongNode, latitude],
+                    obliquity: obliquity)
+                let (previousRightAscension, previousDeclination) = seWrapper.eclipticToEquatorial(
+                    eclipticCoordinates: [previousLong, previousLat],
+                    obliquity: obliquity)
+                let (nextRightAscension, nextDeclination) = seWrapper.eclipticToEquatorial(
+                    eclipticCoordinates: [nextLong, nextLat],
+                    obliquity: obliquity)
+                let raSpeed = nextRightAscension - previousRightAscension
+                let declinationSpeed = nextDeclination - previousDeclination
+                
+                
+                let distanceSpeed = fullPointPosNode.ecliptical.first!.distanceSpeed
+                
+                let (azimuth, altitude) = seWrapper.azimuthAndAltitude(
+                           julianDay: julianDay,
+                           rightAscension: rightAscension,
+                           declination: declination,
+                           observerLatitude: seRequest.Latitude,
+                           observerLongitude: seRequest.Longitude,
+                           height: 0.0
+                       )
+
+                let eclipticalPos = MainAstronomicalPosition(mainPos: longitude, deviation: latitude, distance: lunarOrbDistance, mainPosSpeed: longSpeedNode, deviationSpeed: latitudeSpeed, distanceSpeed: distanceSpeed )
+                let equatorialPos = MainAstronomicalPosition(mainPos: rightAscension, deviation: declination, distance: lunarOrbDistance, mainPosSpeed: raSpeed, deviationSpeed: declinationSpeed, distanceSpeed: distanceSpeed)
+                let horizontalPos = HorizontalPosition(azimuth: azimuth, altitude: altitude)
+                let fullPointPos = FullFactorPosition(ecliptical: [eclipticalPos], equatorial: [equatorialPos], horizontal: [horizontalPos])
+                
                 coordinates[factor] = fullPointPos
                 
             default:
@@ -237,6 +281,7 @@ public struct FormulaFullCalc {
     ///   - flagsEquatorial: Flags for equatorial calculation
     /// - Returns: FullFactorPosition if calculation succeeds, nil otherwise
     private func calculateFullPositionForSePoint(
+        seWrapper: SEWrapper,
         factor: Factors,
         julianDay: Double,
         latitude: Double,
@@ -246,6 +291,7 @@ public struct FormulaFullCalc {
     ) -> FullFactorPosition? {
         let factorId = factor.seId
         return calculateFullPositionForSePointWithId(
+            seWrapper: seWrapper,
             seId: factorId,
             julianDay: julianDay,
             latitude: latitude,
@@ -265,6 +311,7 @@ public struct FormulaFullCalc {
     ///   - flagsEquatorial: Flags for equatorial calculation
     /// - Returns: FullFactorPosition if calculation succeeds, nil otherwise
     private func calculateFullPositionForSePointWithId(
+        seWrapper: SEWrapper,
         seId: Int,
         julianDay: Double,
         latitude: Double,

@@ -105,7 +105,7 @@ struct ContentView: View {
                     JulianDay: 2455197.5,
                     FactorsToUse: [
                         .sun, .moon, .mercury, .venus, .mars,
-                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron, .persephoneRam, .hermesRam, .demeterRam
+                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron, .persephoneRam, .hermesRam, .demeterRam, .persephoneCarteret, .vulcanusCarteret, .priapus, .dragon, .beast, .southNode
                     ],
                     HouseSystem: 0,
                     SEFlags: 258,

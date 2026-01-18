@@ -35,32 +35,47 @@ public struct FormulaCalc {
                 
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
+        let julianDayPrevious = julianDay - 0.5
+        let julianDayNext = julianDay + 0.5
         let distance = 0.0          // distance is unknown or irrelevant
         let latitude = 0.0          // latitude is unknown
         let height = 0.0            // height of the observer is unknnown
         
-        let zeroEqCoordinate = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
+        let zeroEqCoordinate = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0, mainPosSpeed: 0.0, deviationSpeed: 0.0, distanceSpeed: 0.0)
         let zeroHorizontalCoordinate = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
         
         for factor in seRequest.FactorsToUse {
             var longitude = 0.0
+            var longitudePrevious = 0.0
+            var longitudeNext = 0.0
             switch factor {
             case .persephoneCarteret:
                 longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 212.0, yearlySpeed: 1.0)
+                longitudePrevious = calcCarteretHypPlanet(julianDay: julianDayPrevious, startPoint: 212.0, yearlySpeed: 1.0)
+                longitudeNext = calcCarteretHypPlanet(julianDay: julianDayNext, startPoint: 212.0, yearlySpeed: 1.0)
             case .vulcanusCarteret:
                 longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 15.7, yearlySpeed: 0.55)
+                longitudePrevious = calcCarteretHypPlanet(julianDay: julianDayPrevious, startPoint: 15.7, yearlySpeed: 0.55)
+                longitudeNext = calcCarteretHypPlanet(julianDay: julianDayNext, startPoint: 15.7, yearlySpeed: 0.55)
             case .apogeeCorrected:
                 let apogeeCalc = ApogeeDuvalCalc(seWrapper: seWrapper)
                 longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay)
+                longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious)
+                longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext)
             default :
                 Logger.log.error ("Unsupported factor \(factor) in FormulaCalc")
                 break;
             }
                     
+            let longitudeSpeed = longitudeNext - longitudePrevious
+                        
             let eclipticalPos = MainAstronomicalPosition(
                 mainPos: longitude,
                 deviation: latitude,
-                distance: distance
+                distance: distance,
+                mainPosSpeed: longitudeSpeed,
+                deviationSpeed: 0.0,
+                distanceSpeed: 0.0
             )
             let fullPosition = FullFactorPosition(
                 ecliptical: [eclipticalPos],
