@@ -112,7 +112,7 @@ public struct AstronCalcOrchestrator {
             let isDayChart = (allCoordinates[.sun]?.horizontal.first?.altitude ?? 0.0) >= 0.0
             if (sunLongitude > 0.0 && moonLongitude > 0.0) {
                 
-                let lotsCalc = LotsCalc(seWrapper: seWrapper)
+                let lotsCalc = LotsCalc()
                 let lotsRequest = SERequest(
                     JulianDay: request.JulianDay,
                     FactorsToUse: lotsFactors,
@@ -123,6 +123,7 @@ public struct AstronCalcOrchestrator {
                     ConfigData: request.ConfigData
                 )
                 let lotsCoordinates = lotsCalc.calculateLotsFactors(
+                    seWrapper: seWrapper,
                     seRequest: lotsRequest,
                     obliquity: obliquity,
                     ascendantLongitude: ascendantLongitude,

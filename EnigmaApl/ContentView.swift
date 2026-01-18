@@ -19,6 +19,9 @@ struct ContentView: View {
     @Query private var items: [Item]
     @State private var sunLongitude: Double? = nil
     
+    // SEWrapper instance passed from app level for thread-safety
+    let seWrapper: SEWrapper
+    
     var availableFontFamilies: [String] {
         #if os(macOS)
         return NSFontManager.shared.availableFontFamilies.sorted()
@@ -105,7 +108,7 @@ struct ContentView: View {
                     JulianDay: 2455197.5,
                     FactorsToUse: [
                         .sun, .moon, .mercury, .venus, .mars,
-                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron, .persephoneRam, .hermesRam, .demeterRam, .persephoneCarteret, .vulcanusCarteret, .priapus, .dragon, .beast, .southNode
+                        .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron, .persephoneRam, .hermesRam, .demeterRam, .persephoneCarteret, .vulcanusCarteret, .priapus, .dragon, .beast, .southNode, .parsfortuna
                     ],
                     HouseSystem: 0,
                     SEFlags: 258,
@@ -114,8 +117,8 @@ struct ContentView: View {
                     ConfigData: configData
                 )
                 
-                // Perform calculation
-                let fullChart = AstronCalcOrchestrator.PerformCalculation(seRequest)
+                // Perform calculation with the shared SEWrapper instance
+                let fullChart = AstronCalcOrchestrator.PerformCalculation(seRequest, seWrapper: seWrapper)
                 
                 // Print all factors and positions to console
                 print("\n=== All Factors and Positions ===")
@@ -176,6 +179,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(seWrapper: SEWrapper())
         .modelContainer(for: Item.self, inMemory: true)
 }

@@ -202,9 +202,29 @@ public class SEWrapper {
 
         let preciseJD = julianDay
         
-        let returnCode = swe_calc_ut(preciseJD, Int32(planet), Int32(flags), &result, &error)
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+        
+        result.withUnsafeMutableBufferPointer { resultBuffer in
+            error.withUnsafeMutableBufferPointer { errorBuffer in
+                // Ensure all base addresses are non-nil before calling C function
+                guard let resultPtr = resultBuffer.baseAddress,
+                      let errorPtr = errorBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for factor position calculation")
+                    return
+                }
+                
+                returnCode = swe_calc_ut(preciseJD, Int32(planet), Int32(flags), resultPtr, errorPtr)
+                
+                if returnCode < 0 {
+                    errorMessage = String(cString: errorPtr)
+                }
+            }
+        }
+        
         guard returnCode >= 0 else {
-            let errorMessage = String(cString: error)
             Logger.log.error("Error calculating planet position: \(errorMessage)")
             return nil
         }
@@ -235,7 +255,22 @@ public class SEWrapper {
         let preciseLatitude: Double = latitude
         let preciseLongitude: Double = longitude
         
-        let returnCode = swe_houses(preciseJulianDay, preciseLatitude, preciseLongitude, Int32(houseSystem), &cusps, &ascmc)
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var returnCode: Int32 = 0
+        
+        cusps.withUnsafeMutableBufferPointer { cuspsBuffer in
+            ascmc.withUnsafeMutableBufferPointer { ascmcBuffer in
+                // Ensure all base addresses are non-nil before calling C function
+                guard let cuspsPtr = cuspsBuffer.baseAddress,
+                      let ascmcPtr = ascmcBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for house calculation")
+                    return
+                }
+                
+                returnCode = swe_houses(preciseJulianDay, preciseLatitude, preciseLongitude, Int32(houseSystem), cuspsPtr, ascmcPtr)
+            }
+        }
             
         guard returnCode >= 0 else {
             Logger.log.error("Error calculating houses (return code: \(returnCode))")
@@ -362,9 +397,29 @@ public class SEWrapper {
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseJD = julianDay
         
-        let returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(flags), &result, &error)
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+        
+        result.withUnsafeMutableBufferPointer { resultBuffer in
+            error.withUnsafeMutableBufferPointer { errorBuffer in
+                // Ensure all base addresses are non-nil before calling C function
+                guard let resultPtr = resultBuffer.baseAddress,
+                      let errorPtr = errorBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for orbital elements calculation")
+                    return
+                }
+                
+                returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(flags), resultPtr, errorPtr)
+                
+                if returnCode < 0 {
+                    errorMessage = String(cString: errorPtr)
+                }
+            }
+        }
+        
         guard returnCode >= 0 else {
-            let errorMessage = String(cString: error)
             Logger.log.error("Error calculating orbital elements: \(errorMessage)")
             return nil
         }

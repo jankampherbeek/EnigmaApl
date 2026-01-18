@@ -10,6 +10,10 @@ import SwiftData
 
 @main
 struct EnigmaAplApp: App {
+    // Create a single SEWrapper instance at app startup for thread-safety
+    // Swiss Ephemeris is single-threaded, so we must use one instance throughout the app lifecycle
+    private let seWrapper = SEWrapper()
+    
     init() {
         // Initialize logging
         Logger.configure()
@@ -31,7 +35,7 @@ struct EnigmaAplApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(seWrapper: seWrapper)
         }
         .modelContainer(sharedModelContainer)
     }

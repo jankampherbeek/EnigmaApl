@@ -126,7 +126,7 @@ public struct FormulaFullCalc {
                     )
                 } else {
                     fullPointPosApogee = calculateFullPositionForSePoint(
-                        seWrapper: SEWrapper(),
+                        seWrapper: seWrapper,
                         factor: apogeeFactor,
                         julianDay: julianDay,
                         latitude: seRequest.Latitude,
@@ -186,7 +186,7 @@ public struct FormulaFullCalc {
                 let nodeSeId = configData.lunarNodeType == .trueNode ? 11 : 10
                 
                 guard let fullPointPosNode = calculateFullPositionForSePointWithId(
-                    seWrapper: SEWrapper(),
+                    seWrapper: seWrapper,
                     seId: nodeSeId,
                     julianDay: julianDay,
                     latitude: seRequest.Latitude,

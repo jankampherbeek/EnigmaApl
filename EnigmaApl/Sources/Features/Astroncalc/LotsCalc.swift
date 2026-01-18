@@ -13,11 +13,7 @@ import Foundation
 /// For now only the calculation of Pars Fortunae (with and without sect).
 /// Should augment this to include the standard Greek lots
 public struct LotsCalc {
-    private let seWrapper: SEWrapper
-    
-    public init(seWrapper: SEWrapper = SEWrapper()) {
-        self.seWrapper = seWrapper
-    }
+
     
     /// Calculate lots factors
     /// - Parameters:
@@ -27,6 +23,7 @@ public struct LotsCalc {
     ///   - moonLongitude: The ecliptical longitude of the Moon in degrees
     /// - Returns: A dictionary of factor positions
     public func calculateLotsFactors(
+        seWrapper: SEWrapper,
         seRequest: SERequest,
         obliquity: Double,
         ascendantLongitude: Double,
@@ -64,6 +61,7 @@ public struct LotsCalc {
                 
                 // Create full position from calculated longitude
                 let fullPosition = createFullPositionFromLongitude(
+                    seWrapper: seWrapper,
                     longitude: parsFortunaLongitude,
                     julianDay: julianDay,
                     latitude: seRequest.Latitude,
@@ -93,6 +91,7 @@ public struct LotsCalc {
     ///   - obliquity: Obliquity of the ecliptic
     /// - Returns: FullFactorPosition with all coordinate systems
     private func createFullPositionFromLongitude(
+        seWrapper: SEWrapper,
         longitude: Double,
         julianDay: Double,
         latitude: Double,
