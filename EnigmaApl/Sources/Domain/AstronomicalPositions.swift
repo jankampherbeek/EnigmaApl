@@ -165,3 +165,35 @@ public struct ApsidesResult {
         self.aphelion = aphelion
     }
 }
+
+
+
+
+// MARK: - Named Ecliptic Coordinates
+
+/// Represents a named celestial point with its ecliptic coordinates
+public struct NamedEclipticCoordinates {
+    public let factor: Factors
+    public let longitude: Double
+    public let latitude: Double
+    
+    public init(factor: Factors, longitude: Double, latitude: Double) {
+        self.factor = factor
+        self.longitude = longitude
+        self.latitude = latitude
+    }
+}
+
+
+// MARK: - Named Ecliptic Longitude
+
+/// Represents a named celestial point with its oblique longitude
+public struct NamedEclipticLongitude {
+    public let factor: Factors
+    public let obliqueLongitude: Double
+    
+    public init(factor: Factors, obliqueLongitude: Double) {
+        self.factor = factor
+        self.obliqueLongitude = obliqueLongitude
+    }
+}

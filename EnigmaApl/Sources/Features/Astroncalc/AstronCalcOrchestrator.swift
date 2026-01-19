@@ -175,20 +175,11 @@ public struct AstronCalcOrchestrator {
             
             let armc = housePositions.midheaven.rightAscension
             
-            let ayanamshaOffset: Double
-            if request.ConfigData.ayanamsha == .tropical {
-                ayanamshaOffset = 0.0
-            } else {
-                // TODO: Calculate ayanamsha offset using SEWrapper
-                // For now, using 0.0 as placeholder - this may need to be calculated
-                ayanamshaOffset = 0.0
-            }
-            
             // Build array of NamedEclipticCoordinates from allCoordinates
-            var celPointCoordinates: [NamedEclipticCoordinates] = []
+            var factorCoordinates: [NamedEclipticCoordinates] = []
             for (factor, position) in allCoordinates {
                 if let ecliptical = position.ecliptical.first {
-                    celPointCoordinates.append(NamedEclipticCoordinates(
+                    factorCoordinates.append(NamedEclipticCoordinates(
                         factor: factor,
                         longitude: ecliptical.mainPos,
                         latitude: ecliptical.deviation
@@ -202,7 +193,7 @@ public struct AstronCalcOrchestrator {
                 armc: armc,
                 obliquity: obliquity,
                 geoLat: request.Latitude,
-                celPointCoordinates: celPointCoordinates,
+                factorCoordinates: factorCoordinates,
                 ayanamshaOffset: ayanamshaOffset
             )
             

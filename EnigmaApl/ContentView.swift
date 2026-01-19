@@ -102,8 +102,8 @@ struct ContentView: View {
                 let configData = ConfigData(
                     houseSystem: .noHouses,
                     ayanamsha: .tropical,
-                    observerPosition: .topoCentric,
-                    projectionType: .twoDimensional,
+                    observerPosition: .geoCentric,
+                    projectionType: .obliqueLongitude,
                     blackMoonCorrectionType: .duval,
                     lunarNodeType: .meanNode,
                     lotsType: .sect
@@ -121,7 +121,7 @@ struct ContentView: View {
                         .parsfortuna
                     ],
                     HouseSystem: 0,
-                    SEFlags: 2 + 256 + (32 * 1024),   // SE. speed, topocentricsidereal
+                    SEFlags: 2 + 256,   // SE, speed
                     Latitude: 52.2180555555556,
                     Longitude: 6.8955555555556,
                     Height: 0.0,
