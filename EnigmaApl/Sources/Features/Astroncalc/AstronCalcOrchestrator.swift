@@ -31,7 +31,7 @@ public struct AstronCalcOrchestrator {
             seWrapper.setAyanamsha(idAyanamsha: Ayanamshas.tropical.seId)
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
-        Logger.log.info("Ayanamsha offset \(ayanamshaOffset)")
+        Logger.log.info("Ayanamsha offset: \(ayanamshaOffset)")
         let siderealTime = seWrapper.siderealTime(julianDay: julianDay)
         let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
         
@@ -71,7 +71,7 @@ public struct AstronCalcOrchestrator {
                 ConfigData: request.ConfigData
             )
     
-            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: commonElementsRequest, seWrapper: seWrapper)
+            let commonElementsCoordinates = ElementsCalc.calculateElementsFactors(request: commonElementsRequest, seWrapper: seWrapper, ayanamshaOffset: ayanamshaOffset)
             allCoordinates.merge(commonElementsCoordinates) { (_, new) in new }
         }
         
@@ -86,7 +86,7 @@ public struct AstronCalcOrchestrator {
                 Longitude: request.Longitude,
                 ConfigData: request.ConfigData
             )
-            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, seRequest: commonFormulaLongitudeRequest)
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, seRequest: commonFormulaLongitudeRequest, ayanamshaOffset: ayanamshaOffset)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         
@@ -101,7 +101,7 @@ public struct AstronCalcOrchestrator {
                 Longitude: request.Longitude,
                 ConfigData: request.ConfigData
             )
-            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: formulaFullCalcRequest, obliquity: obliquity)
+            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: formulaFullCalcRequest, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset)
             allCoordinates.merge(commonFormulaFullCoordinates) { (_, new) in new }
         }
         
@@ -130,7 +130,8 @@ public struct AstronCalcOrchestrator {
                     ascendantLongitude: ascendantLongitude,
                     sunLongitude: sunLongitude,
                     moonLongitude: moonLongitude,
-                    isDayChart: isDayChart
+                    isDayChart: isDayChart,
+                    ayanamshaOffset: ayanamshaOffset
                 )
                 allCoordinates.merge(lotsCoordinates) { (_, new) in new }
             }

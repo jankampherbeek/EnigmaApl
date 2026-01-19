@@ -29,7 +29,8 @@ public struct LotsCalc {
         ascendantLongitude: Double,
         sunLongitude: Double,
         moonLongitude: Double,
-        isDayChart: Bool
+        isDayChart: Bool,
+        ayanamshaOffset: Double
     ) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
@@ -66,7 +67,8 @@ public struct LotsCalc {
                     julianDay: julianDay,
                     latitude: seRequest.Latitude,
                     longitude: seRequest.Longitude,
-                    obliquity: obliquity
+                    obliquity: obliquity,
+                    ayanamshaOffset: ayanamshaOffset
                 )
                 
                 coordinates[factor] = fullPosition
@@ -96,11 +98,12 @@ public struct LotsCalc {
         julianDay: Double,
         latitude: Double,
         longitude observerLongitude: Double,
-        obliquity: Double
+        obliquity: Double,
+        ayanamshaOffset: Double
     ) -> FullFactorPosition {
         // Ecliptical position (latitude is 0 for lots)
         let eclipticalPos = MainAstronomicalPosition(
-            mainPos: longitude,
+            mainPos: RangeUtil.valueToRange(longitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
             deviation: 0.0,
             distance: 0.0,
             mainPosSpeed: 0.0,

@@ -20,7 +20,7 @@ public struct FormulaFullCalc {
     ///   - configData: The ConfigData containing preferences (node type, apogee type, etc.)
     ///   - obliquity: The obliquity value needed for coordinate conversions
     /// - Returns: A dictionary of factor positions
-    public func CalculateFormulaFullFactors(seWrapper: SEWrapper, seRequest: SERequest, obliquity: Double) -> [Factors: FullFactorPosition] {
+    public func CalculateFormulaFullFactors(seWrapper: SEWrapper, seRequest: SERequest, obliquity: Double, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
         let julianDayPrevious = julianDay - 0.5
@@ -62,7 +62,7 @@ public struct FormulaFullCalc {
                 let nodeLongSpeed = nodePos.ecliptical.first?.mainPosSpeed ?? 0.0
                 
                 let eclLongPosSpeed = MainAstronomicalPosition(
-                    mainPos: nodeLongPos,
+                    mainPos: RangeUtil.valueToRange(nodeLongPos - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
                     deviation: 0.0,
                     distance: nodeDistancePos,
                     mainPosSpeed: nodeLongSpeed,
@@ -125,7 +125,9 @@ public struct FormulaFullCalc {
                     let zeroPos = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
                     let zeroHor = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
                     fullPointPosApogee = FullFactorPosition(
-                        ecliptical: [MainAstronomicalPosition(mainPos: longitude, deviation: 0.0, distance: 0.0, mainPosSpeed: longitudeSpeed, deviationSpeed: 0.0, distanceSpeed: 0.0)],
+                        ecliptical: [MainAstronomicalPosition(
+                            mainPos: RangeUtil.valueToRange(longitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
+                            deviation: 0.0, distance: 0.0, mainPosSpeed: longitudeSpeed, deviationSpeed: 0.0, distanceSpeed: 0.0)],
                         equatorial: [zeroPos],
                         horizontal: [zeroHor]
                     )
@@ -150,7 +152,7 @@ public struct FormulaFullCalc {
                 if eclLong >= 360.0 { eclLong -= 360.0 }
                 
                 let eclipticPositions = MainAstronomicalPosition(
-                    mainPos: eclLong,
+                    mainPos: RangeUtil.valueToRange(eclLong - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
                     deviation: -(apogeePos.ecliptical.first?.deviation ?? 0.0),
                     distance: 0.0,
                     mainPosSpeed: apogeePos.ecliptical.first?.mainPosSpeed ?? 0.0,
@@ -245,7 +247,9 @@ public struct FormulaFullCalc {
                            height: 0.0
                        )
 
-                let eclipticalPos = MainAstronomicalPosition(mainPos: longitude, deviation: latitude, distance: lunarOrbDistance, mainPosSpeed: longSpeedNode, deviationSpeed: latitudeSpeed, distanceSpeed: distanceSpeed )
+                let eclipticalPos = MainAstronomicalPosition(
+                    mainPos: RangeUtil.valueToRange(longitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
+                    deviation: latitude, distance: lunarOrbDistance, mainPosSpeed: longSpeedNode, deviationSpeed: latitudeSpeed, distanceSpeed: distanceSpeed )
                 let equatorialPos = MainAstronomicalPosition(mainPos: rightAscension, deviation: declination, distance: lunarOrbDistance, mainPosSpeed: raSpeed, deviationSpeed: declinationSpeed, distanceSpeed: distanceSpeed)
                 let horizontalPos = HorizontalPosition(azimuth: azimuth, altitude: altitude)
                 let fullPointPos = FullFactorPosition(ecliptical: [eclipticalPos], equatorial: [equatorialPos], horizontal: [horizontalPos])

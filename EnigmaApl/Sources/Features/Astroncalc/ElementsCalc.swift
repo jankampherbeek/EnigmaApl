@@ -39,7 +39,8 @@ public struct ElementsCalc {
     
     public static func calculateElementsFactors(
         request: SERequest,
-        seWrapper: SEWrapper
+        seWrapper: SEWrapper,
+        ayanamshaOffset: Double
     ) -> [Factors: FullFactorPosition] {
         let julianDay = request.JulianDay
         let julianDayPrevious = julianDay - 0.5
@@ -87,7 +88,7 @@ public struct ElementsCalc {
             
             // Convert to all coordinate systems
             let eclipticalPos = MainAstronomicalPosition(
-                mainPos: position.longitude,
+                mainPos: RangeUtil.valueToRange(position.longitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
                 deviation: position.latitude,
                 distance: position.distance,
                 mainPosSpeed : longSpeed,

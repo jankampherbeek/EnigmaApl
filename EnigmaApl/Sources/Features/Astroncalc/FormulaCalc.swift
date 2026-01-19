@@ -31,7 +31,7 @@ public struct FormulaCalc {
     
     /// Calculate the position for a factor using a formula
     /// Latitude is unknown so we use zero for latitude, ra, declination, azimuth and altitude
-    public func calculateFormulaFactors(seWrapper: SEWrapper, seRequest: SERequest) -> [Factors: FullFactorPosition] {
+    public func calculateFormulaFactors(seWrapper: SEWrapper, seRequest: SERequest, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
                 
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = seRequest.JulianDay
@@ -70,7 +70,7 @@ public struct FormulaCalc {
             let longitudeSpeed = longitudeNext - longitudePrevious
                         
             let eclipticalPos = MainAstronomicalPosition(
-                mainPos: longitude,
+                mainPos: RangeUtil.valueToRange(longitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0),
                 deviation: latitude,
                 distance: distance,
                 mainPosSpeed: longitudeSpeed,
