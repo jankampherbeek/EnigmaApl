@@ -18,6 +18,12 @@ public struct AstronCalcOrchestrator {
     public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper) -> FullChart {
         
         let julianDay = request.JulianDay
+        
+        // check for topocentric
+        if (request.ConfigData.observerPosition == ObserverPositions.topoCentric) {
+            seWrapper.setTopocentric(geoLon: request.Latitude, geoLat: request.Longitude, height: request.Height)
+        }
+        
         // Calculate obliquity using id -1
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
@@ -53,6 +59,7 @@ public struct AstronCalcOrchestrator {
                 SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
+                Height: request.Height,
                 ConfigData: request.ConfigData
             )
             let commonSeCoordinates = SECalculation.CalculateFactors(commonSeRequest, seWrapper: seWrapper)
@@ -68,6 +75,7 @@ public struct AstronCalcOrchestrator {
                 SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
+                Height: request.Height,
                 ConfigData: request.ConfigData
             )
     
@@ -84,6 +92,7 @@ public struct AstronCalcOrchestrator {
                 SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
+                Height: request.Height,
                 ConfigData: request.ConfigData
             )
             let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, seRequest: commonFormulaLongitudeRequest, ayanamshaOffset: ayanamshaOffset)
@@ -99,6 +108,7 @@ public struct AstronCalcOrchestrator {
                 SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
+                Height: request.Height,
                 ConfigData: request.ConfigData
             )
             let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: formulaFullCalcRequest, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset)
@@ -121,6 +131,7 @@ public struct AstronCalcOrchestrator {
                     SEFlags: request.SEFlags,
                     Latitude: request.Latitude,
                     Longitude: request.Longitude,
+                    Height: request.Height,
                     ConfigData: request.ConfigData
                 )
                 let lotsCoordinates = lotsCalc.calculateLotsFactors(
@@ -152,6 +163,7 @@ public struct AstronCalcOrchestrator {
                 SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
+                Height: request.Height,
                 ConfigData: request.ConfigData
             )
             let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest, seWrapper: seWrapper)

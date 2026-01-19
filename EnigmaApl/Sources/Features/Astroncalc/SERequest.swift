@@ -14,15 +14,17 @@ public struct SERequest {
     public let SEFlags: Int
     public let Latitude: Double
     public let Longitude: Double
+    public let Height: Double
     public let ConfigData: ConfigData
     
-    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, SEFlags: Int, Latitude: Double, Longitude: Double, ConfigData: ConfigData) {
+    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, SEFlags: Int, Latitude: Double, Longitude: Double, Height: Double, ConfigData: ConfigData) {
         self.JulianDay = JulianDay
         self.FactorsToUse = FactorsToUse
         self.HouseSystem = HouseSystem
         self.SEFlags = SEFlags
         self.Latitude = Latitude
         self.Longitude = Longitude
+        self.Height = Height
         self.ConfigData = ConfigData
     }
 }

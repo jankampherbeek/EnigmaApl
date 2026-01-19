@@ -161,6 +161,15 @@ public class SEWrapper {
         isInitialized = false
     }
     
+    // MARK: - Define topocentric
+    /// Prepare for topocentric calculations
+    /// Uses geographic longitude and latitude and height above sea-level (in meters)
+    public func setTopocentric(geoLon: Double, geoLat: Double, height: Double) {
+        swe_set_topo(geoLon, geoLat, height)
+    }
+    
+    
+    
     // MARK: - Define and get ayanamsha
     /// Define Ayanamsha for calculation of sidereal positions.
     /// idAyanamsha is seId for the ayanamsa
