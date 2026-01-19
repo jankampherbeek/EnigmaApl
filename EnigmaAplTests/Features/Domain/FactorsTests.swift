@@ -74,7 +74,7 @@ struct FactorsTests {
     }
     
     @Test("Factors: calculationType - CommonSe for trans-Neptunian objects")
-    func testCalculationTypeCommonSeForTNOs() {
+    func testCalculationTypeCommonSeForMinorPlanets() {
         #expect(Factors.eris.calculationType == .CommonSe)
         #expect(Factors.nessus.calculationType == .CommonSe)
         #expect(Factors.huya.calculationType == .CommonSe)

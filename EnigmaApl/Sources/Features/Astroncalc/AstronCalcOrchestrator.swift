@@ -38,9 +38,9 @@ public struct AstronCalcOrchestrator {
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
         Logger.log.info("Ayanamsha offset: \(ayanamshaOffset)")
-        let siderealTime = seWrapper.siderealTime(julianDay: julianDay)
+
         let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
-        
+        let siderealTime = housePositions.midheaven.rightAscension / 15.0
         // Group factors by calculation type
         let factorsByType = Dictionary(grouping: request.FactorsToUse) { $0.calculationType }
         
