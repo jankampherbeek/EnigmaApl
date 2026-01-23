@@ -1,5 +1,5 @@
 //
-//  SERequest.swift
+//  CalcRequest.swift
 //  EnigmaApl
 //
 //  Created by Jan Kampherbeek on 22/12/2025.
@@ -7,21 +7,19 @@
 
 import Foundation
 
-public struct SERequest {
+public struct CalcRequest {
     public let JulianDay: Double
     public let FactorsToUse: [Factors]
     public let HouseSystem: Int
-    public let SEFlags: Int
     public let Latitude: Double
     public let Longitude: Double
     public let Height: Double
     public let ConfigData: ConfigData
     
-    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, SEFlags: Int, Latitude: Double, Longitude: Double, Height: Double, ConfigData: ConfigData) {
+    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, Latitude: Double, Longitude: Double, Height: Double, ConfigData: ConfigData) {
         self.JulianDay = JulianDay
         self.FactorsToUse = FactorsToUse
         self.HouseSystem = HouseSystem
-        self.SEFlags = SEFlags
         self.Latitude = Latitude
         self.Longitude = Longitude
         self.Height = Height

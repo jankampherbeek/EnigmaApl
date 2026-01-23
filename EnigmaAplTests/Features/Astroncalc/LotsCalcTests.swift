@@ -37,14 +37,14 @@ struct LotsCalcTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let seRequest = SERequest(
+        // Create CalcRequest
+        let calcRequest = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -69,23 +69,25 @@ struct LotsCalcTests {
         let seWrapper = SEWrapper()
         
         // Create LotsCalc instance
-        let lotsCalc = LotsCalc(seWrapper: seWrapper)
+        let lotsCalc = LotsCalc()
         
         // Perform calculation and store result to ensure it's fully evaluated
         let result = lotsCalc.calculateLotsFactors(
-            seRequest: seRequest,
+            seWrapper: seWrapper,
+            calcRequest: calcRequest,
             obliquity: obliquity,
             ascendantLongitude: ascendantLongitude,
             sunLongitude: sunLongitude,
             moonLongitude: moonLongitude,
-            isDayChart: isDayChart
+            isDayChart: isDayChart,
+            ayanamshaOffset: 0.0
         )
         
         // Keep reference alive to prevent premature deallocation
         _ = lotsCalc
         
         // Verify result contains parsfortuna
-        guard let factorPosition = result[.parsfortuna] else {
+        guard let factorPosition = result[Factors.parsfortuna] else {
             Issue.record("Pars Fortuna not found in result")
             return
         }
@@ -183,14 +185,14 @@ struct LotsCalcTests {
             lotsType: .noSect
         )
         
-        // Create SERequest
-        let seRequest = SERequest(
+        // Create CalcRequest
+        let calcRequest = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -215,16 +217,19 @@ struct LotsCalcTests {
         let seWrapper = SEWrapper()
         
         // Create LotsCalc instance
-        let lotsCalc = LotsCalc(seWrapper: seWrapper)
+        let lotsCalc = LotsCalc()
         
         // Perform calculation and store result to ensure it's fully evaluated
         let result = lotsCalc.calculateLotsFactors(
-            seRequest: seRequest,
+
+            seWrapper: seWrapper,
+            calcRequest: calcRequest,
             obliquity: obliquity,
             ascendantLongitude: ascendantLongitude,
             sunLongitude: sunLongitude,
             moonLongitude: moonLongitude,
-            isDayChart: isDayChart
+            isDayChart: isDayChart,
+            ayanamshaOffset: 0.0
         )
         
         // Keep reference alive to prevent premature deallocation

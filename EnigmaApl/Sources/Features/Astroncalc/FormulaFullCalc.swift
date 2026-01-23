@@ -16,25 +16,24 @@ public struct FormulaFullCalc {
     
     /// Calculate full positions for factors that require full coordinate system calculations
     /// - Parameters:
-    ///   - seRequest: The SERequest containing calculation parameters
+    ///   - calcRequest: The CalcRequest containing calculation parameters
     ///   - configData: The ConfigData containing preferences (node type, apogee type, etc.)
     ///   - obliquity: The obliquity value needed for coordinate conversions
     /// - Returns: A dictionary of factor positions
-    public func CalculateFormulaFullFactors(seWrapper: SEWrapper, seRequest: SERequest, obliquity: Double, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
+    public func CalculateFormulaFullFactors(seWrapper: SEWrapper, calcRequest: CalcRequest, obliquity: Double, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
-        let julianDay = seRequest.JulianDay
+        let julianDay = calcRequest.JulianDay
         let julianDayPrevious = julianDay - 0.5
         let julianDayNext = julianDay + 0.5
         let flagsEcliptical = 258  // SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
         let flagsEquatorial = 258 + 2048  // Add equatorial flag (2048)
-        let configData = seRequest.ConfigData
+        let configData = calcRequest.ConfigData
         
         let seIdMoon = Factors.moon.seId
-    //    let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical)
-        let inclination = 5.0
+        let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical)
+        let inclination = orbitalElements!.inclination
         
-        
-        for factor in seRequest.FactorsToUse {
+        for factor in calcRequest.FactorsToUse {
             switch factor {
             case .southNode:
                 // Calculate South Node from North Node or True Node
@@ -45,8 +44,8 @@ public struct FormulaFullCalc {
                     seWrapper: seWrapper,
                     seId: nodeSeId,
                     julianDay: julianDay,
-                    latitude: seRequest.Latitude,
-                    longitude: seRequest.Longitude,
+                    latitude: calcRequest.Latitude,
+                    longitude: calcRequest.Longitude,
                     flagsEcliptical: flagsEcliptical,
                     flagsEquatorial: flagsEquatorial
                 ) else {
@@ -136,8 +135,8 @@ public struct FormulaFullCalc {
                         seWrapper: seWrapper,
                         factor: apogeeFactor,
                         julianDay: julianDay,
-                        latitude: seRequest.Latitude,
-                        longitude: seRequest.Longitude,
+                        latitude: calcRequest.Latitude,
+                        longitude: calcRequest.Longitude,
                         flagsEcliptical: flagsEcliptical,
                         flagsEquatorial: flagsEquatorial
                     )
@@ -196,8 +195,8 @@ public struct FormulaFullCalc {
                     seWrapper: seWrapper,
                     seId: nodeSeId,
                     julianDay: julianDay,
-                    latitude: seRequest.Latitude,
-                    longitude: seRequest.Longitude,
+                    latitude: calcRequest.Latitude,
+                    longitude: calcRequest.Longitude,
                     flagsEcliptical: flagsEcliptical,
                     flagsEquatorial: flagsEquatorial
                 ) else {
@@ -242,8 +241,8 @@ public struct FormulaFullCalc {
                            julianDay: julianDay,
                            rightAscension: rightAscension,
                            declination: declination,
-                           observerLatitude: seRequest.Latitude,
-                           observerLongitude: seRequest.Longitude,
+                           observerLatitude: calcRequest.Latitude,
+                           observerLongitude: calcRequest.Longitude,
                            height: 0.0
                        )
 
@@ -318,7 +317,7 @@ public struct FormulaFullCalc {
         // Calculate ecliptical position
         guard let eclipticalPos = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: seId,
+            factor: seId,
             flags: flagsEcliptical
         ) else {
             return nil
@@ -327,7 +326,7 @@ public struct FormulaFullCalc {
         // Calculate equatorial position
         guard let equatorialPos = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: seId,
+            factor: seId,
             flags: flagsEquatorial
         ) else {
             return nil

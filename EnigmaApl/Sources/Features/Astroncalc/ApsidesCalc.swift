@@ -14,30 +14,31 @@ public struct ApsidesCalc {
     
     /// Calculate apsides factors
     /// - Parameters:
-    ///   - seRequest: The SERequest containing calculation parameters
+    ///   - calcRequest: The CalcRequest containing calculation parameters
+    ///   - flags ; SE flags for ecliptical calculations
     ///   - seWrapper: SEWrapper instance for calculations
     /// - Returns: A dictionary of factor positions
-    public func calculateApsidesFactors(seRequest: SERequest, seWrapper: SEWrapper) -> [Factors: FullFactorPosition] {
+    public func calculateApsidesFactors(calcRequest: CalcRequest, obliquity: Double, ayanamshaOffset: Double, flags: Int, seWrapper: SEWrapper) -> [Factors: FullFactorPosition] {
+        
+        Logger.log.debug( "Calculating apsides, start of method" )
+        
         var coordinates: [Factors: FullFactorPosition] = [:]
-        let julianDay = seRequest.JulianDay
-        let flags = seRequest.SEFlags
+        let julianDay = calcRequest.JulianDay
         let method =  1  // SE_NODBIT_MEAN for mean nodes/apsides, currently only Black Sun and Diamond are supported
                          // so there is no need for an oscillating method
         
-        // Calculate obliquity for coordinate conversion
-        let obliquityPosition = seWrapper.calculateFactorPosition(
-            julianDay: julianDay,
-            planet: -1,
-            flags: 2  // Use SE, no need for speed
-        )
-        let obliquity = obliquityPosition?.mainPos ?? 0.0
-        
         let fullPositionCalc = FullPositionFromLongitude()
         
-        for factor in seRequest.FactorsToUse {
+        Logger.log.debug( "Calculating apsides, start of loop" )
+        
+        for factor in calcRequest.FactorsToUse {
+            
+            Logger.log.debug( "starting loop for \(factor)" ) 
+            
             var longitude = 0.0
             var latitude = 0.0
             let planetId = Factors.sun.seId
+            Logger.log.debug("Starting calculation of apsides for \(factor)"   )
             guard let apsidesResult = seWrapper.calculateApsides(
                 julianDay: julianDay,
                 planet: planetId,
@@ -47,6 +48,7 @@ public struct ApsidesCalc {
                 Logger.log.error("Failed to calculate apsides for planet \(planetId)")
                 return coordinates
             }
+            Logger.log.debug("Completed calculation aspides for planet \(planetId) ")
             
             
             
@@ -65,10 +67,10 @@ public struct ApsidesCalc {
             }
             
             let fullPosition = fullPositionCalc.createFullPositionFromLongitude(
-                longitude: longitude,
+                longitude: longitude - ayanamshaOffset,
                 julianDay: julianDay,
-                observerLatitude: seRequest.Latitude,
-                observerLongitude: seRequest.Longitude,
+                observerLatitude: calcRequest.Latitude,
+                observerLongitude: calcRequest.Longitude,
                 obliquity: obliquity,
                 eclipticalLatitude: latitude,
                 seWrapper: seWrapper

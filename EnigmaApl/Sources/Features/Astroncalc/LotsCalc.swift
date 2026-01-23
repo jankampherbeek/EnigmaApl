@@ -17,14 +17,14 @@ public struct LotsCalc {
     
     /// Calculate lots factors
     /// - Parameters:
-    ///   - seRequest: The SERequest containing calculation parameters
+    ///   - calcRequest: The CalcRequest containing calculation parameters
     ///   - ascendantLongitude: The ecliptical longitude of the Ascendant in degrees
     ///   - sunLongitude: The ecliptical longitude of the Sun in degrees
     ///   - moonLongitude: The ecliptical longitude of the Moon in degrees
     /// - Returns: A dictionary of factor positions
     public func calculateLotsFactors(
         seWrapper: SEWrapper,
-        seRequest: SERequest,
+        calcRequest: CalcRequest,
         obliquity: Double,
         ascendantLongitude: Double,
         sunLongitude: Double,
@@ -33,10 +33,10 @@ public struct LotsCalc {
         ayanamshaOffset: Double
     ) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
-        let julianDay = seRequest.JulianDay
-        let configData = seRequest.ConfigData
+        let julianDay = calcRequest.JulianDay
+        let configData = calcRequest.ConfigData
         
-        for factor in seRequest.FactorsToUse {
+        for factor in calcRequest.FactorsToUse {
             switch factor {
             case .parsfortuna:
                 // Calculate Pars Fortuna
@@ -65,8 +65,8 @@ public struct LotsCalc {
                     seWrapper: seWrapper,
                     longitude: parsFortunaLongitude,
                     julianDay: julianDay,
-                    latitude: seRequest.Latitude,
-                    longitude: seRequest.Longitude,
+                    latitude: calcRequest.Latitude,
+                    longitude: calcRequest.Longitude,
                     obliquity: obliquity,
                     ayanamshaOffset: ayanamshaOffset
                 )

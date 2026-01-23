@@ -40,14 +40,14 @@ struct SECalculationTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let request = SERequest(
+        // Create CalcRequest
+        let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -145,12 +145,14 @@ struct SECalculationTests {
         
         // Use provided SEWrapper (from AstronCalcTestCoordinator)
         // Perform calculation
-        let result = SECalculation.CalculateFactors(request, seWrapper: seWrapper)
+        let flagsEcliptical = 258
+        let flagsEquatorial = 258 + 2048
+        let result = SECalculation.CalculateFactors(request, flagsEcliptical: flagsEcliptical, flagsEquatorial: flagsEquatorial, seWrapper: seWrapper)
         
         // Calculate obliquity separately for verification (using id -1)
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: -1,
+            factor: -1,
             flags: 258
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0

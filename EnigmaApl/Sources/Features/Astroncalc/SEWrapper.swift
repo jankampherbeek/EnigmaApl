@@ -172,9 +172,16 @@ public class SEWrapper {
     
     // MARK: - Define and get ayanamsha
     /// Define Ayanamsha for calculation of sidereal positions.
-    /// idAyanamsha is seId for the ayanamsa
+    /// - Parameters:
+    ///     - idAyanamsha is seId for the ayanamsa
     /// Run this method if sidereal calculations will be used. If this method has not run during the current session, Fagan/Bradley is used as default ayanamsha.
-    /// The method from the CommonSE dll is called using parameters t0 and t1 with the value 0, these will be ignored for all prdefined ayanamsha's.</remarks>
+    /// The method from the CommonSE dll is called using parameters t0 and t1 with the value 0, these will be ignored for all prdefined ayanamsha's.
+    /// From docu SE:
+    ///     void swe_set_sid_mode(int32 sid_mode, double t0, double ayan_t0);
+    ///     This function can be used to specify the mode for sidereal computations.
+    ///     swe_calc() or swe_fixstar() has then to be called with the bit SEFLG_SIDEREAL.
+    ///     If swe_set_sid_mode() is not called, the default ayanamsha (Fagan/Bradley) is used.
+    ///     If a predefined mode is wanted, the variable sid_mode has to be set, while t0 and ayan_t0 are not considered, i.e. can be 0.
     public func setAyanamsha(idAyanamsha: Int)
     {
         if (idAyanamsha >= -1 && idAyanamsha <= 39)
@@ -183,17 +190,34 @@ public class SEWrapper {
         }
     }
 
+    /// Get offset for ayanamsha without using nutation
+    /// - Parameters
+    ///     - jdUt: Julian day in UT
+    /// - Returns
+    ///     - offset for ayanamsha
+    /// From docu SE:
+    ///     double swe_get_ayanamsa_ut(
+    ///     double tjd_ut);     /* input: Julian day number in UT */
     public func getAyanamshaOffset(jdUt: Double) -> Double
     {
-        let epheFlag = 2
-        var ayanamshaValue = 0.0
-        var serr = String(256)
-        var result = swe_get_ayanamsa_ut(jdUt)
+        let result = swe_get_ayanamsa_ut(jdUt)
         return result
     }
     
     // MARK: - Julian Day Conversion
     /// Convert date and time (using UT) to a Julian Day Number.
+    /// - Parameters
+    ///     - date : AstronomicalDate (Date and calendar, based on astreonomical dates)
+    ///     - time :  AstronomicalTime (Time, both sexagesimal and decimal
+    /// - Returns
+    ///     - Julian day for UT
+    /// From docu SE:
+    ///     double swe_julday(
+    ///         int year,
+    ///         int month,
+    ///         int day,
+    ///         double hour,
+    ///         int gregflag);
     public func julianDay(date: AstronomicalDate, time: AstronomicalTime) -> Double {
         Logger.log.verbose("AstronomicalDate \(date.Year)-\(date.Month)-\(date.Day) AstronomicalTime \(time.HourDecimal)")
         let gregflag = date.Gregorian ? 1 : 0
@@ -202,6 +226,11 @@ public class SEWrapper {
     }
     
     /// Convert Julian Day to an AstronomicalDateTime
+    /// - Parameters
+    ///     - julianDay: julianDay for UT
+    ///     - gregorian: true for Gregorian calendar, false for Julian calendar
+    /// - Returns
+    ///     - Populated struct AstronomicalDateTime
     public func dateFromJulianDay(_ julianDay: Double, gregorian: Bool = true) -> AstronomicalDateTime {
         let gregflag = gregorian ? 1 : 0
         var year: Int32 = 0
@@ -221,7 +250,26 @@ public class SEWrapper {
     
     // MARK: - Factor Position Calculation
     /// Calculate the position of a factor.
-    public func calculateFactorPosition(julianDay: Double, planet: Int, flags: Int) -> MainAstronomicalPosition? {
+    /// - Parameters
+    ///     - julianDay: Julian day for UT
+    ///     - factor: id for Swiss ephemeris for a factor
+    ///     - flags: combined value of flags for the SE
+    /// - Returns
+    ///     - Populated struct MainAstronomicalPosition
+    /// Docu from SE
+    ///     int32 swe_calc_ut(
+    ///         double tjd_ut,
+    ///         int32 ipl,
+    ///         int32 iflag,
+    ///         double* xx,
+    ///         char* serr);
+    ///     where
+    ///     tjd_ut   = Julian day, Universal Time
+    ///     ipl      = body number
+    ///     iflag    = a 32 bit integer containing bit flags that indicate what kind of computation is wanted
+    ///     xx       = array of 6 doubles for longitude, latitude, distance, speed in long., speed in lat., and speed in dist.
+    ///     serr[256] = character string to return error messages in case of error.
+    public func calculateFactorPosition(julianDay: Double, factor: Int, flags: Int) -> MainAstronomicalPosition? {
         guard isInitialized else {
             Logger.log.error("Swiss Ephemeris not initialized")
             return nil
@@ -246,7 +294,7 @@ public class SEWrapper {
                     return
                 }
                 
-                returnCode = swe_calc_ut(preciseJD, Int32(planet), Int32(flags), resultPtr, errorPtr)
+                returnCode = swe_calc_ut(preciseJD, Int32(factor), Int32(flags), resultPtr, errorPtr)
                 
                 if returnCode < 0 {
                     errorMessage = String(cString: errorPtr)
@@ -271,6 +319,34 @@ public class SEWrapper {
     
     // MARK: - House Calculation
     /// Calculate the position of house cusps
+    /// - Parameters
+    ///     - julianDay: Julian day in UT
+    ///     - latitude: geographic latitude
+    ///     - longitude; geographic longitude
+    ///     - houseSystem; ascii code for abbrevation of the house system
+    /// - Returns
+    ///     - Tuple with arrays with cusps (using index 1 .. 13) and array with Ascendant, MC, ARMC etc (see below)
+    /// Docu Se;/
+    ///     int swe_houses(
+    ///         double tjd_ut,      /* Julian day number, UT */
+    ///         double geolat,      /* geographic latitude, in degrees */
+    ///         double geolon,      /* geographic longitude, in degrees
+    ///                       * eastern longitude is positive,
+    ///                       * western longitude is negative,
+    ///                       * northern latitude is positive,
+    ///                       * southern latitude is negative */
+    ///         int hsys,                /* house method, ascii code of one of the letters documented below */
+    ///         double *cusps,      /* array for 13 (or 37 for hsys G) doubles, explained further below */
+    ///         double *ascmc);     /* array for 10 doubles, explained further below */
+    ///     Content of second array:
+    ///         ascmc[0] = Ascendant
+    ///         ascmc[1] = MC
+    ///         ascmc[2] = ARMC
+    ///         ascmc[3] = Vertex
+    ///         ascmc[4] = "equatorial ascendant"
+    ///         ascmc[5] = "co-ascendant" (Walter Koch)
+    ///         ascmc[6] = "co-ascendant" (Michael Munkasey)
+    ///         ascmc[7] = "polar ascendant" (M. Munkasey)
     public func calculateHouses(julianDay: Double, latitude: Double, longitude: Double, houseSystem: Int) throws -> ([Double], [Double]) {
 
         let gauquelinIndex = 71
@@ -309,17 +385,35 @@ public class SEWrapper {
         return (cusps, ascmc)
     }
     
-    // MARK: - Sidereal Time
-    /// Calculate siderealTime at Greenwich
-    public func siderealTime(julianDay: Double) -> Double {
-        // Ensure maximum precision by storing in a local variable with explicit type
-        let preciseJulianDay: Double = julianDay
-        return swe_sidtime(preciseJulianDay)
-    }
-    
+       
     // MARK: - Azimuth and altitude
     /// Calculate azimuth and altitude. Ignore atmospheric pressure and termperature.
-    /// Returns azimuth and true altitude
+    /// - Parameters
+    ///     - julianDay: Julian day for UT
+    ///     - rightAscension: right ascension in degrees
+    ///     - declination: Declination
+    ///     - observerlatitude: geographic latitude of observer
+    ///     - height for location observer aboe sea level, in meters
+    /// - Returns
+    ///     - Tuple with azimuth and altitude
+    /// Docu from SE
+    ///     void swe_azalt(
+    ///         double tjd_ut,      // UT
+    ///         int32 calc_flag,    // SE_ECL2HOR or SE_EQU2HOR
+    ///         double *geopos,     // array of 3 doubles: geograph. long., lat., height
+    ///         double atpress,     // atmospheric pressure in mbar (hPa)
+    ///         double attemp,      // atmospheric temperature in degrees Celsius
+    ///         double *xin,        // array of 3 doubles: position of body in either ecliptical or equatorial coordinates, depending on calc_flag
+    ///         double *xaz);       // return array of 3 doubles, containing azimuth, true altitude, apparent altitude
+    ///     If calc_flag = SE_ECL2HOR, set xin[0] = ecl. long., xin[1] = ecl. lat., (xin[2] = distance (not required));
+    ///     else
+    ///     if calc_flag = SE_EQU2HOR, set xin[0] = right ascension, xin[1] = declination, (xin[2] = distance (not required));
+    ///     #define SE_ECL2HOR  0
+    ///     #define SE_EQU2HOR  1
+    ///     The return values are:
+    ///     ·     xaz[0] = azimuth, i.e. position degree, measured from the south point to west;
+    ///     ·     xaz[1] = true altitude above horizon in degrees;
+    ///     ·     xaz[2] = apparent (refracted) altitude above horizon in degrees.
     public func azimuthAndAltitude(julianDay: Double, rightAscension: Double, declination: Double, observerLatitude: Double, observerLongitude: Double, height: Double
     ) -> (azimuth: Double, altitude: Double) {
     
@@ -372,8 +466,21 @@ public class SEWrapper {
     }
     
     // MARK: - Coordinate transfer from ecliptic to equatorial
-    /// Calclate right ascension and declination using longitude, latitude and obliquity as input
-    /// The array eclipticCoordinates contains longitude and latitude in that order
+    /// Calclate right ascension and declination
+    /// - Parameters
+    ///     - eclipticCoordinates : longitude and latitude, in that order
+    ///     - obliquity : Obliquity of the earth'w axis
+    /// - Returns
+    ///     - tuple with right ascension and declination, in that order
+    /// Docu from SE:
+    ///     /* equator -> ecliptic    : eps must be positive
+    ///     * ecliptic -> equator    : eps must be negative
+    ///     * eps, longitude and latitude are in positive degrees! */
+    ///     void swe_cotrans(
+    ///         double *xpo,        /* 3 doubles: long., lat., dist. to be converted; distance remains unchanged, can be set to 1.00 */
+    ///         double *xpn,        /* 3 doubles: long., lat., dist. Result of the conversion */
+    ///         double eps);        /* obliquity of ecliptic, in degrees. */
+    ///
     public func eclipticToEquatorial(eclipticCoordinates: [Double], obliquity: Double) -> (rightAscension: Double, declination: Double) {
         guard eclipticCoordinates.count >= 2 else {
             Logger.log.error("eclipticToEquatorial requires at least 2 coordinates (longitude, latitude)")
@@ -418,7 +525,51 @@ public class SEWrapper {
     ///   - julianDay: Julian day for UT (Universal Time). This will be converted to ET internally.
     ///   - planet: Swiss Ephemeris planet ID
     ///   - flags: Calculation flags (e.g., SEFLG_SWIEPH)
-    /// - Returns: OrbitalElements if calculation succeeds, nil otherwise
+    /// - Returns
+    ///     - OrbitalElements if calculation succeeds, nil otherwise
+    ///   Docu from SE:
+    ///     int32 swe_get_orbital_elements(
+    ///         double tjd_et,
+    ///         int32 ipl,
+    ///         int32 iflag,
+    ///         double *dret,
+    ///         char *serr);
+    ///     /* Function calculates osculating orbital elements (Kepler elements) of a planet or asteroid or the EMB. The function returns error if called for the Sun, the lunar nodes, or the apsides.
+    ///     * Input parameters:
+    ///     * tjd_et Julian day number, in TT (ET)
+    ///     * ipl object number
+    ///     * iflag can contain
+    ///     * - ephemeris flag: SEFLG_JPLEPH, SEFLG_SWIEPH, SEFLG_MOSEPH
+    ///     * - center:
+    ///     * Sun: SEFLG_HELCTR (assumed as default) or
+    ///     * SS Barycentre: SEFLG_BARYCTR (rel. to solar system barycentre)
+    ///     * (only possible for planets beyond Jupiter)
+    ///     * For elements of the Moon, the calculation is geocentric.
+    ///     * - sum all masses inside the orbit to be computed (method of Astronomical Almanac):
+    ///     * SEFLG_ORBEL_AA
+    ///     * - reference ecliptic: SEFLG_J2000;
+    ///     * if missing, mean ecliptic of date is chosen (still not implemented)
+    ///     * output parameters:
+    ///     * dret[] array of return values, declare as dret[50]
+    ///     * dret[0] semimajor axis (a)
+    ///     * dret[1] eccentricity (e)
+    ///     * dret[2] inclination (in)
+    ///     * dret[3] longitude of ascending node (upper case omega OM)
+    ///     * dret[4] argument of periapsis (lower case omega om)
+    ///     * dret[5] longitude of periapsis (peri)
+    ///     * dret[6] mean anomaly at epoch (M0)
+    ///     * dret[7] true anomaly at epoch (N0)
+    ///     * dret[8] eccentric anomaly at epoch (E0)
+    ///     * dret[9] mean longitude at epoch (LM)
+    ///     * dret[10] sidereal orbital period in tropical years
+    ///     * dret[11] mean daily motion
+    ///     * dret[12] tropical period in years
+    ///     * dret[13] synodic period in days,
+    ///     * negative, if inner planet (Venus, Mercury, Aten asteroids) or Moon
+    ///     * dret[14] time of perihelion passage
+    ///     * dret[15] perihelion distance
+    ///     * dret[16] aphelion distance
+     
     public func calcOrbitalElements(julianDay: Double, planet: Int, flags: Int) -> OrbitalElements? {
         guard isInitialized else {
             Logger.log.error("Swiss Ephemeris not initialized")
@@ -435,7 +586,7 @@ public class SEWrapper {
         
         // swe_get_orbital_elements may not support all flags - remove SPEED flag and use only SWIEPH
         // SPEED flag (256) might cause issues with orbital elements calculation
-        let orbitalElementsFlags = flags & ~256  // Remove SPEED flag (256), keep only SWIEPH (2) and other flags
+        let orbitalElementsFlags = flags
         
         // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
         // This prevents EXC_BAD_ACCESS errors from invalid pointer access
@@ -502,17 +653,42 @@ public class SEWrapper {
     ///   - flags: Calculation flags (e.g., SEFLG_SWIEPH)
     ///   - method: Method flag (SE_NODBIT_MEAN = 1 for mean, SE_NODBIT_OSCU = 2 for osculating)
     /// - Returns: ApsidesResult containing nodes and apsides positions, or nil if calculation fails
+    /// Docu from SE;
+    ///     int32 swe_nod_aps_ut(
+    ///         double tjd_ut, // Julian day number in UT
+    ///         int32 ipl,     // planet number
+    ///         int32 iflag,   // flag bits
+    ///         int32 method,  // method, see explanations below
+    ///         double *xnasc, // array of 6 double for ascending node
+    ///         double *xndsc, // array of 6 double for descending node
+    ///         double *xperi, // array of 6 double for perihelion
+    ///         double *xaphe, // array of 6 double for aphelion
+    ///         char *serr);   // character string to contain error messages, 256 chars
+    ///     The parameter method tells the function what kind of nodes or apsides are required:
+    ///     #define SE_NODBIT_MEAN        1
+    ///     Mean nodes and apsides are calculated for the bodies that have them, i.e. for the Moon and the planets Mercury through Neptune, osculating ones for Pluto and the asteroids. This is the default method, also used if method=0.
+    ///     #define SE_NODBIT_OSCU        2
+    ///     Osculating nodes and apsides are calculated for all bodies.
+    ///     #define SE_NODBIT_OSCU_BAR     4
+    ///     Osculating nodes and apsides are calculated for all bodies. With planets beyond Jupiter, the nodes and apsides are calculated from barycentric positions and speed. Cf. the explanations in swisseph.doc.
+    ///     If this bit is combined with SE_NODBIT_MEAN, mean values are given for the planets Mercury - Neptune.
+    ///     #define SE_NODBIT_FOPOINT 256
+    ///     The second focal point of the orbital ellipse is computed and returned in the array of the aphelion. This bit can be combined with any other bit.
+
+
     public func calculateApsides(julianDay: Double, planet: Int, flags: Int, method: Int = 1) -> ApsidesResult? {
         guard isInitialized else {
             Logger.log.error("Swiss Ephemeris not initialized")
             return nil
         }
-        
-        var xnasc = [Double](repeating: 0.0, count: 3)  // ascending node [longitude, latitude, distance]
-        var xndsc = [Double](repeating: 0.0, count: 3)  // descending node [longitude, latitude, distance]
-        var xperi = [Double](repeating: 0.0, count: 3) // perihelion/perigee [longitude, latitude, distance]
-        var xaphe = [Double](repeating: 0.0, count: 3) // aphelion/apogee [longitude, latitude, distance]
+        Logger.log.debug("SEWrapper.calculateApsides, after guard")
+        var xnasc = [Double](repeating: 0.0, count: 6)  // ascending node
+        var xndsc = [Double](repeating: 0.0, count: 6)  // descending node
+        var xperi = [Double](repeating: 0.0, count: 6)  // perihelion/perigee
+        var xaphe = [Double](repeating: 0.0, count: 6)  // aphelion/apogee
         var error = [CChar](repeating: 0, count: 256)
+        
+        Logger.log.debug("SEWrapper.calculateApsides, after initialization")
         
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseJD = julianDay
@@ -536,7 +712,7 @@ public class SEWrapper {
                                 Logger.log.error("Failed to get valid pointers for apsides calculation")
                                 return
                             }
-                            
+                            Logger.log.debug("SEWrapper.calculateApsides, before calling swe_nod_aps_ut")
                             returnCode = swe_nod_aps_ut(
                                 preciseJD,
                                 Int32(planet),
@@ -548,7 +724,7 @@ public class SEWrapper {
                                 xaphePtr,
                                 errorPtr
                             )
-                            
+                            Logger.log.debug("SEWrapper.calculateApsides, after calling swe_nod_aps_ut")
                             if returnCode < 0 {
                                 errorMessage = String(cString: errorPtr)
                             }

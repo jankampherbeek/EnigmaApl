@@ -23,18 +23,13 @@ private enum AstronomicalConstants {
 /// Calculate geocentric ecliptical position for celestial points that are not supported by the SE,
 /// using specific formulas.
 public struct FormulaCalc {
-//    private let seWrapper: SEWrapper
-//    
-//    public init(seWrapper: SEWrapper = SEWrapper()) {
-//        self.seWrapper = seWrapper
-//    }
     
     /// Calculate the position for a factor using a formula
     /// Latitude is unknown so we use zero for latitude, ra, declination, azimuth and altitude
-    public func calculateFormulaFactors(seWrapper: SEWrapper, seRequest: SERequest, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
+    public func calculateFormulaFactors(seWrapper: SEWrapper, calcRequest: CalcRequest, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
                 
         var coordinates: [Factors: FullFactorPosition] = [:]
-        let julianDay = seRequest.JulianDay
+        let julianDay = calcRequest.JulianDay
         let julianDayPrevious = julianDay - 0.5
         let julianDayNext = julianDay + 0.5
         let distance = 0.0          // distance is unknown or irrelevant
@@ -44,7 +39,7 @@ public struct FormulaCalc {
         let zeroEqCoordinate = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0, mainPosSpeed: 0.0, deviationSpeed: 0.0, distanceSpeed: 0.0)
         let zeroHorizontalCoordinate = HorizontalPosition(azimuth: 0.0, altitude: 0.0)
         
-        for factor in seRequest.FactorsToUse {
+        for factor in calcRequest.FactorsToUse {
             var longitude = 0.0
             var longitudePrevious = 0.0
             var longitudeNext = 0.0

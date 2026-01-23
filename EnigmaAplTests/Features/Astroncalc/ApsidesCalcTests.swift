@@ -37,14 +37,14 @@ struct ApsidesCalcTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let request = SERequest(
+        // Create CalcRequest
+        let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -69,8 +69,11 @@ struct ApsidesCalcTests {
         ]
         
         // Use provided SEWrapper (from AstronCalcTestCoordinator)
-        let apsidesCalc = ApsidesCalc(seWrapper: seWrapper)
-        let result = apsidesCalc.calculateApsidesFactors(seRequest: request)
+        let obliquity = 23.43820723656883
+        let flags = 258
+        let ayanamsaOffset = 0.0
+        let apsidesCalc = ApsidesCalc()
+        let result = apsidesCalc.calculateApsidesFactors(calcRequest: request, obliquity: obliquity, ayanamshaOffset: ayanamsaOffset, flags: flags, seWrapper: seWrapper)
         
         // Verify all factors are present in the result
         let expectedCount = factorsToUse.count

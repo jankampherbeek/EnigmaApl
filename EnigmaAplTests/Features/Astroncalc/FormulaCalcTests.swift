@@ -37,14 +37,14 @@ struct FormulaCalcTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let request = SERequest(
+        // Create CalcRequest
+        let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -52,7 +52,7 @@ struct FormulaCalcTests {
         // Calculate obliquity (as requested by user, though not directly used in FormulaCalc)
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: -1,
+            factor: -1,
             flags: 258
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
@@ -92,8 +92,8 @@ struct FormulaCalcTests {
         ]
         
         // Perform calculation
-        let formulaCalc = FormulaCalc(seWrapper: seWrapper)
-        let result = formulaCalc.calculateFormulaFactors(seRequest: request)
+        let formulaCalc = FormulaCalc()
+        let result = formulaCalc.calculateFormulaFactors(seWrapper: seWrapper,  calcRequest: request, ayanamshaOffset: 0.0)
         
         // Verify all factors are present in the result
         if result.count != factorsToUse.count {

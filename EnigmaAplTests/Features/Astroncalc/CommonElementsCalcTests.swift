@@ -38,14 +38,14 @@ struct CommonElementsCalcTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let request = SERequest(
+        // Create CalcRequest
+        let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         
@@ -81,7 +81,8 @@ struct CommonElementsCalcTests {
         // Perform calculation
         let result = ElementsCalc.calculateElementsFactors(
             request: request,
-            seWrapper: seWrapper
+            seWrapper: seWrapper,
+            ayanamshaOffset: 0.0
         )
         
         // Verify all factors are present in the result

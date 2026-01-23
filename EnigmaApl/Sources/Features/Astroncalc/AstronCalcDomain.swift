@@ -1,8 +1,8 @@
 //
-//  AstronomicalPositions.swift
+//  AstronCalcDomain.swift
 //  EnigmaApl
 //
-//  Created by Jan Kampherbeek on 21/12/2025.
+//  Created by Jan Kampherbeek on 21/01/2026.
 //
 
 // MARK: - Position Result
@@ -197,3 +197,4 @@ public struct NamedEclipticLongitude {
         self.obliqueLongitude = obliqueLongitude
     }
 }
+

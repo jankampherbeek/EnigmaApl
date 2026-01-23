@@ -38,7 +38,7 @@ struct OrbitDefinition {
 public struct ElementsCalc {
     
     public static func calculateElementsFactors(
-        request: SERequest,
+        request: CalcRequest,
         seWrapper: SEWrapper,
         ayanamshaOffset: Double
     ) -> [Factors: FullFactorPosition] {
@@ -50,14 +50,13 @@ public struct ElementsCalc {
         let eclipticalFlags = 258  // SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: -1,
+            factor: -1,
             flags: eclipticalFlags
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
         // Determine observer position from flags
-        let observerPosition = extractObserverPosition(from: request.SEFlags)
-        
+        let observerPosition = request.ConfigData.observerPosition
         var coordinates: [Factors: FullFactorPosition] = [:]
         var calcHelioPos = CalcHelioPos()
         
@@ -235,15 +234,6 @@ public struct ElementsCalc {
         )
     }
     
-    private static func extractObserverPosition(from flags: Int) -> ObserverPositions {
-        if (flags & 8) != 0 {  // SEFLG_HELIO (8)
-            return .helioCentric
-        } else if (flags & (32 * 1024)) != 0 {  // SEFLG_TOPOCTR (32768)
-            return .topoCentric
-        } else {
-            return .geoCentric
-        }
-    }
 }
 
 

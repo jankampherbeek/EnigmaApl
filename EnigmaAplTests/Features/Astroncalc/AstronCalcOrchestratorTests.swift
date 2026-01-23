@@ -8,8 +8,10 @@
 import Testing
 import Foundation
 
+
 @testable import EnigmaApl
 
+@MainActor
 struct AstronCalcOrchestratorTests {
     
     // MARK: - Individual Tests (commented out - use AstronCalcTestCoordinator instead)
@@ -91,14 +93,14 @@ struct AstronCalcOrchestratorTests {
             lotsType: .sect
         )
         
-        // Create SERequest
-        let request = SERequest(
+        // Create CalcRequest
+        let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
             HouseSystem: houseSystem,
-            SEFlags: seFlags,
             Latitude: latitude,
             Longitude: longitude,
+            Height: 0.0,
             ConfigData: configData
         )
         

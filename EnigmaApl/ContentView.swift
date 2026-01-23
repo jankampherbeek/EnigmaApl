@@ -109,19 +109,22 @@ struct ContentView: View {
                     lotsType: .sect
                 )
                 
-                // Create SERequest
-                let seRequest = SERequest(
+                // Create CalcRequest
+                let calcRequest = CalcRequest(
                     JulianDay: 2455197.5,
                     FactorsToUse: [
                         .sun, .moon, .mercury, .venus, .mars,
                         .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron,
                         .persephoneRam, .hermesRam, .demeterRam,
                         .persephoneCarteret, .vulcanusCarteret,
-                        .priapus, .dragon, .beast, .southNode,
+                        //.blackSun,
+                        .diamond,
+                        .apogeeMean,
+                        .apogeeCorrected,
+                            .priapus, .dragon, .beast, .southNode,
                         .parsfortuna
                     ],
                     HouseSystem: 0,
-                    SEFlags: 2 + 256,   // SE, speed
                     Latitude: 52.2180555555556,
                     Longitude: 6.8955555555556,
                     Height: 0.0,
@@ -129,7 +132,7 @@ struct ContentView: View {
                 )
                 
                 // Perform calculation with the shared SEWrapper instance
-                let fullChart = AstronCalcOrchestrator.PerformCalculation(seRequest, seWrapper: seWrapper)
+                let fullChart = AstronCalcOrchestrator.PerformCalculation(calcRequest, seWrapper: seWrapper)
                 
                 // Print all factors and positions to console
                 print("\n=== All Factors and Positions ===")

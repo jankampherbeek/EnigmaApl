@@ -11,15 +11,13 @@ public struct SECalculation {
     
     /// Calculates the positions for all factors in the request
     /// - Parameters:
-    ///   - request: The SERequest containing calculation parameters
+    ///   - request: The CalcRequest containing calculation parameters
+    ///   - flagsEcliptical: SE flags for calculation using ecliptical coordinates
+    ///   - flagsEquatorial: SE flags for calculation using equatorial coordinates
     ///   - seWrapper: The SEWrapper instance to use (must be shared across calculations to avoid thread-safety issues)
-    /// - Returns: A tuple containing a dictionary of factor positions and the obliquity value
-    public static func CalculateFactors(_ request: SERequest, seWrapper: SEWrapper) -> ([Factors: FullFactorPosition]) {
+    /// - Returns: A tuple containing a dictionary of factor positions
+    public static func CalculateFactors(_ request: CalcRequest, flagsEcliptical: Int, flagsEquatorial: Int, seWrapper: SEWrapper) -> ([Factors: FullFactorPosition]) {
         let julianDay = request.JulianDay
-        
-        // Flags: 258 = SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
-        let eclipticalFlags = request.SEFlags
-        let equatorialFlags = request.SEFlags + 2048  // Add equatorial flag (2048)
         
         // Calculate positions for each factor
         var coordinates: [Factors: FullFactorPosition] = [:]
@@ -30,15 +28,15 @@ public struct SECalculation {
             // Calculate ecliptical position
             let eclipticalPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
-                planet: factorId,
-                flags: eclipticalFlags
+                factor: factorId,
+                flags: flagsEcliptical
             )
             
             // Calculate equatorial position
             let equatorialPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
-                planet: factorId,
-                flags: equatorialFlags
+                factor: factorId,
+                flags: flagsEquatorial
             )
             
             // Create arrays for FullPosition
@@ -87,11 +85,11 @@ public struct SECalculation {
     
     /// Calculates house positions (cusps, ascendant, MC, vertex, and eastpoint)
     /// - Parameters:
-    ///   - request: The SERequest containing calculation parameters
+    ///   - request: The CalcRequest containing calculation parameters
     ///   - obliquity: The obliquity value needed for coordinate conversions
     ///   - seWrapper: The SEWrapper instance to use (must be shared across calculations to avoid thread-safety issues)
     /// - Returns: A HousePositions struct with all calculated house data
-    public static func CalculateHouses(_ request: SERequest, obliquity: Double, seWrapper: SEWrapper) -> HousePositions {
+    public static func CalculateHouses(_ request: CalcRequest, obliquity: Double, seWrapper: SEWrapper) -> HousePositions {
         let julianDay = request.JulianDay
         
         // Calculate ecliptical positions of houses

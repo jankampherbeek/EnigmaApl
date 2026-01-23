@@ -11,13 +11,15 @@ public struct AstronCalcOrchestrator {
     
     /// Performs a full chart calculation based on the provided request
     /// - Parameters:
-    ///   - request: The SERequest containing calculation parameters
+    ///   - request: The CalcRequest containing calculation parameters
     ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with Swiss Ephemeris.
     ///                For production, use the app-level instance. For tests, use SEWrapperTestCoordinator.shared.getSEWrapper()
     /// - Returns: A FullChart with all calculated positions and house data
-    public static func PerformCalculation(_ request: SERequest, seWrapper: SEWrapper) -> FullChart {
+    public static func PerformCalculation(_ request: CalcRequest, seWrapper: SEWrapper) -> FullChart {
         
         let julianDay = request.JulianDay
+        let seFlagsEcliptical = SEFlags.defineFlags(configData: request.ConfigData, coordSystem: CoordinateSystems.ecliptical)
+        let seFlagsEquatorial = SEFlags.defineFlags(configData: request.ConfigData, coordSystem: CoordinateSystems.equatorial)
         
         // check for topocentric
         if (request.ConfigData.observerPosition == ObserverPositions.topoCentric) {
@@ -27,7 +29,7 @@ public struct AstronCalcOrchestrator {
         // Calculate obliquity using id -1
         let obliquityPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: -1,
+            factor: -1,
             flags: 2          // Use SE, no need for speed
         )
         let obliquity = obliquityPosition?.mainPos ?? 0.0
@@ -37,42 +39,40 @@ public struct AstronCalcOrchestrator {
             seWrapper.setAyanamsha(idAyanamsha: Ayanamshas.tropical.seId)
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
-        Logger.log.info("Ayanamsha offset: \(ayanamshaOffset)")
 
         let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
         let siderealTime = housePositions.midheaven.rightAscension / 15.0
+        
         // Group factors by calculation type
         let factorsByType = Dictionary(grouping: request.FactorsToUse) { $0.calculationType }
         
         // Calculate factors for each calculation type
         var allCoordinates: [Factors: FullFactorPosition] = [:]
         var longitudeSun = -1.0
-        var longitudeMoon = 1.0
+        var longitudeMoon = -1.0
         
-        // Handle CommonSe factors first (these need to calculate obliquity)
+        // Handle CommonSe factors
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
             // Create a temporary request with only CommonSe factors
-            let commonSeRequest = SERequest(
+            let commonRequest = CalcRequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: commonSeFactors,
                 HouseSystem: request.HouseSystem,
-                SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
                 Height: request.Height,
                 ConfigData: request.ConfigData
             )
-            let commonSeCoordinates = SECalculation.CalculateFactors(commonSeRequest, seWrapper: seWrapper)
+            let commonSeCoordinates = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
             allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
-            longitudeSun = commonSeCoordinates[.sun]?.ecliptical.first?.mainPos ?? -1.0
-            longitudeMoon = commonSeCoordinates[.moon]?.ecliptical.first?.mainPos ?? -1.0
+            longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
+            longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
-            let commonElementsRequest = SERequest(
+            let commonElementsRequest = CalcRequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: commonElementsFactors,
                 HouseSystem: request.HouseSystem,
-                SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
                 Height: request.Height,
@@ -85,33 +85,31 @@ public struct AstronCalcOrchestrator {
         
         if let commonFormulaLongitudeFactors = factorsByType[.CommonFormulaLongitude], !commonFormulaLongitudeFactors.isEmpty {
             let fCalc = FormulaCalc()
-            let commonFormulaLongitudeRequest = SERequest(
+            let commonFormulaLongitudeRequest = CalcRequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: commonFormulaLongitudeFactors,
                 HouseSystem: request.HouseSystem,
-                SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
                 Height: request.Height,
                 ConfigData: request.ConfigData
             )
-            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, seRequest: commonFormulaLongitudeRequest, ayanamshaOffset: ayanamshaOffset)
+            let commonFormulaLongitudeCoordinates = fCalc.calculateFormulaFactors(seWrapper: seWrapper, calcRequest: commonFormulaLongitudeRequest, ayanamshaOffset: ayanamshaOffset)
             allCoordinates.merge(commonFormulaLongitudeCoordinates) { (_, new) in new }
         }
         
         if let commonFormulaFullFactors = factorsByType[.CommonFormulaFull], !commonFormulaFullFactors.isEmpty {
             let fFullCalc = FormulaFullCalc()
-            let formulaFullCalcRequest = SERequest(
+            let formulaFullCalcRequest = CalcRequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: commonFormulaFullFactors,
                 HouseSystem: request.HouseSystem,
-                SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
                 Height: request.Height,
                 ConfigData: request.ConfigData
             )
-            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, seRequest: formulaFullCalcRequest, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset)
+            let commonFormulaFullCoordinates = fFullCalc.CalculateFormulaFullFactors(seWrapper: seWrapper, calcRequest: formulaFullCalcRequest, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset)
             allCoordinates.merge(commonFormulaFullCoordinates) { (_, new) in new }
         }
         
@@ -124,11 +122,10 @@ public struct AstronCalcOrchestrator {
             if (sunLongitude > 0.0 && moonLongitude > 0.0) {
                 
                 let lotsCalc = LotsCalc()
-                let lotsRequest = SERequest(
+                let lotsRequest = CalcRequest(
                     JulianDay: request.JulianDay,
                     FactorsToUse: lotsFactors,
                     HouseSystem: request.HouseSystem,
-                    SEFlags: request.SEFlags,
                     Latitude: request.Latitude,
                     Longitude: request.Longitude,
                     Height: request.Height,
@@ -136,7 +133,7 @@ public struct AstronCalcOrchestrator {
                 )
                 let lotsCoordinates = lotsCalc.calculateLotsFactors(
                     seWrapper: seWrapper,
-                    seRequest: lotsRequest,
+                    calcRequest: lotsRequest,
                     obliquity: obliquity,
                     ascendantLongitude: ascendantLongitude,
                     sunLongitude: sunLongitude,
@@ -150,23 +147,22 @@ public struct AstronCalcOrchestrator {
         
         if let zodiacFixedFactors = factorsByType[.ZodiacFixed], !zodiacFixedFactors.isEmpty {
             let zodiacFixedCalc = ZodiacFixedCalc()
-            let zodiacFixedCoordinates = zodiacFixedCalc.zodiacFixedFactors(seRequest: request, obliquity: obliquity, seWrapper: seWrapper)
+            let zodiacFixedCoordinates = zodiacFixedCalc.zodiacFixedFactors(calcRequest: request, obliquity: obliquity, seWrapper: seWrapper)
             allCoordinates.merge(zodiacFixedCoordinates) { (_, new) in new }
         }
         
         if let apsidesFactors = factorsByType[.Apsides], !apsidesFactors.isEmpty {
             let apsidesCalc = ApsidesCalc()
-            let apsidesRequest = SERequest(
+            let apsidesRequest = CalcRequest(
                 JulianDay: request.JulianDay,
                 FactorsToUse: apsidesFactors,
                 HouseSystem: request.HouseSystem,
-                SEFlags: request.SEFlags,
                 Latitude: request.Latitude,
                 Longitude: request.Longitude,
                 Height: request.Height,
                 ConfigData: request.ConfigData
             )
-            let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(seRequest: apsidesRequest, seWrapper: seWrapper)
+            let apsidesCoordinates = apsidesCalc.calculateApsidesFactors(calcRequest: apsidesRequest, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset, flags: seFlagsEcliptical, seWrapper: seWrapper)
             allCoordinates.merge(apsidesCoordinates) { (_, new) in new }
         }
         

@@ -23,7 +23,7 @@ public struct ApogeeDuvalCalc {
         // Get Sun longitude
         guard let sunPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: Factors.sun.seId,
+            factor: Factors.sun.seId,
             flags: flagsEcl
         ) else {
             return 0.0
@@ -33,7 +33,7 @@ public struct ApogeeDuvalCalc {
         // Get mean apogee longitude
         guard let apogeeMeanPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,
-            planet: Factors.apogeeMean.seId,
+            factor: Factors.apogeeMean.seId,
             flags: flagsEcl
         ) else {
             return 0.0
