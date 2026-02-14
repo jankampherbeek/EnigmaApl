@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct EnigmaAplApp: App {
+    @StateObject private var shellViewModel = AppBootstrap.makeShellViewModel()
+    
     // Create a single SEWrapper instance at app startup for thread-safety
     // Swiss Ephemeris is single-threaded, so we must use one instance throughout the app lifecycle
     // Stored as a let property to ensure it persists for the entire app lifetime
@@ -22,24 +24,24 @@ struct EnigmaAplApp: App {
         self.seWrapper = SEWrapper()
     }
     
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            Logger.log.error("Could not create ModelContainer: \(error)")
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+//    var sharedModelContainer: ModelContainer = {
+//        let schema = Schema([
+//            Item.self,
+//        ])
+//        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+//
+//        do {
+//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+//        } catch {
+//            Logger.log.error("Could not create ModelContainer: \(error)")
+//            fatalError("Could not create ModelContainer: \(error)")
+//        }
+//    }()
 
     var body: some Scene {
         WindowGroup {
-            ContentView(seWrapper: seWrapper)
+            ContentView(viewModel: shellViewModel)
         }
-        .modelContainer(sharedModelContainer)
+//      .modelContainer(sharedModelContainer)
     }
 }

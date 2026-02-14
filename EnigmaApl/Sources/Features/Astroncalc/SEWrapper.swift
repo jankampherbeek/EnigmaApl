@@ -579,10 +579,7 @@ public class SEWrapper {
         var result = [Double](repeating: 0.0, count: 17)
         var error = [CChar](repeating: 0, count: 256)
         
-        // Convert UT to ET (Ephemeris Time) - swe_get_orbital_elements requires ET, not UT
-        // delta_t = ET - UT, so ET = UT + delta_t
-        let deltaT = swe_deltat(julianDay)
-        let preciseJD = julianDay + deltaT
+        let preciseJD = julianDay
         
         // swe_get_orbital_elements may not support all flags - remove SPEED flag and use only SWIEPH
         // SPEED flag (256) might cause issues with orbital elements calculation

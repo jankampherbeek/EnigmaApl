@@ -158,7 +158,7 @@
 "enum.housesystem.sunshine" = "Sonnenschein";
 "enum.housesystem.sunshine_treindl" = "Sonnenschein (Treindl)";
 "enum.housesystem.pullen_sin_diff" = "Pullen (sinusförmige Differenz)";
-"enum.housesystem.pullen_sin_ratio" = "Pullen (sinuförmiged Verhältnis)";
+"enum.housesystem.pullen_sin_ratio" = "Pullen (sinusförmige Verhältnis)";
 "enum.housesystem.sripati" = "Sripati";
 // Lots types
 "enum.lotstypes.nosect" = "Ohne sect";

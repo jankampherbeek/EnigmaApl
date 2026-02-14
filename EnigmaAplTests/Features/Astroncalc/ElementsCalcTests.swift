@@ -17,7 +17,7 @@ struct CommonElementsCalcTests {
     
     // MARK: - Test Functions (called by AstronCalcTestCoordinator)
     
-    static func testCalculateCommonElementsFactors(seWrapper: SEWrapper) {
+    static func testCalculateElementsFactors(seWrapper: SEWrapper) {
         // Julian Day for January 1, 2010 0:00 UT
         let julianDay = 2455197.5
         // Test parameters
