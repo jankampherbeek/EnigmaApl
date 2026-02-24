@@ -36,7 +36,7 @@ public struct AstronCalcOrchestrator {
         
         var ayanamshaOffset = 0.0;
         if (request.ConfigData.ayanamsha != Ayanamshas.tropical) {
-            seWrapper.setAyanamsha(idAyanamsha: request.ConfigData.ayanamsha)
+            seWrapper.setAyanamsha(idAyanamsha: request.ConfigData.ayanamsha.seId)
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
 
@@ -248,4 +248,3 @@ public struct AstronCalcOrchestrator {
     
   
 }
-

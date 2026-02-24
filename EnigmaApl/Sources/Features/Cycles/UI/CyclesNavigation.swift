@@ -21,19 +21,15 @@ enum CyclesSection: String, CaseIterable, Identifiable, Hashable {
 
 @MainActor
 final class CyclesNavigator: ObservableObject {
-    let objectWillChange = ObservableObjectPublisher()
-
     @Binding private var nav: CyclesNav
     init(nav: Binding<CyclesNav>) { _nav = nav }
 
     func select(_ id: UUID?) {
-        objectWillChange.send()
         nav.selectedID = id
         if id != nil { nav.section = .chart }
     }
 
     func setSection(_ section: CyclesSection) {
-        objectWillChange.send()
         nav.section = section
     }
 }

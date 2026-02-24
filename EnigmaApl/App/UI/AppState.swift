@@ -40,6 +40,12 @@ final class AppState: ObservableObject {
             if nav.cycles.selectedID == nil { nav.cycles.selectedID = profiles.first?.id }
         }
     }
+
+    func setMode(_ mode: AppMode) {
+        guard nav.mode != mode else { return }
+        nav.mode = mode
+        ensureDefaultSelection()
+    }
 }
 
 

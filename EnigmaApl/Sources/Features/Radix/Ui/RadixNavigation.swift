@@ -23,21 +23,15 @@ enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
 
 @MainActor
 final class RadixNavigator: ObservableObject {
-    let objectWillChange = ObservableObjectPublisher()
-
     @Binding private var nav: RadixNav
     init(nav: Binding<RadixNav>) { _nav = nav }
 
     func select(_ id: UUID?) {
-        objectWillChange.send()
         nav.selectedID = id
         if id != nil { nav.inspector = .aspects }
     }
 
     func setInspector(_ section: RadixInspector) {
-        objectWillChange.send()
         nav.inspector = section
     }
 }
-
-

@@ -35,7 +35,6 @@ struct RootView: View {
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)
         .onAppear { app.ensureDefaultSelection() }
-        .onChange(of: app.nav.mode) { _, _ in app.ensureDefaultSelection() }
         .sheet(isPresented: Binding(
             get: { preferTwoColumns && app.ui.showInspectorSheet },
             set: { app.ui.showInspectorSheet = $0 }

@@ -16,11 +16,13 @@ struct SidebarView: View {
     @EnvironmentObject private var cyclesNav: CyclesNavigator
 
     var body: some View {
-        List(selection: $app.nav.mode) {
+        List {
             Section("Werkmodi") {
                 ForEach(AppMode.allCases) { mode in
-                    Label(mode.rawValue, systemImage: mode.systemImage)
-                        .tag(mode)
+                    Button { app.setMode(mode) } label: {
+                        row(mode.rawValue, app.nav.mode == mode, icon: mode.systemImage)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
 
@@ -57,6 +59,14 @@ struct SidebarView: View {
     private func row(_ title: String, _ selected: Bool) -> some View {
         HStack {
             Text(title)
+            Spacer()
+            if selected { Image(systemName: "checkmark").foregroundStyle(.secondary) }
+        }
+    }
+
+    private func row(_ title: String, _ selected: Bool, icon: String) -> some View {
+        HStack {
+            Label(title, systemImage: icon)
             Spacer()
             if selected { Image(systemName: "checkmark").foregroundStyle(.secondary) }
         }
