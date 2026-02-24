@@ -15,8 +15,35 @@ import Combine
 struct DetailColumn: View {
     @EnvironmentObject private var app: AppState
     var body: some View {
-        Text("Detail (\(app.nav.mode.rawValue))")
-            .navigationTitle("Detail")
+        Group {
+            switch app.nav.mode {
+            case .radix:
+                switch app.nav.radix.inspector {
+                case .horoscope:
+                    Text("Detail (Radix)")
+                case .positions:
+                    PositionsScreen()
+                case .analysis:
+                    AnalysisScreen()
+                }
+            case .research:
+                switch app.nav.research.section {
+                case .datafiles:
+                    DatafilesScreen()
+                case .projects:
+                    ProjectsScreen()
+                }
+            case .cycles:
+                switch app.nav.cycles.section {
+                case .astronomicalCycles:
+                    AstronomicalCyclesScreen()
+                case .waves:
+                    WavesScreen()
+                case .tablesGraphs:
+                    TablesGraphsScreen()
+                }
+            }
+        }
+        .navigationTitle("Detail")
     }
 }
-

@@ -9,14 +9,14 @@ import Combine
 
 struct RadixNav: Equatable {
     var selectedID: UUID? = nil
-    var inspector: RadixInspector = .aspects
+    var inspector: RadixInspector = .horoscope
 }
 
 
 enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
-    case aspects = "Aspecten"
-    case midpoints = "Halfsommen"
-    case progressions = "Progressies"
+    case horoscope = "Horoscope"
+    case positions = "Positions"
+    case analysis = "Analysis"
     var id: String { rawValue }
 }
 
@@ -28,7 +28,7 @@ final class RadixNavigator: ObservableObject {
 
     func select(_ id: UUID?) {
         nav.selectedID = id
-        if id != nil { nav.inspector = .aspects }
+        if id != nil { nav.inspector = .horoscope }
     }
 
     func setInspector(_ section: RadixInspector) {

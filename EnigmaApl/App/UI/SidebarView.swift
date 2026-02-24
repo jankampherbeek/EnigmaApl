@@ -29,27 +29,36 @@ struct SidebarView: View {
             switch app.nav.mode {
             case .radix:
                 Section("Radix") {
-                    ForEach(app.radixItems) { item in
-                        Button { radixNav.select(item.id) } label: {
-                            row(item.title, app.nav.radix.selectedID == item.id)
-                        }.buttonStyle(.plain)
-                    }
+                    Button { radixNav.setInspector(.horoscope) } label: {
+                        row(RadixInspector.horoscope.rawValue, app.nav.radix.inspector == .horoscope)
+                    }.buttonStyle(.plain)
+                    Button { radixNav.setInspector(.positions) } label: {
+                        row(RadixInspector.positions.rawValue, app.nav.radix.inspector == .positions)
+                    }.buttonStyle(.plain)
+                    Button { radixNav.setInspector(.analysis) } label: {
+                        row(RadixInspector.analysis.rawValue, app.nav.radix.inspector == .analysis)
+                    }.buttonStyle(.plain)
                 }
             case .research:
-                Section("Projecten") {
-                    ForEach(app.projects) { project in
-                        Button { researchNav.select(project.id) } label: {
-                            row(project.title, app.nav.research.selectedID == project.id)
-                        }.buttonStyle(.plain)
-                    }
+                Section("Research") {
+                    Button { researchNav.setSection(.datafiles) } label: {
+                        row(ResearchSection.datafiles.rawValue, app.nav.research.section == .datafiles)
+                    }.buttonStyle(.plain)
+                    Button { researchNav.setSection(.projects) } label: {
+                        row(ResearchSection.projects.rawValue, app.nav.research.section == .projects)
+                    }.buttonStyle(.plain)
                 }
             case .cycles:
                 Section("Cycli") {
-                    ForEach(app.profiles) { profile in
-                        Button { cyclesNav.select(profile.id) } label: {
-                            row(profile.title, app.nav.cycles.selectedID == profile.id)
-                        }.buttonStyle(.plain)
-                    }
+                    Button { cyclesNav.setSection(.astronomicalCycles) } label: {
+                        row(CyclesSection.astronomicalCycles.rawValue, app.nav.cycles.section == .astronomicalCycles)
+                    }.buttonStyle(.plain)
+                    Button { cyclesNav.setSection(.waves) } label: {
+                        row(CyclesSection.waves.rawValue, app.nav.cycles.section == .waves)
+                    }.buttonStyle(.plain)
+                    Button { cyclesNav.setSection(.tablesGraphs) } label: {
+                        row(CyclesSection.tablesGraphs.rawValue, app.nav.cycles.section == .tablesGraphs)
+                    }.buttonStyle(.plain)
                 }
             }
         }

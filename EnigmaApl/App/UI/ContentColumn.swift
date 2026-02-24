@@ -15,7 +15,19 @@ struct ContentColumn: View {
     private var preferTwoColumns: Bool { hSizeClass == .compact }
 
     var body: some View {
-        Text("Content (\(app.nav.mode.rawValue))")
+        Group {
+            switch app.nav.mode {
+            case .radix:
+                switch app.nav.radix.inspector {
+                case .horoscope, .positions, .analysis:
+                    HoroscopeScreen()
+                }
+            case .research:
+                Text("Content (\(app.nav.mode.rawValue))")
+            case .cycles:
+                Text("Content (\(app.nav.mode.rawValue))")
+            }
+        }
             .navigationTitle(app.nav.mode.rawValue)
             .toolbar {
                 if preferTwoColumns {
@@ -28,4 +40,3 @@ struct ContentColumn: View {
             }
     }
 }
-

@@ -15,19 +15,18 @@ final class AppState: ObservableObject {
 
     // Demo data
     @Published var radixItems: [RadixItem] = [
-        .init(id: UUID(), title: "Jan — 12:34"),
-        .init(id: UUID(), title: "Marie — 09:10"),
-        .init(id: UUID(), title: "Project X — 18:05"),
+        .init(id: UUID(), title: "Horoscope"),
+        .init(id: UUID(), title: "Positions"),
+        .init(id: UUID(), title: "Analysis"),
     ]
     @Published var projects: [ResearchProject] = [
-        .init(id: UUID(), title: "Proef: Halfsommen"),
-        .init(id: UUID(), title: "Dataset: 1900–1950"),
-        .init(id: UUID(), title: "Vergelijking huizensystemen"),
+        .init(id: UUID(), title: "Datafiles"),
+        .init(id: UUID(), title: "Projects"),
     ]
     @Published var profiles: [CyclesProfile] = [
-        .init(id: UUID(), title: "Saturnus-cyclus"),
-        .init(id: UUID(), title: "Jupiter transits"),
-        .init(id: UUID(), title: "Progressies preset A"),
+        .init(id: UUID(), title: "Astronomical Cycles"),
+        .init(id: UUID(), title: "Waves"),
+        .init(id: UUID(), title: "Tables/Graphs"),
     ]
 
     func ensureDefaultSelection() {
@@ -52,8 +51,8 @@ final class AppState: ObservableObject {
 
 enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case radix = "Radix"
-    case research = "Onderzoek"
-    case cycles = "Cycli"
+    case research = "Research"
+    case cycles = "Cycles"
 
     var id: String { rawValue }
 

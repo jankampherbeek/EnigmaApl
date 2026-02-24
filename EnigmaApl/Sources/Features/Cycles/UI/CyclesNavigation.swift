@@ -10,12 +10,13 @@ import Combine
 
 struct CyclesNav: Equatable {
     var selectedID: UUID? = nil
-    var section: CyclesSection = .chart
+    var section: CyclesSection = .astronomicalCycles
 }
 
 enum CyclesSection: String, CaseIterable, Identifiable, Hashable {
-    case chart = "Grafiek"
-    case stats = "Statistiek"
+    case astronomicalCycles = "Astronomical Cycles"
+    case waves = "Waves"
+    case tablesGraphs = "Tables/Graphs"
     var id: String { rawValue }
 }
 
@@ -26,7 +27,7 @@ final class CyclesNavigator: ObservableObject {
 
     func select(_ id: UUID?) {
         nav.selectedID = id
-        if id != nil { nav.section = .chart }
+        if id != nil { nav.section = .astronomicalCycles }
     }
 
     func setSection(_ section: CyclesSection) {
