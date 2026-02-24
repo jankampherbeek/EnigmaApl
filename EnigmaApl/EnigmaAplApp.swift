@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct EnigmaAplApp: App {
-    @StateObject private var shellViewModel = AppBootstrap.makeShellViewModel()
+    @StateObject private var shellModel = AppBootstrap.makeShellModel()
     
     // Create a single SEWrapper instance at app startup for thread-safety
     // Swiss Ephemeris is single-threaded, so we must use one instance throughout the app lifecycle
@@ -40,7 +40,7 @@ struct EnigmaAplApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: shellViewModel)
+            ContentView(model: shellModel)
         }
 //      .modelContainer(sharedModelContainer)
     }

@@ -8,33 +8,33 @@
 import SwiftUI
 
 struct AppShellView: View {
-    @ObservedObject var viewModel: AppShellViewModel
+    @ObservedObject var model: AppShellModel
 
     var body: some View {
         NavigationSplitView {
             MasterDetailSidebarView(
-                features: viewModel.features,
-                submenuActions: viewModel.submenuActions,
-                selectedFeatureID: viewModel.selectedFeatureID,
-                selectedActionID: viewModel.selectedActionID,
-                onFeatureTap: viewModel.selectFeature,
-                onActionTap: viewModel.selectAction
+                features: model.features,
+                submenuActions: model.submenuActions,
+                selectedFeatureID: model.selectedFeatureID,
+                selectedActionID: model.selectedActionID,
+                onFeatureTap: model.selectFeature,
+                onActionTap: model.selectAction
             )
 #if os(macOS)
             .navigationSplitViewColumnWidth(min: 260, ideal: 280)
 #endif
         } detail: {
             ResizableDetailSplitView {
-                if let customLeft = viewModel.splitContent.customLeft {
+                if let customLeft = model.splitContent.customLeft {
                     customLeft
                 } else {
-                    DummyPaneView(title: viewModel.splitContent.leftTitle, onClose: viewModel.closeCurrentDetail)
+                    DummyPaneView(title: model.splitContent.leftTitle, onClose: model.closeCurrentDetail)
                 }
             } right: {
-                if let customRight = viewModel.splitContent.customRight {
+                if let customRight = model.splitContent.customRight {
                     customRight
                 } else {
-                    DummyPaneView(title: viewModel.splitContent.rightTitle, onClose: viewModel.closeCurrentDetail)
+                    DummyPaneView(title: model.splitContent.rightTitle, onClose: model.closeCurrentDetail)
                 }
             }
         }
@@ -51,7 +51,7 @@ private struct MasterDetailSidebarView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Hoofdmenu")
+            Text("Main menu")
                 .font(.headline)
                 .padding(.horizontal)
 

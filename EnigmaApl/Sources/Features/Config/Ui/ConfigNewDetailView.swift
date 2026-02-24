@@ -8,7 +8,7 @@ import SwiftUI
 
 /// Right pane: live detail preview of the form input.
 struct ConfigNewDetailView: View {
-    @ObservedObject var viewModel: ConfigNewViewModel
+    @ObservedObject var view: ConfigNewModel
     let onClose: () -> Void
 
     var body: some View {
@@ -18,14 +18,14 @@ struct ConfigNewDetailView: View {
                 .bold()
 
             GroupBox("Conclusion") {
-                Text(viewModel.conclusion)
+                Text(view.compilation)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
                     .padding(.vertical, 4)
             }
 
             GroupBox("Remarks") {
-                Text(viewModel.remarks.isEmpty ? "(no remarks)" : viewModel.remarks)
+                Text(view.remarks.isEmpty ? "(no remarks)" : view.remarks)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
                     .padding(.vertical, 4)

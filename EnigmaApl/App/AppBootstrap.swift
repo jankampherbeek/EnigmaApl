@@ -8,7 +8,7 @@ import Foundation
 
 /// Central place to wire app-level dependencies.
 enum AppBootstrap {
-    static func makeShellViewModel() -> AppShellViewModel {
+    static func makeShellModel() -> AppShellModel {
         let appCoordinator = AppCoordinator(
             featureCoordinators: [
                 ConfigCoordinator(),
@@ -17,13 +17,13 @@ enum AppBootstrap {
             ]
         )
 
-        return AppShellViewModel(appCoordinator: appCoordinator)
+        return AppShellModel(appCoordinator: appCoordinator)
     }
 }
 
-extension AppShellViewModel {
-    static var preview: AppShellViewModel {
-        AppBootstrap.makeShellViewModel()
+extension AppShellModel {
+    static var preview: AppShellModel {
+        AppBootstrap.makeShellModel()
     }
 }
 

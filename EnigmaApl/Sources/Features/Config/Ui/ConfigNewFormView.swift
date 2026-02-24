@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Left pane: complex form for creating a new config.
 struct ConfigNewFormView: View {
-    @ObservedObject var viewModel: ConfigNewViewModel
+    @ObservedObject var view: ConfigNewModel
     let onClose: () -> Void
 
     var body: some View {
@@ -25,8 +25,8 @@ struct ConfigNewFormView: View {
                     TextField(
                         "E.g. Projectconfig A",
                         text: Binding(
-                            get: { viewModel.name },
-                            set: { viewModel.updateName($0) }
+                            get: { view.name },
+                            set: { view.updateName($0) }
                         )
                     )
                         .textFieldStyle(.roundedBorder)
@@ -39,11 +39,11 @@ struct ConfigNewFormView: View {
                     Picker(
                         "Type",
                         selection: Binding(
-                            get: { viewModel.type },
-                            set: { viewModel.updateType($0) }
+                            get: { view.type },
+                            set: { view.updateType($0) }
                         )
                     ) {
-                        ForEach(ConfigNewViewModel.ConfigType.allCases) { type in
+                        ForEach(ConfigNewModel.ConfigType.allCases) { type in
                             Text(type.rawValue).tag(type)
                         }
                     }
@@ -53,8 +53,8 @@ struct ConfigNewFormView: View {
                 Toggle(
                     "Active",
                     isOn: Binding(
-                        get: { viewModel.isActive },
-                        set: { viewModel.updateIsActive($0) }
+                        get: { view.isActive },
+                        set: { view.updateIsActive($0) }
                     )
                 )
 
@@ -63,8 +63,8 @@ struct ConfigNewFormView: View {
                         .font(.headline)
                     TextEditor(
                         text: Binding(
-                            get: { viewModel.remarks },
-                            set: { viewModel.updateRemarks($0) }
+                            get: { view.remarks },
+                            set: { view.updateRemarks($0) }
                         )
                     )
                         .frame(minHeight: 140)

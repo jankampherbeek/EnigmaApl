@@ -15,7 +15,7 @@ import UIKit
 
 
 struct ContentView: View {
-    @ObservedObject var viewModel: AppShellViewModel
+    @ObservedObject var model: AppShellModel
     //    @Environment(\.modelContext) private var modelContext
     //    @Query private var items: [Item]
     //    @State private var sunLongitude: Double? = nil
@@ -34,7 +34,7 @@ struct ContentView: View {
     //    }
     
     var body: some View {
-        AppShellView(viewModel: viewModel)
+        AppShellView(model: model)
         //        NavigationSplitView {
         //            List {
         //                ForEach(items) { item in
