@@ -23,7 +23,7 @@ public struct AstronCalcOrchestrator {
         
         // check for topocentric
         if (request.ConfigData.observerPosition == ObserverPositions.topoCentric) {
-            seWrapper.setTopocentric(geoLon: request.Latitude, geoLat: request.Longitude, height: request.Height)
+            seWrapper.setTopocentric(geoLon: request.Longitude, geoLat: request.Latitude, height: request.Height)
         }
         
         // Calculate obliquity using id -1
@@ -36,7 +36,7 @@ public struct AstronCalcOrchestrator {
         
         var ayanamshaOffset = 0.0;
         if (request.ConfigData.ayanamsha != Ayanamshas.tropical) {
-            seWrapper.setAyanamsha(idAyanamsha: Ayanamshas.tropical.seId)
+            seWrapper.setAyanamsha(idAyanamsha: request.ConfigData.ayanamsha)
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
 
