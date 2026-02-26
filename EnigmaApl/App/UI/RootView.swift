@@ -34,17 +34,21 @@ struct RootView: View {
         .environmentObject(composition.radixNav)
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)
-        .onAppear { app.ensureDefaultSelection() }
+        .onAppear {
+            DispatchQueue.main.async {
+                app.ensureDefaultSelection()
+            }
+        }
         .sheet(isPresented: Binding(
             get: { preferTwoColumns && app.ui.showInspectorSheet },
-            set: { app.ui.showInspectorSheet = $0 }
+            set: { app.setInspectorSheet($0) }
         )) {
             NavigationStack {
                 DetailColumn()
                     .navigationTitle("Details")
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button("Sluiten") { app.ui.showInspectorSheet = false }
+                            Button("Sluiten") { app.setInspectorSheet(false) }
                         }
                     }
             }

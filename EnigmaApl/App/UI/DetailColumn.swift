@@ -14,13 +14,24 @@ import Combine
 
 struct DetailColumn: View {
     @EnvironmentObject private var app: AppState
+    @EnvironmentObject private var radixNav: RadixNavigator
     var body: some View {
         Group {
             switch app.nav.mode {
             case .radix:
                 switch app.nav.radix.inspector {
                 case .horoscope:
-                    Text("Detail (Radix)")
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Detail (Radix)")
+                        Button("New Chart") {
+                            radixNav.setInspector(.newChart)
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding()
+                case .newChart:
+                    RadixInputScreen()
                 case .positions:
                     PositionsScreen()
                 case .analysis:

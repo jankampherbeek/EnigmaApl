@@ -19,149 +19,215 @@ enum LongitudeHemisphere: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-/// Apple-conforme segmented control met optionele titel.
-/// - Goede a11y: label + value + hint
-/// - Werkt netjes in Forms
-/// - Titel kan weg, maar a11y label blijft bestaan
-struct HemisphereSegmented<Option>: View where Option: Hashable & Identifiable {
-    private let title: LocalizedStringKey?
-    private let a11yLabel: LocalizedStringKey
-    private let hint: LocalizedStringKey?
-    private let options: [Option]
-    private let label: (Option) -> LocalizedStringKey
-    @Binding private var selection: Option
+enum CalendarStyle: String, CaseIterable, Identifiable {
+    case gregorian = "G"
+    case julian = "J"
+    var id: String { rawValue }
+}
 
-    /// Initializer met (optionele) titel.
-    init(
-        title: LocalizedStringKey? = nil,
-        accessibilityLabel: LocalizedStringKey? = nil,
-        hint: LocalizedStringKey? = nil,
-        options: [Option],
-        label: @escaping (Option) -> LocalizedStringKey,
-        selection: Binding<Option>
-    ) {
-        self.title = title
-        // Als je geen accessibilityLabel opgeeft, gebruiken we de titel,
-        // en als die ook ontbreekt een generieke fallback.
-        self.a11yLabel = accessibilityLabel ?? title ?? "Keuze"
-        self.hint = hint
-        self.options = options
-        self.label = label
-        self._selection = selection
-    }
+enum YearCount: String, CaseIterable, Identifiable {
+    case ce = "CE"
+    case bc = "BC"
+    case astronomical = "Astr"
+    var id: String { rawValue }
+}
 
-    /// Initializer zonder titel (handig voor compacte UI).
-    init(
-        options: [Option],
-        label: @escaping (Option) -> LocalizedStringKey,
-        selection: Binding<Option>,
-        accessibilityLabel: LocalizedStringKey,
-        hint: LocalizedStringKey? = nil
-    ) {
-        self.init(
-            title: nil,
-            accessibilityLabel: accessibilityLabel,
-            hint: hint,
-            options: options,
-            label: label,
-            selection: selection
-        )
-    }
+enum UTOffsetDirection: String, CaseIterable, Identifiable {
+    case earlier = "Earlier"
+    case later = "Later"
+    var id: String { rawValue }
+}
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            if let title {
-                Text(title)
-                    .font(.headline)
-                    .accessibilityAddTraits(.isHeader)
-            }
+enum DSTOption: String, CaseIterable, Identifiable {
+    case dst = "DST"
+    case noDST = "no DST"
+    var id: String { rawValue }
+}
 
-            Picker("", selection: $selection) {
-                ForEach(options) { option in
-                    Text(label(option)).tag(option)
-                }
-            }
-            .pickerStyle(.segmented)
-            // Zorg dat het ook zonder visuele titel toegankelijk blijft
-            .accessibilityLabel(a11yLabel)
-            .accessibilityValue(label(selection))
-            .accessibilityHint(hint ?? "")
+enum RoddenRating: String, CaseIterable, Identifiable {
+    case aa = "AA"
+    case a = "A"
+    case b = "B"
+    case c = "C"
+    case dd = "DD"
+    case x = "X"
+    case xx = "XX"
+
+    var id: String { rawValue }
+
+    var description: String {
+        switch self {
+        case .aa: return "Very high"
+        case .a: return "High"
+        case .b: return "Reasonable"
+        case .c: return "Not sure"
+        case .dd: return "Dirty Data"
+        case .x: return "Unknown time"
+        case .xx: return "Unknown Data"
         }
     }
+
+    var displayText: String { "\(rawValue) - \(description)" }
 }
 
-
-struct RadixInputMetaDataView: View {
+struct RadixInputScreen: View {
+    @EnvironmentObject private var app: AppState
+    @EnvironmentObject private var radixNav: RadixNavigator
     @State private var chartName: String = ""
-    @State private var description = ""
+    @State private var chartDescription = ""
     @State private var source = ""
-    
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Describe the chart").bold()
-            TextField("Name", text: $chartName)
-                .textFieldStyle(.roundedBorder)
-       
-            TextField("Description", text: $description)
-                .textFieldStyle(.roundedBorder)
-            TextField("Source", text: $source)
-                .textFieldStyle(.roundedBorder)
-        }.padding(  10)
+    @State private var roddenRating: RoddenRating = .aa
 
-    }
-}
-
-struct RadixInputLocationView: View {
     @State private var locationName: String = ""
     @State private var latitude: String = ""
     @State private var longitude: String = ""
     @State private var latHemi: LatitudeHemisphere = .north
     @State private var lonHemi: LongitudeHemisphere = .east
-    
+
+    @State private var date = ""
+    @State private var time = ""
+    @State private var offset = "00:00:00"
+    @State private var calendarStyle: CalendarStyle = .gregorian
+    @State private var yearCount: YearCount = .ce
+    @State private var utOffsetDirection: UTOffsetDirection = .earlier
+    @State private var dstOption: DSTOption = .noDST
+
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Describe the location").bold()
-            HStack{
-                Text("City")
-                TextField("Name of location", text: $locationName)  .textFieldStyle(.roundedBorder)
-
-            }
-  
-            HStack{
-                Text("Longitude")
-                TextField("ddd:mm:ss", text: $longitude)  .textFieldStyle(.roundedBorder)
-                HemisphereSegmented(
-                    options: LongitudeHemisphere.allCases,
-                    label: { LocalizedStringKey($0.rawValue) },
-                    selection: $lonHemi,
-                    accessibilityLabel: "Lengtegraad",
-                    hint: "Kies oost of west"
-                )
-                Spacer()
-                Text("Latitude")
-                TextField("dd:mm:ss", text: $latitude)  .textFieldStyle(.roundedBorder)
-                HemisphereSegmented(
-                    options: LatitudeHemisphere.allCases,
-                    label: { LocalizedStringKey($0.rawValue) },
-                    selection: $latHemi,
-                    accessibilityLabel: "Breedtegraad",
-                    hint: "Kies noord of zuid"
-                )
+        Form {
+            Section("About the chart") {
+                LabeledContent("Name") {
+                    TextField("", text: $chartName)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 320)
+                }
+                LabeledContent("Description") {
+                    TextField("", text: $chartDescription)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 320)
+                }
+                LabeledContent("Source") {
+                    TextField("", text: $source)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 320)
+                }
+                LabeledContent("Rodden Rating") {
+                    Picker("Rodden Rating", selection: $roddenRating) {
+                        ForEach(RoddenRating.allCases) { rating in
+                            Text(rating.displayText).tag(rating)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                }
             }
 
+            Section("Location") {
+                LabeledContent("Name of location") {
+                    TextField("", text: $locationName)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 320)
+                }
+                LabeledContent("Longitude (ddd:mm:ss)") {
+                    HStack(spacing: 8) {
+                        TextField("", text: $longitude)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 180)
+                        Picker("Longitude Hemisphere", selection: $lonHemi) {
+                            ForEach(LongitudeHemisphere.allCases) { hemisphere in
+                                Text(hemisphere.rawValue).tag(hemisphere)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: 140)
+                        .labelsHidden()
+                    }
+                }
+                LabeledContent("Latitude (dd:mm:ss)") {
+                    HStack(spacing: 8) {
+                        TextField("", text: $latitude)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 180)
+                        Picker("Latitude Hemisphere", selection: $latHemi) {
+                            ForEach(LatitudeHemisphere.allCases) { hemisphere in
+                                Text(hemisphere.rawValue).tag(hemisphere)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: 140)
+                        .labelsHidden()
+                    }
+                }
+            }
 
-        }.padding(10)
-    }
-    
-}
+            Section("Date and Time") {
+                LabeledContent("Date (yyyy/mm/dd)") {
+                    TextField("", text: $date)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 220)
+                }
+                LabeledContent("Calendar / Year Count") {
+                    HStack(spacing: 8) {
+                        Picker("Calendar", selection: $calendarStyle) {
+                            ForEach(CalendarStyle.allCases) { style in
+                                Text(style.rawValue).tag(style)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: 160)
+                        .labelsHidden()
 
-
-
-struct RadixInputScreen: View {
-    var body: some View {
-        RadixInputMetaDataView()
-        RadixInputLocationView()
+                        Picker("Year Count", selection: $yearCount) {
+                            ForEach(YearCount.allCases) { count in
+                                Text(count.rawValue).tag(count)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                    }
+                }
+                LabeledContent("Time (hh:mm:ss)") {
+                    HStack(spacing: 8) {
+                        TextField("", text: $time)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 180)
+                        Picker("DST", selection: $dstOption) {
+                            ForEach(DSTOption.allCases) { option in
+                                Text(option.rawValue).tag(option)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: 140)
+                        .labelsHidden()
+                    }
+                }
+                LabeledContent("Offset UT (hh:mm:ss)") {
+                    HStack(spacing: 8) {
+                        TextField("", text: $offset)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 180)
+                        Picker("UT Relation", selection: $utOffsetDirection) {
+                            ForEach(UTOffsetDirection.allCases) { relation in
+                                Text(relation.rawValue).tag(relation)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(maxWidth: 160)
+                        .labelsHidden()
+                    }
+                }
+            }
+        }
+        // Keeps native Form row metrics while avoiding overly wide input controls on macOS.
+        .formStyle(.grouped)
+        .navigationTitle("New Chart")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close") {
+                    radixNav.setInspector(.horoscope)
+                    app.setInspectorSheet(false)
+                }
+            }
+        }
     }
 }
 

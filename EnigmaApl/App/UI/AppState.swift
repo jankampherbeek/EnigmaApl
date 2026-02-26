@@ -45,6 +45,34 @@ final class AppState: ObservableObject {
         nav.mode = mode
         ensureDefaultSelection()
     }
+
+    func openNewChartInDetail(isCompact: Bool) {
+        DispatchQueue.main.async {
+            // Assign whole UIState once to avoid nested publishes during a render pass.
+            var next = self.ui
+            next.showRadixInputInDetail = true
+            if isCompact { next.showInspectorSheet = true }
+            self.ui = next
+        }
+    }
+
+    func closeNewChartDetail() {
+        DispatchQueue.main.async {
+            var next = self.ui
+            next.showRadixInputInDetail = false
+            next.showInspectorSheet = false
+            self.ui = next
+        }
+    }
+
+    func setInspectorSheet(_ isPresented: Bool) {
+        DispatchQueue.main.async {
+            var next = self.ui
+            next.showInspectorSheet = isPresented
+            self.ui = next
+        }
+    }
+
 }
 
 
@@ -77,6 +105,7 @@ struct NavigationState: Equatable {
 struct UIState: Equatable {
     var sidebarSearch: String = ""
     var showInspectorSheet: Bool = false
+    var showRadixInputInDetail: Bool = false
 }
 
 

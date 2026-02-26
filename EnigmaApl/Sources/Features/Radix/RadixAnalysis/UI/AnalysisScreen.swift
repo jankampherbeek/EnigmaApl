@@ -2,6 +2,14 @@ import SwiftUI
 
 struct AnalysisScreen: View {
     var body: some View {
-        Text("Placeholder Analysis screen")
+        VStack(spacing: 16) {
+            Text("Placeholder Analysis screen")
+            NavigationLink("Aspects") {
+                AspectsScreen()
+            }
+            NavigationLink("Midpoints") {
+                MidpointsScreen()
+            }
+        }
     }
 }

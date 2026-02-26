@@ -19,7 +19,7 @@ struct ContentColumn: View {
             switch app.nav.mode {
             case .radix:
                 switch app.nav.radix.inspector {
-                case .horoscope, .positions, .analysis:
+                case .horoscope, .positions, .analysis, .newChart:
                     HoroscopeScreen()
                 }
             case .research:
@@ -32,7 +32,7 @@ struct ContentColumn: View {
             .toolbar {
                 if preferTwoColumns {
                     ToolbarItem(placement: .automatic) {
-                        Button { app.ui.showInspectorSheet = true } label: {
+                        Button { app.setInspectorSheet(true) } label: {
                             Label("Details", systemImage: "sidebar.right")
                         }
                     }
