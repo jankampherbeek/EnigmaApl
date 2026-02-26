@@ -20,15 +20,15 @@ enum LongitudeHemisphere: String, CaseIterable, Identifiable {
 }
 
 enum CalendarStyle: String, CaseIterable, Identifiable {
-    case gregorian = "G"
-    case julian = "J"
+    case gregorian = "Gregorian"
+    case julian = "Julian"
     var id: String { rawValue }
 }
 
 enum YearCount: String, CaseIterable, Identifiable {
     case ce = "CE"
-    case bc = "BC"
-    case astronomical = "Astr"
+    case bc = "BCE"
+    case astronomical = "Astronomical"
     var id: String { rawValue }
 }
 
@@ -70,6 +70,27 @@ enum RoddenRating: String, CaseIterable, Identifiable {
     var displayText: String { "\(rawValue) - \(description)" }
 }
 
+// Reusable DMS part picker used to compose geo-coordinate input.
+private struct DMSComponentPicker: View {
+    let title: String
+    let range: ClosedRange<Int>
+    @Binding var selection: Int
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Text(title)
+                .foregroundStyle(.secondary)
+            Picker(title, selection: $selection) {
+                ForEach(Array(range), id: \.self) { value in
+                    Text(String(value)).tag(value)
+                }
+            }
+            .pickerStyle(.menu)
+            .labelsHidden()
+        }
+    }
+}
+
 struct RadixInputScreen: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
@@ -79,14 +100,26 @@ struct RadixInputScreen: View {
     @State private var roddenRating: RoddenRating = .aa
 
     @State private var locationName: String = ""
-    @State private var latitude: String = ""
-    @State private var longitude: String = ""
+    @State private var latitudeDegrees = 0
+    @State private var latitudeMinutes = 0
+    @State private var latitudeSeconds = 0
+    @State private var longitudeDegrees = 0
+    @State private var longitudeMinutes = 0
+    @State private var longitudeSeconds = 0
     @State private var latHemi: LatitudeHemisphere = .north
     @State private var lonHemi: LongitudeHemisphere = .east
 
-    @State private var date = ""
-    @State private var time = ""
-    @State private var offset = "00:00:00"
+    // Domain-oriented date/time input:
+    // year remains free numeric text to support very large ranges and BCE use cases.
+    @State private var yearText = "2026"
+    @State private var month = 1
+    @State private var day = 1
+    @State private var hour = 12
+    @State private var minute = 0
+    @State private var second = 0
+    @State private var offsetHour = 0
+    @State private var offsetMinute = 0
+    @State private var offsetSecond = 0
     @State private var calendarStyle: CalendarStyle = .gregorian
     @State private var yearCount: YearCount = .ce
     @State private var utOffsetDirection: UTOffsetDirection = .earlier
@@ -127,11 +160,11 @@ struct RadixInputScreen: View {
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: 320)
                 }
-                LabeledContent("Longitude (ddd:mm:ss)") {
+                LabeledContent("Longitude") {
                     HStack(spacing: 8) {
-                        TextField("", text: $longitude)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 180)
+                        DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
+                        DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
+                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
                         Picker("Longitude Hemisphere", selection: $lonHemi) {
                             ForEach(LongitudeHemisphere.allCases) { hemisphere in
                                 Text(hemisphere.rawValue).tag(hemisphere)
@@ -142,11 +175,11 @@ struct RadixInputScreen: View {
                         .labelsHidden()
                     }
                 }
-                LabeledContent("Latitude (dd:mm:ss)") {
+                LabeledContent("Latitude") {
                     HStack(spacing: 8) {
-                        TextField("", text: $latitude)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 180)
+                        DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
+                        DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
+                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
                         Picker("Latitude Hemisphere", selection: $latHemi) {
                             ForEach(LatitudeHemisphere.allCases) { hemisphere in
                                 Text(hemisphere.rawValue).tag(hemisphere)
@@ -160,10 +193,34 @@ struct RadixInputScreen: View {
             }
 
             Section("Date and Time") {
-                LabeledContent("Date (yyyy/mm/dd)") {
-                    TextField("", text: $date)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 220)
+                LabeledContent("Date") {
+                    HStack(spacing: 8) {
+                        Text("Year")
+                            .foregroundStyle(.secondary)
+                        TextField("", text: $yearText)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 100)
+
+                        Text("Month")
+                            .foregroundStyle(.secondary)
+                        Picker("Month", selection: $month) {
+                            ForEach(1...12, id: \.self) { value in
+                                Text(String(value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
+                        Text("Day")
+                            .foregroundStyle(.secondary)
+                        Picker("Day", selection: $day) {
+                            ForEach(1...31, id: \.self) { value in
+                                Text(String(value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                    }
                 }
                 LabeledContent("Calendar / Year Count") {
                     HStack(spacing: 8) {
@@ -185,11 +242,32 @@ struct RadixInputScreen: View {
                         .labelsHidden()
                     }
                 }
-                LabeledContent("Time (hh:mm:ss)") {
+                LabeledContent("Time / DST") {
                     HStack(spacing: 8) {
-                        TextField("", text: $time)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 180)
+                        Picker("Hour", selection: $hour) {
+                            ForEach(0...23, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
+                        Picker("Minute", selection: $minute) {
+                            ForEach(0...59, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
+                        Picker("Second", selection: $second) {
+                            ForEach(0...59, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
                         Picker("DST", selection: $dstOption) {
                             ForEach(DSTOption.allCases) { option in
                                 Text(option.rawValue).tag(option)
@@ -200,11 +278,32 @@ struct RadixInputScreen: View {
                         .labelsHidden()
                     }
                 }
-                LabeledContent("Offset UT (hh:mm:ss)") {
+                LabeledContent("Offset UT") {
                     HStack(spacing: 8) {
-                        TextField("", text: $offset)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 180)
+                        Picker("Offset Hour", selection: $offsetHour) {
+                            ForEach(0...23, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
+                        Picker("Offset Minute", selection: $offsetMinute) {
+                            ForEach(0...59, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
+                        Picker("Offset Second", selection: $offsetSecond) {
+                            ForEach(0...59, id: \.self) { value in
+                                Text(String(format: "%02d", value)).tag(value)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+
                         Picker("UT Relation", selection: $utOffsetDirection) {
                             ForEach(UTOffsetDirection.allCases) { relation in
                                 Text(relation.rawValue).tag(relation)
