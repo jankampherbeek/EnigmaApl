@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+// The detail screen in the right part of the NavigationSplitView of the app.
 
 // MARK: - Minimal placeholder views (keep your existing implementations)
 

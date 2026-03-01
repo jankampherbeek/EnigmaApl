@@ -5,6 +5,9 @@
 //  Created by Jan Kampherbeek on 24/02/2026.
 //
 
+// App container, builds a NavigationSplitView with 3 column:
+// SidebarView (left navigation), ContentColumn (middle) and DetailColumn (right)
+
 import SwiftUI
 import Combine
 
@@ -18,6 +21,7 @@ struct RootView: View {
     var body: some View {
         let app = composition.app
 
+        // Main layout
         NavigationSplitView {
             SidebarView()
         } content: {
@@ -29,7 +33,7 @@ struct RootView: View {
                 DetailColumn()
             }
         }
-        // Inject the actual singletons
+        // Inject the actual singletons so that they can be used by lower views
         .environmentObject(app)
         .environmentObject(composition.radixNav)
         .environmentObject(composition.researchNav)
@@ -39,6 +43,7 @@ struct RootView: View {
                 app.ensureDefaultSelection()
             }
         }
+        // when using compact layouts
         .sheet(isPresented: Binding(
             get: { preferTwoColumns && app.ui.showInspectorSheet },
             set: { app.setInspectorSheet($0) }

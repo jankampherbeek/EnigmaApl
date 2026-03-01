@@ -125,6 +125,37 @@ struct RadixInputScreen: View {
     @State private var utOffsetDirection: UTOffsetDirection = .earlier
     @State private var dstOption: DSTOption = .noDST
 
+    private var astronomicalYearForValidation: Int? {
+        guard let enteredYear = Int(yearText) else { return nil }
+
+        switch yearCount {
+        case .astronomical:
+            return enteredYear
+        case .ce:
+            // Civil CE does not have year 0.
+            return enteredYear > 0 ? enteredYear : nil
+        case .bc:
+            // Convert BCE to astronomical year numbering: 1 BCE -> 0, 2 BCE -> -1.
+            return enteredYear > 0 ? 1 - enteredYear : nil
+        }
+    }
+
+    private var dateValidationResult: DateComponentsValidationResult {
+        guard let year = astronomicalYearForValidation else {
+            return DateComponentsValidationResult(
+                isValid: false,
+                message: "Enter a valid year for the selected year count"
+            )
+        }
+
+        return AstronomicalDateValidation.validateDateComponents(
+            year: year,
+            month: month,
+            day: day,
+            gregorian: calendarStyle == .gregorian
+        )
+    }
+
     var body: some View {
         Form {
             Section("About the chart") {
@@ -194,32 +225,40 @@ struct RadixInputScreen: View {
 
             Section("Date and Time") {
                 LabeledContent("Date") {
-                    HStack(spacing: 8) {
-                        Text("Year")
-                            .foregroundStyle(.secondary)
-                        TextField("", text: $yearText)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 100)
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 8) {
+                            Text("Year")
+                                .foregroundStyle(.secondary)
+                            TextField("", text: $yearText)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(maxWidth: 100)
 
-                        Text("Month")
-                            .foregroundStyle(.secondary)
-                        Picker("Month", selection: $month) {
-                            ForEach(1...12, id: \.self) { value in
-                                Text(String(value)).tag(value)
+                            Text("Month")
+                                .foregroundStyle(.secondary)
+                            Picker("Month", selection: $month) {
+                                ForEach(1...12, id: \.self) { value in
+                                    Text(String(value)).tag(value)
+                                }
                             }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
+                            .pickerStyle(.menu)
+                            .labelsHidden()
 
-                        Text("Day")
-                            .foregroundStyle(.secondary)
-                        Picker("Day", selection: $day) {
-                            ForEach(1...31, id: \.self) { value in
-                                Text(String(value)).tag(value)
+                            Text("Day")
+                                .foregroundStyle(.secondary)
+                            Picker("Day", selection: $day) {
+                                ForEach(1...31, id: \.self) { value in
+                                    Text(String(value)).tag(value)
+                                }
                             }
+                            .pickerStyle(.menu)
+                            .labelsHidden()
                         }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
+
+                        if let message = dateValidationResult.message {
+                            Text(message)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                        }
                     }
                 }
                 LabeledContent("Calendar / Year Count") {

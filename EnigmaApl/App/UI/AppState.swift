@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+// The central observable state
+
 @MainActor
 final class AppState: ObservableObject {
     @Published var nav = NavigationState()

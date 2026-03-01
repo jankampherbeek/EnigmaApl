@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+// The navigationbar in the left part of the NavigationSplitView of the app.
 
 struct SidebarView: View {
     @EnvironmentObject private var app: AppState

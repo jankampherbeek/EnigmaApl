@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+// The center part of the NavigationSplitView of the app.
 
 struct ContentColumn: View {
     @EnvironmentObject private var app: AppState

@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-
+// Creates and injects app-level objects (including navigators) as EnvironmentObjects
 @MainActor
 final class AppComposition: ObservableObject {
     let app: AppState

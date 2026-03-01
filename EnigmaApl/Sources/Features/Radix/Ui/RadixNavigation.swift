@@ -7,6 +7,8 @@
 import SwiftUI
 import Combine
 
+// Feature coordinator used by views
+
 struct RadixNav: Equatable {
     var selectedID: UUID? = nil
     var inspector: RadixInspector = .horoscope
