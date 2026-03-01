@@ -16,6 +16,27 @@ import Combine
 struct DetailColumn: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
+
+    private var detailTitle: String {
+        switch app.nav.mode {
+        case .radix:
+            switch app.nav.radix.inspector {
+            case .newChart:
+                return "Data for a new chart"
+            case .positions:
+                return "Positions"
+            case .analysis:
+                return "Analysis"
+            case .horoscope:
+                return "Detail (Radix)"
+            }
+        case .research:
+            return "Detail"
+        case .cycles:
+            return "Detail"
+        }
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -56,6 +77,6 @@ struct DetailColumn: View {
                 }
             }
         }
-        .navigationTitle("Detail")
+        .navigationTitle(detailTitle)
     }
 }

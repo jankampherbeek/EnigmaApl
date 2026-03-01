@@ -33,8 +33,8 @@ enum YearCount: String, CaseIterable, Identifiable {
 }
 
 enum UTOffsetDirection: String, CaseIterable, Identifiable {
-    case earlier = "Earlier"
     case later = "Later"
+    case earlier = "Earlier"
     var id: String { rawValue }
 }
 
@@ -87,6 +87,71 @@ private struct DMSComponentPicker: View {
             }
             .pickerStyle(.menu)
             .labelsHidden()
+            .focusable(true)
+        }
+    }
+}
+
+private struct FieldBlock<Content: View>: View {
+    let title: String
+    let content: Content
+
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            content
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct RadixInputHelpView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    GroupBox("About the chart") {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Use Name, Description and Source to identify your chart.")
+                            Text("Rodden Rating indicates source reliability.")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    GroupBox("Location") {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Enter longitude and latitude in degrees, minutes and seconds.")
+                            Text("Use O/W for longitude hemisphere and N/Z for latitude hemisphere.")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    GroupBox("Date and Time") {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Year count supports CE/BCE and astronomical numbering.")
+                            Text("Offset UT converts local time to Universal Time.")
+                            Text("Use DST when daylight saving was active at the chart moment.")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Help")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") { dismiss() }
+                }
+            }
         }
     }
 }
@@ -94,6 +159,7 @@ private struct DMSComponentPicker: View {
 struct RadixInputScreen: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
+    @StateObject private var inputModel = RadixInputModel()
     @State private var chartName: String = ""
     @State private var chartDescription = ""
     @State private var source = ""
@@ -122,8 +188,36 @@ struct RadixInputScreen: View {
     @State private var offsetSecond = 0
     @State private var calendarStyle: CalendarStyle = .gregorian
     @State private var yearCount: YearCount = .ce
-    @State private var utOffsetDirection: UTOffsetDirection = .earlier
+    @State private var utOffsetDirection: UTOffsetDirection = .later
     @State private var dstOption: DSTOption = .noDST
+    @State private var showHelp = false
+
+    private var uses24HourClock: Bool {
+        let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .autoupdatingCurrent) ?? "H"
+        return !format.contains("a")
+    }
+
+    private var amSymbol: String {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        return formatter.amSymbol
+    }
+
+    private var pmSymbol: String {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        return formatter.pmSymbol
+    }
+
+    private func localizedHourLabel(for value: Int) -> String {
+        if uses24HourClock {
+            return String(format: "%02d", value)
+        }
+
+        let hour12 = value % 12 == 0 ? 12 : value % 12
+        let period = value < 12 ? amSymbol : pmSymbol
+        return "\(hour12) \(period)"
+    }
 
     private var astronomicalYearForValidation: Int? {
         guard let enteredYear = Int(yearText) else { return nil }
@@ -156,208 +250,296 @@ struct RadixInputScreen: View {
         )
     }
 
+    private var canCreateRequest: Bool {
+        dateValidationResult.isValid && astronomicalYearForValidation != nil
+    }
+
+    private var modelInput: RadixInputModel.Input? {
+        guard let year = astronomicalYearForValidation else { return nil }
+
+        return RadixInputModel.Input(
+            astronomicalYear: year,
+            month: month,
+            day: day,
+            gregorian: calendarStyle == .gregorian,
+            hour: hour,
+            minute: minute,
+            second: second,
+            offsetHour: offsetHour,
+            offsetMinute: offsetMinute,
+            offsetSecond: offsetSecond,
+            utOffsetEarlier: utOffsetDirection == .earlier,
+            dstActive: dstOption == .dst,
+            latitudeDegrees: latitudeDegrees,
+            latitudeMinutes: latitudeMinutes,
+            latitudeSeconds: latitudeSeconds,
+            latitudeSouth: latHemi == .south,
+            longitudeDegrees: longitudeDegrees,
+            longitudeMinutes: longitudeMinutes,
+            longitudeSeconds: longitudeSeconds,
+            longitudeWest: lonHemi == .west
+        )
+    }
+
     var body: some View {
-        Form {
-            Section("About the chart") {
-                LabeledContent("Name") {
-                    TextField("", text: $chartName)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 320)
-                }
-                LabeledContent("Description") {
-                    TextField("", text: $chartDescription)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 320)
-                }
-                LabeledContent("Source") {
-                    TextField("", text: $source)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 320)
-                }
-                LabeledContent("Rodden Rating") {
-                    Picker("Rodden Rating", selection: $roddenRating) {
-                        ForEach(RoddenRating.allCases) { rating in
-                            Text(rating.displayText).tag(rating)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                }
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Data for a new chart")
+                    .font(.title2.weight(.semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            Section("Location") {
-                LabeledContent("Name of location") {
-                    TextField("", text: $locationName)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 320)
-                }
-                LabeledContent("Longitude") {
-                    HStack(spacing: 8) {
-                        DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
-                        DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
-                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
-                        Picker("Longitude Hemisphere", selection: $lonHemi) {
-                            ForEach(LongitudeHemisphere.allCases) { hemisphere in
-                                Text(hemisphere.rawValue).tag(hemisphere)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(maxWidth: 140)
-                        .labelsHidden()
-                    }
-                }
-                LabeledContent("Latitude") {
-                    HStack(spacing: 8) {
-                        DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
-                        DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
-                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
-                        Picker("Latitude Hemisphere", selection: $latHemi) {
-                            ForEach(LatitudeHemisphere.allCases) { hemisphere in
-                                Text(hemisphere.rawValue).tag(hemisphere)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(maxWidth: 140)
-                        .labelsHidden()
-                    }
-                }
-            }
-
-            Section("Date and Time") {
-                LabeledContent("Date") {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 8) {
-                            Text("Year")
-                                .foregroundStyle(.secondary)
-                            TextField("", text: $yearText)
+                GroupBox("About the chart") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        FieldBlock("Name") {
+                            TextField("", text: $chartName)
                                 .textFieldStyle(.roundedBorder)
-                                .frame(maxWidth: 100)
-
-                            Text("Month")
-                                .foregroundStyle(.secondary)
-                            Picker("Month", selection: $month) {
-                                ForEach(1...12, id: \.self) { value in
-                                    Text(String(value)).tag(value)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        FieldBlock("Description") {
+                            TextField("", text: $chartDescription)
+                                .textFieldStyle(.roundedBorder)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        FieldBlock("Source") {
+                            TextField("", text: $source)
+                                .textFieldStyle(.roundedBorder)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        FieldBlock("Rodden Rating") {
+                            Picker("Rodden Rating", selection: $roddenRating) {
+                                ForEach(RoddenRating.allCases) { rating in
+                                    Text(rating.displayText).tag(rating)
                                 }
                             }
                             .pickerStyle(.menu)
                             .labelsHidden()
+                            .focusable(true)
+                            .help("Reliability rating of the birth data source.")
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
 
-                            Text("Day")
-                                .foregroundStyle(.secondary)
-                            Picker("Day", selection: $day) {
-                                ForEach(1...31, id: \.self) { value in
-                                    Text(String(value)).tag(value)
+                GroupBox("Location") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        FieldBlock("Name of location") {
+                            TextField("", text: $locationName)
+                                .textFieldStyle(.roundedBorder)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        FieldBlock("Longitude") {
+                            HStack(spacing: 8) {
+                                DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
+                                DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
+                                DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
+                                Picker("Longitude Hemisphere", selection: $lonHemi) {
+                                    ForEach(LongitudeHemisphere.allCases) { hemisphere in
+                                        Text(hemisphere.rawValue).tag(hemisphere)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .labelsHidden()
+                                .focusable(true)
+                            }
+                        }
+                        FieldBlock("Latitude") {
+                            HStack(spacing: 8) {
+                                DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
+                                DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
+                                DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
+                                Picker("Latitude Hemisphere", selection: $latHemi) {
+                                    ForEach(LatitudeHemisphere.allCases) { hemisphere in
+                                        Text(hemisphere.rawValue).tag(hemisphere)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .labelsHidden()
+                                .focusable(true)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                GroupBox("Date and Time") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        FieldBlock("Date") {
+                            VStack(alignment: .leading, spacing: 6) {
+                                HStack(spacing: 8) {
+                                    Text("Year")
+                                        .foregroundStyle(.secondary)
+                                    TextField("", text: $yearText)
+                                        .textFieldStyle(.roundedBorder)
+                                        .frame(maxWidth: 100)
+
+                                    Text("Month")
+                                        .foregroundStyle(.secondary)
+                                    Picker("Month", selection: $month) {
+                                        ForEach(1...12, id: \.self) { value in
+                                            Text(String(value)).tag(value)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .labelsHidden()
+                                    .focusable(true)
+
+                                    Text("Day")
+                                        .foregroundStyle(.secondary)
+                                    Picker("Day", selection: $day) {
+                                        ForEach(1...31, id: \.self) { value in
+                                            Text(String(value)).tag(value)
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .labelsHidden()
+                                    .focusable(true)
+                                }
+
+                                if let message = dateValidationResult.message {
+                                    Text(message)
+                                        .font(.caption)
+                                        .foregroundStyle(.red)
                                 }
                             }
-                            .pickerStyle(.menu)
-                            .labelsHidden()
+                        }
+                        FieldBlock("Calendar / Year Count") {
+                            HStack(spacing: 8) {
+                                Picker("Calendar", selection: $calendarStyle) {
+                                    ForEach(CalendarStyle.allCases) { style in
+                                        Text(style.rawValue).tag(style)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .frame(maxWidth: 160)
+                                .labelsHidden()
+                                .focusable(true)
+                                .help("Choose Gregorian or Julian calendar for the entered date.")
+
+                                Picker("Year Count", selection: $yearCount) {
+                                    ForEach(YearCount.allCases) { count in
+                                        Text(count.rawValue).tag(count)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+                                .help("CE/BCE or astronomical year numbering.")
+                            }
+                        }
+                        FieldBlock("Time / DST") {
+                            HStack(spacing: 8) {
+                                Picker("Hour", selection: $hour) {
+                                    ForEach(0...23, id: \.self) { value in
+                                        Text(localizedHourLabel(for: value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("Minute", selection: $minute) {
+                                    ForEach(0...59, id: \.self) { value in
+                                        Text(String(format: "%02d", value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("Second", selection: $second) {
+                                    ForEach(0...59, id: \.self) { value in
+                                        Text(String(format: "%02d", value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("DST", selection: $dstOption) {
+                                    ForEach(DSTOption.allCases) { option in
+                                        Text(option.rawValue).tag(option)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .frame(maxWidth: 140)
+                                .labelsHidden()
+                                .focusable(true)
+                                .help("Set to DST when daylight saving time was in effect.")
+                            }
+                        }
+                        FieldBlock("Offset UT") {
+                            HStack(spacing: 8) {
+                                Picker("Offset Hour", selection: $offsetHour) {
+                                    ForEach(0...23, id: \.self) { value in
+                                        Text(String(format: "%02d", value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("Offset Minute", selection: $offsetMinute) {
+                                    ForEach(0...59, id: \.self) { value in
+                                        Text(String(format: "%02d", value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("Offset Second", selection: $offsetSecond) {
+                                    ForEach(0...59, id: \.self) { value in
+                                        Text(String(format: "%02d", value)).tag(value)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .focusable(true)
+
+                                Picker("UT Relation", selection: $utOffsetDirection) {
+                                    ForEach(UTOffsetDirection.allCases) { relation in
+                                        Text(relation.rawValue).tag(relation)
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                                .frame(maxWidth: 160)
+                                .labelsHidden()
+                                .focusable(true)
+                                .help("Indicates whether local time is earlier or later than UT.")
+                            }
                         }
 
-                        if let message = dateValidationResult.message {
-                            Text(message)
+                        Button("Calculate") {
+                            guard let modelInput else { return }
+                            inputModel.calculate(from: modelInput)
+                            if let chart = inputModel.lastChart {
+                                app.latestRadixChart = chart
+                                radixNav.setInspector(.positions)
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.regular)
+                        .disabled(!canCreateRequest)
+
+                        if let error = inputModel.lastError {
+                            Text(error)
                                 .font(.caption)
                                 .foregroundStyle(.red)
                         }
                     }
-                }
-                LabeledContent("Calendar / Year Count") {
-                    HStack(spacing: 8) {
-                        Picker("Calendar", selection: $calendarStyle) {
-                            ForEach(CalendarStyle.allCases) { style in
-                                Text(style.rawValue).tag(style)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(maxWidth: 160)
-                        .labelsHidden()
-
-                        Picker("Year Count", selection: $yearCount) {
-                            ForEach(YearCount.allCases) { count in
-                                Text(count.rawValue).tag(count)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                    }
-                }
-                LabeledContent("Time / DST") {
-                    HStack(spacing: 8) {
-                        Picker("Hour", selection: $hour) {
-                            ForEach(0...23, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("Minute", selection: $minute) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("Second", selection: $second) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("DST", selection: $dstOption) {
-                            ForEach(DSTOption.allCases) { option in
-                                Text(option.rawValue).tag(option)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(maxWidth: 140)
-                        .labelsHidden()
-                    }
-                }
-                LabeledContent("Offset UT") {
-                    HStack(spacing: 8) {
-                        Picker("Offset Hour", selection: $offsetHour) {
-                            ForEach(0...23, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("Offset Minute", selection: $offsetMinute) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("Offset Second", selection: $offsetSecond) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-
-                        Picker("UT Relation", selection: $utOffsetDirection) {
-                            ForEach(UTOffsetDirection.allCases) { relation in
-                                Text(relation.rawValue).tag(relation)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(maxWidth: 160)
-                        .labelsHidden()
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .frame(maxWidth: 900, alignment: .leading)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        // Keeps native Form row metrics while avoiding overly wide input controls on macOS.
-        .formStyle(.grouped)
-        .navigationTitle("New Chart")
+        .controlSize(.small)
+        .navigationTitle("Data for a new chart")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Close") {
@@ -365,6 +547,17 @@ struct RadixInputScreen: View {
                     app.setInspectorSheet(false)
                 }
             }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showHelp = true
+                } label: {
+                    Label("Help", systemImage: "questionmark.circle")
+                }
+                .help("Open help for this screen.")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            RadixInputHelpView()
         }
     }
 }
