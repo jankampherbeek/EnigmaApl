@@ -72,6 +72,9 @@
 "enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
 "enum.blackmooncorrectiontype.interpolated" = "Interpoliert";
 "enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
+// Calendar style
+"enum.calendarstyle.gregorian" = "G";
+"enum.calendarstyle.julian" = "J";
 // Factors
 "enum.factor.sun" = "Sonne";
 "enum.factor.moon" = "Mond";
@@ -160,6 +163,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (sinusförmige Differenz)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (sinusförmige Verhältnis)";
 "enum.housesystem.sripati" = "Sripati";
+// Latitudehemisphere
+"enum.latitudehemisphere.north" = "N";
+"enum.latitudehemisphere.south" = "S";
+// Longitudehemisphere
+"enum.longitudehemisphere.east" = "O";
+"enum.longitudehemisphere.west" = "W";
 // Lots types
 "enum.lotstypes.nosect" = "Ohne sect";
 "enum.lotstypes.sect" = "Mit sect";
@@ -173,3 +182,39 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standard: zweidimensional";
 "enum.projectiontype.obliquelongitude" = "Schiefe Länge";
+// Year count
+"enum.yearcount.astronomical" = "Astronomisch";
+"enum.yearcount.bce" = "v.Chr.";
+"enum.yearcount.ce" = "n.Chr.";
+// Main menu
+"menu.language" = "Wählen Sie eine Sprache";
+"menu.language.dutch" = "Niederländisch / Nederlands";
+"menu.language.english" = "Englisch / English";
+"menu.language.french" = "Französisch / Français";
+"menu.language.german" = "Deutsch";
+// RadixInputScreen
+"view.radixinputscreen.aboutchart" = "Über das Horoskop";
+"view.radixinputscreen.calculate" = "Berechnen";
+"view.radixinputscreen.calendaryearcount" = "Kalender / Jahreszählung";
+"view.radixinputscreen.datetime" = "Datum und Uhrzeit";
+"view.radixinputscreen.day" = "Tag";
+"view.radixinputscreen.description" = "Beschreibung";
+"view.radixinputscreen.dst" = "Sommerzeit";
+"view.radixinputscreen.hour" = "Stunde";
+"view.radixinputscreen.latitude" = "Breitengrad";
+"view.radixinputscreen.location" = "Ort";
+"view.radixinputscreen.longitude" = "Längengrad";
+"view.radixinputscreen.minute" = "Minute";
+"view.radixinputscreen.month" = "Monat";
+"view.radixinputscreen.name" = "Name";
+"view.radixinputscreen.nameoflocation" = "Name des Ortes";
+"view.radixinputscreen.offsethour" = "Versatz Stunde";
+"view.radixinputscreen.offsetminute" = "Versatz Minute";
+"view.radixinputscreen.offsetsecond" = "Versatz Sekunde";
+"view.radixinputscreen.offsetut" = "Versatz UT";
+"view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.second" = "Sekunde";
+"view.radixinputscreen.source" = "Quelle";
+"view.radixinputscreen.timedst" = "Zeit / Sommerzeit";
+"view.radixinputscreen.title" = "Daten für ein neues Horoskop";
+"view.radixinputscreen.year" = "Jahr";

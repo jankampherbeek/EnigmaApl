@@ -7,30 +7,6 @@
 
 import SwiftUI
 
-enum LatitudeHemisphere: String, CaseIterable, Identifiable {
-    case north = "N"
-    case south = "Z"
-    var id: String { rawValue }
-}
-
-enum LongitudeHemisphere: String, CaseIterable, Identifiable {
-    case east = "O"
-    case west = "W"
-    var id: String { rawValue }
-}
-
-enum CalendarStyle: String, CaseIterable, Identifiable {
-    case gregorian = "Gregorian"
-    case julian = "Julian"
-    var id: String { rawValue }
-}
-
-enum YearCount: String, CaseIterable, Identifiable {
-    case ce = "CE"
-    case bc = "BCE"
-    case astronomical = "Astronomical"
-    var id: String { rawValue }
-}
 
 enum UTOffsetDirection: String, CaseIterable, Identifiable {
     case later = "Later"
@@ -93,10 +69,10 @@ private struct DMSComponentPicker: View {
 }
 
 private struct FieldBlock<Content: View>: View {
-    let title: String
+    let title: LocalizedStringKey
     let content: Content
 
-    init(_ title: String, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
     }
@@ -119,7 +95,7 @@ private struct RadixInputHelpView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    GroupBox("About the chart") {
+                    GroupBox(LocalizedStringKey("view.radixinputscreen.aboutchart")) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("Use Name, Description and Source to identify your chart.")
                             Text("Rodden Rating indicates source reliability.")
@@ -127,7 +103,7 @@ private struct RadixInputHelpView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    GroupBox("Location") {
+                    GroupBox(LocalizedStringKey("view.radixinputscreen.location")) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("Enter longitude and latitude in degrees, minutes and seconds.")
                             Text("Use O/W for longitude hemisphere and N/Z for latitude hemisphere.")
@@ -135,7 +111,7 @@ private struct RadixInputHelpView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
 
-                    GroupBox("Date and Time") {
+                    GroupBox(LocalizedStringKey("view.radixinputscreen.datetime")) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("Year count supports CE/BCE and astronomical numbering.")
                             Text("Offset UT converts local time to Universal Time.")
@@ -284,32 +260,32 @@ struct RadixInputScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                Text("Data for a new chart")
+                Text(LocalizedStringKey("view.radixinputscreen.title"))
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                GroupBox("About the chart") {
+                GroupBox(LocalizedStringKey ("view.radixinputscreen.aboutchart")) {
                     VStack(alignment: .leading, spacing: 8) {
-                        FieldBlock("Name") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.name")) {
                             TextField("", text: $chartName)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        FieldBlock("Description") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.description")) {
                             TextField("", text: $chartDescription)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        FieldBlock("Source") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.source")) {
                             TextField("", text: $source)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        FieldBlock("Rodden Rating") {
-                            Picker("Rodden Rating", selection: $roddenRating) {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.roddenrating")) {
+                            Picker(LocalizedStringKey("view.radixinputscreen.roddenrating"), selection: $roddenRating) {
                                 ForEach(RoddenRating.allCases) { rating in
                                     Text(rating.displayText).tag(rating)
                                 }
@@ -317,7 +293,6 @@ struct RadixInputScreen: View {
                             .pickerStyle(.menu)
                             .labelsHidden()
                             .focusable(true)
-                            .help("Reliability rating of the birth data source.")
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -325,20 +300,20 @@ struct RadixInputScreen: View {
 
                 GroupBox("Location") {
                     VStack(alignment: .leading, spacing: 8) {
-                        FieldBlock("Name of location") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.nameoflocation")) {
                             TextField("", text: $locationName)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        FieldBlock("Longitude") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.longitude")) {
                             HStack(spacing: 8) {
                                 DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
                                 DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
                                 DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
                                 Picker("Longitude Hemisphere", selection: $lonHemi) {
                                     ForEach(LongitudeHemisphere.allCases) { hemisphere in
-                                        Text(hemisphere.rawValue).tag(hemisphere)
+                                        Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
                                     }
                                 }
                                 .pickerStyle(.segmented)
@@ -346,14 +321,14 @@ struct RadixInputScreen: View {
                                 .focusable(true)
                             }
                         }
-                        FieldBlock("Latitude") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.latitude")) {
                             HStack(spacing: 8) {
                                 DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
                                 DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
                                 DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
                                 Picker("Latitude Hemisphere", selection: $latHemi) {
                                     ForEach(LatitudeHemisphere.allCases) { hemisphere in
-                                        Text(hemisphere.rawValue).tag(hemisphere)
+                                        Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
                                     }
                                 }
                                 .pickerStyle(.segmented)
@@ -365,20 +340,20 @@ struct RadixInputScreen: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                GroupBox("Date and Time") {
+                GroupBox("view.radixinputscreen.datetime") {
                     VStack(alignment: .leading, spacing: 8) {
                         FieldBlock("Date") {
                             VStack(alignment: .leading, spacing: 6) {
                                 HStack(spacing: 8) {
-                                    Text("Year")
+                                    Text(LocalizedStringKey("view.radixinputscreen.year"))
                                         .foregroundStyle(.secondary)
                                     TextField("", text: $yearText)
                                         .textFieldStyle(.roundedBorder)
                                         .frame(maxWidth: 100)
 
-                                    Text("Month")
+                                    Text(LocalizedStringKey("view.radixinputscreen.month"))
                                         .foregroundStyle(.secondary)
-                                    Picker("Month", selection: $month) {
+                                    Picker(LocalizedStringKey("view.radixinputscreen.month"), selection: $month) {
                                         ForEach(1...12, id: \.self) { value in
                                             Text(String(value)).tag(value)
                                         }
@@ -387,9 +362,9 @@ struct RadixInputScreen: View {
                                     .labelsHidden()
                                     .focusable(true)
 
-                                    Text("Day")
+                                    Text(LocalizedStringKey("view.radixinputscreen.day"))
                                         .foregroundStyle(.secondary)
-                                    Picker("Day", selection: $day) {
+                                    Picker(LocalizedStringKey("view.radixinputscreen.day"), selection: $day) {
                                         ForEach(1...31, id: \.self) { value in
                                             Text(String(value)).tag(value)
                                         }
@@ -406,33 +381,31 @@ struct RadixInputScreen: View {
                                 }
                             }
                         }
-                        FieldBlock("Calendar / Year Count") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.calendaryearcount")) {
                             HStack(spacing: 8) {
                                 Picker("Calendar", selection: $calendarStyle) {
                                     ForEach(CalendarStyle.allCases) { style in
-                                        Text(style.rawValue).tag(style)
+                                        Text(LocalizedStringKey(style.rawValue)).tag(style)
                                     }
                                 }
                                 .pickerStyle(.segmented)
                                 .frame(maxWidth: 160)
                                 .labelsHidden()
                                 .focusable(true)
-                                .help("Choose Gregorian or Julian calendar for the entered date.")
 
                                 Picker("Year Count", selection: $yearCount) {
                                     ForEach(YearCount.allCases) { count in
-                                        Text(count.rawValue).tag(count)
+                                        Text(LocalizedStringKey(count.rawValue)).tag(count)
                                     }
                                 }
                                 .pickerStyle(.menu)
                                 .labelsHidden()
                                 .focusable(true)
-                                .help("CE/BCE or astronomical year numbering.")
                             }
                         }
-                        FieldBlock("Time / DST") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.timedst")) {
                             HStack(spacing: 8) {
-                                Picker("Hour", selection: $hour) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.hour"), selection: $hour) {
                                     ForEach(0...23, id: \.self) { value in
                                         Text(localizedHourLabel(for: value)).tag(value)
                                     }
@@ -441,7 +414,7 @@ struct RadixInputScreen: View {
                                 .labelsHidden()
                                 .focusable(true)
 
-                                Picker("Minute", selection: $minute) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.minute"), selection: $minute) {
                                     ForEach(0...59, id: \.self) { value in
                                         Text(String(format: "%02d", value)).tag(value)
                                     }
@@ -450,7 +423,7 @@ struct RadixInputScreen: View {
                                 .labelsHidden()
                                 .focusable(true)
 
-                                Picker("Second", selection: $second) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.second"), selection: $second) {
                                     ForEach(0...59, id: \.self) { value in
                                         Text(String(format: "%02d", value)).tag(value)
                                     }
@@ -468,12 +441,11 @@ struct RadixInputScreen: View {
                                 .frame(maxWidth: 140)
                                 .labelsHidden()
                                 .focusable(true)
-                                .help("Set to DST when daylight saving time was in effect.")
                             }
                         }
-                        FieldBlock("Offset UT") {
+                        FieldBlock(LocalizedStringKey("view.radixinputscreen.offsetut")) {
                             HStack(spacing: 8) {
-                                Picker("Offset Hour", selection: $offsetHour) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.offsethour"), selection: $offsetHour) {
                                     ForEach(0...23, id: \.self) { value in
                                         Text(String(format: "%02d", value)).tag(value)
                                     }
@@ -482,7 +454,7 @@ struct RadixInputScreen: View {
                                 .labelsHidden()
                                 .focusable(true)
 
-                                Picker("Offset Minute", selection: $offsetMinute) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.offsetminute"), selection: $offsetMinute) {
                                     ForEach(0...59, id: \.self) { value in
                                         Text(String(format: "%02d", value)).tag(value)
                                     }
@@ -491,7 +463,7 @@ struct RadixInputScreen: View {
                                 .labelsHidden()
                                 .focusable(true)
 
-                                Picker("Offset Second", selection: $offsetSecond) {
+                                Picker(LocalizedStringKey("view.radixinputscreen.offsetsecond"), selection: $offsetSecond) {
                                     ForEach(0...59, id: \.self) { value in
                                         Text(String(format: "%02d", value)).tag(value)
                                     }
@@ -509,7 +481,6 @@ struct RadixInputScreen: View {
                                 .frame(maxWidth: 160)
                                 .labelsHidden()
                                 .focusable(true)
-                                .help("Indicates whether local time is earlier or later than UT.")
                             }
                         }
 

@@ -72,6 +72,9 @@
 "enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
 "enum.blackmooncorrectiontype.interpolated" = "Interpolated";
 "enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
+// Calendar style
+"enum.calendarstyle.gregorian" = "G";
+"enum.calendarstyle.julian" = "J";
 // Factors
 "enum.factor.sun" = "Sun";
 "enum.factor.moon" = "Moon";
@@ -160,6 +163,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (sinusoidal difference)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (sinusoidal ratio)";
 "enum.housesystem.sripati" = "Sripati";
+// Latitudehemisphere
+"enum.latitudehemisphere.north" = "N";
+"enum.latitudehemisphere.south" = "S";
+// Longitudehemisphere
+"enum.longitudehemisphere.east" = "E";
+"enum.longitudehemisphere.west" = "W";
 // Lots types
 "enum.lotstypes.nosect" = "No sect";
 "enum.lotstypes.sect" = "With sect";
@@ -173,3 +182,39 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standard: bi-dimensionnel";
 "enum.projectiontype.obliquelongitude" = "Longitude oblique";
+// Year count
+"enum.yearcount.astronomical" = "Astronomical";
+"enum.yearcount.bce" = "BCE";
+"enum.yearcount.ce" = "CE";
+// Main menu
+"menu.language" = "Choose a language";
+"menu.language.dutch" = "Dutch / Nederlands";
+"menu.language.english" = "English";
+"menu.language.french" = "French / Français";
+"menu.language.german" = "German / Deutsch";
+// RadixInputScreen
+"view.radixinputscreen.aboutchart" = "About the chart";
+"view.radixinputscreen.calculate" = "Calculate";
+"view.radixinputscreen.calendaryearcount" = "Calendar / Year count";
+"view.radixinputscreen.datetime" = "Date and time";
+"view.radixinputscreen.day" = "Day";
+"view.radixinputscreen.description" = "Description";
+"view.radixinputscreen.dst" = "DST";
+"view.radixinputscreen.hour" = "Hour";
+"view.radixinputscreen.latitude" = "Latitude";
+"view.radixinputscreen.location" = "Location";
+"view.radixinputscreen.longitude" = "Longitude";
+"view.radixinputscreen.minute" = "Minute";
+"view.radixinputscreen.month" = "Month";
+"view.radixinputscreen.name" = "Name";
+"view.radixinputscreen.nameoflocation" = "Name of location";
+"view.radixinputscreen.offsethour" = "Offset Hour";
+"view.radixinputscreen.offsetminute" = "Offset Minute";
+"view.radixinputscreen.offsetsecond" = "Offset Second";
+"view.radixinputscreen.offsetut" = "Offset UT";
+"view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.second" = "Second";
+"view.radixinputscreen.source" = "Source";
+"view.radixinputscreen.timedst" = "Time / DST";
+"view.radixinputscreen.title" = "Data for a new chart";
+"view.radixinputscreen.year" = "Year";

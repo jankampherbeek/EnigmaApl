@@ -72,6 +72,9 @@
 "enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
 "enum.blackmooncorrectiontype.interpolated" = "Geïnterpoleerd";
 "enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
+// Calendar style
+"enum.calendarstyle.gregorian" = "G";
+"enum.calendarstyle.julian" = "J";
 // Factors
 "enum.factor.sun" = "Zon";
 "enum.factor.moon" = "Maan";
@@ -160,6 +163,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (sinusoidaal verschil)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (sinusoidale ratio)";
 "enum.housesystem.sripati" = "Sripati";
+// Latitudehemisphere
+"enum.latitudehemisphere.north" = "N";
+"enum.latitudehemisphere.south" = "Z";
+// Longitudehemisphere
+"enum.longitudehemisphere.east" = "O";
+"enum.longitudehemisphere.west" = "W";
 // Lots types
 "enum.lotstypes.nosect" = "Zonder sect";
 "enum.lotstypes.sect" = "Met sect";
@@ -173,3 +182,39 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standaard: twee dimensionaal";
 "enum.projectiontype.obliquelongitude" = "Schuine lengte";
+// Year count
+"enum.yearcount.astronomical" = "Astronomisch";
+"enum.yearcount.bce" = "v.Chr.";
+"enum.yearcount.ce" = "n.Chr.";
+// Main menu
+"menu.language" = "Kies een taal";
+"menu.language.dutch" = "Nederlands";
+"menu.language.english" = "Engels / English";
+"menu.language.french" = "Frans / Français";
+"menu.language.german" = "Duits / Deutsch";
+// RadixInputScreen
+"view.radixinputscreen.aboutchart" = "Over de horoscoop";
+"view.radixinputscreen.calculate" = "Berekenen";
+"view.radixinputscreen.calendaryearcount" = "Kalender / Jaartelling";
+"view.radixinputscreen.datetime" = "Datum en tijd";
+"view.radixinputscreen.day" = "Dag";
+"view.radixinputscreen.description" = "Omschrijving";
+"view.radixinputscreen.dst" = "Zomertijd";
+"view.radixinputscreen.hour" = "Uur";
+"view.radixinputscreen.latitude" = "Breedtegraad";
+"view.radixinputscreen.location" = "Locatie";
+"view.radixinputscreen.longitude" = "Lengtegraad";
+"view.radixinputscreen.minute" = "Minuut";
+"view.radixinputscreen.month" = "Maand";
+"view.radixinputscreen.name" = "Naam";
+"view.radixinputscreen.nameoflocation" = "Naam van locatie";
+"view.radixinputscreen.offsethour" = "Offset uur";
+"view.radixinputscreen.offsetminute" = "Offset minuut";
+"view.radixinputscreen.offsetsecond" = "Offset seconde";
+"view.radixinputscreen.offsetut" = "Offset UT";
+"view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.second" = "Seconde";
+"view.radixinputscreen.source" = "Bron";
+"view.radixinputscreen.timedst" = "Tijd / Zomertijd";
+"view.radixinputscreen.title" = "Gegevens voor een nieuwe horoscoop";
+"view.radixinputscreen.year" = "Jaar";

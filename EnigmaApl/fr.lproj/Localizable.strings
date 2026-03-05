@@ -72,6 +72,9 @@
 "enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
 "enum.blackmooncorrectiontype.interpolated" = "Interpolé";
 "enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
+// Calendar style
+"enum.calendarstyle.gregorian" = "G";
+"enum.calendarstyle.julian" = "J";
 // Factors
 "enum.factor.sun" = "Soleil";
 "enum.factor.moon" = "Lune";
@@ -160,6 +163,12 @@
 "enum.housesystem.pullen_sin_diff" = "Pullen (différence sinusoïdale)";
 "enum.housesystem.pullen_sin_ratio" = "Pullen (rapport sinusoïdal)";
 "enum.housesystem.sripati" = "Sripati";
+// Latitudehemisphere
+"enum.latitudehemisphere.north" = "N";
+"enum.latitudehemisphere.south" = "S";
+// Longitudehemisphere
+"enum.longitudehemisphere.east" = "E";
+"enum.longitudehemisphere.west" = "O";
 // Lots types
 "enum.lotstypes.nosect" = "Sans secte";
 "enum.lotstypes.sect" = "Avec secte";
@@ -171,5 +180,41 @@
 "enum.observerpos.topocentric" = "Topocentrique";
 "enum.observerpos.heliocentric" = "Héliocentrique";
 // Projection types
-"enum.projectiontype.twodimensional" = "Standaard: twee dimensioneel";
-"enum.projectiontype.obliquelongitude" = "Schuine lengte";
+"enum.projectiontype.twodimensional" = "Standard: bidimensionnel";
+"enum.projectiontype.obliquelongitude" = "Longitude oblique";
+// Year count
+"enum.yearcount.astronomical" = "Astronomique";
+"enum.yearcount.bce" = "av.J.-C.";
+"enum.yearcount.ce" = "ap.J.-C.";
+// Main menu
+"menu.language" = "Choisir une langue";
+"menu.language.dutch" = "Néerlandais / Nederlands";
+"menu.language.english" = "Anglais / English";
+"menu.language.french" = "Français";
+"menu.language.german" = "Allemand / Deutsch";
+// Radix Input Screen
+"view.radixinputscreen.aboutchart" = "À propos du horoscope";
+"view.radixinputscreen.calculate" = "Calculer";
+"view.radixinputscreen.calendaryearcount" = "Calendrier / Décompte des années";
+"view.radixinputscreen.datetime" = "Date et heure";
+"view.radixinputscreen.day" = "Jour";
+"view.radixinputscreen.description" = "Description";
+"view.radixinputscreen.dst" = "Heure d'été";
+"view.radixinputscreen.hour" = "Heure";
+"view.radixinputscreen.latitude" = "Latitude";
+"view.radixinputscreen.location" = "Lieu";
+"view.radixinputscreen.longitude" = "Longitude";
+"view.radixinputscreen.minute" = "Minute";
+"view.radixinputscreen.month" = "Mois";
+"view.radixinputscreen.name" = "Nom";
+"view.radixinputscreen.nameoflocation" = "Nom du lieu";
+"view.radixinputscreen.offsethour" = "Décalage heure";
+"view.radixinputscreen.offsetminute" = "Décalage minute";
+"view.radixinputscreen.offsetsecond" = "Décalage seconde";
+"view.radixinputscreen.offsetut" = "Décalage UT";
+"view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.second" = "Seconde";
+"view.radixinputscreen.source" = "Source";
+"view.radixinputscreen.timedst" = "Heure / Heure d'été";
+"view.radixinputscreen.title" = "Données pour un horoscope";
+"view.radixinputscreen.year" = "Année";
