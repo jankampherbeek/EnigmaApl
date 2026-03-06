@@ -75,6 +75,9 @@
 // Calendar style
 "enum.calendarstyle.gregorian" = "G";
 "enum.calendarstyle.julian" = "J";
+// DST option
+"enum.dstoption.dst" = "HE";
+"enum.dstoption.nodst" = "HN";
 // Factors
 "enum.factor.sun" = "Soleil";
 "enum.factor.moon" = "Lune";
@@ -182,16 +185,22 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standard: bidimensionnel";
 "enum.projectiontype.obliquelongitude" = "Longitude oblique";
+// Rodden Rating
+"enum.roddenrating.none" = "Inconnu";
+"enum.roddenrating.aa" = "Précis";
+"enum.roddenrating.a" = "Cité";
+"enum.roddenrating.b" = "(Auto)biographie";
+"enum.roddenrating.c" = "Prudence, pas de source";
+"enum.roddenrating.dd" = "Données douteuses";
+"enum.roddenrating.x" = "Heure de naissance inconnue";
+"enum.roddenrating.xx" = "Date de naissance inconnue";
+// UT Offset direction
+"enum.utoffsetdirection.earlier" = "Plus tôt";
+"enum.utoffsetdirection.later" = "Plus tard";
 // Year count
 "enum.yearcount.astronomical" = "Astronomique";
 "enum.yearcount.bce" = "av.J.-C.";
 "enum.yearcount.ce" = "ap.J.-C.";
-// Main menu
-"menu.language" = "Choisir une langue";
-"menu.language.dutch" = "Néerlandais / Nederlands";
-"menu.language.english" = "Anglais / English";
-"menu.language.french" = "Français";
-"menu.language.german" = "Allemand / Deutsch";
 // Radix Input Screen
 "view.radixinputscreen.aboutchart" = "À propos du horoscope";
 "view.radixinputscreen.calculate" = "Calculer";

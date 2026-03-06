@@ -8,43 +8,7 @@
 import SwiftUI
 
 
-enum UTOffsetDirection: String, CaseIterable, Identifiable {
-    case later = "Later"
-    case earlier = "Earlier"
-    var id: String { rawValue }
-}
 
-enum DSTOption: String, CaseIterable, Identifiable {
-    case dst = "DST"
-    case noDST = "no DST"
-    var id: String { rawValue }
-}
-
-enum RoddenRating: String, CaseIterable, Identifiable {
-    case aa = "AA"
-    case a = "A"
-    case b = "B"
-    case c = "C"
-    case dd = "DD"
-    case x = "X"
-    case xx = "XX"
-
-    var id: String { rawValue }
-
-    var description: String {
-        switch self {
-        case .aa: return "Very high"
-        case .a: return "High"
-        case .b: return "Reasonable"
-        case .c: return "Not sure"
-        case .dd: return "Dirty Data"
-        case .x: return "Unknown time"
-        case .xx: return "Unknown Data"
-        }
-    }
-
-    var displayText: String { "\(rawValue) - \(description)" }
-}
 
 // Reusable DMS part picker used to compose geo-coordinate input.
 private struct DMSComponentPicker: View {
@@ -434,7 +398,7 @@ struct RadixInputScreen: View {
 
                                 Picker("DST", selection: $dstOption) {
                                     ForEach(DSTOption.allCases) { option in
-                                        Text(option.rawValue).tag(option)
+                                        Text(LocalizedStringKey(option.rawValue)).tag(option)
                                     }
                                 }
                                 .pickerStyle(.segmented)
@@ -474,7 +438,7 @@ struct RadixInputScreen: View {
 
                                 Picker("UT Relation", selection: $utOffsetDirection) {
                                     ForEach(UTOffsetDirection.allCases) { relation in
-                                        Text(relation.rawValue).tag(relation)
+                                        Text(LocalizedStringKey(relation.rawValue)).tag(relation)
                                     }
                                 }
                                 .pickerStyle(.segmented)

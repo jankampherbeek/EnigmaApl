@@ -75,6 +75,9 @@
 // Calendar style
 "enum.calendarstyle.gregorian" = "G";
 "enum.calendarstyle.julian" = "J";
+// DST option
+"enum.dstoption.dst" = "SZt";
+"enum.dstoption.nodst" = "NZ";
 // Factors
 "enum.factor.sun" = "Sonne";
 "enum.factor.moon" = "Mond";
@@ -175,6 +178,15 @@
 // Lunar node types
 "enum.lunarnodetypes.mean" = "Mittlerer Mondknoten";
 "enum.lunarnodetypes.true" = "Wahrer Mondknoten";
+// Rodden Rating
+"enum.roddenrating.none" = "Unbekannt";
+"enum.roddenrating.aa" = "Genau";
+"enum.roddenrating.a" = "Zitiert";
+"enum.roddenrating.b" = "(Auto)biografie";
+"enum.roddenrating.c" = "Vorsicht, keine Quelle";
+"enum.roddenrating.dd" = "Fragwürdige Daten";
+"enum.roddenrating.x" = "Keine Geburtszeit";
+"enum.roddenrating.xx" = "Kein Geburtsdatum";
 // Observer positions
 "enum.observerpos.geocentric" = "Geozentrisch";
 "enum.observerpos.topocentric" = "Topozentrisch";
@@ -182,16 +194,13 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standard: zweidimensional";
 "enum.projectiontype.obliquelongitude" = "Schiefe Länge";
+// UT Offset direction
+"enum.utoffsetdirection.earlier" = "Früher";
+"enum.utoffsetdirection.later" = "Später";
 // Year count
 "enum.yearcount.astronomical" = "Astronomisch";
 "enum.yearcount.bce" = "v.Chr.";
 "enum.yearcount.ce" = "n.Chr.";
-// Main menu
-"menu.language" = "Wählen Sie eine Sprache";
-"menu.language.dutch" = "Niederländisch / Nederlands";
-"menu.language.english" = "Englisch / English";
-"menu.language.french" = "Französisch / Français";
-"menu.language.german" = "Deutsch";
 // RadixInputScreen
 "view.radixinputscreen.aboutchart" = "Über das Horoskop";
 "view.radixinputscreen.calculate" = "Berechnen";

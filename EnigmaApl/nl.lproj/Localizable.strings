@@ -75,6 +75,9 @@
 // Calendar style
 "enum.calendarstyle.gregorian" = "G";
 "enum.calendarstyle.julian" = "J";
+// DST option
+"enum.dstoption.dst" = "ZT";
+"enum.dstoption.nodst" = "ST";
 // Factors
 "enum.factor.sun" = "Zon";
 "enum.factor.moon" = "Maan";
@@ -182,16 +185,22 @@
 // Projection types
 "enum.projectiontype.twodimensional" = "Standaard: twee dimensionaal";
 "enum.projectiontype.obliquelongitude" = "Schuine lengte";
+// Rodden Rating
+"enum.roddenrating.none" = "Onbekend";
+"enum.roddenrating.aa" = "AA - Nauwkeurig";
+"enum.roddenrating.a" = "A - Geciteerd";
+"enum.roddenrating.b" = "B - (Auto)biografie";
+"enum.roddenrating.c" = "C - Voorzichtig, geen bron";
+"enum.roddenrating.dd" = "DD - Twijfelachtige data";
+"enum.roddenrating.x" = "X - Geen geboortетijd";
+"enum.roddenrating.xx" = "XX - Geen geboortedatum";
+// UT Offset direction
+"enum.utoffsetdirection.earlier" = "Eerder";
+"enum.utoffsetdirection.later" = "Later";
 // Year count
 "enum.yearcount.astronomical" = "Astronomisch";
 "enum.yearcount.bce" = "v.Chr.";
 "enum.yearcount.ce" = "n.Chr.";
-// Main menu
-"menu.language" = "Kies een taal";
-"menu.language.dutch" = "Nederlands";
-"menu.language.english" = "Engels / English";
-"menu.language.french" = "Frans / Français";
-"menu.language.german" = "Duits / Deutsch";
 // RadixInputScreen
 "view.radixinputscreen.aboutchart" = "Over de horoscoop";
 "view.radixinputscreen.calculate" = "Berekenen";
