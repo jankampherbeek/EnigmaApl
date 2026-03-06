@@ -12,22 +12,41 @@ import SwiftUI
 
 // Reusable DMS part picker used to compose geo-coordinate input.
 private struct DMSComponentPicker: View {
-    let title: String
+    let symbol: String
     let range: ClosedRange<Int>
     @Binding var selection: Int
+    @State private var text = ""
+    @FocusState private var isFocused: Bool
+
+    private var isValid: Bool {
+        guard let value = Int(text) else { return false }
+        return range.contains(value)
+    }
 
     var body: some View {
-        HStack(spacing: 4) {
-            Text(title)
-                .foregroundStyle(.secondary)
-            Picker(title, selection: $selection) {
-                ForEach(Array(range), id: \.self) { value in
-                    Text(String(value)).tag(value)
+        HStack(spacing: 2) {
+            TextField("", text: $text)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 40)
+                .multilineTextAlignment(.center)
+                .focused($isFocused)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(!isFocused && !isValid ? Color.red : Color.clear, lineWidth: 1.5)
+                )
+                .onAppear { text = String(selection) }
+                .onChange(of: selection) { text = String($0) }
+                .onChange(of: isFocused) { focused in
+                    guard !focused else { return }
+                    if isValid, let value = Int(text) {
+                        selection = value
+                    } else {
+                        text = String(selection)
+                    }
                 }
-            }
-            .pickerStyle(.menu)
-            .labelsHidden()
-            .focusable(true)
+                .accessibilityLabel(symbol)
+            Text(symbol)
+                .foregroundStyle(.secondary)
         }
     }
 }
@@ -163,14 +182,17 @@ private struct LocationSection: View {
             FieldBlock(LocalizedStringKey("view.radixinputscreen.nameoflocation")) {
                 TextField("", text: $locationName)
                     .textFieldStyle(.roundedBorder)
-                    .multilineTextAlignment(.leading)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity)
             }
-            FieldBlock(LocalizedStringKey("view.radixinputscreen.longitude")) {
-                HStack(spacing: 8) {
-                    DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
-                    DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
-                    DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
+
+            Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 6, verticalSpacing: 4) {
+                GridRow {
+                    Text(LocalizedStringKey("view.radixinputscreen.longitude"))
+                        .foregroundStyle(.secondary)
+                        .gridColumnAlignment(.leading)
+                    DMSComponentPicker(symbol: "°", range: 0...180, selection: $longitudeDegrees)
+                    DMSComponentPicker(symbol: "′", range: 0...59, selection: $longitudeMinutes)
+                    DMSComponentPicker(symbol: "″", range: 0...59, selection: $longitudeSeconds)
                     Picker("Longitude Hemisphere", selection: $lonHemi) {
                         ForEach(LongitudeHemisphere.allCases) { hemisphere in
                             Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
@@ -180,12 +202,12 @@ private struct LocationSection: View {
                     .labelsHidden()
                     .focusable(true)
                 }
-            }
-            FieldBlock(LocalizedStringKey("view.radixinputscreen.latitude")) {
-                HStack(spacing: 8) {
-                    DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
-                    DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
-                    DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
+                GridRow {
+                    Text(LocalizedStringKey("view.radixinputscreen.latitude"))
+                        .foregroundStyle(.secondary)
+                    DMSComponentPicker(symbol: "°", range: 0...90, selection: $latitudeDegrees)
+                    DMSComponentPicker(symbol: "′", range: 0...59, selection: $latitudeMinutes)
+                    DMSComponentPicker(symbol: "″", range: 0...59, selection: $latitudeSeconds)
                     Picker("Latitude Hemisphere", selection: $latHemi) {
                         ForEach(LatitudeHemisphere.allCases) { hemisphere in
                             Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
@@ -196,6 +218,7 @@ private struct LocationSection: View {
                     .focusable(true)
                 }
             }
+            .fixedSize()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -254,6 +277,7 @@ private struct DateTimeSection: View {
                             .labelsHidden()
                             .focusable(true)
                         }
+                        .fixedSize(horizontal: true, vertical: false)
 
                         if let message = dateValidationResult.message {
                             Text(message)
@@ -283,6 +307,7 @@ private struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
+                    .fixedSize(horizontal: true, vertical: false)
                 }
                 FieldBlock(LocalizedStringKey("view.radixinputscreen.timedst")) {
                     HStack(spacing: 8) {
@@ -323,6 +348,7 @@ private struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
+                    .fixedSize(horizontal: true, vertical: false)
                 }
                 FieldBlock(LocalizedStringKey("view.radixinputscreen.offsetut")) {
                     HStack(spacing: 8) {
@@ -363,6 +389,7 @@ private struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
+                    .fixedSize(horizontal: true, vertical: false)
                 }
 
             }
