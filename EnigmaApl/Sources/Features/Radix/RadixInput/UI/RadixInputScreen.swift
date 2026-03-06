@@ -122,7 +122,12 @@ private struct ChartInfoSection: View {
     @Binding var chartDescription: String
     @Binding var source: String
     @Binding var roddenRating: RoddenRating
-    let nameIsEmpty: Bool
+    @Binding var chartInfoSubmitted: Bool
+    @FocusState private var nameFieldFocused: Bool
+
+    private var nameIsEmpty: Bool {
+        chartName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -131,7 +136,12 @@ private struct ChartInfoSection: View {
                     .textFieldStyle(.roundedBorder)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                if nameIsEmpty {
+                    .adaptiveBorder()
+                    .focused($nameFieldFocused)
+                    .onChange(of: nameFieldFocused) { focused in
+                        if !focused { chartInfoSubmitted = true }
+                    }
+                if chartInfoSubmitted && nameIsEmpty {
                     Text(LocalizedStringKey("view.radixinputscreen.validation.nameempty"))
                         .font(.caption)
                         .foregroundStyle(.red)
@@ -142,12 +152,14 @@ private struct ChartInfoSection: View {
                     .textFieldStyle(.roundedBorder)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .adaptiveBorder()
             }
             FieldBlock(LocalizedStringKey("view.radixinputscreen.source")) {
                 TextField("", text: $source)
                     .textFieldStyle(.roundedBorder)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .adaptiveBorder()
             }
             FieldBlock(LocalizedStringKey("view.radixinputscreen.roddenrating")) {
                 Picker(LocalizedStringKey("view.radixinputscreen.roddenrating"), selection: $roddenRating) {
@@ -183,6 +195,7 @@ private struct LocationSection: View {
                 TextField("", text: $locationName)
                     .textFieldStyle(.roundedBorder)
                     .frame(maxWidth: .infinity)
+                    .adaptiveBorder()
             }
 
             Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 6, verticalSpacing: 4) {
@@ -254,6 +267,7 @@ private struct DateTimeSection: View {
                             TextField("", text: $yearText)
                                 .textFieldStyle(.roundedBorder)
                                 .frame(maxWidth: 100)
+                                .adaptiveBorder()
 
                             Text(LocalizedStringKey("view.radixinputscreen.month"))
                                 .foregroundStyle(.secondary)
@@ -439,6 +453,7 @@ struct RadixInputScreen: View {
     @State private var dstOption: DSTOption = .noDST
     @State private var showHelp = false
     @State private var expandedSection: AccordionSection = .chartInfo
+    @State private var chartInfoSubmitted = false
 
     private var uses24HourClock: Bool {
         let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .autoupdatingCurrent) ?? "H"
@@ -560,7 +575,7 @@ struct RadixInputScreen: View {
                         chartDescription: $chartDescription,
                         source: $source,
                         roddenRating: $roddenRating,
-                        nameIsEmpty: chartNameIsEmpty
+                        chartInfoSubmitted: $chartInfoSubmitted
                     )
                     .padding(.top, 4)
                 } label: {
@@ -571,7 +586,10 @@ struct RadixInputScreen: View {
                 DisclosureGroup(
                     isExpanded: Binding(
                         get: { expandedSection == .location },
-                        set: { if $0 { expandedSection = .location } }
+                        set: { if $0 {
+                            chartInfoSubmitted = true
+                            if !chartNameIsEmpty { expandedSection = .location }
+                        }}
                     )
                 ) {
                     LocationSection(
@@ -594,7 +612,10 @@ struct RadixInputScreen: View {
                 DisclosureGroup(
                     isExpanded: Binding(
                         get: { expandedSection == .dateTime },
-                        set: { if $0 { expandedSection = .dateTime } }
+                        set: { if $0 {
+                            chartInfoSubmitted = true
+                            if !chartNameIsEmpty { expandedSection = .dateTime }
+                        }}
                     )
                 ) {
                     DateTimeSection(
