@@ -103,41 +103,45 @@ private struct ChartInfoSection: View {
     @Binding var chartDescription: String
     @Binding var source: String
     @Binding var roddenRating: RoddenRating
+    let nameIsEmpty: Bool
 
     var body: some View {
-        GroupBox(LocalizedStringKey("view.radixinputscreen.aboutchart")) {
-            VStack(alignment: .leading, spacing: 8) {
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.name")) {
-                    TextField("", text: $chartName)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.description")) {
-                    TextField("", text: $chartDescription)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.source")) {
-                    TextField("", text: $source)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.roddenrating")) {
-                    Picker(LocalizedStringKey("view.radixinputscreen.roddenrating"), selection: $roddenRating) {
-                        ForEach(RoddenRating.allCases) { rating in
-                            Text(rating.displayText).tag(rating)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .focusable(true)
+        VStack(alignment: .leading, spacing: 8) {
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.name")) {
+                TextField("", text: $chartName)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                if nameIsEmpty {
+                    Text(LocalizedStringKey("view.radixinputscreen.validation.nameempty"))
+                        .font(.caption)
+                        .foregroundStyle(.red)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.description")) {
+                TextField("", text: $chartDescription)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.source")) {
+                TextField("", text: $source)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.roddenrating")) {
+                Picker(LocalizedStringKey("view.radixinputscreen.roddenrating"), selection: $roddenRating) {
+                    ForEach(RoddenRating.allCases) { rating in
+                        Text(rating.displayText).tag(rating)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .focusable(true)
+            }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -155,47 +159,45 @@ private struct LocationSection: View {
     @Binding var lonHemi: LongitudeHemisphere
 
     var body: some View {
-        GroupBox("Location") {
-            VStack(alignment: .leading, spacing: 8) {
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.nameoflocation")) {
-                    TextField("", text: $locationName)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.longitude")) {
-                    HStack(spacing: 8) {
-                        DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
-                        DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
-                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
-                        Picker("Longitude Hemisphere", selection: $lonHemi) {
-                            ForEach(LongitudeHemisphere.allCases) { hemisphere in
-                                Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
-                            }
+        VStack(alignment: .leading, spacing: 8) {
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.nameoflocation")) {
+                TextField("", text: $locationName)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.longitude")) {
+                HStack(spacing: 8) {
+                    DMSComponentPicker(title: "Deg", range: 0...180, selection: $longitudeDegrees)
+                    DMSComponentPicker(title: "Min", range: 0...59, selection: $longitudeMinutes)
+                    DMSComponentPicker(title: "Sec", range: 0...59, selection: $longitudeSeconds)
+                    Picker("Longitude Hemisphere", selection: $lonHemi) {
+                        ForEach(LongitudeHemisphere.allCases) { hemisphere in
+                            Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
                         }
-                        .pickerStyle(.segmented)
-                        .labelsHidden()
-                        .focusable(true)
                     }
-                }
-                FieldBlock(LocalizedStringKey("view.radixinputscreen.latitude")) {
-                    HStack(spacing: 8) {
-                        DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
-                        DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
-                        DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
-                        Picker("Latitude Hemisphere", selection: $latHemi) {
-                            ForEach(LatitudeHemisphere.allCases) { hemisphere in
-                                Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .labelsHidden()
-                        .focusable(true)
-                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .focusable(true)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            FieldBlock(LocalizedStringKey("view.radixinputscreen.latitude")) {
+                HStack(spacing: 8) {
+                    DMSComponentPicker(title: "Deg", range: 0...90, selection: $latitudeDegrees)
+                    DMSComponentPicker(title: "Min", range: 0...59, selection: $latitudeMinutes)
+                    DMSComponentPicker(title: "Sec", range: 0...59, selection: $latitudeSeconds)
+                    Picker("Latitude Hemisphere", selection: $latHemi) {
+                        ForEach(LatitudeHemisphere.allCases) { hemisphere in
+                            Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .focusable(true)
+                }
+            }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -220,8 +222,7 @@ private struct DateTimeSection: View {
     let localizedHourLabel: (Int) -> String
 
     var body: some View {
-        GroupBox(LocalizedStringKey("view.radixinputscreen.datetime")) {
-            VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 8) {
                 FieldBlock("Date") {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 8) {
@@ -366,11 +367,14 @@ private struct DateTimeSection: View {
 
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-        }
     }
 }
 
 // MARK: - Screen
+
+private enum AccordionSection {
+    case chartInfo, location, dateTime
+}
 
 struct RadixInputScreen: View {
     @EnvironmentObject private var app: AppState
@@ -407,6 +411,7 @@ struct RadixInputScreen: View {
     @State private var utOffsetDirection: UTOffsetDirection = .later
     @State private var dstOption: DSTOption = .noDST
     @State private var showHelp = false
+    @State private var expandedSection: AccordionSection = .chartInfo
 
     private var uses24HourClock: Bool {
         let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .autoupdatingCurrent) ?? "H"
@@ -466,8 +471,12 @@ struct RadixInputScreen: View {
         )
     }
 
+    private var chartNameIsEmpty: Bool {
+        chartName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
     private var canCreateRequest: Bool {
-        dateValidationResult.isValid && astronomicalYearForValidation != nil
+        !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil
     }
 
     private var modelInput: RadixInputModel.Input? {
@@ -513,42 +522,76 @@ struct RadixInputScreen: View {
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                ChartInfoSection(
-                    chartName: $chartName,
-                    chartDescription: $chartDescription,
-                    source: $source,
-                    roddenRating: $roddenRating
-                )
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { expandedSection == .chartInfo },
+                        set: { if $0 { expandedSection = .chartInfo } }
+                    )
+                ) {
+                    ChartInfoSection(
+                        chartName: $chartName,
+                        chartDescription: $chartDescription,
+                        source: $source,
+                        roddenRating: $roddenRating,
+                        nameIsEmpty: chartNameIsEmpty
+                    )
+                    .padding(.top, 4)
+                } label: {
+                    Text(LocalizedStringKey("view.radixinputscreen.aboutchart"))
+                        .font(.headline)
+                }
 
-                LocationSection(
-                    locationName: $locationName,
-                    latitudeDegrees: $latitudeDegrees,
-                    latitudeMinutes: $latitudeMinutes,
-                    latitudeSeconds: $latitudeSeconds,
-                    longitudeDegrees: $longitudeDegrees,
-                    longitudeMinutes: $longitudeMinutes,
-                    longitudeSeconds: $longitudeSeconds,
-                    latHemi: $latHemi,
-                    lonHemi: $lonHemi
-                )
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { expandedSection == .location },
+                        set: { if $0 { expandedSection = .location } }
+                    )
+                ) {
+                    LocationSection(
+                        locationName: $locationName,
+                        latitudeDegrees: $latitudeDegrees,
+                        latitudeMinutes: $latitudeMinutes,
+                        latitudeSeconds: $latitudeSeconds,
+                        longitudeDegrees: $longitudeDegrees,
+                        longitudeMinutes: $longitudeMinutes,
+                        longitudeSeconds: $longitudeSeconds,
+                        latHemi: $latHemi,
+                        lonHemi: $lonHemi
+                    )
+                    .padding(.top, 4)
+                } label: {
+                    Text("Location")
+                        .font(.headline)
+                }
 
-                DateTimeSection(
-                    yearText: $yearText,
-                    month: $month,
-                    day: $day,
-                    hour: $hour,
-                    minute: $minute,
-                    second: $second,
-                    offsetHour: $offsetHour,
-                    offsetMinute: $offsetMinute,
-                    offsetSecond: $offsetSecond,
-                    calendarStyle: $calendarStyle,
-                    yearCount: $yearCount,
-                    utOffsetDirection: $utOffsetDirection,
-                    dstOption: $dstOption,
-                    dateValidationResult: dateValidationResult,
-                    localizedHourLabel: localizedHourLabel(for:)
-                )
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { expandedSection == .dateTime },
+                        set: { if $0 { expandedSection = .dateTime } }
+                    )
+                ) {
+                    DateTimeSection(
+                        yearText: $yearText,
+                        month: $month,
+                        day: $day,
+                        hour: $hour,
+                        minute: $minute,
+                        second: $second,
+                        offsetHour: $offsetHour,
+                        offsetMinute: $offsetMinute,
+                        offsetSecond: $offsetSecond,
+                        calendarStyle: $calendarStyle,
+                        yearCount: $yearCount,
+                        utOffsetDirection: $utOffsetDirection,
+                        dstOption: $dstOption,
+                        dateValidationResult: dateValidationResult,
+                        localizedHourLabel: localizedHourLabel(for:)
+                    )
+                    .padding(.top, 4)
+                } label: {
+                    Text(LocalizedStringKey("view.radixinputscreen.datetime"))
+                        .font(.headline)
+                }
 
                 Button("Calculate") {
                     calculate()
