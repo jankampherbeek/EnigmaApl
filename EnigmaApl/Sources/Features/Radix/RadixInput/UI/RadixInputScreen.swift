@@ -10,6 +10,81 @@ import SwiftUI
 
 
 
+// Reusable numeric picker that combines a TextField (type directly) with a
+// chevron button that opens a popover list – HIG-compliant on macOS.
+private struct NumericPickerField: View {
+    let range: ClosedRange<Int>
+    let fieldWidth: CGFloat
+    let format: (Int) -> String
+    @Binding var selection: Int
+    @State private var text = ""
+    @State private var showPopover = false
+    @FocusState private var isFocused: Bool
+
+    private var isValid: Bool {
+        guard let value = Int(text) else { return false }
+        return range.contains(value)
+    }
+
+    var body: some View {
+        HStack(spacing: 0) {
+            TextField("", text: $text)
+                .textFieldStyle(.roundedBorder)
+                .frame(width: fieldWidth)
+                .multilineTextAlignment(.center)
+                .focused($isFocused)
+                .onAppear { text = format(selection) }
+                .onChange(of: selection) { _, newValue in text = format(newValue) }
+                .onChange(of: isFocused) { _, focused in
+                    guard !focused else { return }
+                    if isValid, let value = Int(text) {
+                        selection = value
+                    } else {
+                        text = format(selection)
+                    }
+                }
+            Button {
+                showPopover.toggle()
+            } label: {
+                Image(systemName: "chevron.up.chevron.down")
+                    .imageScale(.small)
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .padding(.leading, 3)
+            .focusable(false)
+            .popover(isPresented: $showPopover, arrowEdge: .bottom) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(range, id: \.self) { value in
+                                Button {
+                                    selection = value
+                                    showPopover = false
+                                } label: {
+                                    Text(format(value))
+                                        .frame(minWidth: 60, alignment: .center)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 3)
+                                        .background(
+                                            selection == value
+                                                ? Color.accentColor.opacity(0.2)
+                                                : Color.clear
+                                        )
+                                }
+                                .buttonStyle(.plain)
+                                .id(value)
+                            }
+                        }
+                    }
+                    .frame(height: min(200, CGFloat(range.count) * 24 + 8))
+                    .onAppear { proxy.scrollTo(selection, anchor: .center) }
+                }
+            }
+        }
+    }
+}
+
 // Reusable DMS part picker used to compose geo-coordinate input.
 private struct DMSComponentPicker: View {
     let symbol: String
@@ -35,8 +110,8 @@ private struct DMSComponentPicker: View {
                         .stroke(!isFocused && !isValid ? Color.red : Color.clear, lineWidth: 1.5)
                 )
                 .onAppear { text = String(selection) }
-                .onChange(of: selection) { text = String($0) }
-                .onChange(of: isFocused) { focused in
+                .onChange(of: selection) { _, newValue in text = String(newValue) }
+                .onChange(of: isFocused) { _, focused in
                     guard !focused else { return }
                     if isValid, let value = Int(text) {
                         selection = value
@@ -138,7 +213,7 @@ private struct ChartInfoSection: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .adaptiveBorder()
                     .focused($nameFieldFocused)
-                    .onChange(of: nameFieldFocused) { focused in
+                    .onChange(of: nameFieldFocused) { _, focused in
                         if !focused { chartInfoSubmitted = true }
                     }
                 if chartInfoSubmitted && nameIsEmpty {
@@ -255,7 +330,6 @@ private struct DateTimeSection: View {
     @Binding var dstOption: DSTOption
 
     let dateValidationResult: DateComponentsValidationResult
-    let localizedHourLabel: (Int) -> String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -271,25 +345,13 @@ private struct DateTimeSection: View {
 
                             Text(LocalizedStringKey("view.radixinputscreen.month"))
                                 .foregroundStyle(.secondary)
-                            Picker(LocalizedStringKey("view.radixinputscreen.month"), selection: $month) {
-                                ForEach(1...12, id: \.self) { value in
-                                    Text(String(value)).tag(value)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                            .labelsHidden()
-                            .focusable(true)
+                            NumericPickerField(range: 1...12, fieldWidth: 35,
+                                              format: { String($0) }, selection: $month)
 
                             Text(LocalizedStringKey("view.radixinputscreen.day"))
                                 .foregroundStyle(.secondary)
-                            Picker(LocalizedStringKey("view.radixinputscreen.day"), selection: $day) {
-                                ForEach(1...31, id: \.self) { value in
-                                    Text(String(value)).tag(value)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                            .labelsHidden()
-                            .focusable(true)
+                            NumericPickerField(range: 1...31, fieldWidth: 35,
+                                              format: { String($0) }, selection: $day)
                         }
                         .fixedSize(horizontal: true, vertical: false)
 
@@ -325,32 +387,12 @@ private struct DateTimeSection: View {
                 }
                 FieldBlock(LocalizedStringKey("view.radixinputscreen.timedst")) {
                     HStack(spacing: 8) {
-                        Picker(LocalizedStringKey("view.radixinputscreen.hour"), selection: $hour) {
-                            ForEach(0...23, id: \.self) { value in
-                                Text(localizedHourLabel(value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
-
-                        Picker(LocalizedStringKey("view.radixinputscreen.minute"), selection: $minute) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
-
-                        Picker(LocalizedStringKey("view.radixinputscreen.second"), selection: $second) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
+                        NumericPickerField(range: 0...23, fieldWidth: 40,
+                                          format: { String(format: "%02d", $0) }, selection: $hour)
+                        NumericPickerField(range: 0...59, fieldWidth: 35,
+                                          format: { String(format: "%02d", $0) }, selection: $minute)
+                        NumericPickerField(range: 0...59, fieldWidth: 35,
+                                          format: { String(format: "%02d", $0) }, selection: $second)
 
                         Picker("DST", selection: $dstOption) {
                             ForEach(DSTOption.allCases) { option in
@@ -366,32 +408,12 @@ private struct DateTimeSection: View {
                 }
                 FieldBlock(LocalizedStringKey("view.radixinputscreen.offsetut")) {
                     HStack(spacing: 8) {
-                        Picker(LocalizedStringKey("view.radixinputscreen.offsethour"), selection: $offsetHour) {
-                            ForEach(0...23, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
-
-                        Picker(LocalizedStringKey("view.radixinputscreen.offsetminute"), selection: $offsetMinute) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
-
-                        Picker(LocalizedStringKey("view.radixinputscreen.offsetsecond"), selection: $offsetSecond) {
-                            ForEach(0...59, id: \.self) { value in
-                                Text(String(format: "%02d", value)).tag(value)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .focusable(true)
+                        NumericPickerField(range: 0...23, fieldWidth: 40,
+                                          format: { String(format: "%02d", $0) }, selection: $offsetHour)
+                        NumericPickerField(range: 0...59, fieldWidth: 35,
+                                          format: { String(format: "%02d", $0) }, selection: $offsetMinute)
+                        NumericPickerField(range: 0...59, fieldWidth: 35,
+                                          format: { String(format: "%02d", $0) }, selection: $offsetSecond)
 
                         Picker("UT Relation", selection: $utOffsetDirection) {
                             ForEach(UTOffsetDirection.allCases) { relation in
@@ -455,33 +477,6 @@ struct RadixInputScreen: View {
     @State private var expandedSection: AccordionSection = .chartInfo
     @State private var chartInfoSubmitted = false
     @FocusState private var focusedHeader: AccordionSection?
-
-    private var uses24HourClock: Bool {
-        let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .autoupdatingCurrent) ?? "H"
-        return !format.contains("a")
-    }
-
-    private var amSymbol: String {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        return formatter.amSymbol
-    }
-
-    private var pmSymbol: String {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        return formatter.pmSymbol
-    }
-
-    private func localizedHourLabel(for value: Int) -> String {
-        if uses24HourClock {
-            return String(format: "%02d", value)
-        }
-
-        let hour12 = value % 12 == 0 ? 12 : value % 12
-        let period = value < 12 ? amSymbol : pmSymbol
-        return "\(hour12) \(period)"
-    }
 
     private var astronomicalYearForValidation: Int? {
         guard let enteredYear = Int(yearText) else { return nil }
@@ -659,8 +654,7 @@ struct RadixInputScreen: View {
                         yearCount: $yearCount,
                         utOffsetDirection: $utOffsetDirection,
                         dstOption: $dstOption,
-                        dateValidationResult: dateValidationResult,
-                        localizedHourLabel: localizedHourLabel(for:)
+                        dateValidationResult: dateValidationResult
                     )
                     .padding(.top, 4)
                 }
@@ -681,7 +675,7 @@ struct RadixInputScreen: View {
             .frame(maxWidth: 900, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            .onChange(of: focusedHeader) { header in
+            .onChange(of: focusedHeader) { _, header in
                 guard let header else { return }
                 switch header {
                 case .chartInfo:
