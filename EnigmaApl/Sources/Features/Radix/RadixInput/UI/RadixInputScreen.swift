@@ -413,7 +413,7 @@ private struct DateTimeSection: View {
 
 // MARK: - Screen
 
-private enum AccordionSection {
+private enum AccordionSection: Hashable {
     case chartInfo, location, dateTime
 }
 
@@ -454,6 +454,7 @@ struct RadixInputScreen: View {
     @State private var showHelp = false
     @State private var expandedSection: AccordionSection = .chartInfo
     @State private var chartInfoSubmitted = false
+    @FocusState private var focusedHeader: AccordionSection?
 
     private var uses24HourClock: Bool {
         let format = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .autoupdatingCurrent) ?? "H"
@@ -564,12 +565,21 @@ struct RadixInputScreen: View {
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { expandedSection == .chartInfo },
-                        set: { if $0 { expandedSection = .chartInfo } }
-                    )
-                ) {
+                Button(action: { expandedSection = .chartInfo }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: expandedSection == .chartInfo ? "chevron.down" : "chevron.right")
+                            .imageScale(.small)
+                            .foregroundStyle(.secondary)
+                        Text(LocalizedStringKey("view.radixinputscreen.aboutchart"))
+                            .font(.headline)
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
+                .focusable(true)
+                .focused($focusedHeader, equals: .chartInfo)
+
+                if expandedSection == .chartInfo {
                     ChartInfoSection(
                         chartName: $chartName,
                         chartDescription: $chartDescription,
@@ -578,20 +588,26 @@ struct RadixInputScreen: View {
                         chartInfoSubmitted: $chartInfoSubmitted
                     )
                     .padding(.top, 4)
-                } label: {
-                    Text(LocalizedStringKey("view.radixinputscreen.aboutchart"))
-                        .font(.headline)
                 }
 
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { expandedSection == .location },
-                        set: { if $0 {
-                            chartInfoSubmitted = true
-                            if !chartNameIsEmpty { expandedSection = .location }
-                        }}
-                    )
-                ) {
+                Button(action: {
+                    chartInfoSubmitted = true
+                    if !chartNameIsEmpty { expandedSection = .location }
+                }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: expandedSection == .location ? "chevron.down" : "chevron.right")
+                            .imageScale(.small)
+                            .foregroundStyle(.secondary)
+                        Text("Location")
+                            .font(.headline)
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
+                .focusable(true)
+                .focused($focusedHeader, equals: .location)
+
+                if expandedSection == .location {
                     LocationSection(
                         locationName: $locationName,
                         latitudeDegrees: $latitudeDegrees,
@@ -604,20 +620,26 @@ struct RadixInputScreen: View {
                         lonHemi: $lonHemi
                     )
                     .padding(.top, 4)
-                } label: {
-                    Text("Location")
-                        .font(.headline)
                 }
 
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { expandedSection == .dateTime },
-                        set: { if $0 {
-                            chartInfoSubmitted = true
-                            if !chartNameIsEmpty { expandedSection = .dateTime }
-                        }}
-                    )
-                ) {
+                Button(action: {
+                    chartInfoSubmitted = true
+                    if !chartNameIsEmpty { expandedSection = .dateTime }
+                }) {
+                    HStack(spacing: 6) {
+                        Image(systemName: expandedSection == .dateTime ? "chevron.down" : "chevron.right")
+                            .imageScale(.small)
+                            .foregroundStyle(.secondary)
+                        Text(LocalizedStringKey("view.radixinputscreen.datetime"))
+                            .font(.headline)
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
+                .focusable(true)
+                .focused($focusedHeader, equals: .dateTime)
+
+                if expandedSection == .dateTime {
                     DateTimeSection(
                         yearText: $yearText,
                         month: $month,
@@ -636,9 +658,6 @@ struct RadixInputScreen: View {
                         localizedHourLabel: localizedHourLabel(for:)
                     )
                     .padding(.top, 4)
-                } label: {
-                    Text(LocalizedStringKey("view.radixinputscreen.datetime"))
-                        .font(.headline)
                 }
 
                 Button("Calculate") {
@@ -657,6 +676,19 @@ struct RadixInputScreen: View {
             .frame(maxWidth: 900, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+            .onChange(of: focusedHeader) { header in
+                guard let header else { return }
+                switch header {
+                case .chartInfo:
+                    expandedSection = .chartInfo
+                case .location:
+                    chartInfoSubmitted = true
+                    if !chartNameIsEmpty { expandedSection = .location }
+                case .dateTime:
+                    chartInfoSubmitted = true
+                    if !chartNameIsEmpty { expandedSection = .dateTime }
+                }
+            }
         }
         .controlSize(.small)
         .navigationTitle("Data for a new chart")
