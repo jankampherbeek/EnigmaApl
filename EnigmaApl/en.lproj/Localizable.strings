@@ -26,6 +26,29 @@
 "today" = "Today";
 "yesterday" = "Yesterday";
 "tomorrow" = "Tomorrow";
+// Aspects
+"enum.aspects.conjunction" = "Conjunction";
+"enum.aspects.oppposition" = "Opposition";
+"enum.aspects.trine" = "Trine";
+"enum.aspects.square" = "Square";
+"enum.aspects.septile" = "Septile";
+"enum.aspects.sextile" = "Sextile";
+"enum.aspects.quintile" = "Quintile";
+"enum.aspects.semisextile" = "Semi-sextile";
+"enum.aspects.semisquare" = "Semi-square";
+"enum.aspects.semiquintile" = "Semi-quintile";
+"enum.aspects.biquintile" = "Bi-quintile";
+"enum.aspects.inconjunct" = "Inconjunct";
+"enum.aspects.sesquiquadrate" = "Sesquiquadrate";
+"enum.aspects.tridecile" = "Tridecile";
+"enum.aspects.biseptile" = "Bi-septile";
+"enum.aspects.triseptile" = "Tri-septile";
+"enum.aspects.novile" = "Novile";
+"enum.aspects.binovile" = "Bi-novile";
+"enum.aspects.quadranovile" = "Quadra-novile";
+"enum.aspects.undecile" = "Undecile";
+"enum.aspects.centile" = "Centile";
+"enum.aspects.vigintile" = "Vigintile";
 // Ayanamshas
 "enum.ayanamsha.aldebaran15tau" = "Aldebaran 15 Taurus";
 "enum.ayanamsha.aryabhata" = "Aryabhata";
@@ -227,3 +250,4 @@
 "view.radixinputscreen.timedst" = "Time / DST";
 "view.radixinputscreen.title" = "Data for a new chart";
 "view.radixinputscreen.year" = "Year";
+"view.radixinputscreen.accessibility.requiresname" = "Enter a chart name first";

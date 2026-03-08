@@ -578,6 +578,7 @@ struct RadixInputScreen: View {
                 .buttonStyle(.plain)
                 .focusable(true)
                 .focused($focusedHeader, equals: .chartInfo)
+                .accessibilityAddTraits(.isHeader)
 
                 if expandedSection == .chartInfo {
                     ChartInfoSection(
@@ -606,6 +607,8 @@ struct RadixInputScreen: View {
                 .buttonStyle(.plain)
                 .focusable(true)
                 .focused($focusedHeader, equals: .location)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityHint(chartNameIsEmpty ? LocalizedStringKey("view.radixinputscreen.accessibility.requiresname") : LocalizedStringKey(""))
 
                 if expandedSection == .location {
                     LocationSection(
@@ -638,6 +641,8 @@ struct RadixInputScreen: View {
                 .buttonStyle(.plain)
                 .focusable(true)
                 .focused($focusedHeader, equals: .dateTime)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityHint(chartNameIsEmpty ? LocalizedStringKey("view.radixinputscreen.accessibility.requiresname") : LocalizedStringKey(""))
 
                 if expandedSection == .dateTime {
                     DateTimeSection(

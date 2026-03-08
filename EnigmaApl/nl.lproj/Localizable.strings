@@ -26,6 +26,29 @@
 "today" = "Vandaag";
 "yesterday" = "Gisteren";
 "tomorrow" = "Morgen";
+// Aspects
+"enum.aspects.conjunction" = "Conjunctie";
+"enum.aspects.oppposition" = "Oppositie";
+"enum.aspects.trine" = "Driehoek";
+"enum.aspects.square" = "Vierkant";
+"enum.aspects.septile" = "Septiel";
+"enum.aspects.sextile" = "Sextiel";
+"enum.aspects.quintile" = "Quintiel";
+"enum.aspects.semisextile" = "Half sextiel";
+"enum.aspects.semisquare" = "Half vierkant";
+"enum.aspects.semiquintile" = "Half quintiel";
+"enum.aspects.biquintile" = "Biquintiel";
+"enum.aspects.inconjunct" = "Inconjunct";
+"enum.aspects.sesquiquadrate" = "Anderhalf vierkant";
+"enum.aspects.tridecile" = "Trideciel";
+"enum.aspects.biseptile" = "Biseptiel";
+"enum.aspects.triseptile" = "Triseptiel";
+"enum.aspects.novile" = "Noviel";
+"enum.aspects.binovile" = "Binoviel";
+"enum.aspects.quadranovile" = "Quadranoviel";
+"enum.aspects.undecile" = "Undeciel";
+"enum.aspects.centile" = "Centiel";
+"enum.aspects.vigintile" = "Vigintiel";
 // Ayanamshas
 "enum.ayanamsha.aldebaran15tau" = "Aldebaran 15 Stier";
 "enum.ayanamsha.aryabhata" = "Aryabhata";
@@ -227,3 +250,4 @@
 "view.radixinputscreen.timedst" = "Tijd / Zomertijd";
 "view.radixinputscreen.title" = "Gegevens voor een nieuwe horoscoop";
 "view.radixinputscreen.year" = "Jaar";
+"view.radixinputscreen.accessibility.requiresname" = "Voer eerst een naam in";

@@ -6,26 +6,37 @@ struct PositionsScreen: View {
     private let planetOrder: [Factors] = [
         .sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto
     ]
-    private let planetColumnWidths: [CGFloat] = [120, 120, 120, 140, 120, 120, 120, 120]
+    private let planetColumnWidths: [CGFloat] = [50, 120, 120, 140, 120, 120, 120, 120]
     private let cuspColumnWidths: [CGFloat] = [70, 120, 140, 120, 120, 120]
 
     private func dms(_ number: Double) -> String {
         PositionInDegreesConversion.DoubleToDms(number)
     }
 
-    private func planetName(_ factor: Factors) -> String {
-        switch factor {
-        case .sun: return "Sun"
-        case .moon: return "Moon"
-        case .mercury: return "Mercury"
-        case .venus: return "Venus"
-        case .mars: return "Mars"
-        case .jupiter: return "Jupiter"
-        case .saturn: return "Saturn"
-        case .uranus: return "Uranus"
-        case .neptune: return "Neptune"
-        case .pluto: return "Pluto"
-        default: return String(describing: factor)
+    @ViewBuilder
+    private func glyphCell(_ factor: Factors, width: CGFloat) -> some View {
+        Text(GlyphSelector.getGlyphForFactor(factor))
+            .font(.custom("EnigmaAstrology2", size: 18))
+            .frame(width: width, alignment: .leading)
+            .accessibilityLabel(factor.localizedName)
+    }
+
+    private func lengthAttributedString(dmsString: String, sign: Signs) -> AttributedString {
+        var dmsAttr = AttributedString(dmsString + " ")
+        dmsAttr.font = .body
+        var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
+        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        return dmsAttr + glyphAttr
+    }
+
+    @ViewBuilder
+    private func lengthCell(_ value: Double, width: CGFloat) -> some View {
+        let (dmsString, sign, success) = PositionInDegreesConversion.DoubleToDmsSign(value)
+        if success, let sign {
+            Text(lengthAttributedString(dmsString: dmsString, sign: sign))
+                .frame(width: width, alignment: .trailing)
+        } else {
+            tableCell(dms(value), width: width, alignment: .trailing)
         }
     }
 
@@ -41,7 +52,7 @@ struct PositionsScreen: View {
         GroupBox("Planets") {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 12) {
-                    tableCell("Name", width: planetColumnWidths[0], alignment: .leading, bold: true)
+                    tableCell("", width: planetColumnWidths[0], alignment: .leading, bold: true)
                     tableCell("Length", width: planetColumnWidths[1], alignment: .trailing, bold: true)
                     tableCell("Width", width: planetColumnWidths[2], alignment: .trailing, bold: true)
                     tableCell("Right Ascension", width: planetColumnWidths[3], alignment: .trailing, bold: true)
@@ -72,8 +83,8 @@ struct PositionsScreen: View {
                     let horizontal = position.horizontal[0]
 
                     HStack(spacing: 12) {
-                        tableCell(planetName(factor), width: planetColumnWidths[0], alignment: .leading)
-                        tableCell(dms(ecliptical.mainPos), width: planetColumnWidths[1], alignment: .trailing)
+                        glyphCell(factor, width: planetColumnWidths[0])
+                        lengthCell(ecliptical.mainPos, width: planetColumnWidths[1])
                         tableCell(dms(ecliptical.deviation), width: planetColumnWidths[2], alignment: .trailing)
                         tableCell(dms(equatorial.mainPos), width: planetColumnWidths[3], alignment: .trailing)
                         tableCell(dms(equatorial.deviation), width: planetColumnWidths[4], alignment: .trailing)
@@ -108,7 +119,7 @@ struct PositionsScreen: View {
                 ForEach(Array(chart.HousePositions.cusps.enumerated()), id: \.offset) { index, cusp in
                     HStack(spacing: 12) {
                         tableCell(String(index + 1), width: cuspColumnWidths[0], alignment: .leading)
-                        tableCell(dms(cusp.longitude), width: cuspColumnWidths[1], alignment: .trailing)
+                        lengthCell(cusp.longitude, width: cuspColumnWidths[1])
                         tableCell(dms(cusp.rightAscension), width: cuspColumnWidths[2], alignment: .trailing)
                         tableCell(dms(cusp.declination), width: cuspColumnWidths[3], alignment: .trailing)
                         tableCell(dms(cusp.horizontal.azimuth), width: cuspColumnWidths[4], alignment: .trailing)

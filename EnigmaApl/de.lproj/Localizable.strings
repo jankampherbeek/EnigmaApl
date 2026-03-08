@@ -26,6 +26,29 @@
 "today" = "Heute";
 "yesterday" = "Gestern";
 "tomorrow" = "Morgen";
+// Aspects
+"enum.aspects.conjunction" = "Konjunktion";
+"enum.aspects.oppposition" = "Opposition";
+"enum.aspects.trine" = "Trigon";
+"enum.aspects.square" = "Quadrat";
+"enum.aspects.septile" = "Septil";
+"enum.aspects.sextile" = "Sextil";
+"enum.aspects.quintile" = "Quintil";
+"enum.aspects.semisextile" = "Halbsextil";
+"enum.aspects.semisquare" = "Halbquadrat";
+"enum.aspects.semiquintile" = "Halbquintil";
+"enum.aspects.biquintile" = "Biquintil";
+"enum.aspects.inconjunct" = "Inkonjunkt";
+"enum.aspects.sesquiquadrate" = "Anderthalb-Quadrat";
+"enum.aspects.tridecile" = "Tridezil";
+"enum.aspects.biseptile" = "Biseptil";
+"enum.aspects.triseptile" = "Triseptil";
+"enum.aspects.novile" = "Novil";
+"enum.aspects.binovile" = "Binovil";
+"enum.aspects.quadranovile" = "Quadranovil";
+"enum.aspects.undecile" = "Undezil";
+"enum.aspects.centile" = "Zentil";
+"enum.aspects.vigintile" = "Vigintil";
 // Ayanamshas
 "enum.ayanamsha.aldebaran15tau" = "Aldebaran 15 Stier";
 "enum.ayanamsha.aryabhata" = "Aryabhata";
@@ -227,3 +250,4 @@
 "view.radixinputscreen.timedst" = "Zeit / Sommerzeit";
 "view.radixinputscreen.title" = "Daten für ein neues Horoskop";
 "view.radixinputscreen.year" = "Jahr";
+"view.radixinputscreen.accessibility.requiresname" = "Zuerst einen Namen eingeben";

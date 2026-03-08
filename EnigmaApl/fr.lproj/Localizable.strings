@@ -26,6 +26,29 @@
 "today" = "Aujourd'hui";
 "yesterday" = "Hier";
 "tomorrow" = "Demain";
+// Aspects
+"enum.aspects.conjunction" = "Conjonction";
+"enum.aspects.oppposition" = "Opposition";
+"enum.aspects.trine" = "Trigone";
+"enum.aspects.square" = "Carré";
+"enum.aspects.septile" = "Septile";
+"enum.aspects.sextile" = "Sextile";
+"enum.aspects.quintile" = "Quintile";
+"enum.aspects.semisextile" = "Demi-sextile";
+"enum.aspects.semisquare" = "Demi-carré";
+"enum.aspects.semiquintile" = "Demi-quintile";
+"enum.aspects.biquintile" = "Bi-quintile";
+"enum.aspects.inconjunct" = "Inconjonction";
+"enum.aspects.sesquiquadrate" = "Sesqui-carré";
+"enum.aspects.tridecile" = "Tridécile";
+"enum.aspects.biseptile" = "Bi-septile";
+"enum.aspects.triseptile" = "Tri-septile";
+"enum.aspects.novile" = "Novile";
+"enum.aspects.binovile" = "Bi-novile";
+"enum.aspects.quadranovile" = "Quadra-novile";
+"enum.aspects.undecile" = "Undécile";
+"enum.aspects.centile" = "Centile";
+"enum.aspects.vigintile" = "Vigintile";
 // Ayanamshas
 "enum.ayanamsha.aldebaran15tau" = "Aldébaran 15 Taureau";
 "enum.ayanamsha.aryabhata" = "Aryabhata";
@@ -227,3 +250,4 @@
 "view.radixinputscreen.timedst" = "Heure / Heure d'été";
 "view.radixinputscreen.title" = "Données pour un horoscope";
 "view.radixinputscreen.year" = "Année";
+"view.radixinputscreen.accessibility.requiresname" = "Entrez d'abord un nom de carte";

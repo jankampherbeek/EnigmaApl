@@ -7,7 +7,7 @@
 
 
 /// Zodiac signs
-enum Signs: Int, CaseIterable {
+public enum Signs: Int, CaseIterable {
     case Aries = 1
     case Taurus = 2
     case Gemini = 3

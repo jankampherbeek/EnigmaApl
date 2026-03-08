@@ -17,7 +17,13 @@ public struct ConfigData {
     public let blackMoonCorrectionType: BlackMoonCorrectionTypes
     public let lunarNodeType: LunarNodeTypes
     public let lotsType: LotsTypes
-    
+    /// Glyph overrides for factors. Empty by default; overrides the default in FactorGlyphs.
+    public let altFactorGlyphs: [(factor: Factors, glyph: String)]
+    /// Glyph overrides for zodiac signs. Empty by default; overrides the default in SignGlyphs.
+    public let altSignGlyphs: [(sign: Signs, glyph: String)]
+    /// Glyph overrides for aspects. Empty by default; overrides the default in AspectGlyphs.
+    public let altAspectGlyphs: [(aspect: Aspects, glyph: String)]
+
     public init(
         houseSystem: HouseSystems,
         ayanamsha: Ayanamshas,
@@ -25,7 +31,10 @@ public struct ConfigData {
         projectionType: ProjectionTypes,
         blackMoonCorrectionType: BlackMoonCorrectionTypes,
         lunarNodeType: LunarNodeTypes,
-        lotsType: LotsTypes
+        lotsType: LotsTypes,
+        factorGlyphs: [(factor: Factors, glyph: String)] = [],
+        signGlyphs: [(sign: Signs, glyph: String)] = [],
+        aspectGlyphs: [(aspect: Aspects, glyph: String)] = []
     ) {
         self.houseSystem = houseSystem
         self.ayanamsha = ayanamsha
@@ -34,6 +43,9 @@ public struct ConfigData {
         self.blackMoonCorrectionType = blackMoonCorrectionType
         self.lunarNodeType = lunarNodeType
         self.lotsType = lotsType
+        self.altFactorGlyphs = factorGlyphs
+        self.altSignGlyphs = signGlyphs
+        self.altAspectGlyphs = aspectGlyphs
     }
 }
 
