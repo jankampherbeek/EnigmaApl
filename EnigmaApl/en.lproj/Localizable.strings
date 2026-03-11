@@ -98,6 +98,10 @@
 // Calendar style
 "enum.calendarstyle.gregorian" = "G";
 "enum.calendarstyle.julian" = "J";
+// Coordinate systems
+"enum.coordinatesys.ecliptic" = "Ecliptical";
+"enum.coordinatesys.equatorial" = "Equatorial";
+"enum.coordinatesys.horizontal" = "Horizontal";
 // DST option
 "enum.dstoption.dst" = "DST";
 "enum.dstoption.nodst" = "No DST";
