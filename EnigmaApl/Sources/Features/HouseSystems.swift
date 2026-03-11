@@ -66,35 +66,7 @@ public enum HouseSystems: Int, CaseIterable {
         }
     }
     
-    var localizedName: String {
-        switch self {
-        case .noHouses: return "enum.housesystem.nohouses"
-        case .placidus: return "enum.housesystem.placidus"
-        case .koch: return "enum.housesystem.koch"
-        case .porphyri: return "enum.housesystem.porphyri"
-        case .regiomontanus: return "enum.housesystem.regiomontanus"
-        case .campanus: return "enum.housesystem.campanus"
-        case .alcabitius: return "enum.housesystem.alcabitius"
-        case .topoCentric: return "enum.housesystem.topocentric"
-        case .krusinski: return "enum.housesystem.krusinski"
-        case .apc: return "enum.housesystem.apc"
-        case .morin: return "enum.housesystem.morin"
-        case .wholeSign: return "enum.housesystem.whole_sign"
-        case .equalAsc: return "enum.housesystem.equal_from_ascendant"
-        case .equalMc: return "enum.housesystem.equal_from_mc"
-        case .equalAries: return "enum.housesystem.equal_from_0_aries"
-        case .vehlow: return "enum.housesystem.vehlow"
-        case .axial: return "enum.housesystem.axial_rotation"
-        case .horizon: return "enum.housesystem.horizon"
-        case .carter: return "enum.housesystem.carter"
-        case .gauquelin: return "enum.housesystem.gauquelin"
-        case .sunShine: return "enum.housesystem.sunshine"
-        case .sunShineTreindl: return "enum.housesystem.sunshine_treindl"
-        case .pullenSd: return "enum.housesystem.pullen_sin_diff"
-        case .pullenSr: return "enum.housesys.pullen_sin_ratio"
-        case .sripati: return "enum.housesys.sripati"
-        }
-    }
+    var localizedName: String { HouseSystemKeys.key(for: self) }
     
     static func fromIndex(_ index: Int) -> HouseSystems? {
         guard index >= 0 && index < HouseSystems.allCases.count else {

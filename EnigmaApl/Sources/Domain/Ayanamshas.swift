@@ -99,51 +99,7 @@ public enum Ayanamshas: Int, CaseIterable {
     }
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .tropical: return "enum.ayanamsha.tropical"
-        case .fagan: return "enum.ayanamsha.fagan"
-        case .lahiri: return "enum.ayanamsha.lahiri"
-        case .deLuce: return "enum.ayanamsha.deluce"
-        case .raman: return "enum.ayanamsha.raman"
-        case .ushaShashi: return "enum.ayanamsha.ushashashi"
-        case .krishnamurti: return "enum.ayanamsha.krishnamurti"
-        case .djwhalKhul: return "enum.ayanamsha.djwhalkhul"
-        case .yukteshwar: return "enum.ayanamsha.yukteshwar"
-        case .bhasin: return "enum.ayanamsha.bhasin"
-        case .kugler1: return "enum.ayanamsha.kugler1"
-        case .kugler2: return "enum.ayanamsha.kugler2"
-        case .kugler3: return "enum.ayanamsha.kugler3"
-        case .huber: return "enum.ayanamsha.huber"
-        case .etaPiscium: return "enum.ayanamsha.etapiscium"
-        case .aldebaran15Tau: return "enum.ayanamsha.aldebaran15tau"
-        case .hipparchus: return "enum.ayanamsha.hipparchus"
-        case .sassanian: return "enum.ayanamsha.sassanian"
-        case .galactCtr0Sag: return "enum.ayanamsha.galcent0sag"
-        case .j2000: return "enum.ayanamsha.j2000"
-        case .j1900: return "enum.ayanamsha.j1900"
-        case .b1950: return "enum.ayanamsha.b1950"
-        case .suryaSiddhanta: return "enum.ayanamsha.suryasiddhanta"
-        case .suryaSiddhantaMeanSun: return "enum.ayanamsha.suryasiddhantameansun"
-        case .aryabhata: return "enum.ayanamsha.aryabhata"
-        case .aryabhataMeanSun: return "enum.ayanamsha.aryabhatameansun"
-        case .ssRevati: return "enum.ayanamsha.ssrevati"
-        case .ssCitra: return "enum.ayanamsha.sscitra"
-        case .trueCitra: return "enum.ayanamsha.truecitrapaksha"
-        case .trueRevati: return "enum.ayanamsha.truerevati"
-        case .truePushya: return "enum.ayanamsha.truepushya"
-        case .galacticCtrBrand: return "enum.ayanamsha.galcentbrand"
-        case .galacticEqIau1958: return "enum.ayanamsha.galcentiau1958"
-        case .galacticEq: return "enum.ayanamsha.galequator"
-        case .galacticEqMidMula: return "enum.ayanamsha.galequatormidmula"
-        case .skydram: return "enum.ayanamsha.skydram"
-        case .trueMula: return "enum.ayanamsha.truemula"
-        case .dhruva: return "enum.ayanamsha.dhruva"
-        case .aryabhata522: return "enum.ayanamsha.aryabhata522"
-        case .britton: return "enum.ayanamsha.britton"
-        case .galacticCtrOCap: return "enum.ayanamsha.galcent0cap"
-        }
-    }
+    var rbKey: String { AyanamshaKeys.key(for: self) }
     
     /// Find ayanamsha for a given index
     /// - Parameter index: The index (raw value)

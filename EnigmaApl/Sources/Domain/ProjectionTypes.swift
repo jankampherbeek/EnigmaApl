@@ -15,12 +15,7 @@ public enum ProjectionTypes: Int, CaseIterable {
     case obliqueLongitude = 1
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .twoDimensional: return "enum.projectiontype.twodimensional"
-        case .obliqueLongitude: return "enum.projectiontype.obliquelongitude"
-        }
-    }
+    var rbKey: String { ProjectionTypeKeys.key(for: self) }
     
     /// Find projection type for a given index
     /// - Parameter index: The index (raw value)

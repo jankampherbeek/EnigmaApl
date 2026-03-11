@@ -6,9 +6,11 @@
 //
 
 // Indication of year count
-enum YearCount: String, CaseIterable, Identifiable {
-    case ce = "enum.yearcount.ce"
-    case bc = "enum.yearcount.bce"
-    case astronomical = "enum.yearcount.astronomical"
-    var id: String { rawValue }
+enum YearCount: CaseIterable, Identifiable, Hashable {
+    case ce
+    case bc
+    case astronomical
+
+    var id: Self { self }
+    var rbKey: String { YearCountKeys.key(for: self) }
 }

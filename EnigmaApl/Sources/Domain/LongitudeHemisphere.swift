@@ -6,8 +6,10 @@
 //
 
 // Directions in longitude: east and west
-enum LongitudeHemisphere: String, CaseIterable, Identifiable {
-    case east = "enum.longitudehemisphere.east"
-    case west =  "enum.longitudehemisphere.west"
-    var id: String { rawValue }
+enum LongitudeHemisphere: CaseIterable, Identifiable, Hashable {
+    case east
+    case west
+
+    var id: Self { self }
+    var rbKey: String { LongitudeHemisphereKeys.key(for: self) }
 }

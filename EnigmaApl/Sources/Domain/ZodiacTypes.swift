@@ -21,12 +21,7 @@ public enum ZodiacTypes: Int, CaseIterable {
     }
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .sidereal: return "enum.zodiactype.sidereal"
-        case .tropical: return "enum.zodiactype.tropical"
-        }
-    }
+    var rbKey: String { ZodiacTypeKeys.key(for: self) }
     
     /// Find zodiac type for a given index
     /// - Parameter index: The index (raw value)

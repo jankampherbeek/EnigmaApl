@@ -31,32 +31,7 @@ public enum Aspects: Int, CaseIterable {
     case vigintile = 21
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .conjunction: return "enum.aspects.conjunction"
-        case .opposition: return "enum.aspects.oppposition"
-        case .trine: return "enum.aspects.trigon"
-        case .square: return "enum.aspects.square"
-        case .septile: return "enum.aspects.septile"
-        case .sextile: return "enum.aspects.sextile"
-        case .quintile: return "enum.aspects.quintile"
-        case .semisextile: return "enum.aspects.semisextile"
-        case .semisquare: return "enum.aspects.semisquare"
-        case .semiquintile: return "enum.aspects.semiquintile"
-        case .biquintile: return "enum.aspects.biquintile"
-        case .inconjunct: return "enum.aspects.inconjunct"
-        case .sesquiquadrate: return "enum.aspects.sequiquadrate"
-        case .tridecile: return "enum.aspects.tridecile"
-        case .biseptile: return "enum.aspects.biseptile"
-        case .triseptile: return "enum.aspects.triseptile"
-        case .novile: return "enum.aspects.novile"
-        case .binovile: return "enum.aspects.binovile"
-        case .quadranovile: return "enum.aspects.quadranovile"
-        case .undecile: return "enum.aspects.undecile"
-        case .centile: return "enum.aspects.centile"
-        case .vigintile: return "enum.aspects.vigintile"
-        }
-    }
+    var rbKey: String { AspectKeys.key(for: self) }
     
     /// Angle forn each aspect
     var angle: Double {

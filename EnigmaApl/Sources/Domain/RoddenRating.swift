@@ -16,6 +16,7 @@ enum RoddenRating: String, CaseIterable, Identifiable {
     case xx = "XX"
 
     var id: String { rawValue }
+    var rbKey: String { RoddenRatingKeys.key(for: self) }
 
     var description: String {
         switch self {

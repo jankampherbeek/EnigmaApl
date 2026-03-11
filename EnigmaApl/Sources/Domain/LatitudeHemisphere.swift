@@ -6,8 +6,10 @@
 //
 
 // Directions in latitude: north and south
-enum LatitudeHemisphere: String, CaseIterable, Identifiable {
-    case north = "enum.latitudehemisphere.north"
-    case south = "enum.latitudehemisphere.south"
-    var id: String { rawValue }
+enum LatitudeHemisphere: CaseIterable, Identifiable, Hashable {
+    case north
+    case south
+
+    var id: Self { self }
+    var rbKey: String { LatitudeHemisphereKeys.key(for: self) }
 }

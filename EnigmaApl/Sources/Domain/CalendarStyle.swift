@@ -6,8 +6,10 @@
 //
 
 // Gregorian or Julian calendar
-enum CalendarStyle: String, CaseIterable, Identifiable {
-    case gregorian = "enum.calendarstyle.gregorian"
-    case julian = "enum.calendarstyle.julian"
-    var id: String { rawValue }
+enum CalendarStyle: CaseIterable, Identifiable, Hashable {
+    case gregorian
+    case julian
+
+    var id: Self { self }
+    var rbKey: String { CalendarStyleKeys.key(for: self) }
 }

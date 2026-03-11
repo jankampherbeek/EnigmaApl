@@ -23,13 +23,7 @@ public enum CoordinateSystems: Int, CaseIterable {
     }
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .ecliptical: return "enum.coordinatesys.ecliptic"
-        case .equatorial: return "enum.coordinatesys.equatorial"
-        case .horizontal: return "enum.coordinatesys.horizontal"
-        }
-    }
+    var rbKey: String { CoordinateSystemKeys.key(for: self) }
     
     /// Find coordinate system for a given index
     /// - Parameter index: The index (raw value)

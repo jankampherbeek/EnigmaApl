@@ -287,7 +287,7 @@ private struct LocationSection: View {
                     DMSComponentPicker(symbol: "″", range: 0...59, selection: $longitudeSeconds)
                     Picker(ri("view.radixinputscreen.accessibility.longitudehemisphere"), selection: $lonHemi) {
                         ForEach(LongitudeHemisphere.allCases) { hemisphere in
-                            Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
+                            Text(LocalizedStringKey(hemisphere.rbKey)).tag(hemisphere)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -302,7 +302,7 @@ private struct LocationSection: View {
                     DMSComponentPicker(symbol: "″", range: 0...59, selection: $latitudeSeconds)
                     Picker(ri("view.radixinputscreen.accessibility.latitudehemisphere"), selection: $latHemi) {
                         ForEach(LatitudeHemisphere.allCases) { hemisphere in
-                            Text(LocalizedStringKey(hemisphere.rawValue)).tag(hemisphere)
+                            Text(LocalizedStringKey(hemisphere.rbKey)).tag(hemisphere)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -370,7 +370,7 @@ private struct DateTimeSection: View {
                     HStack(spacing: 8) {
                         Picker(ri("view.radixinputscreen.calendaryearcount"), selection: $calendarStyle) {
                             ForEach(CalendarStyle.allCases) { style in
-                                Text(LocalizedStringKey(style.rawValue)).tag(style)
+                                Text(LocalizedStringKey(style.rbKey)).tag(style)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -380,7 +380,7 @@ private struct DateTimeSection: View {
 
                         Picker(ri("view.radixinputscreen.year"), selection: $yearCount) {
                             ForEach(YearCount.allCases) { count in
-                                Text(LocalizedStringKey(count.rawValue)).tag(count)
+                                Text(LocalizedStringKey(count.rbKey)).tag(count)
                             }
                         }
                         .pickerStyle(.menu)
@@ -400,7 +400,7 @@ private struct DateTimeSection: View {
 
                         Picker(ri("view.radixinputscreen.dst"), selection: $dstOption) {
                             ForEach(DSTOption.allCases) { option in
-                                Text(LocalizedStringKey(option.rawValue)).tag(option)
+                                Text(LocalizedStringKey(option.rbKey)).tag(option)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -421,7 +421,7 @@ private struct DateTimeSection: View {
 
                         Picker(ri("view.radixinputscreen.offsetut"), selection: $utOffsetDirection) {
                             ForEach(UTOffsetDirection.allCases) { relation in
-                                Text(LocalizedStringKey(relation.rawValue)).tag(relation)
+                                Text(LocalizedStringKey(relation.rbKey)).tag(relation)
                             }
                         }
                         .pickerStyle(.segmented)

@@ -15,13 +15,7 @@ public enum ObserverPositions: Int, CaseIterable {
     
     
     /// Resource bundle key for localized name
-    var rbKey: String {
-        switch self {
-        case .geoCentric: return "enum.observerpos.geocentric"
-        case .topoCentric: return "enum.observerpos.topocentric"
-        case .helioCentric: return "enum.observerpos.heliocentric"
-        }
-    }
+    var rbKey: String { ObserverPositionKeys.key(for: self) }
     
     /// Find observer position for a given index
     /// - Parameter index: The index (raw value)
