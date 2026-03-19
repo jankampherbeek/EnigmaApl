@@ -51,3 +51,5 @@
 "view.radixinputscreen.help.datetime.line1" = "Jahreszählung unterstützt n.Chr/v.Chr. und astronomische Nummerierung.";
 "view.radixinputscreen.help.datetime.line2" = "Versatz UT konvertiert Ortszeit in Universalzeit.";
 "view.radixinputscreen.help.datetime.line3" = "Verwenden Sie Sommerzeit, wenn zum Zeitpunkt des Horoskops Sommerzeit galt.";
+
+"view.radixinputscreen.warning.savefailed" = "Das Horoskop konnte nicht gespeichert werden.";

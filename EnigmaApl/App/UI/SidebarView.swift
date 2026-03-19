@@ -39,6 +39,9 @@ struct SidebarView: View {
                     Button { radixNav.setInspector(.analysis) } label: {
                         row(RadixInspector.analysis.rawValue, app.nav.radix.inspector == .analysis)
                     }.buttonStyle(.plain)
+                    Button { radixNav.setInspector(.search) } label: {
+                        row(RadixInspector.search.rawValue, app.nav.radix.inspector == .search)
+                    }.buttonStyle(.plain)
                 }
             case .research:
                 Section("Research") {

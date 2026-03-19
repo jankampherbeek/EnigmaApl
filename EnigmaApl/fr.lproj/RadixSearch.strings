@@ -1,0 +1,14 @@
+// RadixSearch.strings - Français
+// EnigmaApl
+
+"view.radixsearchscreen.title" = "Chercher un horoscope";
+"view.radixsearchscreen.partofname" = "Partie du nom";
+"view.radixsearchscreen.search" = "Chercher";
+"view.radixsearchscreen.noresults" = "Aucun résultat trouvé.";
+"view.radixsearchscreen.column.name" = "Nom";
+"view.radixsearchscreen.column.datetime" = "Date/heure";
+"view.radixsearchscreen.column.location" = "Lieu";
+"view.radixsearchscreen.select" = "Sélectionner";
+"view.radixsearchscreen.help.title" = "Aide";
+"view.radixsearchscreen.help.close" = "Fermer";
+"view.radixsearchscreen.help.text" = "Recherchez un ou plusieurs horoscopes en saisissant une partie du nom et en cliquant sur 'Chercher'. Vous pouvez ensuite sélectionner un horoscope dans la liste affichée.";

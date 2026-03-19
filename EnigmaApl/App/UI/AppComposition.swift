@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import Combine
 
 // Creates and injects app-level objects (including navigators) as EnvironmentObjects
@@ -15,9 +16,14 @@ final class AppComposition: ObservableObject {
     let radixNav: RadixNavigator
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
+    let horoscopeRepository: HoroscopeRepository
+    let eventRepository: EventRepository
 
     init(app: AppState) {
         self.app = app
+        let context = PersistenceController.shared.container.mainContext
+        self.horoscopeRepository = HoroscopeRepository(context: context)
+        self.eventRepository = EventRepository(context: context)
 
         self.radixNav = RadixNavigator(nav: Binding(
             get: { app.nav.radix },

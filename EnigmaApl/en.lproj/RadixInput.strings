@@ -51,3 +51,5 @@
 "view.radixinputscreen.help.datetime.line1" = "Year count supports CE/BCE and astronomical numbering.";
 "view.radixinputscreen.help.datetime.line2" = "Offset UT converts local time to Universal Time.";
 "view.radixinputscreen.help.datetime.line3" = "Use DST when daylight saving was active at the chart moment.";
+
+"view.radixinputscreen.warning.savefailed" = "The horoscope could not be saved.";

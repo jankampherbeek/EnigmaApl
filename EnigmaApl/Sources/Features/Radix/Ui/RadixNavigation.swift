@@ -20,6 +20,7 @@ enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
     case positions = "Positions"
     case analysis = "Analysis"
     case newChart = "New Chart"
+    case search = "Zoek"
     var id: String { rawValue }
 }
 

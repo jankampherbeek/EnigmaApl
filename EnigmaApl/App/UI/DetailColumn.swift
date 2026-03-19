@@ -29,6 +29,8 @@ struct DetailColumn: View {
                 return "Analysis"
             case .horoscope:
                 return "Detail (Radix)"
+            case .search:
+                return "Zoek horoscoop"
             }
         case .research:
             return "Detail"
@@ -58,6 +60,8 @@ struct DetailColumn: View {
                     PositionsScreen()
                 case .analysis:
                     AnalysisScreen()
+                case .search:
+                    RadixSearchScreen()
                 }
             case .research:
                 switch app.nav.research.section {

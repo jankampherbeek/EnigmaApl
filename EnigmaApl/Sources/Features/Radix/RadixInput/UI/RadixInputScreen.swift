@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 private func ri(_ key: String) -> String {
     NSLocalizedString(key, tableName: "RadixInput", bundle: .main, comment: "")
@@ -446,6 +447,7 @@ private enum AccordionSection: Hashable {
 struct RadixInputScreen: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var inputModel = RadixInputModel()
     @State private var chartName: String = ""
     @State private var chartDescription = ""
@@ -478,6 +480,7 @@ struct RadixInputScreen: View {
     @State private var utOffsetDirection: UTOffsetDirection = .later
     @State private var dstOption: DSTOption = .noDST
     @State private var showHelp = false
+    @State private var showSaveWarning = false
     @State private var expandedSection: AccordionSection = .chartInfo
     @State private var chartInfoSubmitted = false
     @FocusState private var focusedHeader: AccordionSection?
@@ -551,10 +554,64 @@ struct RadixInputScreen: View {
     private func calculate() {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
-        if let chart = inputModel.lastChart {
+        if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
             app.latestRadixChart = chart
             radixNav.setInspector(.positions)
+            saveHoroscope(julianDate: request.JulianDay)
         }
+    }
+
+    private func saveHoroscope(julianDate: Double) {
+        let repository = HoroscopeRepository(context: modelContext)
+        let lat = dmsToDecimal(deg: latitudeDegrees, min: latitudeMinutes, sec: latitudeSeconds, negative: latHemi == .south)
+        let lon = dmsToDecimal(deg: longitudeDegrees, min: longitudeMinutes, sec: longitudeSeconds, negative: lonHemi == .west)
+        do {
+            let horoscope = try repository.add(
+                name: chartName,
+                notes: chartDescription.isEmpty ? nil : chartDescription,
+                source: source.isEmpty ? nil : source,
+                roddenRating: roddenRating.rawValue,
+                placeName: locationName.isEmpty ? nil : locationName,
+                latitude: lat,
+                longitude: lon
+            )
+            try repository.addDateTime(
+                to: horoscope,
+                julianDate: julianDate,
+                timeZoneIdentifier: utOffsetIdentifier(),
+                originalInput: originalInputString()
+            )
+        } catch {
+            showSaveWarning = true
+        }
+    }
+
+    /// Constructs a fixed UTC-offset identifier (e.g. "+01:00") from the entered offset and DST setting.
+    private func utOffsetIdentifier() -> String {
+        let sign = utOffsetDirection == .earlier ? "+" : "-"
+        var totalMinutes = offsetHour * 60 + offsetMinute
+        if dstOption == .dst { totalMinutes += 60 }
+        return String(format: "\(sign)%02d:%02d", totalMinutes / 60, totalMinutes % 60)
+    }
+
+    /// Composes a human-readable string of the original date/time input for feedback purposes.
+    private func originalInputString() -> String {
+        let yearDisplay: String
+        switch yearCount {
+        case .astronomical: yearDisplay = yearText
+        case .ce:           yearDisplay = "\(yearText) CE"
+        case .bc:           yearDisplay = "\(yearText) BC"
+        }
+        let cal = calendarStyle == .gregorian ? "Greg." : "Jul."
+        let offset = utOffsetIdentifier()
+        let dst = dstOption == .dst ? " DST" : ""
+        return String(format: "%@ %02d-%02d %02d:%02d:%02d (UT%@%@) %@",
+                      yearDisplay, month, day, hour, minute, second, offset, dst, cal)
+    }
+
+    private func dmsToDecimal(deg: Int, min: Int, sec: Int, negative: Bool) -> Double {
+        let value = Double(deg) + Double(min) / 60.0 + Double(sec) / 3600.0
+        return negative ? -value : value
     }
 
     var body: some View {
@@ -674,6 +731,11 @@ struct RadixInputScreen: View {
                     Text(error)
                         .font(.caption)
                         .foregroundStyle(.red)
+                }
+                if showSaveWarning {
+                    Label(ri("view.radixinputscreen.warning.savefailed"), systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
                 }
             }
             .frame(maxWidth: 900, alignment: .leading)

@@ -51,3 +51,5 @@
 "view.radixinputscreen.help.datetime.line1" = "Jaartelling ondersteunt n.Chr./v.Chr. en astronomische nummering.";
 "view.radixinputscreen.help.datetime.line2" = "Offset UT converteert lokale tijd naar Universele Tijd.";
 "view.radixinputscreen.help.datetime.line3" = "Gebruik Zomertijd wanneer zomertijd actief was op het moment van de horoscoop.";
+
+"view.radixinputscreen.warning.savefailed" = "De horoscoop kon niet worden opgeslagen.";

@@ -20,7 +20,7 @@ struct ContentColumn: View {
             switch app.nav.mode {
             case .radix:
                 switch app.nav.radix.inspector {
-                case .horoscope, .positions, .analysis, .newChart:
+                case .horoscope, .positions, .analysis, .newChart, .search:
                     HoroscopeScreen()
                 }
             case .research:

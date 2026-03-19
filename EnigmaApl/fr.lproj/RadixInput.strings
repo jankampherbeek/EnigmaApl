@@ -51,3 +51,5 @@
 "view.radixinputscreen.help.datetime.line1" = "Le décompte des années prend en charge ap.J.-C./av.J.-C. et la numérotation astronomique.";
 "view.radixinputscreen.help.datetime.line2" = "Décalage UT convertit l'heure locale en Temps Universel.";
 "view.radixinputscreen.help.datetime.line3" = "Utilisez Heure d'été lorsque l'heure d'été était active au moment de l'horoscope.";
+
+"view.radixinputscreen.warning.savefailed" = "L'horoscope n'a pas pu être enregistré.";

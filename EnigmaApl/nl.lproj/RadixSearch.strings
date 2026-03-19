@@ -1,0 +1,14 @@
+// RadixSearch.strings - Nederlands
+// EnigmaApl
+
+"view.radixsearchscreen.title" = "Zoek horoscoop";
+"view.radixsearchscreen.partofname" = "Deel van de naam";
+"view.radixsearchscreen.search" = "Zoek";
+"view.radixsearchscreen.noresults" = "Geen resultaten gevonden.";
+"view.radixsearchscreen.column.name" = "Naam";
+"view.radixsearchscreen.column.datetime" = "Datum/tijd";
+"view.radixsearchscreen.column.location" = "Locatie";
+"view.radixsearchscreen.select" = "Selecteer";
+"view.radixsearchscreen.help.title" = "Help";
+"view.radixsearchscreen.help.close" = "Sluiten";
+"view.radixsearchscreen.help.text" = "Zoek één of meerdere horoscopen door een deel van de naam in te voeren en op 'Zoek' te klikken. Daarna kun je de horoscoop selecteren in de getoonde lijst.";

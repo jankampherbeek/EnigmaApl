@@ -33,6 +33,7 @@ struct EnigmaAplApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(composition)
+                .modelContainer(PersistenceController.shared.container)
         }
     }
 }
