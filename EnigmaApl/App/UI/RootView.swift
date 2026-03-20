@@ -35,6 +35,7 @@ struct RootView: View {
         }
         // Inject the actual singletons so that they can be used by lower views
         .environmentObject(app)
+        .environmentObject(composition.chartSession)
         .environmentObject(composition.radixNav)
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)

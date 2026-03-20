@@ -11,16 +11,17 @@ import Combine
 
 struct RadixNav: Equatable {
     var selectedID: UUID? = nil
-    var inspector: RadixInspector = .horoscope
+    var inspector: RadixInspector = .overview
 }
 
 
 enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
+    case overview  = "Overzicht"
     case horoscope = "Horoscope"
     case positions = "Positions"
-    case analysis = "Analysis"
-    case newChart = "New Chart"
-    case search = "Zoek"
+    case analysis  = "Analysis"
+    case newChart  = "New Chart"
+    case search    = "Zoek"
     var id: String { rawValue }
 }
 

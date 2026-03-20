@@ -1,0 +1,11 @@
+// RadixOverview.strings - Nederlands
+// EnigmaApl
+
+"view.radixoverviewscreen.title"          = "Overzicht";
+"view.radixoverviewscreen.chartsheader"   = "Horoscopen in sessie";
+"view.radixoverviewscreen.empty"          = "Nog geen horoscopen in de sessie. Gebruik Nieuwe horoscoop of Zoek horoscoop om er een toe te voegen.";
+"view.radixoverviewscreen.newchart"       = "Nieuwe horoscoop";
+"view.radixoverviewscreen.searchchart"    = "Zoek horoscoop";
+"view.radixoverviewscreen.column.name"    = "Naam";
+"view.radixoverviewscreen.column.julianday" = "Juliaanse Dag";
+"view.radixoverviewscreen.select"         = "Selecteer";

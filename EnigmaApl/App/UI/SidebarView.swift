@@ -30,6 +30,9 @@ struct SidebarView: View {
             switch app.nav.mode {
             case .radix:
                 Section("Radix") {
+                    Button { radixNav.setInspector(.overview) } label: {
+                        row(RadixInspector.overview.rawValue, app.nav.radix.inspector == .overview)
+                    }.buttonStyle(.plain)
                     Button { radixNav.setInspector(.horoscope) } label: {
                         row(RadixInspector.horoscope.rawValue, app.nav.radix.inspector == .horoscope)
                     }.buttonStyle(.plain)

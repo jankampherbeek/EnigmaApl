@@ -446,6 +446,7 @@ private enum AccordionSection: Hashable {
 
 struct RadixInputScreen: View {
     @EnvironmentObject private var app: AppState
+    @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
     @StateObject private var inputModel = RadixInputModel()
@@ -555,8 +556,8 @@ struct RadixInputScreen: View {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
         if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
-            app.latestRadixChart = chart
-            radixNav.setInspector(.positions)
+            chartSession.add(name: chartName, chart: chart)
+            radixNav.setInspector(.overview)
             saveHoroscope(julianDate: request.JulianDay)
         }
     }

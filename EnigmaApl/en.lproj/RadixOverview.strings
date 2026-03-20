@@ -1,0 +1,11 @@
+// RadixOverview.strings - English
+// EnigmaApl
+
+"view.radixoverviewscreen.title"          = "Overview";
+"view.radixoverviewscreen.chartsheader"   = "Charts in session";
+"view.radixoverviewscreen.empty"          = "No charts in session yet. Use New Chart or Search Chart to add one.";
+"view.radixoverviewscreen.newchart"       = "New Chart";
+"view.radixoverviewscreen.searchchart"    = "Search Chart";
+"view.radixoverviewscreen.column.name"    = "Name";
+"view.radixoverviewscreen.column.julianday" = "Julian Day";
+"view.radixoverviewscreen.select"         = "Select";

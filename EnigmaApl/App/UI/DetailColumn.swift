@@ -21,6 +21,8 @@ struct DetailColumn: View {
         switch app.nav.mode {
         case .radix:
             switch app.nav.radix.inspector {
+            case .overview:
+                return "Overzicht"
             case .newChart:
                 return "Data for a new chart"
             case .positions:
@@ -44,6 +46,8 @@ struct DetailColumn: View {
             switch app.nav.mode {
             case .radix:
                 switch app.nav.radix.inspector {
+                case .overview:
+                    RadixOverviewScreen()
                 case .horoscope:
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Detail (Radix)")

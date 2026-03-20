@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PositionsScreen: View {
-    @EnvironmentObject private var app: AppState
+    @EnvironmentObject private var chartSession: ChartSession
 
     @State private var selectedSystem: CoordinateSystems = .ecliptical
     @State private var showHelp = false
@@ -289,7 +289,7 @@ struct PositionsScreen: View {
         GeometryReader { geometry in
             let isCompact = geometry.size.width < Self.compactWidthThreshold
             Group {
-                if let chart = app.latestRadixChart {
+                if let chart = chartSession.selectedChart {
                     if isCompact {
                         VStack(spacing: 0) {
                             Picker("", selection: $selectedSystem) {

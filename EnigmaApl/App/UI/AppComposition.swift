@@ -13,6 +13,7 @@ import Combine
 @MainActor
 final class AppComposition: ObservableObject {
     let app: AppState
+    let chartSession: ChartSession
     let radixNav: RadixNavigator
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
@@ -21,6 +22,7 @@ final class AppComposition: ObservableObject {
 
     init(app: AppState) {
         self.app = app
+        self.chartSession = ChartSession()
         let context = PersistenceController.shared.container.mainContext
         self.horoscopeRepository = HoroscopeRepository(context: context)
         self.eventRepository = EventRepository(context: context)

@@ -31,7 +31,7 @@ private struct RadixSearchHelpView: View {
 }
 
 struct RadixSearchScreen: View {
-    @EnvironmentObject private var app: AppState
+    @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
     @StateObject private var searchModel = RadixSearchModel()
@@ -152,7 +152,7 @@ struct RadixSearchScreen: View {
 
     private func select(_ horoscope: HoroscopeModel) {
         guard let chart = searchModel.calculateChart(for: horoscope) else { return }
-        app.latestRadixChart = chart
-        radixNav.setInspector(.positions)
+        chartSession.add(name: horoscope.name, chart: chart)
+        radixNav.setInspector(.overview)
     }
 }

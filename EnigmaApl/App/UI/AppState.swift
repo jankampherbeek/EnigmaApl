@@ -30,8 +30,6 @@ final class AppState: ObservableObject {
         .init(id: UUID(), title: "Waves"),
         .init(id: UUID(), title: "Tables/Graphs"),
     ]
-    @Published var latestRadixChart: FullChart?
-
     func ensureDefaultSelection() {
         switch nav.mode {
         case .radix:

@@ -1,0 +1,11 @@
+// RadixOverview.strings - Français
+// EnigmaApl
+
+"view.radixoverviewscreen.title"          = "Aperçu";
+"view.radixoverviewscreen.chartsheader"   = "Horoscopes en session";
+"view.radixoverviewscreen.empty"          = "Aucun horoscope en session. Utilisez Nouvel horoscope ou Chercher un horoscope pour en ajouter un.";
+"view.radixoverviewscreen.newchart"       = "Nouvel horoscope";
+"view.radixoverviewscreen.searchchart"    = "Chercher un horoscope";
+"view.radixoverviewscreen.column.name"    = "Nom";
+"view.radixoverviewscreen.column.julianday" = "Jour Julien";
+"view.radixoverviewscreen.select"         = "Sélectionner";
