@@ -16,6 +16,7 @@ import Combine
 struct DetailColumn: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
+    @EnvironmentObject private var chartSession: ChartSession
 
     private var detailTitle: String {
         switch app.nav.mode {
@@ -33,6 +34,8 @@ struct DetailColumn: View {
                 return "Detail (Radix)"
             case .search:
                 return "Zoek horoscoop"
+            case .editChart:
+                return "Wijzig horoscoop"
             }
         case .research:
             return "Detail"
@@ -66,6 +69,12 @@ struct DetailColumn: View {
                     AnalysisScreen()
                 case .search:
                     RadixSearchScreen()
+                case .editChart:
+                    if let horoscope = chartSession.editingHoroscope {
+                        RadixEditScreen(horoscope: horoscope)
+                    } else {
+                        RadixOverviewScreen()
+                    }
                 }
             case .research:
                 switch app.nav.research.section {

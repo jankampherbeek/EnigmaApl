@@ -12,3 +12,10 @@
 "view.radixsearchscreen.help.title" = "Hilfe";
 "view.radixsearchscreen.help.close" = "Schließen";
 "view.radixsearchscreen.help.text" = "Suchen Sie ein oder mehrere Horoskope, indem Sie einen Teil des Namens eingeben und auf 'Suchen' klicken. Anschließend können Sie ein Horoskop aus der angezeigten Liste auswählen.";
+"view.radixsearchscreen.edit" = "Bearbeiten";
+"view.radixsearchscreen.delete" = "Löschen";
+"view.radixsearchscreen.delete.title" = "Horoskop löschen";
+"view.radixsearchscreen.delete.message" = "Möchtest du '%@' wirklich löschen?";
+"view.radixsearchscreen.delete.confirm" = "Ja, löschen";
+"view.radixsearchscreen.delete.cancel" = "Abbrechen";
+"view.radixsearchscreen.delete.failed" = "Das Horoskop konnte nicht gelöscht werden.";

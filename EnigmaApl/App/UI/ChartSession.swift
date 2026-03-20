@@ -25,6 +25,8 @@ struct NamedChart: Identifiable {
 final class ChartSession: ObservableObject {
     @Published var charts: [NamedChart] = []
     @Published var selected: NamedChart?
+    @Published var editingHoroscope: HoroscopeModel?
+    @Published var editingNamedChart: NamedChart?
 
     var selectedChart: FullChart? { selected?.chart }
 
@@ -50,5 +52,26 @@ final class ChartSession: ObservableObject {
     func clear() {
         charts = []
         selected = nil
+    }
+
+    func removeFromSession(horoscope: HoroscopeModel) {
+        let preferredDT = horoscope.dateTimes.first(where: { $0.isPreferred }) ?? horoscope.dateTimes.first
+        let julianDate = preferredDT?.julianDate
+        charts.removeAll { named in
+            named.name == horoscope.name &&
+            (julianDate == nil || true) // match by name; julian date not stored in NamedChart
+        }
+        // More precise: remove by name match only (julianDate not tracked in NamedChart)
+        if let sel = selected, !charts.contains(where: { $0.id == sel.id }) {
+            selected = charts.last
+        }
+    }
+
+    func replace(_ old: NamedChart, with new: NamedChart) {
+        guard let index = charts.firstIndex(where: { $0.id == old.id }) else { return }
+        charts[index] = new
+        if selected?.id == old.id {
+            selected = new
+        }
     }
 }

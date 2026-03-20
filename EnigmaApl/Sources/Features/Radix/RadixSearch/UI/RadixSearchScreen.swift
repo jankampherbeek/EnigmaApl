@@ -38,6 +38,9 @@ struct RadixSearchScreen: View {
 
     @State private var query = ""
     @State private var showHelp = false
+    @State private var horoscopeToDelete: HoroscopeModel? = nil
+    @State private var showDeleteConfirmation = false
+    @State private var showDeleteError = false
 
     var body: some View {
         ScrollView {
@@ -62,6 +65,12 @@ struct RadixSearchScreen: View {
 
                 if let error = searchModel.searchError {
                     Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+
+                if showDeleteError {
+                    Text(rs("view.radixsearchscreen.delete.failed"))
                         .font(.caption)
                         .foregroundStyle(.red)
                 }
@@ -91,12 +100,22 @@ struct RadixSearchScreen: View {
         .sheet(isPresented: $showHelp) {
             RadixSearchHelpView()
         }
+        .alert(rs("view.radixsearchscreen.delete.title"), isPresented: $showDeleteConfirmation, presenting: horoscopeToDelete) { horoscope in
+            Button(rs("view.radixsearchscreen.delete.confirm"), role: .destructive) {
+                confirmDelete(horoscope)
+            }
+            Button(rs("view.radixsearchscreen.delete.cancel"), role: .cancel) { }
+        } message: { horoscope in
+            Text(String(format: rs("view.radixsearchscreen.delete.message"), horoscope.name))
+        }
     }
 
     private let nameWidth: CGFloat = 200
-    private let dateTimeWidth: CGFloat = 240
-    private let locationWidth: CGFloat = 160
+    private let dateTimeWidth: CGFloat = 200
+    private let locationWidth: CGFloat = 140
     private let selectWidth: CGFloat = 80
+    private let editWidth: CGFloat = 70
+    private let deleteWidth: CGFloat = 80
 
     @ViewBuilder
     private func resultsTable(_ results: [HoroscopeModel]) -> some View {
@@ -108,6 +127,8 @@ struct RadixSearchScreen: View {
                         Text(rs("view.radixsearchscreen.column.datetime")).frame(width: dateTimeWidth, alignment: .leading)
                         Text(rs("view.radixsearchscreen.column.location")).frame(width: locationWidth, alignment: .leading)
                         Spacer().frame(width: selectWidth)
+                        Spacer().frame(width: editWidth)
+                        Spacer().frame(width: deleteWidth)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -131,6 +152,15 @@ struct RadixSearchScreen: View {
                                 .buttonStyle(.bordered)
                                 .controlSize(.small)
                                 .frame(width: selectWidth)
+                            Button(rs("view.radixsearchscreen.edit")) { editHoroscope(horoscope) }
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
+                                .frame(width: editWidth)
+                            Button(rs("view.radixsearchscreen.delete")) { startDelete(horoscope) }
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
+                                .frame(width: deleteWidth)
+                                .tint(.red)
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 6)
@@ -147,6 +177,7 @@ struct RadixSearchScreen: View {
     }
 
     private func performSearch() {
+        showDeleteError = false
         searchModel.search(query: query, context: modelContext)
     }
 
@@ -154,5 +185,27 @@ struct RadixSearchScreen: View {
         guard let chart = searchModel.calculateChart(for: horoscope) else { return }
         chartSession.add(name: horoscope.name, chart: chart)
         radixNav.setInspector(.overview)
+    }
+
+    private func startDelete(_ horoscope: HoroscopeModel) {
+        horoscopeToDelete = horoscope
+        showDeleteConfirmation = true
+    }
+
+    private func confirmDelete(_ horoscope: HoroscopeModel) {
+        do {
+            let repository = HoroscopeRepository(context: modelContext)
+            try repository.delete(horoscope)
+            chartSession.removeFromSession(horoscope: horoscope)
+            performSearch()
+        } catch {
+            showDeleteError = true
+        }
+    }
+
+    private func editHoroscope(_ horoscope: HoroscopeModel) {
+        chartSession.editingHoroscope = horoscope
+        chartSession.editingNamedChart = nil
+        radixNav.setInspector(.editChart)
     }
 }

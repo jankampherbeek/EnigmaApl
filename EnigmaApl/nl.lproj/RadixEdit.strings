@@ -1,0 +1,8 @@
+// RadixEdit.strings - Nederlands
+// EnigmaApl
+
+"view.radixeditscreen.title" = "Wijzig gegevens horoscoop";
+"view.radixeditscreen.apply" = "Voer wijzigingen door";
+"view.radixeditscreen.savefailed" = "De wijzigingen konden niet worden opgeslagen.";
+"view.radixeditscreen.help.title" = "Help";
+"view.radixeditscreen.help.close" = "Sluiten";

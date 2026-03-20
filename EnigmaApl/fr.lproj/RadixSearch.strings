@@ -12,3 +12,10 @@
 "view.radixsearchscreen.help.title" = "Aide";
 "view.radixsearchscreen.help.close" = "Fermer";
 "view.radixsearchscreen.help.text" = "Recherchez un ou plusieurs horoscopes en saisissant une partie du nom et en cliquant sur 'Chercher'. Vous pouvez ensuite sélectionner un horoscope dans la liste affichée.";
+"view.radixsearchscreen.edit" = "Modifier";
+"view.radixsearchscreen.delete" = "Supprimer";
+"view.radixsearchscreen.delete.title" = "Supprimer l'horoscope";
+"view.radixsearchscreen.delete.message" = "Voulez-vous vraiment supprimer '%@' ?";
+"view.radixsearchscreen.delete.confirm" = "Oui, supprimer";
+"view.radixsearchscreen.delete.cancel" = "Annuler";
+"view.radixsearchscreen.delete.failed" = "L'horoscope n'a pas pu être supprimé.";

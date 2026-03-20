@@ -12,3 +12,10 @@
 "view.radixsearchscreen.help.title" = "Help";
 "view.radixsearchscreen.help.close" = "Sluiten";
 "view.radixsearchscreen.help.text" = "Zoek één of meerdere horoscopen door een deel van de naam in te voeren en op 'Zoek' te klikken. Daarna kun je de horoscoop selecteren in de getoonde lijst.";
+"view.radixsearchscreen.edit" = "Wijzig";
+"view.radixsearchscreen.delete" = "Verwijder";
+"view.radixsearchscreen.delete.title" = "Verwijder horoscoop";
+"view.radixsearchscreen.delete.message" = "Weet je zeker dat je '%@' wilt verwijderen?";
+"view.radixsearchscreen.delete.confirm" = "Ja, verwijder";
+"view.radixsearchscreen.delete.cancel" = "Annuleer";
+"view.radixsearchscreen.delete.failed" = "De horoscoop kon niet worden verwijderd.";

@@ -1,0 +1,8 @@
+// RadixEdit.strings - Français
+// EnigmaApl
+
+"view.radixeditscreen.title" = "Modifier les données de l'horoscope";
+"view.radixeditscreen.apply" = "Appliquer les modifications";
+"view.radixeditscreen.savefailed" = "Les modifications n'ont pas pu être enregistrées.";
+"view.radixeditscreen.help.title" = "Aide";
+"view.radixeditscreen.help.close" = "Fermer";

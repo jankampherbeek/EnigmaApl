@@ -1,0 +1,8 @@
+// RadixEdit.strings - Deutsch
+// EnigmaApl
+
+"view.radixeditscreen.title" = "Horoskop-Daten bearbeiten";
+"view.radixeditscreen.apply" = "Änderungen übernehmen";
+"view.radixeditscreen.savefailed" = "Die Änderungen konnten nicht gespeichert werden.";
+"view.radixeditscreen.help.title" = "Hilfe";
+"view.radixeditscreen.help.close" = "Schließen";

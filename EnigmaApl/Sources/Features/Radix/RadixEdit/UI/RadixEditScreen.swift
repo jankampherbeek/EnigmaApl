@@ -1,52 +1,85 @@
 //
-//  RadixInputScreen.swift
+//  RadixEditScreen.swift
 //  EnigmaApl
 //
 
 import SwiftUI
 import SwiftData
 
-// MARK: - Screen
+private func re(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "RadixEdit", bundle: .main, comment: "")
+}
 
-struct RadixInputScreen: View {
-    @EnvironmentObject private var app: AppState
+struct RadixEditScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
-    @StateObject private var inputModel = RadixInputModel()
-    @State private var chartName: String = ""
-    @State private var chartDescription = ""
-    @State private var source = ""
-    @State private var roddenRating: RoddenRating = .aa
 
-    @State private var locationName: String = ""
-    @State private var latitudeDegrees = 0
-    @State private var latitudeMinutes = 0
-    @State private var latitudeSeconds = 0
-    @State private var longitudeDegrees = 0
-    @State private var longitudeMinutes = 0
-    @State private var longitudeSeconds = 0
-    @State private var latHemi: LatitudeHemisphere = .north
-    @State private var lonHemi: LongitudeHemisphere = .east
+    @StateObject private var editModel: RadixEditModel
 
-    @State private var yearText = "2026"
-    @State private var month = 1
-    @State private var day = 1
-    @State private var hour = 12
-    @State private var minute = 0
-    @State private var second = 0
-    @State private var offsetHour = 0
-    @State private var offsetMinute = 0
-    @State private var offsetSecond = 0
-    @State private var calendarStyle: CalendarStyle = .gregorian
-    @State private var yearCount: YearCount = .ce
-    @State private var utOffsetDirection: UTOffsetDirection = .later
-    @State private var dstOption: DSTOption = .noDST
+    // Form state — initialized from editModel in init
+    @State private var chartName: String
+    @State private var chartDescription: String
+    @State private var source: String
+    @State private var roddenRating: RoddenRating
+    @State private var locationName: String
+    @State private var latitudeDegrees: Int
+    @State private var latitudeMinutes: Int
+    @State private var latitudeSeconds: Int
+    @State private var longitudeDegrees: Int
+    @State private var longitudeMinutes: Int
+    @State private var longitudeSeconds: Int
+    @State private var latHemi: LatitudeHemisphere
+    @State private var lonHemi: LongitudeHemisphere
+    @State private var yearText: String
+    @State private var month: Int
+    @State private var day: Int
+    @State private var hour: Int
+    @State private var minute: Int
+    @State private var second: Int
+    @State private var offsetHour: Int
+    @State private var offsetMinute: Int
+    @State private var offsetSecond: Int
+    @State private var calendarStyle: CalendarStyle
+    @State private var yearCount: YearCount
+    @State private var utOffsetDirection: UTOffsetDirection
+    @State private var dstOption: DSTOption
     @State private var showHelp = false
     @State private var showSaveWarning = false
     @State private var expandedSection: AccordionSection = .chartInfo
     @State private var chartInfoSubmitted = false
     @FocusState private var focusedHeader: AccordionSection?
+
+    init(horoscope: HoroscopeModel) {
+        let model = RadixEditModel(horoscope: horoscope)
+        _editModel = StateObject(wrappedValue: model)
+        _chartName = State(initialValue: model.initialChartName)
+        _chartDescription = State(initialValue: model.initialChartDescription)
+        _source = State(initialValue: model.initialSource)
+        _roddenRating = State(initialValue: model.initialRoddenRating)
+        _locationName = State(initialValue: model.initialLocationName)
+        _latitudeDegrees = State(initialValue: model.initialLatDegrees)
+        _latitudeMinutes = State(initialValue: model.initialLatMinutes)
+        _latitudeSeconds = State(initialValue: model.initialLatSeconds)
+        _longitudeDegrees = State(initialValue: model.initialLonDegrees)
+        _longitudeMinutes = State(initialValue: model.initialLonMinutes)
+        _longitudeSeconds = State(initialValue: model.initialLonSeconds)
+        _latHemi = State(initialValue: model.initialLatHemi)
+        _lonHemi = State(initialValue: model.initialLonHemi)
+        _yearText = State(initialValue: model.initialYearText)
+        _month = State(initialValue: model.initialMonth)
+        _day = State(initialValue: model.initialDay)
+        _hour = State(initialValue: model.initialHour)
+        _minute = State(initialValue: model.initialMinute)
+        _second = State(initialValue: model.initialSecond)
+        _offsetHour = State(initialValue: model.initialOffsetHour)
+        _offsetMinute = State(initialValue: model.initialOffsetMinute)
+        _offsetSecond = State(initialValue: 0)
+        _calendarStyle = State(initialValue: model.initialCalendarStyle)
+        _yearCount = State(initialValue: model.initialYearCount)
+        _utOffsetDirection = State(initialValue: model.initialUTOffsetDirection)
+        _dstOption = State(initialValue: model.initialDSTOption)
+    }
 
     private var astronomicalYearForValidation: Int? {
         guard let enteredYear = Int(yearText) else { return nil }
@@ -65,7 +98,7 @@ struct RadixInputScreen: View {
     }
 
     private var chartNameIsEmpty: Bool { chartName.trimmingCharacters(in: .whitespaces).isEmpty }
-    private var canCreateRequest: Bool { !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil }
+    private var canApply: Bool { !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil }
 
     private var modelInput: RadixInputModel.Input? {
         guard let year = astronomicalYearForValidation else { return nil }
@@ -79,24 +112,43 @@ struct RadixInputScreen: View {
         )
     }
 
-    private func calculate() {
-        guard let modelInput else { return }
-        inputModel.calculate(from: modelInput)
-        if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
-            chartSession.add(name: chartName, chart: chart)
-            radixNav.setInspector(.overview)
-            saveHoroscope(julianDate: request.JulianDay)
-        }
-    }
+    private func applyChanges() {
+        guard let input = modelInput else { return }
+        editModel.calculate(from: input)
+        guard let chart = editModel.lastChart, let request = editModel.lastRequest else { return }
 
-    private func saveHoroscope(julianDate: Double) {
-        let repository = HoroscopeRepository(context: modelContext)
         let lat = dmsToDecimal(deg: latitudeDegrees, min: latitudeMinutes, sec: latitudeSeconds, negative: latHemi == .south)
         let lon = dmsToDecimal(deg: longitudeDegrees, min: longitudeMinutes, sec: longitudeSeconds, negative: lonHemi == .west)
+
+        let repository = HoroscopeRepository(context: modelContext)
         do {
-            let horoscope = try repository.add(name: chartName, notes: chartDescription.isEmpty ? nil : chartDescription, source: source.isEmpty ? nil : source, roddenRating: roddenRating.rawValue, placeName: locationName.isEmpty ? nil : locationName, latitude: lat, longitude: lon)
-            try repository.addDateTime(to: horoscope, julianDate: julianDate, timeZoneIdentifier: utOffsetIdentifier(), originalInput: originalInputString())
-        } catch { showSaveWarning = true }
+            try editModel.update(
+                chartName: chartName,
+                chartDescription: chartDescription,
+                source: source,
+                roddenRating: roddenRating,
+                locationName: locationName,
+                latitude: lat,
+                longitude: lon,
+                julianDate: request.JulianDay,
+                timeZoneIdentifier: utOffsetIdentifier(),
+                originalInput: originalInputString(),
+                repository: repository
+            )
+        } catch {
+            showSaveWarning = true
+            return
+        }
+
+        let newNamed = NamedChart(name: chartName, chart: chart)
+        if let editing = chartSession.editingNamedChart {
+            chartSession.replace(editing, with: newNamed)
+        } else {
+            chartSession.add(name: chartName, chart: chart)
+        }
+        chartSession.editingHoroscope = nil
+        chartSession.editingNamedChart = nil
+        radixNav.setInspector(.overview)
     }
 
     private func utOffsetIdentifier() -> String {
@@ -127,7 +179,7 @@ struct RadixInputScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                Text(ri("view.radixinputscreen.title"))
+                Text(re("view.radixeditscreen.title"))
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -170,14 +222,14 @@ struct RadixInputScreen: View {
                     DateTimeSection(yearText: $yearText, month: $month, day: $day, hour: $hour, minute: $minute, second: $second, offsetHour: $offsetHour, offsetMinute: $offsetMinute, offsetSecond: $offsetSecond, calendarStyle: $calendarStyle, yearCount: $yearCount, utOffsetDirection: $utOffsetDirection, dstOption: $dstOption, dateValidationResult: dateValidationResult).padding(.top, 4)
                 }
 
-                Button(ri("view.radixinputscreen.calculate")) { calculate() }
-                    .buttonStyle(.borderedProminent).controlSize(.regular).disabled(!canCreateRequest)
+                Button(re("view.radixeditscreen.apply")) { applyChanges() }
+                    .buttonStyle(.borderedProminent).controlSize(.regular).disabled(!canApply)
 
-                if let error = inputModel.lastError {
+                if let error = editModel.lastError {
                     Text(error).font(.caption).foregroundStyle(.red)
                 }
                 if showSaveWarning {
-                    Label(ri("view.radixinputscreen.warning.savefailed"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
+                    Label(re("view.radixeditscreen.savefailed"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
                 }
             }
             .frame(maxWidth: 900, alignment: .leading).padding().frame(maxWidth: .infinity, alignment: .leading)
@@ -191,14 +243,19 @@ struct RadixInputScreen: View {
             }
         }
         .controlSize(.small)
-        .navigationTitle(ri("view.radixinputscreen.title"))
+        .navigationTitle(re("view.radixeditscreen.title"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(ri("view.radixinputscreen.help.close")) { radixNav.setInspector(.horoscope); app.setInspectorSheet(false) }
+                Button(re("view.radixeditscreen.help.close")) {
+                    chartSession.editingHoroscope = nil
+                    chartSession.editingNamedChart = nil
+                    radixNav.setInspector(.overview)
+                }
             }
             ToolbarItem(placement: .primaryAction) {
-                Button { showHelp = true } label: { Label(ri("view.radixinputscreen.help.title"), systemImage: "questionmark.circle") }
-                .help(ri("view.radixinputscreen.help.tooltip"))
+                Button { showHelp = true } label: {
+                    Label(re("view.radixeditscreen.help.title"), systemImage: "questionmark.circle")
+                }
             }
         }
         .sheet(isPresented: $showHelp) { RadixChartHelpView() }
