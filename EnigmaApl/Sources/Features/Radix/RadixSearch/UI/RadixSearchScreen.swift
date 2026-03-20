@@ -93,41 +93,49 @@ struct RadixSearchScreen: View {
         }
     }
 
+    private let nameWidth: CGFloat = 200
+    private let dateTimeWidth: CGFloat = 240
+    private let locationWidth: CGFloat = 160
+    private let selectWidth: CGFloat = 80
+
     @ViewBuilder
     private func resultsTable(_ results: [HoroscopeModel]) -> some View {
         GroupBox {
-            VStack(spacing: 0) {
-                HStack {
-                    Text(rs("view.radixsearchscreen.column.name")).frame(maxWidth: .infinity, alignment: .leading)
-                    Text(rs("view.radixsearchscreen.column.datetime")).frame(width: 240, alignment: .leading)
-                    Text(rs("view.radixsearchscreen.column.location")).frame(width: 160, alignment: .leading)
-                    Spacer().frame(width: 80)
-                }
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-
-                Divider()
-
-                ForEach(Array(results.enumerated()), id: \.element.id) { index, horoscope in
-                    HStack {
-                        Text(horoscope.name)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(preferredDateTimeLabel(for: horoscope))
-                            .frame(width: 240, alignment: .leading)
-                            .foregroundStyle(.secondary)
-                        Text(horoscope.placeName ?? "–")
-                            .frame(width: 160, alignment: .leading)
-                            .foregroundStyle(.secondary)
-                        Button(rs("view.radixsearchscreen.select")) { select(horoscope) }
-                            .buttonStyle(.bordered)
-                            .controlSize(.small)
-                            .frame(width: 80)
+            ScrollView(.horizontal, showsIndicators: false) {
+                VStack(spacing: 0) {
+                    HStack(spacing: 12) {
+                        Text(rs("view.radixsearchscreen.column.name")).frame(width: nameWidth, alignment: .leading)
+                        Text(rs("view.radixsearchscreen.column.datetime")).frame(width: dateTimeWidth, alignment: .leading)
+                        Text(rs("view.radixsearchscreen.column.location")).frame(width: locationWidth, alignment: .leading)
+                        Spacer().frame(width: selectWidth)
                     }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal, 8)
-                    .padding(.vertical, 6)
-                    .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    .padding(.vertical, 4)
+
+                    Divider()
+
+                    ForEach(Array(results.enumerated()), id: \.element.id) { index, horoscope in
+                        HStack(spacing: 12) {
+                            Text(horoscope.name)
+                                .frame(width: nameWidth, alignment: .leading)
+                                .lineLimit(1)
+                            Text(preferredDateTimeLabel(for: horoscope))
+                                .frame(width: dateTimeWidth, alignment: .leading)
+                                .foregroundStyle(.secondary)
+                            Text(horoscope.placeName ?? "–")
+                                .frame(width: locationWidth, alignment: .leading)
+                                .foregroundStyle(.secondary)
+                            Button(rs("view.radixsearchscreen.select")) { select(horoscope) }
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
+                                .frame(width: selectWidth)
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 6)
+                        .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
                 }
             }
         }

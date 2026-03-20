@@ -19,11 +19,7 @@ final class PersistenceController {
     let container: ModelContainer
 
     private init() {
-        let schema = Schema([
-            HoroscopeModel.self,
-            HoroscopeDateTimeModel.self,
-            EventModel.self
-        ])
+        let schema = Schema(versionedSchema: SchemaV1.self)
 
         // Switch to cloudKitDatabase: .automatic once the iCloud capability is configured in Xcode.
         let configuration = ModelConfiguration(
@@ -33,7 +29,11 @@ final class PersistenceController {
         )
 
         do {
-            container = try ModelContainer(for: schema, configurations: configuration)
+            container = try ModelContainer(
+                for: schema,
+                migrationPlan: AppMigrationPlan.self,
+                configurations: configuration
+            )
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
