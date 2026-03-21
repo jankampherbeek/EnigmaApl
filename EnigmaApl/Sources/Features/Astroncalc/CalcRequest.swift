@@ -14,16 +14,16 @@ public struct CalcRequest {
     public let Latitude: Double
     public let Longitude: Double
     public let Height: Double
-    public let ConfigData: ConfigData
-    
-    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, Latitude: Double, Longitude: Double, Height: Double, ConfigData: ConfigData) {
+    public let calculationConfig: CalculationConfig
+
+    public init(JulianDay: Double, FactorsToUse: [Factors], HouseSystem: Int, Latitude: Double, Longitude: Double, Height: Double, calculationConfig: CalculationConfig) {
         self.JulianDay = JulianDay
         self.FactorsToUse = FactorsToUse
         self.HouseSystem = HouseSystem
         self.Latitude = Latitude
         self.Longitude = Longitude
         self.Height = Height
-        self.ConfigData = ConfigData
+        self.calculationConfig = calculationConfig
     }
 }
 

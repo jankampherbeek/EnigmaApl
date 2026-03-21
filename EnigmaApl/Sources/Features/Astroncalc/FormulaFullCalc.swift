@@ -17,7 +17,7 @@ public struct FormulaFullCalc {
     /// Calculate full positions for factors that require full coordinate system calculations
     /// - Parameters:
     ///   - calcRequest: The CalcRequest containing calculation parameters
-    ///   - configData: The ConfigData containing preferences (node type, apogee type, etc.)
+    ///   - calcRequest: The CalcRequest containing preferences (node type, apogee type, etc.)
     ///   - obliquity: The obliquity value needed for coordinate conversions
     /// - Returns: A dictionary of factor positions
     public func CalculateFormulaFullFactors(seWrapper: SEWrapper, calcRequest: CalcRequest, obliquity: Double, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
@@ -27,7 +27,7 @@ public struct FormulaFullCalc {
         let julianDayNext = julianDay + 0.5
         let flagsEcliptical = 258  // SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
         let flagsEquatorial = 258 + 2048  // Add equatorial flag (2048)
-        let configData = calcRequest.ConfigData
+        let configData = calcRequest.calculationConfig
         
         let seIdMoon = Factors.moon.seId
         let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical)

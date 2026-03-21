@@ -50,7 +50,7 @@ public enum PrimaryTimeKey: Int, CaseIterable, Codable {
 }
 
 /// Configuration for primary directions.
-public struct PrimaryDirectionsConfig: Codable {
+public struct PrimaryDirectionsConfig: Codable, Sendable {
     public let promissors: [Factors]
     public let significators: [Factors]
     public let orb: Double

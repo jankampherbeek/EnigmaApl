@@ -8,7 +8,7 @@
 import Foundation
 
 /// Glyph selection for a single zodiac sign.
-public struct SignGlyphSetting: Codable, Equatable {
+public struct SignGlyphSetting: Codable, Equatable, Sendable {
     public let sign: Signs
     public let glyph: String
 
@@ -19,7 +19,7 @@ public struct SignGlyphSetting: Codable, Equatable {
 }
 
 /// Glyph selection for a single celestial factor.
-public struct FactorGlyphSetting: Codable, Equatable {
+public struct FactorGlyphSetting: Codable, Equatable, Sendable {
     public let factor: Factors
     public let glyph: String
 
@@ -30,7 +30,7 @@ public struct FactorGlyphSetting: Codable, Equatable {
 }
 
 /// Glyph selection for a single aspect.
-public struct AspectGlyphSetting: Codable, Equatable {
+public struct AspectGlyphSetting: Codable, Equatable, Sendable {
     public let aspect: Aspects
     public let glyph: String
 
@@ -41,7 +41,7 @@ public struct AspectGlyphSetting: Codable, Equatable {
 }
 
 /// Configuration for glyph selections for all signs, factors and aspects.
-public struct GlyphsConfig: Codable {
+public struct GlyphsConfig: Codable, Sendable {
     public let signGlyphs: [SignGlyphSetting]
     public let factorGlyphs: [FactorGlyphSetting]
     public let aspectGlyphs: [AspectGlyphSetting]

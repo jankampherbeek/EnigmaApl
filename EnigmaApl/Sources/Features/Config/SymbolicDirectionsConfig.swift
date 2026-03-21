@@ -22,7 +22,7 @@ public enum SymbolicTimeKey: Int, CaseIterable, Codable {
 }
 
 /// Configuration for symbolic directions.
-public struct SymbolicDirectionsConfig: Codable {
+public struct SymbolicDirectionsConfig: Codable, Sendable {
     public let factors: [Factors]
     public let orb: Double
     public let timeKey: SymbolicTimeKey

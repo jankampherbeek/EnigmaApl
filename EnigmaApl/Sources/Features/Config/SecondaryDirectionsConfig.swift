@@ -8,7 +8,7 @@
 import Foundation
 
 /// Configuration for secondary directions.
-public struct SecondaryDirectionsConfig: Codable {
+public struct SecondaryDirectionsConfig: Codable, Sendable {
     public let factors: [Factors]
     public let orb: Double
 

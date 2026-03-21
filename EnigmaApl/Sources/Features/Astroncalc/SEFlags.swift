@@ -15,22 +15,22 @@ public struct SEFlags {
     ///   - configData: Configuration data
     ///   - coordSystem: Coordinate system
     /// - Returns: The calculated flags for Swiss Ephemeris
-    public static func defineFlags(configData: ConfigData, coordSystem: CoordinateSystems) -> Int {
+    public static func defineFlags(calculationConfig: CalculationConfig, coordSystem: CoordinateSystems) -> Int {
         var flags = 2 + 256  // use SE + speed
-        
+
         if coordSystem == .equatorial {
             flags += 2048  // use equatorial positions
         }
-        if configData.observerPosition == .topoCentric {
+        if calculationConfig.observerPosition == .topoCentric {
             flags += (32 * 1024)  // use topocentric position (apply parallax)
         }
-        if configData.observerPosition == .helioCentric {
+        if calculationConfig.observerPosition == .helioCentric {
             flags += 8  // use heliocentric positions
         }
-        if configData.ayanamsha != .tropical && coordSystem == .ecliptical {
+        if calculationConfig.ayanamsha != .tropical && coordSystem == .ecliptical {
             flags += (64 * 1024)  // use sidereal zodiac
         }
-        
+
         return flags
     }
 }

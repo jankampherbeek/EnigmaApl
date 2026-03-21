@@ -58,7 +58,7 @@ public enum LotsTypes: Int, CaseIterable, Codable {
 }
 
 /// Configuration for astrological calculation settings.
-public struct CalculationConfig: Codable {
+public struct CalculationConfig: Codable, Sendable {
     public let houseSystem: HouseSystems
     public let ayanamsha: Ayanamshas
     public let observerPosition: ObserverPositions

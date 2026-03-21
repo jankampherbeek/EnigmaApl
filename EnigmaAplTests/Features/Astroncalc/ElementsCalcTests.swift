@@ -27,8 +27,8 @@ struct CommonElementsCalcTests {
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
-        // Create ConfigData with default values
-        let configData = ConfigData(
+        // Create CalculationConfig with default values
+        let configData = CalculationConfig(
             houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -46,7 +46,7 @@ struct CommonElementsCalcTests {
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,
-            ConfigData: configData
+            calculationConfig: configData
         )
         
         // Expected values (converted from comma to period decimal separator)

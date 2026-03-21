@@ -50,15 +50,7 @@ final class RadixSearchModel: ObservableObject {
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,
-            ConfigData: ConfigData(
-                houseSystem: .placidus,
-                ayanamsha: .tropical,
-                observerPosition: .geoCentric,
-                projectionType: .twoDimensional,
-                blackMoonCorrectionType: .swisseph,
-                lunarNodeType: .meanNode,
-                lotsType: .sect
-            )
+            calculationConfig: CalculationConfig()
         )
         return AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
     }

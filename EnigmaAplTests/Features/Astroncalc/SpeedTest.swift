@@ -30,8 +30,8 @@ struct SpeedTest {
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
-        // Create ConfigData
-        let configData = ConfigData(
+        // Create CalculationConfig
+        let configData = CalculationConfig(
             houseSystem: .noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -49,7 +49,7 @@ struct SpeedTest {
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,
-            ConfigData: configData
+            calculationConfig: configData
         )
         
         // Perform calculation using provided SEWrapper (for thread-safety)

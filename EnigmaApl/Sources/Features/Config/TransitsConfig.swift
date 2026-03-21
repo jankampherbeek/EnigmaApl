@@ -8,7 +8,7 @@
 import Foundation
 
 /// Configuration for transits.
-public struct TransitsConfig: Codable {
+public struct TransitsConfig: Codable, Sendable {
     public let factors: [Factors]
     public let orb: Double
 

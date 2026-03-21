@@ -38,7 +38,7 @@ public enum SolarLocation: Int, CaseIterable, Codable {
 }
 
 /// Configuration for solar returns.
-public struct SolarReturnConfig: Codable {
+public struct SolarReturnConfig: Codable, Sendable {
     public let orb: Double
     public let method: SolarMethod
     public let location: SolarLocation

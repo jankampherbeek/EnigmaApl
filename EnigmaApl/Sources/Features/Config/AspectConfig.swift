@@ -8,7 +8,7 @@
 import Foundation
 
 /// Settings for a single aspect.
-public struct AspectSettings: Codable, Equatable {
+public struct AspectSettings: Codable, Equatable, Sendable {
     public let aspect: Aspects
     /// Whether this aspect is included in calculations.
     public let isUsed: Bool
@@ -26,7 +26,7 @@ public struct AspectSettings: Codable, Equatable {
 }
 
 /// Configuration for which aspects are active and their orb percentages.
-public struct AspectConfig: Codable {
+public struct AspectConfig: Codable, Sendable {
     public let aspectSettings: [AspectSettings]
 
     public init(aspectSettings: [AspectSettings] = AspectConfig.defaultSettings) {

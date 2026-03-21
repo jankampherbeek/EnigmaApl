@@ -25,7 +25,7 @@ public enum OrbSystem: Int, CaseIterable, Codable {
 /// Configuration for global orb values used in different calculation types.
 /// The effective orb for an aspect is derived by combining the base orb with
 /// the orb percentages from FactorConfig and AspectConfig.
-public struct OrbConfig: Codable {
+public struct OrbConfig: Codable, Sendable {
     /// The method used to calculate effective orbs.
     public let orbSystem: OrbSystem
     /// Base orb in degrees for aspect calculations, before factor and aspect percentages are applied.

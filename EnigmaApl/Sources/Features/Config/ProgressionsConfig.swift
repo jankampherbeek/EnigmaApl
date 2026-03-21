@@ -8,7 +8,7 @@
 import Foundation
 
 /// Container for all progression and direction configurations.
-public struct ProgressionsConfig: Codable {
+public struct ProgressionsConfig: Codable, Sendable {
     public let primaryDirections: PrimaryDirectionsConfig
     public let transits: TransitsConfig
     public let secondaryDirections: SecondaryDirectionsConfig

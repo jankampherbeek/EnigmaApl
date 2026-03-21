@@ -15,7 +15,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: ecliptical coordinate system")
     func testEclipticalCoordinateSystem() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -25,7 +25,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical,
         )
         // Base: 258, no additional flags for ecliptical
@@ -34,7 +34,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: equatorial coordinate system")
     func testEquatorialCoordinateSystem() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -44,7 +44,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .equatorial,
         )
         // Base: 258, + 2048 (equatorial) = 2306
@@ -53,7 +53,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: horizontal coordinate system")
     func testHorizontalCoordinateSystem() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -63,7 +63,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .horizontal,
         )
         // Base: 258, no additional flags for horizontal
@@ -74,7 +74,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: topocentric observer position")
     func testTopocentricObserverPosition() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
@@ -84,7 +84,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical,
         )
         // Base: 258, + 32768 (topocentric) = 33026
@@ -93,7 +93,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: heliocentric observer position")
     func testHeliocentricObserverPosition() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .helioCentric,
@@ -103,7 +103,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical,
         )
         // Base: 258, + 8 (heliocentric) = 266
@@ -114,7 +114,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: sidereal zodiac type with ecliptical")
     func testSiderealZodiacTypeWithEcliptical() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
@@ -124,7 +124,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical,
         )
         // Base: 258, + 65536 (sidereal) = 65794
@@ -133,7 +133,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: sidereal zodiac type with equatorial")
     func testSiderealZodiacTypeWithEquatorial() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
@@ -143,7 +143,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .equatorial
         )
         // Base: 258, + 2048 (equatorial) = 2306
@@ -153,7 +153,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: sidereal zodiac type with horizontal")
     func testSiderealZodiacTypeWithHorizontal() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
@@ -163,7 +163,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .horizontal,
         )
         // Base: 258, no additional flags
@@ -175,7 +175,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: equatorial + topocentric")
     func testEquatorialAndTopocentric() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
@@ -185,7 +185,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .equatorial,
         )
         // Base: 258, + 2048 (equatorial) + 32768 (topocentric) = 35074
@@ -194,7 +194,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: equatorial + heliocentric")
     func testEquatorialAndHeliocentric() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .helioCentric,
@@ -204,7 +204,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .equatorial
         )
         // Base: 258, + 2048 (equatorial) + 8 (heliocentric) = 2314
@@ -213,7 +213,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: ecliptical + topocentric + sidereal")
     func testEclipticalTopocentricSidereal() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .topoCentric,
@@ -223,7 +223,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical,
         )
         // Base: 258, + 32768 (topocentric) + 65536 (sidereal) = 98562
@@ -232,7 +232,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: equatorial + topocentric + sidereal")
     func testEquatorialTopocentricSidereal() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .topoCentric,
@@ -242,7 +242,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .equatorial
         )
         // Base: 258, + 2048 (equatorial) + 32768 (topocentric) = 35074
@@ -252,7 +252,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: ecliptical + heliocentric + sidereal")
     func testEclipticalHeliocentricSidereal() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .fagan,
             observerPosition: .helioCentric,
@@ -262,7 +262,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .ecliptical
         )
         // Base: 258, + 8 (heliocentric) + 65536 (sidereal) = 65802
@@ -271,7 +271,7 @@ struct SEFlagsTests {
     
     @Test("SEFlags: horizontal + topocentric + tropical")
     func testHorizontalTopocentricTropical() {
-        let configData = ConfigData(
+        let configData = CalculationConfig(
             houseSystem: HouseSystems.noHouses,
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
@@ -281,7 +281,7 @@ struct SEFlagsTests {
             lotsType: .sect
         )
         let flags = SEFlags.defineFlags(
-            configData: configData,
+            calculationConfig: configData,
             coordSystem: .horizontal,
         )
         // Base: 258, + 32768 (topocentric) = 33026

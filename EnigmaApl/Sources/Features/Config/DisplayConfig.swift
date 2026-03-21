@@ -23,7 +23,7 @@ public enum DrawingType: Int, CaseIterable, Codable {
 }
 
 /// Color override for a single celestial factor.
-public struct FactorColorOverride: Codable, Equatable {
+public struct FactorColorOverride: Codable, Equatable, Sendable {
     public let factor: Factors
     public let color: ColorConfig
 
@@ -34,7 +34,7 @@ public struct FactorColorOverride: Codable, Equatable {
 }
 
 /// Color override for a single zodiac sign.
-public struct SignColorOverride: Codable, Equatable {
+public struct SignColorOverride: Codable, Equatable, Sendable {
     public let sign: Signs
     public let color: ColorConfig
 
@@ -45,7 +45,7 @@ public struct SignColorOverride: Codable, Equatable {
 }
 
 /// Configuration for display and visual settings.
-public struct DisplayConfig: Codable {
+public struct DisplayConfig: Codable, Sendable {
     public let drawingType: DrawingType
     /// Color overrides for factors. Empty by default.
     public let factorColors: [FactorColorOverride]

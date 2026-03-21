@@ -34,7 +34,7 @@ public struct LotsCalc {
     ) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = calcRequest.JulianDay
-        let configData = calcRequest.ConfigData
+        let configData = calcRequest.calculationConfig
         
         for factor in calcRequest.FactorsToUse {
             switch factor {

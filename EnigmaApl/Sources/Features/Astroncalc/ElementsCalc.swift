@@ -56,7 +56,7 @@ public struct ElementsCalc {
         let obliquity = obliquityPosition?.mainPos ?? 0.0
         
         // Determine observer position from flags
-        let observerPosition = request.ConfigData.observerPosition
+        let observerPosition = request.calculationConfig.observerPosition
         var coordinates: [Factors: FullFactorPosition] = [:]
         var calcHelioPos = CalcHelioPos()
         

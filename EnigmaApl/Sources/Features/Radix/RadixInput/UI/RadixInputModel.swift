@@ -87,15 +87,7 @@ final class RadixInputModel: ObservableObject {
                 negative: input.longitudeWest
             ),
             Height: 0.0,
-            ConfigData: ConfigData(
-                houseSystem: .placidus,
-                ayanamsha: .tropical,
-                observerPosition: .geoCentric,
-                projectionType: .twoDimensional,
-                blackMoonCorrectionType: .swisseph,
-                lunarNodeType: .meanNode,
-                lotsType: .sect
-            )
+            calculationConfig: CalculationConfig()
         )
 
         let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)

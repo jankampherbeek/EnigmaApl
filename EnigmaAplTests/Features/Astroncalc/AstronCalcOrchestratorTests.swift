@@ -82,8 +82,8 @@ struct AstronCalcOrchestratorTests {
         // Create factors list from expected longitudes keys
         let factorsToUse = Array(expectedLongitudes.keys)
         
-        // Create ConfigData with default values
-        let configData = ConfigData(
+        // Create CalculationConfig with default values
+        let configData = CalculationConfig(
             houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
@@ -101,7 +101,7 @@ struct AstronCalcOrchestratorTests {
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,
-            ConfigData: configData
+            calculationConfig: configData
         )
         
         // Perform calculation using shared SEWrapper instance for thread-safety
