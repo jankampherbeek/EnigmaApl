@@ -202,6 +202,36 @@
 // Lots types
 "enum.lotstypes.nosect" = "Zonder sect";
 "enum.lotstypes.sect" = "Met sect";
+// Drawing types
+"enum.drawingtype.signbased" = "Gebaseerd op tekens";
+"enum.drawingtype.housebased" = "Gebaseerd op huizen";
+"enum.drawingtype.french" = "Franse methode";
+// Orb systems
+"enum.orbsystem.procentual" = "Procentueel";
+"enum.orbsystem.fixed" = "Vast";
+"enum.orbsystem.harmonicbased" = "Gebaseerd op harmonics";
+// Primary directions
+"enum.primarymethod.placidus" = "Placidus";
+"enum.primarymethod.regiomontanus" = "Regiomontanus";
+"enum.primaryapproach.mundane" = "Mundaan";
+"enum.primaryapproach.ecliptical" = "Eclipticaal";
+"enum.primarytimekey.placidus" = "Placidus";
+"enum.primarytimekey.naibod" = "Naibod";
+"enum.primarytimekey.brahe" = "Brahe";
+"enum.primarytimekey.ptolemy" = "Ptolemaeus";
+"enum.primarytimekey.vandam" = "Van Dam";
+// Symbolic directions
+"enum.symbolictimekey.onedegree" = "Eén graad per jaar";
+"enum.symbolictimekey.truesun" = "Ware zon";
+"enum.symbolictimekey.meansun" = "Gemiddelde zon";
+// Solar return
+"enum.solarmethod.tropicalparallax" = "Tropisch met parallax";
+"enum.solarmethod.tropicalnoparallax" = "Tropisch zonder parallax";
+"enum.solarmethod.siderealparallax" = "Siderisch met parallax";
+"enum.solarmethod.siderealnoparallax" = "Siderisch zonder parallax";
+"enum.solarlocation.birth" = "Geboorteplaats";
+"enum.solarlocation.relocatebirthday" = "Geen relocatie";
+"enum.solarlocation.relocateresidence" = "Relocatie naar woonplaats";
 // Lunar node types
 "enum.lunarnodetypes.mean" = "Gemiddelde maanknoop";
 "enum.lunarnodetypes.true" = "Ware maanknoop";

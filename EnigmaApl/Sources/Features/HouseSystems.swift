@@ -9,7 +9,7 @@
 import Foundation
 
 /// House systems for astrological calculations
-public enum HouseSystems: Int, CaseIterable {
+public enum HouseSystems: Int, CaseIterable, Codable {
     case noHouses = 0
     case placidus = 1
     case koch = 2

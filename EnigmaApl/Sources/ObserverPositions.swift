@@ -8,7 +8,7 @@
 import Foundation
 
 /// Observer positions, the center points for the calculation of positions of celestial bodies
-public enum ObserverPositions: Int, CaseIterable {
+public enum ObserverPositions: Int, CaseIterable, Codable {
     case geoCentric = 0
     case topoCentric = 1
     case helioCentric = 2

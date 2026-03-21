@@ -5,7 +5,7 @@
 //  Created by Jan Kampherbeek on 08/03/2026.
 //
 
-public enum Aspects: Int, CaseIterable {
+public enum Aspects: Int, CaseIterable, Codable {
     
     case conjunction = 0
     case opposition = 1

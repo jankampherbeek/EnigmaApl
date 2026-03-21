@@ -29,7 +29,7 @@ public enum CalculationTypes: Int, CaseIterable {
 // MARK: - Factors
 
 /// Factors, lights, planets, mathematical points etc. 
-public enum Factors: Int, CaseIterable {
+public enum Factors: Int, CaseIterable, Codable {
     case sun = 0
     case moon = 1
     case mercury = 2

@@ -202,6 +202,36 @@
 // Lots types
 "enum.lotstypes.nosect" = "Ohne sect";
 "enum.lotstypes.sect" = "Mit sect";
+// Drawing types
+"enum.drawingtype.signbased" = "Zeichenbasiert";
+"enum.drawingtype.housebased" = "Hausbasiert";
+"enum.drawingtype.french" = "Französische Methode";
+// Orb systems
+"enum.orbsystem.procentual" = "Prozentual";
+"enum.orbsystem.fixed" = "Fest";
+"enum.orbsystem.harmonicbased" = "Harmonikbasiert";
+// Primary directions
+"enum.primarymethod.placidus" = "Placidus";
+"enum.primarymethod.regiomontanus" = "Regiomontanus";
+"enum.primaryapproach.mundane" = "Mundan";
+"enum.primaryapproach.ecliptical" = "Ekliptikal";
+"enum.primarytimekey.placidus" = "Placidus";
+"enum.primarytimekey.naibod" = "Naibod";
+"enum.primarytimekey.brahe" = "Brahe";
+"enum.primarytimekey.ptolemy" = "Ptolemäus";
+"enum.primarytimekey.vandam" = "Van Dam";
+// Symbolic directions
+"enum.symbolictimekey.onedegree" = "Ein Grad pro Jahr";
+"enum.symbolictimekey.truesun" = "Wahre Sonne";
+"enum.symbolictimekey.meansun" = "Mittlere Sonne";
+// Solar return
+"enum.solarmethod.tropicalparallax" = "Tropisch mit Parallaxe";
+"enum.solarmethod.tropicalnoparallax" = "Tropisch ohne Parallaxe";
+"enum.solarmethod.siderealparallax" = "Siderisch mit Parallaxe";
+"enum.solarmethod.siderealnoparallax" = "Siderisch ohne Parallaxe";
+"enum.solarlocation.birth" = "Geburtsort";
+"enum.solarlocation.relocatebirthday" = "Keine Relokation";
+"enum.solarlocation.relocateresidence" = "Relokation zum Wohnort";
 // Lunar node types
 "enum.lunarnodetypes.mean" = "Mittlerer Mondknoten";
 "enum.lunarnodetypes.true" = "Wahrer Mondknoten";
