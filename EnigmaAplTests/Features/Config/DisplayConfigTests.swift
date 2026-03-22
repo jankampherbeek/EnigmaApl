@@ -17,17 +17,14 @@ struct DisplayConfigTests {
     func testDefaultInitialization() {
         let config = DisplayConfig()
         #expect(config.drawingType == .signBased)
-        #expect(config.factorColors.isEmpty)
         #expect(config.signColors.isEmpty)
     }
 
     @Test("DisplayConfig: initialization with all parameters")
     func testInitializationWithAllParameters() {
-        let factorColors = [FactorColorOverride(factor: .moon, color: ColorConfig(red: 1.0, green: 0.9, blue: 0.0))]
         let signColors = [SignColorOverride(sign: .Taurus, color: ColorConfig(red: 0.0, green: 0.8, blue: 0.2))]
-        let config = DisplayConfig(drawingType: .houseBased, factorColors: factorColors, signColors: signColors)
+        let config = DisplayConfig(drawingType: .houseBased, signColors: signColors)
         #expect(config.drawingType == .houseBased)
-        #expect(config.factorColors.count == 1)
         #expect(config.signColors.count == 1)
     }
 
@@ -49,14 +46,6 @@ struct DisplayConfigTests {
     }
 
     // MARK: - Color overrides
-
-    @Test("FactorColorOverride: stores factor and color correctly")
-    func testFactorColorOverride() {
-        let color = ColorConfig(red: 1.0, green: 0.5, blue: 0.0)
-        let override = FactorColorOverride(factor: .venus, color: color)
-        #expect(override.factor == .venus)
-        #expect(override.color == color)
-    }
 
     @Test("SignColorOverride: stores sign and color correctly")
     func testSignColorOverride() {
@@ -89,13 +78,11 @@ struct DisplayConfigTests {
     func testCodableRoundtrip() throws {
         let original = DisplayConfig(
             drawingType: .french,
-            factorColors: [FactorColorOverride(factor: .moon, color: ColorConfig(red: 1.0, green: 1.0, blue: 0.0))],
             signColors: [SignColorOverride(sign: .Gemini, color: ColorConfig(red: 0.0, green: 0.5, blue: 1.0))]
         )
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(DisplayConfig.self, from: data)
         #expect(decoded.drawingType == original.drawingType)
-        #expect(decoded.factorColors == original.factorColors)
         #expect(decoded.signColors == original.signColors)
     }
 

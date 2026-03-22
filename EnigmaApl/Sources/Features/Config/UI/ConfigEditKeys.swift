@@ -79,6 +79,128 @@ struct ConfigEditKeys {
     static let calcStationaryFooter   = "view.configedit.calc.stationaryfooter"
     static let calcSlowFooter         = "view.configedit.calc.slowfooter"
 
+    // MARK: - Factor editor columns
+    static let factorColUsed           = "view.configedit.factor.col.used"
+    static let factorColDrawn          = "view.configedit.factor.col.drawn"
+    static let factorColOrb            = "view.configedit.factor.col.orb"
+    static let factorRestoreDefaults   = "view.configedit.factor.restoredefaults"
+
+    // MARK: - Factor editor help
+    static let factorHelpTooltip       = "view.configedit.factor.help.tooltip"
+    static let factorHelpGroupBox      = "view.configedit.factor.help.groupbox"
+    static let factorHelpLine1         = "view.configedit.factor.help.line1"
+    static let factorHelpLine2         = "view.configedit.factor.help.line2"
+    static let factorHelpLine3         = "view.configedit.factor.help.line3"
+
+    // MARK: - Glyphs editor sections
+    static let glyphsSectionSigns      = "view.configedit.glyphs.section.signs"
+    static let glyphsSectionFactors    = "view.configedit.glyphs.section.factors"
+    static let glyphsSectionAspects    = "view.configedit.glyphs.section.aspects"
+    static let glyphsRestoreDefaults   = "view.configedit.glyphs.restoredefaults"
+
+    // MARK: - Glyphs editor help
+    static let glyphsHelpTooltip       = "view.configedit.glyphs.help.tooltip"
+    static let glyphsHelpGroupBox      = "view.configedit.glyphs.help.groupbox"
+    static let glyphsHelpLine1         = "view.configedit.glyphs.help.line1"
+    static let glyphsHelpLine2         = "view.configedit.glyphs.help.line2"
+    static let glyphsHelpLine3         = "view.configedit.glyphs.help.line3"
+
+    // MARK: - Display editor fields
+    static let displaySectionDrawing      = "view.configedit.display.section.drawing"
+    static let displayDrawingType         = "view.configedit.display.drawingtype"
+    static let displaySectionSignColors   = "view.configedit.display.section.signcolors"
+
+    // MARK: - Display editor help
+    static let displayHelpTooltip         = "view.configedit.display.help.tooltip"
+    static let displayHelpGroupBox        = "view.configedit.display.help.groupbox"
+    static let displayHelpLine1           = "view.configedit.display.help.line1"
+    static let displayHelpLine2           = "view.configedit.display.help.line2"
+    static let displayHelpLine3           = "view.configedit.display.help.line3"
+    static let displayHelpLine4           = "view.configedit.display.help.line4"
+
+    // MARK: - Progressions navigation
+    static let progNavPrimary          = "view.configedit.prog.nav.primary"
+    static let progNavTransits         = "view.configedit.prog.nav.transits"
+    static let progNavSecondary        = "view.configedit.prog.nav.secondary"
+    static let progNavSymbolic         = "view.configedit.prog.nav.symbolic"
+    static let progNavSolar            = "view.configedit.prog.nav.solar"
+
+    // MARK: - Progressions shared section headers
+    static let progSectionFactors      = "view.configedit.prog.section.factors"
+    static let progSectionOrb          = "view.configedit.prog.section.orb"
+    static let progSectionSettings     = "view.configedit.prog.section.settings"
+    static let progOrbLabel            = "view.configedit.prog.orb"
+
+    // MARK: - Primary directions fields
+    static let progPrimaryPromissors   = "view.configedit.prog.primary.promissors"
+    static let progPrimarySignificators = "view.configedit.prog.primary.significators"
+    static let progPrimaryMethod       = "view.configedit.prog.primary.method"
+    static let progPrimaryApproach     = "view.configedit.prog.primary.approach"
+    static let progPrimaryTimeKey      = "view.configedit.prog.primary.timekey"
+    static let progPrimaryHelpTooltip  = "view.configedit.prog.primary.help.tooltip"
+    static let progPrimaryHelpGroupBox = "view.configedit.prog.primary.help.groupbox"
+    static let progPrimaryHelpLine1    = "view.configedit.prog.primary.help.line1"
+    static let progPrimaryHelpLine2    = "view.configedit.prog.primary.help.line2"
+    static let progPrimaryHelpLine3    = "view.configedit.prog.primary.help.line3"
+
+    // MARK: - Transits help
+    static let progTransitsHelpTooltip  = "view.configedit.prog.transits.help.tooltip"
+    static let progTransitsHelpGroupBox = "view.configedit.prog.transits.help.groupbox"
+    static let progTransitsHelpLine1    = "view.configedit.prog.transits.help.line1"
+    static let progTransitsHelpLine2    = "view.configedit.prog.transits.help.line2"
+
+    // MARK: - Secondary directions help
+    static let progSecondaryHelpTooltip  = "view.configedit.prog.secondary.help.tooltip"
+    static let progSecondaryHelpGroupBox = "view.configedit.prog.secondary.help.groupbox"
+    static let progSecondaryHelpLine1    = "view.configedit.prog.secondary.help.line1"
+    static let progSecondaryHelpLine2    = "view.configedit.prog.secondary.help.line2"
+
+    // MARK: - Symbolic directions fields
+    static let progSymbolicTimeKey      = "view.configedit.prog.symbolic.timekey"
+    static let progSymbolicHelpTooltip  = "view.configedit.prog.symbolic.help.tooltip"
+    static let progSymbolicHelpGroupBox = "view.configedit.prog.symbolic.help.groupbox"
+    static let progSymbolicHelpLine1    = "view.configedit.prog.symbolic.help.line1"
+    static let progSymbolicHelpLine2    = "view.configedit.prog.symbolic.help.line2"
+
+    // MARK: - Solar return fields
+    static let progSolarMethod          = "view.configedit.prog.solar.method"
+    static let progSolarLocation        = "view.configedit.prog.solar.location"
+    static let progSolarHelpTooltip     = "view.configedit.prog.solar.help.tooltip"
+    static let progSolarHelpGroupBox    = "view.configedit.prog.solar.help.groupbox"
+    static let progSolarHelpLine1       = "view.configedit.prog.solar.help.line1"
+    static let progSolarHelpLine2       = "view.configedit.prog.solar.help.line2"
+
+    // MARK: - Orb editor fields
+    static let orbSectionSystem        = "view.configedit.orb.section.system"
+    static let orbSectionValues        = "view.configedit.orb.section.values"
+    static let orbSystem               = "view.configedit.orb.system"
+    static let orbAspectBase           = "view.configedit.orb.aspectbase"
+    static let orbMidpoint             = "view.configedit.orb.midpoint"
+    static let orbHarmonic             = "view.configedit.orb.harmonic"
+    static let orbParallel             = "view.configedit.orb.parallel"
+
+    // MARK: - Orb editor help
+    static let orbHelpTooltip          = "view.configedit.orb.help.tooltip"
+    static let orbHelpGroupBox         = "view.configedit.orb.help.groupbox"
+    static let orbHelpLine1            = "view.configedit.orb.help.line1"
+    static let orbHelpLine2            = "view.configedit.orb.help.line2"
+    static let orbHelpLine3            = "view.configedit.orb.help.line3"
+
+    // MARK: - Aspect editor columns
+    static let aspectColUsed           = "view.configedit.aspect.col.used"
+    static let aspectColDrawn          = "view.configedit.aspect.col.drawn"
+    static let aspectColOrb            = "view.configedit.aspect.col.orb"
+    static let aspectColColor          = "view.configedit.aspect.col.color"
+    static let aspectRestoreDefaults   = "view.configedit.aspect.restoredefaults"
+
+    // MARK: - Aspect editor help
+    static let aspectHelpTooltip       = "view.configedit.aspect.help.tooltip"
+    static let aspectHelpGroupBox      = "view.configedit.aspect.help.groupbox"
+    static let aspectHelpLine1         = "view.configedit.aspect.help.line1"
+    static let aspectHelpLine2         = "view.configedit.aspect.help.line2"
+    static let aspectHelpLine3         = "view.configedit.aspect.help.line3"
+    static let aspectHelpLine4         = "view.configedit.aspect.help.line4"
+
     // MARK: - Config sections
     static let sectionCalculation     = "view.configedit.section.calculation"
     static let sectionDisplay         = "view.configedit.section.display"

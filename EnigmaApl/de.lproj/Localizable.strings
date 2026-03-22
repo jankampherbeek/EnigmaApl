@@ -258,3 +258,16 @@
 "enum.yearcount.astronomical" = "Astronomisch";
 "enum.yearcount.bce" = "v.Chr.";
 "enum.yearcount.ce" = "n.Chr.";
+// Tierkreiszeichen
+"enum.sign.aries"       = "Widder";
+"enum.sign.taurus"      = "Stier";
+"enum.sign.gemini"      = "Zwillinge";
+"enum.sign.cancer"      = "Krebs";
+"enum.sign.leo"         = "Löwe";
+"enum.sign.virgo"       = "Jungfrau";
+"enum.sign.libra"       = "Waage";
+"enum.sign.scorpio"     = "Skorpion";
+"enum.sign.sagittarius" = "Schütze";
+"enum.sign.capricorn"   = "Steinbock";
+"enum.sign.aquarius"    = "Wassermann";
+"enum.sign.pisces"      = "Fische";

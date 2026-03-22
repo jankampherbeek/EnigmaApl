@@ -258,3 +258,16 @@
 "enum.yearcount.astronomical" = "Astronomisch";
 "enum.yearcount.bce" = "v.Chr.";
 "enum.yearcount.ce" = "n.Chr.";
+// Dierenriemtekens
+"enum.sign.aries"       = "Ram";
+"enum.sign.taurus"      = "Stier";
+"enum.sign.gemini"      = "Tweelingen";
+"enum.sign.cancer"      = "Kreeft";
+"enum.sign.leo"         = "Leeuw";
+"enum.sign.virgo"       = "Maagd";
+"enum.sign.libra"       = "Weegschaal";
+"enum.sign.scorpio"     = "Schorpioen";
+"enum.sign.sagittarius" = "Boogschutter";
+"enum.sign.capricorn"   = "Steenbok";
+"enum.sign.aquarius"    = "Waterman";
+"enum.sign.pisces"      = "Vissen";

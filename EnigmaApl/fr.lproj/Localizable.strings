@@ -258,3 +258,16 @@
 "enum.yearcount.astronomical" = "Astronomique";
 "enum.yearcount.bce" = "av.J.-C.";
 "enum.yearcount.ce" = "ap.J.-C.";
+// Signes du zodiaque
+"enum.sign.aries"       = "Bélier";
+"enum.sign.taurus"      = "Taureau";
+"enum.sign.gemini"      = "Gémeaux";
+"enum.sign.cancer"      = "Cancer";
+"enum.sign.leo"         = "Lion";
+"enum.sign.virgo"       = "Vierge";
+"enum.sign.libra"       = "Balance";
+"enum.sign.scorpio"     = "Scorpion";
+"enum.sign.sagittarius" = "Sagittaire";
+"enum.sign.capricorn"   = "Capricorne";
+"enum.sign.aquarius"    = "Verseau";
+"enum.sign.pisces"      = "Poissons";

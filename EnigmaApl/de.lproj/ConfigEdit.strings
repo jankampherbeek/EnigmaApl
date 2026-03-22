@@ -69,6 +69,134 @@
 "view.configedit.help.line1"   = "Wähle eine Konfiguration oder füge eine neue hinzu. Du kannst die Einstellungen jeder Konfiguration über die Optionen im rechten Bereich bearbeiten.";
 "view.configedit.help.line2"   = "Verwende den Schalter 'Aktive Konfiguration', um die gewünschte Konfiguration auszuwählen. Die aktive Konfiguration ist auch in der Liste markiert.";
 
+// Anzeigeeeditor
+"view.configedit.display.section.drawing"    = "Zeichenstil";
+"view.configedit.display.drawingtype"        = "Zeichenstil";
+"view.configedit.display.section.signcolors" = "Hintergrundfarbe Zeichen";
+
+// Faktoren-Editor
+"view.configedit.factor.col.used"        = "Verwenden";
+"view.configedit.factor.col.drawn"       = "Zeichnen";
+"view.configedit.factor.col.orb"         = "Orb %";
+"view.configedit.factor.restoredefaults" = "Standard wiederherstellen";
+
+// Progressionen Navigation
+"view.configedit.prog.nav.primary"   = "Primäre Direktionen";
+"view.configedit.prog.nav.transits"  = "Transite";
+"view.configedit.prog.nav.secondary" = "Sekundäre Direktionen";
+"view.configedit.prog.nav.symbolic"  = "Symbolische Direktionen";
+"view.configedit.prog.nav.solar"     = "Sonnenwendepunkt";
+
+// Progressionen gemeinsam
+"view.configedit.prog.section.factors"  = "Faktoren";
+"view.configedit.prog.section.orb"      = "Orb";
+"view.configedit.prog.section.settings" = "Einstellungen";
+"view.configedit.prog.orb"              = "Orb";
+
+// Primäre Direktionen
+"view.configedit.prog.primary.promissors"    = "Promissoren";
+"view.configedit.prog.primary.significators" = "Significatoren";
+"view.configedit.prog.primary.method"        = "Methode";
+"view.configedit.prog.primary.approach"      = "Ansatz";
+"view.configedit.prog.primary.timekey"       = "Zeitschlüssel";
+
+// Hilfe primäre Direktionen
+"view.configedit.prog.primary.help.tooltip"  = "Hilfe zu primären Direktionen";
+"view.configedit.prog.primary.help.groupbox" = "Primäre Direktionen";
+"view.configedit.prog.primary.help.line1"    = "Wähle die Faktoren aus, die du als Promissoren verwenden möchtest.";
+"view.configedit.prog.primary.help.line2"    = "Wähle die Faktoren aus, die du als Significatoren verwenden möchtest.";
+"view.configedit.prog.primary.help.line3"    = "Wähle Methode, Ansatz und Zeitschlüssel für die Berechnung primärer Direktionen.";
+
+// Hilfe Transite
+"view.configedit.prog.transits.help.tooltip"  = "Hilfe zu Transiten";
+"view.configedit.prog.transits.help.groupbox" = "Transite";
+"view.configedit.prog.transits.help.line1"    = "Wähle die Faktoren, die du für Transite verwenden möchtest.";
+"view.configedit.prog.transits.help.line2"    = "Stelle den Orb für die Transitberechnung ein.";
+
+// Hilfe sekundäre Direktionen
+"view.configedit.prog.secondary.help.tooltip"  = "Hilfe zu sekundären Direktionen";
+"view.configedit.prog.secondary.help.groupbox" = "Sekundäre Direktionen";
+"view.configedit.prog.secondary.help.line1"    = "Wähle die Faktoren für sekundäre Direktionen.";
+"view.configedit.prog.secondary.help.line2"    = "Stelle den Orb für die Berechnung ein.";
+
+// Symbolische Direktionen
+"view.configedit.prog.symbolic.timekey" = "Zeitschlüssel";
+
+// Hilfe symbolische Direktionen
+"view.configedit.prog.symbolic.help.tooltip"  = "Hilfe zu symbolischen Direktionen";
+"view.configedit.prog.symbolic.help.groupbox" = "Symbolische Direktionen";
+"view.configedit.prog.symbolic.help.line1"    = "Wähle die Faktoren für symbolische Direktionen.";
+"view.configedit.prog.symbolic.help.line2"    = "Wähle den Zeitschlüssel und stelle den Orb ein.";
+
+// Sonnenwendepunkt
+"view.configedit.prog.solar.method"   = "Methode";
+"view.configedit.prog.solar.location" = "Ort";
+
+// Hilfe Sonnenwendepunkt
+"view.configedit.prog.solar.help.tooltip"  = "Hilfe zum Sonnenwendepunkt";
+"view.configedit.prog.solar.help.groupbox" = "Sonnenwendepunkt";
+"view.configedit.prog.solar.help.line1"    = "Wähle Methode und Ort für die Berechnung des Sonnenwendepunkts.";
+"view.configedit.prog.solar.help.line2"    = "Stelle den Orb für die Berechnung ein.";
+
+// Orb-Editor
+"view.configedit.orb.section.system"  = "Orb-System";
+"view.configedit.orb.section.values"  = "Orb-Werte";
+"view.configedit.orb.system"          = "System";
+"view.configedit.orb.aspectbase"      = "Basis-Orb Aspekte";
+"view.configedit.orb.midpoint"        = "Orb Midpunkte";
+"view.configedit.orb.harmonic"        = "Orb Harmoniken";
+"view.configedit.orb.parallel"        = "Orb Parallelen";
+
+// Hilfe Orb-Editor
+"view.configedit.orb.help.tooltip"    = "Hilfe zu Orben";
+"view.configedit.orb.help.groupbox"   = "Orben";
+"view.configedit.orb.help.line1"      = "Wähle das Orb-System, das du für die Berechnung effektiver Orben verwenden möchtest.";
+"view.configedit.orb.help.line2"      = "Der Basis-Orb für Aspekte ist der Ausgangspunkt für die Berechnung. Der effektive Orb pro Aspekt wird ermittelt, indem der Basis-Orb mit den Orb-Prozentsätzen aus den Faktor- und Aspekteinstellungen kombiniert wird.";
+"view.configedit.orb.help.line3"      = "Die Orb-Werte für Midpunkte, Harmoniken und Parallelen gelten als feste Werte.";
+
+// Aspekte-Editor
+"view.configedit.aspect.col.used"        = "Verwenden";
+"view.configedit.aspect.col.drawn"       = "Zeichnen";
+"view.configedit.aspect.col.orb"         = "Orb %";
+"view.configedit.aspect.col.color"       = "Farbe";
+"view.configedit.aspect.restoredefaults" = "Standard wiederherstellen";
+
+// Hilfe Aspekte-Editor
+"view.configedit.aspect.help.tooltip"  = "Hilfe zu Aspekten";
+"view.configedit.aspect.help.groupbox" = "Aspekte";
+"view.configedit.aspect.help.line1"    = "Gib für jeden Aspekt an, ob er für Berechnungen verwendet und ob er im Horoskop gezeichnet werden soll.";
+"view.configedit.aspect.help.line2"    = "Der Orb-Prozentsatz gibt an, welcher Anteil des Basis-Orbs bei Aspektberechnungen für diesen Aspekt verwendet wird.";
+"view.configedit.aspect.help.line3"    = "Mit 'Standard wiederherstellen' in der Symbolleiste setzt du alle Aspekte auf die Standardwerte zurück.";
+"view.configedit.aspect.help.line4"    = "Die Farbe der Aspektlinie wählst du über die Option 'Farbe'.";
+
+// Hilfe Faktoren-Editor
+"view.configedit.factor.help.tooltip"  = "Hilfe zu Faktoren";
+"view.configedit.factor.help.groupbox" = "Faktoren";
+"view.configedit.factor.help.line1"    = "Gib für jeden Faktor an, ob er für Berechnungen verwendet und ob er im Horoskop gezeichnet werden soll.";
+"view.configedit.factor.help.line2"    = "Der Orb-Prozentsatz gibt an, welcher Anteil des Basis-Orbs bei Aspektberechnungen für diesen Faktor verwendet wird.";
+"view.configedit.factor.help.line3"    = "Mit 'Standard wiederherstellen' in der Symbolleiste setzt du alle Faktoren auf die Standardwerte zurück.";
+
+// Glyphen-Editor
+"view.configedit.glyphs.section.signs"   = "Zeichen";
+"view.configedit.glyphs.section.factors" = "Faktoren";
+"view.configedit.glyphs.section.aspects" = "Aspekte";
+"view.configedit.glyphs.restoredefaults" = "Standard wiederherstellen";
+
+// Hilfe Glyphen-Editor
+"view.configedit.glyphs.help.tooltip"  = "Hilfe zu Glyphen";
+"view.configedit.glyphs.help.groupbox" = "Glyphen";
+"view.configedit.glyphs.help.line1"    = "Für Zeichen und Faktoren, für die mehrere Glyphen verfügbar sind, kannst du wählen, welche Glyphe du verwenden möchtest.";
+"view.configedit.glyphs.help.line2"    = "Klicke auf eine Glyphe, um sie auszuwählen. Enigma markiert die ausgewählte Glyphe.";
+"view.configedit.glyphs.help.line3"    = "Mit 'Standard wiederherstellen' in der Symbolleiste setzt du alle Glyphen auf die ursprünglichen Werte zurück.";
+
+// Hilfe Anzeigeeditor
+"view.configedit.display.help.tooltip" = "Hilfe zur Anzeige";
+"view.configedit.display.help.groupbox" = "Anzeige";
+"view.configedit.display.help.line1" = "Gib an, wie das Horoskop gezeichnet werden soll.";
+"view.configedit.display.help.line2" = "Mit 'Zeichenstil' wählst du, ob die Abstände im Horoskop auf Zeichen (je 30°) oder auf Häusern basieren.";
+"view.configedit.display.help.line3" = "Verwende 'Französisch' für den Zeichenstil, wenn du das Horoskop wie in der französischen Astrologie üblich darstellen möchtest.";
+"view.configedit.display.help.line4" = "Wähle die Farbe neben dem Zeichen aus, um sie zu ändern.";
+
 // Hilfe Berechnungseditor
 "view.configedit.calc.help.tooltip" = "Hilfe zur Berechnung";
 "view.configedit.calc.help.groupbox" = "Berechnung";

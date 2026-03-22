@@ -258,3 +258,16 @@
 "enum.yearcount.astronomical" = "Astronomical";
 "enum.yearcount.bce" = "BCE";
 "enum.yearcount.ce" = "CE";
+// Zodiac signs
+"enum.sign.aries"       = "Aries";
+"enum.sign.taurus"      = "Taurus";
+"enum.sign.gemini"      = "Gemini";
+"enum.sign.cancer"      = "Cancer";
+"enum.sign.leo"         = "Leo";
+"enum.sign.virgo"       = "Virgo";
+"enum.sign.libra"       = "Libra";
+"enum.sign.scorpio"     = "Scorpio";
+"enum.sign.sagittarius" = "Sagittarius";
+"enum.sign.capricorn"   = "Capricorn";
+"enum.sign.aquarius"    = "Aquarius";
+"enum.sign.pisces"      = "Pisces";
