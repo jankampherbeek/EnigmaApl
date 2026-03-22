@@ -112,7 +112,7 @@
 "view.configedit.prog.secondary.help.tooltip"  = "Help bij secundaire directies";
 "view.configedit.prog.secondary.help.groupbox" = "Secundaire directies";
 "view.configedit.prog.secondary.help.line1"    = "Selecteer de factoren voor secundaire directies.";
-"view.configedit.prog.secondary.help.line2"    = "Stel de orb in voor de berekening.";
+"view.configedit.prog.secondary.help.line2"    = "Stel de orb in voor secundaire directies.";
 
 // Symbolische directies
 "view.configedit.prog.symbolic.timekey" = "Tijdsleutel";
@@ -130,8 +130,8 @@
 // Help zonnewende
 "view.configedit.prog.solar.help.tooltip"  = "Help bij zonnewende";
 "view.configedit.prog.solar.help.groupbox" = "Solaar";
-"view.configedit.prog.solar.help.line1"    = "Kies de methode en locatie voor de berekening van de zonnewende.";
-"view.configedit.prog.solar.help.line2"    = "Stel de orb in voor de berekening.";
+"view.configedit.prog.solar.help.line1"    = "Kies de methode en locatie voor de solaar berekening.";
+"view.configedit.prog.solar.help.line2"    = "Stel de orb in voor de solaar berekening.";
 
 // Orb editor
 "view.configedit.orb.section.system"  = "Orb-systeem";

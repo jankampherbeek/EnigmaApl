@@ -9,12 +9,15 @@
 // SidebarView (left navigation), ContentColumn (middle) and DetailColumn (right)
 
 import SwiftUI
+import SwiftData
 import Combine
 
 
 struct RootView: View {
     @EnvironmentObject private var composition: AppComposition
     @Environment(\.horizontalSizeClass) private var hSizeClass
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
 
     private var preferTwoColumns: Bool { hSizeClass == .compact }
 
@@ -43,6 +46,14 @@ struct RootView: View {
         .onAppear {
             DispatchQueue.main.async {
                 app.ensureDefaultSelection()
+            }
+            if let active = activeConfigs.first {
+                GlyphSelector.configure(with: active.glyphsConfig)
+            }
+        }
+        .onChange(of: activeConfigs.first?.persistentModelID) {
+            if let active = activeConfigs.first {
+                GlyphSelector.configure(with: active.glyphsConfig)
             }
         }
         // when using compact layouts

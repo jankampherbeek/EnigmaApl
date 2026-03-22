@@ -478,6 +478,7 @@ struct GlyphsConfigEditor: View {
             aspectGlyphs: Aspects.allCases.map { AspectGlyphSetting(aspect: $0, glyph: aspectGlyphs[$0] ?? defAspects[$0] ?? "") }
         )
         try? modelContext.save()
+        GlyphSelector.configure(with: config.glyphsConfig)
         isDirty = false
     }
 }
@@ -1295,9 +1296,9 @@ struct PrimaryDirectionsHelpView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GroupBox(t(ConfigEditKeys.progPrimaryHelpGroupBox)) {
                         VStack(alignment: .leading, spacing: 6) {
+                            Text(t(ConfigEditKeys.progPrimaryHelpLine3))
                             Text(t(ConfigEditKeys.progPrimaryHelpLine1))
                             Text(t(ConfigEditKeys.progPrimaryHelpLine2))
-                            Text(t(ConfigEditKeys.progPrimaryHelpLine3))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
@@ -1414,8 +1415,8 @@ struct TransitsHelpView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GroupBox(t(ConfigEditKeys.progTransitsHelpGroupBox)) {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(t(ConfigEditKeys.progTransitsHelpLine1))
                             Text(t(ConfigEditKeys.progTransitsHelpLine2))
+                            Text(t(ConfigEditKeys.progTransitsHelpLine1))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
@@ -1532,8 +1533,8 @@ struct SecondaryDirectionsHelpView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GroupBox(t(ConfigEditKeys.progSecondaryHelpGroupBox)) {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(t(ConfigEditKeys.progSecondaryHelpLine1))
                             Text(t(ConfigEditKeys.progSecondaryHelpLine2))
+                            Text(t(ConfigEditKeys.progSecondaryHelpLine1))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
@@ -1660,8 +1661,8 @@ struct SymbolicDirectionsHelpView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GroupBox(t(ConfigEditKeys.progSymbolicHelpGroupBox)) {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(t(ConfigEditKeys.progSymbolicHelpLine1))
                             Text(t(ConfigEditKeys.progSymbolicHelpLine2))
+                            Text(t(ConfigEditKeys.progSymbolicHelpLine1))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }

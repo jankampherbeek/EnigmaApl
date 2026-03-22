@@ -12,7 +12,7 @@ struct GlyphSelectorTests {
 
     // MARK: - Factor glyph tests
 
-    @Test("GlyphSelector: getGlyphForFactor returns non-empty string for all factors")
+    @Test("GlyphSelector: getGlyphForFactor returns a glyph for all factors")
     func testGetGlyphForFactorAllCases() {
         for factor in Factors.allCases {
             let glyph = GlyphSelector.getGlyphForFactor(factor)
@@ -60,9 +60,22 @@ struct GlyphSelectorTests {
         #expect(GlyphSelector.getGlyphForFactor(.poseidonUra) == "\u{E607}")
     }
 
+    @Test("GlyphSelector: configure updates glyph for factor")
+    func testConfigureUpdatesFactorGlyph() {
+        let customGlyphs = GlyphsConfig.defaultFactorGlyphs.map { setting in
+            setting.factor == .sun
+                ? FactorGlyphSetting(factor: .sun, glyph: "\u{E299}")
+                : setting
+        }
+        GlyphSelector.configure(with: GlyphsConfig(factorGlyphs: customGlyphs))
+        #expect(GlyphSelector.getGlyphForFactor(.sun) == "\u{E299}")
+        // Restore defaults
+        GlyphSelector.configure(with: GlyphsConfig())
+    }
+
     // MARK: - Sign glyph tests
 
-    @Test("GlyphSelector: getGlyphForSign returns non-empty string for all signs")
+    @Test("GlyphSelector: getGlyphForSign returns a glyph for all signs")
     func testGetGlyphForSignAllCases() {
         for sign in Signs.allCases {
             let glyph = GlyphSelector.getGlyphForSign(sign)
@@ -88,7 +101,7 @@ struct GlyphSelectorTests {
 
     // MARK: - Aspect glyph tests
 
-    @Test("GlyphSelector: getGlyphForAspect returns non-empty string for all aspects")
+    @Test("GlyphSelector: getGlyphForAspect returns a glyph for all aspects")
     func testGetGlyphForAspectAllCases() {
         for aspect in Aspects.allCases {
             let glyph = GlyphSelector.getGlyphForAspect(aspect)
