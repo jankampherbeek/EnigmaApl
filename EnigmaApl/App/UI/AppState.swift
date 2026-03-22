@@ -38,6 +38,8 @@ final class AppState: ObservableObject {
             if nav.research.selectedID == nil { nav.research.selectedID = projects.first?.id }
         case .cycles:
             if nav.cycles.selectedID == nil { nav.cycles.selectedID = profiles.first?.id }
+        case .config:
+            break
         }
     }
 
@@ -82,14 +84,16 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case radix = "Radix"
     case research = "Research"
     case cycles = "Cycles"
+    case config = "Configuratie"
 
     var id: String { rawValue }
 
     var systemImage: String {
         switch self {
-        case .radix: return "circle.grid.cross"
-        case .research: return "flask"
-        case .cycles: return "waveform.path.ecg"
+        case .radix:     return "circle.grid.cross"
+        case .research:  return "flask"
+        case .cycles:    return "waveform.path.ecg"
+        case .config:    return "gear"
         }
     }
 }

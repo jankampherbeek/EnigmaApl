@@ -16,7 +16,8 @@ enum SchemaV1: VersionedSchema {
     static var models: [any PersistentModel.Type] = [
         HoroscopeModel.self,
         HoroscopeDateTimeModel.self,
-        EventModel.self
+        EventModel.self,
+        UserConfiguration.self
     ]
 }
 

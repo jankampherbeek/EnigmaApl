@@ -1,0 +1,82 @@
+// ConfigEdit.strings - English
+// EnigmaApl
+
+// List screen
+"view.configedit.list.title"               = "Configurations";
+"view.configedit.list.activebadge"         = "Active";
+"view.configedit.list.new"                 = "New";
+"view.configedit.list.alert.deletetitle"   = "Delete Configuration";
+"view.configedit.list.alert.deletebutton"  = "Delete";
+"view.configedit.list.alert.deletemessage" = "Are you sure you want to delete '%@'?";
+
+// New configuration sheet
+"view.configedit.new.sheettitle"           = "New Configuration";
+"view.configedit.new.namelabel"            = "Name";
+"view.configedit.new.nameplaceholder"      = "Configuration name";
+"view.configedit.new.basedon"              = "Based On";
+"view.configedit.new.basedonfooter"        = "All settings will be copied from the selected configuration.";
+"view.configedit.new.defaults"             = "Default values";
+"view.configedit.new.create"               = "Create";
+"view.configedit.default.configname"       = "Default";
+
+// Edit screen
+"view.configedit.edit.namelabel"           = "Name";
+"view.configedit.edit.settings"            = "Settings";
+"view.configedit.edit.save"                = "Save";
+"view.configedit.edit.activetoggle"        = "Active Configuration";
+"view.configedit.edit.activefooter"        = "The active configuration is used for all calculations.";
+"view.configedit.edit.fallbacktitle"       = "Configuration";
+
+// Shared
+"view.configedit.cancel"                   = "Cancel";
+
+// Empty state
+"view.configedit.empty.title"              = "No Configuration Selected";
+"view.configedit.empty.description"        = "Choose a configuration from the list or create a new one.";
+
+// Config sections
+"view.configedit.section.calculation"      = "Calculation";
+"view.configedit.section.display"          = "Display";
+"view.configedit.section.glyphs"           = "Glyphs";
+"view.configedit.section.factors"          = "Factors";
+"view.configedit.section.aspects"          = "Aspects";
+"view.configedit.section.orbs"             = "Orbs";
+"view.configedit.section.progressions"     = "Progressions";
+
+// Calculation editor
+"view.configedit.calc.section.systems"       = "Coordinate Systems";
+"view.configedit.calc.section.calculation"   = "Calculation";
+"view.configedit.calc.section.lunar"         = "Lunar Factors";
+"view.configedit.calc.section.speeds"        = "Speed Thresholds";
+"view.configedit.calc.housesystem"           = "House System";
+"view.configedit.calc.ayanamsha"             = "Ayanamsha";
+"view.configedit.calc.observerposition"      = "Observer Position";
+"view.configedit.calc.projectiontype"        = "Projection Type";
+"view.configedit.calc.blackmooncorrection"   = "Black Moon Correction";
+"view.configedit.calc.lunarnode"             = "Lunar Node";
+"view.configedit.calc.lotstype"              = "Lots";
+"view.configedit.calc.stationarypercentage"  = "Stationary %";
+"view.configedit.calc.slowpercentage"        = "Slow %";
+"view.configedit.calc.stationaryfooter"      = "Speed percentage for stationary.";
+"view.configedit.calc.slowfooter"            = "Speed percentage for slow.";
+
+"view.configedit.backtoverview"         = "Back to Overview";
+
+// Help
+"view.configedit.help.title"   = "Help";
+"view.configedit.help.close"   = "Close";
+"view.configedit.help.tooltip" = "Help for configurations";
+"view.configedit.help.line1"   = "Choose a configuration or add a new one. You can edit the settings of any configuration using the options in the right panel.";
+"view.configedit.help.line2"   = "Use the 'Active Configuration' toggle to indicate which configuration you want to use. The active configuration is also marked in the list.";
+
+// Calculation editor help
+"view.configedit.calc.help.tooltip" = "Help for calculation";
+"view.configedit.calc.help.groupbox" = "Calculation";
+"view.configedit.calc.help.line1" = "Specify what you want to use for the calculation.";
+"view.configedit.calc.help.line2" = "If you want to use parallax, choose Topocentric for 'Observer'.";
+"view.configedit.calc.help.line3" = "Leave the projection type at 'Default: two-dimensional'. Only if you work with the method of the School of Ram should you choose 'Oblique longitude'.";
+"view.configedit.calc.help.line4" = "The Black Moon correction is only relevant if you work with the method of Invisible Luminaries Astrology.";
+"view.configedit.calc.help.line5" = "Choose 'With sect' if you want to distinguish between day and night for Pars Fortunae and other lots. If not, choose 'Without sect'.";
+"view.configedit.calc.help.line6" = "With 'Stationary' and 'Slow' you indicate at what percentage of the average daily speed you consider a planet stationary or slow.";
+"view.configedit.calc.help.line7" = "Click the 'Save' button in the toolbar to commit your changes.";
+"view.configedit.calc.help.line8" = "When you are done with your changes, click the 'Back to Overview' button in the toolbar to return to the configuration overview.";

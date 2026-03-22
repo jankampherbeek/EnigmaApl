@@ -39,6 +39,7 @@ struct RootView: View {
         .environmentObject(composition.radixNav)
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)
+        .environmentObject(composition.configNav)
         .onAppear {
             DispatchQueue.main.async {
                 app.ensureDefaultSelection()

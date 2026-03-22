@@ -1,0 +1,82 @@
+// ConfigEdit.strings - Nederlands
+// EnigmaApl
+
+// Lijstscherm
+"view.configedit.list.title"               = "Configuraties";
+"view.configedit.list.activebadge"         = "Actief";
+"view.configedit.list.new"                 = "Nieuw";
+"view.configedit.list.alert.deletetitle"   = "Verwijder configuratie";
+"view.configedit.list.alert.deletebutton"  = "Verwijder";
+"view.configedit.list.alert.deletemessage" = "Weet je zeker dat je '%@' wilt verwijderen?";
+
+// Nieuw configuratie-sheet
+"view.configedit.new.sheettitle"           = "Nieuwe configuratie";
+"view.configedit.new.namelabel"            = "Naam";
+"view.configedit.new.nameplaceholder"      = "Configuratienaam";
+"view.configedit.new.basedon"              = "Gebaseerd op";
+"view.configedit.new.basedonfooter"        = "Alle instellingen worden gekopieerd uit de gekozen configuratie.";
+"view.configedit.new.defaults"             = "Standaardwaarden";
+"view.configedit.new.create"               = "Aanmaken";
+"view.configedit.default.configname"       = "Standaard";
+
+// Bewerkingsscherm
+"view.configedit.edit.namelabel"           = "Naam";
+"view.configedit.edit.settings"            = "Instellingen";
+"view.configedit.edit.save"                = "Opslaan";
+"view.configedit.edit.activetoggle"        = "Actieve configuratie";
+"view.configedit.edit.activefooter"        = "De actieve configuratie wordt gebruikt voor alle berekeningen.";
+"view.configedit.edit.fallbacktitle"       = "Configuratie";
+
+// Gedeeld
+"view.configedit.cancel"                   = "Annuleer";
+
+// Lege toestand
+"view.configedit.empty.title"              = "Geen configuratie geselecteerd";
+"view.configedit.empty.description"        = "Kies een configuratie uit de lijst of maak een nieuwe aan.";
+
+// Configuratiesecties
+"view.configedit.section.calculation"      = "Berekening";
+"view.configedit.section.display"          = "Weergave";
+"view.configedit.section.glyphs"           = "Glyphs";
+"view.configedit.section.factors"          = "Factoren";
+"view.configedit.section.aspects"          = "Aspecten";
+"view.configedit.section.orbs"             = "Orbs";
+"view.configedit.section.progressions"     = "Progressief";
+
+// Berekening editor
+"view.configedit.calc.section.systems"       = "Coördinatensystemen";
+"view.configedit.calc.section.calculation"   = "Berekening";
+"view.configedit.calc.section.lunar"         = "Maanfactoren";
+"view.configedit.calc.section.speeds"        = "Snelheidsdrempels";
+"view.configedit.calc.housesystem"           = "Huissysteem";
+"view.configedit.calc.ayanamsha"             = "Ayanamsha";
+"view.configedit.calc.observerposition"      = "Waarnemer";
+"view.configedit.calc.projectiontype"        = "Projectietype";
+"view.configedit.calc.blackmooncorrection"   = "Zwarte Maan correctie";
+"view.configedit.calc.lunarnode"             = "Maanknoop";
+"view.configedit.calc.lotstype"              = "Lots";
+"view.configedit.calc.stationarypercentage"  = "Stationair %";
+"view.configedit.calc.slowpercentage"        = "Langzaam %";
+"view.configedit.calc.stationaryfooter"      = "Percentage van de snelheid voor stationair.";
+"view.configedit.calc.slowfooter"            = "Percentage van de snelheid voor langzaam.";
+
+"view.configedit.backtoverview"         = "Naar overzicht";
+
+// Help
+"view.configedit.help.title"   = "Help";
+"view.configedit.help.close"   = "Sluiten";
+"view.configedit.help.tooltip" = "Help bij configuraties";
+"view.configedit.help.line1"   = "Kies een configuratie of voeg er een toe. Je kunt van elke configuratie de instellingen wijzigen via de keuzemogelijkheden in het rechter scherm.";
+"view.configedit.help.line2"   = "Met de checkbox 'Actieve Configuratie' geef je aan dat je de geselecteerde configuratie wilt gebruiken. De actieve configuratie staat ook gemarkeerd in de lijst.";
+
+// Help berekening editor
+"view.configedit.calc.help.tooltip" = "Help bij berekening";
+"view.configedit.calc.help.groupbox" = "Berekening";
+"view.configedit.calc.help.line1" = "Geef aan wat je wilt gebruiken voor de berekening.";
+"view.configedit.calc.help.line2" = "Als je parallax wilt gebruiken kies je bij 'Waarnemer' Topocentrisch.";
+"view.configedit.calc.help.line3" = "Het projectietype laat je op 'Standaard: twee-dimensionaal' staan. Alleen als je met de methode van de School van Ram werkt kies je 'Schuine lengte'.";
+"view.configedit.calc.help.line4" = "De Zwarte Maan correctie is alleen relevant als je met de methode van de Zwarte Lichten Astrologie werkt.";
+"view.configedit.calc.help.line5" = "Kies 'Met sect' als je voor het Pars Fortunae en andere lots verschil wilt maken tussen dag en nacht. Als je dat niet wilt kies je 'Zonder sect'.";
+"view.configedit.calc.help.line6" = "Met 'Stationair' en 'Langzaam' geef je aan bij welke percentage van de gemiddelde dagelijkse snelheid je een planeet als stationair of langzaam wilt zien.";
+"view.configedit.calc.help.line7" = "Klik op de knop 'Opslaan' in de taakbalk als je de wijzigingen vast wilt leggen.";
+"view.configedit.calc.help.line8" = "Als je klaar bent met je wijzigingen klik je op de knop 'Naar overzicht' in de taakbalk om terug te gaan naar het overzicht met configuratie onderdelen.";

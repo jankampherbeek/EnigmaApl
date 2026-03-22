@@ -15,6 +15,7 @@ struct SidebarView: View {
     @EnvironmentObject private var radixNav: RadixNavigator
     @EnvironmentObject private var researchNav: ResearchNavigator
     @EnvironmentObject private var cyclesNav: CyclesNavigator
+    @EnvironmentObject private var configNav: ConfigNavigator
 
     var body: some View {
         List {
@@ -67,6 +68,8 @@ struct SidebarView: View {
                         row(CyclesSection.tablesGraphs.rawValue, app.nav.cycles.section == .tablesGraphs)
                     }.buttonStyle(.plain)
                 }
+            case .config:
+                EmptyView()
             }
         }
         .navigationTitle("Navigatie")

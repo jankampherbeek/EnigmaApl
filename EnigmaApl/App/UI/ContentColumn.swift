@@ -27,6 +27,8 @@ struct ContentColumn: View {
                 Text("Content (\(app.nav.mode.rawValue))")
             case .cycles:
                 Text("Content (\(app.nav.mode.rawValue))")
+            case .config:
+                ConfigListScreen()
             }
         }
             .navigationTitle(app.nav.mode.rawValue)

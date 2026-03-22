@@ -17,12 +17,14 @@ final class AppComposition: ObservableObject {
     let radixNav: RadixNavigator
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
+    let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
 
     init(app: AppState) {
         self.app = app
         self.chartSession = ChartSession()
+        self.configNav = ConfigNavigator()
         let context = PersistenceController.shared.container.mainContext
         self.horoscopeRepository = HoroscopeRepository(context: context)
         self.eventRepository = EventRepository(context: context)

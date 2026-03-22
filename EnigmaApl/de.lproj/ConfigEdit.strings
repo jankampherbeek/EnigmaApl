@@ -1,0 +1,82 @@
+// ConfigEdit.strings - Deutsch
+// EnigmaApl
+
+// Listenbildschirm
+"view.configedit.list.title"               = "Konfigurationen";
+"view.configedit.list.activebadge"         = "Aktiv";
+"view.configedit.list.new"                 = "Neu";
+"view.configedit.list.alert.deletetitle"   = "Konfiguration löschen";
+"view.configedit.list.alert.deletebutton"  = "Löschen";
+"view.configedit.list.alert.deletemessage" = "Soll '%@' wirklich gelöscht werden?";
+
+// Neue Konfiguration
+"view.configedit.new.sheettitle"           = "Neue Konfiguration";
+"view.configedit.new.namelabel"            = "Name";
+"view.configedit.new.nameplaceholder"      = "Konfigurationsname";
+"view.configedit.new.basedon"              = "Basierend auf";
+"view.configedit.new.basedonfooter"        = "Alle Einstellungen werden aus der gewählten Konfiguration kopiert.";
+"view.configedit.new.defaults"             = "Standardwerte";
+"view.configedit.new.create"               = "Erstellen";
+"view.configedit.default.configname"       = "Standard";
+
+// Bearbeitungsbildschirm
+"view.configedit.edit.namelabel"           = "Name";
+"view.configedit.edit.settings"            = "Einstellungen";
+"view.configedit.edit.save"                = "Speichern";
+"view.configedit.edit.activetoggle"        = "Aktive Konfiguration";
+"view.configedit.edit.activefooter"        = "Die aktive Konfiguration wird für alle Berechnungen verwendet.";
+"view.configedit.edit.fallbacktitle"       = "Konfiguration";
+
+// Gemeinsam
+"view.configedit.cancel"                   = "Abbrechen";
+
+// Leerer Zustand
+"view.configedit.empty.title"              = "Keine Konfiguration ausgewählt";
+"view.configedit.empty.description"        = "Wähle eine Konfiguration aus der Liste oder erstelle eine neue.";
+
+// Konfigurationsabschnitte
+"view.configedit.section.calculation"      = "Berechnung";
+"view.configedit.section.display"          = "Anzeige";
+"view.configedit.section.glyphs"           = "Glyphen";
+"view.configedit.section.factors"          = "Faktoren";
+"view.configedit.section.aspects"          = "Aspekte";
+"view.configedit.section.orbs"             = "Orben";
+"view.configedit.section.progressions"     = "Progressionen";
+
+// Berechnungseditor
+"view.configedit.calc.section.systems"       = "Koordinatensysteme";
+"view.configedit.calc.section.calculation"   = "Berechnung";
+"view.configedit.calc.section.lunar"         = "Mondfaktoren";
+"view.configedit.calc.section.speeds"        = "Geschwindigkeitsschwellen";
+"view.configedit.calc.housesystem"           = "Häusersystem";
+"view.configedit.calc.ayanamsha"             = "Ayanamsha";
+"view.configedit.calc.observerposition"      = "Beobachterposition";
+"view.configedit.calc.projectiontype"        = "Projektionstyp";
+"view.configedit.calc.blackmooncorrection"   = "Schwarzmond-Korrektur";
+"view.configedit.calc.lunarnode"             = "Mondknoten";
+"view.configedit.calc.lotstype"              = "Lots";
+"view.configedit.calc.stationarypercentage"  = "Stationär %";
+"view.configedit.calc.slowpercentage"        = "Langsam %";
+"view.configedit.calc.stationaryfooter"      = "Geschwindigkeitsprozentsatz für stationär.";
+"view.configedit.calc.slowfooter"            = "Geschwindigkeitsprozentsatz für langsam.";
+
+"view.configedit.backtoverview"         = "Zur Übersicht";
+
+// Hilfe
+"view.configedit.help.title"   = "Hilfe";
+"view.configedit.help.close"   = "Schließen";
+"view.configedit.help.tooltip" = "Hilfe zu Konfigurationen";
+"view.configedit.help.line1"   = "Wähle eine Konfiguration oder füge eine neue hinzu. Du kannst die Einstellungen jeder Konfiguration über die Optionen im rechten Bereich bearbeiten.";
+"view.configedit.help.line2"   = "Verwende den Schalter 'Aktive Konfiguration', um die gewünschte Konfiguration auszuwählen. Die aktive Konfiguration ist auch in der Liste markiert.";
+
+// Hilfe Berechnungseditor
+"view.configedit.calc.help.tooltip" = "Hilfe zur Berechnung";
+"view.configedit.calc.help.groupbox" = "Berechnung";
+"view.configedit.calc.help.line1" = "Gib an, was du für die Berechnung verwenden möchtest.";
+"view.configedit.calc.help.line2" = "Wenn du Parallaxe verwenden möchtest, wähle bei 'Beobachter' Topozentrisch.";
+"view.configedit.calc.help.line3" = "Lasse den Projektionstyp auf 'Standard: zweidimensional'. Nur wenn du mit der Methode der Schule von Ram arbeitest, wähle 'Schiefe Länge'.";
+"view.configedit.calc.help.line4" = "Die Schwarzmond-Korrektur ist nur relevant, wenn du mit der Methode der Invisible Luminaries Astrology arbeitest.";
+"view.configedit.calc.help.line5" = "Wähle 'Mit Sekte', wenn du für Pars Fortunae und andere Lots zwischen Tag und Nacht unterscheiden möchtest. Andernfalls wähle 'Ohne Sekte'.";
+"view.configedit.calc.help.line6" = "Mit 'Stationär' und 'Langsam' gibst du an, bei welchem Prozentsatz der durchschnittlichen Tagesgeschwindigkeit du einen Planeten als stationär oder langsam betrachtest.";
+"view.configedit.calc.help.line7" = "Klicke auf die Schaltfläche 'Speichern' in der Symbolleiste, um deine Änderungen zu speichern.";
+"view.configedit.calc.help.line8" = "Wenn du mit deinen Änderungen fertig bist, klicke auf die Schaltfläche 'Zur Übersicht' in der Symbolleiste, um zur Konfigurationsübersicht zurückzukehren.";
