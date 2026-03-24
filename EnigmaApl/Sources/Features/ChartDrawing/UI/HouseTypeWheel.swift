@@ -21,49 +21,95 @@ struct HouseTypeWheel: View {
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
 
+    @State private var blackWhite = false
+    @State private var showExport = false
+
+    private var currentTheme: WheelTheme { blackWhite ? .blackWhite : .color }
+
+    var body: some View {
+        VStack(spacing: 4) {
+            HouseTypeWheelCanvas(plotData: model.plotData, theme: currentTheme)
+
+            HStack(spacing: 8) {
+                Button(t(blackWhite ? ChartWheelKeys.colorButton : ChartWheelKeys.blackWhiteButton)) {
+                    blackWhite.toggle()
+                }
+                Button(t(ChartWheelKeys.exportButton)) { showExport = true }
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .padding(.bottom, 4)
+        }
+        .sheet(isPresented: $showExport) {
+            WheelExportSheet(
+                wheelView: HouseTypeWheelCanvas(plotData: model.plotData, theme: currentTheme)
+            )
+        }
+        .onAppear { model.update(from: chart, config: activeConfig) }
+        .onChange(of: chartVersion) { model.update(from: chart, config: activeConfig) }
+    }
+
+    private func t(_ key: String) -> String {
+        NSLocalizedString(key, tableName: "ChartWheel", bundle: .main, comment: "")
+    }
+}
+
+// MARK: - HouseTypeWheelCanvas
+// Lives in this file so it can access the private drawing functions below.
+
+struct HouseTypeWheelCanvas: View {
+    let plotData: WheelPlotData
+    let theme: WheelTheme
+
     var body: some View {
         Canvas { ctx, size in
             let outerRadius = Double(min(size.width, size.height)) / 2.0
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
-            let data        = model.plotData
-            let cusps       = data.cuspLongitudes
+            let cusps       = plotData.cuspLongitudes
 
-            drawHouseCircles(&ctx, center: center, outerRadius: outerRadius)
+            drawHouseCircles(&ctx, center: center, outerRadius: outerRadius, theme: theme)
             if cusps.count >= 12 {
-                drawHouseSignSectors(&ctx, center: center, outerRadius: outerRadius, cusps: cusps)
-                drawHouseSignSeparators(&ctx, center: center, outerRadius: outerRadius, cusps: cusps)
-                drawHouseSignGlyphs(&ctx, center: center, outerRadius: outerRadius, cusps: cusps)
+                drawHouseSignSectors(&ctx, center: center, outerRadius: outerRadius,
+                                     cusps: cusps, theme: theme)
+                drawHouseSignSeparators(&ctx, center: center, outerRadius: outerRadius,
+                                        cusps: cusps, theme: theme)
+                drawHouseSignGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                                    cusps: cusps, theme: theme)
             }
-            if data.hasTime {
-                drawHouseCuspLines(&ctx, center: center, outerRadius: outerRadius)
-                drawHouseCuspPositionTexts(&ctx, center: center, outerRadius: outerRadius, data: data)
-                drawHouseCardinalLabels(&ctx, center: center, outerRadius: outerRadius, data: data)
+            if plotData.hasTime {
+                drawHouseCuspLines(&ctx, center: center, outerRadius: outerRadius, theme: theme)
+                drawHouseCuspPositionTexts(&ctx, center: center, outerRadius: outerRadius,
+                                           data: plotData, theme: theme)
+                drawHouseCardinalLabels(&ctx, center: center, outerRadius: outerRadius,
+                                        data: plotData, theme: theme)
             }
-            drawHousePlanetConnectLines(&ctx, center: center, outerRadius: outerRadius, data: data)
-            drawHousePlanetGlyphs(&ctx, center: center, outerRadius: outerRadius, data: data)
-            drawHousePlanetTexts(&ctx, center: center, outerRadius: outerRadius, data: data)
+            drawHousePlanetConnectLines(&ctx, center: center, outerRadius: outerRadius,
+                                        data: plotData, theme: theme)
+            drawHousePlanetGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                                  data: plotData, theme: theme)
+            drawHousePlanetTexts(&ctx, center: center, outerRadius: outerRadius,
+                                 data: plotData, theme: theme)
         }
         .aspectRatio(1, contentMode: .fit)
-        .onAppear { model.update(from: chart, config: activeConfig) }
-        .onChange(of: chartVersion) { model.update(from: chart, config: activeConfig) }
     }
 }
 
 // MARK: - Circles
 
-private func drawHouseCircles(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double) {
+private func drawHouseCircles(_ ctx: inout GraphicsContext, center: CGPoint,
+                               outerRadius: Double, theme: WheelTheme) {
     let stroke = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction, outerRadius: outerRadius)
     let layers: [(Double, Color, Bool)] = [
-        (WheelMetrics.outerCircle, WheelColors.outerCircleBackground, false),
-        (WheelMetrics.outerSign,   WheelColors.signRingBackground,    true),
-        (WheelMetrics.outerHouse,  WheelColors.houseRingBackground,   true),
+        (WheelMetrics.outerCircle, theme.outerCircleBackground, false),
+        (WheelMetrics.outerSign,   theme.signRingBackground,    true),
+        (WheelMetrics.outerHouse,  theme.houseRingBackground,   true),
     ]
     for (fraction, fill, drawStroke) in layers {
         let r    = CGFloat(outerRadius * fraction)
         let rect = CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)
         ctx.fill(Path(ellipseIn: rect), with: .color(fill))
         if drawStroke {
-            ctx.stroke(Path(ellipseIn: rect), with: .color(WheelColors.circleStroke), lineWidth: stroke)
+            ctx.stroke(Path(ellipseIn: rect), with: .color(theme.circleStroke), lineWidth: stroke)
         }
     }
 }
@@ -88,14 +134,14 @@ private func houseSignBoundaryAngles(cusps: [Double]) -> [Double] {
 }
 
 private func drawHouseSignSectors(_ ctx: inout GraphicsContext, center: CGPoint,
-                                   outerRadius: Double, cusps: [Double]) {
+                                   outerRadius: Double, cusps: [Double], theme: WheelTheme) {
     let innerR  = outerRadius * WheelMetrics.outerHouse
     let outerR  = outerRadius * WheelMetrics.outerSign
     let angles  = houseSignBoundaryAngles(cusps: cusps)
 
     for i in 0..<12 {
         let sign  = Signs(rawValue: i + 1) ?? .Aries
-        let color = SignColorSelector.getColorForSign(sign)
+        let color = theme.signSectorColor(for: sign)
         let path  = annularSectorPath(from: angles[i], to: angles[i + 1],
                                       inner: innerR, outer: outerR, center: center)
         ctx.fill(path, with: .color(color))
@@ -103,23 +149,23 @@ private func drawHouseSignSectors(_ ctx: inout GraphicsContext, center: CGPoint,
 }
 
 private func drawHouseSignSeparators(_ ctx: inout GraphicsContext, center: CGPoint,
-                                      outerRadius: Double, cusps: [Double]) {
+                                      outerRadius: Double, cusps: [Double], theme: WheelTheme) {
     let innerR  = outerRadius * WheelMetrics.outerHouse
     let outerR  = outerRadius * WheelMetrics.outerSign
     let stroke  = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction, outerRadius: outerRadius)
     let angles  = houseSignBoundaryAngles(cusps: cusps)
 
     for i in 0..<12 {
-        let angle = angles[i]  // WheelGeometry.point handles any angle via sin/cos
+        let angle = angles[i]
         let p1    = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
         let p2    = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
         var path  = Path(); path.move(to: p1); path.addLine(to: p2)
-        ctx.stroke(path, with: .color(WheelColors.signSeparator), lineWidth: stroke)
+        ctx.stroke(path, with: .color(theme.signSeparator), lineWidth: stroke)
     }
 }
 
 private func drawHouseSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint,
-                                  outerRadius: Double, cusps: [Double]) {
+                                  outerRadius: Double, cusps: [Double], theme: WheelTheme) {
     let glyphR   = outerRadius * WheelMetrics.signGlyph
     let fontSize = WheelMetrics.fontSize(WheelMetrics.signGlyphFontFraction, outerRadius: outerRadius)
     let angles   = houseSignBoundaryAngles(cusps: cusps)
@@ -129,27 +175,27 @@ private func drawHouseSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint,
         let pt       = WheelGeometry.point(angleDeg: midAngle, radius: glyphR, center: center)
         guard let sign = Signs(rawValue: i + 1) else { continue }
         let glyph    = GlyphSelector.getGlyphForSign(sign)
-        let text     = Text(glyph).font(.custom("EnigmaAstrology2", size: fontSize))
+        let text     = Text(glyph)
+            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .foregroundColor(theme.signGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
 }
 
-// MARK: - House cusp lines (equal spacing, run to center)
+// MARK: - House cusp lines (equal spacing, run to center — color unchanged in b/w mode)
 
-private func drawHouseCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double) {
+private func drawHouseCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, theme: WheelTheme) {
     let outerR = outerRadius * WheelMetrics.outerHouse
     let thin   = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction, outerRadius: outerRadius)
     let thick  = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction * 2.0, outerRadius: outerRadius)
 
     for i in 0..<12 {
-        // Cusp 1 at 90°, cusp 2 at 120°, … (counter-clockwise)
         let angle = 90.0 + Double(i) * 30.0
-        // Angular houses (1, 4, 7, 10) — indices 0, 3, 6, 9 — get a thicker line
         let lw    = (i % 3 == 0) ? thick : thin
         var path  = Path()
         path.move(to: center)
         path.addLine(to: WheelGeometry.point(angleDeg: angle, radius: outerR, center: center))
-        ctx.stroke(path, with: .color(WheelColors.cuspLine.opacity(WheelMetrics.cuspLineOpacity)),
+        ctx.stroke(path, with: .color(theme.cuspLine.opacity(WheelMetrics.cuspLineOpacity)),
                    lineWidth: lw)
     }
 }
@@ -157,20 +203,21 @@ private func drawHouseCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, o
 // MARK: - Cusp position texts (near center, on the cusp line)
 
 private func drawHouseCuspPositionTexts(_ ctx: inout GraphicsContext, center: CGPoint,
-                                         outerRadius: Double, data: WheelPlotData) {
+                                         outerRadius: Double, data: WheelPlotData,
+                                         theme: WheelTheme) {
     guard data.cuspLongitudes.count >= 12 else { return }
     let r        = outerRadius * 0.20
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: outerRadius)
 
     for i in 0..<12 {
         let cuspLong = data.cuspLongitudes[i]
-        let angle    = 90.0 + Double(i) * 30.0   // visual position of cusp i+1
+        let angle    = 90.0 + Double(i) * 30.0
         let pt       = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
         let rotDeg   = cuspTextRotation(angle: angle)
         let label    = cuspPositionText(longitude: cuspLong)
         let text     = Text(label)
             .font(.system(size: fontSize))
-            .foregroundColor(WheelColors.cardinalIndicator)
+            .foregroundColor(theme.cardinalIndicator)
 
         ctx.drawLayer { layerCtx in
             layerCtx.translateBy(x: pt.x, y: pt.y)
@@ -184,7 +231,8 @@ private func drawHouseCuspPositionTexts(_ ctx: inout GraphicsContext, center: CG
 // MARK: - Cardinal labels (A / D / M / I at their actual visual positions)
 
 private func drawHouseCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoint,
-                                      outerRadius: Double, data: WheelPlotData) {
+                                      outerRadius: Double, data: WheelPlotData,
+                                      theme: WheelTheme) {
     guard data.cuspLongitudes.count >= 12 else { return }
     let cusps    = data.cuspLongitudes
     let r        = outerRadius * WheelMetrics.cardinalIndicator
@@ -206,7 +254,7 @@ private func drawHouseCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoi
         let pt   = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
         let text = Text(label)
             .font(.system(size: fontSize, weight: .bold))
-            .foregroundColor(WheelColors.cardinalIndicator)
+            .foregroundColor(theme.cardinalIndicator)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
 }
@@ -214,7 +262,8 @@ private func drawHouseCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoi
 // MARK: - Planets
 
 private func drawHousePlanetConnectLines(_ ctx: inout GraphicsContext, center: CGPoint,
-                                          outerRadius: Double, data: WheelPlotData) {
+                                          outerRadius: Double, data: WheelPlotData,
+                                          theme: WheelTheme) {
     let glyphR = outerRadius * 0.68
     let houseR = outerRadius * WheelMetrics.outerHouse
     let stroke = WheelMetrics.strokeWidth(WheelMetrics.connectLineFraction, outerRadius: outerRadius)
@@ -224,13 +273,14 @@ private func drawHousePlanetConnectLines(_ ctx: inout GraphicsContext, center: C
         let p2   = WheelGeometry.point(angleDeg: item.mundaneAngle, radius: houseR, center: center)
         var path = Path(); path.move(to: p1); path.addLine(to: p2)
         ctx.stroke(path,
-                   with: .color(WheelColors.planetConnectLine.opacity(WheelMetrics.connectLineOpacity)),
+                   with: .color(theme.planetConnectLine.opacity(WheelMetrics.connectLineOpacity)),
                    lineWidth: stroke)
     }
 }
 
 private func drawHousePlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint,
-                                    outerRadius: Double, data: WheelPlotData) {
+                                    outerRadius: Double, data: WheelPlotData,
+                                    theme: WheelTheme) {
     let r        = outerRadius * 0.68
     let fontSize = WheelMetrics.fontSize(WheelMetrics.planetGlyphFontFraction, outerRadius: outerRadius)
 
@@ -238,13 +288,14 @@ private func drawHousePlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint
         let pt   = WheelGeometry.point(angleDeg: item.plotAngle, radius: r, center: center)
         let text = Text(item.glyph)
             .font(.custom("EnigmaAstrology2", size: fontSize))
-            .foregroundColor(WheelColors.planetGlyph)
+            .foregroundColor(theme.planetGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
 }
 
 private func drawHousePlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint,
-                                   outerRadius: Double, data: WheelPlotData) {
+                                   outerRadius: Double, data: WheelPlotData,
+                                   theme: WheelTheme) {
     let r        = outerRadius * 0.53
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: outerRadius)
 
@@ -253,7 +304,7 @@ private func drawHousePlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint,
         let pt   = WheelGeometry.point(angleDeg: pa, radius: r, center: center)
         let text = Text(item.positionText)
             .font(.system(size: fontSize))
-            .foregroundColor(WheelColors.planetText)
+            .foregroundColor(theme.planetText)
 
         let rotDeg: Double
         let anchor: UnitPoint

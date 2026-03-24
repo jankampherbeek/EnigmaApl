@@ -1,0 +1,14 @@
+/* ChartWheel.strings — nl */
+
+"view.chartwheel.button.blackwhite"  = "Zwart/wit";
+"view.chartwheel.button.color"       = "Kleur";
+"view.chartwheel.button.noaspects"   = "Geen aspecten";
+"view.chartwheel.button.showaspects" = "Toon aspecten";
+"view.chartwheel.button.notime"      = "Geen tijd";
+"view.chartwheel.button.withtime"    = "Met tijd";
+"view.chartwheel.button.export"      = "Exporteer";
+
+"view.chartwheel.export.title"       = "Exporteer tekening";
+"view.chartwheel.export.format"      = "Formaat";
+"view.chartwheel.export.save"        = "Opslaan";
+"view.chartwheel.export.cancel"      = "Annuleren";

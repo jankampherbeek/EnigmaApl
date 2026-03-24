@@ -1,0 +1,14 @@
+/* ChartWheel.strings — en */
+
+"view.chartwheel.button.blackwhite"  = "Black/white";
+"view.chartwheel.button.color"       = "Color";
+"view.chartwheel.button.noaspects"   = "No aspects";
+"view.chartwheel.button.showaspects" = "Show aspects";
+"view.chartwheel.button.notime"      = "No time";
+"view.chartwheel.button.withtime"    = "With time";
+"view.chartwheel.button.export"      = "Export";
+
+"view.chartwheel.export.title"       = "Export chart";
+"view.chartwheel.export.format"      = "Format";
+"view.chartwheel.export.save"        = "Save";
+"view.chartwheel.export.cancel"      = "Cancel";

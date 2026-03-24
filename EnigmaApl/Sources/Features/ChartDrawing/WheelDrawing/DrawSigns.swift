@@ -8,7 +8,8 @@ func signOffsetAsc(_ ascLong: Double) -> Double {
     30.0 - ascLong.truncatingRemainder(dividingBy: 30.0)
 }
 
-func drawElementSectors(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, ascLong: Double) {
+func drawElementSectors(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         ascLong: Double, theme: WheelTheme = .color) {
     let innerR = outerRadius * WheelMetrics.outerHouse
     let outerR = outerRadius * WheelMetrics.outerSign
     let offset = signOffsetAsc(ascLong)
@@ -19,13 +20,14 @@ func drawElementSectors(_ ctx: inout GraphicsContext, center: CGPoint, outerRadi
         let endAngle   = startAngle + 30.0
         let signIndex  = (ascSignIndex + 1 + i) % 12
         let sign       = Signs(rawValue: signIndex + 1) ?? .Aries
-        let color      = SignColorSelector.getColorForSign(sign)
+        let color      = theme.signSectorColor(for: sign)
         let path = annularSectorPath(from: startAngle, to: endAngle, inner: innerR, outer: outerR, center: center)
         ctx.fill(path, with: .color(color))
     }
 }
 
-func drawSignSeparators(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, ascLong: Double) {
+func drawSignSeparators(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         ascLong: Double, theme: WheelTheme = .color) {
     let innerR = outerRadius * WheelMetrics.outerHouse
     let outerR = outerRadius * WheelMetrics.outerSign
     let offset = signOffsetAsc(ascLong)
@@ -36,11 +38,12 @@ func drawSignSeparators(_ ctx: inout GraphicsContext, center: CGPoint, outerRadi
         let p1 = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
         let p2 = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
         var path = Path(); path.move(to: p1); path.addLine(to: p2)
-        ctx.stroke(path, with: .color(WheelColors.signSeparator), lineWidth: stroke)
+        ctx.stroke(path, with: .color(theme.signSeparator), lineWidth: stroke)
     }
 }
 
-func drawSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, ascLong: Double) {
+func drawSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                     ascLong: Double, theme: WheelTheme = .color) {
     let glyphRadius = outerRadius * WheelMetrics.signGlyph
     let fontSize = WheelMetrics.fontSize(WheelMetrics.signGlyphFontFraction, outerRadius: outerRadius)
     let offset = signOffsetAsc(ascLong)
@@ -52,13 +55,16 @@ func drawSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: 
         let signIndex = (ascSignIndex + 1 + i) % 12
         guard let sign = Signs(rawValue: signIndex + 1) else { continue }
         let glyph = GlyphSelector.getGlyphForSign(sign)
-        let text = Text(glyph).font(.custom("EnigmaAstrology2", size: fontSize))
+        let text = Text(glyph)
+            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .foregroundColor(theme.signGlyph)
         let resolved = ctx.resolve(text)
         ctx.draw(resolved, at: pt, anchor: .center)
     }
 }
 
-func drawDegreeLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, ascLong: Double) {
+func drawDegreeLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                      ascLong: Double, theme: WheelTheme = .color) {
     let startR = outerRadius * WheelMetrics.outerHouse
     let shortR = outerRadius * WheelMetrics.degrees
     let longR  = outerRadius * WheelMetrics.degrees5
@@ -71,7 +77,7 @@ func drawDegreeLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius:
         let p1 = WheelGeometry.point(angleDeg: angle, radius: endR,   center: center)
         let p2 = WheelGeometry.point(angleDeg: angle, radius: startR, center: center)
         var path = Path(); path.move(to: p1); path.addLine(to: p2)
-        ctx.stroke(path, with: .color(WheelColors.degreeTickStroke), lineWidth: thin)
+        ctx.stroke(path, with: .color(theme.degreeTickStroke), lineWidth: thin)
     }
 }
 

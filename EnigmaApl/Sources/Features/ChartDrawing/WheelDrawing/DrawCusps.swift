@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-func drawCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData) {
+func drawCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData, theme: WheelTheme = .color) {
     let innerR  = outerRadius * WheelMetrics.outerAspect
     let outerR  = outerRadius * WheelMetrics.outerHouse
     let thin    = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction,       outerRadius: outerRadius)
@@ -16,11 +16,11 @@ func drawCuspLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: D
         let p1 = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
         let p2 = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
         var path = Path(); path.move(to: p1); path.addLine(to: p2)
-        ctx.stroke(path, with: .color(WheelColors.cuspLine.opacity(WheelMetrics.cuspLineOpacity)), lineWidth: lineWidth)
+        ctx.stroke(path, with: .color(theme.cuspLine.opacity(WheelMetrics.cuspLineOpacity)), lineWidth: lineWidth)
     }
 }
 
-func drawCardinalLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData) {
+func drawCardinalLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData, theme: WheelTheme = .color) {
     let innerR  = outerRadius * WheelMetrics.outerSign
     let outerR  = outerRadius * WheelMetrics.outerCircle
     let thick   = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction * 2.0, outerRadius: outerRadius)
@@ -35,11 +35,12 @@ func drawCardinalLines(_ ctx: inout GraphicsContext, center: CGPoint, outerRadiu
         let p1 = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
         let p2 = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
         var path = Path(); path.move(to: p1); path.addLine(to: p2)
-        ctx.stroke(path, with: .color(WheelColors.cuspLine.opacity(WheelMetrics.cuspLineOpacity)), lineWidth: thick)
+        ctx.stroke(path, with: .color(theme.cuspLine.opacity(WheelMetrics.cuspLineOpacity)), lineWidth: thick)
     }
 }
 
-func drawCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData) {
+func drawCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         data: WheelPlotData, theme: WheelTheme = .color) {
     let r        = outerRadius * WheelMetrics.cardinalIndicator
     let fontSize = WheelMetrics.fontSize(WheelMetrics.cardinalFontFraction, outerRadius: outerRadius)
     let ascLong  = data.ascendantLongitude
@@ -53,12 +54,15 @@ func drawCardinalLabels(_ ctx: inout GraphicsContext, center: CGPoint, outerRadi
     ]
     for (label, angle) in labels {
         let pt = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
-        let text = Text(label).font(.system(size: fontSize, weight: .bold)).foregroundColor(WheelColors.cardinalIndicator)
+        let text = Text(label)
+            .font(.system(size: fontSize, weight: .bold))
+            .foregroundColor(theme.cardinalIndicator)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
 }
 
-func drawCuspTexts(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double, data: WheelPlotData) {
+func drawCuspTexts(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                    data: WheelPlotData, theme: WheelTheme = .color) {
     let r        = outerRadius * WheelMetrics.cuspText
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: outerRadius)
     let ascLong  = data.ascendantLongitude
@@ -68,7 +72,9 @@ func drawCuspTexts(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: D
         let pt     = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
         let rotDeg = cuspTextRotation(angle: angle)
         let text   = cuspPositionText(longitude: cuspLong)
-        let styledText = Text(text).font(.system(size: fontSize)).foregroundColor(WheelColors.cuspText)
+        let styledText = Text(text)
+            .font(.system(size: fontSize))
+            .foregroundColor(theme.cuspText)
 
         ctx.drawLayer { layerCtx in
             layerCtx.translateBy(x: pt.x, y: pt.y)
