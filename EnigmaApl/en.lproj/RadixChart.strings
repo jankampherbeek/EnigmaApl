@@ -1,0 +1,5 @@
+// RadixChart.strings - English
+// EnigmaApl
+
+"view.horoscopescreen.nochart.title"       = "No horoscope";
+"view.horoscopescreen.nochart.description" = "Calculate or select a horoscope to view the chart.";

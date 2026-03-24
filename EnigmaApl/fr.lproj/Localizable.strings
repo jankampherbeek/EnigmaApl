@@ -206,6 +206,10 @@
 "enum.drawingtype.signbased" = "Basé sur les signes";
 "enum.drawingtype.housebased" = "Basé sur les maisons";
 "enum.drawingtype.french" = "Méthode française";
+"enum.drawingtype.ring" = "Style de Thomas Ring";
+"enum.drawingtype.dial360" = "Cadran des mi-points 360°";
+"enum.drawingtype.dial90" = "Cadran des mi-points 90°";
+"enum.drawingtype.dial45" = "Cadran des mi-points 45°";
 // Orb systems
 "enum.orbsystem.procentual" = "Pourcentuel";
 "enum.orbsystem.fixed" = "Fixe";

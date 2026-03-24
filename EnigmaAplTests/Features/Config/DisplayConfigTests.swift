@@ -43,6 +43,18 @@ struct DisplayConfigTests {
         #expect(DrawingType.signBased.rawValue == 0)
         #expect(DrawingType.houseBased.rawValue == 1)
         #expect(DrawingType.french.rawValue == 2)
+        #expect(DrawingType.ring.rawValue == 3)
+        #expect(DrawingType.dial360.rawValue == 4)
+        #expect(DrawingType.dial90.rawValue == 5)
+        #expect(DrawingType.dial45.rawValue == 6)
+    }
+
+    @Test("DrawingType: rbKeys for new dial and ring types are correct")
+    func testDrawingTypeRbKeys() {
+        #expect(DrawingType.ring.rbKey    == "enum.drawingtype.ring")
+        #expect(DrawingType.dial360.rbKey == "enum.drawingtype.dial360")
+        #expect(DrawingType.dial90.rbKey  == "enum.drawingtype.dial90")
+        #expect(DrawingType.dial45.rbKey  == "enum.drawingtype.dial45")
     }
 
     // MARK: - Color overrides

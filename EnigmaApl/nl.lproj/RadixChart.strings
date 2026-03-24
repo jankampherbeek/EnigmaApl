@@ -1,0 +1,5 @@
+// RadixChart.strings - Nederlands
+// EnigmaApl
+
+"view.horoscopescreen.nochart.title"       = "Geen horoscoop";
+"view.horoscopescreen.nochart.description" = "Bereken of selecteer een horoscoop om de tekening te zien.";

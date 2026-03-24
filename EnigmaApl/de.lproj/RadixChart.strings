@@ -1,0 +1,5 @@
+// RadixChart.strings - Deutsch
+// EnigmaApl
+
+"view.horoscopescreen.nochart.title"       = "Kein Horoskop";
+"view.horoscopescreen.nochart.description" = "Berechnen oder wählen Sie ein Horoskop, um die Zeichnung anzuzeigen.";

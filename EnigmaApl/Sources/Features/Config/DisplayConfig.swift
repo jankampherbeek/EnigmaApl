@@ -12,12 +12,20 @@ public enum DrawingType: Int, CaseIterable, Codable {
     case signBased = 0
     case houseBased = 1
     case french = 2
+    case ring = 3
+    case dial360 = 4
+    case dial90 = 5
+    case dial45 = 6
 
     var rbKey: String {
         switch self {
         case .signBased:  return "enum.drawingtype.signbased"
         case .houseBased: return "enum.drawingtype.housebased"
         case .french:     return "enum.drawingtype.french"
+        case .ring:       return "enum.drawingtype.ring"
+        case .dial360:    return "enum.drawingtype.dial360"
+        case .dial90:     return "enum.drawingtype.dial90"
+        case .dial45:     return "enum.drawingtype.dial45"
         }
     }
 }

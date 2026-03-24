@@ -206,6 +206,10 @@
 "enum.drawingtype.signbased" = "Gebaseerd op tekens";
 "enum.drawingtype.housebased" = "Gebaseerd op huizen";
 "enum.drawingtype.french" = "Franse methode";
+"enum.drawingtype.ring" = "Stijl van Thomas Ring";
+"enum.drawingtype.dial360" = "Midpunten schijf 360°";
+"enum.drawingtype.dial90" = "Midpunten schijf 90°";
+"enum.drawingtype.dial45" = "Midpunten schijf 45°";
 // Orb systems
 "enum.orbsystem.procentual" = "Procentueel";
 "enum.orbsystem.fixed" = "Vast";

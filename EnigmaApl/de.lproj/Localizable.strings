@@ -206,6 +206,10 @@
 "enum.drawingtype.signbased" = "Zeichenbasiert";
 "enum.drawingtype.housebased" = "Hausbasiert";
 "enum.drawingtype.french" = "Französische Methode";
+"enum.drawingtype.ring" = "Thomas Ring Stil";
+"enum.drawingtype.dial360" = "Midpunkte Scheibe 360°";
+"enum.drawingtype.dial90" = "Midpunkte Scheibe 90°";
+"enum.drawingtype.dial45" = "Midpunkte Scheibe 45°";
 // Orb systems
 "enum.orbsystem.procentual" = "Prozentual";
 "enum.orbsystem.fixed" = "Fest";
