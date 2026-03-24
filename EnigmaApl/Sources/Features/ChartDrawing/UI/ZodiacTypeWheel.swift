@@ -89,7 +89,8 @@ struct ZodiacTypeWheel: View {
                 angle1:    WheelGeometry.normalise(item.angle1 + ascLong),
                 angle2:    WheelGeometry.normalise(item.angle2 + ascLong),
                 color:     item.color,
-                exactness: item.exactness
+                exactness: item.exactness,
+                aspect:    item.aspect
             )
         }
 

@@ -13,6 +13,7 @@ struct WheelAspectItem {
     let angle2: Double     // mundane angle of the second factor
     let color: Color       // from AspectSettings
     let exactness: Double  // 1.0 = exact, 0.0 = at orb edge — drives line width
+    let aspect: Aspects    // aspect type, used by ring wheel for major/minor distinction
 }
 
 /// A single planet/factor ready to be drawn on the wheel.

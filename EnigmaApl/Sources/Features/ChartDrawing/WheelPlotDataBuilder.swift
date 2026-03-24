@@ -85,7 +85,7 @@ struct WheelPlotDataBuilder {
             let color     = colorMap[found.aspect] ?? .gray
             let exactness = found.maxOrb > 0 ? max(0, 1.0 - found.orb / found.maxOrb) : 1.0
             return WheelAspectItem(angle1: angle1, angle2: angle2,
-                                   color: color, exactness: exactness)
+                                   color: color, exactness: exactness, aspect: found.aspect)
         }
     }
 
