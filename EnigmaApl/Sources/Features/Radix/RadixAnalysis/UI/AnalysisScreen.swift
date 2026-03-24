@@ -1,15 +1,19 @@
 import SwiftUI
 
 struct AnalysisScreen: View {
+    @EnvironmentObject private var radixNav: RadixNavigator
+
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Placeholder Analysis screen")
-            NavigationLink("Aspects") {
-                AspectsScreen()
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Analyse")
+                .font(.title2.weight(.semibold))
+
+            Button("Aspecten") {
+                radixNav.setInspector(.analysisAspects)
             }
-            NavigationLink("Midpoints") {
-                MidpointsScreen()
-            }
+            .buttonStyle(.bordered)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .padding()
     }
 }

@@ -16,13 +16,14 @@ struct RadixNav: Equatable {
 
 
 enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
-    case overview  = "Overzicht"
-    case horoscope = "Horoscope"
-    case positions = "Positions"
-    case analysis  = "Analysis"
-    case newChart  = "New Chart"
-    case search    = "Zoek"
-    case editChart = "Wijzig"
+    case overview        = "Overzicht"
+    case horoscope       = "Horoscope"
+    case positions       = "Positions"
+    case analysis        = "Analysis"
+    case analysisAspects = "Aspecten"
+    case newChart        = "New Chart"
+    case search          = "Zoek"
+    case editChart       = "Wijzig"
     var id: String { rawValue }
 }
 

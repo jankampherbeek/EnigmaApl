@@ -1,11 +1,18 @@
 import SwiftUI
 
 struct HoroscopeScreen: View {
+    @EnvironmentObject private var chartSession: ChartSession
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Placeholder Horoscope screen")
+        if let named = chartSession.selected {
+            ZodiacTypeWheel(chart: named.chart, chartVersion: named.version)
+                .padding()
+        } else {
+            ContentUnavailableView(
+                "Geen horoscoop",
+                systemImage: "circle.dashed",
+                description: Text("Bereken of selecteer een horoscoop om de tekening te zien.")
+            )
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding()
     }
 }

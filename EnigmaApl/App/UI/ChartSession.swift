@@ -8,14 +8,27 @@ import Combine
 
 /// A chart with a display name, as stored in the session.
 struct NamedChart: Identifiable {
-    let id: UUID
+    let id: UUID       // stable identity (preserved on recalculation)
+    let version: UUID  // changes on every recalculation — use as update trigger
     let name: String
     let chart: FullChart
+    let baseRequest: CalcRequest
 
-    init(name: String, chart: FullChart) {
+    init(name: String, chart: FullChart, baseRequest: CalcRequest) {
         self.id = UUID()
+        self.version = UUID()
         self.name = name
         self.chart = chart
+        self.baseRequest = baseRequest
+    }
+
+    /// Used internally to preserve identity while replacing chart content.
+    fileprivate init(preservingId id: UUID, name: String, chart: FullChart, baseRequest: CalcRequest) {
+        self.id = id
+        self.version = UUID()
+        self.name = name
+        self.chart = chart
+        self.baseRequest = baseRequest
     }
 }
 
@@ -28,10 +41,12 @@ final class ChartSession: ObservableObject {
     @Published var editingHoroscope: HoroscopeModel?
     @Published var editingNamedChart: NamedChart?
 
+    private let seWrapper = SEWrapper()
+
     var selectedChart: FullChart? { selected?.chart }
 
-    func add(name: String, chart: FullChart) {
-        let named = NamedChart(name: name, chart: chart)
+    func add(name: String, chart: FullChart, baseRequest: CalcRequest) {
+        let named = NamedChart(name: name, chart: chart, baseRequest: baseRequest)
         charts.append(named)
         selected = named
     }
@@ -59,9 +74,8 @@ final class ChartSession: ObservableObject {
         let julianDate = preferredDT?.julianDate
         charts.removeAll { named in
             named.name == horoscope.name &&
-            (julianDate == nil || true) // match by name; julian date not stored in NamedChart
+            (julianDate == nil || true) // match by name; julian date not tracked in NamedChart
         }
-        // More precise: remove by name match only (julianDate not tracked in NamedChart)
         if let sel = selected, !charts.contains(where: { $0.id == sel.id }) {
             selected = charts.last
         }
@@ -72,6 +86,28 @@ final class ChartSession: ObservableObject {
         charts[index] = new
         if selected?.id == old.id {
             selected = new
+        }
+    }
+
+    /// Recalculates all session charts using the given factor list and keeps each chart's identity stable.
+    func recalculateAll(factorsToUse: [Factors]) {
+        guard !charts.isEmpty else { return }
+        let selectedId = selected?.id
+        charts = charts.map { named in
+            let newRequest = CalcRequest(
+                JulianDay: named.baseRequest.JulianDay,
+                FactorsToUse: factorsToUse,
+                HouseSystem: named.baseRequest.HouseSystem,
+                Latitude: named.baseRequest.Latitude,
+                Longitude: named.baseRequest.Longitude,
+                Height: named.baseRequest.Height,
+                calculationConfig: named.baseRequest.calculationConfig
+            )
+            let newChart = AstronCalcOrchestrator.PerformCalculation(newRequest, seWrapper: seWrapper)
+            return NamedChart(preservingId: named.id, name: named.name, chart: newChart, baseRequest: newRequest)
+        }
+        if let selectedId {
+            selected = charts.first(where: { $0.id == selectedId })
         }
     }
 }

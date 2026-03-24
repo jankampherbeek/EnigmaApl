@@ -36,7 +36,9 @@ struct DetailColumn: View {
             case .positions:
                 return "Positions"
             case .analysis:
-                return "Analysis"
+                return "Analyse"
+            case .analysisAspects:
+                return "Aspecten"
             case .horoscope:
                 return "Detail (Radix)"
             case .search:
@@ -91,6 +93,8 @@ struct DetailColumn: View {
                         PositionsScreen()
                     case .analysis:
                         AnalysisScreen()
+                    case .analysisAspects:
+                        AspectsScreen()
                     case .search:
                         RadixSearchScreen()
                     case .editChart:

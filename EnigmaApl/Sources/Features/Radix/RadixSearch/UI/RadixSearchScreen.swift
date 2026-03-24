@@ -35,6 +35,8 @@ struct RadixSearchScreen: View {
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
     @StateObject private var searchModel = RadixSearchModel()
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
 
     @State private var query = ""
     @State private var showHelp = false
@@ -181,9 +183,15 @@ struct RadixSearchScreen: View {
         searchModel.search(query: query, context: modelContext)
     }
 
+    private var configFactors: [Factors] {
+        guard let config = activeConfigs.first else { return [] }
+        return config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
+    }
+
     private func select(_ horoscope: HoroscopeModel) {
-        guard let chart = searchModel.calculateChart(for: horoscope) else { return }
-        chartSession.add(name: horoscope.name, chart: chart)
+        let factors = configFactors.isEmpty ? [Factors.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto] : configFactors
+        guard let (chart, request) = searchModel.calculateChart(for: horoscope, factorsToUse: factors) else { return }
+        chartSession.add(name: horoscope.name, chart: chart, baseRequest: request)
         radixNav.setInspector(.overview)
     }
 

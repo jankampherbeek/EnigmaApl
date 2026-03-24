@@ -30,6 +30,10 @@ final class RadixInputModel: ObservableObject {
         let longitudeMinutes: Int
         let longitudeSeconds: Int
         let longitudeWest: Bool
+        var factorsToUse: [Factors] = [
+            .sun, .moon, .mercury, .venus, .mars,
+            .jupiter, .saturn, .uranus, .neptune, .pluto
+        ]
     }
 
     @Published private(set) var lastRequest: CalcRequest?
@@ -69,10 +73,7 @@ final class RadixInputModel: ObservableObject {
 
         let request = CalcRequest(
             JulianDay: utJulianDay,
-            FactorsToUse: [
-                .sun, .moon, .mercury, .venus, .mars,
-                .jupiter, .saturn, .uranus, .neptune, .pluto
-            ],
+            FactorsToUse: input.factorsToUse,
             HouseSystem: HouseSystems.placidus.rawValue,
             Latitude: Self.dmsToDecimal(
                 degrees: input.latitudeDegrees,

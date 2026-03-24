@@ -14,6 +14,8 @@ struct RadixInputScreen: View {
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
     @StateObject private var inputModel = RadixInputModel()
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
     @State private var chartName: String = ""
     @State private var chartDescription = ""
     @State private var source = ""
@@ -67,9 +69,14 @@ struct RadixInputScreen: View {
     private var chartNameIsEmpty: Bool { chartName.trimmingCharacters(in: .whitespaces).isEmpty }
     private var canCreateRequest: Bool { !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil }
 
+    private var configFactors: [Factors] {
+        guard let config = activeConfigs.first else { return [] }
+        return config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
+    }
+
     private var modelInput: RadixInputModel.Input? {
         guard let year = astronomicalYearForValidation else { return nil }
-        return RadixInputModel.Input(
+        var input = RadixInputModel.Input(
             astronomicalYear: year, month: month, day: day, gregorian: calendarStyle == .gregorian,
             hour: hour, minute: minute, second: second,
             offsetHour: offsetHour, offsetMinute: offsetMinute, offsetSecond: offsetSecond,
@@ -77,13 +84,15 @@ struct RadixInputScreen: View {
             latitudeDegrees: latitudeDegrees, latitudeMinutes: latitudeMinutes, latitudeSeconds: latitudeSeconds, latitudeSouth: latHemi == .south,
             longitudeDegrees: longitudeDegrees, longitudeMinutes: longitudeMinutes, longitudeSeconds: longitudeSeconds, longitudeWest: lonHemi == .west
         )
+        if !configFactors.isEmpty { input.factorsToUse = configFactors }
+        return input
     }
 
     private func calculate() {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
         if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
-            chartSession.add(name: chartName, chart: chart)
+            chartSession.add(name: chartName, chart: chart, baseRequest: request)
             radixNav.setInspector(.overview)
             saveHoroscope(julianDate: request.JulianDay)
         }

@@ -14,6 +14,8 @@ struct RadixEditScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var radixNav: RadixNavigator
     @Environment(\.modelContext) private var modelContext
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
 
     @StateObject private var editModel: RadixEditModel
 
@@ -100,9 +102,14 @@ struct RadixEditScreen: View {
     private var chartNameIsEmpty: Bool { chartName.trimmingCharacters(in: .whitespaces).isEmpty }
     private var canApply: Bool { !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil }
 
+    private var configFactors: [Factors] {
+        guard let config = activeConfigs.first else { return [] }
+        return config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
+    }
+
     private var modelInput: RadixInputModel.Input? {
         guard let year = astronomicalYearForValidation else { return nil }
-        return RadixInputModel.Input(
+        var input = RadixInputModel.Input(
             astronomicalYear: year, month: month, day: day, gregorian: calendarStyle == .gregorian,
             hour: hour, minute: minute, second: second,
             offsetHour: offsetHour, offsetMinute: offsetMinute, offsetSecond: offsetSecond,
@@ -110,6 +117,8 @@ struct RadixEditScreen: View {
             latitudeDegrees: latitudeDegrees, latitudeMinutes: latitudeMinutes, latitudeSeconds: latitudeSeconds, latitudeSouth: latHemi == .south,
             longitudeDegrees: longitudeDegrees, longitudeMinutes: longitudeMinutes, longitudeSeconds: longitudeSeconds, longitudeWest: lonHemi == .west
         )
+        if !configFactors.isEmpty { input.factorsToUse = configFactors }
+        return input
     }
 
     private func applyChanges() {
@@ -140,11 +149,11 @@ struct RadixEditScreen: View {
             return
         }
 
-        let newNamed = NamedChart(name: chartName, chart: chart)
+        let newNamed = NamedChart(name: chartName, chart: chart, baseRequest: request)
         if let editing = chartSession.editingNamedChart {
             chartSession.replace(editing, with: newNamed)
         } else {
-            chartSession.add(name: chartName, chart: chart)
+            chartSession.add(name: chartName, chart: chart, baseRequest: request)
         }
         chartSession.editingHoroscope = nil
         chartSession.editingNamedChart = nil
