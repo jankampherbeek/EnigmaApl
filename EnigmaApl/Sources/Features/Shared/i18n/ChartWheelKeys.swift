@@ -19,6 +19,18 @@ struct ChartWheelKeys {
     static let dialType90        = "view.chartwheel.dial.type.90"
     static let dialType45        = "view.chartwheel.dial.type.45"
 
+    // MARK: - Help button
+    static let helpButton        = "view.chartwheel.button.help"
+
+    // MARK: - Help texts (one per wheel type)
+    static let dial360Help       = "view.chartwheel.help.dial360"
+    static let dial90Help        = "view.chartwheel.help.dial90"
+    static let dial45Help        = "view.chartwheel.help.dial45"
+    static let zodiacHelp        = "view.chartwheel.help.zodiac"
+    static let houseHelp         = "view.chartwheel.help.house"
+    static let frenchHelp        = "view.chartwheel.help.french"
+    static let ringHelp          = "view.chartwheel.help.ring"
+
     // MARK: - Export sheet
     static let exportTitle       = "view.chartwheel.export.title"
     static let exportFormat      = "view.chartwheel.export.format"

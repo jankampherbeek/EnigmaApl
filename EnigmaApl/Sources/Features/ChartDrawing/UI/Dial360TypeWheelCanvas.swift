@@ -19,18 +19,12 @@ import SwiftUI
 
 // MARK: - Layout constants (fraction of outerRadius)
 
-// The wheel is drawn at 87 % of the available radius so the ASC / MC labels
-// outside the sign ring still fit within the canvas bounds.
-private let dialOuterScale:   Double = 0.87
+private let dialOuterScale:   Double = 1.0
 
 private let fSignOuter:       Double = 0.99   // outer boundary of sign ring
 private let fSignInner:       Double = 0.90   // inner boundary of sign ring
 private let fDeg10Inner:      Double = 0.87   // inner boundary of 10° ring
 private let fTickInner:       Double = 0.82   // inner boundary of 1° ring (planet area starts here)
-
-// ASC / MC: glyph just outside sign ring, degree text further outside
-private let fCardinalGlyph:   Double = 1.04   // ASC / MC glyph radius (outside wheel)
-private let fCardinalText:    Double = 1.12   // ASC / MC degree text radius (further outside)
 
 // Planets
 private let fPlanetGlyph:     Double = 0.78   // planet glyph radius
@@ -68,13 +62,11 @@ struct Dial360TypeWheelCanvas: View {
             drawDialDegTicks      (&ctx, center: center, R: R, theme: theme)
             drawDialRingStrokes   (&ctx, center: center, R: R, theme: theme)
             drawDialCenterCross   (&ctx, center: center, R: R, theme: theme)
-            if plotData.hasTime {
-                drawDialCardinals (&ctx, center: center, R: R, data: plotData, theme: theme)
-            }
             drawDialConnectLines  (&ctx, center: center, R: R, data: plotData, theme: theme)
             drawDialPlanetGlyphs  (&ctx, center: center, R: R, data: plotData, theme: theme)
             drawDialPlanetTexts   (&ctx, center: center, R: R, data: plotData, theme: theme)
         }
+        .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
 }
@@ -229,42 +221,6 @@ private func drawDialCenterCross(_ ctx: inout GraphicsContext, center: CGPoint,
 
     ctx.stroke(h, with: .color(theme.circleStroke), lineWidth: stroke)
     ctx.stroke(v, with: .color(theme.circleStroke), lineWidth: stroke)
-}
-
-// MARK: - ASC and MC
-
-private func drawDialCardinals(_ ctx: inout GraphicsContext, center: CGPoint,
-                                R: Double, data: WheelPlotData, theme: WheelTheme) {
-    let glyphR   = R * fCardinalGlyph
-    let textR    = R * fCardinalText
-    let fontSize = WheelMetrics.fontSize(WheelMetrics.planetGlyphFontFraction, outerRadius: R)
-    let textSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: R)
-
-    let items: [(Factors, Double)] = [
-        (.ascendant, data.ascendantLongitude),
-        (.mc,        data.mcLongitude)
-    ]
-
-    for (factor, longitude) in items {
-        let angle   = longitude   // dial angle = ecliptic longitude
-        let glyph   = GlyphSelector.getGlyphForFactor(factor)
-        let pt      = WheelGeometry.point(angleDeg: angle, radius: glyphR, center: center)
-        let glyphText = Text(glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
-            .foregroundColor(theme.cardinalIndicator)
-        ctx.draw(ctx.resolve(glyphText), at: pt, anchor: .center)
-
-        // Degree and minutes text
-        let inSign   = longitude.truncatingRemainder(dividingBy: 30.0)
-        let totalMin = Int(abs(inSign) * 60)
-        let degInSign = totalMin / 60
-        let minInSign = totalMin % 60
-        let tpt       = WheelGeometry.point(angleDeg: angle, radius: textR, center: center)
-        let ttext     = Text("\(degInSign)°\(String(format: "%02d", minInSign))'")
-            .font(.system(size: textSize))
-            .foregroundColor(theme.planetText)
-        drawRotatedText(&ctx, text: ttext, at: tpt, angle: angle)
-    }
 }
 
 // MARK: - Planets

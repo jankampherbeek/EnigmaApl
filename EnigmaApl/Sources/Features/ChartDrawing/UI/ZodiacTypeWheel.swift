@@ -19,6 +19,7 @@ struct ZodiacTypeWheel: View {
     @State private var hideAspects = false
     @State private var hideTime    = false
     @State private var showExport  = false
+    @State private var showHelp    = false
 
     var body: some View {
         VStack(spacing: 4) {
@@ -33,10 +34,11 @@ struct ZodiacTypeWheel: View {
                 Button(t(hideAspects ? ChartWheelKeys.showAspectsButton : ChartWheelKeys.noAspectsButton))   { hideAspects.toggle() }
                 Button(t(hideTime    ? ChartWheelKeys.withTimeButton    : ChartWheelKeys.noTimeButton))      { hideTime.toggle() }
                 Button(t(ChartWheelKeys.exportButton))                                                       { showExport = true }
+                Button(t(ChartWheelKeys.helpButton))                                                         { showHelp   = true }
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .padding(.bottom, 4)
+            .padding(.vertical, 8)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
@@ -46,6 +48,9 @@ struct ZodiacTypeWheel: View {
                     showAspects: !hideAspects
                 )
             )
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ChartWheelKeys.zodiacHelp))
         }
         .onAppear { viewModel.update(from: chart, config: activeConfig) }
         .onChange(of: chartVersion) { viewModel.update(from: chart, config: activeConfig) }

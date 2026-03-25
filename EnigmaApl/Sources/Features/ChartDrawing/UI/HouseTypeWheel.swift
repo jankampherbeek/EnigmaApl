@@ -16,28 +16,46 @@ struct HouseTypeWheel: View {
     private var activeConfig: UserConfiguration? { activeConfigs.first }
 
     @State private var blackWhite = false
+    @State private var hideTime   = false
     @State private var showExport = false
+    @State private var showHelp   = false
 
     private var currentTheme: WheelTheme { blackWhite ? .blackWhite : .color }
 
+    private var effectiveData: WheelPlotData {
+        guard hideTime else { return model.plotData }
+        let d = model.plotData
+        return WheelPlotData(
+            ascendantLongitude: d.ascendantLongitude,
+            mcLongitude:        d.mcLongitude,
+            cuspLongitudes:     d.cuspLongitudes,
+            planetItems:        d.planetItems,
+            hasTime:            false,
+            aspectItems:        []
+        )
+    }
+
     var body: some View {
         VStack(spacing: 4) {
-            HouseTypeWheelCanvas(plotData: model.plotData, theme: currentTheme)
+            HouseTypeWheelCanvas(plotData: effectiveData, theme: currentTheme)
 
             HStack(spacing: 8) {
-                Button(t(blackWhite ? ChartWheelKeys.colorButton : ChartWheelKeys.blackWhiteButton)) {
-                    blackWhite.toggle()
-                }
+                Button(t(blackWhite ? ChartWheelKeys.colorButton    : ChartWheelKeys.blackWhiteButton)) { blackWhite.toggle() }
+                Button(t(hideTime   ? ChartWheelKeys.withTimeButton : ChartWheelKeys.noTimeButton))     { hideTime.toggle() }
                 Button(t(ChartWheelKeys.exportButton)) { showExport = true }
+                Button(t(ChartWheelKeys.helpButton))   { showHelp   = true }
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .padding(.bottom, 4)
+            .padding(.vertical, 8)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
-                wheelView: HouseTypeWheelCanvas(plotData: model.plotData, theme: currentTheme)
+                wheelView: HouseTypeWheelCanvas(plotData: effectiveData, theme: currentTheme)
             )
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ChartWheelKeys.houseHelp))
         }
         .onAppear { model.update(from: chart, config: activeConfig) }
         .onChange(of: chartVersion) { model.update(from: chart, config: activeConfig) }
@@ -84,6 +102,7 @@ struct HouseTypeWheelCanvas: View {
             drawHousePlanetTexts(&ctx, center: center, outerRadius: outerRadius,
                                  data: plotData, theme: theme)
         }
+        .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
 }

@@ -48,6 +48,7 @@ struct FrenchTypeWheelCanvas: View {
             drawFrenchPlanetGlyphs(&ctx, center: center, R: R, data: plotData, theme: theme)
             drawFrenchPlanetTexts(&ctx, center: center, R: R, data: plotData, theme: theme)
         }
+        .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
 }

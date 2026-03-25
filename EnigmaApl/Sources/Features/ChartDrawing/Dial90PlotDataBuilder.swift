@@ -1,14 +1,13 @@
-// DialPlotDataBuilder.swift
+// Dial90PlotDataBuilder.swift
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 //
-// Converts a FullChart into WheelPlotData for Ebertin-style dial wheels.
-// Unlike WheelPlotDataBuilder, angles equal the ecliptic longitude directly —
-// no rotation by ascendant. Cusp lines and aspects are not used.
+// Converts a FullChart into WheelPlotData for the Ebertin 90° dial.
+// Visual angle = (eclipticLongitude mod 90) × 4 — maps 0-90° across the full circle.
 
 import Foundation
 
-struct DialPlotDataBuilder {
+struct Dial90PlotDataBuilder {
 
     static func build(from chart: FullChart) -> WheelPlotData {
         let ascLong = chart.HousePositions.ascendant.longitude
@@ -21,16 +20,16 @@ struct DialPlotDataBuilder {
                   FactorDisplaySelector.shouldDraw(factor),
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
-            let text  = dialPositionText(longitude: eclPos)
-            let glyph = GlyphSelector.getGlyphForFactor(factor)
+            let visualAngle = dial90Angle(eclPos)
+            let text        = dial90PositionText(longitude: eclPos)
+            let glyph       = GlyphSelector.getGlyphForFactor(factor)
 
-            // For the dial: mundaneAngle == eclipticLongitude (no ascendant rotation)
             items.append(WheelPlotItem(
                 factor: factor,
                 glyph: glyph,
                 eclipticLongitude: eclPos,
-                mundaneAngle: eclPos,
-                plotAngle: eclPos,
+                mundaneAngle: visualAngle,
+                plotAngle: visualAngle,
                 positionText: text
             ))
         }
@@ -40,17 +39,17 @@ struct DialPlotDataBuilder {
             factor: .ascendant,
             glyph: GlyphSelector.getGlyphForFactor(.ascendant),
             eclipticLongitude: ascLong,
-            mundaneAngle: ascLong,
-            plotAngle: ascLong,
-            positionText: dialPositionText(longitude: ascLong)
+            mundaneAngle: dial90Angle(ascLong),
+            plotAngle: dial90Angle(ascLong),
+            positionText: dial90PositionText(longitude: ascLong)
         ))
         items.append(WheelPlotItem(
             factor: .mc,
             glyph: GlyphSelector.getGlyphForFactor(.mc),
             eclipticLongitude: mcLong,
-            mundaneAngle: mcLong,
-            plotAngle: mcLong,
-            positionText: dialPositionText(longitude: mcLong)
+            mundaneAngle: dial90Angle(mcLong),
+            plotAngle: dial90Angle(mcLong),
+            positionText: dial90PositionText(longitude: mcLong)
         ))
 
         let resolved = GlyphOverlapResolver.resolve(items)
@@ -67,10 +66,15 @@ struct DialPlotDataBuilder {
 
     // MARK: - Helpers
 
-    /// Degrees and minutes within sign, e.g. "15°23'".
-    private static func dialPositionText(longitude: Double) -> String {
-        let inSign   = longitude.truncatingRemainder(dividingBy: 30.0)
-        let totalMin = Int(abs(inSign) * 60)
+    /// Maps an ecliptic longitude to a visual angle on the 90° dial (0-90° → 0-360°).
+    static func dial90Angle(_ longitude: Double) -> Double {
+        longitude.truncatingRemainder(dividingBy: 90.0) * 4.0
+    }
+
+    /// Degrees and minutes within the 90° range, e.g. "45°23'".
+    private static func dial90PositionText(longitude: Double) -> String {
+        let dialPos  = longitude.truncatingRemainder(dividingBy: 90.0)
+        let totalMin = Int(abs(dialPos) * 60)
         let deg      = totalMin / 60
         let min      = totalMin % 60
         return "\(deg)°\(String(format: "%02d", min))'"

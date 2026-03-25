@@ -33,6 +33,7 @@ struct ZodiacTypeWheelCanvas: View {
             drawPlanetGlyphs(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
             drawPlanetTexts(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
         }
+        .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
 }

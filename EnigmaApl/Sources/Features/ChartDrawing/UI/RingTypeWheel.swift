@@ -17,14 +17,29 @@ struct RingTypeWheel: View {
 
     @State private var blackWhite  = false
     @State private var hideAspects = false
+    @State private var hideTime    = false
     @State private var showExport  = false
+    @State private var showHelp    = false
 
     private var currentTheme: WheelTheme { blackWhite ? .blackWhite : .color }
+
+    private var effectiveData: WheelPlotData {
+        guard hideTime else { return model.plotData }
+        let d = model.plotData
+        return WheelPlotData(
+            ascendantLongitude: d.ascendantLongitude,
+            mcLongitude:        d.mcLongitude,
+            cuspLongitudes:     [],
+            planetItems:        d.planetItems,
+            hasTime:            false,
+            aspectItems:        d.aspectItems
+        )
+    }
 
     var body: some View {
         VStack(spacing: 4) {
             RingTypeWheelCanvas(
-                plotData:    model.plotData,
+                plotData:    effectiveData,
                 theme:       currentTheme,
                 showAspects: !hideAspects
             )
@@ -32,20 +47,25 @@ struct RingTypeWheel: View {
             HStack(spacing: 8) {
                 Button(t(blackWhite  ? ChartWheelKeys.colorButton       : ChartWheelKeys.blackWhiteButton)) { blackWhite.toggle() }
                 Button(t(hideAspects ? ChartWheelKeys.showAspectsButton : ChartWheelKeys.noAspectsButton))  { hideAspects.toggle() }
+                Button(t(hideTime    ? ChartWheelKeys.withTimeButton    : ChartWheelKeys.noTimeButton))      { hideTime.toggle() }
                 Button(t(ChartWheelKeys.exportButton)) { showExport = true }
+                Button(t(ChartWheelKeys.helpButton))   { showHelp   = true }
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .padding(.bottom, 4)
+            .padding(.vertical, 8)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
                 wheelView: RingTypeWheelCanvas(
-                    plotData:    model.plotData,
+                    plotData:    effectiveData,
                     theme:       currentTheme,
                     showAspects: !hideAspects
                 )
             )
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ChartWheelKeys.ringHelp))
         }
         .onAppear { model.update(from: chart, config: activeConfig) }
         .onChange(of: chartVersion) { model.update(from: chart, config: activeConfig) }
@@ -89,6 +109,7 @@ struct RingTypeWheelCanvas: View {
             drawRingPlanetTexts(&ctx, center: center, outerRadius: outerRadius,
                                 data: plotData, theme: theme)
         }
+        .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
 }

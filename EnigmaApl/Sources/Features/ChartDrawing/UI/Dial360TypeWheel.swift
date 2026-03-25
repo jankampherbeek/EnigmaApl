@@ -18,6 +18,7 @@ struct Dial360TypeWheel: View {
     @State private var blackWhite = false
     @State private var hideTime   = false
     @State private var showExport = false
+    @State private var showHelp   = false
 
     var body: some View {
         VStack(spacing: 4) {
@@ -38,10 +39,11 @@ struct Dial360TypeWheel: View {
                 Button(t(blackWhite ? ChartWheelKeys.colorButton     : ChartWheelKeys.blackWhiteButton)) { blackWhite.toggle() }
                 Button(t(hideTime   ? ChartWheelKeys.withTimeButton  : ChartWheelKeys.noTimeButton))     { hideTime.toggle() }
                 Button(t(ChartWheelKeys.exportButton))                                                   { showExport = true }
+                Button(t(ChartWheelKeys.helpButton))                                                     { showHelp   = true }
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            .padding(.bottom, 4)
+            .padding(.vertical, 8)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
@@ -50,6 +52,9 @@ struct Dial360TypeWheel: View {
                     theme:    currentTheme
                 )
             )
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ChartWheelKeys.dial360Help))
         }
         .onAppear   { model.update(from: chart) }
         .onChange(of: chartVersion) { model.update(from: chart) }
@@ -68,7 +73,7 @@ struct Dial360TypeWheel: View {
             ascendantLongitude: d.ascendantLongitude,
             mcLongitude: d.mcLongitude,
             cuspLongitudes: [],
-            planetItems: d.planetItems,
+            planetItems: d.planetItems.filter { $0.factor != .ascendant && $0.factor != .mc },
             hasTime: false,
             aspectItems: []
         )
