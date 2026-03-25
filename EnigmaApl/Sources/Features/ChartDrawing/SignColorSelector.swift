@@ -1,12 +1,6 @@
 // SignColorSelector.swift
-// EnigmaApl
-//
-// Provides the background color for each zodiac sign in the chart wheel.
-// Follows the same pattern as GlyphSelector: configure once on startup
-// and whenever the active configuration changes.
-//
-// Default color for all signs: ColorConfig.defaultSignColor (light blue).
-// Per-sign overrides from DisplayConfig.signColors replace the default.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 

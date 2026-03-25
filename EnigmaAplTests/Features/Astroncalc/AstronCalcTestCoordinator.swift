@@ -1,15 +1,6 @@
-//
-//  AstronCalcTestCoordinator.swift
-//  EnigmaAplTests
-//
-//  Created on 10/01/2026.
-//
-//  Coordinates all AstronCalc tests to run sequentially with a single SEWrapper instance.
-//  This ensures thread-safety since Swiss Ephemeris is not thread-safe.
-//  
-//  To enable/disable specific tests, simply comment/uncomment the corresponding lines.
-//  Other tests (non-AstronCalc) can still run in parallel.
-//
+// AstronCalcTestCoordinator.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 import Foundation

@@ -1,12 +1,6 @@
 // FactorDisplaySelector.swift
-// EnigmaApl
-//
-// Determines which factors should be shown in the chart wheel.
-// A factor is drawn when both isUsed (calculate) and isDrawn (show) are true
-// in the active FactorConfig.
-//
-// Follows the same pattern as GlyphSelector: configure once on startup
-// and whenever the active configuration changes.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 

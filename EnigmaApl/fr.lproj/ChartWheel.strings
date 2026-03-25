@@ -8,6 +8,10 @@
 "view.chartwheel.button.withtime"    = "Avec heure";
 "view.chartwheel.button.export"      = "Exporter";
 
+"view.chartwheel.dial.type.360"      = "Cadran 360°";
+"view.chartwheel.dial.type.90"       = "Cadran 90°";
+"view.chartwheel.dial.type.45"       = "Cadran 45°";
+
 "view.chartwheel.export.title"       = "Exporter le dessin";
 "view.chartwheel.export.format"      = "Format";
 "view.chartwheel.export.save"        = "Enregistrer";

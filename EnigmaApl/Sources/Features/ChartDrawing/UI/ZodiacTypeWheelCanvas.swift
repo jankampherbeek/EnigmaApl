@@ -1,9 +1,6 @@
 // ZodiacTypeWheelCanvas.swift
-// EnigmaApl
-//
-// Pure drawing canvas for the zodiac wheel — no buttons, no model, no SwiftData.
-// Used both as the live display inside ZodiacTypeWheel and as the render source
-// for WheelExportSheet (via ImageRenderer).
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 

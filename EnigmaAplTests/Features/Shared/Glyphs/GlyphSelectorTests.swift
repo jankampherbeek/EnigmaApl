@@ -1,9 +1,6 @@
-//
-//  GlyphSelectorTests.swift
-//  EnigmaAplTests
-//
-//  Created by Jan Kampherbeek on 08/03/2026.
-//
+// GlyphSelectorTests.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 @testable import EnigmaApl

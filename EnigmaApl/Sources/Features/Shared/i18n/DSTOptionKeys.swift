@@ -1,9 +1,6 @@
-//
-//  DSTOptionKeys.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 11/03/2026.
-//
+// DSTOptionKeys.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 /// Localization keys for DSTOption enum values.
 struct DSTOptionKeys {

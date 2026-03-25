@@ -1,9 +1,6 @@
-//
-//  CoordinatesTests.swift
-//  EnigmaAplTests
-//
-//  Created on 17/12/2025.
-//
+// CoordinatesTests.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 @testable import EnigmaApl

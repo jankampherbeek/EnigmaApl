@@ -1,9 +1,6 @@
 // GlyphOverlapResolver.swift
-// EnigmaApl
-//
-// Adjusts plotAngles so that no two planet glyphs are closer than minDistance degrees.
-// Items are first sorted by mundaneAngle, then spread apart iteratively.
-// The connect line always runs from plotAngle (glyph) to mundaneAngle (exact position).
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 

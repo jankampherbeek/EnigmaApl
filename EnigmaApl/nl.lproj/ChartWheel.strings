@@ -8,6 +8,10 @@
 "view.chartwheel.button.withtime"    = "Met tijd";
 "view.chartwheel.button.export"      = "Exporteer";
 
+"view.chartwheel.dial.type.360"      = "Schijf 360°";
+"view.chartwheel.dial.type.90"       = "Schijf 90°";
+"view.chartwheel.dial.type.45"       = "Schijf 45°";
+
 "view.chartwheel.export.title"       = "Exporteer tekening";
 "view.chartwheel.export.format"      = "Formaat";
 "view.chartwheel.export.save"        = "Opslaan";

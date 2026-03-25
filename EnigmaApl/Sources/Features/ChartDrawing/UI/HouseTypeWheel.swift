@@ -1,12 +1,6 @@
 // HouseTypeWheel.swift
-// EnigmaApl
-//
-// Draws a house-based horoscope wheel using SwiftUI Canvas.
-// Each house occupies exactly 30° of visual space.
-// Cusp 1 is placed at 90° (9 o'clock), identical to where the ascendant
-// sits in ZodiacTypeWheel.
-// Zodiac signs are shown in the sign ring with proportional widths.
-// No aspect circle; no aspect lines. House cusp lines run to the center.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 import SwiftData

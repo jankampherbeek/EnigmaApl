@@ -1,13 +1,6 @@
-//
-//  SpeedTest.swift
-//  EnigmaAplTests
-//
-//  Created on 10/01/2026.
-//
-//  NOTE: This test is managed by AstronCalcTestCoordinator to ensure
-//  thread-safety. The test function below should not be run directly.
-//  Use AstronCalcTestCoordinator instead.
-//
+// SpeedTest.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 import Foundation

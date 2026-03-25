@@ -1,9 +1,6 @@
-//
-//  UserConfigurationTests.swift
-//  EnigmaAplTests
-//
-//  Created by Jan Kampherbeek on 21/03/2026.
-//
+// UserConfigurationTests.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 import Foundation

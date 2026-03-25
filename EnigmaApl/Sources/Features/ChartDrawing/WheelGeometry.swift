@@ -1,13 +1,6 @@
 // WheelGeometry.swift
-// EnigmaApl
-//
-// Angle convention (same as Windows version):
-//   0° = top, runs counter-clockwise.
-//   x = cx - sin(angle) * radius
-//   y = cy - cos(angle) * radius
-//
-// Mundane angle for a planet:
-//   mundaneAngle = (longitude - ascendantLongitude + 90).truncatingRemainder(360)
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import CoreGraphics
 import Foundation

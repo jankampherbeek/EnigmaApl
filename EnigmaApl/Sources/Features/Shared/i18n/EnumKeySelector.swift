@@ -1,9 +1,6 @@
-//
-//  EnumKeySelector.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 11/03/2026.
-//
+// EnumKeySelector.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 /// Central access point for enum localization keys.
 /// Use this selector to retrieve a localization key for any supported enum value.

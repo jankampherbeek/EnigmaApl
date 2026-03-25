@@ -1,15 +1,6 @@
 // AspectsOrchestrator.swift
-// EnigmaApl
-//
-// Calculates all aspects present in a FullChart.
-//
-// Orb formula (weighted):
-//   maxOrb = max(factorOrbFraction1, factorOrbFraction2) × aspectOrbFraction × baseOrb
-// where fractions are orbPercentage / 100 from FactorConfig and AspectConfig.
-//
-// Only factors with isUsed = true in FactorConfig and a valid ecliptic position
-// in chart.Coordinates participate. Only aspects with isUsed = true in AspectConfig
-// are checked.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 

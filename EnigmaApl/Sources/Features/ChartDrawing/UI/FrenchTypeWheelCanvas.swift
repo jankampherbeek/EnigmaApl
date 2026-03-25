@@ -1,19 +1,6 @@
 // FrenchTypeWheelCanvas.swift
-// EnigmaApl
-//
-// Canvas for the French-style chart wheel.
-//
-// Layout from centre outward:
-//   1. Aspect circle          (0 … fAspectR)
-//   2. Zodiac sign ring       (fAspectR … fZodiacR)   — wide band, element colours
-//   3. Degree tick zone       (fZodiacR … fDegreeR)   — 360 ticks pointing outward
-//   4. House ring             (fDegreeR … fHouseR)    — cusp lines + Roman house numbers
-//   5. Planet area            (fHouseR … ~1.00)       — glyphs then position texts
-//
-// Connect lines run from each planet glyph (fGlyphR, plotAngle)
-// to the outer boundary of the zodiac ring (fZodiacR, mundaneAngle).
-//
-// ASC and MC are drawn as planet items (see FrenchTypeWheelModel).
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 

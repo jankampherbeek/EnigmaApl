@@ -1,9 +1,6 @@
 // WheelTheme.swift
-// EnigmaApl
-//
-// Determines all drawing colors for a chart wheel.
-// In blackWhite mode every fill and text color becomes black/white;
-// only cusp lines are exempt — they stay grey and semi-transparent.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 

@@ -1,13 +1,6 @@
-//
-//  SEWrapperTestCoordinator.swift
-//  EnigmaAplTests
-//
-//  Created on 10/01/2026.
-//
-//  Manages a single SEWrapper instance for all tests to ensure thread-safety
-//  since Swiss Ephemeris is not thread-safe. This coordinator should be used
-//  by all test files that need to access the Swiss Ephemeris library.
-//
+// SEWrapperTestCoordinator.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 @testable import EnigmaApl

@@ -1,9 +1,6 @@
-//
-//  Signs.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 18/12/2025.
-//
+// Signs.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 
 /// Zodiac signs

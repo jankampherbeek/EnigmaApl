@@ -1,10 +1,6 @@
 // RingTypeWheel.swift
-// EnigmaApl
-//
-// Ring-type horoscope wheel: one circle, cusps run to center,
-// planets overlap the circle, aspect lines fill the interior.
-// Major aspects (opposition, square, trine, sextile) are drawn
-// twice as thick as in ZodiacTypeWheel; all others are thin dashed.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 import SwiftData

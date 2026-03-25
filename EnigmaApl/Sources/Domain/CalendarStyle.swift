@@ -1,9 +1,6 @@
-//
-//  CalendarStyle.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 04/03/2026.
-//
+// CalendarStyle.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 // Gregorian or Julian calendar
 enum CalendarStyle: CaseIterable, Identifiable, Hashable {

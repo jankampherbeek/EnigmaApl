@@ -1,8 +1,6 @@
 // WheelPlotData.swift
-// EnigmaApl
-//
-// The fully prepared, draw-ready data for a chart wheel.
-// Built by WheelPlotDataBuilder from a FullChart.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 import SwiftUI

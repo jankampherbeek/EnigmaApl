@@ -1,3 +1,6 @@
+// ChartWheelKeys.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 /// Localization keys for ZodiacTypeWheel and HouseTypeWheel, resolved from ChartWheel.strings.
 struct ChartWheelKeys {
     private init() {}
@@ -10,6 +13,11 @@ struct ChartWheelKeys {
     static let noTimeButton      = "view.chartwheel.button.notime"
     static let withTimeButton    = "view.chartwheel.button.withtime"
     static let exportButton      = "view.chartwheel.button.export"
+
+    // MARK: - Dial type picker
+    static let dialType360       = "view.chartwheel.dial.type.360"
+    static let dialType90        = "view.chartwheel.dial.type.90"
+    static let dialType45        = "view.chartwheel.dial.type.45"
 
     // MARK: - Export sheet
     static let exportTitle       = "view.chartwheel.export.title"

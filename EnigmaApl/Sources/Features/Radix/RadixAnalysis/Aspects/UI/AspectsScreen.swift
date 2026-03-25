@@ -1,14 +1,6 @@
 // AspectsScreen.swift
-// EnigmaApl
-//
-// Shows an aspect grid (aspectentrap) and an aspect list for the selected chart.
-//
-// Aspect grid layout (lower triangular, no diagonal):
-//   Row i has data cells for columns 0…i-1 (factor i vs itself is omitted).
-//   Cell (row i, col j) represents the pair (factors[j], factors[i]).
-//   The factor glyph for column i appears inline at the end of row i (diagonal slot),
-//   which is the top of that column since column i data cells start in row i+1.
-//   A visible grid line surrounds every data cell.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 import SwiftData

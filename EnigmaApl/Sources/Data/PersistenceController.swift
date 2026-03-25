@@ -1,12 +1,6 @@
-//
-//  PersistenceController.swift
-//  EnigmaApl
-//
-//  Prerequisites in Xcode before enabling CloudKit:
-//  1. Add the "iCloud" capability to the target (Signing & Capabilities)
-//  2. Enable "CloudKit" and create/select a container (e.g. "iCloud.com.yourname.EnigmaApl")
-//  3. Add the "Background Modes" capability and check "Remote notifications"
-//
+// PersistenceController.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftData
 import Foundation

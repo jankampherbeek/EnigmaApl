@@ -1,13 +1,6 @@
-//
-//  AppMigrationPlan.swift
-//  EnigmaApl
-//
-//  Defines versioned schemas and migration stages for Swift Data.
-//  When changing the data model in a future release:
-//    1. Add a new SchemaV(n) enum with the updated model types
-//    2. Add it to AppMigrationPlan.schemas
-//    3. Add a MigrationStage to AppMigrationPlan.stages
-//
+// AppMigrationPlan.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftData
 

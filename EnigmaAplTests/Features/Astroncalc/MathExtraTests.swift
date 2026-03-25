@@ -1,9 +1,6 @@
-//
-//  MathExtraTests.swift
-//  EnigmaAplTests
-//
-//  Created on 03/01/2026.
-//
+// MathExtraTests.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 import Foundation

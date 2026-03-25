@@ -1,10 +1,6 @@
 // WheelExportSheet.swift
-// EnigmaApl
-//
-// Modal sheet: format kiezen (PDF / PNG), daarna native opslagdialoog.
-// Volgorde macOS: (1) data renderen, (2) sheet sluiten, (3) NSSavePanel
-// tonen nadat de sluitanimatie klaar is — zo verschijnt het paneel altijd
-// vooraan op het hoofdvenster.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 import UniformTypeIdentifiers

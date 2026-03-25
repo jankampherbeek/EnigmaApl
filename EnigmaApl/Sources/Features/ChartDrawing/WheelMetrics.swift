@@ -1,9 +1,6 @@
 // WheelMetrics.swift
-// EnigmaApl
-//
-// All radii are expressed as fractions of the outerRadius.
-// outerRadius = min(canvasWidth, canvasHeight) / 2
-// Actual radius = outerRadius * fraction
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import CoreGraphics
 

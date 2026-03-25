@@ -1,9 +1,6 @@
-//
-//  CoordinateSystems.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 01/01/2025.
-//
+// CoordinateSystems.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Foundation
 

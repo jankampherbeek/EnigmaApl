@@ -1,11 +1,6 @@
 // HouseWheelPlotDataBuilder.swift
-// EnigmaApl
-//
-// Converts a FullChart into WheelPlotData for the house-based wheel.
-// In the house wheel each house occupies exactly 30° of visual space.
-// Cusp 1 is placed at 90° (9 o'clock); cusp n at 90° + (n-1)*30°.
-// Planets are mapped via eclipticToHouseAngle so their visual position
-// reflects their house position rather than their ecliptic longitude.
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import SwiftUI
 

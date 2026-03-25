@@ -1,9 +1,6 @@
-//
-//  DateTimeConversionTests.swift
-//  EnigmaAplTests
-//
-//  Created on 21/12/2025.
-//
+// DateTimeConversionTests.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 import Testing
 @testable import EnigmaApl

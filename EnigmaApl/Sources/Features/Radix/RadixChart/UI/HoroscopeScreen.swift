@@ -1,3 +1,6 @@
+// HoroscopeScreen.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 import SwiftUI
 import SwiftData
 
@@ -39,11 +42,11 @@ struct HoroscopeScreen: View {
         case .ring:
             RingTypeWheel(chart: named.chart, chartVersion: named.version)
         case .dial360:
-            Dial360TypeWheel()
+            Dial360TypeWheel(chart: named.chart, chartVersion: named.version)
         case .dial90:
-            Dial90TypeWheel()
+            Dial90TypeWheel(chart: named.chart, chartVersion: named.version)
         case .dial45:
-            Dial45TypeWheel()
+            Dial45TypeWheel(chart: named.chart, chartVersion: named.version)
         }
     }
 }

@@ -8,6 +8,10 @@
 "view.chartwheel.button.withtime"    = "With time";
 "view.chartwheel.button.export"      = "Export";
 
+"view.chartwheel.dial.type.360"      = "Dial 360°";
+"view.chartwheel.dial.type.90"       = "Dial 90°";
+"view.chartwheel.dial.type.45"       = "Dial 45°";
+
 "view.chartwheel.export.title"       = "Export chart";
 "view.chartwheel.export.format"      = "Format";
 "view.chartwheel.export.save"        = "Save";

@@ -1,9 +1,6 @@
-//
-//  AstronCalcDomain.swift
-//  EnigmaApl
-//
-//  Created by Jan Kampherbeek on 21/01/2026.
-//
+// AstronCalcDomain.swift
+// EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
+// Created by Jan Kampherbeek 2026
 
 // MARK: - Position Result
 /// A fully defined astronomical position for a specific coordinate. Includes poisitions and speeds.
