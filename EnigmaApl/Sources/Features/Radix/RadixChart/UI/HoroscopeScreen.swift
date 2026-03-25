@@ -35,7 +35,7 @@ struct HoroscopeScreen: View {
         case .houseBased:
             HouseTypeWheel(chart: named.chart, chartVersion: named.version)
         case .french:
-            FrenchTypeWheel()
+            FrenchTypeWheel(chart: named.chart, chartVersion: named.version)
         case .ring:
             RingTypeWheel(chart: named.chart, chartVersion: named.version)
         case .dial360:
