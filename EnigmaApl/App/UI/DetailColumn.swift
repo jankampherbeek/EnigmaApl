@@ -40,7 +40,7 @@ struct DetailColumn: View {
             case .analysisAspects:
                 return "Aspecten"
             case .horoscope:
-                return "Detail (Radix)"
+                return "Overzicht"
             case .search:
                 return "Zoek horoscoop"
             case .editChart:
@@ -78,15 +78,7 @@ struct DetailColumn: View {
                     case .overview:
                         RadixOverviewScreen()
                     case .horoscope:
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Detail (Radix)")
-                            Button("New Chart") {
-                                radixNav.setInspector(.newChart)
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .padding()
+                        RadixOverviewScreen()
                     case .newChart:
                         RadixInputScreen()
                     case .positions:

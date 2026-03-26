@@ -34,9 +34,6 @@ struct SidebarView: View {
                     Button { radixNav.setInspector(.overview) } label: {
                         row(RadixInspector.overview.rawValue, app.nav.radix.inspector == .overview)
                     }.buttonStyle(.plain)
-                    Button { radixNav.setInspector(.horoscope) } label: {
-                        row(RadixInspector.horoscope.rawValue, app.nav.radix.inspector == .horoscope)
-                    }.buttonStyle(.plain)
                     Button { radixNav.setInspector(.positions) } label: {
                         row(RadixInspector.positions.rawValue, app.nav.radix.inspector == .positions)
                     }.buttonStyle(.plain)

@@ -32,7 +32,7 @@ final class RadixNavigator: ObservableObject {
 
     func select(_ id: UUID?) {
         nav.selectedID = id
-        if id != nil { nav.inspector = .horoscope }
+        if id != nil { nav.inspector = .overview }
     }
 
     func setInspector(_ section: RadixInspector) {
