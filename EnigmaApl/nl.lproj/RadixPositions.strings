@@ -2,6 +2,7 @@
 
 // Kolomkoppen (volledig)
 "positions.header.length"         = "Lengte";
+"positions.header.speed"          = "Sn";
 "positions.header.latitude"       = "Breedte";
 "positions.header.rightascension" = "Rechte Klimming";
 "positions.header.declination"    = "Declinatie";

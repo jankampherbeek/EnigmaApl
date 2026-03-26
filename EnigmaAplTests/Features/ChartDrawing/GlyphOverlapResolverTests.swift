@@ -16,7 +16,8 @@ struct GlyphOverlapResolverTests {
             eclipticLongitude: 0,
             mundaneAngle: mundaneAngle,
             plotAngle: plotAngle ?? mundaneAngle,
-            positionText: "0°00'"
+            positionText: "0°00'",
+            speedType: .direct
         )
     }
 

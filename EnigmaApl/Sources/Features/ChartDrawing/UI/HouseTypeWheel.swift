@@ -309,7 +309,7 @@ private func drawHousePlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint
 private func drawHousePlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint,
                                    outerRadius: Double, data: WheelPlotData,
                                    theme: WheelTheme) {
-    let r        = outerRadius * 0.53
+    let r        = outerRadius * 0.50
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: outerRadius)
 
     for item in data.planetItems {

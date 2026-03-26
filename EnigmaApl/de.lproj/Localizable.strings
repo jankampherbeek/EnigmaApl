@@ -275,3 +275,10 @@
 "enum.sign.capricorn"   = "Steinbock";
 "enum.sign.aquarius"    = "Wassermann";
 "enum.sign.pisces"      = "Fische";
+// Geschwindigkeitstypen
+"enum.speedtype.direct"               = "Direkt";
+"enum.speedtype.retrograde"           = "Retrograd";
+"enum.speedtype.slow"                 = "Langsam";
+"enum.speedtype.slowretrograde"       = "Langsam retrograd";
+"enum.speedtype.stationaryretrograde" = "Stationär retrograd";
+"enum.speedtype.stationarydirect"     = "Stationär direkt";

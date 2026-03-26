@@ -20,9 +20,12 @@ struct WheelPlotDataBuilder {
                   FactorDisplaySelector.shouldDraw(factor),
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
-            let mundane = WheelGeometry.mundaneAngle(longitude: eclPos, ascendantLongitude: ascLong)
-            let text    = positionText(longitude: eclPos)
-            let glyph   = GlyphSelector.getGlyphForFactor(factor)
+            let mundane    = WheelGeometry.mundaneAngle(longitude: eclPos, ascendantLongitude: ascLong)
+            let glyph      = GlyphSelector.getGlyphForFactor(factor)
+            let speed      = position.ecliptical.first?.mainPosSpeed ?? 0.0
+            let calcConfig = config?.calculationConfig ?? CalculationConfig()
+            let speedType  = SpeedOrchestrator().determine(speed: speed, for: factor, config: calcConfig)
+            let text       = positionText(longitude: eclPos, speedType: speedType)
 
             items.append(WheelPlotItem(
                 factor: factor,
@@ -30,7 +33,8 @@ struct WheelPlotDataBuilder {
                 eclipticLongitude: eclPos,
                 mundaneAngle: mundane,
                 plotAngle: mundane,
-                positionText: text
+                positionText: text,
+                speedType: speedType
             ))
         }
 
@@ -90,12 +94,13 @@ struct WheelPlotDataBuilder {
 
     // MARK: - Helpers
 
-    /// Degrees°minutes' within the sign, e.g. "15°23'".
-    private static func positionText(longitude: Double) -> String {
+    /// Degrees°minutes' within the sign, with optional speed abbreviation suffix, e.g. "15°23' R".
+    private static func positionText(longitude: Double, speedType: SpeedType) -> String {
         let inSign = longitude.truncatingRemainder(dividingBy: 30.0)
         let totalMin = Int(abs(inSign) * 60)
         let deg = totalMin / 60
         let min = totalMin % 60
-        return "\(deg)°\(String(format: "%02d", min))'"
+        let base = "\(deg)°\(String(format: "%02d", min))'"
+        return speedType == .direct ? base : "\(base) \(speedType.abbreviation)"
     }
 }

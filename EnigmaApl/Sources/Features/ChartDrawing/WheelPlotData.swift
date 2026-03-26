@@ -22,6 +22,7 @@ struct WheelPlotItem {
     let mundaneAngle: Double        // angle on wheel (longitude - ascLong + 90), used for connect line endpoint
     var plotAngle: Double           // visual angle after anti-overlap adjustment
     let positionText: String        // e.g. "15°23'"
+    let speedType: SpeedType        // movement speed classification
 }
 
 /// All data needed to draw a complete chart wheel.

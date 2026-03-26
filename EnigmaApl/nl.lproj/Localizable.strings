@@ -275,3 +275,10 @@
 "enum.sign.capricorn"   = "Steenbok";
 "enum.sign.aquarius"    = "Waterman";
 "enum.sign.pisces"      = "Vissen";
+// Snelheidstypen
+"enum.speedtype.direct"               = "Direct";
+"enum.speedtype.retrograde"           = "Retrograde";
+"enum.speedtype.slow"                 = "Langzaam";
+"enum.speedtype.slowretrograde"       = "Langzaam retrograde";
+"enum.speedtype.stationaryretrograde" = "Stationair retrograde";
+"enum.speedtype.stationarydirect"     = "Stationair direct";

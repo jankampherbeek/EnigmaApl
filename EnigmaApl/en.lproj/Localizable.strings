@@ -275,3 +275,10 @@
 "enum.sign.capricorn"   = "Capricorn";
 "enum.sign.aquarius"    = "Aquarius";
 "enum.sign.pisces"      = "Pisces";
+// Speed types
+"enum.speedtype.direct"               = "Direct";
+"enum.speedtype.retrograde"           = "Retrograde";
+"enum.speedtype.slow"                 = "Slow";
+"enum.speedtype.slowretrograde"       = "Slow retrograde";
+"enum.speedtype.stationaryretrograde" = "Stationary retrograde";
+"enum.speedtype.stationarydirect"     = "Stationary direct";

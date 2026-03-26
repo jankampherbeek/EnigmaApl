@@ -16,11 +16,12 @@ struct PositionsScreen: View {
     ]
 
     // Full column widths (iPad / regular size class)
-    private let planetColumnWidths: [CGFloat] = [50, 120, 120, 140, 120, 120, 120, 120]
+    private let planetColumnWidths: [CGFloat] = [50, 120, 40, 120, 140, 120, 120, 120, 120]
     private let cuspColumnWidths: [CGFloat] = [70, 120, 140, 120, 120, 120]
 
     // Compact column widths (iPhone / compact size class)
     private let compactGlyphWidth: CGFloat = 44
+    private let compactSpeedWidth: CGFloat = 36
     private let compactLengthWidth: CGFloat = 140
     private let compactLatitudeWidth: CGFloat = 100
     private let compactRAWidth: CGFloat = 110
@@ -85,12 +86,13 @@ struct PositionsScreen: View {
                 HStack(spacing: 12) {
                     tableCell("", width: planetColumnWidths[0], alignment: .leading, bold: true)
                     tableCell(t(PositionsKeys.length), width: planetColumnWidths[1], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.latitude), width: planetColumnWidths[2], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.rightAscension), width: planetColumnWidths[3], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.declination), width: planetColumnWidths[4], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.distance), width: planetColumnWidths[5], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.azimuth), width: planetColumnWidths[6], alignment: .trailing, bold: true)
-                    tableCell(t(PositionsKeys.altitude), width: planetColumnWidths[7], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.speed), width: planetColumnWidths[2], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.latitude), width: planetColumnWidths[3], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.rightAscension), width: planetColumnWidths[4], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.declination), width: planetColumnWidths[5], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.distance), width: planetColumnWidths[6], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.azimuth), width: planetColumnWidths[7], alignment: .trailing, bold: true)
+                    tableCell(t(PositionsKeys.altitude), width: planetColumnWidths[8], alignment: .trailing, bold: true)
                 }
                 .padding(.vertical, 6)
 
@@ -113,15 +115,17 @@ struct PositionsScreen: View {
                     let equatorial = position.equatorial[0]
                     let horizontal = position.horizontal[0]
 
+                    let speedType = SpeedOrchestrator().determine(speed: ecliptical.mainPosSpeed, for: factor, config: CalculationConfig())
                     HStack(spacing: 12) {
                         glyphCell(factor, width: planetColumnWidths[0])
                         lengthCell(ecliptical.mainPos, width: planetColumnWidths[1])
-                        tableCell(dms(ecliptical.deviation), width: planetColumnWidths[2], alignment: .trailing)
-                        tableCell(dms(equatorial.mainPos), width: planetColumnWidths[3], alignment: .trailing)
-                        tableCell(dms(equatorial.deviation), width: planetColumnWidths[4], alignment: .trailing)
-                        tableCell(decimal(ecliptical.distance), width: planetColumnWidths[5], alignment: .trailing)
-                        tableCell(dms(horizontal.azimuth), width: planetColumnWidths[6], alignment: .trailing)
-                        tableCell(dms(horizontal.altitude), width: planetColumnWidths[7], alignment: .trailing)
+                        tableCell(speedType == .direct ? "" : speedType.abbreviation, width: planetColumnWidths[2], alignment: .trailing)
+                        tableCell(dms(ecliptical.deviation), width: planetColumnWidths[3], alignment: .trailing)
+                        tableCell(dms(equatorial.mainPos), width: planetColumnWidths[4], alignment: .trailing)
+                        tableCell(dms(equatorial.deviation), width: planetColumnWidths[5], alignment: .trailing)
+                        tableCell(decimal(ecliptical.distance), width: planetColumnWidths[6], alignment: .trailing)
+                        tableCell(dms(horizontal.azimuth), width: planetColumnWidths[7], alignment: .trailing)
+                        tableCell(dms(horizontal.altitude), width: planetColumnWidths[8], alignment: .trailing)
                     }
                     .padding(.vertical, 6)
                     .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
@@ -172,6 +176,7 @@ struct PositionsScreen: View {
             tableCell("", width: compactGlyphWidth, alignment: .leading, bold: true)
             if selectedSystem == .ecliptical {
                 tableCell(t(PositionsKeys.length), width: compactLengthWidth, alignment: .trailing, bold: true)
+                tableCell(t(PositionsKeys.speed), width: compactSpeedWidth, alignment: .trailing, bold: true)
                 tableCell(t(PositionsKeys.declination), width: compactLatitudeWidth, alignment: .trailing, bold: true)
             } else if selectedSystem == .equatorial {
                 tableCell(t(PositionsKeys.ra), width: compactRAWidth, alignment: .trailing, bold: true)
@@ -191,10 +196,12 @@ struct PositionsScreen: View {
         let equatorial = position.equatorial[0]
         let horizontal = position.horizontal[0]
 
+        let speedType = SpeedOrchestrator().determine(speed: ecliptical.mainPosSpeed, for: factor, config: CalculationConfig())
         HStack(spacing: 12) {
             glyphCell(factor, width: compactGlyphWidth)
             if selectedSystem == .ecliptical {
                 lengthCell(ecliptical.mainPos, width: compactLengthWidth)
+                tableCell(speedType == .direct ? "" : speedType.abbreviation, width: compactSpeedWidth, alignment: .trailing)
                 tableCell(dms(equatorial.deviation), width: compactLatitudeWidth, alignment: .trailing)
             } else if selectedSystem == .equatorial {
                 tableCell(dms(equatorial.mainPos), width: compactRAWidth, alignment: .trailing)

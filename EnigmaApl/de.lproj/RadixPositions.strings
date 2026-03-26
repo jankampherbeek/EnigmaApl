@@ -2,6 +2,7 @@
 
 // Spaltenüberschriften (vollständig)
 "positions.header.length"         = "Länge";
+"positions.header.speed"          = "Gk";
 "positions.header.latitude"       = "Breite";
 "positions.header.rightascension" = "Rektaszension";
 "positions.header.declination"    = "Deklination";

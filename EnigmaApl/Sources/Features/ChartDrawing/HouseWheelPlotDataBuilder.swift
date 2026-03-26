@@ -20,8 +20,11 @@ struct HouseWheelPlotDataBuilder {
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
             let houseAngle = eclipticToHouseAngle(longitude: eclPos, cusps: cusps)
-            let text       = positionText(longitude: eclPos)
             let glyph      = GlyphSelector.getGlyphForFactor(factor)
+            let speed      = position.ecliptical.first?.mainPosSpeed ?? 0.0
+            let calcConfig = config?.calculationConfig ?? CalculationConfig()
+            let speedType  = SpeedOrchestrator().determine(speed: speed, for: factor, config: calcConfig)
+            let text       = positionText(longitude: eclPos, speedType: speedType)
 
             items.append(WheelPlotItem(
                 factor: factor,
@@ -29,7 +32,8 @@ struct HouseWheelPlotDataBuilder {
                 eclipticLongitude: eclPos,
                 mundaneAngle: houseAngle,
                 plotAngle: houseAngle,
-                positionText: text
+                positionText: text,
+                speedType: speedType
             ))
         }
 
@@ -75,9 +79,10 @@ struct HouseWheelPlotDataBuilder {
 
     // MARK: - Helpers
 
-    private static func positionText(longitude: Double) -> String {
+    private static func positionText(longitude: Double, speedType: SpeedType) -> String {
         let inSign   = longitude.truncatingRemainder(dividingBy: 30.0)
         let totalMin = Int(abs(inSign) * 60)
-        return "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
+        let base = "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
+        return speedType == .direct ? base : "\(base) \(speedType.abbreviation)"
     }
 }

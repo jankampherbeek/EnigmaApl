@@ -2,6 +2,7 @@
 
 // Column headers (full)
 "positions.header.length"         = "Length";
+"positions.header.speed"          = "Sp";
 "positions.header.latitude"       = "Latitude";
 "positions.header.rightascension" = "Right Ascension";
 "positions.header.declination"    = "Declination";

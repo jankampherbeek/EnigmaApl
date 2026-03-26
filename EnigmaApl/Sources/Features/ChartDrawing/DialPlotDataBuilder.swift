@@ -21,8 +21,10 @@ struct DialPlotDataBuilder {
                   FactorDisplaySelector.shouldDraw(factor),
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
-            let text  = dialPositionText(longitude: eclPos)
-            let glyph = GlyphSelector.getGlyphForFactor(factor)
+            let glyph     = GlyphSelector.getGlyphForFactor(factor)
+            let speed     = position.ecliptical.first?.mainPosSpeed ?? 0.0
+            let speedType = SpeedOrchestrator().determine(speed: speed, for: factor, config: CalculationConfig())
+            let text      = dialPositionText(longitude: eclPos, speedType: speedType)
 
             // For the dial: mundaneAngle == eclipticLongitude (no ascendant rotation)
             items.append(WheelPlotItem(
@@ -31,7 +33,8 @@ struct DialPlotDataBuilder {
                 eclipticLongitude: eclPos,
                 mundaneAngle: eclPos,
                 plotAngle: eclPos,
-                positionText: text
+                positionText: text,
+                speedType: speedType
             ))
         }
 
@@ -42,7 +45,8 @@ struct DialPlotDataBuilder {
             eclipticLongitude: ascLong,
             mundaneAngle: ascLong,
             plotAngle: ascLong,
-            positionText: dialPositionText(longitude: ascLong)
+            positionText: dialPositionText(longitude: ascLong),
+            speedType: .direct
         ))
         items.append(WheelPlotItem(
             factor: .mc,
@@ -50,7 +54,8 @@ struct DialPlotDataBuilder {
             eclipticLongitude: mcLong,
             mundaneAngle: mcLong,
             plotAngle: mcLong,
-            positionText: dialPositionText(longitude: mcLong)
+            positionText: dialPositionText(longitude: mcLong),
+            speedType: .direct
         ))
 
         let resolved = GlyphOverlapResolver.resolve(items)
@@ -67,12 +72,13 @@ struct DialPlotDataBuilder {
 
     // MARK: - Helpers
 
-    /// Degrees and minutes within sign, e.g. "15°23'".
-    private static func dialPositionText(longitude: Double) -> String {
+    /// Degrees and minutes within sign, with optional speed suffix, e.g. "15°23' R".
+    private static func dialPositionText(longitude: Double, speedType: SpeedType = .direct) -> String {
         let inSign   = longitude.truncatingRemainder(dividingBy: 30.0)
         let totalMin = Int(abs(inSign) * 60)
         let deg      = totalMin / 60
         let min      = totalMin % 60
-        return "\(deg)°\(String(format: "%02d", min))'"
+        let base     = "\(deg)°\(String(format: "%02d", min))'"
+        return speedType == .direct ? base : "\(base) \(speedType.abbreviation)"
     }
 }

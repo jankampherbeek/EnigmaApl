@@ -86,7 +86,8 @@ struct ZodiacTypeWheel: View {
             return WheelPlotItem(factor: item.factor, glyph: item.glyph,
                                  eclipticLongitude: item.eclipticLongitude,
                                  mundaneAngle: angle, plotAngle: angle,
-                                 positionText: item.positionText)
+                                 positionText: item.positionText,
+                                 speedType: item.speedType)
         }
         remappedPlanets = GlyphOverlapResolver.resolve(remappedPlanets)
 

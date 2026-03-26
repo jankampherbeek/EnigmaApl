@@ -7,6 +7,7 @@ struct PositionsKeys {
     private init() {}
 
     static let length          = "positions.header.length"
+    static let speed           = "positions.header.speed"
     static let latitude        = "positions.header.latitude"
     static let rightAscension  = "positions.header.rightascension"
     static let declination     = "positions.header.declination"

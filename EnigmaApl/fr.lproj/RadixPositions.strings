@@ -2,6 +2,7 @@
 
 // En-têtes de colonnes (complet)
 "positions.header.length"         = "Longitude";
+"positions.header.speed"          = "Vt";
 "positions.header.latitude"       = "Latitude";
 "positions.header.rightascension" = "Ascension Droite";
 "positions.header.declination"    = "Déclinaison";

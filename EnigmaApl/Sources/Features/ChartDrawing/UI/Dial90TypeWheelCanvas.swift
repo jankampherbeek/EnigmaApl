@@ -27,7 +27,7 @@ private let fHalfDegInner:    Double = 0.82   // inner boundary of 0.5° ring (p
 
 // Planets (same as Dial360)
 private let fPlanetGlyph:     Double = 0.78
-private let fPlanetText:      Double = 0.62
+private let fPlanetText:      Double = 0.59
 
 // Cross arm half-length
 private let fCrossArm:        Double = 0.04

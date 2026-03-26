@@ -21,8 +21,10 @@ struct Dial90PlotDataBuilder {
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
             let visualAngle = dial90Angle(eclPos)
-            let text        = dial90PositionText(longitude: eclPos)
             let glyph       = GlyphSelector.getGlyphForFactor(factor)
+            let speed       = position.ecliptical.first?.mainPosSpeed ?? 0.0
+            let speedType   = SpeedOrchestrator().determine(speed: speed, for: factor, config: CalculationConfig())
+            let text        = dial90PositionText(longitude: eclPos, speedType: speedType)
 
             items.append(WheelPlotItem(
                 factor: factor,
@@ -30,7 +32,8 @@ struct Dial90PlotDataBuilder {
                 eclipticLongitude: eclPos,
                 mundaneAngle: visualAngle,
                 plotAngle: visualAngle,
-                positionText: text
+                positionText: text,
+                speedType: speedType
             ))
         }
 
@@ -41,7 +44,8 @@ struct Dial90PlotDataBuilder {
             eclipticLongitude: ascLong,
             mundaneAngle: dial90Angle(ascLong),
             plotAngle: dial90Angle(ascLong),
-            positionText: dial90PositionText(longitude: ascLong)
+            positionText: dial90PositionText(longitude: ascLong),
+            speedType: .direct
         ))
         items.append(WheelPlotItem(
             factor: .mc,
@@ -49,7 +53,8 @@ struct Dial90PlotDataBuilder {
             eclipticLongitude: mcLong,
             mundaneAngle: dial90Angle(mcLong),
             plotAngle: dial90Angle(mcLong),
-            positionText: dial90PositionText(longitude: mcLong)
+            positionText: dial90PositionText(longitude: mcLong),
+            speedType: .direct
         ))
 
         let resolved = GlyphOverlapResolver.resolve(items)
@@ -71,12 +76,13 @@ struct Dial90PlotDataBuilder {
         longitude.truncatingRemainder(dividingBy: 90.0) * 4.0
     }
 
-    /// Degrees and minutes within the 90° range, e.g. "45°23'".
-    private static func dial90PositionText(longitude: Double) -> String {
+    /// Degrees and minutes within the 90° range, with optional speed suffix, e.g. "45°23' R".
+    private static func dial90PositionText(longitude: Double, speedType: SpeedType = .direct) -> String {
         let dialPos  = longitude.truncatingRemainder(dividingBy: 90.0)
         let totalMin = Int(abs(dialPos) * 60)
         let deg      = totalMin / 60
         let min      = totalMin % 60
-        return "\(deg)°\(String(format: "%02d", min))'"
+        let base     = "\(deg)°\(String(format: "%02d", min))'"
+        return speedType == .direct ? base : "\(base) \(speedType.abbreviation)"
     }
 }

@@ -11,7 +11,7 @@ private let fZodiacR:  Double = 0.60   // outer edge of zodiac sign ring
 private let fDegreeR:  Double = 0.67   // outer edge of degree tick zone / inner edge of house ring
 private let fHouseR:   Double = 0.78   // outer edge of house ring
 private let fGlyphR:   Double = 0.83   // planet glyph radius
-private let fTextR:    Double = 0.89   // planet position text radius (text extends ~0.10 outward)
+private let fTextR:    Double = 0.92   // planet position text radius (text extends ~0.10 outward)
 
 private let fTick1:    Double = 0.018  // short (1°) tick length
 private let fTick5:    Double = 0.040  // long  (5°) tick length

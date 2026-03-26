@@ -28,7 +28,7 @@ private let fTickInner:       Double = 0.82   // inner boundary of 1° ring (pla
 
 // Planets
 private let fPlanetGlyph:     Double = 0.78   // planet glyph radius
-private let fPlanetText:      Double = 0.62   // planet degree text radius
+private let fPlanetText:      Double = 0.59   // planet degree text radius
 
 // Cross arm half-length
 private let fCrossArm:        Double = 0.04

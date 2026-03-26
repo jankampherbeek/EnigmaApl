@@ -36,7 +36,7 @@ func drawPlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius
 
 func drawPlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
                       data: WheelPlotData, theme: WheelTheme = .color) {
-    let r        = outerRadius * (WheelMetrics.planetGlyph + 0.06)
+    let r        = outerRadius * (WheelMetrics.planetGlyph + 0.09)
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: outerRadius)
 
     for item in data.planetItems {
@@ -64,3 +64,4 @@ func drawPlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius:
         }
     }
 }
+
