@@ -1,0 +1,21 @@
+// Midpoints.strings - Deutsch
+// EnigmaApl
+
+"view.midpointsscreen.title"               = "Mittelpunkte";
+"view.midpointsscreen.btn.allmidpoints"    = "Alle Mittelpunkte";
+"view.midpointsscreen.btn.occupiedmidpoints" = "Besetzte Mittelpunkte";
+"view.allmidpointsview.title"              = "Alle Mittelpunkte";
+"view.midpointsscreen.nochart"             = "Berechnen oder wählen Sie ein Horoskop, um Mittelpunkte anzuzeigen.";
+"view.allmidpointsview.nomidpoints"        = "Keine Mittelpunkte für die aktuelle Konfiguration gefunden.";
+"view.allmidpointsview.col.factor1"        = "Faktor 1";
+"view.allmidpointsview.col.factor2"        = "Faktor 2";
+"view.allmidpointsview.col.position"       = "Position";
+"view.occupiedmidpointsview.title"         = "Besetzte Mittelpunkte";
+"view.occupiedmidpointsview.nomidpoints"   = "Keine besetzten Mittelpunkte für die aktuelle Konfiguration gefunden.";
+"view.occupiedmidpointsview.col.midpoint"  = "Mittelpunkt";
+"view.occupiedmidpointsview.col.planet"    = "Planet";
+"view.occupiedmidpointsview.col.orb"       = "Orb";
+"view.occupiedmidpointsview.col.exactness" = "Genauigkeit";
+"view.midpointsscreen.dial360"             = "360°";
+"view.midpointsscreen.dial90"              = "90°";
+"view.midpointsscreen.dial45"              = "45°";

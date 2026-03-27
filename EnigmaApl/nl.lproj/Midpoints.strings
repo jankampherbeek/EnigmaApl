@@ -1,0 +1,21 @@
+// Midpoints.strings - Nederlands
+// EnigmaApl
+
+"view.midpointsscreen.title"               = "Midpunten";
+"view.midpointsscreen.btn.allmidpoints"    = "Alle midpunten";
+"view.midpointsscreen.btn.occupiedmidpoints" = "Bezette midpunten";
+"view.allmidpointsview.title"              = "Alle midpunten";
+"view.midpointsscreen.nochart"             = "Bereken of selecteer een horoscoop om midpunten te bekijken.";
+"view.allmidpointsview.nomidpoints"        = "Geen midpunten gevonden voor de huidige configuratie.";
+"view.allmidpointsview.col.factor1"        = "Factor 1";
+"view.allmidpointsview.col.factor2"        = "Factor 2";
+"view.allmidpointsview.col.position"       = "Positie";
+"view.occupiedmidpointsview.title"         = "Bezette midpunten";
+"view.occupiedmidpointsview.nomidpoints"   = "Geen bezette midpunten gevonden voor de huidige configuratie.";
+"view.occupiedmidpointsview.col.midpoint"  = "Midpunt";
+"view.occupiedmidpointsview.col.planet"    = "Planeet";
+"view.occupiedmidpointsview.col.orb"       = "Orb";
+"view.occupiedmidpointsview.col.exactness" = "Nauwkeurigheid";
+"view.midpointsscreen.dial360"             = "360°";
+"view.midpointsscreen.dial90"              = "90°";
+"view.midpointsscreen.dial45"              = "45°";

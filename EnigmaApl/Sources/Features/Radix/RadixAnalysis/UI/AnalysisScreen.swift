@@ -15,6 +15,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisAspects)
             }
             .buttonStyle(.bordered)
+
+            Button("Midpunten") {
+                radixNav.setInspector(.analysisMidpoints)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()
