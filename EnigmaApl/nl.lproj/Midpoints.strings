@@ -19,3 +19,5 @@
 "view.midpointsscreen.dial360"             = "360°";
 "view.midpointsscreen.dial90"              = "90°";
 "view.midpointsscreen.dial45"              = "45°";
+"view.allmidpointsview.help"               = "Een overzicht van alle midpunten, gesorteerd op zodiakale volgorde. Je vindt hier steeds de midpunten via de kortste afstand tussen twee factoren.\n\nLinks zie je de beide factoren en daarnaast de positie van het midpunt dat ze vormen.\n\nKlik op 'Bezette midpunten' om te zien welke midpunten daadwerkelijk bezet zijn.";
+"view.occupiedmidpointsview.help"          = "Hier zie je de bezette midpunten, zowel in een figuur als in een lijst.\n\nIn de lijst zie je links de twee factoren die het midpunt vormen, daarna de positie van het midpunt, de factor die op het midpunt staat, de orb en de nauwkeurigheid van de orb.\n\nOnderin dit scherm zie je knoppen om te schakelen tussen midpunten in 360, 90 en 45 graden.";

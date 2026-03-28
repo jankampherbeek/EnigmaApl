@@ -12,6 +12,7 @@ struct MidpointsScreen: View {
 
     @State private var activeTab: MidpointsTab = .all
     @State private var dialType: MidpointDialType = .dial360
+    @State private var showFactsheet = false
 
     private func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "Midpoints", bundle: .main, comment: "")
@@ -47,6 +48,9 @@ struct MidpointsScreen: View {
                 .padding(.vertical, 10)
         }
         .onAppear { dialType = defaultDial }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "midpoints")
+        }
     }
 
     // MARK: - Tab content
@@ -78,6 +82,11 @@ struct MidpointsScreen: View {
                 dialButton(.dial90,  label: t(MidpointsKeys.dial90))
                 dialButton(.dial45,  label: t(MidpointsKeys.dial45))
             }
+
+            Button { showFactsheet = true } label: {
+                Image(systemName: "book.pages")
+            }
+            .accessibilityLabel("Factsheet")
         }
     }
 

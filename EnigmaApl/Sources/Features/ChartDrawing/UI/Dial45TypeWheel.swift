@@ -22,7 +22,10 @@ struct Dial45TypeWheel: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            Dial45TypeWheelCanvas(plotData: effectiveData, theme: currentTheme)
+            ZStack {
+                Dial45TypeWheelCanvas(plotData: effectiveData, theme: currentTheme)
+                DialMidpointOverlay(plotData: effectiveData, dialType: .dial45)
+            }
 
             HStack(spacing: 8) {
                 Picker("", selection: dialTypeBinding) {

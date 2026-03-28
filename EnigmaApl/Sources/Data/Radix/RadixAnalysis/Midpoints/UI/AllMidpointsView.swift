@@ -10,6 +10,9 @@ struct AllMidpointsView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    @State private var showFactsheet = false
+    @State private var showHelp = false
+
     private func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "Midpoints", bundle: .main, comment: "")
     }
@@ -39,6 +42,41 @@ struct AllMidpointsView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "midpoints")
+        }
+        .sheet(isPresented: $showHelp) {
+            NavigationStack {
+                ScrollView {
+                    Text(t(MidpointsKeys.allHelp))
+                        .padding()
+                }
+                .navigationTitle("Help")
+                #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+                #endif
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("OK") { showHelp = false }
+                    }
+                }
+            }
+            .presentationDetents([.medium])
         }
     }
 

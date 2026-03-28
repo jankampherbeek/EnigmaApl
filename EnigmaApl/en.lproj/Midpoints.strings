@@ -19,3 +19,5 @@
 "view.midpointsscreen.dial360"             = "360°";
 "view.midpointsscreen.dial90"              = "90°";
 "view.midpointsscreen.dial45"              = "45°";
+"view.allmidpointsview.help"               = "An overview of all midpoints, sorted in zodiacal order. Each midpoint is calculated via the shortest arc between two factors.\n\nOn the left you see both factors, followed by the position of the midpoint they form.\n\nClick 'Occupied midpoints' to see which midpoints are actually occupied.";
+"view.occupiedmidpointsview.help"          = "Here you see the occupied midpoints, both as a diagram and as a list.\n\nIn the list you see on the left the two factors that form the midpoint, then the position of the midpoint, the factor that occupies the midpoint, the orb, and the exactness of the orb.\n\nAt the bottom of this screen you will find buttons to switch between midpoints in 360, 90 and 45 degrees.";

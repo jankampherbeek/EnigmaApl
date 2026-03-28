@@ -24,4 +24,6 @@ struct MidpointsKeys {
     static let dial360                  = "view.midpointsscreen.dial360"
     static let dial90                   = "view.midpointsscreen.dial90"
     static let dial45                   = "view.midpointsscreen.dial45"
+    static let allHelp                  = "view.allmidpointsview.help"
+    static let occupiedHelp             = "view.occupiedmidpointsview.help"
 }

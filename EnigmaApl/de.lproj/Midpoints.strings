@@ -19,3 +19,5 @@
 "view.midpointsscreen.dial360"             = "360°";
 "view.midpointsscreen.dial90"              = "90°";
 "view.midpointsscreen.dial45"              = "45°";
+"view.allmidpointsview.help"               = "Eine Übersicht aller Mittelpunkte in zodiakaler Reihenfolge. Jeder Mittelpunkt wird über den kürzesten Bogen zwischen zwei Faktoren berechnet.\n\nLinks sehen Sie beide Faktoren und daneben die Position des Mittelpunkts, den sie bilden.\n\nKlicken Sie auf 'Besetzte Mittelpunkte', um zu sehen, welche Mittelpunkte tatsächlich besetzt sind.";
+"view.occupiedmidpointsview.help"          = "Hier sehen Sie die besetzten Mittelpunkte, sowohl als Diagramm als auch als Liste.\n\nIn der Liste sehen Sie links die beiden Faktoren, die den Mittelpunkt bilden, dann die Position des Mittelpunkts, den Faktor der auf dem Mittelpunkt steht, den Orb und die Genauigkeit des Orbs.\n\nUnten im Bildschirm finden Sie Schaltflächen, um zwischen Mittelpunkten in 360, 90 und 45 Grad zu wechseln.";
