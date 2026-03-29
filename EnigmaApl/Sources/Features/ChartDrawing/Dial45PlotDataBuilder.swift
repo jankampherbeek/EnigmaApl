@@ -9,7 +9,7 @@ import Foundation
 
 struct Dial45PlotDataBuilder {
 
-    static func build(from chart: FullChart) -> WheelPlotData {
+    static func build(from chart: FullChart, config: UserConfiguration? = nil) -> WheelPlotData {
         let ascLong = chart.HousePositions.ascendant.longitude
         let mcLong  = chart.HousePositions.midheaven.longitude
 
@@ -23,7 +23,8 @@ struct Dial45PlotDataBuilder {
             let visualAngle = dial45Angle(eclPos)
             let glyph       = GlyphSelector.getGlyphForFactor(factor)
             let speed       = position.ecliptical.first?.mainPosSpeed ?? 0.0
-            let speedType   = SpeedOrchestrator().determine(speed: speed, for: factor, config: CalculationConfig())
+            let calcConfig  = config?.calculationConfig ?? CalculationConfig()
+            let speedType   = SpeedOrchestrator().determine(speed: speed, for: factor, config: calcConfig)
             let text        = dial45PositionText(longitude: eclPos, speedType: speedType)
 
             items.append(WheelPlotItem(

@@ -59,8 +59,8 @@ struct Dial360TypeWheel: View {
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(ChartWheelKeys.dial360Help))
         }
-        .onAppear   { model.update(from: chart) }
-        .onChange(of: chartVersion) { model.update(from: chart) }
+        .onAppear   { model.update(from: chart, config: activeConfigs.first) }
+        .onChange(of: chartVersion) { model.update(from: chart, config: activeConfigs.first) }
     }
 
     // MARK: - Convenience

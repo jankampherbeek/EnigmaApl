@@ -10,7 +10,7 @@ import Foundation
 
 struct DialPlotDataBuilder {
 
-    static func build(from chart: FullChart) -> WheelPlotData {
+    static func build(from chart: FullChart, config: UserConfiguration? = nil) -> WheelPlotData {
         let ascLong = chart.HousePositions.ascendant.longitude
         let mcLong  = chart.HousePositions.midheaven.longitude
 
@@ -21,9 +21,10 @@ struct DialPlotDataBuilder {
                   FactorDisplaySelector.shouldDraw(factor),
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 
-            let glyph     = GlyphSelector.getGlyphForFactor(factor)
-            let speed     = position.ecliptical.first?.mainPosSpeed ?? 0.0
-            let speedType = SpeedOrchestrator().determine(speed: speed, for: factor, config: CalculationConfig())
+            let glyph      = GlyphSelector.getGlyphForFactor(factor)
+            let speed      = position.ecliptical.first?.mainPosSpeed ?? 0.0
+            let calcConfig = config?.calculationConfig ?? CalculationConfig()
+            let speedType  = SpeedOrchestrator().determine(speed: speed, for: factor, config: calcConfig)
             let text      = dialPositionText(longitude: eclPos, speedType: speedType)
 
             // For the dial: mundaneAngle == eclipticLongitude (no ascendant rotation)

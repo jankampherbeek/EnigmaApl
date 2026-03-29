@@ -9,7 +9,7 @@ import Combine
 final class Dial45TypeWheelModel: ObservableObject {
     @Published var plotData: WheelPlotData = .empty
 
-    func update(from chart: FullChart) {
-        plotData = Dial45PlotDataBuilder.build(from: chart)
+    func update(from chart: FullChart, config: UserConfiguration? = nil) {
+        plotData = Dial45PlotDataBuilder.build(from: chart, config: config)
     }
 }

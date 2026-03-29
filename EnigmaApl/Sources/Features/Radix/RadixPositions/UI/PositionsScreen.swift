@@ -2,9 +2,17 @@
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 import SwiftUI
+import SwiftData
 
 struct PositionsScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
+
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
+
+    private var calcConfig: CalculationConfig {
+        activeConfigs.first?.calculationConfig ?? CalculationConfig()
+    }
 
     @State private var selectedSystem: CoordinateSystems = .ecliptical
     @State private var showHelp = false
@@ -115,7 +123,7 @@ struct PositionsScreen: View {
                     let equatorial = position.equatorial[0]
                     let horizontal = position.horizontal[0]
 
-                    let speedType = SpeedOrchestrator().determine(speed: ecliptical.mainPosSpeed, for: factor, config: CalculationConfig())
+                    let speedType = SpeedOrchestrator().determine(speed: ecliptical.mainPosSpeed, for: factor, config: calcConfig)
                     HStack(spacing: 12) {
                         glyphCell(factor, width: planetColumnWidths[0])
                         lengthCell(ecliptical.mainPos, width: planetColumnWidths[1])
