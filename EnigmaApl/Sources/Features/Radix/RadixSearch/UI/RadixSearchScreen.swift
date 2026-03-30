@@ -191,7 +191,7 @@ struct RadixSearchScreen: View {
         let factors = configFactors.isEmpty ? [Factors.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto] : configFactors
         guard let (chart, request) = searchModel.calculateChart(for: horoscope, factorsToUse: factors) else { return }
         chartSession.add(name: horoscope.name, chart: chart, baseRequest: request)
-        radixNav.setInspector(.overview)
+        radixNav.setInspector(.positions)
     }
 
     private func startDelete(_ horoscope: HoroscopeModel) {

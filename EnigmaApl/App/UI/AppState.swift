@@ -46,6 +46,7 @@ final class AppState: ObservableObject {
     func setMode(_ mode: AppMode) {
         guard nav.mode != mode else { return }
         nav.mode = mode
+        if mode == .radix { nav.radix.inspector = .overview }
         ensureDefaultSelection()
     }
 

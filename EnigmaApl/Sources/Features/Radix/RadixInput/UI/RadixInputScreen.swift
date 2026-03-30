@@ -92,7 +92,7 @@ struct RadixInputScreen: View {
         inputModel.calculate(from: modelInput)
         if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
             chartSession.add(name: chartName, chart: chart, baseRequest: request)
-            radixNav.setInspector(.overview)
+            radixNav.setInspector(.positions)
             saveHoroscope(julianDate: request.JulianDay)
         }
     }

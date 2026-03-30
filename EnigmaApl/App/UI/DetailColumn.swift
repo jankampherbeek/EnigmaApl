@@ -60,67 +60,74 @@ struct DetailColumn: View {
     var body: some View {
         // Config gets its own NavigationStack so section editors can push/pop correctly.
         // All other modes use the split view's built-in navigation title.
-        if app.nav.mode == .config {
-            NavigationStack(path: $configNavPath) {
-                if let config = configNav.selectedConfig {
-                    ConfigEditScreen(config: config)
-                        .id(config.persistentModelID)  // fresh view + state on config switch
-                } else {
-                    ConfigEmptyState()
+        Group {
+            if app.nav.mode == .config {
+                NavigationStack(path: $configNavPath) {
+                    if let config = configNav.selectedConfig {
+                        ConfigEditScreen(config: config)
+                            .id(config.persistentModelID)  // fresh view + state on config switch
+                    } else {
+                        ConfigEmptyState()
+                    }
                 }
-            }
-            .onChange(of: configNav.selectedConfig) {
-                configNavPath = NavigationPath()  // pop back to ConfigEditScreen
-            }
-        } else {
-            Group {
-                switch app.nav.mode {
-                case .radix:
-                    switch app.nav.radix.inspector {
-                    case .overview:
-                        RadixOverviewScreen()
-                    case .horoscope:
-                        RadixOverviewScreen()
-                    case .newChart:
-                        RadixInputScreen()
-                    case .positions:
-                        PositionsScreen()
-                    case .analysis:
-                        AnalysisScreen()
-                    case .analysisAspects:
-                        AspectsScreen()
-                    case .analysisMidpoints:
-                        MidpointsScreen()
-                    case .search:
-                        RadixSearchScreen()
-                    case .editChart:
-                        if let horoscope = chartSession.editingHoroscope {
-                            RadixEditScreen(horoscope: horoscope)
-                        } else {
+            } else {
+                Group {
+                    switch app.nav.mode {
+                    case .radix:
+                        switch app.nav.radix.inspector {
+                        case .overview:
                             RadixOverviewScreen()
+                        case .horoscope:
+                            RadixOverviewScreen()
+                        case .newChart:
+                            RadixInputScreen()
+                        case .positions:
+                            PositionsScreen()
+                        case .analysis:
+                            AnalysisScreen()
+                        case .analysisAspects:
+                            AspectsScreen()
+                        case .analysisMidpoints:
+                            MidpointsScreen()
+                        case .search:
+                            RadixSearchScreen()
+                        case .editChart:
+                            if let horoscope = chartSession.editingHoroscope {
+                                RadixEditScreen(horoscope: horoscope)
+                            } else {
+                                RadixOverviewScreen()
+                            }
                         }
+                    case .research:
+                        switch app.nav.research.section {
+                        case .datafiles:
+                            DatafilesScreen()
+                        case .projects:
+                            ProjectsScreen()
+                        }
+                    case .cycles:
+                        switch app.nav.cycles.section {
+                        case .astronomicalCycles:
+                            AstronomicalCyclesScreen()
+                        case .waves:
+                            WavesScreen()
+                        case .tablesGraphs:
+                            TablesGraphsScreen()
+                        }
+                    case .config:
+                        EmptyView()
                     }
-                case .research:
-                    switch app.nav.research.section {
-                    case .datafiles:
-                        DatafilesScreen()
-                    case .projects:
-                        ProjectsScreen()
-                    }
-                case .cycles:
-                    switch app.nav.cycles.section {
-                    case .astronomicalCycles:
-                        AstronomicalCyclesScreen()
-                    case .waves:
-                        WavesScreen()
-                    case .tablesGraphs:
-                        TablesGraphsScreen()
-                    }
-                case .config:
-                    EmptyView()
                 }
+                .navigationTitle(detailTitle)
             }
-            .navigationTitle(detailTitle)
+        }
+        .onChange(of: configNav.selectedConfig) {
+            configNavPath = NavigationPath()  // pop back to ConfigEditScreen on selection change
+        }
+        .onChange(of: app.nav.mode) {
+            if app.nav.mode != .config {
+                configNavPath = NavigationPath()  // clear pushed editors when leaving Config
+            }
         }
     }
 }
