@@ -901,8 +901,12 @@ struct OrbConfigEditor: View {
     @State private var orbSystem:        OrbSystem = .procentual
     @State private var aspectBaseDeg:    Int = 10
     @State private var aspectBaseMin:    Int = 0
-    @State private var midpointDeg:      Int = 1
-    @State private var midpointMin:      Int = 36
+    @State private var midpoint360Deg:   Int = 1
+    @State private var midpoint360Min:   Int = 30
+    @State private var midpoint90Deg:    Int = 1
+    @State private var midpoint90Min:    Int = 0
+    @State private var midpoint45Deg:    Int = 0
+    @State private var midpoint45Min:    Int = 30
     @State private var harmonicDeg:      Int = 2
     @State private var harmonicMin:      Int = 0
     @State private var parallelDeg:      Int = 1
@@ -928,8 +932,12 @@ struct OrbConfigEditor: View {
             Section(t(ConfigEditKeys.orbSectionValues)) {
                 orbRow(label: t(ConfigEditKeys.orbAspectBase),
                        deg: $aspectBaseDeg, min: $aspectBaseMin, maxDeg: 30)
-                orbRow(label: t(ConfigEditKeys.orbMidpoint),
-                       deg: $midpointDeg,   min: $midpointMin,   maxDeg: 10)
+                orbRow(label: t(ConfigEditKeys.orbMidpoint360),
+                       deg: $midpoint360Deg, min: $midpoint360Min, maxDeg: 10)
+                orbRow(label: t(ConfigEditKeys.orbMidpoint90),
+                       deg: $midpoint90Deg,  min: $midpoint90Min,  maxDeg: 10)
+                orbRow(label: t(ConfigEditKeys.orbMidpoint45),
+                       deg: $midpoint45Deg,  min: $midpoint45Min,  maxDeg: 10)
                 orbRow(label: t(ConfigEditKeys.orbHarmonic),
                        deg: $harmonicDeg,   min: $harmonicMin,   maxDeg: 10)
                 orbRow(label: t(ConfigEditKeys.orbParallel),
@@ -990,7 +998,9 @@ struct OrbConfigEditor: View {
         let c = config.orbConfig
         orbSystem = c.orbSystem
         (aspectBaseDeg, aspectBaseMin) = sexagesimalFromDouble(c.aspectBaseOrb)
-        (midpointDeg,   midpointMin)   = sexagesimalFromDouble(c.midpointOrb)
+        (midpoint360Deg, midpoint360Min) = sexagesimalFromDouble(c.midpoint360DialOrb)
+        (midpoint90Deg,  midpoint90Min)  = sexagesimalFromDouble(c.midpoint90DialOrb)
+        (midpoint45Deg,  midpoint45Min)  = sexagesimalFromDouble(c.midpoint45DialOrb)
         (harmonicDeg,   harmonicMin)   = sexagesimalFromDouble(c.harmonicOrb)
         (parallelDeg,   parallelMin)   = sexagesimalFromDouble(c.parallelOrb)
     }
@@ -999,7 +1009,9 @@ struct OrbConfigEditor: View {
         config.orbConfig = OrbConfig(
             orbSystem:     orbSystem,
             aspectBaseOrb: doubleFromSexagesimal(aspectBaseDeg, aspectBaseMin),
-            midpointOrb:   doubleFromSexagesimal(midpointDeg,   midpointMin),
+            midpoint360DialOrb: doubleFromSexagesimal(midpoint360Deg, midpoint360Min),
+            midpoint90DialOrb:  doubleFromSexagesimal(midpoint90Deg,  midpoint90Min),
+            midpoint45DialOrb:  doubleFromSexagesimal(midpoint45Deg,  midpoint45Min),
             harmonicOrb:   doubleFromSexagesimal(harmonicDeg,   harmonicMin),
             parallelOrb:   doubleFromSexagesimal(parallelDeg,   parallelMin)
         )

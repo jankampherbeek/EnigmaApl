@@ -172,7 +172,9 @@ struct ConfigEditKeys {
     static let orbSectionValues        = "view.configedit.orb.section.values"
     static let orbSystem               = "view.configedit.orb.system"
     static let orbAspectBase           = "view.configedit.orb.aspectbase"
-    static let orbMidpoint             = "view.configedit.orb.midpoint"
+    static let orbMidpoint360          = "view.configedit.orb.midpoint360"
+    static let orbMidpoint90           = "view.configedit.orb.midpoint90"
+    static let orbMidpoint45           = "view.configedit.orb.midpoint45"
     static let orbHarmonic             = "view.configedit.orb.harmonic"
     static let orbParallel             = "view.configedit.orb.parallel"
 

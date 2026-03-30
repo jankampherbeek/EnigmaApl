@@ -26,7 +26,7 @@ struct MidpointsOrchestrator {
     /// - Parameters:
     ///   - chart: The full chart with all factor positions.
     ///   - factorConfig: Determines which factors are included.
-    ///   - orbConfig: Provides the midpoint orb via `midpointOrb`.
+    ///   - orbConfig: Provides the midpoint orb for the given dial type.
     ///   - dialType: Determines which angular separations count as a match.
     /// - Returns: Sorted list of `MidpointMatch`, or empty if fewer than two active factors are found.
     static func matches(
@@ -38,11 +38,17 @@ struct MidpointsOrchestrator {
         let positions = activePositions(chart: chart, factorConfig: factorConfig)
         guard positions.count >= 2 else { return [] }
         let mids = MidpointsCalculator.calculate(positions: positions)
+        let orb: Double
+        switch dialType {
+        case .dial360: orb = orbConfig.midpoint360DialOrb
+        case .dial90:  orb = orbConfig.midpoint90DialOrb
+        case .dial45:  orb = orbConfig.midpoint45DialOrb
+        }
         return MidpointMatchFinder.find(
             baseMidpoints: mids,
             positions: positions,
             dialType: dialType,
-            orb: orbConfig.midpointOrb
+            orb: orb
         )
     }
 
