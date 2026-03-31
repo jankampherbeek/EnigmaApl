@@ -8,26 +8,26 @@
 "view.analysisscreen.btn.harmonics"            = "Harmonics";
 
 // HarmonicsScreen — shared
-"view.harmonicsscreen.nochart"                 = "Bereken of selecteer een horoscoop om harmonischen te bekijken.";
-"view.harmonicsscreen.inputlabel"              = "Harmonisch getal";
+"view.harmonicsscreen.nochart"                 = "Bereken of selecteer een horoscoop om harmonics te bekijken.";
+"view.harmonicsscreen.inputlabel"              = "Harmonic getal";
 "view.harmonicsscreen.btn.allharmonics"        = "Alle harmonischen";
 "view.harmonicsscreen.btn.matches"             = "Treffers";
-"view.harmonicsscreen.btn.drawing"             = "Harmonische tekening";
+"view.harmonicsscreen.btn.drawing"             = "Tekening harmonic";
 
 // AllHarmonicsView
-"view.allharmonicsview.title"                  = "Alle harmonischen";
+"view.allharmonicsview.title"                  = "Alle harmonics";
 "view.allharmonicsview.nodata"                 = "Geen harmonische posities gevonden voor de huidige configuratie.";
 "view.allharmonicsview.col.factor"             = "Factor";
 "view.allharmonicsview.col.position"           = "Positie";
 
 // HarmonicMatchesView
-"view.harmonicmatchesview.title"               = "Harmonische treffers";
+"view.harmonicmatchesview.title"               = "Treffers in harmonics";
 "view.harmonicmatchesview.nodata"              = "Geen treffers gevonden voor de huidige configuratie.";
-"view.harmonicmatchesview.col.harmonicfactor"  = "Harmonisch";
+"view.harmonicmatchesview.col.harmonicfactor"  = "Harmonic";
 "view.harmonicmatchesview.col.radixfactor"     = "Radix";
 "view.harmonicmatchesview.col.orb"             = "Orb";
 "view.harmonicmatchesview.col.exactness"       = "Exactheid";
 
 // HarmonicDrawingView
-"view.harmonicdrawingview.title"               = "Harmonische tekening";
+"view.harmonicdrawingview.title"               = "Harmonic tekening";
 "view.harmonicdrawingview.placeholder"         = "De grafische presentatie wordt beschikbaar in een toekomstige versie.";

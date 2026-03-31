@@ -51,16 +51,24 @@ struct HarmonicsOrchestrator {
 
     // MARK: - Private helpers
 
-    /// Returns (factor, ecliptic longitude) for all used factors that have a position in the chart.
+    /// Returns (factor, ecliptic longitude) for all used factors in the chart.
+    /// ASC and MC are sourced from HousePositions (they are not in chart.Coordinates).
     private static func activePositions(
         chart: FullChart,
         factorConfig: FactorConfig
     ) -> [(Factors, Double)] {
         let usedFactors = Set(factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor })
-        return chart.Coordinates.compactMap { factor, position in
+        var positions = chart.Coordinates.compactMap { factor, position -> (Factors, Double)? in
             guard usedFactors.contains(factor),
                   let longitude = position.ecliptical.first?.mainPos else { return nil }
             return (factor, longitude)
         }
+        if usedFactors.contains(.ascendant) {
+            positions.append((.ascendant, chart.HousePositions.ascendant.longitude))
+        }
+        if usedFactors.contains(.mc) {
+            positions.append((.mc, chart.HousePositions.midheaven.longitude))
+        }
+        return positions
     }
 }
