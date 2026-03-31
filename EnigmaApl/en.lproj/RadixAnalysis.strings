@@ -1,0 +1,33 @@
+// RadixAnalysis.strings - English
+// EnigmaApl
+
+// AnalysisScreen
+"view.analysisscreen.title"                    = "Analysis";
+"view.analysisscreen.btn.aspects"              = "Aspects";
+"view.analysisscreen.btn.midpoints"            = "Midpoints";
+"view.analysisscreen.btn.harmonics"            = "Harmonics";
+
+// HarmonicsScreen — shared
+"view.harmonicsscreen.nochart"                 = "Calculate or select a horoscope to view harmonics.";
+"view.harmonicsscreen.inputlabel"              = "Harmonic number";
+"view.harmonicsscreen.btn.allharmonics"        = "All harmonics";
+"view.harmonicsscreen.btn.matches"             = "Matches";
+"view.harmonicsscreen.btn.drawing"             = "Harmonic drawing";
+
+// AllHarmonicsView
+"view.allharmonicsview.title"                  = "All harmonics";
+"view.allharmonicsview.nodata"                 = "No harmonic positions found for the current configuration.";
+"view.allharmonicsview.col.factor"             = "Factor";
+"view.allharmonicsview.col.position"           = "Position";
+
+// HarmonicMatchesView
+"view.harmonicmatchesview.title"               = "Harmonic matches";
+"view.harmonicmatchesview.nodata"              = "No matches found for the current configuration.";
+"view.harmonicmatchesview.col.harmonicfactor"  = "Harmonic";
+"view.harmonicmatchesview.col.radixfactor"     = "Radix";
+"view.harmonicmatchesview.col.orb"             = "Orb";
+"view.harmonicmatchesview.col.exactness"       = "Exactness";
+
+// HarmonicDrawingView
+"view.harmonicdrawingview.title"               = "Harmonic drawing";
+"view.harmonicdrawingview.placeholder"         = "The graphic presentation will be available in a future version.";

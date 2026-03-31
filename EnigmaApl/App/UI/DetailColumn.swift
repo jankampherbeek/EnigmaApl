@@ -41,6 +41,8 @@ struct DetailColumn: View {
                 return "Aspecten"
             case .analysisMidpoints:
                 return "Midpunten"
+            case .analysisHarmonics:
+                return "Harmonischen"
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -89,6 +91,8 @@ struct DetailColumn: View {
                             AspectsScreen()
                         case .analysisMidpoints:
                             MidpointsScreen()
+                        case .analysisHarmonics:
+                            HarmonicsScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:
