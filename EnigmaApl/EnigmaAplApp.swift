@@ -43,5 +43,10 @@ struct EnigmaAplApp: App {
                 cyclesNav: composition.cyclesNav
             )
         }
+
+        Window("Over Enigma", id: "about") {
+            AboutView()
+        }
+        .windowResizability(.contentSize)
     }
 }

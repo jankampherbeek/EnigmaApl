@@ -9,8 +9,14 @@ struct AppCommands: Commands {
     @ObservedObject var radixNav: RadixNavigator
     @ObservedObject var researchNav: ResearchNavigator
     @ObservedObject var cyclesNav: CyclesNavigator
+    @Environment(\.openWindow) private var openWindow
 
     var body: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            Button(NSLocalizedString("about.menu.item", tableName: "About", bundle: .main, comment: "")) {
+                openWindow(id: "about")
+            }
+        }
         CommandMenu("Radix") {
             Button("Activeer Radix") { app.setMode(.radix) }
                 .keyboardShortcut("1", modifiers: [.command, .shift])
@@ -52,7 +58,7 @@ struct AppCommands: Commands {
                 .keyboardShortcut("4", modifiers: [.command, .shift])
         }
 
-        CommandMenu("View") {
+        CommandMenu("Weergave") {
             Button(app.ui.blackWhite ? "Switch to Color" : "Switch to Black & White") {
                 app.ui.blackWhite.toggle()
             }
