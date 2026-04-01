@@ -35,5 +35,13 @@ struct EnigmaAplApp: App {
                 .environmentObject(composition)
                 .modelContainer(PersistenceController.shared.container)
         }
+        .commands {
+            AppCommands(
+                app: composition.app,
+                radixNav: composition.radixNav,
+                researchNav: composition.researchNav,
+                cyclesNav: composition.cyclesNav
+            )
+        }
     }
 }

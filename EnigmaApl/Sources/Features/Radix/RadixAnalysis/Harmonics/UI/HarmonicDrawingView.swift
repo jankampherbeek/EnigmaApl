@@ -13,8 +13,10 @@ struct HarmonicDrawingView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var blackWhite = false
-    @State private var showExport = false
+    @State private var blackWhite    = false
+    @State private var showExport    = false
+    @State private var showFactsheet = false
+    @State private var showHelp      = false
 
     private func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "RadixAnalysis", bundle: .main, comment: "")
@@ -73,11 +75,44 @@ struct HarmonicDrawingView: View {
                 }
                 .accessibilityLabel("Export")
             }
+            ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
                 wheelView: HarmonicWheelCanvas(plotData: plotData, theme: currentTheme)
             )
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "harmonics")
+        }
+        .sheet(isPresented: $showHelp) {
+            NavigationStack {
+                ScrollView {
+                    Text(t(RadixAnalysisKeys.drawingHelp))
+                        .padding()
+                }
+                .navigationTitle("Help")
+                #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+                #endif
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("OK") { showHelp = false }
+                    }
+                }
+            }
+            .presentationDetents([.medium])
         }
     }
 

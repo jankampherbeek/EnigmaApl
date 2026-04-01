@@ -20,9 +20,6 @@ struct ContentColumn: View {
     private var preferTwoColumns: Bool { hSizeClass == .compact }
     private var isRadix: Bool { app.nav.mode == .radix }
 
-    @State private var blackWhite  = false
-    @State private var hideAspects = false
-    @State private var hideTime    = false
     @State private var showExport  = false
     @State private var showHelp    = false
 
@@ -46,9 +43,9 @@ struct ContentColumn: View {
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .newChart, .search, .editChart:
                     HoroscopeScreen(
-                        blackWhite:  $blackWhite,
-                        hideAspects: $hideAspects,
-                        hideTime:    $hideTime,
+                        blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
+                        hideAspects: Binding(get: { app.ui.hideAspects }, set: { app.ui.hideAspects = $0 }),
+                        hideTime:    Binding(get: { app.ui.hideTime },    set: { app.ui.hideTime = $0 }),
                         showExport:  $showExport
                     )
                 }
@@ -71,26 +68,26 @@ struct ContentColumn: View {
             }
             if isRadix {
                 ToolbarItem(placement: .automatic) {
-                    Button { blackWhite.toggle() } label: {
-                        Image(systemName: blackWhite ? "circle.lefthalf.filled" : "paintpalette")
+                    Button { app.ui.blackWhite.toggle() } label: {
+                        Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
                     }
-                    .accessibilityLabel(blackWhite ? "Switch to color" : "Switch to black and white")
+                    .accessibilityLabel(app.ui.blackWhite ? "Switch to color" : "Switch to black and white")
                 }
                 if hasAspects {
                     ToolbarItem(placement: .automatic) {
-                        Button { hideAspects.toggle() } label: {
+                        Button { app.ui.hideAspects.toggle() } label: {
                             Image(systemName: "angle")
-                                .foregroundStyle(hideAspects ? .secondary : .primary)
+                                .foregroundStyle(app.ui.hideAspects ? .secondary : .primary)
                         }
-                        .accessibilityLabel(hideAspects ? "Show aspects" : "Hide aspects")
+                        .accessibilityLabel(app.ui.hideAspects ? "Show aspects" : "Hide aspects")
                     }
                 }
                 ToolbarItem(placement: .automatic) {
-                    Button { hideTime.toggle() } label: {
+                    Button { app.ui.hideTime.toggle() } label: {
                         Image(systemName: "clock")
-                            .foregroundStyle(hideTime ? .secondary : .primary)
+                            .foregroundStyle(app.ui.hideTime ? .secondary : .primary)
                     }
-                    .accessibilityLabel(hideTime ? "Show time" : "Hide time")
+                    .accessibilityLabel(app.ui.hideTime ? "Show time" : "Hide time")
                 }
                 if isDial {
                     ToolbarItem(placement: .automatic) {

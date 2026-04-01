@@ -42,7 +42,7 @@ struct HarmonicsScreen: View {
             }
         }
         .onChange(of: harmonicText) { _, newText in
-            if let value = Double(newText), value > 0 {
+            if let value = Double(newText), value > 1, value <= 100_000 {
                 harmonicNumber = value
             }
         }

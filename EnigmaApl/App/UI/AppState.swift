@@ -112,6 +112,9 @@ struct UIState: Equatable {
     var sidebarSearch: String = ""
     var showInspectorSheet: Bool = false
     var showRadixInputInDetail: Bool = false
+    var blackWhite: Bool = false
+    var hideAspects: Bool = false
+    var hideTime: Bool = false
 }
 
 

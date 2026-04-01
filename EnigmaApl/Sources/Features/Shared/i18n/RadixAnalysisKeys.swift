@@ -37,4 +37,9 @@ struct RadixAnalysisKeys {
     // HarmonicDrawingView
     static let drawingTitle       = "view.harmonicdrawingview.title"
     static let drawingPlaceholder = "view.harmonicdrawingview.placeholder"
+
+    // Help texts
+    static let allHarmonicsHelp   = "view.allharmonicsview.help"
+    static let matchesHelp        = "view.harmonicmatchesview.help"
+    static let drawingHelp        = "view.harmonicdrawingview.help"
 }
