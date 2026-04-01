@@ -5,7 +5,8 @@
 "view.analysisscreen.title"                    = "Analyse";
 "view.analysisscreen.btn.aspects"              = "Aspecten";
 "view.analysisscreen.btn.midpoints"            = "Midpunten";
-"view.analysisscreen.btn.harmonics"            = "Harmonics";
+"view.analysisscreen.btn.harmonics"            = "Harmonischen";
+"view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Midpunten toont midpuntstructuren en bezette midpunten. Harmonischen toont harmonische posities en resonanties.";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Bereken of selecteer een horoscoop om harmonics te bekijken.";

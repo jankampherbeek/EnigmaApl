@@ -9,3 +9,4 @@
 "view.radixoverviewscreen.column.name"    = "Name";
 "view.radixoverviewscreen.column.julianday" = "Julianisches Datum";
 "view.radixoverviewscreen.select"         = "Auswählen";
+"view.radixoverviewscreen.help"           = "Die Übersicht zeigt alle Horoskope der aktuellen Sitzung. Verwenden Sie 'Neues Horoskop', um ein neues Horoskop zu berechnen, oder 'Horoskop suchen', um ein zuvor gespeichertes abzurufen. Wählen Sie ein Horoskop aus, um es für Stellungen, Aspekte, Halbsummen und Harmoniken zu aktivieren.";

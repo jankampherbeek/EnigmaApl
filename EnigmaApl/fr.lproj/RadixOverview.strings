@@ -9,3 +9,4 @@
 "view.radixoverviewscreen.column.name"    = "Nom";
 "view.radixoverviewscreen.column.julianday" = "Jour Julien";
 "view.radixoverviewscreen.select"         = "Sélectionner";
+"view.radixoverviewscreen.help"           = "L'aperçu affiche tous les horoscopes de la session en cours. Utilisez 'Nouvel horoscope' pour calculer un nouvel horoscope, ou 'Chercher un horoscope' pour en récupérer un précédemment sauvegardé. Sélectionnez un horoscope pour l'activer pour les positions, aspects, mi-points et harmoniques.";

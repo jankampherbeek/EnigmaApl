@@ -8,18 +8,16 @@ import SwiftData
 struct RingTypeWheel: View {
     let chart: FullChart
     let chartVersion: UUID
+    @Binding var blackWhite:  Bool
+    @Binding var hideAspects: Bool
+    @Binding var hideTime:    Bool
+    @Binding var showExport:  Bool
 
     @StateObject private var model = ZodiacTypeWheelModel()
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
-
-    @State private var blackWhite  = false
-    @State private var hideAspects = false
-    @State private var hideTime    = false
-    @State private var showExport  = false
-    @State private var showHelp    = false
 
     private var currentTheme: WheelTheme { blackWhite ? .blackWhite : .color }
 
@@ -44,16 +42,6 @@ struct RingTypeWheel: View {
                 showAspects: !hideAspects
             )
 
-            HStack(spacing: 8) {
-                Button(t(blackWhite  ? ChartWheelKeys.colorButton       : ChartWheelKeys.blackWhiteButton)) { blackWhite.toggle() }
-                Button(t(hideAspects ? ChartWheelKeys.showAspectsButton : ChartWheelKeys.noAspectsButton))  { hideAspects.toggle() }
-                Button(t(hideTime    ? ChartWheelKeys.withTimeButton    : ChartWheelKeys.noTimeButton))      { hideTime.toggle() }
-                Button(t(ChartWheelKeys.exportButton)) { showExport = true }
-                Button(t(ChartWheelKeys.helpButton))   { showHelp   = true }
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .padding(.vertical, 8)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
@@ -64,15 +52,8 @@ struct RingTypeWheel: View {
                 )
             )
         }
-        .sheet(isPresented: $showHelp) {
-            WheelHelpSheet(helpText: t(ChartWheelKeys.ringHelp))
-        }
         .onAppear { model.update(from: chart, config: activeConfig) }
         .onChange(of: chartVersion) { model.update(from: chart, config: activeConfig) }
-    }
-
-    private func t(_ key: String) -> String {
-        NSLocalizedString(key, tableName: "ChartWheel", bundle: .main, comment: "")
     }
 }
 

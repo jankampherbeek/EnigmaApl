@@ -12,6 +12,7 @@ struct RadixOverviewScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var radixNav: RadixNavigator
     @StateObject private var model = RadixOverviewModel()
+    @State private var showHelp = false
 
     private let nameWidth: CGFloat = 240
     private let julianDayWidth: CGFloat = 120
@@ -32,6 +33,17 @@ struct RadixOverviewScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(ro(RadixOverviewKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ro(RadixOverviewKeys.help))
+        }
     }
 
     // MARK: - Action buttons

@@ -19,24 +19,27 @@ struct HarmonicsScreen: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             if chartSession.selectedChart == nil {
                 ContentUnavailableView(
                     t(RadixAnalysisKeys.btnHarmonics),
                     systemImage: "waveform",
                     description: Text(t(RadixAnalysisKeys.noChart))
                 )
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 tabContent
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
-
-            Divider()
-
-            bottomBar
-                .padding(.horizontal)
-                .padding(.vertical, 10)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Picker("", selection: $activeTab) {
+                    Text(t(RadixAnalysisKeys.btnAllHarmonics)).tag(HarmonicsTab.all)
+                    Text(t(RadixAnalysisKeys.btnMatches)).tag(HarmonicsTab.matches)
+                    Text(t(RadixAnalysisKeys.btnDrawing)).tag(HarmonicsTab.drawing)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
+            }
         }
         .onChange(of: harmonicText) { _, newText in
             if let value = Double(newText), value > 0 {
@@ -57,24 +60,6 @@ struct HarmonicsScreen: View {
         case .drawing:
             HarmonicDrawingView(harmonicNumber: harmonicNumber, harmonicText: $harmonicText)
         }
-    }
-
-    // MARK: - Bottom bar
-
-    @ViewBuilder
-    private var bottomBar: some View {
-        HStack(spacing: 12) {
-            tabButton(.all,     label: t(RadixAnalysisKeys.btnAllHarmonics))
-            tabButton(.matches, label: t(RadixAnalysisKeys.btnMatches))
-            tabButton(.drawing, label: t(RadixAnalysisKeys.btnDrawing))
-        }
-    }
-
-    @ViewBuilder
-    private func tabButton(_ tab: HarmonicsTab, label: String) -> some View {
-        Button(label) { activeTab = tab }
-            .buttonStyle(.bordered)
-            .tint(activeTab == tab ? .accentColor : nil)
     }
 }
 

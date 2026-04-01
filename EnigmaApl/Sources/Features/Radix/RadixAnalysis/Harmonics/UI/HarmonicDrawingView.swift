@@ -56,20 +56,23 @@ struct HarmonicDrawingView: View {
 
                 HarmonicWheelCanvas(plotData: plotData, theme: currentTheme)
                     .frame(maxWidth: 600)
-
-                HStack(spacing: 8) {
-                    Button(tw(blackWhite ? ChartWheelKeys.colorButton : ChartWheelKeys.blackWhiteButton)) {
-                        blackWhite.toggle()
-                    }
-                    Button(tw(ChartWheelKeys.exportButton)) {
-                        showExport = true
-                    }
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { blackWhite.toggle() } label: {
+                    Image(systemName: blackWhite ? "circle.lefthalf.filled" : "paintpalette")
+                }
+                .accessibilityLabel(blackWhite ? "Switch to color" : "Switch to black and white")
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { showExport = true } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .accessibilityLabel("Export")
+            }
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(

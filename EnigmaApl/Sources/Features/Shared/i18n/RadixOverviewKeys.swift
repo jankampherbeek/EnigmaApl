@@ -14,4 +14,5 @@ struct RadixOverviewKeys {
     static let columnName     = "view.radixoverviewscreen.column.name"
     static let columnJulianDay = "view.radixoverviewscreen.column.julianday"
     static let select         = "view.radixoverviewscreen.select"
+    static let help           = "view.radixoverviewscreen.help"
 }

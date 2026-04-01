@@ -83,6 +83,7 @@ struct AspectsScreen: View {
     @EnvironmentObject private var radixNav: RadixNavigator
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
+    @State private var showHelp = false
 
     // Column widths for the list table
     private let glyphW: CGFloat = 36
@@ -181,6 +182,17 @@ struct AspectsScreen: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: "De aspectentrap toont aspecten in een matrix. De aspectenlijst toont alle gevonden aspecten met factor, aspect, orb en nauwkeurigheid. De nauwkeurigheid is 100% bij een exacte conjunctie en daalt naarmate de orb groter wordt.")
         }
     }
 

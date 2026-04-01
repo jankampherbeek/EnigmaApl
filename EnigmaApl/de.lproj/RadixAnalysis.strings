@@ -6,6 +6,7 @@
 "view.analysisscreen.btn.aspects"              = "Aspekte";
 "view.analysisscreen.btn.midpoints"            = "Halbsummen";
 "view.analysisscreen.btn.harmonics"            = "Harmoniken";
+"view.analysisscreen.help"                     = "Der Analyse-Bildschirm bietet Zugang zu analytischen Werkzeugen. Aspekte zeigt Aspektbeziehungen zwischen Faktoren. Halbsummen zeigt Halbsummenstrukturen und besetzte Halbsummen. Harmoniken zeigt harmonische Positionen und Resonanzen.";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Berechnen oder wählen Sie ein Horoskop, um Harmoniken anzuzeigen.";

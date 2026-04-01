@@ -12,7 +12,6 @@ struct MidpointsScreen: View {
 
     @State private var activeTab: MidpointsTab = .all
     @State private var dialType: MidpointDialType = .dial360
-    @State private var showFactsheet = false
 
     private func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "Midpoints", bundle: .main, comment: "")
@@ -28,29 +27,39 @@ struct MidpointsScreen: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             if chartSession.selectedChart == nil {
                 ContentUnavailableView(
                     t(MidpointsKeys.title),
                     systemImage: "circle.dashed",
                     description: Text(t(MidpointsKeys.noChart))
                 )
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 tabContent
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
-
-            Divider()
-
-            bottomBar
-                .padding(.horizontal)
-                .padding(.vertical, 10)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Picker("", selection: $activeTab) {
+                    Text(t(MidpointsKeys.btnAllMidpoints)).tag(MidpointsTab.all)
+                    Text(t(MidpointsKeys.btnOccupiedMidpoints)).tag(MidpointsTab.occupied)
+                }
+                .pickerStyle(.segmented)
+                .fixedSize()
+            }
+            if activeTab == .occupied {
+                ToolbarItem(placement: .automatic) {
+                    Picker("", selection: $dialType) {
+                        Text(t(MidpointsKeys.dial360)).tag(MidpointDialType.dial360)
+                        Text(t(MidpointsKeys.dial90)).tag(MidpointDialType.dial90)
+                        Text(t(MidpointsKeys.dial45)).tag(MidpointDialType.dial45)
+                    }
+                    .pickerStyle(.segmented)
+                    .fixedSize()
+                }
+            }
         }
         .onAppear { dialType = defaultDial }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "midpoints")
-        }
     }
 
     // MARK: - Tab content
@@ -63,47 +72,6 @@ struct MidpointsScreen: View {
         case .occupied:
             OccupiedMidpointsView(dialType: dialType)
         }
-    }
-
-    // MARK: - Bottom bar
-
-    @ViewBuilder
-    private var bottomBar: some View {
-        HStack(spacing: 12) {
-            // Tab buttons
-            tabButton(.all,      label: t(MidpointsKeys.btnAllMidpoints))
-            tabButton(.occupied, label: t(MidpointsKeys.btnOccupiedMidpoints))
-
-            Spacer()
-
-            // Dial buttons — only relevant for occupied midpoints
-            if activeTab == .occupied {
-                dialButton(.dial360, label: t(MidpointsKeys.dial360))
-                dialButton(.dial90,  label: t(MidpointsKeys.dial90))
-                dialButton(.dial45,  label: t(MidpointsKeys.dial45))
-            }
-
-            Button { showFactsheet = true } label: {
-                Image(systemName: "book.pages")
-            }
-            .accessibilityLabel("Factsheet")
-        }
-    }
-
-    // MARK: - Button helpers
-
-    @ViewBuilder
-    private func tabButton(_ tab: MidpointsTab, label: String) -> some View {
-        Button(label) { activeTab = tab }
-            .buttonStyle(.bordered)
-            .tint(activeTab == tab ? .accentColor : nil)
-    }
-
-    @ViewBuilder
-    private func dialButton(_ dial: MidpointDialType, label: String) -> some View {
-        Button(label) { dialType = dial }
-            .buttonStyle(.bordered)
-            .tint(dialType == dial ? .accentColor : nil)
     }
 }
 

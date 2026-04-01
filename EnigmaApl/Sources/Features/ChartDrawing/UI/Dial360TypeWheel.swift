@@ -8,45 +8,22 @@ import SwiftData
 struct Dial360TypeWheel: View {
     let chart:        FullChart
     let chartVersion: UUID
+    @Binding var blackWhite: Bool
+    @Binding var hideTime:   Bool
+    @Binding var showExport: Bool
 
     @StateObject private var model = Dial360TypeWheelModel()
 
-    @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var blackWhite = false
-    @State private var hideTime   = false
-    @State private var showExport = false
-    @State private var showHelp   = false
-
     var body: some View {
-        VStack(spacing: 4) {
-            ZStack {
-                Dial360TypeWheelCanvas(
-                    plotData: effectiveData,
-                    theme:    currentTheme
-                )
-                DialMidpointOverlay(plotData: effectiveData, dialType: .dial360)
-            }
-
-            HStack(spacing: 8) {
-                Picker("", selection: dialTypeBinding) {
-                    Text(t(ChartWheelKeys.dialType360)).tag(DrawingType.dial360)
-                    Text(t(ChartWheelKeys.dialType90)).tag(DrawingType.dial90)
-                    Text(t(ChartWheelKeys.dialType45)).tag(DrawingType.dial45)
-                }
-                .pickerStyle(.segmented)
-                .fixedSize()
-
-                Button(t(blackWhite ? ChartWheelKeys.colorButton     : ChartWheelKeys.blackWhiteButton)) { blackWhite.toggle() }
-                Button(t(hideTime   ? ChartWheelKeys.withTimeButton  : ChartWheelKeys.noTimeButton))     { hideTime.toggle() }
-                Button(t(ChartWheelKeys.exportButton))                                                   { showExport = true }
-                Button(t(ChartWheelKeys.helpButton))                                                     { showHelp   = true }
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .padding(.vertical, 8)
+        ZStack {
+            Dial360TypeWheelCanvas(
+                plotData: effectiveData,
+                theme:    currentTheme
+            )
+            DialMidpointOverlay(plotData: effectiveData, dialType: .dial360)
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
@@ -55,9 +32,6 @@ struct Dial360TypeWheel: View {
                     theme:    currentTheme
                 )
             )
-        }
-        .sheet(isPresented: $showHelp) {
-            WheelHelpSheet(helpText: t(ChartWheelKeys.dial360Help))
         }
         .onAppear   { model.update(from: chart, config: activeConfigs.first) }
         .onChange(of: chartVersion) { model.update(from: chart, config: activeConfigs.first) }
@@ -80,26 +54,5 @@ struct Dial360TypeWheel: View {
             hasTime: false,
             aspectItems: []
         )
-    }
-
-    // MARK: - Dial type picker
-
-    private var dialTypeBinding: Binding<DrawingType> {
-        Binding(
-            get: { activeConfigs.first?.displayConfig.drawingType ?? .dial360 },
-            set: { newType in
-                guard let config = activeConfigs.first else { return }
-                config.displayConfig = DisplayConfig(
-                    drawingType: newType,
-                    signColors:  config.displayConfig.signColors
-                )
-            }
-        )
-    }
-
-    // MARK: - i18n
-
-    private func t(_ key: String) -> String {
-        NSLocalizedString(key, tableName: "ChartWheel", bundle: .main, comment: "")
     }
 }

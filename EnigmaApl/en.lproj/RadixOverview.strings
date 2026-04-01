@@ -9,3 +9,4 @@
 "view.radixoverviewscreen.column.name"    = "Name";
 "view.radixoverviewscreen.column.julianday" = "Julian Day";
 "view.radixoverviewscreen.select"         = "Select";
+"view.radixoverviewscreen.help"           = "The Overview shows all horoscopes in the current session. Use 'New Chart' to calculate a new horoscope, or 'Search Chart' to retrieve a previously saved one. Select a horoscope to make it active for positions, aspects, midpoints and harmonics.";

@@ -9,3 +9,4 @@
 "view.radixoverviewscreen.column.name"    = "Naam";
 "view.radixoverviewscreen.column.julianday" = "Juliaanse Dag";
 "view.radixoverviewscreen.select"         = "Selecteer";
+"view.radixoverviewscreen.help"           = "Het overzicht toont alle horoscopen in de huidige sessie. Gebruik 'Nieuwe horoscoop' om een nieuwe horoscoop te berekenen, of 'Zoek horoscoop' om een eerder opgeslagen horoscoop op te halen. Selecteer een horoscoop om hem actief te maken voor standen, aspecten, midpunten en harmonischen.";

@@ -5,6 +5,7 @@ import SwiftUI
 
 struct AnalysisScreen: View {
     @EnvironmentObject private var radixNav: RadixNavigator
+    @State private var showHelp = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -28,6 +29,17 @@ struct AnalysisScreen: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(RadixAnalysisKeys.help))
+        }
     }
 
     private func t(_ key: String) -> String {
