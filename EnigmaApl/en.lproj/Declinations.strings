@@ -12,7 +12,10 @@
 
 // AllDeclinationsView
 "view.alldeclinationsview.title"                     = "All declinations";
-"view.alldeclinationsview.nodata"                    = "This view will be available in a future version.";
+"view.alldeclinationsview.nodata"                    = "No declination data available.";
+"view.alldeclinationsview.col.factor"                = "Factor";
+"view.alldeclinationsview.col.longitude"             = "Longitude";
+"view.alldeclinationsview.col.declination"           = "Declination";
 "view.alldeclinationsview.help"                      = "This screen will show the declination for each factor selected in the configuration.";
 
 // DeclinationParallelsView

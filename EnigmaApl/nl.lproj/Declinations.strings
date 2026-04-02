@@ -12,7 +12,10 @@
 
 // AllDeclinationsView
 "view.alldeclinationsview.title"                     = "Alle declinaties";
-"view.alldeclinationsview.nodata"                    = "Dit scherm wordt beschikbaar in een toekomstige versie.";
+"view.alldeclinationsview.nodata"                    = "Geen declinatiegegevens beschikbaar.";
+"view.alldeclinationsview.col.factor"                = "Factor";
+"view.alldeclinationsview.col.longitude"             = "Lengtegraad";
+"view.alldeclinationsview.col.declination"           = "Declinatie";
 "view.alldeclinationsview.help"                      = "Dit scherm toont de declinatie voor elke factor die in de configuratie is geselecteerd.";
 
 // DeclinationParallelsView

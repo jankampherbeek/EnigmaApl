@@ -19,6 +19,9 @@ struct DeclinationsKeys {
     static let allDeclinationsTitle   = "view.alldeclinationsview.title"
     static let allDeclinationsNoData  = "view.alldeclinationsview.nodata"
     static let allDeclinationsHelp    = "view.alldeclinationsview.help"
+    static let colFactor              = "view.alldeclinationsview.col.factor"
+    static let colLongitude           = "view.alldeclinationsview.col.longitude"
+    static let colDeclination         = "view.alldeclinationsview.col.declination"
 
     // DeclinationParallelsView
     static let parallelsTitle         = "view.declinationparallelsview.title"

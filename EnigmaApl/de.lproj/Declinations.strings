@@ -12,7 +12,10 @@
 
 // AllDeclinationsView
 "view.alldeclinationsview.title"                     = "Alle Deklinationen";
-"view.alldeclinationsview.nodata"                    = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
+"view.alldeclinationsview.nodata"                    = "Keine Deklinationsdaten verfügbar.";
+"view.alldeclinationsview.col.factor"                = "Faktor";
+"view.alldeclinationsview.col.longitude"             = "Längengrad";
+"view.alldeclinationsview.col.declination"           = "Deklination";
 "view.alldeclinationsview.help"                      = "Dieser Bildschirm zeigt die Deklination für jeden in der Konfiguration ausgewählten Faktor.";
 
 // DeclinationParallelsView

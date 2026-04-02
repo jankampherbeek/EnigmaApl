@@ -12,7 +12,10 @@
 
 // AllDeclinationsView
 "view.alldeclinationsview.title"                     = "Toutes les déclinaisons";
-"view.alldeclinationsview.nodata"                    = "Cet écran sera disponible dans une version future.";
+"view.alldeclinationsview.nodata"                    = "Aucune donnée de déclinaison disponible.";
+"view.alldeclinationsview.col.factor"                = "Facteur";
+"view.alldeclinationsview.col.longitude"             = "Longitude";
+"view.alldeclinationsview.col.declination"           = "Déclinaison";
 "view.alldeclinationsview.help"                      = "Cet écran affichera la déclinaison de chaque facteur sélectionné dans la configuration.";
 
 // DeclinationParallelsView
