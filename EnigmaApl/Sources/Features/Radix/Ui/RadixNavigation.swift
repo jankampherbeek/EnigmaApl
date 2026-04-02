@@ -20,6 +20,7 @@ enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
     case analysisAspects    = "Aspecten"
     case analysisMidpoints  = "Midpunten"
     case analysisHarmonics  = "Harmonischen"
+    case analysisDeclinations = "Declinaties"
     case newChart        = "New Chart"
     case search          = "Zoek"
     case editChart       = "Wijzig"

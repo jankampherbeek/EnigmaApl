@@ -6,6 +6,7 @@
 "view.analysisscreen.btn.aspects"              = "Aspects";
 "view.analysisscreen.btn.midpoints"            = "Midpoints";
 "view.analysisscreen.btn.harmonics"            = "Harmonics";
+"view.analysisscreen.btn.declinations"         = "Declinations";
 "view.analysisscreen.help"                     = "The Analysis screen gives access to analytical tools. Aspects shows aspect relationships between chart factors. Midpoints shows midpoint structures and occupied midpoints. Harmonics shows harmonic positions and resonances.";
 
 // HarmonicsScreen — shared

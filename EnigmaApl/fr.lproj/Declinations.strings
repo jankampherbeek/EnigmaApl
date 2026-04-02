@@ -1,0 +1,36 @@
+// Declinations.strings - Français
+// EnigmaApl
+
+// DeclinationsScreen — partagé
+"view.declinationsscreen.title"                      = "Déclinaisons";
+"view.declinationsscreen.nochart"                    = "Calculez ou sélectionnez un horoscope pour voir les déclinaisons.";
+"view.declinationsscreen.btn.alldeclinations"        = "Toutes les déclinaisons";
+"view.declinationsscreen.btn.parallels"              = "Parallèles";
+"view.declinationsscreen.btn.equivalents"            = "Équivalents";
+"view.declinationsscreen.btn.diagram"                = "Diagramme";
+"view.declinationsscreen.btn.midpoints"              = "Mi-points";
+
+// AllDeclinationsView
+"view.alldeclinationsview.title"                     = "Toutes les déclinaisons";
+"view.alldeclinationsview.nodata"                    = "Cet écran sera disponible dans une version future.";
+"view.alldeclinationsview.help"                      = "Cet écran affichera la déclinaison de chaque facteur sélectionné dans la configuration.";
+
+// DeclinationParallelsView
+"view.declinationparallelsview.title"                = "Parallèles";
+"view.declinationparallelsview.nodata"               = "Cet écran sera disponible dans une version future.";
+"view.declinationparallelsview.help"                 = "Cet écran affichera les aspects parallèles entre facteurs basés sur leurs déclinaisons.";
+
+// DeclinationLongEquivalentsView
+"view.declinationlongequivalentsview.title"          = "Équivalents en longitude";
+"view.declinationlongequivalentsview.nodata"         = "Cet écran sera disponible dans une version future.";
+"view.declinationlongequivalentsview.help"           = "Cet écran affichera les équivalents en longitude dérivés des déclinaisons des facteurs.";
+
+// DeclinationDiagramView
+"view.declinationdiagramview.title"                  = "Diagramme des déclinaisons";
+"view.declinationdiagramview.placeholder"            = "Le diagramme sera disponible dans une version future.";
+"view.declinationdiagramview.help"                   = "Cet écran affichera un diagramme graphique des déclinaisons.";
+
+// DeclinationMidpointsView
+"view.declinationmidpointsview.title"                = "Mi-points de déclinaison";
+"view.declinationmidpointsview.nodata"               = "Cet écran sera disponible dans une version future.";
+"view.declinationmidpointsview.help"                 = "Cet écran affichera les mi-points calculés à partir des déclinaisons des facteurs.";

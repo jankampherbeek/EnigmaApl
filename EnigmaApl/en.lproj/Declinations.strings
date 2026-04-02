@@ -1,0 +1,36 @@
+// Declinations.strings - English
+// EnigmaApl
+
+// DeclinationsScreen — shared
+"view.declinationsscreen.title"                      = "Declinations";
+"view.declinationsscreen.nochart"                    = "Calculate or select a horoscope to view declinations.";
+"view.declinationsscreen.btn.alldeclinations"        = "All declinations";
+"view.declinationsscreen.btn.parallels"              = "Parallels";
+"view.declinationsscreen.btn.equivalents"            = "Equivalents";
+"view.declinationsscreen.btn.diagram"                = "Diagram";
+"view.declinationsscreen.btn.midpoints"              = "Midpoints";
+
+// AllDeclinationsView
+"view.alldeclinationsview.title"                     = "All declinations";
+"view.alldeclinationsview.nodata"                    = "This view will be available in a future version.";
+"view.alldeclinationsview.help"                      = "This screen will show the declination for each factor selected in the configuration.";
+
+// DeclinationParallelsView
+"view.declinationparallelsview.title"                = "Parallels";
+"view.declinationparallelsview.nodata"               = "This view will be available in a future version.";
+"view.declinationparallelsview.help"                 = "This screen will show parallel aspects between factors based on their declinations.";
+
+// DeclinationLongEquivalentsView
+"view.declinationlongequivalentsview.title"          = "Longitude equivalents";
+"view.declinationlongequivalentsview.nodata"         = "This view will be available in a future version.";
+"view.declinationlongequivalentsview.help"           = "This screen will show the longitude equivalents derived from the declinations of the factors.";
+
+// DeclinationDiagramView
+"view.declinationdiagramview.title"                  = "Declination diagram";
+"view.declinationdiagramview.placeholder"            = "The diagram will be available in a future version.";
+"view.declinationdiagramview.help"                   = "This screen will show a graphical diagram of the declinations.";
+
+// DeclinationMidpointsView
+"view.declinationmidpointsview.title"                = "Declination midpoints";
+"view.declinationmidpointsview.nodata"               = "This view will be available in a future version.";
+"view.declinationmidpointsview.help"                 = "This screen will show midpoints calculated from the declinations of the factors.";

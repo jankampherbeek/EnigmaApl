@@ -27,6 +27,7 @@ struct AppCommands: Commands {
                 .keyboardShortcut("2", modifiers: [.command, .option])
             Button("Analysis")   { app.setMode(.radix); radixNav.setInspector(.analysis) }
                 .keyboardShortcut("3", modifiers: [.command, .option])
+            Button("Declinations") { app.setMode(.radix); radixNav.setInspector(.analysisDeclinations) }
             Button("Zoek")       { app.setMode(.radix); radixNav.setInspector(.search) }
                 .keyboardShortcut("4", modifiers: [.command, .option])
         }

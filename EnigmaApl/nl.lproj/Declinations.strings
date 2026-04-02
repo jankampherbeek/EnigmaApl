@@ -1,0 +1,36 @@
+// Declinations.strings - Nederlands
+// EnigmaApl
+
+// DeclinationsScreen — gedeeld
+"view.declinationsscreen.title"                      = "Declinaties";
+"view.declinationsscreen.nochart"                    = "Bereken of selecteer een horoscoop om declinaties te bekijken.";
+"view.declinationsscreen.btn.alldeclinations"        = "Alle declinaties";
+"view.declinationsscreen.btn.parallels"              = "Parallellen";
+"view.declinationsscreen.btn.equivalents"            = "Equivalenten";
+"view.declinationsscreen.btn.diagram"                = "Diagram";
+"view.declinationsscreen.btn.midpoints"              = "Midpunten";
+
+// AllDeclinationsView
+"view.alldeclinationsview.title"                     = "Alle declinaties";
+"view.alldeclinationsview.nodata"                    = "Dit scherm wordt beschikbaar in een toekomstige versie.";
+"view.alldeclinationsview.help"                      = "Dit scherm toont de declinatie voor elke factor die in de configuratie is geselecteerd.";
+
+// DeclinationParallelsView
+"view.declinationparallelsview.title"                = "Parallellen";
+"view.declinationparallelsview.nodata"               = "Dit scherm wordt beschikbaar in een toekomstige versie.";
+"view.declinationparallelsview.help"                 = "Dit scherm toont parallelle aspecten tussen factoren op basis van hun declinaties.";
+
+// DeclinationLongEquivalentsView
+"view.declinationlongequivalentsview.title"          = "Lengtegraad-equivalenten";
+"view.declinationlongequivalentsview.nodata"         = "Dit scherm wordt beschikbaar in een toekomstige versie.";
+"view.declinationlongequivalentsview.help"           = "Dit scherm toont de lengtegraad-equivalenten afgeleid van de declinaties van de factoren.";
+
+// DeclinationDiagramView
+"view.declinationdiagramview.title"                  = "Declinatiediagram";
+"view.declinationdiagramview.placeholder"            = "Het diagram wordt beschikbaar in een toekomstige versie.";
+"view.declinationdiagramview.help"                   = "Dit scherm toont een grafisch diagram van de declinaties.";
+
+// DeclinationMidpointsView
+"view.declinationmidpointsview.title"                = "Declinatie-midpunten";
+"view.declinationmidpointsview.nodata"               = "Dit scherm wordt beschikbaar in een toekomstige versie.";
+"view.declinationmidpointsview.help"                 = "Dit scherm toont midpunten berekend vanuit de declinaties van de factoren.";

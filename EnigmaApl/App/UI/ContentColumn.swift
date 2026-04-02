@@ -41,7 +41,7 @@ struct ContentColumn: View {
             case .radix:
                 switch app.nav.radix.inspector {
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
-                     .analysisMidpoints, .analysisHarmonics, .newChart, .search, .editChart:
+                     .analysisMidpoints, .analysisHarmonics, .analysisDeclinations, .newChart, .search, .editChart:
                     HoroscopeScreen(
                         blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
                         hideAspects: Binding(get: { app.ui.hideAspects }, set: { app.ui.hideAspects = $0 }),

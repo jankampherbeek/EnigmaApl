@@ -26,6 +26,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisHarmonics)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnDeclinations)) {
+                radixNav.setInspector(.analysisDeclinations)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

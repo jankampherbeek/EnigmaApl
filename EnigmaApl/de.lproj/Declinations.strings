@@ -1,0 +1,36 @@
+// Declinations.strings - Deutsch
+// EnigmaApl
+
+// DeclinationsScreen — geteilt
+"view.declinationsscreen.title"                      = "Deklinationen";
+"view.declinationsscreen.nochart"                    = "Berechnen oder wählen Sie ein Horoskop, um Deklinationen anzuzeigen.";
+"view.declinationsscreen.btn.alldeclinations"        = "Alle Deklinationen";
+"view.declinationsscreen.btn.parallels"              = "Parallelen";
+"view.declinationsscreen.btn.equivalents"            = "Äquivalente";
+"view.declinationsscreen.btn.diagram"                = "Diagramm";
+"view.declinationsscreen.btn.midpoints"              = "Halbsummen";
+
+// AllDeclinationsView
+"view.alldeclinationsview.title"                     = "Alle Deklinationen";
+"view.alldeclinationsview.nodata"                    = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
+"view.alldeclinationsview.help"                      = "Dieser Bildschirm zeigt die Deklination für jeden in der Konfiguration ausgewählten Faktor.";
+
+// DeclinationParallelsView
+"view.declinationparallelsview.title"                = "Parallelen";
+"view.declinationparallelsview.nodata"               = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
+"view.declinationparallelsview.help"                 = "Dieser Bildschirm zeigt Parallelaspekte zwischen Faktoren basierend auf ihren Deklinationen.";
+
+// DeclinationLongEquivalentsView
+"view.declinationlongequivalentsview.title"          = "Längengrad-Äquivalente";
+"view.declinationlongequivalentsview.nodata"         = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
+"view.declinationlongequivalentsview.help"           = "Dieser Bildschirm zeigt die Längengrad-Äquivalente aus den Deklinationen der Faktoren.";
+
+// DeclinationDiagramView
+"view.declinationdiagramview.title"                  = "Deklinationsdiagramm";
+"view.declinationdiagramview.placeholder"            = "Das Diagramm wird in einer zukünftigen Version verfügbar sein.";
+"view.declinationdiagramview.help"                   = "Dieser Bildschirm zeigt ein grafisches Diagramm der Deklinationen.";
+
+// DeclinationMidpointsView
+"view.declinationmidpointsview.title"                = "Deklinations-Halbsummen";
+"view.declinationmidpointsview.nodata"               = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
+"view.declinationmidpointsview.help"                 = "Dieser Bildschirm zeigt Halbsummen, die aus den Deklinationen der Faktoren berechnet werden.";
