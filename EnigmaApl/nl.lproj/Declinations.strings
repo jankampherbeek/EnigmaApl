@@ -20,8 +20,15 @@
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallellen";
-"view.declinationparallelsview.nodata"               = "Dit scherm wordt beschikbaar in een toekomstige versie.";
-"view.declinationparallelsview.help"                 = "Dit scherm toont parallelle aspecten tussen factoren op basis van hun declinaties.";
+"view.declinationparallelsview.nodata"               = "Geen parallellen gevonden.";
+"view.declinationparallelsview.help"                 = "Dit scherm toont parallelle en contra-parallelle aspecten tussen factoren op basis van hun declinaties. Een parallel (P) treedt op wanneer twee factoren dezelfde absolute declinatie hebben aan dezelfde kant van de equator. Een contra-parallel (CP) treedt op wanneer ze dezelfde absolute declinatie hebben maar aan tegengestelde kanten.";
+"view.declinationparallelsview.col.factor1"          = "F1";
+"view.declinationparallelsview.col.decl1"            = "Decl 1";
+"view.declinationparallelsview.col.aspect"           = "Asp";
+"view.declinationparallelsview.col.factor2"          = "F2";
+"view.declinationparallelsview.col.decl2"            = "Decl 2";
+"view.declinationparallelsview.col.orb"              = "Orb";
+"view.declinationparallelsview.col.exactness"        = "Exactheid";
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Lengtegraad-equivalenten";

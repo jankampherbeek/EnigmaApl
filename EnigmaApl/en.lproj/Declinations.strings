@@ -20,8 +20,15 @@
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallels";
-"view.declinationparallelsview.nodata"               = "This view will be available in a future version.";
-"view.declinationparallelsview.help"                 = "This screen will show parallel aspects between factors based on their declinations.";
+"view.declinationparallelsview.nodata"               = "No parallels found.";
+"view.declinationparallelsview.help"                 = "This screen shows parallel and contra-parallel aspects between factors based on their declinations. A parallel (P) occurs when two factors have the same absolute declination on the same side of the equator. A contra-parallel (CP) occurs when they have the same absolute declination on opposite sides.";
+"view.declinationparallelsview.col.factor1"          = "F1";
+"view.declinationparallelsview.col.decl1"            = "Decl 1";
+"view.declinationparallelsview.col.aspect"           = "Asp";
+"view.declinationparallelsview.col.factor2"          = "F2";
+"view.declinationparallelsview.col.decl2"            = "Decl 2";
+"view.declinationparallelsview.col.orb"              = "Orb";
+"view.declinationparallelsview.col.exactness"        = "Exactness";
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Longitude equivalents";

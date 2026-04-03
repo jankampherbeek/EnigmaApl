@@ -27,6 +27,13 @@ struct DeclinationsKeys {
     static let parallelsTitle         = "view.declinationparallelsview.title"
     static let parallelsNoData        = "view.declinationparallelsview.nodata"
     static let parallelsHelp          = "view.declinationparallelsview.help"
+    static let parallelsColFactor1    = "view.declinationparallelsview.col.factor1"
+    static let parallelsColDecl1      = "view.declinationparallelsview.col.decl1"
+    static let parallelsColAspect     = "view.declinationparallelsview.col.aspect"
+    static let parallelsColFactor2    = "view.declinationparallelsview.col.factor2"
+    static let parallelsColDecl2      = "view.declinationparallelsview.col.decl2"
+    static let parallelsColOrb        = "view.declinationparallelsview.col.orb"
+    static let parallelsColExactness  = "view.declinationparallelsview.col.exactness"
 
     // DeclinationLongEquivalentsView
     static let equivalentsTitle       = "view.declinationlongequivalentsview.title"

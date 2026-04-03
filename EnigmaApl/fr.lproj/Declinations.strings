@@ -20,8 +20,15 @@
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallèles";
-"view.declinationparallelsview.nodata"               = "Cet écran sera disponible dans une version future.";
-"view.declinationparallelsview.help"                 = "Cet écran affichera les aspects parallèles entre facteurs basés sur leurs déclinaisons.";
+"view.declinationparallelsview.nodata"               = "Aucun parallèle trouvé.";
+"view.declinationparallelsview.help"                 = "Cet écran affiche les aspects parallèles et contra-parallèles entre facteurs basés sur leurs déclinaisons. Un parallèle (P) se produit quand deux facteurs ont la même déclinaison absolue du même côté de l'équateur. Un contra-parallèle (CP) se produit quand ils ont la même valeur absolue mais de côtés opposés.";
+"view.declinationparallelsview.col.factor1"          = "F1";
+"view.declinationparallelsview.col.decl1"            = "Décl 1";
+"view.declinationparallelsview.col.aspect"           = "Asp";
+"view.declinationparallelsview.col.factor2"          = "F2";
+"view.declinationparallelsview.col.decl2"            = "Décl 2";
+"view.declinationparallelsview.col.orb"              = "Orbe";
+"view.declinationparallelsview.col.exactness"        = "Exactitude";
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Équivalents en longitude";

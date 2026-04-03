@@ -20,8 +20,15 @@
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallelen";
-"view.declinationparallelsview.nodata"               = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
-"view.declinationparallelsview.help"                 = "Dieser Bildschirm zeigt Parallelaspekte zwischen Faktoren basierend auf ihren Deklinationen.";
+"view.declinationparallelsview.nodata"               = "Keine Parallelen gefunden.";
+"view.declinationparallelsview.help"                 = "Dieser Bildschirm zeigt parallele und kontra-parallele Aspekte zwischen Faktoren basierend auf ihren Deklinationen. Eine Parallele (P) tritt auf, wenn zwei Faktoren den gleichen absoluten Deklinationswert auf derselben Seite des Äquators haben. Eine Kontra-Parallele (CP) tritt auf, wenn sie den gleichen absoluten Wert auf gegenüberliegenden Seiten haben.";
+"view.declinationparallelsview.col.factor1"          = "F1";
+"view.declinationparallelsview.col.decl1"            = "Dekl 1";
+"view.declinationparallelsview.col.aspect"           = "Asp";
+"view.declinationparallelsview.col.factor2"          = "F2";
+"view.declinationparallelsview.col.decl2"            = "Dekl 2";
+"view.declinationparallelsview.col.orb"              = "Orb";
+"view.declinationparallelsview.col.exactness"        = "Exaktheit";
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Längengrad-Äquivalente";
