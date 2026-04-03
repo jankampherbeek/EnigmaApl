@@ -32,8 +32,11 @@
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Lengtegraad-equivalenten";
-"view.declinationlongequivalentsview.nodata"         = "Dit scherm wordt beschikbaar in een toekomstige versie.";
-"view.declinationlongequivalentsview.help"           = "Dit scherm toont de lengtegraad-equivalenten afgeleid van de declinaties van de factoren.";
+"view.declinationlongequivalentsview.nodata"         = "Geen lengtegraad-equivalenten beschikbaar.";
+"view.declinationlongequivalentsview.help"           = "Dit scherm toont het lengtegraad-equivalent voor elke factor. Het equivalent is de ecliptische lengtegraad die overeenkomt met de declinatie van de factor. Factoren met OOB (out of bounds) hebben een declinatie die de schuinstand van de ecliptica overschrijdt. Het horoscoopwiel toont alle factoren op hun equivalente posities.";
+"view.declinationlongequivalentsview.col.factor"     = "Factor";
+"view.declinationlongequivalentsview.col.longitude"  = "Lengtegraad";
+"view.declinationlongequivalentsview.col.equivalent" = "Equivalent";
 
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Declinatiediagram";

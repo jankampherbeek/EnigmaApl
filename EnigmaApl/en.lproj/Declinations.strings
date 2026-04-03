@@ -32,8 +32,11 @@
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Longitude equivalents";
-"view.declinationlongequivalentsview.nodata"         = "This view will be available in a future version.";
-"view.declinationlongequivalentsview.help"           = "This screen will show the longitude equivalents derived from the declinations of the factors.";
+"view.declinationlongequivalentsview.nodata"         = "No longitude equivalents available.";
+"view.declinationlongequivalentsview.help"           = "This screen shows the longitude equivalent for each factor. The longitude equivalent is the ecliptic longitude that corresponds to the factor's declination. Factors marked OOB (out of bounds) have a declination exceeding the obliquity of the ecliptic. The chart wheel shows all factors plotted at their longitude equivalent positions.";
+"view.declinationlongequivalentsview.col.factor"     = "Factor";
+"view.declinationlongequivalentsview.col.longitude"  = "Longitude";
+"view.declinationlongequivalentsview.col.equivalent" = "Equivalent";
 
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Declination diagram";

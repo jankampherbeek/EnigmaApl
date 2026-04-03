@@ -32,8 +32,11 @@
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Längengrad-Äquivalente";
-"view.declinationlongequivalentsview.nodata"         = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
-"view.declinationlongequivalentsview.help"           = "Dieser Bildschirm zeigt die Längengrad-Äquivalente aus den Deklinationen der Faktoren.";
+"view.declinationlongequivalentsview.nodata"         = "Keine Längengrad-Äquivalente verfügbar.";
+"view.declinationlongequivalentsview.help"           = "Dieser Bildschirm zeigt das Längengrad-Äquivalent für jeden Faktor. Das Äquivalent ist der ekliptische Längengrad, der der Deklination des Faktors entspricht. Faktoren mit OOB (out of bounds) haben eine Deklination, die die Schiefe der Ekliptik überschreitet. Das Horoskoprad zeigt alle Faktoren an ihren äquivalenten Positionen.";
+"view.declinationlongequivalentsview.col.factor"     = "Faktor";
+"view.declinationlongequivalentsview.col.longitude"  = "Längengrad";
+"view.declinationlongequivalentsview.col.equivalent" = "Äquivalent";
 
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Deklinationsdiagramm";

@@ -39,6 +39,9 @@ struct DeclinationsKeys {
     static let equivalentsTitle       = "view.declinationlongequivalentsview.title"
     static let equivalentsNoData      = "view.declinationlongequivalentsview.nodata"
     static let equivalentsHelp        = "view.declinationlongequivalentsview.help"
+    static let equivalentsColFactor   = "view.declinationlongequivalentsview.col.factor"
+    static let equivalentsColLong     = "view.declinationlongequivalentsview.col.longitude"
+    static let equivalentsColEquiv    = "view.declinationlongequivalentsview.col.equivalent"
 
     // DeclinationDiagramView
     static let diagramTitle           = "view.declinationdiagramview.title"

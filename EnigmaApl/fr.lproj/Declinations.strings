@@ -32,8 +32,11 @@
 
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Équivalents en longitude";
-"view.declinationlongequivalentsview.nodata"         = "Cet écran sera disponible dans une version future.";
-"view.declinationlongequivalentsview.help"           = "Cet écran affichera les équivalents en longitude dérivés des déclinaisons des facteurs.";
+"view.declinationlongequivalentsview.nodata"         = "Aucun équivalent en longitude disponible.";
+"view.declinationlongequivalentsview.help"           = "Cet écran affiche l'équivalent en longitude pour chaque facteur. L'équivalent est la longitude écliptique correspondant à la déclinaison du facteur. Les facteurs marqués OOB (hors limites) ont une déclinaison dépassant l'obliquité de l'écliptique. La roue horoscopique montre tous les facteurs à leurs positions équivalentes.";
+"view.declinationlongequivalentsview.col.factor"     = "Facteur";
+"view.declinationlongequivalentsview.col.longitude"  = "Longitude";
+"view.declinationlongequivalentsview.col.equivalent" = "Équivalent";
 
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Diagramme des déclinaisons";
