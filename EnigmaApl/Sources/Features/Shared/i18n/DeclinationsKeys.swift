@@ -44,12 +44,26 @@ struct DeclinationsKeys {
     static let equivalentsColEquiv    = "view.declinationlongequivalentsview.col.equivalent"
 
     // DeclinationDiagramView
-    static let diagramTitle           = "view.declinationdiagramview.title"
-    static let diagramPlaceholder     = "view.declinationdiagramview.placeholder"
-    static let diagramHelp            = "view.declinationdiagramview.help"
+    static let diagramTitle              = "view.declinationdiagramview.title"
+    static let diagramPlaceholder        = "view.declinationdiagramview.placeholder"
+    static let diagramHelp               = "view.declinationdiagramview.help"
+    static let diagramNoData             = "view.declinationdiagramview.nodata"
+    static let diagramColFactor          = "view.declinationdiagramview.col.factor"
+    static let diagramColLongitude       = "view.declinationdiagramview.col.longitude"
+    static let diagramColDeclination     = "view.declinationdiagramview.col.declination"
+    static let diagramBtnPositionLines   = "view.declinationdiagramview.btn.positionlines"
 
     // DeclinationMidpointsView
     static let decMidpointsTitle      = "view.declinationmidpointsview.title"
     static let decMidpointsNoData     = "view.declinationmidpointsview.nodata"
     static let decMidpointsHelp       = "view.declinationmidpointsview.help"
+    static let decMidpointsNorth      = "view.declinationmidpointsview.label.north"
+    static let decMidpointsSouth      = "view.declinationmidpointsview.label.south"
+    static let decMidpointsColF1       = "view.declinationmidpointsview.col.factor1"
+    static let decMidpointsColF2       = "view.declinationmidpointsview.col.factor2"
+    static let decMidpointsColMidpoint = "view.declinationmidpointsview.col.midpoint"
+    static let decMidpointsColOccupant = "view.declinationmidpointsview.col.occupant"
+    static let decMidpointsColOccDecl  = "view.declinationmidpointsview.col.occdecl"
+    static let decMidpointsColOrb      = "view.declinationmidpointsview.col.orb"
+    static let decMidpointsColExactness = "view.declinationmidpointsview.col.exactness"
 }

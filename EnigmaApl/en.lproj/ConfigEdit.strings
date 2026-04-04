@@ -163,6 +163,7 @@
 "view.configedit.orb.midpoint45"      = "Midpoint orb 45°";
 "view.configedit.orb.harmonic"        = "Harmonic orb";
 "view.configedit.orb.parallel"        = "Parallel orb";
+"view.configedit.orb.declinationmidpoint" = "Declination midpoint orb";
 
 // Orb editor help
 "view.configedit.orb.help.tooltip"    = "Help for orbs";

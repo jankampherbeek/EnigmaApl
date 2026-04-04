@@ -41,9 +41,25 @@
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Declinatiediagram";
 "view.declinationdiagramview.placeholder"            = "Het diagram wordt beschikbaar in een toekomstige versie.";
-"view.declinationdiagramview.help"                   = "Dit scherm toont een grafisch diagram van de declinaties.";
+"view.declinationdiagramview.help"                   = "Dit scherm toont een grafisch Kt Boehrer declinatiediagram. De horizontale as toont de ecliptische lengtegraad (0–180°), de verticale as toont de declinatie. Posities op het noordelijk halfrond staan in de bovenste helft, zuidelijke posities in de onderste helft. De veelhoek geeft de eclipticacurve aan. Gebruik 'Positielijnen' om de indicatorlijnen voor elke factor in of uit te schakelen.";
+"view.declinationdiagramview.nodata"                 = "Geen positiegegevens beschikbaar.";
+"view.declinationdiagramview.col.factor"             = "Factor";
+"view.declinationdiagramview.col.longitude"          = "Lengtegraad";
+"view.declinationdiagramview.col.declination"        = "Declinatie";
+"view.declinationdiagramview.btn.positionlines"      = "Positielijnen";
 
 // DeclinationMidpointsView
 "view.declinationmidpointsview.title"                = "Declinatie-midpunten";
-"view.declinationmidpointsview.nodata"               = "Dit scherm wordt beschikbaar in een toekomstige versie.";
-"view.declinationmidpointsview.help"                 = "Dit scherm toont midpunten berekend vanuit de declinaties van de factoren.";
+"view.declinationmidpointsview.nodata"               = "Geen bezette declinatie-midpunten gevonden.";
+"view.declinationmidpointsview.help"                 = "Dit scherm toont midpunten berekend vanuit de declinaties van de factoren. Het boogdiagram beslaat ±30° declinatie met noord links en zuid rechts. Beweeg de muis over of klik op een factor-glyph om de bezette midpunten voor die factor te markeren.";
+"view.declinationmidpointsview.label.north"          = "N";
+"view.declinationmidpointsview.label.south"          = "Z";
+"view.declinationmidpointsview.col.factor1"          = "F1";
+"view.declinationmidpointsview.col.decl1"            = "Decl 1";
+"view.declinationmidpointsview.col.factor2"          = "F2";
+"view.declinationmidpointsview.col.decl2"            = "Decl 2";
+"view.declinationmidpointsview.col.midpoint"         = "Middelpunt";
+"view.declinationmidpointsview.col.occupant"         = "Bez";
+"view.declinationmidpointsview.col.occdecl"          = "Bez decl";
+"view.declinationmidpointsview.col.orb"              = "Orb";
+"view.declinationmidpointsview.col.exactness"        = "Exactheid";

@@ -27,75 +27,70 @@ struct DeclOccupiedMidpoint {
     let exactness: Double
 }
 
-/// Calculates occupied midpoints in declination.
+/// Computes all base midpoints in declination for the active factors in a chart.
 ///
-/// The algorithm mirrors `DeclMidpointsHandler` / `OccupiedMidpointsFinder` from Enigma Suite:
-///
-/// 1. Collect the declination for every active factor in the chart.
-/// 2. Compute all pair midpoints: `midpoint = (decl1 + decl2) / 2`.
-/// 3. For each midpoint, test every active factor: `deviation = |midpointPos − factorDecl|`.
-/// 4. If `deviation ≤ orb`, record a `DeclOccupiedMidpoint` with
-///    `exactness = 100 − (deviation / orb × 100)`.
-///
-/// Unlike ecliptic midpoints there is no circular wrap-around: declination is a
-/// linear scale from roughly −90° to +90°.
+/// Declination midpoints are arithmetic means: `midpoint = (decl1 + decl2) / 2`.
+/// There is no circular wrap-around — declination is a linear scale from roughly −90° to +90°.
 struct DeclMidpointsCalculator {
 
-    /// Find all occupied midpoints in declination for the active factors in a chart.
+    /// Returns all pair midpoints in declination for the active factors present in the chart.
     ///
     /// - Parameters:
     ///   - chart: The calculated chart containing equatorial positions.
     ///   - factorConfig: Determines which factors are active (`isUsed == true`).
-    ///   - orbConfig: Supplies `midpoint360DialOrb` as the orb for declination midpoints.
-    /// - Returns: All occupied midpoints sorted by `actualOrb` ascending (most exact first).
-    static func occupiedMidpoints(
+    /// - Returns: All base midpoints (n*(n-1)/2 for n active factors). Order is not guaranteed.
+    static func baseMidpoints(
         chart: FullChart,
-        factorConfig: FactorConfig,
-        orbConfig: OrbConfig
-    ) -> [DeclOccupiedMidpoint] {
-        let orb = orbConfig.midpoint360DialOrb
-
-        // Collect (factor, declination) for every active factor present in the chart.
-        let pairs: [(Factors, Double)] = factorConfig.factorSettings
-            .filter { $0.isUsed }
-            .compactMap { settings -> (Factors, Double)? in
-                guard let pos = chart.Coordinates[settings.factor],
-                      let eq  = pos.equatorial.first else { return nil }
-                return (settings.factor, eq.deviation)
-            }
-
+        factorConfig: FactorConfig
+    ) -> [DeclBaseMidpoint] {
+        let pairs = activePairs(chart: chart, factorConfig: factorConfig)
         guard pairs.count >= 2 else { return [] }
 
-        // Build all base midpoints in declination.
-        var baseMidpoints: [DeclBaseMidpoint] = []
+        var result: [DeclBaseMidpoint] = []
         for i in 0 ..< pairs.count {
             for j in (i + 1) ..< pairs.count {
                 let (f1, d1) = pairs[i]
                 let (f2, d2) = pairs[j]
-                // Arithmetic mean — identical to the C# shift-by-100 trick,
-                // which just avoids negatives before averaging.
-                let midPos = (d1 + d2) / 2.0
-                baseMidpoints.append(DeclBaseMidpoint(factor1: f1, factor2: f2, position: midPos))
+                result.append(DeclBaseMidpoint(factor1: f1, factor2: f2, position: (d1 + d2) / 2.0))
             }
         }
+        return result
+    }
 
-        // For each base midpoint check every factor for occupation.
-        var results: [DeclOccupiedMidpoint] = []
-        for midpoint in baseMidpoints {
-            for (factor, declination) in pairs {
-                let deviation = abs(midpoint.position - declination)
-                guard deviation <= orb else { continue }
-                let exactness = orb > 0 ? 100.0 - (deviation / orb * 100.0) : 100.0
-                results.append(DeclOccupiedMidpoint(
-                    midpoint:          midpoint,
-                    occupyingFactor:   factor,
-                    occupyingPosition: declination,
-                    actualOrb:         deviation,
-                    exactness:         exactness
-                ))
+    /// Returns (factor, declination) for every active factor present in the chart.
+    static func activePairs(
+        chart: FullChart,
+        factorConfig: FactorConfig
+    ) -> [(Factors, Double)] {
+        factorConfig.factorSettings
+            .filter { $0.isUsed }
+            .compactMap { settings -> (Factors, Double)? in
+                guard let decl = declination(for: settings.factor, in: chart) else { return nil }
+                return (settings.factor, decl)
             }
-        }
+    }
 
-        return results.sorted { $0.actualOrb < $1.actualOrb }
+    /// Returns the declination for a factor, checking both planet coordinates and house positions.
+    static func declination(for factor: Factors, in chart: FullChart) -> Double? {
+        longAndDeclination(for: factor, in: chart)?.1
+    }
+
+    /// Returns (longitude, declination) for a factor, checking both planet coordinates and house positions.
+    static func longAndDeclination(for factor: Factors, in chart: FullChart) -> (Double, Double)? {
+        if let pos = chart.Coordinates[factor],
+           let ecl = pos.ecliptical.first,
+           let eq  = pos.equatorial.first {
+            return (ecl.mainPos, eq.deviation)
+        }
+        let cusp: FullCuspPosition?
+        switch factor {
+        case .ascendant: cusp = chart.HousePositions.ascendant
+        case .mc:        cusp = chart.HousePositions.midheaven
+        case .eastPoint: cusp = chart.HousePositions.eastpoint
+        case .vertex:    cusp = chart.HousePositions.vertex
+        default:         cusp = nil
+        }
+        guard let c = cusp else { return nil }
+        return (c.longitude, c.declination)
     }
 }

@@ -41,9 +41,25 @@
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Deklinationsdiagramm";
 "view.declinationdiagramview.placeholder"            = "Das Diagramm wird in einer zukünftigen Version verfügbar sein.";
-"view.declinationdiagramview.help"                   = "Dieser Bildschirm zeigt ein grafisches Diagramm der Deklinationen.";
+"view.declinationdiagramview.help"                   = "Dieser Bildschirm zeigt ein grafisches Kt-Boehrer-Deklinationsdiagramm. Die horizontale Achse zeigt die ekliptische Länge (0–180°), die vertikale Achse die Deklination. Positionen auf der Nordhalbkugel erscheinen in der oberen Hälfte, südliche Positionen in der unteren. Das Polygon markiert die Ekliptikkurve. Mit 'Positionslinien' können die Indikatorlinien für jeden Faktor ein- oder ausgeblendet werden.";
+"view.declinationdiagramview.nodata"                 = "Keine Positionsdaten verfügbar.";
+"view.declinationdiagramview.col.factor"             = "Faktor";
+"view.declinationdiagramview.col.longitude"          = "Längengrad";
+"view.declinationdiagramview.col.declination"        = "Deklination";
+"view.declinationdiagramview.btn.positionlines"      = "Positionslinien";
 
 // DeclinationMidpointsView
 "view.declinationmidpointsview.title"                = "Deklinations-Halbsummen";
-"view.declinationmidpointsview.nodata"               = "Dieser Bildschirm wird in einer zukünftigen Version verfügbar sein.";
-"view.declinationmidpointsview.help"                 = "Dieser Bildschirm zeigt Halbsummen, die aus den Deklinationen der Faktoren berechnet werden.";
+"view.declinationmidpointsview.nodata"               = "Keine besetzten Deklinations-Halbsummen gefunden.";
+"view.declinationmidpointsview.help"                 = "Dieser Bildschirm zeigt Halbsummen, die aus den Deklinationen der Faktoren berechnet werden. Das Bogendiagramm umfasst ±30° Deklination mit Nord links und Süd rechts. Bewegen Sie die Maus über einen Faktor-Glyph oder klicken Sie darauf, um die besetzten Halbsummen dieses Faktors hervorzuheben.";
+"view.declinationmidpointsview.label.north"          = "N";
+"view.declinationmidpointsview.label.south"          = "S";
+"view.declinationmidpointsview.col.factor1"          = "F1";
+"view.declinationmidpointsview.col.decl1"            = "Dekl 1";
+"view.declinationmidpointsview.col.factor2"          = "F2";
+"view.declinationmidpointsview.col.decl2"            = "Dekl 2";
+"view.declinationmidpointsview.col.midpoint"         = "Halbsumme";
+"view.declinationmidpointsview.col.occupant"         = "Bes";
+"view.declinationmidpointsview.col.occdecl"          = "Bes Dekl";
+"view.declinationmidpointsview.col.orb"              = "Orb";
+"view.declinationmidpointsview.col.exactness"        = "Exaktheit";

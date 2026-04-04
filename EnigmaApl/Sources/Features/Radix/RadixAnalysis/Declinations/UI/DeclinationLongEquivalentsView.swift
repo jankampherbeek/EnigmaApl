@@ -85,7 +85,7 @@ struct DeclinationLongEquivalentsView: View {
                 speedType:         .direct
             )
         }
-        let resolved = GlyphOverlapResolver.resolve(items)
+        let resolved = GlyphOverlapResolver.resolve(items.filter { $0.factor != .ascendant && $0.factor != .mc })
         let aspectItems = buildAspectItems(planetItems: resolved, config: config)
 
         return WheelPlotData(
@@ -340,7 +340,7 @@ struct DeclinationLongEquivalentsView: View {
 
     @ViewBuilder
     private func equivalentRow(_ result: LongEquivalentResult, index: Int) -> some View {
-        let originalLong = chartSession.selectedChart?.Coordinates[result.factor]?.ecliptical.first?.mainPos
+        let originalLong = chartSession.selectedChart.flatMap { DeclMidpointsCalculator.longAndDeclination(for: result.factor, in: $0)?.0 }
         HStack(spacing: 4) {
             Text(GlyphSelector.getGlyphForFactor(result.factor))
                 .font(.custom("EnigmaAstrology2", size: 18))

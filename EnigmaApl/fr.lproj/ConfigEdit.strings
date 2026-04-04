@@ -148,6 +148,7 @@
 "view.configedit.orb.midpoint45"      = "Orbe points médians 45°";
 "view.configedit.orb.harmonic"        = "Orbe harmoniques";
 "view.configedit.orb.parallel"        = "Orbe parallèles";
+"view.configedit.orb.declinationmidpoint" = "Orbe points médians de déclinaison";
 
 // Aide éditeur d'orbes
 "view.configedit.orb.help.tooltip"    = "Aide pour les orbes";

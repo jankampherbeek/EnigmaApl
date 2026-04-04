@@ -80,7 +80,7 @@ struct DeclinationsOrchestratorTests {
     }
 
     private static func makeOrbMidpoint(_ orb: Double) -> OrbConfig {
-        OrbConfig(midpoint360DialOrb: orb)
+        OrbConfig(declinationMidpointOrb: orb)
     }
 
     // MARK: - parallels: delegation and basic results
@@ -162,14 +162,19 @@ struct DeclinationsOrchestratorTests {
 
     // MARK: - occupiedMidpoints: delegation and basic results
 
-    @Test("DeclinationsOrchestrator.occupiedMidpoints: returns same results as DeclMidpointsCalculator")
+    @Test("DeclinationsOrchestrator.occupiedMidpoints: returns same results as DeclinationMidpointsMatchFinder")
     func testMidpointsDelegatesCorrectly() {
         let chart  = Self.makeChart(declinations: [(.sun, 20.0), (.moon, -10.0), (.mars, 5.0)])
         let config = Self.makeConfig(factors: [.sun, .moon, .mars])
         let orbConfig = Self.makeOrbMidpoint(1.0)
 
-        let direct = DeclMidpointsCalculator.occupiedMidpoints(chart: chart, factorConfig: config, orbConfig: orbConfig)
-        let via    = DeclinationsOrchestrator.occupiedMidpoints(chart: chart, factorConfig: config, orbConfig: orbConfig)
+        let baseMidpoints = DeclMidpointsCalculator.baseMidpoints(chart: chart, factorConfig: config)
+        let positions     = DeclMidpointsCalculator.activePairs(chart: chart, factorConfig: config)
+        let direct = DeclinationMidpointsMatchFinder.find(
+            baseMidpoints: baseMidpoints,
+            positions: positions,
+            orb: orbConfig.declinationMidpointOrb)
+        let via = DeclinationsOrchestrator.occupiedMidpoints(chart: chart, factorConfig: config, orbConfig: orbConfig)
 
         #expect(via.count == direct.count)
         for (a, b) in zip(via, direct) {

@@ -177,6 +177,7 @@ struct ConfigEditKeys {
     static let orbMidpoint45           = "view.configedit.orb.midpoint45"
     static let orbHarmonic             = "view.configedit.orb.harmonic"
     static let orbParallel             = "view.configedit.orb.parallel"
+    static let orbDeclinationMidpoint  = "view.configedit.orb.declinationmidpoint"
 
     // MARK: - Orb editor help
     static let orbHelpTooltip          = "view.configedit.orb.help.tooltip"

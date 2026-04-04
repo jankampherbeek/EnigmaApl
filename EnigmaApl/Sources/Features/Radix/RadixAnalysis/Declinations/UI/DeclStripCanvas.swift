@@ -77,7 +77,7 @@ struct DeclStripCanvas: View {
 
             // --- Degree lines + labels inside the bar ---
             let labelFont = Font.system(size: max(8, min(14, w * 0.028)))
-            for i in 0..<declRange {
+            for i in 0...declRange {
                 let y = barTopY + Double(i) * degreeH
                 let degValue = declRange - i
 
@@ -87,9 +87,11 @@ struct DeclStripCanvas: View {
                 linePath.addLine(to: CGPoint(x: barX + barW, y: y))
                 ctx.stroke(linePath, with: .color(degLineColor), lineWidth: 0.75)
 
-                // Degree number (inside bar, near left edge)
-                let txt = Text("\(degValue)").font(labelFont).foregroundStyle(labelColor)
-                ctx.draw(txt, at: CGPoint(x: barX + barW * 0.15, y: y + degreeH * 0.3), anchor: .topLeading)
+                // Degree number inside bar: skip the top tick (30), draw the rest above their tick
+                if degValue < declRange {
+                    let txt = Text("\(degValue)").font(labelFont).foregroundStyle(labelColor)
+                    ctx.draw(txt, at: CGPoint(x: barX + barW * 0.15, y: y - degreeH * 0.3), anchor: .bottomLeading)
+                }
             }
 
             // --- Obliquity indicator line (full width) ---

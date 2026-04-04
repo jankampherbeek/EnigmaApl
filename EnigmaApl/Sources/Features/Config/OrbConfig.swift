@@ -37,6 +37,8 @@ public struct OrbConfig: Codable, Sendable {
     public let harmonicOrb: Double
     /// Orb in degrees for parallels and contra-parallels.
     public let parallelOrb: Double
+    /// Orb in degrees for declination midpoint calculations.
+    public let declinationMidpointOrb: Double
 
     public init(
         orbSystem: OrbSystem = .procentual,
@@ -45,7 +47,8 @@ public struct OrbConfig: Codable, Sendable {
         midpoint90DialOrb: Double = 1.0,
         midpoint45DialOrb: Double = 0.5,
         harmonicOrb: Double = 2.0,
-        parallelOrb: Double = 1.0
+        parallelOrb: Double = 1.0,
+        declinationMidpointOrb: Double = 0.75
     ) {
         self.orbSystem = orbSystem
         self.aspectBaseOrb = aspectBaseOrb
@@ -54,5 +57,6 @@ public struct OrbConfig: Codable, Sendable {
         self.midpoint45DialOrb = midpoint45DialOrb
         self.harmonicOrb = harmonicOrb
         self.parallelOrb = parallelOrb
+        self.declinationMidpointOrb = declinationMidpointOrb
     }
 }

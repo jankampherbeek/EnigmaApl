@@ -41,9 +41,25 @@
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Declination diagram";
 "view.declinationdiagramview.placeholder"            = "The diagram will be available in a future version.";
-"view.declinationdiagramview.help"                   = "This screen will show a graphical diagram of the declinations.";
+"view.declinationdiagramview.help"                   = "This screen shows a graphical Kt Boehrer declination diagram. The horizontal axis shows ecliptic longitude (0–180°), the vertical axis shows declination. North hemisphere positions appear in the upper half, South in the lower half. The polygon outlines the ecliptic curve. Use 'Position lines' to toggle the horizontal and vertical indicator lines for each factor.";
+"view.declinationdiagramview.nodata"                 = "No position data available.";
+"view.declinationdiagramview.col.factor"             = "Factor";
+"view.declinationdiagramview.col.longitude"          = "Longitude";
+"view.declinationdiagramview.col.declination"        = "Declination";
+"view.declinationdiagramview.btn.positionlines"      = "Position lines";
 
 // DeclinationMidpointsView
 "view.declinationmidpointsview.title"                = "Declination midpoints";
-"view.declinationmidpointsview.nodata"               = "This view will be available in a future version.";
-"view.declinationmidpointsview.help"                 = "This screen will show midpoints calculated from the declinations of the factors.";
+"view.declinationmidpointsview.nodata"               = "No occupied declination midpoints found.";
+"view.declinationmidpointsview.help"                 = "This screen shows midpoints calculated from the declinations of the factors. The arc diagram spans ±30° of declination with north to the left and south to the right. Hover or click a factor glyph to highlight the occupied midpoints involving that factor.";
+"view.declinationmidpointsview.label.north"          = "N";
+"view.declinationmidpointsview.label.south"          = "S";
+"view.declinationmidpointsview.col.factor1"          = "F1";
+"view.declinationmidpointsview.col.decl1"            = "Decl 1";
+"view.declinationmidpointsview.col.factor2"          = "F2";
+"view.declinationmidpointsview.col.decl2"            = "Decl 2";
+"view.declinationmidpointsview.col.midpoint"         = "Midpoint";
+"view.declinationmidpointsview.col.occupant"         = "Occ";
+"view.declinationmidpointsview.col.occdecl"          = "Occ Decl";
+"view.declinationmidpointsview.col.orb"              = "Orb";
+"view.declinationmidpointsview.col.exactness"        = "Exactness";

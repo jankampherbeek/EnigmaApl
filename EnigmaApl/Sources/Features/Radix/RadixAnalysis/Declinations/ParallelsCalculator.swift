@@ -45,9 +45,8 @@ struct ParallelsCalculator {
         let pairs: [(Factors, Double)] = factorConfig.factorSettings
             .filter { $0.isUsed }
             .compactMap { settings -> (Factors, Double)? in
-                guard let pos = chart.Coordinates[settings.factor],
-                      let eq  = pos.equatorial.first else { return nil }
-                return (settings.factor, eq.deviation)
+                guard let decl = DeclMidpointsCalculator.declination(for: settings.factor, in: chart) else { return nil }
+                return (settings.factor, decl)
             }
 
         var results: [DefinedParallel] = []

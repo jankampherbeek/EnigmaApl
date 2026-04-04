@@ -911,6 +911,8 @@ struct OrbConfigEditor: View {
     @State private var harmonicMin:      Int = 0
     @State private var parallelDeg:      Int = 1
     @State private var parallelMin:      Int = 0
+    @State private var declinationMidpointDeg: Int = 0
+    @State private var declinationMidpointMin: Int = 45
     @State private var isDirty = false
     @State private var showHelp = false
 
@@ -942,6 +944,8 @@ struct OrbConfigEditor: View {
                        deg: $harmonicDeg,   min: $harmonicMin,   maxDeg: 10)
                 orbRow(label: t(ConfigEditKeys.orbParallel),
                        deg: $parallelDeg,   min: $parallelMin,   maxDeg: 10)
+                orbRow(label: t(ConfigEditKeys.orbDeclinationMidpoint),
+                       deg: $declinationMidpointDeg, min: $declinationMidpointMin, maxDeg: 10)
             }
         }
         .navigationTitle(sectionEditorTitle(.orbs))
@@ -1003,6 +1007,7 @@ struct OrbConfigEditor: View {
         (midpoint45Deg,  midpoint45Min)  = sexagesimalFromDouble(c.midpoint45DialOrb)
         (harmonicDeg,   harmonicMin)   = sexagesimalFromDouble(c.harmonicOrb)
         (parallelDeg,   parallelMin)   = sexagesimalFromDouble(c.parallelOrb)
+        (declinationMidpointDeg, declinationMidpointMin) = sexagesimalFromDouble(c.declinationMidpointOrb)
     }
 
     private func save() {
@@ -1013,7 +1018,8 @@ struct OrbConfigEditor: View {
             midpoint90DialOrb:  doubleFromSexagesimal(midpoint90Deg,  midpoint90Min),
             midpoint45DialOrb:  doubleFromSexagesimal(midpoint45Deg,  midpoint45Min),
             harmonicOrb:   doubleFromSexagesimal(harmonicDeg,   harmonicMin),
-            parallelOrb:   doubleFromSexagesimal(parallelDeg,   parallelMin)
+            parallelOrb:   doubleFromSexagesimal(parallelDeg,   parallelMin),
+            declinationMidpointOrb: doubleFromSexagesimal(declinationMidpointDeg, declinationMidpointMin)
         )
         try? modelContext.save()
         isDirty = false

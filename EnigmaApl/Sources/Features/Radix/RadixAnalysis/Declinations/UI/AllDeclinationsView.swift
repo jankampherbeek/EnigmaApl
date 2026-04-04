@@ -28,14 +28,14 @@ struct AllDeclinationsView: View {
         return config.factorConfig.factorSettings
             .filter { $0.isUsed }
             .compactMap { settings -> DeclStripItem? in
-                guard let pos = chart.Coordinates[settings.factor],
-                      let eq  = pos.equatorial.first,
-                      let ecl = pos.ecliptical.first else { return nil }
+                guard let (longitude, declination) = DeclMidpointsCalculator.longAndDeclination(
+                    for: settings.factor, in: chart
+                ) else { return nil }
                 return DeclStripItem(
                     factor:      settings.factor,
                     glyph:       GlyphSelector.getGlyphForFactor(settings.factor),
-                    declination: eq.deviation,
-                    longitude:   ecl.mainPos
+                    declination: declination,
+                    longitude:   longitude
                 )
             }
             .sorted { $0.factor.rawValue < $1.factor.rawValue }

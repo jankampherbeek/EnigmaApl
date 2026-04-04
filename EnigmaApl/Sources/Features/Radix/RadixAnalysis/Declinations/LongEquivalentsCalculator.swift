@@ -51,14 +51,9 @@ struct LongEquivalentsCalculator {
         return factorConfig.factorSettings
             .filter { $0.isUsed }
             .compactMap { settings -> LongEquivalentResult? in
-                guard
-                    let pos = chart.Coordinates[settings.factor],
-                    let ecl = pos.ecliptical.first,
-                    let eq  = pos.equatorial.first
-                else { return nil }
-
-                let longitude   = ecl.mainPos
-                let rawDecl     = eq.deviation
+                guard let (longitude, rawDecl) = DeclMidpointsCalculator.longAndDeclination(
+                    for: settings.factor, in: chart
+                ) else { return nil }
 
                 // OOB check and reflection
                 var declination = rawDecl

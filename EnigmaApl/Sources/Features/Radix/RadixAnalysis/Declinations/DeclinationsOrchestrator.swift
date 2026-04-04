@@ -33,17 +33,25 @@ struct DeclinationsOrchestrator {
     /// - Parameters:
     ///   - chart: The full chart with all factor positions.
     ///   - factorConfig: Determines which factors are included (`isUsed == true`).
-    ///   - orbConfig: Supplies `midpoint360DialOrb` as the orb for declination midpoints.
-    /// - Returns: All `DeclOccupiedMidpoint` instances whose actual orb ≤ `midpoint360DialOrb`.
+    ///   - orbConfig: Supplies `declinationMidpointOrb` as the orb for declination midpoints.
+    /// - Returns: All `DeclOccupiedMidpoint` instances whose actual orb ≤ `declinationMidpointOrb`.
     static func occupiedMidpoints(
         chart: FullChart,
         factorConfig: FactorConfig,
         orbConfig: OrbConfig
     ) -> [DeclOccupiedMidpoint] {
-        DeclMidpointsCalculator.occupiedMidpoints(
+        let baseMidpoints = DeclMidpointsCalculator.baseMidpoints(
             chart: chart,
-            factorConfig: factorConfig,
-            orbConfig: orbConfig
+            factorConfig: factorConfig
+        )
+        let positions = DeclMidpointsCalculator.activePairs(
+            chart: chart,
+            factorConfig: factorConfig
+        )
+        return DeclinationMidpointsMatchFinder.find(
+            baseMidpoints: baseMidpoints,
+            positions: positions,
+            orb: orbConfig.declinationMidpointOrb
         )
     }
 
