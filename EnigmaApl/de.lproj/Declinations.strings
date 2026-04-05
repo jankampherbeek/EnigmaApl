@@ -16,12 +16,12 @@
 "view.alldeclinationsview.col.factor"                = "Faktor";
 "view.alldeclinationsview.col.longitude"             = "Längengrad";
 "view.alldeclinationsview.col.declination"           = "Deklination";
-"view.alldeclinationsview.help"                      = "Dieser Bildschirm zeigt die Deklination für jeden in der Konfiguration ausgewählten Faktor.";
+"view.alldeclinationsview.help"                      = "Dieser Bildschirm zeigt die Deklination für jeden in der Konfiguration ausgewählten Faktor. Links sehen Sie eine grafische Übersicht; der obere Teil der Abbildung (dunkelblau) zeigt die Out-of-Bounds (OOB)-Positionen an.\n\nDie Tabelle zeigt die genauen Stellungen. Südliche Deklination ist mit einem Minuszeichen gekennzeichnet.";
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallelen";
 "view.declinationparallelsview.nodata"               = "Keine Parallelen gefunden.";
-"view.declinationparallelsview.help"                 = "Dieser Bildschirm zeigt parallele und kontra-parallele Aspekte zwischen Faktoren basierend auf ihren Deklinationen. Eine Parallele (P) tritt auf, wenn zwei Faktoren den gleichen absoluten Deklinationswert auf derselben Seite des Äquators haben. Eine Kontra-Parallele (CP) tritt auf, wenn sie den gleichen absoluten Wert auf gegenüberliegenden Seiten haben.";
+"view.declinationparallelsview.help"                 = "Dieser Bildschirm zeigt Parallelen und Kontra-Parallelen. Eine Parallele tritt auf, wenn zwei Faktoren die gleiche Deklination und das gleiche Vorzeichen haben (Nord oder Süd). Eine Kontra-Parallele entsteht, wenn die Deklination gleich ist, aber die Vorzeichen verschieden sind: ein Faktor hat südliche Deklination und ein Faktor hat nördliche Deklination.";
 "view.declinationparallelsview.col.factor1"          = "F1";
 "view.declinationparallelsview.col.decl1"            = "Dekl 1";
 "view.declinationparallelsview.col.aspect"           = "Asp";
@@ -33,7 +33,7 @@
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Längengrad-Äquivalente";
 "view.declinationlongequivalentsview.nodata"         = "Keine Längengrad-Äquivalente verfügbar.";
-"view.declinationlongequivalentsview.help"           = "Dieser Bildschirm zeigt das Längengrad-Äquivalent für jeden Faktor. Das Äquivalent ist der ekliptische Längengrad, der der Deklination des Faktors entspricht. Faktoren mit OOB (out of bounds) haben eine Deklination, die die Schiefe der Ekliptik überschreitet. Das Horoskoprad zeigt alle Faktoren an ihren äquivalenten Positionen.";
+"view.declinationlongequivalentsview.help"           = "Hier sehen Sie das Längengrad-Äquivalent für jeden Faktor. Dies ist die Position auf der Ekliptik, die der Deklination entspricht, als hätte der Faktor keine Breite. Die Horoskopzeichnung verwendet diese Stellungen und die Tabelle zeigt die genauen Werte neben den üblichen Radix-Positionen.";
 "view.declinationlongequivalentsview.col.factor"     = "Faktor";
 "view.declinationlongequivalentsview.col.longitude"  = "Längengrad";
 "view.declinationlongequivalentsview.col.equivalent" = "Äquivalent";
@@ -41,7 +41,7 @@
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Deklinationsdiagramm";
 "view.declinationdiagramview.placeholder"            = "Das Diagramm wird in einer zukünftigen Version verfügbar sein.";
-"view.declinationdiagramview.help"                   = "Dieser Bildschirm zeigt ein grafisches Kt-Boehrer-Deklinationsdiagramm. Die horizontale Achse zeigt die ekliptische Länge (0–180°), die vertikale Achse die Deklination. Positionen auf der Nordhalbkugel erscheinen in der oberen Hälfte, südliche Positionen in der unteren. Das Polygon markiert die Ekliptikkurve. Mit 'Positionslinien' können die Indikatorlinien für jeden Faktor ein- oder ausgeblendet werden.";
+"view.declinationdiagramview.help"                   = "Dieses Diagramm zeigt eine Darstellung der Deklinationen nach dem Vorschlag von Kt. Boehrer. Die horizontale Achse gibt die Länge an, wobei zwischen den Zeichen in der oberen Hälfte und den Zeichen in der unteren Hälfte unterschieden werden muss. Faktoren mit nördlicher Deklination befinden sich oberhalb der horizontalen Linie, Faktoren mit südlicher Deklination unterhalb. Die roten und blauen Kurven zeigen die jährliche Deklination der Sonne. Die Zonen oben und unten im Diagramm (in einem dunklen Blauton) kennzeichnen Out-of-Bounds (OOB)-Positionen. Mit dem Symbol aus kurzen vertikalen Strichen können Positionslinien im Diagramm eingeblendet werden.";
 "view.declinationdiagramview.nodata"                 = "Keine Positionsdaten verfügbar.";
 "view.declinationdiagramview.col.factor"             = "Faktor";
 "view.declinationdiagramview.col.longitude"          = "Längengrad";
@@ -51,7 +51,7 @@
 // DeclinationMidpointsView
 "view.declinationmidpointsview.title"                = "Deklinations-Halbsummen";
 "view.declinationmidpointsview.nodata"               = "Keine besetzten Deklinations-Halbsummen gefunden.";
-"view.declinationmidpointsview.help"                 = "Dieser Bildschirm zeigt Halbsummen, die aus den Deklinationen der Faktoren berechnet werden. Das Bogendiagramm umfasst ±30° Deklination mit Nord links und Süd rechts. Bewegen Sie die Maus über einen Faktor-Glyph oder klicken Sie darauf, um die besetzten Halbsummen dieses Faktors hervorzuheben.";
+"view.declinationmidpointsview.help"                 = "Dieser Bildschirm zeigt die Halbsummen in der Deklination, sowohl grafisch als auch in einer Tabelle. In der Abbildung können Sie die Maus über das Symbol eines Faktors bewegen, um die gebildeten Halbsummen zu sehen. Ein Klick fixiert die Linien; ein weiterer Klick lässt sie verschwinden.\n\nDie Tabelle zeigt zwei Faktoren, die eine Halbsumme bilden, die Stellung der Halbsumme, den Faktor auf der Halbsumme und seine Stellung, den Orb und schließlich die Exaktheit dieses Orbs.";
 "view.declinationmidpointsview.label.north"          = "N";
 "view.declinationmidpointsview.label.south"          = "S";
 "view.declinationmidpointsview.col.factor1"          = "F1";

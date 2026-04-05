@@ -16,12 +16,12 @@
 "view.alldeclinationsview.col.factor"                = "Factor";
 "view.alldeclinationsview.col.longitude"             = "Lengtegraad";
 "view.alldeclinationsview.col.declination"           = "Declinatie";
-"view.alldeclinationsview.help"                      = "Dit scherm toont de declinatie voor elke factor die in de configuratie is geselecteerd.";
+"view.alldeclinationsview.help"                      = "Dit scherm toont de declinatie voor elke factor die in de configuratie is geselecteerd. Links zie je een grafische weergave, het bovenste deel van de figuur (donker blauw) geeft de Out Of Bound (OOB) posities aan.\n\nIn de tabel zie je de exacte standen. Zuiderdeclinatie is aangegeven met een min-teken.";
 
 // DeclinationParallelsView
 "view.declinationparallelsview.title"                = "Parallellen";
 "view.declinationparallelsview.nodata"               = "Geen parallellen gevonden.";
-"view.declinationparallelsview.help"                 = "Dit scherm toont parallelle en contra-parallelle aspecten tussen factoren op basis van hun declinaties. Een parallel (P) treedt op wanneer twee factoren dezelfde absolute declinatie hebben aan dezelfde kant van de equator. Een contra-parallel (CP) treedt op wanneer ze dezelfde absolute declinatie hebben maar aan tegengestelde kanten.";
+"view.declinationparallelsview.help"                 = "Dit scherm toon parallellen en contra-parallelen. Een parallel treedt op wanneer twee factoren dezelfde declinatie hebben en hetzelfde teken (Noord of Zuid). Een contra-parallel krijg je als de declinatie gelijk is maar de tekens verschillen: één factor heeft zuider declinatie en één factor heeft noorder declinatie.";
 "view.declinationparallelsview.col.factor1"          = "F1";
 "view.declinationparallelsview.col.decl1"            = "Decl 1";
 "view.declinationparallelsview.col.aspect"           = "Asp";
@@ -33,7 +33,7 @@
 // DeclinationLongEquivalentsView
 "view.declinationlongequivalentsview.title"          = "Lengtegraad-equivalenten";
 "view.declinationlongequivalentsview.nodata"         = "Geen lengtegraad-equivalenten beschikbaar.";
-"view.declinationlongequivalentsview.help"           = "Dit scherm toont het lengtegraad-equivalent voor elke factor. Het equivalent is de ecliptische lengtegraad die overeenkomt met de declinatie van de factor. Factoren met OOB (out of bounds) hebben een declinatie die de schuinstand van de ecliptica overschrijdt. Het horoscoopwiel toont alle factoren op hun equivalente posities.";
+"view.declinationlongequivalentsview.help"           = "Hier zie je het lengtegraad-equivalent voor elke factor. Dat is de positie op de ecliptica die overeenkomt met de declinatie als de factor geen breedte zou hebben. De horoscooptekening gebruikt deze standen en de tabel geeft de exacte waarden, naast de gebruikelijke radix posities.";
 "view.declinationlongequivalentsview.col.factor"     = "Factor";
 "view.declinationlongequivalentsview.col.longitude"  = "Lengtegraad";
 "view.declinationlongequivalentsview.col.equivalent" = "Equivalent";
@@ -41,7 +41,7 @@
 // DeclinationDiagramView
 "view.declinationdiagramview.title"                  = "Declinatiediagram";
 "view.declinationdiagramview.placeholder"            = "Het diagram wordt beschikbaar in een toekomstige versie.";
-"view.declinationdiagramview.help"                   = "Dit scherm toont een grafisch Kt Boehrer declinatiediagram. De horizontale as toont de ecliptische lengtegraad (0–180°), de verticale as toont de declinatie. Posities op het noordelijk halfrond staan in de bovenste helft, zuidelijke posities in de onderste helft. De veelhoek geeft de eclipticacurve aan. Gebruik 'Positielijnen' om de indicatorlijnen voor elke factor in of uit te schakelen.";
+"view.declinationdiagramview.help"                   = "Dit diagram toont een weergave van de declinaties zoals die is voorgesteld door Kt. Boehrer. De horizontale as geeft de lengte aan waarbij je verschil moet maken met de tekens in de bovenste helft en de tekens in de onderste helft. Factoren met noorder declinatie vind je boven de horizontale streep en factoren met zuiderdeclinatie onder de horizontale streep. De rode en blauwe curves geven de jaarlijkse declinatie van de Zon weer. De zones boven en onder in het diagram (in een donkere tint blauw) geven Out of Bound (OOB) posities aan. Met het icoon dat bestaat uit enkele verticale streepjes kun je positielijnen tonen in het diagram.";
 "view.declinationdiagramview.nodata"                 = "Geen positiegegevens beschikbaar.";
 "view.declinationdiagramview.col.factor"             = "Factor";
 "view.declinationdiagramview.col.longitude"          = "Lengtegraad";
@@ -51,7 +51,7 @@
 // DeclinationMidpointsView
 "view.declinationmidpointsview.title"                = "Declinatie-midpunten";
 "view.declinationmidpointsview.nodata"               = "Geen bezette declinatie-midpunten gevonden.";
-"view.declinationmidpointsview.help"                 = "Dit scherm toont midpunten berekend vanuit de declinaties van de factoren. Het boogdiagram beslaat ±30° declinatie met noord links en zuid rechts. Beweeg de muis over of klik op een factor-glyph om de bezette midpunten voor die factor te markeren.";
+"view.declinationmidpointsview.help"                 = "In dit scherm zie je de midpunten in declinatie, zowel in een grafische weergave als in een tabel. In de figuur kun je met de muis over het symbool voor een factor bewegen om de gevormde midpunten te zien. Door te klikken zet je de lijnen vast, nog een keer klikken en ze verdwijnen.\n\nDe tabel toont twee factoren die een midpunt vormen, de lengte van het midpunt, de factor die op het midpunt staat en de lengte van die factor, de orb en ten slotte de exactheid van die orb.";
 "view.declinationmidpointsview.label.north"          = "N";
 "view.declinationmidpointsview.label.south"          = "Z";
 "view.declinationmidpointsview.col.factor1"          = "F1";

@@ -12,7 +12,8 @@ struct DeclinationParallelsView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var showHelp = false
+    @State private var showFactsheet = false
+    @State private var showHelp      = false
 
     // Column widths
     private let glyphW: CGFloat = 28
@@ -56,11 +57,20 @@ struct DeclinationParallelsView: View {
                 tabPicker
             }
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "declinations")
         }
         .sheet(isPresented: $showHelp) {
             NavigationStack {

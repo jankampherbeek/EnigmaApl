@@ -12,11 +12,12 @@ struct DeclinationLongEquivalentsView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var blackWhite  = false
-    @State private var hideAspects = false
-    @State private var hideTime    = false
-    @State private var showExport  = false
-    @State private var showHelp    = false
+    @State private var blackWhite    = false
+    @State private var hideAspects   = false
+    @State private var hideTime      = false
+    @State private var showExport    = false
+    @State private var showFactsheet = false
+    @State private var showHelp      = false
 
     // Column widths
     private let glyphW: CGFloat = 28
@@ -239,11 +240,20 @@ struct DeclinationLongEquivalentsView: View {
                 .accessibilityLabel("Export")
             }
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "declinations")
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(wheelView: exportCanvas)
