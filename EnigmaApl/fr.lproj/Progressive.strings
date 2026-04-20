@@ -1,0 +1,25 @@
+// Progressive.strings - Français
+// EnigmaApl
+
+// Menu bar
+"menu.progressive"                      = "Progressif";
+"menu.progressive.rectification"        = "Rectification";
+
+// WillnerView
+"view.willnerview.title"                = "Heures de naissance spirituelles";
+"view.willnerview.subtitle"             = "Candidats pour les heures de naissance spirituelles selon John Willner";
+"view.willnerview.nochart"              = "Calculez ou sélectionnez un horoscope pour afficher les heures de naissance spirituelles.";
+"view.willnerview.noresults"            = "Aucun candidat trouvé pour l'horoscope actuel.";
+"view.willnerview.close"                = "Fermer";
+"view.willnerview.col.lst"              = "TSL";
+"view.willnerview.col.tlt"              = "THL";
+"view.willnerview.col.gmt"              = "GMT";
+"view.willnerview.col.zonetime"         = "Heure de zone";
+"view.willnerview.col.arc"              = "Arc";
+"view.willnerview.col.ampm"             = "AM/PM";
+
+// RectificationScreen
+"view.rectificationscreen.title"        = "Rectifications";
+"view.rectificationscreen.btn.willner"  = "Willner";
+"view.rectificationscreen.btn.nadi"     = "Nadi";
+"view.rectificationscreen.help"         = "L'écran de rectification donne accès aux méthodes de rectification. Willner utilise la méthode Willner pour les temps de naissance spirituels. Nadi utilise la méthode Nadi pour la rectification.";

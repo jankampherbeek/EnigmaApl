@@ -1,0 +1,25 @@
+// Progressive.strings - Nederlands
+// EnigmaApl
+
+// Menu bar
+"menu.progressive"                      = "Progressief";
+"menu.progressive.rectification"        = "Rectificatie";
+
+// WillnerView
+"view.willnerview.title"                = "Spirituele geboortetijden";
+"view.willnerview.subtitle"             = "Kandidaten voor spirituele geboortetijden volgens John Willner";
+"view.willnerview.nochart"              = "Bereken of selecteer een horoscoop om spirituele geboortetijden te bekijken.";
+"view.willnerview.noresults"            = "Geen kandidaten gevonden voor de huidige horoscoop.";
+"view.willnerview.close"                = "Sluiten";
+"view.willnerview.col.lst"              = "LST";
+"view.willnerview.col.tlt"              = "TLT";
+"view.willnerview.col.gmt"              = "GMT";
+"view.willnerview.col.zonetime"         = "Zonetijd";
+"view.willnerview.col.arc"              = "Boog";
+"view.willnerview.col.ampm"             = "AM/PM";
+
+// RectificationScreen
+"view.rectificationscreen.title"        = "Rectificaties";
+"view.rectificationscreen.btn.willner"  = "Willner";
+"view.rectificationscreen.btn.nadi"     = "Nadi";
+"view.rectificationscreen.help"         = "Het Rectificatiescherm geeft toegang tot rectificatiemethoden. Willner gebruikt de Willner-methode voor spirituele geboortetijden. Nadi gebruikt de Nadi-methode voor rectificatie.";

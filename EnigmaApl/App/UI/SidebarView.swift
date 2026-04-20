@@ -13,6 +13,7 @@ import Combine
 struct SidebarView: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
+
     @EnvironmentObject private var researchNav: ResearchNavigator
     @EnvironmentObject private var cyclesNav: CyclesNavigator
     @EnvironmentObject private var configNav: ConfigNavigator
@@ -44,6 +45,8 @@ struct SidebarView: View {
                         row(RadixInspector.search.rawValue, app.nav.radix.inspector == .search)
                     }.buttonStyle(.plain)
                 }
+            case .progressive:
+                EmptyView()
             case .research:
                 Section("Research") {
                     Button { researchNav.setSection(.datafiles) } label: {

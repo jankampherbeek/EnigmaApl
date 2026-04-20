@@ -34,6 +34,8 @@ final class AppState: ObservableObject {
         switch nav.mode {
         case .radix:
             if nav.radix.selectedID == nil { nav.radix.selectedID = radixItems.first?.id }
+        case .progressive:
+            break
         case .research:
             if nav.research.selectedID == nil { nav.research.selectedID = projects.first?.id }
         case .cycles:
@@ -83,6 +85,7 @@ final class AppState: ObservableObject {
 
 enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case radix = "Radix"
+    case progressive = "Progressive"
     case research = "Research"
     case cycles = "Cycles"
     case config = "Configuratie"
@@ -91,10 +94,11 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
 
     var systemImage: String {
         switch self {
-        case .radix:     return "circle.grid.cross"
-        case .research:  return "flask"
-        case .cycles:    return "waveform.path.ecg"
-        case .config:    return "gear"
+        case .radix:        return "circle.grid.cross"
+        case .progressive:  return "arrow.forward.circle"
+        case .research:     return "flask"
+        case .cycles:       return "waveform.path.ecg"
+        case .config:       return "gear"
         }
     }
 }
@@ -104,6 +108,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
 struct NavigationState: Equatable {
     var mode: AppMode = .radix
     var radix = RadixNav()
+
     var research = ResearchNav()
     var cycles = CyclesNav()
 }

@@ -3,6 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 import SwiftUI
+import Combine
 
 func ri(_ key: String) -> String {
     NSLocalizedString(key, tableName: "RadixInput", bundle: .main, comment: "")
@@ -255,6 +256,115 @@ struct ChartInfoSection: View {
     }
 }
 
+// MARK: - Location search model
+
+@MainActor
+private final class LocationSearchModel: ObservableObject {
+    @Published var countryQuery: String = ""
+    @Published var cityQuery: String = ""
+    @Published var filteredCountries: [LocationCountry] = []
+    @Published var filteredCities: [LocationCity] = []
+    @Published var selectedCountry: LocationCountry?
+    @Published var selectedCity: LocationCity?
+    @Published var errorMessage: String?
+
+    private var orchestrator: LocationOrchestrator?
+    private var lang: String = "en"
+    private var countryDebounceTask: Task<Void, Never>?
+    private var cityDebounceTask: Task<Void, Never>?
+    private var suppressCountrySearch = false
+    private var suppressCitySearch = false
+    @Published var countrySelected = false
+    @Published var citySelected = false
+
+    func setup() {
+        guard orchestrator == nil else { return }
+        lang = Locale.current.language.languageCode?.identifier ?? "en"
+        if !["en", "nl", "de", "fr"].contains(lang) { lang = "en" }
+        do {
+            orchestrator = try LocationOrchestrator(seWrapper: SEWrapper())
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func onCountryQueryChanged() {
+        countrySelected = false
+        guard !suppressCountrySearch else { return }
+        countryDebounceTask?.cancel()
+        let q = countryQuery.trimmingCharacters(in: .whitespaces)
+        guard !q.isEmpty, q != "*" else { filteredCountries = []; return }
+        let language = lang
+        countryDebounceTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+            do {
+                self.filteredCountries = try self.orchestrator?.countries(lang: language, pattern: q) ?? []
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+
+    func onCityQueryChanged() {
+        citySelected = false
+        guard !suppressCitySearch else { return }
+        cityDebounceTask?.cancel()
+        let country = selectedCountry
+        let q = cityQuery.trimmingCharacters(in: .whitespaces)
+        guard let country, !q.isEmpty else { filteredCities = []; return }
+        cityDebounceTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+            do {
+                let results = try self.orchestrator?.cities(countryCode: country.code, pattern: q) ?? []
+                self.filteredCities = results
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+
+    func selectCountry(_ country: LocationCountry) {
+        countryDebounceTask?.cancel()
+        cityDebounceTask?.cancel()
+        suppressCountrySearch = true
+        suppressCitySearch = true
+        countrySelected = true
+        citySelected = false
+        selectedCountry = country
+        countryQuery = country.name
+        filteredCountries = []
+        cityQuery = ""
+        selectedCity = nil
+        filteredCities = []
+        Task { @MainActor in
+            self.suppressCountrySearch = false
+            self.suppressCitySearch = false
+        }
+    }
+
+    func selectCity(_ city: LocationCity) {
+        cityDebounceTask?.cancel()
+        suppressCitySearch = true
+        citySelected = true
+        selectedCity = city
+        cityQuery = city.name
+        filteredCities = []
+        Task { @MainActor in
+            self.suppressCitySearch = false
+        }
+    }
+
+    func resolveTimezone(tzName: String, longitude: Double) -> ZoneInfo? {
+        let dateTime = AstronomicalDateTime(
+            Date: AstronomicalDate(Year: 2000, Month: 1, Day: 1),
+            Time: AstronomicalTime(Hour: 12, Minute: 0, Second: 0)
+        )
+        return try? orchestrator?.timezoneInfo(tzName: tzName, dateTime: dateTime, longitude: longitude)
+    }
+}
+
 // MARK: - Section: Location
 
 struct LocationSection: View {
@@ -267,14 +377,51 @@ struct LocationSection: View {
     @Binding var longitudeSeconds: Int
     @Binding var latHemi: LatitudeHemisphere
     @Binding var lonHemi: LongitudeHemisphere
+    @Binding var offsetHour: Int
+    @Binding var offsetMinute: Int
+    @Binding var utOffsetDirection: UTOffsetDirection
+    @Binding var dstOption: DSTOption
+    @Binding var selectedCity: LocationCity?
+
+    @StateObject private var searchModel = LocationSearchModel()
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            FieldBlock(ri("view.radixinputscreen.nameoflocation")) {
-                TextField("", text: $locationName)
+
+            // Country search
+            FieldBlock(ri("view.radixinputscreen.country")) {
+                TextField(ri("view.radixinputscreen.country.placeholder"), text: $searchModel.countryQuery)
                     .textFieldStyle(.roundedBorder)
                     .frame(maxWidth: .infinity)
                     .adaptiveBorder()
+                    .onChange(of: searchModel.countryQuery) { _, _ in searchModel.onCountryQueryChanged() }
+                    .onAppear { searchModel.setup() }
+            }
+            if !searchModel.filteredCountries.isEmpty && !searchModel.countrySelected {
+                dropdownList(searchModel.filteredCountries, keyPath: \.name) { country in
+                    searchModel.selectCountry(country)
+                }
+            }
+
+            // City / location name search
+            FieldBlock(ri("view.radixinputscreen.nameoflocation")) {
+                TextField(ri("view.radixinputscreen.city.placeholder"), text: $searchModel.cityQuery)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(maxWidth: .infinity)
+                    .adaptiveBorder()
+                    .opacity(searchModel.selectedCountry == nil ? 0.4 : 1.0)
+                    .onChange(of: searchModel.cityQuery) { _, _ in searchModel.onCityQueryChanged() }
+            }
+            if !searchModel.filteredCities.isEmpty && !searchModel.citySelected {
+                dropdownList(searchModel.filteredCities, keyPath: \.name) { city in
+                    searchModel.selectCity(city)
+                    locationName = city.name
+                    applyCity(city)
+                }
+            }
+
+            if let err = searchModel.errorMessage {
+                Text(err).font(.caption).foregroundStyle(.red)
             }
 
             Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 6, verticalSpacing: 4) {
@@ -313,6 +460,63 @@ struct LocationSection: View {
             .fixedSize()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .onChange(of: searchModel.selectedCity) { _, city in
+            selectedCity = city
+        }
+    }
+
+    @ViewBuilder
+    private func dropdownList<T>(_ items: [T], keyPath: KeyPath<T, String>, onSelect: @escaping (T) -> Void) -> some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                    Button { onSelect(item) } label: {
+                        Text(item[keyPath: keyPath])
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                    }
+                    .buttonStyle(.plain)
+                    Divider()
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: 200)
+        .background(Color.primary.opacity(0.05))
+        .cornerRadius(6)
+        .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 1))
+    }
+
+    private func applyCity(_ city: LocationCity) {
+        let (latDeg, latMin, latSec, latNeg) = decimalToDms(city.latitude)
+        latitudeDegrees = latDeg
+        latitudeMinutes = latMin
+        latitudeSeconds = latSec
+        latHemi = latNeg ? .south : .north
+
+        let (lonDeg, lonMin, lonSec, lonNeg) = decimalToDms(city.longitude)
+        longitudeDegrees = lonDeg
+        longitudeMinutes = lonMin
+        longitudeSeconds = lonSec
+        lonHemi = lonNeg ? .west : .east
+
+        if let zone = searchModel.resolveTimezone(tzName: city.timezoneName, longitude: city.longitude) {
+            let totalSec = abs(zone.offsetSeconds)
+            offsetHour = totalSec / 3600
+            offsetMinute = (totalSec % 3600) / 60
+            utOffsetDirection = zone.offsetSeconds >= 0 ? .later : .earlier
+            dstOption = zone.dstUsed ? .dst : .noDST
+        }
+    }
+
+    private func decimalToDms(_ decimal: Double) -> (Int, Int, Int, Bool) {
+        let negative = decimal < 0
+        let abs = Swift.abs(decimal)
+        let degrees = Int(abs)
+        let minutesFrac = (abs - Double(degrees)) * 60
+        let minutes = Int(minutesFrac)
+        let seconds = Int((minutesFrac - Double(minutes)) * 60)
+        return (degrees, minutes, seconds, negative)
     }
 }
 

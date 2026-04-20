@@ -11,6 +11,9 @@
 "view.radixinputscreen.description" = "Beschreibung";
 "view.radixinputscreen.source" = "Quelle";
 "view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.country" = "Land";
+"view.radixinputscreen.country.placeholder" = "Ländernamen eingeben oder * als Platzhalter verwenden";
+"view.radixinputscreen.city.placeholder" = "Ortsnamen eingeben oder * als Platzhalter verwenden";
 "view.radixinputscreen.nameoflocation" = "Name des Ortes";
 "view.radixinputscreen.longitude" = "Längengrad";
 "view.radixinputscreen.latitude" = "Breitengrad";

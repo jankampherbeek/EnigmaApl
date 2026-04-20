@@ -190,8 +190,21 @@ struct RadixSearchScreen: View {
     private func select(_ horoscope: HoroscopeModel) {
         let factors = configFactors.isEmpty ? [Factors.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto] : configFactors
         guard let (chart, request) = searchModel.calculateChart(for: horoscope, factorsToUse: factors) else { return }
-        chartSession.add(name: horoscope.name, chart: chart, baseRequest: request)
+        let preferredDT = horoscope.dateTimes.first(where: { $0.isPreferred }) ?? horoscope.dateTimes.first
+        let tzOffset = parseTimeZoneOffset(preferredDT?.timeZoneIdentifier ?? "+00:00")
+        chartSession.add(name: horoscope.name, chart: chart, baseRequest: request, timeZoneOffsetHours: tzOffset)
         radixNav.setInspector(.positions)
+    }
+
+    /// Parses a timezone identifier string like "+01:00" or "-05:30" into decimal hours.
+    private func parseTimeZoneOffset(_ identifier: String) -> Double {
+        guard identifier.count >= 6 else { return 0.0 }
+        let sign: Double = identifier.first == "-" ? -1.0 : 1.0
+        let parts = identifier.dropFirst().split(separator: ":")
+        guard parts.count >= 2,
+              let hours = Double(parts[0]),
+              let minutes = Double(parts[1]) else { return 0.0 }
+        return sign * (hours + minutes / 60.0)
     }
 
     private func startDelete(_ horoscope: HoroscopeModel) {

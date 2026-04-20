@@ -49,6 +49,8 @@ struct ContentColumn: View {
                         showExport:  $showExport
                     )
                 }
+            case .progressive:
+                EmptyView()
             case .research:
                 Text("Content (\(app.nav.mode.rawValue))")
             case .cycles:

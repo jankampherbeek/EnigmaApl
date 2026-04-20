@@ -43,6 +43,7 @@ struct RadixInputScreen: View {
     @State private var yearCount: YearCount = .ce
     @State private var utOffsetDirection: UTOffsetDirection = .later
     @State private var dstOption: DSTOption = .noDST
+    @State private var selectedCity: LocationCity? = nil
     @State private var showHelp = false
     @State private var showSaveWarning = false
     @State private var expandedSection: AccordionSection = .chartInfo
@@ -87,14 +88,38 @@ struct RadixInputScreen: View {
         return input
     }
 
+    private func recalculateOffset() {
+        guard let city = selectedCity,
+              let year = astronomicalYearForValidation else { return }
+        let dateTime = AstronomicalDateTime(
+            Date: AstronomicalDate(Year: year, Month: month, Day: day, Gregorian: calendarStyle == .gregorian),
+            Time: AstronomicalTime(Hour: hour, Minute: minute, Second: second)
+        )
+        guard let orch = try? LocationOrchestrator(seWrapper: SEWrapper()),
+              let zone = try? orch.timezoneInfo(tzName: city.timezoneName, dateTime: dateTime, longitude: city.longitude)
+        else { return }
+        let totalSec = abs(zone.offsetSeconds)
+        offsetHour = totalSec / 3600
+        offsetMinute = (totalSec % 3600) / 60
+        utOffsetDirection = zone.offsetSeconds >= 0 ? .later : .earlier
+        dstOption = zone.dstUsed ? .dst : .noDST
+    }
+
     private func calculate() {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
         if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
-            chartSession.add(name: chartName, chart: chart, baseRequest: request)
+            chartSession.add(name: chartName, chart: chart, baseRequest: request, timeZoneOffsetHours: utOffsetDecimalHours())
             radixNav.setInspector(.positions)
             saveHoroscope(julianDate: request.JulianDay)
         }
+    }
+
+    private func utOffsetDecimalHours() -> Double {
+        var totalMinutes = offsetHour * 60 + offsetMinute
+        if dstOption == .dst { totalMinutes += 60 }
+        let hours = Double(totalMinutes) / 60.0
+        return utOffsetDirection == .earlier ? hours : -hours
     }
 
     private func saveHoroscope(julianDate: Double) {
@@ -162,7 +187,7 @@ struct RadixInputScreen: View {
                 .buttonStyle(.plain).focusable(true).focused($focusedHeader, equals: .location).accessibilityAddTraits(.isHeader).accessibilityHint(chartNameIsEmpty ? ri("view.radixinputscreen.accessibility.requiresname") : "")
 
                 if expandedSection == .location {
-                    LocationSection(locationName: $locationName, latitudeDegrees: $latitudeDegrees, latitudeMinutes: $latitudeMinutes, latitudeSeconds: $latitudeSeconds, longitudeDegrees: $longitudeDegrees, longitudeMinutes: $longitudeMinutes, longitudeSeconds: $longitudeSeconds, latHemi: $latHemi, lonHemi: $lonHemi).padding(.top, 4)
+                    LocationSection(locationName: $locationName, latitudeDegrees: $latitudeDegrees, latitudeMinutes: $latitudeMinutes, latitudeSeconds: $latitudeSeconds, longitudeDegrees: $longitudeDegrees, longitudeMinutes: $longitudeMinutes, longitudeSeconds: $longitudeSeconds, latHemi: $latHemi, lonHemi: $lonHemi, offsetHour: $offsetHour, offsetMinute: $offsetMinute, utOffsetDirection: $utOffsetDirection, dstOption: $dstOption, selectedCity: $selectedCity).padding(.top, 4)
                 }
 
                 Button(action: { chartInfoSubmitted = true; if !chartNameIsEmpty { expandedSection = .dateTime } }) {
@@ -197,6 +222,9 @@ struct RadixInputScreen: View {
                 case .dateTime: chartInfoSubmitted = true; if !chartNameIsEmpty { expandedSection = .dateTime }
                 }
             }
+            .onChange(of: yearText) { _, _ in recalculateOffset() }
+            .onChange(of: month)    { _, _ in recalculateOffset() }
+            .onChange(of: day)      { _, _ in recalculateOffset() }
         }
         .controlSize(.small)
         .navigationTitle(ri("view.radixinputscreen.title"))

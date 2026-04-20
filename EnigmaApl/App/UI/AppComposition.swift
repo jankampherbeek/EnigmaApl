@@ -15,6 +15,7 @@ final class AppComposition: ObservableObject {
     let app: AppState
     let chartSession: ChartSession
     let radixNav: RadixNavigator
+
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
     let configNav: ConfigNavigator

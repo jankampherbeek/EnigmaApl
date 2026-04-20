@@ -1,0 +1,25 @@
+// Progressive.strings - Deutsch
+// EnigmaApl
+
+// Menu bar
+"menu.progressive"                      = "Progressiv";
+"menu.progressive.rectification"        = "Rektifikation";
+
+// WillnerView
+"view.willnerview.title"                = "Spirituelle Geburtszeiten";
+"view.willnerview.subtitle"             = "Kandidaten für spirituelle Geburtszeiten nach John Willner";
+"view.willnerview.nochart"              = "Berechnen oder wählen Sie ein Horoskop, um spirituelle Geburtszeiten anzuzeigen.";
+"view.willnerview.noresults"            = "Keine Kandidaten für das aktuelle Horoskop gefunden.";
+"view.willnerview.close"                = "Schließen";
+"view.willnerview.col.lst"              = "LST";
+"view.willnerview.col.tlt"              = "TLT";
+"view.willnerview.col.gmt"              = "GMT";
+"view.willnerview.col.zonetime"         = "Zonenzeit";
+"view.willnerview.col.arc"              = "Bogen";
+"view.willnerview.col.ampm"             = "AM/PM";
+
+// RectificationScreen
+"view.rectificationscreen.title"        = "Rektifikationen";
+"view.rectificationscreen.btn.willner"  = "Willner";
+"view.rectificationscreen.btn.nadi"     = "Nadi";
+"view.rectificationscreen.help"         = "Der Rektifikationsbildschirm gibt Zugang zu Rektifikationsmethoden. Willner verwendet die Willner-Methode für spirituelle Geburtszeiten. Nadi verwendet die Nadi-Methode zur Rektifikation.";

@@ -11,6 +11,9 @@
 "view.radixinputscreen.description" = "Omschrijving";
 "view.radixinputscreen.source" = "Bron";
 "view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.country" = "Land";
+"view.radixinputscreen.country.placeholder" = "Typ een landnaam of gebruik * als jokerteken";
+"view.radixinputscreen.city.placeholder" = "Typ een plaatsnaam of gebruik * als jokerteken";
 "view.radixinputscreen.nameoflocation" = "Naam van locatie";
 "view.radixinputscreen.longitude" = "Lengtegraad";
 "view.radixinputscreen.latitude" = "Breedtegraad";

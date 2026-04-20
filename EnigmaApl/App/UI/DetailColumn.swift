@@ -52,6 +52,8 @@ struct DetailColumn: View {
             case .editChart:
                 return "Wijzig horoscoop"
             }
+        case .progressive:
+            return "Progressive"
         case .research:
             return "Detail"
         case .cycles:
@@ -106,6 +108,8 @@ struct DetailColumn: View {
                                 RadixOverviewScreen()
                             }
                         }
+                    case .progressive:
+                        EmptyView()
                     case .research:
                         switch app.nav.research.section {
                         case .datafiles:

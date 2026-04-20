@@ -7,6 +7,7 @@ import SwiftUI
 struct AppCommands: Commands {
     @ObservedObject var app: AppState
     @ObservedObject var radixNav: RadixNavigator
+
     @ObservedObject var researchNav: ResearchNavigator
     @ObservedObject var cyclesNav: CyclesNavigator
     @Environment(\.openWindow) private var openWindow

@@ -11,6 +11,9 @@
 "view.radixinputscreen.description" = "Description";
 "view.radixinputscreen.source" = "Source";
 "view.radixinputscreen.roddenrating" = "Rodden Rating";
+"view.radixinputscreen.country" = "Country";
+"view.radixinputscreen.country.placeholder" = "Type country name or use * as wildcard";
+"view.radixinputscreen.city.placeholder" = "Type city name or use * as wildcard";
 "view.radixinputscreen.nameoflocation" = "Name of location";
 "view.radixinputscreen.longitude" = "Longitude";
 "view.radixinputscreen.latitude" = "Latitude";

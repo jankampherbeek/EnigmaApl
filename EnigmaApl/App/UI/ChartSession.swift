@@ -13,22 +13,26 @@ struct NamedChart: Identifiable {
     let name: String
     let chart: FullChart
     let baseRequest: CalcRequest
+    /// UTC offset in decimal hours (e.g. 1.0 for +01:00, -5.5 for -05:30).
+    let timeZoneOffsetHours: Double
 
-    init(name: String, chart: FullChart, baseRequest: CalcRequest) {
+    init(name: String, chart: FullChart, baseRequest: CalcRequest, timeZoneOffsetHours: Double = 0.0) {
         self.id = UUID()
         self.version = UUID()
         self.name = name
         self.chart = chart
         self.baseRequest = baseRequest
+        self.timeZoneOffsetHours = timeZoneOffsetHours
     }
 
     /// Used internally to preserve identity while replacing chart content.
-    fileprivate init(preservingId id: UUID, name: String, chart: FullChart, baseRequest: CalcRequest) {
+    fileprivate init(preservingId id: UUID, name: String, chart: FullChart, baseRequest: CalcRequest, timeZoneOffsetHours: Double) {
         self.id = id
         self.version = UUID()
         self.name = name
         self.chart = chart
         self.baseRequest = baseRequest
+        self.timeZoneOffsetHours = timeZoneOffsetHours
     }
 }
 
@@ -45,8 +49,8 @@ final class ChartSession: ObservableObject {
 
     var selectedChart: FullChart? { selected?.chart }
 
-    func add(name: String, chart: FullChart, baseRequest: CalcRequest) {
-        let named = NamedChart(name: name, chart: chart, baseRequest: baseRequest)
+    func add(name: String, chart: FullChart, baseRequest: CalcRequest, timeZoneOffsetHours: Double = 0.0) {
+        let named = NamedChart(name: name, chart: chart, baseRequest: baseRequest, timeZoneOffsetHours: timeZoneOffsetHours)
         charts.append(named)
         selected = named
     }
@@ -81,11 +85,17 @@ final class ChartSession: ObservableObject {
         }
     }
 
-    func replace(_ old: NamedChart, with new: NamedChart) {
+    func replace(_ old: NamedChart, with new: NamedChart, timeZoneOffsetHours: Double? = nil) {
         guard let index = charts.firstIndex(where: { $0.id == old.id }) else { return }
-        charts[index] = new
+        let updated: NamedChart
+        if let tz = timeZoneOffsetHours {
+            updated = NamedChart(preservingId: old.id, name: new.name, chart: new.chart, baseRequest: new.baseRequest, timeZoneOffsetHours: tz)
+        } else {
+            updated = NamedChart(preservingId: old.id, name: new.name, chart: new.chart, baseRequest: new.baseRequest, timeZoneOffsetHours: old.timeZoneOffsetHours)
+        }
+        charts[index] = updated
         if selected?.id == old.id {
-            selected = new
+            selected = updated
         }
     }
 
@@ -104,7 +114,7 @@ final class ChartSession: ObservableObject {
                 calculationConfig: named.baseRequest.calculationConfig
             )
             let newChart = AstronCalcOrchestrator.PerformCalculation(newRequest, seWrapper: seWrapper)
-            return NamedChart(preservingId: named.id, name: named.name, chart: newChart, baseRequest: newRequest)
+            return NamedChart(preservingId: named.id, name: named.name, chart: newChart, baseRequest: newRequest, timeZoneOffsetHours: named.timeZoneOffsetHours)
         }
         if let selectedId {
             selected = charts.first(where: { $0.id == selectedId })
