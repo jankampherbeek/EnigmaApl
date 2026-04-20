@@ -1,1 +1,5 @@
-EnigmaApl/Resources/enigma.db
+*.db
+*.db-shm
+*.db-wal
+EnigmaApl/CSwissEphemeris/se/
+EnigmaApl.xcodeproj/
