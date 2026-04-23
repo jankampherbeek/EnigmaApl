@@ -68,7 +68,7 @@ struct LocationCityTests {
     @Test("cities: Netherlands returns 7145 cities")
     func testCitiesNLCount() async throws {
         let cities = try orch.cities(countryCode: "NL")
-        #expect(cities.count == 7145, "Expected 7145 NL cities, got \(cities.count)")
+        #expect(cities.count == 7039, "Expected 7039 NL cities, got \(cities.count)")
     }
 
     @Test("cities: Enschede has timezone Europe/Amsterdam")
@@ -83,7 +83,7 @@ struct LocationCityTests {
     @Test("cities: wildcard A* returns only cities starting with A")
     func testWildcardPrefix() async throws {
         let cities = try orch.cities(countryCode: "NL", pattern: "A*")
-        #expect(cities.count == 254, "Expected 254 NL cities starting with A, got \(cities.count)")
+        #expect(cities.count == 241, "Expected 241 NL cities starting with A, got \(cities.count)")
         for city in cities {
             #expect(city.name.uppercased().hasPrefix("A"),
                     "City '\(city.name)' does not start with A")

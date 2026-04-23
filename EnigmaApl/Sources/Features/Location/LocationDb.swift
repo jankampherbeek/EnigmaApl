@@ -54,7 +54,6 @@ final class LocationDb {
             WHERE cn.lang = ?
               AND lower(cn.name) LIKE ? ESCAPE '\\'
             ORDER BY cn.name COLLATE NOCASE
-            LIMIT 50
             """
         return try query(sql, params: [lang, likePattern]) { stmt in
             LocationCountry(code: string(stmt, 0), name: string(stmt, 1), continent: string(stmt, 2))
@@ -75,7 +74,6 @@ final class LocationDb {
             WHERE c.country_code = ?
               AND lower(c.name) LIKE ? ESCAPE '\\'
             ORDER BY c.name COLLATE NOCASE
-            LIMIT 50
             """
         return try query(sql, params: [countryCode, likePattern]) { stmt in
             LocationCity(

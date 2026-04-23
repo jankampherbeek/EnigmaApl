@@ -38,7 +38,8 @@ final class PersistenceController {
         let schema = Schema([
             HoroscopeModel.self,
             HoroscopeDateTimeModel.self,
-            EventModel.self
+            EventModel.self,
+            ResearchProjectModel.self
         ])
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         do {

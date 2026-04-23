@@ -10,7 +10,8 @@ enum SchemaV1: VersionedSchema {
         HoroscopeModel.self,
         HoroscopeDateTimeModel.self,
         EventModel.self,
-        UserConfiguration.self
+        UserConfiguration.self,
+        ResearchProjectModel.self
     ]
 }
 
