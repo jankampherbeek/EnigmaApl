@@ -282,3 +282,23 @@
 "enum.speedtype.slowretrograde"       = "Langzaam retrograde";
 "enum.speedtype.stationaryretrograde" = "Stationair retrograde";
 "enum.speedtype.stationarydirect"     = "Stationair direct";
+
+// Onderzoeksvragen
+"enum.inquiries.factorsinsigns.name"        = "Factoren in tekens";
+"enum.inquiries.factorsinsigns.description" = "Tel de factoren in de tekens";
+"enum.inquiries.factorsinhouses.name"        = "Factoren in huizen";
+"enum.inquiries.factorsinhouses.description" = "Tel de factoren in de huizen";
+"enum.inquiries.aspects.name"               = "Aspecten";
+"enum.inquiries.aspects.description"        = "Tel de aspecten per factorpaar";
+"enum.inquiries.unaspect.name"              = "Ongeaspecteerde factoren";
+"enum.inquiries.unaspect.description"       = "Tel hoe vaak een factor ongeaspecteerd is";
+"enum.inquiries.midpoints.name"             = "Bezette midpunten";
+"enum.inquiries.midpoints.description"      = "Tel hoe vaak een midpunt bezet is";
+"enum.inquiries.harmonics.name"             = "Harmonische conjuncties";
+"enum.inquiries.harmonics.description"      = "Tel conjuncties tussen een radixfactor en een harmonische factor";
+"enum.inquiries.parallels.name"             = "Parallellen in declinatie";
+"enum.inquiries.parallels.description"      = "Tel parallellen en contraparallellen tussen factorparen";
+"enum.inquiries.declmidpoints.name"         = "Midpunten in declinatie";
+"enum.inquiries.declmidpoints.description"  = "Tel hoe vaak een midpunt in declinatie bezet is";
+"enum.inquiries.oob.name"                   = "Buiten grenzen (OOB)";
+"enum.inquiries.oob.description"            = "Tel hoe vaak elke factor buiten grenzen is";

@@ -282,3 +282,23 @@
 "enum.speedtype.slowretrograde"       = "Low speed retrograde";
 "enum.speedtype.stationaryretrograde" = "Stationary retrograde";
 "enum.speedtype.stationarydirect"     = "Stationary direct";
+
+// Inquiries
+"enum.inquiries.factorsinsigns.name"        = "Factors in signs";
+"enum.inquiries.factorsinsigns.description" = "Count the factors in the signs";
+"enum.inquiries.factorsinhouses.name"        = "Factors in houses";
+"enum.inquiries.factorsinhouses.description" = "Count the factors in the houses";
+"enum.inquiries.aspects.name"               = "Aspects";
+"enum.inquiries.aspects.description"        = "Count the aspects per pair of factors";
+"enum.inquiries.unaspect.name"              = "Unaspected factors";
+"enum.inquiries.unaspect.description"       = "Count how often a factor is unaspected";
+"enum.inquiries.midpoints.name"             = "Occupied midpoints";
+"enum.inquiries.midpoints.description"      = "Count how often a midpoint is occupied";
+"enum.inquiries.harmonics.name"             = "Harmonic conjunctions";
+"enum.inquiries.harmonics.description"      = "Count conjunctions between a radix factor and a harmonic factor";
+"enum.inquiries.parallels.name"             = "Parallels in declination";
+"enum.inquiries.parallels.description"      = "Count parallels and contra-parallels between pairs of factors";
+"enum.inquiries.declmidpoints.name"         = "Midpoints in declination";
+"enum.inquiries.declmidpoints.description"  = "Count how often a midpoint in declination is occupied";
+"enum.inquiries.oob.name"                   = "Out of Bounds (OOB)";
+"enum.inquiries.oob.description"            = "Count how often each factor is OOB";

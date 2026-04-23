@@ -282,3 +282,23 @@
 "enum.speedtype.slowretrograde"       = "Langsam retrograd";
 "enum.speedtype.stationaryretrograde" = "Stationär retrograd";
 "enum.speedtype.stationarydirect"     = "Stationär direkt";
+
+// Untersuchungstypen
+"enum.inquiries.factorsinsigns.name"        = "Faktoren in Zeichen";
+"enum.inquiries.factorsinsigns.description" = "Zähle die Faktoren in den Zeichen";
+"enum.inquiries.factorsinhouses.name"        = "Faktoren in Häusern";
+"enum.inquiries.factorsinhouses.description" = "Zähle die Faktoren in den Häusern";
+"enum.inquiries.aspects.name"               = "Aspekte";
+"enum.inquiries.aspects.description"        = "Zähle die Aspekte je Faktorpaar";
+"enum.inquiries.unaspect.name"              = "Unaspektierte Faktoren";
+"enum.inquiries.unaspect.description"       = "Zähle, wie oft ein Faktor unaspektiert ist";
+"enum.inquiries.midpoints.name"             = "Besetzte Halbsummen";
+"enum.inquiries.midpoints.description"      = "Zähle, wie oft eine Halbsumme besetzt ist";
+"enum.inquiries.harmonics.name"             = "Harmonische Konjunktionen";
+"enum.inquiries.harmonics.description"      = "Zähle Konjunktionen zwischen einem Radixfaktor und einem harmonischen Faktor";
+"enum.inquiries.parallels.name"             = "Parallelen in Deklination";
+"enum.inquiries.parallels.description"      = "Zähle Parallelen und Gegenparallelen zwischen Faktorpaaren";
+"enum.inquiries.declmidpoints.name"         = "Halbsummen in Deklination";
+"enum.inquiries.declmidpoints.description"  = "Zähle, wie oft eine Halbsumme in Deklination besetzt ist";
+"enum.inquiries.oob.name"                   = "Außerhalb der Grenzen (OOB)";
+"enum.inquiries.oob.description"            = "Zähle, wie oft jeder Faktor außerhalb der Grenzen liegt";

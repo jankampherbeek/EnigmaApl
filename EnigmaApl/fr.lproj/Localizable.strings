@@ -282,3 +282,23 @@
 "enum.speedtype.slowretrograde"       = "Lent rétrograde";
 "enum.speedtype.stationaryretrograde" = "Stationnaire rétrograde";
 "enum.speedtype.stationarydirect"     = "Stationnaire direct";
+
+// Types d'enquêtes
+"enum.inquiries.factorsinsigns.name"        = "Facteurs dans les signes";
+"enum.inquiries.factorsinsigns.description" = "Compter les facteurs dans les signes";
+"enum.inquiries.factorsinhouses.name"        = "Facteurs dans les maisons";
+"enum.inquiries.factorsinhouses.description" = "Compter les facteurs dans les maisons";
+"enum.inquiries.aspects.name"               = "Aspects";
+"enum.inquiries.aspects.description"        = "Compter les aspects par paire de facteurs";
+"enum.inquiries.unaspect.name"              = "Facteurs sans aspect";
+"enum.inquiries.unaspect.description"       = "Compter combien de fois un facteur est sans aspect";
+"enum.inquiries.midpoints.name"             = "Points médians occupés";
+"enum.inquiries.midpoints.description"      = "Compter combien de fois un point médian est occupé";
+"enum.inquiries.harmonics.name"             = "Conjonctions harmoniques";
+"enum.inquiries.harmonics.description"      = "Compter les conjonctions entre un facteur radix et un facteur harmonique";
+"enum.inquiries.parallels.name"             = "Parallèles en déclinaison";
+"enum.inquiries.parallels.description"      = "Compter les parallèles et contre-parallèles entre paires de facteurs";
+"enum.inquiries.declmidpoints.name"         = "Points médians en déclinaison";
+"enum.inquiries.declmidpoints.description"  = "Compter combien de fois un point médian en déclinaison est occupé";
+"enum.inquiries.oob.name"                   = "Hors limites (OOB)";
+"enum.inquiries.oob.description"            = "Compter combien de fois chaque facteur est hors limites";
