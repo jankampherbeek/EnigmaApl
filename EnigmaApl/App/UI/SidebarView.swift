@@ -49,9 +49,6 @@ struct SidebarView: View {
                 EmptyView()
             case .research:
                 Section("Research") {
-                    Button { researchNav.setSection(.datafiles) } label: {
-                        row(ResearchSection.datafiles.rawValue, app.nav.research.section == .datafiles)
-                    }.buttonStyle(.plain)
                     Button { researchNav.setSection(.projects) } label: {
                         row(ResearchSection.projects.rawValue, app.nav.research.section == .projects)
                     }.buttonStyle(.plain)

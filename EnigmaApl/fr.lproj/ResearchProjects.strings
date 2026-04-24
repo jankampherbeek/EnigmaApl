@@ -1,0 +1,54 @@
+// ResearchProjects.strings - Français
+// EnigmaApl
+
+"view.researchprojectsscreen.title"                    = "Projets de recherche";
+"view.researchprojectsscreen.button.new"               = "Nouveau projet";
+"view.researchprojectsscreen.button.search"            = "Rechercher un projet";
+"view.researchprojectsscreen.button.all"               = "Tous les projets";
+
+"view.researchprojectinputscreen.title"                = "Nouveau projet de recherche";
+"view.researchprojectinputscreen.label.name"           = "Nom";
+"view.researchprojectinputscreen.label.description"    = "Description";
+"view.researchprojectinputscreen.label.inquiry"        = "Type d'investigation";
+"view.researchprojectinputscreen.label.cgmult"         = "Multiplicateur du groupe de contrôle";
+"view.researchprojectinputscreen.label.ecliptical"     = "Coordonnées écliptiques";
+"view.researchprojectinputscreen.label.equatorial"     = "Coordonnées équatoriales";
+"view.researchprojectinputscreen.label.horizontal"     = "Coordonnées horizontales";
+"view.researchprojectinputscreen.button.save"          = "Enregistrer";
+"view.researchprojectinputscreen.button.next"          = "Suivant";
+"view.researchprojectinputscreen.button.cancel"        = "Annuler";
+"view.researchprojectinputscreen.label.path"           = "Dossier du projet";
+"view.researchprojectinputscreen.button.selectpath"    = "Choisir un dossier...";
+"view.researchprojectinputscreen.error.nameempty"      = "Un nom de projet est requis.";
+"view.researchprojectinputscreen.error.pathempty"      = "Veuillez sélectionner un dossier pour le projet.";
+"view.researchprojectinputscreen.error.save"           = "Le projet n'a pas pu être enregistré. Veuillez réessayer.";
+
+"view.researchprojectlistscreen.title"                 = "Projets de recherche";
+"view.researchprojectlistscreen.searchtitle"           = "Rechercher un projet";
+"view.researchprojectlistscreen.searchlabel"           = "Partie du nom";
+"view.researchprojectlistscreen.searchbutton"          = "Rechercher";
+"view.researchprojectlistscreen.noresults"             = "Aucun projet trouvé.";
+"view.researchprojectlistscreen.column.name"           = "Nom";
+"view.researchprojectlistscreen.column.description"    = "Description";
+"view.researchprojectlistscreen.column.date"           = "Créé le";
+"view.researchprojectlistscreen.button.open"           = "Ouvrir";
+"view.researchprojectlistscreen.button.delete"         = "Supprimer";
+"view.researchprojectlistscreen.delete.title"          = "Supprimer le projet";
+"view.researchprojectlistscreen.delete.message"        = "Voulez-vous vraiment supprimer '%@' ? Cette action est irréversible.";
+"view.researchprojectlistscreen.delete.confirm"        = "Supprimer";
+"view.researchprojectlistscreen.delete.cancel"         = "Annuler";
+"view.researchprojectlistscreen.delete.failed"         = "Impossible de supprimer le projet.";
+"view.researchprojectlistscreen.popup.title"           = "Rechercher un projet";
+"view.researchprojectlistscreen.popup.close"           = "Fermer";
+
+"view.researchprojectconfigscreen.title"               = "Configuration du projet";
+"view.researchprojectconfigscreen.section.factors"     = "Facteurs";
+"view.researchprojectconfigscreen.section.aspects"     = "Aspects";
+"view.researchprojectconfigscreen.section.orb"         = "Orbe";
+"view.researchprojectconfigscreen.orb.fromconfig"      = "Utiliser l'orbe de la configuration";
+"view.researchprojectconfigscreen.orb.override"        = "Remplacer par un orbe unique";
+"view.researchprojectconfigscreen.orb.value"           = "Orbe (degrés)";
+"view.researchprojectconfigscreen.section.dial"        = "Type de cadran";
+"view.researchprojectconfigscreen.dial.360"            = "360°";
+"view.researchprojectconfigscreen.dial.90"             = "90°";
+"view.researchprojectconfigscreen.dial.45"             = "45°";

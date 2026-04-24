@@ -52,7 +52,7 @@ struct ContentColumn: View {
             case .progressive:
                 EmptyView()
             case .research:
-                Text("Content (\(app.nav.mode.rawValue))")
+                ResearchProjectsScreen()
             case .cycles:
                 Text("Content (\(app.nav.mode.rawValue))")
             case .config:

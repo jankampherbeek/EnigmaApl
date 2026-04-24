@@ -34,13 +34,8 @@ struct AppCommands: Commands {
         }
 
         CommandMenu("Research") {
-            Button("Activeer Research") { app.setMode(.research) }
-                .keyboardShortcut("2", modifiers: [.command, .shift])
-            Divider()
-            Button("Datafiles") { app.setMode(.research); researchNav.setSection(.datafiles) }
+            Button("Projects") { app.setMode(.research); researchNav.setSection(.projects) }
                 .keyboardShortcut("5", modifiers: [.command, .option])
-            Button("Projects")  { app.setMode(.research); researchNav.setSection(.projects) }
-                .keyboardShortcut("6", modifiers: [.command, .option])
         }
 
         CommandMenu("Cycles") {

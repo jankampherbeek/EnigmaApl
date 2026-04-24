@@ -1,0 +1,54 @@
+// ResearchProjects.strings - English
+// EnigmaApl
+
+"view.researchprojectsscreen.title"                    = "Research Projects";
+"view.researchprojectsscreen.button.new"               = "New project";
+"view.researchprojectsscreen.button.search"            = "Search project";
+"view.researchprojectsscreen.button.all"               = "All projects";
+
+"view.researchprojectinputscreen.title"                = "New Research Project";
+"view.researchprojectinputscreen.label.name"           = "Name";
+"view.researchprojectinputscreen.label.description"    = "Description";
+"view.researchprojectinputscreen.label.inquiry"        = "Inquiry type";
+"view.researchprojectinputscreen.label.cgmult"         = "Control group multiplier";
+"view.researchprojectinputscreen.label.ecliptical"     = "Ecliptical coordinates";
+"view.researchprojectinputscreen.label.equatorial"     = "Equatorial coordinates";
+"view.researchprojectinputscreen.label.horizontal"     = "Horizontal coordinates";
+"view.researchprojectinputscreen.button.save"          = "Save";
+"view.researchprojectinputscreen.button.next"          = "Next";
+"view.researchprojectinputscreen.button.cancel"        = "Cancel";
+"view.researchprojectinputscreen.label.path"           = "Project folder";
+"view.researchprojectinputscreen.button.selectpath"    = "Select folder...";
+"view.researchprojectinputscreen.error.nameempty"      = "A project name is required.";
+"view.researchprojectinputscreen.error.pathempty"      = "Please select a folder for the project.";
+"view.researchprojectinputscreen.error.save"           = "Could not save the project. Please try again.";
+
+"view.researchprojectlistscreen.title"                 = "Research Projects";
+"view.researchprojectlistscreen.searchtitle"           = "Search Project";
+"view.researchprojectlistscreen.searchlabel"           = "Part of name";
+"view.researchprojectlistscreen.searchbutton"          = "Search";
+"view.researchprojectlistscreen.noresults"             = "No projects found.";
+"view.researchprojectlistscreen.column.name"           = "Name";
+"view.researchprojectlistscreen.column.description"    = "Description";
+"view.researchprojectlistscreen.column.date"           = "Created";
+"view.researchprojectlistscreen.button.open"           = "Open";
+"view.researchprojectlistscreen.button.delete"         = "Delete";
+"view.researchprojectlistscreen.delete.title"          = "Delete project";
+"view.researchprojectlistscreen.delete.message"        = "Are you sure you want to delete '%@'? This cannot be undone.";
+"view.researchprojectlistscreen.delete.confirm"        = "Delete";
+"view.researchprojectlistscreen.delete.cancel"         = "Cancel";
+"view.researchprojectlistscreen.delete.failed"         = "Could not delete the project.";
+"view.researchprojectlistscreen.popup.title"           = "Search project";
+"view.researchprojectlistscreen.popup.close"           = "Close";
+
+"view.researchprojectconfigscreen.title"               = "Project configuration";
+"view.researchprojectconfigscreen.section.factors"     = "Factors";
+"view.researchprojectconfigscreen.section.aspects"     = "Aspects";
+"view.researchprojectconfigscreen.section.orb"         = "Orb";
+"view.researchprojectconfigscreen.orb.fromconfig"      = "Use orb from configuration";
+"view.researchprojectconfigscreen.orb.override"        = "Override with single orb";
+"view.researchprojectconfigscreen.orb.value"           = "Orb (degrees)";
+"view.researchprojectconfigscreen.section.dial"        = "Dial type";
+"view.researchprojectconfigscreen.dial.360"            = "360°";
+"view.researchprojectconfigscreen.dial.90"             = "90°";
+"view.researchprojectconfigscreen.dial.45"             = "45°";

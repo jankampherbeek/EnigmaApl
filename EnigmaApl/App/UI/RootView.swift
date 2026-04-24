@@ -15,25 +15,38 @@ import Combine
 
 struct RootView: View {
     @EnvironmentObject private var composition: AppComposition
+    @EnvironmentObject private var app: AppState
     @Environment(\.horizontalSizeClass) private var hSizeClass
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
     private var preferTwoColumns: Bool { hSizeClass == .compact }
 
-    var body: some View {
-        let app = composition.app
+    private var usesTwoColumnDetail: Bool {
+        app.nav.mode == .research
+    }
 
-        // Main layout
-        NavigationSplitView {
-            SidebarView()
-        } content: {
-            ContentColumn()
-        } detail: {
-            if preferTwoColumns {
-                TwoColumnDetailPlaceholder()
+    var body: some View {
+        // Main layout: two-column for Research (no detail pane), three-column for all other modes
+        Group {
+            if usesTwoColumnDetail {
+                NavigationSplitView {
+                    SidebarView()
+                } detail: {
+                    ContentColumn()
+                }
             } else {
-                DetailColumn()
+                NavigationSplitView {
+                    SidebarView()
+                } content: {
+                    ContentColumn()
+                } detail: {
+                    if preferTwoColumns {
+                        TwoColumnDetailPlaceholder()
+                    } else {
+                        DetailColumn()
+                    }
+                }
             }
         }
         // Inject the actual singletons so that they can be used by lower views

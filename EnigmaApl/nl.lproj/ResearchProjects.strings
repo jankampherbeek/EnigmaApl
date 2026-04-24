@@ -1,0 +1,54 @@
+// ResearchProjects.strings - Nederlands
+// EnigmaApl
+
+"view.researchprojectsscreen.title"                    = "Onderzoeksprojecten";
+"view.researchprojectsscreen.button.new"               = "Nieuw project";
+"view.researchprojectsscreen.button.search"            = "Zoek project";
+"view.researchprojectsscreen.button.all"               = "Alle projecten";
+
+"view.researchprojectinputscreen.title"                = "Nieuw onderzoeksproject";
+"view.researchprojectinputscreen.label.name"           = "Naam";
+"view.researchprojectinputscreen.label.description"    = "Omschrijving";
+"view.researchprojectinputscreen.label.inquiry"        = "Type onderzoek";
+"view.researchprojectinputscreen.label.cgmult"         = "Vermenigvuldiger controlegroep";
+"view.researchprojectinputscreen.label.ecliptical"     = "Ecliptische coördinaten";
+"view.researchprojectinputscreen.label.equatorial"     = "Equatoriale coördinaten";
+"view.researchprojectinputscreen.label.horizontal"     = "Horizontale coördinaten";
+"view.researchprojectinputscreen.button.save"          = "Opslaan";
+"view.researchprojectinputscreen.button.next"          = "Volgende";
+"view.researchprojectinputscreen.button.cancel"        = "Annuleren";
+"view.researchprojectinputscreen.label.path"           = "Projectmap";
+"view.researchprojectinputscreen.button.selectpath"    = "Kies map...";
+"view.researchprojectinputscreen.error.nameempty"      = "Een projectnaam is verplicht.";
+"view.researchprojectinputscreen.error.pathempty"      = "Selecteer een map voor het project.";
+"view.researchprojectinputscreen.error.save"           = "Het project kon niet worden opgeslagen. Probeer het opnieuw.";
+
+"view.researchprojectlistscreen.title"                 = "Onderzoeksprojecten";
+"view.researchprojectlistscreen.searchtitle"           = "Zoek project";
+"view.researchprojectlistscreen.searchlabel"           = "Deel van naam";
+"view.researchprojectlistscreen.searchbutton"          = "Zoeken";
+"view.researchprojectlistscreen.noresults"             = "Geen projecten gevonden.";
+"view.researchprojectlistscreen.column.name"           = "Naam";
+"view.researchprojectlistscreen.column.description"    = "Omschrijving";
+"view.researchprojectlistscreen.column.date"           = "Aangemaakt";
+"view.researchprojectlistscreen.button.open"           = "Openen";
+"view.researchprojectlistscreen.button.delete"         = "Verwijderen";
+"view.researchprojectlistscreen.delete.title"          = "Project verwijderen";
+"view.researchprojectlistscreen.delete.message"        = "Weet je zeker dat je '%@' wilt verwijderen? Dit kan niet ongedaan worden gemaakt.";
+"view.researchprojectlistscreen.delete.confirm"        = "Verwijderen";
+"view.researchprojectlistscreen.delete.cancel"         = "Annuleren";
+"view.researchprojectlistscreen.delete.failed"         = "Het project kon niet worden verwijderd.";
+"view.researchprojectlistscreen.popup.title"           = "Zoek project";
+"view.researchprojectlistscreen.popup.close"           = "Sluiten";
+
+"view.researchprojectconfigscreen.title"               = "Projectconfiguratie";
+"view.researchprojectconfigscreen.section.factors"     = "Factoren";
+"view.researchprojectconfigscreen.section.aspects"     = "Aspecten";
+"view.researchprojectconfigscreen.section.orb"         = "Orb";
+"view.researchprojectconfigscreen.orb.fromconfig"      = "Gebruik orb uit configuratie";
+"view.researchprojectconfigscreen.orb.override"        = "Overschrijf met vaste orb";
+"view.researchprojectconfigscreen.orb.value"           = "Orb (graden)";
+"view.researchprojectconfigscreen.section.dial"        = "Schaltype";
+"view.researchprojectconfigscreen.dial.360"            = "360°";
+"view.researchprojectconfigscreen.dial.90"             = "90°";
+"view.researchprojectconfigscreen.dial.45"             = "45°";

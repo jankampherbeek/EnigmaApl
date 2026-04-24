@@ -9,11 +9,10 @@ import Combine
 
 struct ResearchNav: Equatable {
     var selectedID: UUID? = nil
-    var section: ResearchSection = .datafiles
+    var section: ResearchSection = .projects
 }
 
 enum ResearchSection: String, CaseIterable, Identifiable, Hashable {
-    case datafiles = "Datafiles"
     case projects = "Projects"
     var id: String { rawValue }
 }
@@ -26,7 +25,6 @@ final class ResearchNavigator: ObservableObject {
 
     func select(_ id: UUID?) {
         nav.selectedID = id
-        if id != nil { nav.section = .datafiles }
     }
 
     func setSection(_ section: ResearchSection) {

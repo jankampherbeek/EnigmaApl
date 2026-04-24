@@ -1,0 +1,54 @@
+// ResearchProjects.strings - Deutsch
+// EnigmaApl
+
+"view.researchprojectsscreen.title"                    = "Forschungsprojekte";
+"view.researchprojectsscreen.button.new"               = "Neues Projekt";
+"view.researchprojectsscreen.button.search"            = "Projekt suchen";
+"view.researchprojectsscreen.button.all"               = "Alle Projekte";
+
+"view.researchprojectinputscreen.title"                = "Neues Forschungsprojekt";
+"view.researchprojectinputscreen.label.name"           = "Name";
+"view.researchprojectinputscreen.label.description"    = "Beschreibung";
+"view.researchprojectinputscreen.label.inquiry"        = "Untersuchungstyp";
+"view.researchprojectinputscreen.label.cgmult"         = "Kontrollgruppen-Multiplikator";
+"view.researchprojectinputscreen.label.ecliptical"     = "Ekliptische Koordinaten";
+"view.researchprojectinputscreen.label.equatorial"     = "Äquatoriale Koordinaten";
+"view.researchprojectinputscreen.label.horizontal"     = "Horizontale Koordinaten";
+"view.researchprojectinputscreen.button.save"          = "Speichern";
+"view.researchprojectinputscreen.button.next"          = "Weiter";
+"view.researchprojectinputscreen.button.cancel"        = "Abbrechen";
+"view.researchprojectinputscreen.label.path"           = "Projektordner";
+"view.researchprojectinputscreen.button.selectpath"    = "Ordner auswählen...";
+"view.researchprojectinputscreen.error.nameempty"      = "Ein Projektname ist erforderlich.";
+"view.researchprojectinputscreen.error.pathempty"      = "Bitte wählen Sie einen Ordner für das Projekt.";
+"view.researchprojectinputscreen.error.save"           = "Das Projekt konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.";
+
+"view.researchprojectlistscreen.title"                 = "Forschungsprojekte";
+"view.researchprojectlistscreen.searchtitle"           = "Projekt suchen";
+"view.researchprojectlistscreen.searchlabel"           = "Teil des Namens";
+"view.researchprojectlistscreen.searchbutton"          = "Suchen";
+"view.researchprojectlistscreen.noresults"             = "Keine Projekte gefunden.";
+"view.researchprojectlistscreen.column.name"           = "Name";
+"view.researchprojectlistscreen.column.description"    = "Beschreibung";
+"view.researchprojectlistscreen.column.date"           = "Erstellt";
+"view.researchprojectlistscreen.button.open"           = "Öffnen";
+"view.researchprojectlistscreen.button.delete"         = "Löschen";
+"view.researchprojectlistscreen.delete.title"          = "Projekt löschen";
+"view.researchprojectlistscreen.delete.message"        = "Möchten Sie '%@' wirklich löschen? Dies kann nicht rückgängig gemacht werden.";
+"view.researchprojectlistscreen.delete.confirm"        = "Löschen";
+"view.researchprojectlistscreen.delete.cancel"         = "Abbrechen";
+"view.researchprojectlistscreen.delete.failed"         = "Das Projekt konnte nicht gelöscht werden.";
+"view.researchprojectlistscreen.popup.title"           = "Projekt suchen";
+"view.researchprojectlistscreen.popup.close"           = "Schließen";
+
+"view.researchprojectconfigscreen.title"               = "Projektkonfiguration";
+"view.researchprojectconfigscreen.section.factors"     = "Faktoren";
+"view.researchprojectconfigscreen.section.aspects"     = "Aspekte";
+"view.researchprojectconfigscreen.section.orb"         = "Orb";
+"view.researchprojectconfigscreen.orb.fromconfig"      = "Orb aus Konfiguration verwenden";
+"view.researchprojectconfigscreen.orb.override"        = "Mit festem Orb überschreiben";
+"view.researchprojectconfigscreen.orb.value"           = "Orb (Grad)";
+"view.researchprojectconfigscreen.section.dial"        = "Skalentyp";
+"view.researchprojectconfigscreen.dial.360"            = "360°";
+"view.researchprojectconfigscreen.dial.90"             = "90°";
+"view.researchprojectconfigscreen.dial.45"             = "45°";

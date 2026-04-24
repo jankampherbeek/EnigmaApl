@@ -55,7 +55,7 @@ struct DetailColumn: View {
         case .progressive:
             return "Progressive"
         case .research:
-            return "Detail"
+            return ""
         case .cycles:
             return "Detail"
         case .config:
@@ -111,12 +111,7 @@ struct DetailColumn: View {
                     case .progressive:
                         EmptyView()
                     case .research:
-                        switch app.nav.research.section {
-                        case .datafiles:
-                            DatafilesScreen()
-                        case .projects:
-                            ProjectsScreen()
-                        }
+                        EmptyView()
                     case .cycles:
                         switch app.nav.cycles.section {
                         case .astronomicalCycles:
