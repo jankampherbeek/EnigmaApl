@@ -142,6 +142,27 @@ public struct AstronCalcOrchestrator {
             }
         }
         
+        if let mundaneFactors = factorsByType[.Mundane], !mundaneFactors.isEmpty {
+            for factor in mundaneFactors {
+                let cuspPos: FullCuspPosition
+                switch factor {
+                case .ascendant: cuspPos = housePositions.ascendant
+                case .mc:        cuspPos = housePositions.midheaven
+                case .eastPoint: cuspPos = housePositions.eastpoint
+                case .vertex:    cuspPos = housePositions.vertex
+                default:         continue
+                }
+                let ecliptical = MainAstronomicalPosition(mainPos: cuspPos.longitude, deviation: 0.0, distance: 0.0)
+                let equatorial = MainAstronomicalPosition(mainPos: cuspPos.rightAscension, deviation: cuspPos.declination, distance: 0.0)
+                let horizontal = HorizontalPosition(azimuth: cuspPos.horizontal.azimuth, altitude: cuspPos.horizontal.altitude)
+                allCoordinates[factor] = FullFactorPosition(
+                    ecliptical: [ecliptical],
+                    equatorial: [equatorial],
+                    horizontal: [horizontal]
+                )
+            }
+        }
+
         if let zodiacFixedFactors = factorsByType[.ZodiacFixed], !zodiacFixedFactors.isEmpty {
             let zodiacFixedCalc = ZodiacFixedCalc()
             let zodiacFixedCoordinates = zodiacFixedCalc.zodiacFixedFactors(calcRequest: request, obliquity: obliquity, seWrapper: seWrapper)

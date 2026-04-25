@@ -1208,61 +1208,51 @@ struct ResearchResultScreen: View {
 private struct FactorsInSignsResultView: View {
     let result: FactorsInSignsResult
 
-    private let factorWidth: CGFloat  = 140
-    private let countWidth: CGFloat   = 50
-    private let totalWidth: CGFloat   = 70
+    private let factorWidth: CGFloat = 140
+    private let countWidth: CGFloat  = 50
+    private let totalWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            signsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            signsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func signsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
-                    // Header
                     HStack(spacing: 4) {
                         Text(t(ResearchProjectsKeys.resultColumnFactor))
                             .frame(width: factorWidth, alignment: .leading)
                         ForEach(Signs.allCases, id: \.self) { sign in
                             Text("\(sign)").frame(width: countWidth, alignment: .trailing)
                         }
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: totalWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
-                            .frame(width: totalWidth, alignment: .trailing)
+                        Text("∑").frame(width: totalWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 8).padding(.vertical, 4)
                     Divider()
                     ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
-                        VStack(spacing: 0) {
-                            // Data row
-                            HStack(spacing: 4) {
-                                Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
-                                ForEach(dist.signCounts, id: \.sign) { sc in
-                                    Text("\(sc.dataCount)").frame(width: countWidth, alignment: .trailing)
-                                }
-                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
-                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                        HStack(spacing: 4) {
+                            Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                            ForEach(dist.signCounts, id: \.sign) { sc in
+                                Text("\(isData ? sc.dataCount : sc.controlCount)")
+                                    .frame(width: countWidth, alignment: .trailing)
                             }
-                            .padding(.horizontal, 8).padding(.vertical, 3)
-                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
-                            // Control row
-                            HStack(spacing: 4) {
-                                Text("\(dist.factor) ©").frame(width: factorWidth, alignment: .leading)
-                                ForEach(dist.signCounts, id: \.sign) { sc in
-                                    Text("\(sc.controlCount)").frame(width: countWidth, alignment: .trailing)
-                                }
-                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
-                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
-                            }
-                            .padding(.horizontal, 8).padding(.vertical, 3)
-                            .foregroundStyle(.secondary)
-                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                            Text("\(isData ? dist.totalData : dist.totalControl)")
+                                .frame(width: totalWidth, alignment: .trailing)
                         }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                     }
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1276,7 +1266,16 @@ private struct FactorsInHousesResultView: View {
     private let totalWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            housesTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            housesTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func housesTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
                     HStack(spacing: 4) {
@@ -1285,44 +1284,28 @@ private struct FactorsInHousesResultView: View {
                         ForEach(1...result.nrOfHouses, id: \.self) { h in
                             Text("\(h)").frame(width: countWidth, alignment: .trailing)
                         }
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: totalWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
-                            .frame(width: totalWidth, alignment: .trailing)
+                        Text("∑").frame(width: totalWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 8).padding(.vertical, 4)
                     Divider()
                     ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
-                        VStack(spacing: 0) {
-                            HStack(spacing: 4) {
-                                Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
-                                ForEach(dist.houseCounts, id: \.houseNr) { hc in
-                                    Text("\(hc.dataCount)").frame(width: countWidth, alignment: .trailing)
-                                }
-                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
-                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                        HStack(spacing: 4) {
+                            Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                            ForEach(dist.houseCounts, id: \.houseNr) { hc in
+                                Text("\(isData ? hc.dataCount : hc.controlCount)")
+                                    .frame(width: countWidth, alignment: .trailing)
                             }
-                            .padding(.horizontal, 8).padding(.vertical, 3)
-                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
-                            HStack(spacing: 4) {
-                                Text("\(dist.factor) ©").frame(width: factorWidth, alignment: .leading)
-                                ForEach(dist.houseCounts, id: \.houseNr) { hc in
-                                    Text("\(hc.controlCount)").frame(width: countWidth, alignment: .trailing)
-                                }
-                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
-                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
-                            }
-                            .padding(.horizontal, 8).padding(.vertical, 3)
-                            .foregroundStyle(.secondary)
-                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                            Text("\(isData ? dist.totalData : dist.totalControl)")
+                                .frame(width: totalWidth, alignment: .trailing)
                         }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                     }
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1336,7 +1319,16 @@ private struct AspectsResultView: View {
     private let countWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            aspectsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            aspectsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func aspectsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
                     HStack(spacing: 4) {
@@ -1346,10 +1338,7 @@ private struct AspectsResultView: View {
                             .frame(width: factorWidth, alignment: .leading)
                         Text(t(ResearchProjectsKeys.resultColumnAspect))
                             .frame(width: angleWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: countWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
-                            .frame(width: countWidth, alignment: .trailing)
+                        Text("∑").frame(width: countWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -1361,8 +1350,8 @@ private struct AspectsResultView: View {
                             Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
                             Text(String(format: "%.5g", c.aspectAngle))
                                 .frame(width: angleWidth, alignment: .trailing)
-                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(isData ? c.dataCount : c.controlCount)")
+                                .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
@@ -1370,7 +1359,6 @@ private struct AspectsResultView: View {
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1383,15 +1371,21 @@ private struct UnaspectResultView: View {
     private let countWidth: CGFloat  = 80
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            unaspectTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            unaspectTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func unaspectTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             VStack(spacing: 0) {
                 HStack(spacing: 4) {
                     Text(t(ResearchProjectsKeys.resultColumnFactor))
                         .frame(width: factorWidth, alignment: .leading)
-                    Text(t(ResearchProjectsKeys.resultColumnData))
-                        .frame(width: countWidth, alignment: .trailing)
-                    Text(t(ResearchProjectsKeys.resultColumnControl))
-                        .frame(width: countWidth, alignment: .trailing)
+                    Text("∑").frame(width: countWidth, alignment: .trailing)
                 }
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
@@ -1400,15 +1394,14 @@ private struct UnaspectResultView: View {
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
                         Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                        Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        Text("\(isData ? c.dataCount : c.controlCount)")
+                            .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
                     .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1422,7 +1415,16 @@ private struct MidpointsResultView: View {
     private let countWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            midpointsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            midpointsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func midpointsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
                     HStack(spacing: 4) {
@@ -1434,10 +1436,7 @@ private struct MidpointsResultView: View {
                             .frame(width: factorWidth, alignment: .leading)
                         Text(t(ResearchProjectsKeys.resultColumnDial))
                             .frame(width: dialWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: countWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
-                            .frame(width: countWidth, alignment: .trailing)
+                        Text("∑").frame(width: countWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -1449,8 +1448,8 @@ private struct MidpointsResultView: View {
                             Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.dialSize)").frame(width: dialWidth, alignment: .trailing)
-                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(isData ? c.dataCount : c.controlCount)")
+                                .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
@@ -1458,7 +1457,6 @@ private struct MidpointsResultView: View {
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1471,39 +1469,42 @@ private struct HarmonicsResultView: View {
     private let countWidth: CGFloat  = 70
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             Text(String(format: t(ResearchProjectsKeys.resultHarmonicNumber), result.harmonicNumber))
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            GroupBox {
-                VStack(spacing: 0) {
+            harmonicsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            harmonicsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func harmonicsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
+            VStack(spacing: 0) {
+                HStack(spacing: 4) {
+                    Text(t(ResearchProjectsKeys.resultColumnHarmonic))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text(t(ResearchProjectsKeys.resultColumnRadix))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text("∑").frame(width: countWidth, alignment: .trailing)
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                Divider()
+                ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
-                        Text(t(ResearchProjectsKeys.resultColumnHarmonic))
-                            .frame(width: factorWidth, alignment: .leading)
-                        Text(t(ResearchProjectsKeys.resultColumnRadix))
-                            .frame(width: factorWidth, alignment: .leading)
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: countWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                        Text("\(c.harmonicFactor)").frame(width: factorWidth, alignment: .leading)
+                        Text("\(c.radixFactor)").frame(width: factorWidth, alignment: .leading)
+                        Text("\(isData ? c.dataCount : c.controlCount)")
                             .frame(width: countWidth, alignment: .trailing)
                     }
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    Divider()
-                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
-                        HStack(spacing: 4) {
-                            Text("\(c.harmonicFactor)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.radixFactor)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
-                        }
-                        .padding(.horizontal, 8).padding(.vertical, 3)
-                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
-                    }
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                 }
             }
-            skippedView(result.skippedRecords)
         }
     }
 }
@@ -1518,7 +1519,16 @@ private struct ParallelsResultView: View {
     private let countWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            parallelsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            parallelsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func parallelsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             VStack(spacing: 0) {
                 HStack(spacing: 4) {
                     Text(t(ResearchProjectsKeys.resultColumnFactor1))
@@ -1527,10 +1537,7 @@ private struct ParallelsResultView: View {
                         .frame(width: factorWidth, alignment: .leading)
                     Text(t(ResearchProjectsKeys.resultColumnType))
                         .frame(width: typeWidth, alignment: .leading)
-                    Text(t(ResearchProjectsKeys.resultColumnData))
-                        .frame(width: countWidth, alignment: .trailing)
-                    Text(t(ResearchProjectsKeys.resultColumnControl))
-                        .frame(width: countWidth, alignment: .trailing)
+                    Text("∑").frame(width: countWidth, alignment: .trailing)
                 }
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
@@ -1544,15 +1551,14 @@ private struct ParallelsResultView: View {
                              ? t(ResearchProjectsKeys.resultTypeContra)
                              : t(ResearchProjectsKeys.resultTypeParallel))
                             .frame(width: typeWidth, alignment: .leading)
-                        Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                        Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        Text("\(isData ? c.dataCount : c.controlCount)")
+                            .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
                     .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1565,7 +1571,16 @@ private struct DeclMidpointsResultView: View {
     private let countWidth: CGFloat  = 70
 
     var body: some View {
-        GroupBox {
+        VStack(alignment: .leading, spacing: 12) {
+            declMidpointsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            declMidpointsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func declMidpointsTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
                     HStack(spacing: 4) {
@@ -1575,10 +1590,7 @@ private struct DeclMidpointsResultView: View {
                             .frame(width: factorWidth, alignment: .leading)
                         Text(t(ResearchProjectsKeys.resultColumnOccupant))
                             .frame(width: factorWidth, alignment: .leading)
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: countWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
-                            .frame(width: countWidth, alignment: .trailing)
+                        Text("∑").frame(width: countWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -1589,8 +1601,8 @@ private struct DeclMidpointsResultView: View {
                             Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(isData ? c.dataCount : c.controlCount)")
+                                .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
@@ -1598,7 +1610,6 @@ private struct DeclMidpointsResultView: View {
                 }
             }
         }
-        skippedView(result.skippedRecords)
     }
 }
 
@@ -1611,36 +1622,39 @@ private struct OobResultView: View {
     private let countWidth: CGFloat  = 80
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             Text(String(format: t(ResearchProjectsKeys.resultObliquity), result.obliquity))
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            GroupBox {
-                VStack(spacing: 0) {
+            oobTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            oobTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            skippedView(result.skippedRecords)
+        }
+    }
+
+    @ViewBuilder
+    private func oobTable(title: String, isData: Bool) -> some View {
+        GroupBox(title) {
+            VStack(spacing: 0) {
+                HStack(spacing: 4) {
+                    Text(t(ResearchProjectsKeys.resultColumnFactor))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text("∑").frame(width: countWidth, alignment: .trailing)
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                Divider()
+                ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
-                        Text(t(ResearchProjectsKeys.resultColumnFactor))
-                            .frame(width: factorWidth, alignment: .leading)
-                        Text(t(ResearchProjectsKeys.resultColumnData))
-                            .frame(width: countWidth, alignment: .trailing)
-                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                        Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
+                        Text("\(isData ? c.dataCount : c.controlCount)")
                             .frame(width: countWidth, alignment: .trailing)
                     }
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    Divider()
-                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
-                        HStack(spacing: 4) {
-                            Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
-                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
-                        }
-                        .padding(.horizontal, 8).padding(.vertical, 3)
-                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
-                    }
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                 }
             }
-            skippedView(result.skippedRecords)
         }
     }
 }
