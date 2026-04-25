@@ -38,6 +38,19 @@ struct ImportOrchestrator {
         importer: DataImporter,
         project: ResearchProjectModel
     ) throws -> (realCount: Int, controlCount: Int) {
+        try runWith(sourceFile: sourceFile, importer: importer,
+                    projectPath: project.path, cgMultiplication: project.cgMultiplication)
+    }
+
+    /// Sendable-safe entry point — accepts plain values instead of the SwiftData model.
+    /// Use this when calling from a background `Task.detached` across actor boundaries.
+    @discardableResult
+    func runWith(
+        sourceFile: String,
+        importer: DataImporter,
+        projectPath: String,
+        cgMultiplication: Int
+    ) throws -> (realCount: Int, controlCount: Int) {
         // 1. Parse
         let realRecords: [ResearchInputRecord]
         do {
@@ -50,10 +63,11 @@ struct ImportOrchestrator {
             throw ImportOrchestratorError.noRecordsAfterImport
         }
 
-        // 2. Open / create database
+        // 2. Open / create database, clearing any data from a previous run
         let db: ResearchDbManager
         do {
-            db = try ResearchDbManager(folderPath: project.path)
+            db = try ResearchDbManager(folderPath: projectPath)
+            try db.deleteAll()
         } catch {
             throw ImportOrchestratorError.databaseFailed(error)
         }
@@ -69,7 +83,7 @@ struct ImportOrchestrator {
         let controlStartId = (realRecords.last?.id ?? 0) + 1
         let controlRecords = generator.generate(
             from: realRecords,
-            multiplicity: project.cgMultiplication,
+            multiplicity: cgMultiplication,
             startId: controlStartId
         )
 

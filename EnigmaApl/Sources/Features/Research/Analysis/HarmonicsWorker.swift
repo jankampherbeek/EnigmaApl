@@ -69,11 +69,8 @@ public struct HarmonicsWorker {
 
             var longitudes = [Double?](repeating: nil, count: n)
             for (fi, layout) in layouts.enumerated() {
-                guard layout.hasEcliptical, layout.byteOffset + 8 <= regionData.count else { continue }
-                let raw = regionData.withUnsafeBytes {
-                    $0.load(fromByteOffset: layout.byteOffset, as: UInt64.self).littleEndian
-                }
-                let lon = Double(bitPattern: raw)
+                guard layout.hasEcliptical else { continue }
+                guard let lon = readDouble(from: regionData, at: layout.byteOffset) else { continue }
                 longitudes[fi] = ((lon.truncatingRemainder(dividingBy: 360)) + 360)
                     .truncatingRemainder(dividingBy: 360)
             }

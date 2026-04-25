@@ -84,10 +84,7 @@ public struct FactorsInHousesWorker {
             for (fi, layout) in layouts.enumerated() {
                 guard layout.hasEcliptical else { continue }
                 let byteOffset = layout.byteOffset
-                guard byteOffset + 8 <= regionData.count else { skipped += 1; continue }
-
-                let longitude = Double(bitPattern:
-                    regionData.withUnsafeBytes { $0.load(fromByteOffset: byteOffset, as: UInt64.self).littleEndian })
+                guard let longitude = readDouble(from: regionData, at: byteOffset) else { skipped += 1; continue }
                 let normalised = ((longitude.truncatingRemainder(dividingBy: 360)) + 360)
                     .truncatingRemainder(dividingBy: 360)
 

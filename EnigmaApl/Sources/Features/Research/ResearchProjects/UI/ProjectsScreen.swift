@@ -732,7 +732,7 @@ struct ResearchProjectDetailScreen: View {
     @State private var selectedFileType: DataFileType = .standardEnigma
     @State private var fileReadState: FileReadState = .none
     @State private var runState: RunState = .idle
-    @State private var pipelineOrchestrator = ResearchPipelineOrchestrator()
+    @StateObject private var pipelineOrchestrator = ResearchPipelineOrchestrator()
 
     private static let dateFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -743,6 +743,11 @@ struct ResearchProjectDetailScreen: View {
 
     private var canStartInquiry: Bool {
         if case .ok = fileReadState, case .idle = runState { return true }
+        return false
+    }
+
+    private var resultIsShowing: Bool {
+        if case .done = runState { return true }
         return false
     }
 
@@ -833,12 +838,12 @@ struct ResearchProjectDetailScreen: View {
                 }
                 .padding(.top, 8)
             }
-            .frame(maxWidth: 600, alignment: .leading)
+            .frame(maxWidth: resultIsShowing ? 1000 : 600, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(ResearchProjectsKeys.detailTitle))
-        .onChange(of: pipelineOrchestrator.progress) { _, progress in
+        .onReceive(pipelineOrchestrator.$progress) { progress in
             handleProgressUpdate(progress)
         }
     }
@@ -890,15 +895,11 @@ struct ResearchProjectDetailScreen: View {
                     .foregroundStyle(.secondary)
             }
         case .done(let result):
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 12) {
                 Text(t(ResearchProjectsKeys.detailRunDone))
                     .font(.caption)
                     .foregroundStyle(.green)
-                Button(t(ResearchProjectsKeys.detailButtonShowResults)) {
-                    activeSubscreen = .showResult(project, result)
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
+                InlineResultView(result: result)
             }
         case .failed(let message):
             Text(message)
@@ -973,33 +974,40 @@ struct ResearchProjectDetailScreen: View {
         runState = .importing
         let filePath = selectedFilePath
         let importer = importerForType(selectedFileType)
-        let service = ResearchProjectService(context: modelContext,
-                                             pipelineOrchestrator: pipelineOrchestrator)
+        let projectPath = project.path
+        let projectCgMult = project.cgMultiplication
+
         Task {
-            // 1. Import data file + generate control group
-            do {
-                try await Task.detached(priority: .userInitiated) {
-                    try service.importData(from: filePath, using: importer, into: project)
-                }.value
-            } catch {
-                await MainActor.run {
-                    runState = .failed(t(ResearchProjectsKeys.detailRunImportFailed)
-                                       + "\n" + error.localizedDescription)
+            // 1. Import data off the main actor (parse + SQLite inserts — can be slow)
+            let importResult = await Task.detached(priority: .userInitiated) {
+                Result {
+                    let orchestrator = ImportOrchestrator()
+                    return try orchestrator.runWith(sourceFile: filePath, importer: importer,
+                                                   projectPath: projectPath,
+                                                   cgMultiplication: projectCgMult)
                 }
+            }.value
+
+            switch importResult {
+            case .failure(let error):
+                runState = .failed(t(ResearchProjectsKeys.detailRunImportFailed)
+                                   + "\n" + error.localizedDescription)
                 return
+            case .success:
+                break
             }
 
-            // 2. Run calculation pipeline (progress updates arrive via onChange)
-            await MainActor.run {
-                runState = .pipeline(pipelineOrchestrator.progress)
-                do {
-                    try service.runPipeline(for: project)
-                } catch {
-                    runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
-                                       + "\n" + error.localizedDescription)
-                }
+            // 2. Start calculation pipeline — async internally, progress via onReceive
+            runState = .pipeline(pipelineOrchestrator.progress)
+            let service = ResearchProjectService(context: modelContext,
+                                                 pipelineOrchestrator: pipelineOrchestrator)
+            do {
+                try service.runPipeline(for: project)
+            } catch {
+                runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
+                                   + "\n" + error.localizedDescription)
             }
-            // Pipeline completion is handled in handleProgressUpdate()
+            // Pipeline completion and analysis are handled in handleProgressUpdate()
         }
     }
 
@@ -1007,12 +1015,17 @@ struct ResearchProjectDetailScreen: View {
         switch progress.phase {
         case .completed:
             runState = .analysing
-            let service = ResearchProjectService(context: modelContext,
-                                                 pipelineOrchestrator: pipelineOrchestrator)
+            // Extract only Sendable values from the SwiftData model before crossing actor boundary
+            let projectPath   = project.path
+            let projectConfig = project.config
+            let projectEnquiry = project.enquiry
             Task {
                 do {
                     let result = try await Task.detached(priority: .userInitiated) {
-                        try service.runAnalysis(for: project)
+                        // Reconstruct a lightweight proxy so AnalysisOrchestrator can be called
+                        try AnalysisOrchestrator().runWith(path: projectPath,
+                                                           configJson: projectConfig,
+                                                           inquiryId: projectEnquiry)
                     }.value
                     await MainActor.run { runState = .done(result) }
                 } catch {
@@ -1039,6 +1052,63 @@ private enum FileReadState {
     case none
     case ok(Int)
     case error(String)
+}
+
+// MARK: - Inline result view (shown on the detail screen immediately after analysis)
+
+private struct InlineResultView: View {
+    let result: AnalysisResult
+
+    @State private var exportMessage: String = ""
+    @State private var exportIsError: Bool = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            resultContent
+
+            if !exportMessage.isEmpty {
+                Text(exportMessage)
+                    .font(.caption)
+                    .foregroundStyle(exportIsError ? .red : .green)
+            }
+
+            Button(t(ResearchProjectsKeys.resultButtonExport)) {
+                exportResult()
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+        }
+    }
+
+    @ViewBuilder
+    private var resultContent: some View {
+        switch result {
+        case .factorsInSigns(let r):    FactorsInSignsResultView(result: r)
+        case .factorsInHouses(let r):   FactorsInHousesResultView(result: r)
+        case .aspects(let r):           AspectsResultView(result: r)
+        case .unaspect(let r):          UnaspectResultView(result: r)
+        case .midpoints(let r):         MidpointsResultView(result: r)
+        case .harmonics(let r):         HarmonicsResultView(result: r)
+        case .parallels(let r):         ParallelsResultView(result: r)
+        case .declMidpoints(let r):     DeclMidpointsResultView(result: r)
+        case .oob(let r):               OobResultView(result: r)
+        }
+    }
+
+    private func exportResult() {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.nameFieldStringValue = "results.csv"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try ResultsExporter().export(result, to: url.path)
+            exportMessage = t(ResearchProjectsKeys.resultExportOk)
+            exportIsError = false
+        } catch {
+            exportMessage = t(ResearchProjectsKeys.resultExportFailed)
+            exportIsError = true
+        }
+    }
 }
 
 // MARK: - Results screen

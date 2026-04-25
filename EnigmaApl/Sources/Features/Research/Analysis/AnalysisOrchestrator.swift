@@ -35,23 +35,37 @@ struct AnalysisOrchestrator {
 
     init() {}
 
-    func run(project: ResearchProjectModel) throws -> AnalysisResult {
-        guard let config = try? ResearchConfig.from(json: project.config) else {
+    /// Sendable-safe entry point — accepts plain strings instead of the SwiftData model.
+    /// Use this when calling from `Task.detached` or across actor boundaries.
+    func runWith(path: String, configJson: String, inquiryId: Int) throws -> AnalysisResult {
+        guard let config = try? ResearchConfig.from(json: configJson) else {
             throw AnalysisOrchestratorError.configDecodingFailed
         }
-
         let binaryFile: ResultsBinaryFile
         do {
-            binaryFile = try ResultsBinaryFile.open(at: project.path)
+            binaryFile = try ResultsBinaryFile.open(at: path)
         } catch {
-            throw AnalysisOrchestratorError.missingResultsFile(project.path)
+            throw AnalysisOrchestratorError.missingResultsFile(path)
         }
         try binaryFile.memoryMap()
 
-        guard let inquiry = project.inquiryType else {
+        guard let inquiry = Inquiries(rawValue: inquiryId) else {
             throw AnalysisOrchestratorError.inquiryNotSupported(.factorsInSigns)
         }
+        return try dispatch(inquiry: inquiry, config: config, binaryFile: binaryFile,
+                            projectPath: path, projectConfig: configJson)
+    }
 
+    func run(project: ResearchProjectModel) throws -> AnalysisResult {
+        try runWith(path: project.path, configJson: project.config,
+                    inquiryId: project.enquiry)
+    }
+
+    // MARK: - Shared dispatch
+
+    private func dispatch(inquiry: Inquiries, config: ResearchConfig,
+                          binaryFile: ResultsBinaryFile,
+                          projectPath: String, projectConfig: String) throws -> AnalysisResult {
         do {
             switch inquiry {
 
@@ -60,7 +74,7 @@ struct AnalysisOrchestrator {
                 return .factorsInSigns(try worker.run())
 
             case .factorsInHouses:
-                let cusps = try cuspLongitudes(for: project, config: config)
+                let cusps = try cuspLongitudes(atPath: projectPath, config: config)
                 let worker = FactorsInHousesWorker(binaryFile: binaryFile, config: config,
                                                    cuspLongitudesByRecord: cusps)
                 return .factorsInHouses(try worker.run())
@@ -133,16 +147,16 @@ struct AnalysisOrchestrator {
 
     /// Re-calculates house cusp longitudes for every record in the project database.
     /// Returns an array indexed by record position (same order as `ResearchDbManager.fetchAll()`).
-    private func cuspLongitudes(for project: ResearchProjectModel,
+    private func cuspLongitudes(atPath path: String,
                                 config: ResearchConfig) throws -> [[Double]] {
         guard let calcConfig = config.calculationConfig else {
             throw AnalysisOrchestratorError.missingCalculationConfig
         }
         let db: ResearchDbManager
         do {
-            db = try ResearchDbManager(folderPath: project.path)
+            db = try ResearchDbManager(folderPath: path)
         } catch {
-            throw AnalysisOrchestratorError.missingInputDatabase(project.path)
+            throw AnalysisOrchestratorError.missingInputDatabase(path)
         }
         let records = try db.fetchAll()
         let seWrapper = SEWrapper()

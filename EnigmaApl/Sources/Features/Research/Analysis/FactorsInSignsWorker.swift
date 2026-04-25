@@ -96,15 +96,9 @@ public struct FactorsInSignsWorker {
                 // mainPos (longitude) is the first Double in the ecliptical block,
                 // which is the first block in the factor's data region.
                 let byteOffset = layout.byteOffset  // offset within the data region
-                guard byteOffset + 8 <= regionData.count else {
-                    skipped += 1
-                    continue
+                guard let lonDouble = readDouble(from: regionData, at: byteOffset) else {
+                    skipped += 1; continue
                 }
-
-                let longitude = regionData.withUnsafeBytes { ptr in
-                    ptr.load(fromByteOffset: byteOffset, as: UInt64.self).littleEndian
-                }
-                let lonDouble = Double(bitPattern: longitude)
 
                 // Normalise to 0 ..< 360 (guard against tiny negatives from rounding)
                 let normalised = ((lonDouble.truncatingRemainder(dividingBy: 360)) + 360)

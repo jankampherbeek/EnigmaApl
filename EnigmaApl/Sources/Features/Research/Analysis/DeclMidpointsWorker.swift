@@ -68,11 +68,7 @@ public struct DeclMidpointsWorker {
             for (fi, layout) in layouts.enumerated() {
                 guard layout.hasEquatorial else { continue }
                 let declOffset = layout.byteOffset + 8
-                guard declOffset + 8 <= regionData.count else { continue }
-                let raw = regionData.withUnsafeBytes {
-                    $0.load(fromByteOffset: declOffset, as: UInt64.self).littleEndian
-                }
-                declinations[fi] = Double(bitPattern: raw)
+                declinations[fi] = readDouble(from: regionData, at: declOffset)
             }
 
             for a in 0..<n {

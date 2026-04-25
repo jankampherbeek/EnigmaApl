@@ -43,7 +43,7 @@ public struct ResearchConfig: Codable, Sendable {
     /// CalculationConfig encoded as JSON string (re-used from project model).
     public let calculationConfigJson: String
     /// OrbConfig encoded as JSON string (re-used from project model).
-    public let orbConfigJson: String
+    public let orbConfigJson: String?
 
     // MARK: - Optional inquiry-specific settings
 
@@ -110,9 +110,10 @@ public struct ResearchConfig: Codable, Sendable {
         try? JSONDecoder().decode(CalculationConfig.self, from: Data(calculationConfigJson.utf8))
     }
 
-    /// Decoded `OrbConfig`, or `nil` if the JSON is malformed.
+    /// Decoded `OrbConfig`, or `nil` if the JSON is missing or malformed.
     public var orbConfig: OrbConfig? {
-        try? JSONDecoder().decode(OrbConfig.self, from: Data(orbConfigJson.utf8))
+        guard let json = orbConfigJson else { return nil }
+        return try? JSONDecoder().decode(OrbConfig.self, from: Data(json.utf8))
     }
 
     // MARK: - Init
@@ -122,7 +123,7 @@ public struct ResearchConfig: Codable, Sendable {
         inquiryId: Int,
         houseSystemId: Int,
         calculationConfigJson: String,
-        orbConfigJson: String,
+        orbConfigJson: String? = nil,
         enabledAspectIds: [Int]? = nil,
         aspectOrbOverride: Double? = nil,
         enabledDialSizes: [Int]? = nil,

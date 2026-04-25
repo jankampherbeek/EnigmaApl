@@ -91,36 +91,30 @@ public final class ResultsBinaryFile {
         // magic
         for (i, b) in kMagic.enumerated() { header[i] = b }
         // version
-        withUnsafeBytes(of: kVersion.littleEndian) { bytes in
-            header.replaceSubrange(8..<12, with: bytes)
-        }
+        var v32 = kVersion.littleEndian
+        withUnsafeMutableBytes(of: &v32) { header.replaceSubrange(8..<12, with: $0) }
         // recordCount
-        withUnsafeBytes(of: recordCount.littleEndian) { bytes in
-            header.replaceSubrange(12..<20, with: bytes)
-        }
+        var rc64 = recordCount.littleEndian
+        withUnsafeMutableBytes(of: &rc64) { header.replaceSubrange(12..<20, with: $0) }
         // recordSize
-        withUnsafeBytes(of: UInt32(recordSize).littleEndian) { bytes in
-            header.replaceSubrange(20..<24, with: bytes)
-        }
-        // factorIds
+        var rs32 = UInt32(recordSize).littleEndian
+        withUnsafeMutableBytes(of: &rs32) { header.replaceSubrange(20..<24, with: $0) }
+        // factorCount
         let factors = config.enabledFactors
-        withUnsafeBytes(of: UInt32(factors.count).littleEndian) { bytes in
-            header.replaceSubrange(24..<28, with: bytes)
-        }
+        var fc32 = UInt32(factors.count).littleEndian
+        withUnsafeMutableBytes(of: &fc32) { header.replaceSubrange(24..<28, with: $0) }
         // coordinateFlags
         var coordFlags: UInt32 = 0
         if config.useEcliptical  { coordFlags |= 1 }
         if config.useEquatorial  { coordFlags |= 2 }
         if config.useHorizontal  { coordFlags |= 4 }
-        withUnsafeBytes(of: coordFlags.littleEndian) { bytes in
-            header.replaceSubrange(28..<32, with: bytes)
-        }
+        var cf32 = coordFlags.littleEndian
+        withUnsafeMutableBytes(of: &cf32) { header.replaceSubrange(28..<32, with: $0) }
         // factor id array
         for (i, factor) in factors.enumerated() {
-            let offset = 32 + i * 4
-            withUnsafeBytes(of: UInt32(factor.rawValue).littleEndian) { bytes in
-                header.replaceSubrange(offset..<offset+4, with: bytes)
-            }
+            let off = 32 + i * 4
+            var fid = UInt32(factor.rawValue).littleEndian
+            withUnsafeMutableBytes(of: &fid) { header.replaceSubrange(off..<off+4, with: $0) }
         }
         handle.write(Data(header))
 
@@ -145,18 +139,21 @@ public final class ResultsBinaryFile {
         // Validate magic
         let magic = Array(data[0..<8])
         guard magic == kMagic else { throw ResultsBinaryFileError.invalidMagicNumber }
-        // Read version
-        let version = data.withUnsafeBytes { ptr in
-            ptr.load(fromByteOffset: 8, as: UInt32.self).littleEndian
-        }
+        // Read version (bytes 8-11, little-endian UInt32) without alignment requirement
+        let version = UInt32(data[8]) | (UInt32(data[9]) << 8) | (UInt32(data[10]) << 16) | (UInt32(data[11]) << 24)
         guard version == kVersion else { throw ResultsBinaryFileError.versionMismatch(version) }
-        // Read recordCount and recordSize from header
-        let recordCount = data.withUnsafeBytes { ptr in
-            ptr.load(fromByteOffset: 12, as: UInt64.self).littleEndian
+        // Read recordCount (bytes 12-19, little-endian UInt64)
+        var recordCount: UInt64 = 0
+        for i in 0..<8 { recordCount |= UInt64(data[12 + i]) << (i * 8) }
+        // Read recordSize (bytes 20-23, little-endian UInt32)
+        let recordSize = Int(UInt32(data[20]) | (UInt32(data[21]) << 8) | (UInt32(data[22]) << 16) | (UInt32(data[23]) << 24))
+        // Validate that the file is the expected size for the declared record count
+        let expectedSize = kHeaderSize + Int(recordCount) * recordSize
+        guard data.count == expectedSize else {
+            throw ResultsBinaryFileError.cannotOpenFile(
+                "\(url.path): size \(data.count) ≠ expected \(expectedSize)"
+            )
         }
-        let recordSize = Int(data.withUnsafeBytes { ptr in
-            ptr.load(fromByteOffset: 20, as: UInt32.self).littleEndian
-        })
         var file = ResultsBinaryFile(url: url, recordCount: recordCount, recordSize: recordSize)
         file.mappedData = data
         return file
@@ -204,9 +201,8 @@ public final class ResultsBinaryFile {
         var record = [UInt8](repeating: 0, count: recordSize)
 
         // Prefix: recordId (Int64 LE) at byte 0, isData (UInt8) at byte 8, 7 pad bytes
-        withUnsafeBytes(of: Int64(recordId).littleEndian) { bytes in
-            record.replaceSubrange(0..<8, with: bytes)
-        }
+        var rid = Int64(recordId).littleEndian
+        withUnsafeMutableBytes(of: &rid) { record.replaceSubrange(0..<8, with: $0) }
         record[8] = isData ? 1 : 0
 
         // Data region starts at byte kRecordPrefix (16)
@@ -215,17 +211,32 @@ public final class ResultsBinaryFile {
 
         for layout in layouts {
             guard let pos = coordinates[layout.factor] else {
+                // Factor not calculated — leave the bytes as zeros and skip ahead
                 byteOffset += layout.byteSize
                 continue
             }
-            if layout.hasEcliptical, let ecl = pos.ecliptical.first {
-                byteOffset = writeCoord(ecl, into: &record, at: byteOffset)
+            // Always advance byteOffset by the full slot size, even if the
+            // position array is empty (no .first), to keep the layout in sync.
+            if layout.hasEcliptical {
+                if let ecl = pos.ecliptical.first {
+                    byteOffset = writeCoord(ecl, into: &record, at: byteOffset)
+                } else {
+                    byteOffset += kBytesPerCoordSystem
+                }
             }
-            if layout.hasEquatorial, let eq = pos.equatorial.first {
-                byteOffset = writeCoord(eq, into: &record, at: byteOffset)
+            if layout.hasEquatorial {
+                if let eq = pos.equatorial.first {
+                    byteOffset = writeCoord(eq, into: &record, at: byteOffset)
+                } else {
+                    byteOffset += kBytesPerCoordSystem
+                }
             }
-            if layout.hasHorizontal, let hz = pos.horizontal.first {
-                byteOffset = writeHorizontal(hz, into: &record, at: byteOffset)
+            if layout.hasHorizontal {
+                if let hz = pos.horizontal.first {
+                    byteOffset = writeHorizontal(hz, into: &record, at: byteOffset)
+                } else {
+                    byteOffset += kBytesPerCoordSystem
+                }
             }
         }
 
@@ -272,19 +283,34 @@ public final class ResultsBinaryFile {
         guard end <= mapped.count else {
             throw ResultsBinaryFileError.readOutOfBounds(position)
         }
-
-        let slice = mapped[start..<end]
-
-        let recordId = slice.withUnsafeBytes { ptr in
-            Int(ptr.load(as: Int64.self).littleEndian)
+        guard recordSize >= kRecordPrefix else {
+            throw ResultsBinaryFileError.readOutOfBounds(position)
         }
-        let isData = slice[start + 8] != 0
-        let dataRegion = slice[(start + kRecordPrefix)..<end]
+
+        // Copy record bytes into a fresh buffer — avoids working with Data subrange indices
+        let recordBytes = Data(mapped[start..<end])
+
+        // Read recordId as 8 little-endian bytes without alignment requirement
+        var rid: Int64 = 0
+        for i in 0..<8 {
+            rid |= Int64(bitPattern: UInt64(recordBytes[i])) << (i * 8)
+        }
+        let recordId = Int(rid)
+        let isData = recordBytes[8] != 0
+        let dataRegion = recordBytes[kRecordPrefix..<recordSize]
 
         return (recordId: recordId, isData: isData, data: Data(dataRegion))
     }
 
     // MARK: - Coordinate helpers
+
+    /// Writes one `Double` as 8 little-endian bytes into `buffer` at `offset`.
+    private func writeDouble(_ value: Double, into buffer: inout [UInt8], at offset: Int) {
+        var le = value.bitPattern.littleEndian   // UInt64
+        withUnsafeMutableBytes(of: &le) { src in
+            buffer.replaceSubrange(offset..<offset + 8, with: src)
+        }
+    }
 
     /// Writes 5 Doubles (mainPos, deviation, distance, speedMain, speedDeviation) into the buffer.
     private func writeCoord(
@@ -293,13 +319,11 @@ public final class ResultsBinaryFile {
         at offset: Int
     ) -> Int {
         var o = offset
-        let values = [pos.mainPos, pos.deviation, pos.distance, pos.mainPosSpeed, pos.deviationSpeed]
-        for v in values {
-            withUnsafeBytes(of: v.bitPattern.littleEndian) { bytes in
-                buffer.replaceSubrange(o..<o+8, with: bytes)
-            }
-            o += 8
-        }
+        writeDouble(pos.mainPos,       into: &buffer, at: o); o += 8
+        writeDouble(pos.deviation,     into: &buffer, at: o); o += 8
+        writeDouble(pos.distance,      into: &buffer, at: o); o += 8
+        writeDouble(pos.mainPosSpeed,  into: &buffer, at: o); o += 8
+        writeDouble(pos.deviationSpeed,into: &buffer, at: o); o += 8
         return o
     }
 
@@ -310,13 +334,11 @@ public final class ResultsBinaryFile {
         at offset: Int
     ) -> Int {
         var o = offset
-        let values = [pos.azimuth, pos.altitude, 0.0, 0.0, 0.0]
-        for v in values {
-            withUnsafeBytes(of: v.bitPattern.littleEndian) { bytes in
-                buffer.replaceSubrange(o..<o+8, with: bytes)
-            }
-            o += 8
-        }
+        writeDouble(pos.azimuth,  into: &buffer, at: o); o += 8
+        writeDouble(pos.altitude, into: &buffer, at: o); o += 8
+        writeDouble(0.0,          into: &buffer, at: o); o += 8
+        writeDouble(0.0,          into: &buffer, at: o); o += 8
+        writeDouble(0.0,          into: &buffer, at: o); o += 8
         return o
     }
 }

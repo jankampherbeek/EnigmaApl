@@ -13,10 +13,11 @@ public struct Logger {
     /// Configure and initialize SwiftyBeaver logging
     /// Call this once at app startup
     public static func configure() {
-        // Console destination for Xcode console
+        // Console destination for Xcode console — warning and above only to avoid performance issues
         let console = ConsoleDestination()
         console.format = "$DHH:mm:ss.SSS$d $C$L$c $N.$F:$l - $M"
         console.logPrintWay = .print
+        console.minLevel = .warning
         
         // File destination for persistent logging
         let file = FileDestination()

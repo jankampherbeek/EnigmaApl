@@ -71,11 +71,7 @@ public struct OobWorker {
                 guard layout.hasEquatorial else { continue }
                 // Declination is the second Double (offset +8) within the equatorial block
                 let declOffset = layout.byteOffset + 8
-                guard declOffset + 8 <= regionData.count else { continue }
-                let raw = regionData.withUnsafeBytes {
-                    $0.load(fromByteOffset: declOffset, as: UInt64.self).littleEndian
-                }
-                let declination = Double(bitPattern: raw)
+                guard let declination = readDouble(from: regionData, at: declOffset) else { continue }
                 if abs(declination) > obliquity {
                     if isData { dataCounts[fi] += 1 }
                     else       { controlCounts[fi] += 1 }

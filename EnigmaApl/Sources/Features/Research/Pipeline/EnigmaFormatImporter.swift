@@ -31,7 +31,7 @@ import Foundation
 /// 107, Leonardo da Vinci, 10:55:0:E, 43:47:0:N, 1452/4/14, J, 21:40,   0.7277778 ,0
 /// 111, Joshua Reynolds, 4:3:0:W, 50:23:0:N, 1723/7/27, G, 9:30, -0.27, 0
 /// ```
-public struct EnigmaFormatImporter: DataImporter {
+public struct EnigmaFormatImporter: DataImporter, Sendable {
 
     public init() {}
 
