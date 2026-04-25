@@ -302,3 +302,8 @@
 "enum.inquiries.declmidpoints.description"  = "Zähle, wie oft eine Halbsumme in Deklination besetzt ist";
 "enum.inquiries.oob.name"                   = "Außerhalb der Grenzen (OOB)";
 "enum.inquiries.oob.description"            = "Zähle, wie oft jeder Faktor außerhalb der Grenzen liegt";
+
+// DataFileType
+"enum.datafiletype.standardenigma"          = "Standard Enigma";
+"enum.datafiletype.gauquelin"               = "Gauquelin";
+"enum.datafiletype.quickchart"              = "Quick Chart";

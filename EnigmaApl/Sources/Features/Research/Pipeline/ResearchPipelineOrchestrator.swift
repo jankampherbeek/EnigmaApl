@@ -18,7 +18,10 @@ enum PipelinePhase: Sendable {
 }
 
 /// Snapshot of pipeline progress, published on the main actor.
-struct PipelineProgress: Sendable {
+struct PipelineProgress: Sendable, Equatable {
+    static func == (lhs: PipelineProgress, rhs: PipelineProgress) -> Bool {
+        lhs.recordsDone == rhs.recordsDone && lhs.totalRecords == rhs.totalRecords
+    }
     let phase: PipelinePhase
     let recordsDone: Int
     let totalRecords: Int

@@ -19,4 +19,19 @@ public enum Inquiries: Int, CaseIterable {
 
     /// Resource bundle key for the localized description
     var rbDescriptionKey: String { InquiriesKeys.descriptionKey(for: self) }
+
+    /// Whether this inquiry uses ecliptical longitude.
+    /// OOB, parallels, and declination midpoints use equatorial declination instead.
+    var usesEcliptical: Bool {
+        switch self {
+        case .oob, .parallels, .declMidpoints: return false
+        default: return true
+        }
+    }
+
+    /// Whether this inquiry uses equatorial declination (the complement of `usesEcliptical`).
+    var usesEquatorial: Bool { !usesEcliptical }
+
+    /// Whether this inquiry requires house cusps (only `.factorsInHouses`).
+    var requiresHouses: Bool { self == .factorsInHouses }
 }

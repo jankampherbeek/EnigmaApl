@@ -36,14 +36,14 @@ public struct ResearchConfig: Codable, Sendable {
 
     /// Factor raw values (Int) that are enabled for this research project.
     public let enabledFactorIds: [Int]
-    /// Whether ecliptical coordinates should be stored.
-    public let useEcliptical: Bool
-    /// Whether equatorial coordinates should be stored.
-    public let useEquatorial: Bool
-    /// Whether horizontal coordinates should be stored.
-    public let useHorizontal: Bool
+    /// Raw value of the `Inquiries` enum, used to derive coordinate requirements.
+    public let inquiryId: Int
+    /// Raw value of the `HouseSystems` enum. Only used when inquiry == .factorsInHouses.
+    public let houseSystemId: Int
     /// CalculationConfig encoded as JSON string (re-used from project model).
     public let calculationConfigJson: String
+    /// OrbConfig encoded as JSON string (re-used from project model).
+    public let orbConfigJson: String
 
     // MARK: - Optional inquiry-specific settings
 
@@ -53,6 +53,22 @@ public struct ResearchConfig: Codable, Sendable {
     public let aspectOrbOverride: Double?
     /// Dial sizes (360, 90, 45) enabled for midpoint analysis.
     public let enabledDialSizes: [Int]?
+    /// Harmonic number for harmonics analysis. nil = use default (5).
+    public let harmonicNumber: Int?
+
+    // MARK: - Derived coordinate flags
+
+    private var inquiry: Inquiries? { Inquiries(rawValue: inquiryId) }
+
+    /// Ecliptical coordinates are stored for all inquiries except OOB, parallels, declMidpoints.
+    public var useEcliptical: Bool { inquiry?.usesEcliptical ?? true }
+    /// Equatorial coordinates are stored for OOB, parallels, and declMidpoints.
+    public var useEquatorial: Bool { inquiry?.usesEquatorial ?? false }
+    /// Horizontal coordinates are never stored in the research binary file.
+    public var useHorizontal: Bool { false }
+
+    /// The resolved house system for this project.
+    public var houseSystem: HouseSystems { HouseSystems(rawValue: houseSystemId) ?? .placidus }
 
     // MARK: - Computed layout
 
@@ -64,8 +80,6 @@ public struct ResearchConfig: Codable, Sendable {
     /// Per-factor layout entries in stable order (Factors.allCases order, filtered to enabled).
     public var factorLayouts: [FactorLayout] {
         var offset = 0
-        // Fixed header region per record: recordId (8 bytes) + isData (1 byte) = 9 bytes, handled outside.
-        // This gives offsets within the variable data region only.
         let ordered = Factors.allCases.filter { enabledFactors.contains($0) }
         return ordered.map { factor in
             let layout = FactorLayout(
@@ -73,7 +87,7 @@ public struct ResearchConfig: Codable, Sendable {
                 byteOffset: offset,
                 hasEcliptical: useEcliptical,
                 hasEquatorial: useEquatorial,
-                hasHorizontal: useHorizontal
+                hasHorizontal: false
             )
             offset += layout.byteSize
             return layout
@@ -96,26 +110,33 @@ public struct ResearchConfig: Codable, Sendable {
         try? JSONDecoder().decode(CalculationConfig.self, from: Data(calculationConfigJson.utf8))
     }
 
+    /// Decoded `OrbConfig`, or `nil` if the JSON is malformed.
+    public var orbConfig: OrbConfig? {
+        try? JSONDecoder().decode(OrbConfig.self, from: Data(orbConfigJson.utf8))
+    }
+
     // MARK: - Init
 
     public init(
         enabledFactorIds: [Int],
-        useEcliptical: Bool,
-        useEquatorial: Bool,
-        useHorizontal: Bool,
+        inquiryId: Int,
+        houseSystemId: Int,
         calculationConfigJson: String,
+        orbConfigJson: String,
         enabledAspectIds: [Int]? = nil,
         aspectOrbOverride: Double? = nil,
-        enabledDialSizes: [Int]? = nil
+        enabledDialSizes: [Int]? = nil,
+        harmonicNumber: Int? = nil
     ) {
         self.enabledFactorIds = enabledFactorIds
-        self.useEcliptical = useEcliptical
-        self.useEquatorial = useEquatorial
-        self.useHorizontal = useHorizontal
+        self.inquiryId = inquiryId
+        self.houseSystemId = houseSystemId
         self.calculationConfigJson = calculationConfigJson
+        self.orbConfigJson = orbConfigJson
         self.enabledAspectIds = enabledAspectIds
         self.aspectOrbOverride = aspectOrbOverride
         self.enabledDialSizes = enabledDialSizes
+        self.harmonicNumber = harmonicNumber
     }
 
     // MARK: - JSON helpers

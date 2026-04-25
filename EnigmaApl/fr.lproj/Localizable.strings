@@ -302,3 +302,8 @@
 "enum.inquiries.declmidpoints.description"  = "Compter combien de fois un point médian en déclinaison est occupé";
 "enum.inquiries.oob.name"                   = "Hors limites (OOB)";
 "enum.inquiries.oob.description"            = "Compter combien de fois chaque facteur est hors limites";
+
+// DataFileType
+"enum.datafiletype.standardenigma"          = "Enigma standard";
+"enum.datafiletype.gauquelin"               = "Gauquelin";
+"enum.datafiletype.quickchart"              = "Quick Chart";

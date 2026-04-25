@@ -302,3 +302,8 @@
 "enum.inquiries.declmidpoints.description"  = "Tel hoe vaak een midpunt in declinatie bezet is";
 "enum.inquiries.oob.name"                   = "Buiten grenzen (OOB)";
 "enum.inquiries.oob.description"            = "Tel hoe vaak elke factor buiten grenzen is";
+
+// DataFileType
+"enum.datafiletype.standardenigma"          = "Standaard Enigma";
+"enum.datafiletype.gauquelin"               = "Gauquelin";
+"enum.datafiletype.quickchart"              = "Quick Chart";

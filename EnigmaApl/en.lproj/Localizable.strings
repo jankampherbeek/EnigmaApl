@@ -302,3 +302,8 @@
 "enum.inquiries.declmidpoints.description"  = "Count how often a midpoint in declination is occupied";
 "enum.inquiries.oob.name"                   = "Out of Bounds (OOB)";
 "enum.inquiries.oob.description"            = "Count how often each factor is OOB";
+
+// DataFileType
+"enum.datafiletype.standardenigma"          = "Standard Enigma";
+"enum.datafiletype.gauquelin"               = "Gauquelin";
+"enum.datafiletype.quickchart"              = "Quick Chart";

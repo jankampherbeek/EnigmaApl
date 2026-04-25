@@ -5,6 +5,7 @@
 import AppKit
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 private func t(_ key: String) -> String {
     NSLocalizedString(key, tableName: "ResearchProjects", bundle: .main, comment: "")
@@ -18,6 +19,8 @@ enum ResearchProjectSubscreen {
     case configProject(ProjectDraft)
     case allProjects
     case searchProjects
+    case openProject(ResearchProjectModel)
+    case showResult(ResearchProjectModel, AnalysisResult)
 }
 
 /// Collects all data from the input screen to pass to the config screen.
@@ -26,9 +29,6 @@ struct ProjectDraft {
     let projectDescription: String
     let inquiry: Inquiries
     let cgMultiplication: Int
-    let useEcliptical: Bool
-    let useEquatorial: Bool
-    let useHorizontal: Bool
     let baseFolder: String
 }
 
@@ -49,6 +49,10 @@ struct ResearchProjectsScreen: View {
             ResearchProjectListScreen(activeSubscreen: $activeSubscreen, mode: .all)
         case .searchProjects:
             ResearchProjectListScreen(activeSubscreen: $activeSubscreen, mode: .search)
+        case .openProject(let project):
+            ResearchProjectDetailScreen(activeSubscreen: $activeSubscreen, project: project)
+        case .showResult(let project, let result):
+            ResearchResultScreen(activeSubscreen: $activeSubscreen, project: project, result: result)
         }
     }
 }
@@ -90,9 +94,6 @@ struct ResearchProjectInputScreen: View {
     @State private var projectDescription: String = ""
     @State private var selectedInquiry: Inquiries = .factorsInSigns
     @State private var cgMultiplicationText: String = "1"
-    @State private var useEcliptical: Bool = true
-    @State private var useEquatorial: Bool = false
-    @State private var useHorizontal: Bool = false
     @State private var selectedPath: String = ""
     @State private var errorMessage: String = ""
 
@@ -150,12 +151,6 @@ struct ResearchProjectInputScreen: View {
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Toggle(t(ResearchProjectsKeys.labelEcliptical), isOn: $useEcliptical)
-                    Toggle(t(ResearchProjectsKeys.labelEquatorial), isOn: $useEquatorial)
-                    Toggle(t(ResearchProjectsKeys.labelHorizontal), isOn: $useHorizontal)
-                }
-
                 if !errorMessage.isEmpty {
                     Text(errorMessage)
                         .font(.caption)
@@ -202,9 +197,6 @@ struct ResearchProjectInputScreen: View {
             projectDescription: projectDescription,
             inquiry: selectedInquiry,
             cgMultiplication: max(1, Int(cgMultiplicationText) ?? 1),
-            useEcliptical: useEcliptical,
-            useEquatorial: useEquatorial,
-            useHorizontal: useHorizontal,
             baseFolder: selectedPath
         )
         activeSubscreen = .configProject(draft)
@@ -224,10 +216,17 @@ struct ResearchProjectConfigScreen: View {
     // Factors
     @State private var selectedFactors: Set<Factors> = []
 
+    // House system (only for .factorsInHouses inquiry)
+    @State private var selectedHouseSystem: HouseSystems = .placidus
+
     // Aspects (only for .aspects inquiry)
     @State private var selectedAspects: Set<Aspects> = []
     @State private var overrideOrb: Bool = false
     @State private var orbText: String = ""
+
+    // Harmonic number (only for .harmonics inquiry)
+    @State private var harmonicNumberText: String = "5"
+    @State private var harmonicNumberError: String = ""
 
     // Dial type (only for .midpoints inquiry)
     @State private var useDial360: Bool = true
@@ -255,6 +254,21 @@ struct ResearchProjectConfigScreen: View {
                         }
                     }
                     .padding(4)
+                }
+
+                // MARK: House system (only for .factorsInHouses)
+                if draft.inquiry == .factorsInHouses {
+                    GroupBox(t(ResearchProjectsKeys.configSectionHouseSystem)) {
+                        Picker("", selection: $selectedHouseSystem) {
+                            ForEach(HouseSystems.allCases, id: \.self) { system in
+                                Text(NSLocalizedString(system.localizedName, bundle: .main, comment: ""))
+                                    .tag(system)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.menu)
+                        .padding(4)
+                    }
                 }
 
                 // MARK: Aspects section (only for .aspects)
@@ -292,6 +306,29 @@ struct ResearchProjectConfigScreen: View {
                     GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
                         VStack(alignment: .leading, spacing: 4) {
                             orbRow(for: draft.inquiry, orbConfig: orbConfig)
+                        }
+                        .padding(4)
+                    }
+                }
+
+                // MARK: Harmonic number (only for .harmonics)
+                if draft.inquiry == .harmonics {
+                    GroupBox(t(ResearchProjectsKeys.configSectionHarmonics)) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            FieldBlock(t(ResearchProjectsKeys.configHarmonicNumber)) {
+                                TextField("", text: $harmonicNumberText)
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame(maxWidth: 80)
+                                    .onChange(of: harmonicNumberText) { _, newValue in
+                                        let filtered = newValue.filter(\.isNumber)
+                                        if filtered != newValue { harmonicNumberText = filtered }
+                                    }
+                            }
+                            if !harmonicNumberError.isEmpty {
+                                Text(harmonicNumberError)
+                                    .font(.caption)
+                                    .foregroundStyle(.red)
+                            }
                         }
                         .padding(4)
                     }
@@ -381,6 +418,7 @@ struct ResearchProjectConfigScreen: View {
         initialized = true
         if let config = activeConfig {
             selectedFactors = Set(config.factorConfig.factorSettings.filter(\.isUsed).map(\.factor))
+            selectedHouseSystem = config.calculationConfig.houseSystem
             if draft.inquiry == .aspects {
                 selectedAspects = Set(config.aspectConfig.aspectSettings.filter(\.isUsed).map(\.aspect))
                 orbText = String(format: "%.2f", config.orbConfig.aspectBaseOrb)
@@ -393,11 +431,30 @@ struct ResearchProjectConfigScreen: View {
     private func save() {
         guard !selectedFactors.isEmpty else { return }
 
+        // Validate harmonic number when applicable
+        var resolvedHarmonicNumber: Int? = nil
+        if draft.inquiry == .harmonics {
+            harmonicNumberError = ""
+            let parsed = Int(harmonicNumberText.trimmingCharacters(in: .whitespaces)) ?? 0
+            if parsed < 2 {
+                harmonicNumberError = t(ResearchProjectsKeys.configHarmonicNumberError)
+                return
+            }
+            resolvedHarmonicNumber = parsed
+        }
+
         var calculationConfigJson = "{}"
         if let calcConfig = activeConfig?.calculationConfig,
            let data = try? JSONEncoder().encode(calcConfig),
            let json = String(data: data, encoding: .utf8) {
             calculationConfigJson = json
+        }
+
+        var orbConfigJson = "{}"
+        if let orb = activeConfig?.orbConfig,
+           let data = try? JSONEncoder().encode(orb),
+           let json = String(data: data, encoding: .utf8) {
+            orbConfigJson = json
         }
 
         let aspectOrbOverride: Double? = (draft.inquiry == .aspects && overrideOrb)
@@ -419,19 +476,20 @@ struct ResearchProjectConfigScreen: View {
 
         let config = ResearchConfig(
             enabledFactorIds: selectedFactors.map(\.rawValue).sorted(),
-            useEcliptical: draft.useEcliptical,
-            useEquatorial: draft.useEquatorial,
-            useHorizontal: draft.useHorizontal,
+            inquiryId: draft.inquiry.rawValue,
+            houseSystemId: selectedHouseSystem.rawValue,
             calculationConfigJson: calculationConfigJson,
+            orbConfigJson: orbConfigJson,
             enabledAspectIds: enabledAspectIds,
             aspectOrbOverride: aspectOrbOverride,
-            enabledDialSizes: enabledDialSizes
+            enabledDialSizes: enabledDialSizes,
+            harmonicNumber: resolvedHarmonicNumber
         )
 
         let service = ResearchProjectService(context: modelContext,
                                              pipelineOrchestrator: ResearchPipelineOrchestrator())
         do {
-            try service.createProject(
+            let project = try service.createProject(
                 name: draft.name,
                 description: draft.projectDescription,
                 inquiry: draft.inquiry,
@@ -439,7 +497,7 @@ struct ResearchProjectConfigScreen: View {
                 cgMultiplication: draft.cgMultiplication,
                 baseFolder: draft.baseFolder
             )
-            activeSubscreen = .overview
+            activeSubscreen = .openProject(project)
         } catch {
             errorMessage = t(ResearchProjectsKeys.errorSave)
         }
@@ -646,7 +704,7 @@ struct ResearchProjectListScreen: View {
     }
 
     private func openProject(_ project: ResearchProjectModel) {
-        // placeholder – to be implemented when project detail screen exists
+        activeSubscreen = .openProject(project)
     }
 
     private func confirmDelete(_ project: ResearchProjectModel) {
@@ -658,6 +716,893 @@ struct ResearchProjectListScreen: View {
             projects.removeAll { $0.id == project.id }
         } catch {
             showDeleteError = true
+        }
+    }
+}
+
+// MARK: - Detail / open project screen
+
+struct ResearchProjectDetailScreen: View {
+    @Binding var activeSubscreen: ResearchProjectSubscreen
+    @Environment(\.modelContext) private var modelContext
+
+    let project: ResearchProjectModel
+
+    @State private var selectedFilePath: String = ""
+    @State private var selectedFileType: DataFileType = .standardEnigma
+    @State private var fileReadState: FileReadState = .none
+    @State private var runState: RunState = .idle
+    @State private var pipelineOrchestrator = ResearchPipelineOrchestrator()
+
+    private static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        f.timeStyle = .short
+        return f
+    }()
+
+    private var canStartInquiry: Bool {
+        if case .ok = fileReadState, case .idle = runState { return true }
+        return false
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(t(ResearchProjectsKeys.detailTitle))
+                    .font(.title2.weight(.semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                // MARK: Project info
+                GroupBox {
+                    VStack(alignment: .leading, spacing: 6) {
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelName)) {
+                            Text(project.name)
+                        }
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelDescription)) {
+                            Text(project.projectDescription.isEmpty ? "-" : project.projectDescription)
+                                .foregroundStyle(project.projectDescription.isEmpty ? .secondary : .primary)
+                        }
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelInquiry)) {
+                            Text(project.inquiryType.map {
+                                NSLocalizedString($0.rbKey, bundle: .main, comment: "")
+                            } ?? "-")
+                        }
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelCgMult)) {
+                            Text("\(project.cgMultiplication)")
+                        }
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelPath)) {
+                            Text(project.path)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                        }
+                        LabeledContent(t(ResearchProjectsKeys.detailLabelCreated)) {
+                            Text(Self.dateFormatter.string(from: project.creationDate))
+                        }
+                    }
+                    .padding(4)
+                }
+
+                // MARK: Data file selection
+                GroupBox {
+                    VStack(alignment: .leading, spacing: 10) {
+                        FieldBlock(t(ResearchProjectsKeys.detailLabelFileType)) {
+                            Picker("", selection: $selectedFileType) {
+                                ForEach(DataFileType.allCases, id: \.self) { type in
+                                    Text(NSLocalizedString(type.rbKey, bundle: .main, comment: ""))
+                                        .tag(type)
+                                }
+                            }
+                            .labelsHidden()
+                            .pickerStyle(.menu)
+                        }
+
+                        FieldBlock(t(ResearchProjectsKeys.detailLabelDataFile)) {
+                            HStack {
+                                Text(selectedFilePath.isEmpty ? "-" : selectedFilePath)
+                                    .foregroundStyle(selectedFilePath.isEmpty ? .secondary : .primary)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Button(t(ResearchProjectsKeys.detailButtonSelectFile)) {
+                                    selectFile()
+                                }
+                                .disabled(runState != .idle)
+                            }
+                        }
+
+                        fileStatusView
+                    }
+                    .padding(4)
+                }
+
+                // MARK: Progress / result
+                runStateView
+
+                HStack {
+                    Button(t(ResearchProjectsKeys.buttonCancel)) {
+                        pipelineOrchestrator.cancel()
+                        activeSubscreen = .overview
+                    }
+                    Spacer()
+                    Button(t(ResearchProjectsKeys.detailButtonStart)) {
+                        startInquiry()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!canStartInquiry)
+                }
+                .padding(.top, 8)
+            }
+            .frame(maxWidth: 600, alignment: .leading)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .navigationTitle(t(ResearchProjectsKeys.detailTitle))
+        .onChange(of: pipelineOrchestrator.progress) { _, progress in
+            handleProgressUpdate(progress)
+        }
+    }
+
+    // MARK: - File status view
+
+    @ViewBuilder
+    private var fileStatusView: some View {
+        switch fileReadState {
+        case .none:
+            EmptyView()
+        case .ok(let count):
+            Text(String(format: t(ResearchProjectsKeys.detailFileReadOk), count))
+                .font(.caption)
+                .foregroundStyle(.green)
+        case .error(let message):
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.red)
+        }
+    }
+
+    // MARK: - Run state view
+
+    @ViewBuilder
+    private var runStateView: some View {
+        switch runState {
+        case .idle:
+            EmptyView()
+        case .importing:
+            HStack(spacing: 8) {
+                ProgressView()
+                Text(t(ResearchProjectsKeys.detailRunImporting))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        case .pipeline(let progress):
+            VStack(alignment: .leading, spacing: 4) {
+                ProgressView(value: progress.fraction)
+                Text(progressLabel(for: progress))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        case .analysing:
+            HStack(spacing: 8) {
+                ProgressView()
+                Text(t(ResearchProjectsKeys.detailRunAnalysing))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        case .done(let result):
+            VStack(alignment: .leading, spacing: 4) {
+                Text(t(ResearchProjectsKeys.detailRunDone))
+                    .font(.caption)
+                    .foregroundStyle(.green)
+                Button(t(ResearchProjectsKeys.detailButtonShowResults)) {
+                    activeSubscreen = .showResult(project, result)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+            }
+        case .failed(let message):
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.red)
+        }
+    }
+
+    private func progressLabel(for progress: PipelineProgress) -> String {
+        switch progress.phase {
+        case .readingInput:
+            return t(ResearchProjectsKeys.detailRunReading)
+        case .calculating:
+            return String(format: t(ResearchProjectsKeys.detailRunCalculating),
+                          progress.recordsDone, progress.totalRecords)
+        case .writingResults:
+            return t(ResearchProjectsKeys.detailRunWriting)
+        default:
+            return ""
+        }
+    }
+
+    // MARK: - Actions
+
+    private func selectFile() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.prompt = t(ResearchProjectsKeys.detailButtonSelectFile)
+        if panel.runModal() == .OK, let url = panel.url {
+            selectedFilePath = url.path
+            fileReadState = .none
+            readFile(at: url.path)
+        }
+    }
+
+    private func readFile(at path: String) {
+        let importer = importerForType(selectedFileType)
+        do {
+            let records = try importer.parse(source: path, isData: true, startId: 1)
+            fileReadState = .ok(records.count)
+        } catch let error as DataImportError {
+            fileReadState = .error(localizedMessage(for: error))
+        } catch {
+            fileReadState = .error(t(ResearchProjectsKeys.detailFileError))
+        }
+    }
+
+    private func importerForType(_ type: DataFileType) -> DataImporter {
+        switch type {
+        case .standardEnigma: return EnigmaFormatImporter()
+        case .gauquelin:      return CsvDataImporter()   // placeholder until GauquelinImporter exists
+        case .quickChart:     return CsvDataImporter()   // placeholder until QuickChartImporter exists
+        }
+    }
+
+    private func localizedMessage(for error: DataImportError) -> String {
+        switch error {
+        case .parseError(let line, let text):
+            return String(format: t(ResearchProjectsKeys.detailFileErrorLine), line, text)
+        case .valueOutOfRange(let line, let field, let value):
+            return String(format: t(ResearchProjectsKeys.detailFileErrorRange), line, field, value)
+        case .noData:
+            return t(ResearchProjectsKeys.detailFileErrorNoData)
+        case .sourceUnreadable(let path):
+            return String(format: t(ResearchProjectsKeys.detailFileErrorUnreadable), path)
+        }
+    }
+
+    private func startInquiry() {
+        runState = .importing
+        let filePath = selectedFilePath
+        let importer = importerForType(selectedFileType)
+        let service = ResearchProjectService(context: modelContext,
+                                             pipelineOrchestrator: pipelineOrchestrator)
+        Task {
+            // 1. Import data file + generate control group
+            do {
+                try await Task.detached(priority: .userInitiated) {
+                    try service.importData(from: filePath, using: importer, into: project)
+                }.value
+            } catch {
+                await MainActor.run {
+                    runState = .failed(t(ResearchProjectsKeys.detailRunImportFailed)
+                                       + "\n" + error.localizedDescription)
+                }
+                return
+            }
+
+            // 2. Run calculation pipeline (progress updates arrive via onChange)
+            await MainActor.run {
+                runState = .pipeline(pipelineOrchestrator.progress)
+                do {
+                    try service.runPipeline(for: project)
+                } catch {
+                    runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
+                                       + "\n" + error.localizedDescription)
+                }
+            }
+            // Pipeline completion is handled in handleProgressUpdate()
+        }
+    }
+
+    private func handleProgressUpdate(_ progress: PipelineProgress) {
+        switch progress.phase {
+        case .completed:
+            runState = .analysing
+            let service = ResearchProjectService(context: modelContext,
+                                                 pipelineOrchestrator: pipelineOrchestrator)
+            Task {
+                do {
+                    let result = try await Task.detached(priority: .userInitiated) {
+                        try service.runAnalysis(for: project)
+                    }.value
+                    await MainActor.run { runState = .done(result) }
+                } catch {
+                    await MainActor.run {
+                        runState = .failed(t(ResearchProjectsKeys.detailRunAnalysisFailed)
+                                           + "\n" + error.localizedDescription)
+                    }
+                }
+            }
+        case .failed(let error):
+            runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
+                               + "\n" + error.localizedDescription)
+        case .calculating, .readingInput, .writingResults:
+            runState = .pipeline(progress)
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - File read state
+
+private enum FileReadState {
+    case none
+    case ok(Int)
+    case error(String)
+}
+
+// MARK: - Results screen
+
+struct ResearchResultScreen: View {
+    @Binding var activeSubscreen: ResearchProjectSubscreen
+    let project: ResearchProjectModel
+    let result: AnalysisResult
+
+    @State private var exportMessage: String = ""
+    @State private var exportIsError: Bool = false
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(t(ResearchProjectsKeys.resultTitle))
+                    .font(.title2.weight(.semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Text(project.name)
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+
+                resultContent
+
+                if !exportMessage.isEmpty {
+                    Text(exportMessage)
+                        .font(.caption)
+                        .foregroundStyle(exportIsError ? .red : .green)
+                }
+
+                HStack {
+                    Button(t(ResearchProjectsKeys.resultButtonBack)) {
+                        activeSubscreen = .openProject(project)
+                    }
+                    Spacer()
+                    Button(t(ResearchProjectsKeys.resultButtonExport)) {
+                        exportResult()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                .padding(.top, 8)
+            }
+            .frame(maxWidth: 900, alignment: .leading)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .navigationTitle(t(ResearchProjectsKeys.resultTitle))
+    }
+
+    // MARK: - Dispatched result view
+
+    @ViewBuilder
+    private var resultContent: some View {
+        switch result {
+        case .factorsInSigns(let r):
+            FactorsInSignsResultView(result: r)
+        case .factorsInHouses(let r):
+            FactorsInHousesResultView(result: r)
+        case .aspects(let r):
+            AspectsResultView(result: r)
+        case .unaspect(let r):
+            UnaspectResultView(result: r)
+        case .midpoints(let r):
+            MidpointsResultView(result: r)
+        case .harmonics(let r):
+            HarmonicsResultView(result: r)
+        case .parallels(let r):
+            ParallelsResultView(result: r)
+        case .declMidpoints(let r):
+            DeclMidpointsResultView(result: r)
+        case .oob(let r):
+            OobResultView(result: r)
+        }
+    }
+
+    // MARK: - Export
+
+    private func exportResult() {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.nameFieldStringValue = "\(project.name).csv"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try ResultsExporter().export(result, to: url.path)
+            exportMessage = t(ResearchProjectsKeys.resultExportOk)
+            exportIsError = false
+        } catch {
+            exportMessage = t(ResearchProjectsKeys.resultExportFailed)
+            exportIsError = true
+        }
+    }
+}
+
+// MARK: - Factors in Signs result view
+
+private struct FactorsInSignsResultView: View {
+    let result: FactorsInSignsResult
+
+    private let factorWidth: CGFloat  = 140
+    private let countWidth: CGFloat   = 50
+    private let totalWidth: CGFloat   = 70
+
+    var body: some View {
+        GroupBox {
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    // Header
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactor))
+                            .frame(width: factorWidth, alignment: .leading)
+                        ForEach(Signs.allCases, id: \.self) { sign in
+                            Text("\(sign)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: totalWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: totalWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
+                        VStack(spacing: 0) {
+                            // Data row
+                            HStack(spacing: 4) {
+                                Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                                ForEach(dist.signCounts, id: \.sign) { sc in
+                                    Text("\(sc.dataCount)").frame(width: countWidth, alignment: .trailing)
+                                }
+                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
+                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                            }
+                            .padding(.horizontal, 8).padding(.vertical, 3)
+                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                            // Control row
+                            HStack(spacing: 4) {
+                                Text("\(dist.factor) ©").frame(width: factorWidth, alignment: .leading)
+                                ForEach(dist.signCounts, id: \.sign) { sc in
+                                    Text("\(sc.controlCount)").frame(width: countWidth, alignment: .trailing)
+                                }
+                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
+                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                            }
+                            .padding(.horizontal, 8).padding(.vertical, 3)
+                            .foregroundStyle(.secondary)
+                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                        }
+                    }
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Factors in Houses result view
+
+private struct FactorsInHousesResultView: View {
+    let result: FactorsInHousesResult
+
+    private let factorWidth: CGFloat = 140
+    private let countWidth: CGFloat  = 44
+    private let totalWidth: CGFloat  = 70
+
+    var body: some View {
+        GroupBox {
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactor))
+                            .frame(width: factorWidth, alignment: .leading)
+                        ForEach(1...result.nrOfHouses, id: \.self) { h in
+                            Text("\(h)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: totalWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: totalWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
+                        VStack(spacing: 0) {
+                            HStack(spacing: 4) {
+                                Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                                ForEach(dist.houseCounts, id: \.houseNr) { hc in
+                                    Text("\(hc.dataCount)").frame(width: countWidth, alignment: .trailing)
+                                }
+                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
+                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                            }
+                            .padding(.horizontal, 8).padding(.vertical, 3)
+                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                            HStack(spacing: 4) {
+                                Text("\(dist.factor) ©").frame(width: factorWidth, alignment: .leading)
+                                ForEach(dist.houseCounts, id: \.houseNr) { hc in
+                                    Text("\(hc.controlCount)").frame(width: countWidth, alignment: .trailing)
+                                }
+                                Text("\(dist.totalData)").frame(width: totalWidth, alignment: .trailing)
+                                Text("\(dist.totalControl)").frame(width: totalWidth, alignment: .trailing)
+                            }
+                            .padding(.horizontal, 8).padding(.vertical, 3)
+                            .foregroundStyle(.secondary)
+                            .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.04))
+                        }
+                    }
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Aspects result view
+
+private struct AspectsResultView: View {
+    let result: AspectsResult
+
+    private let factorWidth: CGFloat = 120
+    private let angleWidth: CGFloat  = 80
+    private let countWidth: CGFloat  = 70
+
+    var body: some View {
+        GroupBox {
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactor1))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnFactor2))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnAspect))
+                            .frame(width: angleWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                        HStack(spacing: 4) {
+                            Text("\(c.factor1)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
+                            Text(String(format: "%.5g", c.aspectAngle))
+                                .frame(width: angleWidth, alignment: .trailing)
+                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Unaspect result view
+
+private struct UnaspectResultView: View {
+    let result: UnaspectResult
+
+    private let factorWidth: CGFloat = 160
+    private let countWidth: CGFloat  = 80
+
+    var body: some View {
+        GroupBox {
+            VStack(spacing: 0) {
+                HStack(spacing: 4) {
+                    Text(t(ResearchProjectsKeys.resultColumnFactor))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text(t(ResearchProjectsKeys.resultColumnData))
+                        .frame(width: countWidth, alignment: .trailing)
+                    Text(t(ResearchProjectsKeys.resultColumnControl))
+                        .frame(width: countWidth, alignment: .trailing)
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                Divider()
+                ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                    HStack(spacing: 4) {
+                        Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
+                        Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                        Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Midpoints result view
+
+private struct MidpointsResultView: View {
+    let result: MidpointsResult
+
+    private let factorWidth: CGFloat = 110
+    private let dialWidth: CGFloat   = 60
+    private let countWidth: CGFloat  = 70
+
+    var body: some View {
+        GroupBox {
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactorA))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnFactorB))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnOccupant))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnDial))
+                            .frame(width: dialWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                        HStack(spacing: 4) {
+                            Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.dialSize)").frame(width: dialWidth, alignment: .trailing)
+                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Harmonics result view
+
+private struct HarmonicsResultView: View {
+    let result: HarmonicsResult
+
+    private let factorWidth: CGFloat = 140
+    private let countWidth: CGFloat  = 70
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(String(format: t(ResearchProjectsKeys.resultHarmonicNumber), result.harmonicNumber))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            GroupBox {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnHarmonic))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnRadix))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                        HStack(spacing: 4) {
+                            Text("\(c.harmonicFactor)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.radixFactor)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                }
+            }
+            skippedView(result.skippedRecords)
+        }
+    }
+}
+
+// MARK: - Parallels result view
+
+private struct ParallelsResultView: View {
+    let result: ParallelsResult
+
+    private let factorWidth: CGFloat = 120
+    private let typeWidth: CGFloat   = 140
+    private let countWidth: CGFloat  = 70
+
+    var body: some View {
+        GroupBox {
+            VStack(spacing: 0) {
+                HStack(spacing: 4) {
+                    Text(t(ResearchProjectsKeys.resultColumnFactor1))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text(t(ResearchProjectsKeys.resultColumnFactor2))
+                        .frame(width: factorWidth, alignment: .leading)
+                    Text(t(ResearchProjectsKeys.resultColumnType))
+                        .frame(width: typeWidth, alignment: .leading)
+                    Text(t(ResearchProjectsKeys.resultColumnData))
+                        .frame(width: countWidth, alignment: .trailing)
+                    Text(t(ResearchProjectsKeys.resultColumnControl))
+                        .frame(width: countWidth, alignment: .trailing)
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                Divider()
+                ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                    HStack(spacing: 4) {
+                        Text("\(c.factor1)").frame(width: factorWidth, alignment: .leading)
+                        Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
+                        Text(c.isContraParallel
+                             ? t(ResearchProjectsKeys.resultTypeContra)
+                             : t(ResearchProjectsKeys.resultTypeParallel))
+                            .frame(width: typeWidth, alignment: .leading)
+                        Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                        Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - Declination midpoints result view
+
+private struct DeclMidpointsResultView: View {
+    let result: DeclMidpointsResult
+
+    private let factorWidth: CGFloat = 120
+    private let countWidth: CGFloat  = 70
+
+    var body: some View {
+        GroupBox {
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactorA))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnFactorB))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnOccupant))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                        HStack(spacing: 4) {
+                            Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                }
+            }
+        }
+        skippedView(result.skippedRecords)
+    }
+}
+
+// MARK: - OOB result view
+
+private struct OobResultView: View {
+    let result: OobResult
+
+    private let factorWidth: CGFloat = 160
+    private let countWidth: CGFloat  = 80
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(String(format: t(ResearchProjectsKeys.resultObliquity), result.obliquity))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            GroupBox {
+                VStack(spacing: 0) {
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultColumnFactor))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnData))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultColumnControl))
+                            .frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                        HStack(spacing: 4) {
+                            Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(c.dataCount)").frame(width: countWidth, alignment: .trailing)
+                            Text("\(c.controlCount)").frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                }
+            }
+            skippedView(result.skippedRecords)
+        }
+    }
+}
+
+// MARK: - Shared helper
+
+@ViewBuilder
+private func skippedView(_ count: Int) -> some View {
+    if count > 0 {
+        Text(String(format: t(ResearchProjectsKeys.resultSkipped), count))
+            .font(.caption)
+            .foregroundStyle(.orange)
+    }
+}
+
+// MARK: - Run state
+
+private enum RunState: Equatable {
+    case idle
+    case importing
+    case pipeline(PipelineProgress)
+    case analysing
+    case done(AnalysisResult)
+    case failed(String)
+
+    static func == (lhs: RunState, rhs: RunState) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle), (.importing, .importing), (.analysing, .analysing): return true
+        case (.pipeline, .pipeline): return true
+        case (.done, .done): return true
+        case (.failed(let a), .failed(let b)): return a == b
+        default: return false
         }
     }
 }
