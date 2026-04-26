@@ -87,6 +87,8 @@
 "view.researchresultscreen.harmonicnumber"             = "Harmonisch getal: %d";
 "view.researchresultscreen.skipped"                    = "Overgeslagen records: %d";
 "view.researchresultscreen.button.export"              = "Exporteren naar CSV…";
+"view.researchresultscreen.button.proportional"        = "Proportioneel";
+"view.researchresultscreen.button.values"              = "Waarden";
 "view.researchresultscreen.export.ok"                  = "Succesvol geëxporteerd.";
 "view.researchresultscreen.export.failed"              = "Exporteren mislukt.";
 "view.researchresultscreen.button.back"                = "Terug";

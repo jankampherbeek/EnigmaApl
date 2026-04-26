@@ -87,6 +87,8 @@
 "view.researchresultscreen.harmonicnumber"             = "Harmonische Zahl: %d";
 "view.researchresultscreen.skipped"                    = "Übersprungene Datensätze: %d";
 "view.researchresultscreen.button.export"              = "Als CSV exportieren…";
+"view.researchresultscreen.button.proportional"        = "Proportional";
+"view.researchresultscreen.button.values"              = "Werte";
 "view.researchresultscreen.export.ok"                  = "Erfolgreich exportiert.";
 "view.researchresultscreen.export.failed"              = "Export fehlgeschlagen.";
 "view.researchresultscreen.button.back"                = "Zurück";

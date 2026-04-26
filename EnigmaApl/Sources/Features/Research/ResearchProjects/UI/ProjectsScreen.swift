@@ -907,7 +907,7 @@ struct ResearchProjectDetailScreen: View {
                 Text(t(ResearchProjectsKeys.detailRunDone))
                     .font(.caption)
                     .foregroundStyle(.green)
-                InlineResultView(result: result)
+                InlineResultView(result: result, cgMultiplication: project.cgMultiplication)
             }
         case .failed(let message):
             Text(message)
@@ -1070,9 +1070,13 @@ private enum FileReadState {
 
 private struct InlineResultView: View {
     let result: AnalysisResult
+    let cgMultiplication: Int
 
+    @State private var proportional: Bool = false
     @State private var exportMessage: String = ""
     @State private var exportIsError: Bool = false
+
+    private var divisor: Int { proportional ? cgMultiplication : 1 }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -1084,26 +1088,37 @@ private struct InlineResultView: View {
                     .foregroundStyle(exportIsError ? .red : .green)
             }
 
-            Button(t(ResearchProjectsKeys.resultButtonExport)) {
-                exportResult()
+            HStack(spacing: 12) {
+                if cgMultiplication > 1 {
+                    Button(proportional
+                           ? t(ResearchProjectsKeys.resultButtonValues)
+                           : t(ResearchProjectsKeys.resultButtonProportional)) {
+                        proportional.toggle()
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                Button(t(ResearchProjectsKeys.resultButtonExport)) {
+                    exportResult()
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
             }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
         }
     }
 
     @ViewBuilder
     private var resultContent: some View {
         switch result {
-        case .factorsInSigns(let r):    FactorsInSignsResultView(result: r)
-        case .factorsInHouses(let r):   FactorsInHousesResultView(result: r)
-        case .aspects(let r):           AspectsResultView(result: r)
-        case .unaspect(let r):          UnaspectResultView(result: r)
-        case .midpoints(let r):         MidpointsResultView(result: r)
-        case .harmonics(let r):         HarmonicsResultView(result: r)
-        case .parallels(let r):         ParallelsResultView(result: r)
-        case .declMidpoints(let r):     DeclMidpointsResultView(result: r)
-        case .oob(let r):               OobResultView(result: r)
+        case .factorsInSigns(let r):    FactorsInSignsResultView(result: r, divisor: divisor)
+        case .factorsInHouses(let r):   FactorsInHousesResultView(result: r, divisor: divisor)
+        case .aspects(let r):           AspectsResultView(result: r, divisor: divisor)
+        case .unaspect(let r):          UnaspectResultView(result: r, divisor: divisor)
+        case .midpoints(let r):         MidpointsResultView(result: r, divisor: divisor)
+        case .harmonics(let r):         HarmonicsResultView(result: r, divisor: divisor)
+        case .parallels(let r):         ParallelsResultView(result: r, divisor: divisor)
+        case .declMidpoints(let r):     DeclMidpointsResultView(result: r, divisor: divisor)
+        case .oob(let r):               OobResultView(result: r, divisor: divisor)
         }
     }
 
@@ -1130,8 +1145,11 @@ struct ResearchResultScreen: View {
     let project: ResearchProjectModel
     let result: AnalysisResult
 
+    @State private var proportional: Bool = false
     @State private var exportMessage: String = ""
     @State private var exportIsError: Bool = false
+
+    private var divisor: Int { proportional ? project.cgMultiplication : 1 }
 
     var body: some View {
         ScrollView {
@@ -1157,6 +1175,14 @@ struct ResearchResultScreen: View {
                         activeSubscreen = .openProject(project)
                     }
                     Spacer()
+                    if project.cgMultiplication > 1 {
+                        Button(proportional
+                               ? t(ResearchProjectsKeys.resultButtonValues)
+                               : t(ResearchProjectsKeys.resultButtonProportional)) {
+                            proportional.toggle()
+                        }
+                        .buttonStyle(.bordered)
+                    }
                     Button(t(ResearchProjectsKeys.resultButtonExport)) {
                         exportResult()
                     }
@@ -1177,23 +1203,23 @@ struct ResearchResultScreen: View {
     private var resultContent: some View {
         switch result {
         case .factorsInSigns(let r):
-            FactorsInSignsResultView(result: r)
+            FactorsInSignsResultView(result: r, divisor: divisor)
         case .factorsInHouses(let r):
-            FactorsInHousesResultView(result: r)
+            FactorsInHousesResultView(result: r, divisor: divisor)
         case .aspects(let r):
-            AspectsResultView(result: r)
+            AspectsResultView(result: r, divisor: divisor)
         case .unaspect(let r):
-            UnaspectResultView(result: r)
+            UnaspectResultView(result: r, divisor: divisor)
         case .midpoints(let r):
-            MidpointsResultView(result: r)
+            MidpointsResultView(result: r, divisor: divisor)
         case .harmonics(let r):
-            HarmonicsResultView(result: r)
+            HarmonicsResultView(result: r, divisor: divisor)
         case .parallels(let r):
-            ParallelsResultView(result: r)
+            ParallelsResultView(result: r, divisor: divisor)
         case .declMidpoints(let r):
-            DeclMidpointsResultView(result: r)
+            DeclMidpointsResultView(result: r, divisor: divisor)
         case .oob(let r):
-            OobResultView(result: r)
+            OobResultView(result: r, divisor: divisor)
         }
     }
 
@@ -1219,6 +1245,7 @@ struct ResearchResultScreen: View {
 
 private struct FactorsInSignsResultView: View {
     let result: FactorsInSignsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 140
     private let countWidth: CGFloat  = 50
@@ -1253,10 +1280,10 @@ private struct FactorsInSignsResultView: View {
                         HStack(spacing: 4) {
                             Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
                             ForEach(dist.signCounts, id: \.sign) { sc in
-                                Text("\(isData ? sc.dataCount : sc.controlCount)")
+                                Text(isData ? "\(sc.dataCount)" : controlText(sc.controlCount, divisor: divisor))
                                     .frame(width: countWidth, alignment: .trailing)
                             }
-                            Text("\(isData ? dist.totalData : dist.totalControl)")
+                            Text(isData ? "\(dist.totalData)" : controlText(dist.totalControl, divisor: divisor))
                                 .frame(width: totalWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1272,6 +1299,7 @@ private struct FactorsInSignsResultView: View {
 
 private struct FactorsInHousesResultView: View {
     let result: FactorsInHousesResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 140
     private let countWidth: CGFloat  = 44
@@ -1306,10 +1334,10 @@ private struct FactorsInHousesResultView: View {
                         HStack(spacing: 4) {
                             Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
                             ForEach(dist.houseCounts, id: \.houseNr) { hc in
-                                Text("\(isData ? hc.dataCount : hc.controlCount)")
+                                Text(isData ? "\(hc.dataCount)" : controlText(hc.controlCount, divisor: divisor))
                                     .frame(width: countWidth, alignment: .trailing)
                             }
-                            Text("\(isData ? dist.totalData : dist.totalControl)")
+                            Text(isData ? "\(dist.totalData)" : controlText(dist.totalControl, divisor: divisor))
                                 .frame(width: totalWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1325,6 +1353,7 @@ private struct FactorsInHousesResultView: View {
 
 private struct AspectsResultView: View {
     let result: AspectsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 120
     private let angleWidth: CGFloat  = 80
@@ -1362,7 +1391,7 @@ private struct AspectsResultView: View {
                             Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
                             Text(String(format: "%.5g", c.aspectAngle))
                                 .frame(width: angleWidth, alignment: .trailing)
-                            Text("\(isData ? c.dataCount : c.controlCount)")
+                            Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1378,6 +1407,7 @@ private struct AspectsResultView: View {
 
 private struct UnaspectResultView: View {
     let result: UnaspectResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 160
     private let countWidth: CGFloat  = 80
@@ -1406,7 +1436,7 @@ private struct UnaspectResultView: View {
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
                         Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(isData ? c.dataCount : c.controlCount)")
+                        Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1421,6 +1451,7 @@ private struct UnaspectResultView: View {
 
 private struct MidpointsResultView: View {
     let result: MidpointsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 110
     private let dialWidth: CGFloat   = 60
@@ -1460,7 +1491,7 @@ private struct MidpointsResultView: View {
                             Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.dialSize)").frame(width: dialWidth, alignment: .trailing)
-                            Text("\(isData ? c.dataCount : c.controlCount)")
+                            Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1476,6 +1507,7 @@ private struct MidpointsResultView: View {
 
 private struct HarmonicsResultView: View {
     let result: HarmonicsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 140
     private let countWidth: CGFloat  = 70
@@ -1510,7 +1542,7 @@ private struct HarmonicsResultView: View {
                     HStack(spacing: 4) {
                         Text("\(c.harmonicFactor)").frame(width: factorWidth, alignment: .leading)
                         Text("\(c.radixFactor)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(isData ? c.dataCount : c.controlCount)")
+                        Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1525,6 +1557,7 @@ private struct HarmonicsResultView: View {
 
 private struct ParallelsResultView: View {
     let result: ParallelsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 120
     private let typeWidth: CGFloat   = 140
@@ -1563,7 +1596,7 @@ private struct ParallelsResultView: View {
                              ? t(ResearchProjectsKeys.resultTypeContra)
                              : t(ResearchProjectsKeys.resultTypeParallel))
                             .frame(width: typeWidth, alignment: .leading)
-                        Text("\(isData ? c.dataCount : c.controlCount)")
+                        Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1578,6 +1611,7 @@ private struct ParallelsResultView: View {
 
 private struct DeclMidpointsResultView: View {
     let result: DeclMidpointsResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 120
     private let countWidth: CGFloat  = 70
@@ -1613,7 +1647,7 @@ private struct DeclMidpointsResultView: View {
                             Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
                             Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(isData ? c.dataCount : c.controlCount)")
+                            Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1629,6 +1663,7 @@ private struct DeclMidpointsResultView: View {
 
 private struct OobResultView: View {
     let result: OobResult
+    let divisor: Int
 
     private let factorWidth: CGFloat = 160
     private let countWidth: CGFloat  = 80
@@ -1660,7 +1695,7 @@ private struct OobResultView: View {
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
                         Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(isData ? c.dataCount : c.controlCount)")
+                        Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
                     .padding(.horizontal, 8).padding(.vertical, 3)
@@ -1671,7 +1706,13 @@ private struct OobResultView: View {
     }
 }
 
-// MARK: - Shared helper
+// MARK: - Shared helpers
+
+/// Formats a control-group count. When divisor > 1 the value is scaled down
+/// to match the size of the data group, and shown with one decimal place.
+private func controlText(_ count: Int, divisor: Int) -> String {
+    divisor > 1 ? String(format: "%.1f", Double(count) / Double(divisor)) : "\(count)"
+}
 
 @ViewBuilder
 private func skippedView(_ count: Int) -> some View {

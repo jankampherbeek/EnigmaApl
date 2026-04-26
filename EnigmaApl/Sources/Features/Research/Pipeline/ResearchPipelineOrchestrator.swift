@@ -206,6 +206,9 @@ private enum PipelineRunner {
         let eclFlags = SEFlags.defineFlags(calculationConfig: calcConfig, coordSystem: .ecliptical)
         let eqFlags  = SEFlags.defineFlags(calculationConfig: calcConfig, coordSystem: .equatorial)
 
+        // House system as the ASCII int that swe_houses expects (e.g. 'P'=80 for Placidus).
+        let houseSystemInt = Int(config.houseSystem.seId.asciiValue ?? 80)
+
         // Flags derived from config — evaluated once, used per-record.
         let isTopocentric = calcConfig.observerPosition == .topoCentric
         let isSidereal    = calcConfig.ayanamsha != .tropical
@@ -286,6 +289,34 @@ private enum PipelineRunner {
                         } else { byteOffset += kBytesPerCoord }
                     }
 
+                case .Mundane:
+                    // Asc, MC, EastPoint, Vertex — use swe_houses.
+                    // ascmc layout: [0]=Asc, [1]=MC, [2]=ARMC, [3]=Vertex, [4]=EastPoint
+                    let ascmcIndex: Int?
+                    switch layout.factor.seId {
+                    case 700: ascmcIndex = 1   // MC
+                    case 701: ascmcIndex = 0   // Ascendant
+                    case 702: ascmcIndex = 4   // EastPoint
+                    case 703: ascmcIndex = 3   // Vertex
+                    default:  ascmcIndex = nil
+                    }
+                    if layout.hasEcliptical {
+                        if let idx = ascmcIndex,
+                           let (_, ascmc) = try? seWrapper.calculateHouses(
+                               julianDay: julDay,
+                               latitude: record.geoLat,
+                               longitude: record.geoLon,
+                               houseSystem: houseSystemInt),
+                           ascmc.count > idx {
+                            byteOffset = writeCoordBytes(ascmc[idx], 0, 0, 0, 0,
+                                                         into: &bytes, at: byteOffset)
+                        } else { byteOffset += kBytesPerCoord }
+                    }
+                    if layout.hasEquatorial {
+                        // Equatorial for Mundane factors not implemented — write zeros.
+                        byteOffset += kBytesPerCoord
+                    }
+
                 // ── Future inquiry types: add cases here ──────────────────────
                 // case .Apsides:
                 //     // swe_nod_aps_ut — for BlackSun, Diamond
@@ -293,8 +324,6 @@ private enum PipelineRunner {
                 //     // Always 0° longitude — write constant
                 // case .CommonFormulaFull:
                 //     // Priapus, Dragon, Beast, SouthNode — formula-based
-                // case .Mundane:
-                //     // Asc, MC, EastPoint, Vertex — requires house calculation
                 // Fixed stars (future inquiry):
                 //     // swe_fixstar2_ut — needs star name lookup table
 

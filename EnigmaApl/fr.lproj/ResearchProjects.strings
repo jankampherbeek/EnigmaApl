@@ -87,6 +87,8 @@
 "view.researchresultscreen.harmonicnumber"             = "Nombre harmonique: %d";
 "view.researchresultscreen.skipped"                    = "Enregistrements ignorés: %d";
 "view.researchresultscreen.button.export"              = "Exporter en CSV…";
+"view.researchresultscreen.button.proportional"        = "Proportionnel";
+"view.researchresultscreen.button.values"              = "Valeurs";
 "view.researchresultscreen.export.ok"                  = "Exporté avec succès.";
 "view.researchresultscreen.export.failed"              = "Échec de l'export.";
 "view.researchresultscreen.button.back"                = "Retour";
