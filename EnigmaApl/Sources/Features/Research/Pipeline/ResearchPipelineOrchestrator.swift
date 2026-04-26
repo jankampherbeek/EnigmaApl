@@ -62,10 +62,10 @@ enum PipelineError: Error {
 /// Pipeline flow:
 /// 1. Read all `ResearchInputRecord` rows from `horoscope_data.db`
 /// 2. Create `results.bin` with the correct header
-/// 3. For each record: calculate via Swiss Ephemeris (runs off main actor)
+/// 3. For each record: calculate via Swiss Ephemeris on real OS threads
 /// 4. Write each result immediately into `results.bin`
 /// 5. Publish `PipelineProgress` updates on the main actor (throttled)
-/// 6. Honour `Task.isCancelled` between records
+/// 6. Honour cancellation between records
 @MainActor
 final class ResearchPipelineOrchestrator: ObservableObject {
 
@@ -83,16 +83,14 @@ final class ResearchPipelineOrchestrator: ObservableObject {
 
     /// Starts the pipeline for the given project.
     /// Cancels any previously running pipeline first.
-    /// The heavy computation runs in a detached background task;
+    /// The heavy computation runs on real OS threads via GCD;
     /// progress updates are marshalled back to the main actor.
     func run(project: ResearchProjectModel, config: ResearchConfig) {
         cancel()
 
-        // Extract only Sendable values before crossing into the detached task
         let projectPath = project.path
         let configSnapshot = config
 
-        // Publish "reading input" immediately
         self.progress = PipelineProgress(phase: .readingInput, recordsDone: 0, totalRecords: 0)
 
         pipelineTask = Task { [weak self] in
@@ -109,33 +107,30 @@ final class ResearchPipelineOrchestrator: ObservableObject {
 
     // MARK: - Internal
 
-    /// Hops off the main actor into a detached task, then marshals final result back.
     private func runDetached(path: String, config: ResearchConfig) async {
-        // nonisolated closure: all work runs on the cooperative thread pool, not main actor
-        let finalProgress = await Task.detached(priority: .userInitiated) { [weak self] in
-            await PipelineRunner.run(path: path, config: config, onProgress: { p in
-                // Hop to main actor for each UI update
-                await self?.publishOnMain(p)
-            })
+        // Build a sync progress callback that fires a lightweight main-actor task.
+        // Creating a Task is ~µs — fine for throttled updates.
+        let progressCallback: @Sendable (PipelineProgress) -> Void = { [weak self] p in
+            Task { @MainActor [weak self] in
+                self?.progress = p
+            }
+        }
+
+        let finalProgress = await Task.detached(priority: .userInitiated) {
+            await PipelineRunner.run(path: path, config: config, onProgress: progressCallback)
         }.value
 
-        // Publish the final state (completed / failed) on the main actor
         self.progress = finalProgress
-    }
-
-    @MainActor
-    private func publishOnMain(_ p: PipelineProgress) {
-        self.progress = p
     }
 }
 
 // MARK: - Off-actor pipeline runner
 
 /// Stateless namespace. Runs entirely off the main actor.
-/// Calls `onProgress` for each throttled UI update; the callback marshals to main actor.
+/// Progress callbacks fire synchronously from worker threads; callers must dispatch to main as needed.
 private enum PipelineRunner {
 
-    typealias ProgressCallback = @Sendable (PipelineProgress) async -> Void
+    typealias ProgressCallback = @Sendable (PipelineProgress) -> Void
 
     static func run(
         path: String,
@@ -147,6 +142,12 @@ private enum PipelineRunner {
         } catch is CancellationError {
             return PipelineProgress(phase: .failed(PipelineError.cancelled),
                                     recordsDone: 0, totalRecords: 0)
+        } catch let e as PipelineError {
+            if case .cancelled = e {
+                return PipelineProgress(phase: .failed(PipelineError.cancelled),
+                                        recordsDone: 0, totalRecords: 0)
+            }
+            return PipelineProgress(phase: .failed(e), recordsDone: 0, totalRecords: 0)
         } catch {
             return PipelineProgress(phase: .failed(error), recordsDone: 0, totalRecords: 0)
         }
@@ -158,7 +159,6 @@ private enum PipelineRunner {
         onProgress: @escaping ProgressCallback
     ) async throws -> PipelineProgress {
 
-        // Pre-decode once — config.calculationConfig decodes JSON on every call
         guard let calcConfig = config.calculationConfig else {
             throw PipelineError.missingCalculationConfig
         }
@@ -177,83 +177,65 @@ private enum PipelineRunner {
             return PipelineProgress(phase: .completed, recordsDone: 0, totalRecords: 0)
         }
 
-        // ── Phase 2: Create results.bin (pre-allocated, fixed-offset records) ─
+        // ── Phase 2: Create results.bin ──────────────────────────────────────
         let resultsBinURL = URL(fileURLWithPath: path, isDirectory: true)
             .appendingPathComponent("results.bin")
         try? FileManager.default.removeItem(at: resultsBinURL)
 
         do {
-            // Create + close immediately — workers each open their own FileHandle
-            let binaryFile = try ResultsBinaryFile.create(at: path, config: config,
-                                                          recordCount: UInt64(total))
-            // Just verify it was created; workers will write via their own handles
-            _ = binaryFile
+            _ = try ResultsBinaryFile.create(at: path, config: config, recordCount: UInt64(total))
         } catch {
             throw PipelineError.binaryFileCreationFailed(error)
         }
 
         // ── Phase 3 + 4: Parallel calculation + write ────────────────────────
-        await onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
+        onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
 
-        // Pre-compute layout once; workers capture the snapshot
         let factors = config.enabledFactors
         let layouts = config.factorLayouts
         let recordSize = config.recordSize
 
-        // Counter shared across workers for throttled progress reporting
-        let counter = ProgressCounter(total: total)
+        // Swiss Ephemeris (libswe) is not thread-safe — it uses global internal state.
+        // All SE calls must be serialized on a single thread. We run the full loop in
+        // Task.detached (off main actor) to keep the UI free, and fire lightweight
+        // Task { @MainActor in } for throttled progress updates.
+        let seWrapper = SEWrapper()
+        guard let handle = try? FileHandle(forWritingTo: resultsBinURL) else {
+            throw PipelineError.binaryFileCreationFailed(
+                ResultsBinaryFileError.cannotOpenFile(resultsBinURL.path))
+        }
+        defer { try? handle.close() }
 
-        // Number of parallel workers = number of active CPU cores (capped at record count)
-        let coreCount = max(1, ProcessInfo.processInfo.activeProcessorCount)
-        let workerCount = min(coreCount, total)
-        let sliceSize = (total + workerCount - 1) / workerCount   // ceiling division
+        let updateInterval = max(100, total / 200)
+        var lastPublished = 0
 
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            for w in 0..<workerCount {
-                let start = w * sliceSize
-                let end   = min(start + sliceSize, total)
-                guard start < end else { continue }
+        for (index, record) in inputRecords.enumerated() {
+            try Task.checkCancellation()
 
-                let slice = Array(inputRecords[start..<end])
-                let sliceStart = start
+            let chart = Self.calculateChart(
+                record: record, factors: factors,
+                calcConfig: calcConfig, seWrapper: seWrapper
+            )
 
-                group.addTask {
-                    try Task.checkCancellation()
-                    // Each worker owns its own SEWrapper — no actor serialisation
-                    let seWrapper = SEWrapper()
-                    guard let handle = try? FileHandle(forWritingTo: resultsBinURL) else {
-                        throw PipelineError.binaryFileCreationFailed(
-                            ResultsBinaryFileError.cannotOpenFile(resultsBinURL.path))
-                    }
-                    defer { try? handle.close() }
+            try Self.writeRecord(
+                chart: chart, record: record,
+                at: index, recordSize: recordSize,
+                layouts: layouts,
+                handle: handle, fileURL: resultsBinURL
+            )
 
-                    for (localIndex, record) in slice.enumerated() {
-                        try Task.checkCancellation()
-
-                        let chart = Self.calculateChart(
-                            record: record, factors: factors,
-                            calcConfig: calcConfig, seWrapper: seWrapper
-                        )
-
-                        let globalIndex = sliceStart + localIndex
-                        try Self.writeRecord(
-                            chart: chart, record: record,
-                            at: globalIndex, recordSize: recordSize,
-                            layouts: layouts,
-                            handle: handle, fileURL: resultsBinURL
-                        )
-
-                        await counter.increment(onProgress: onProgress)
-                    }
-                }
+            let done = index + 1
+            if done - lastPublished >= updateInterval || done == total {
+                lastPublished = done
+                let snapshot = PipelineProgress(phase: .calculating, recordsDone: done, totalRecords: total)
+                onProgress(snapshot)
             }
-            try await group.waitForAll()
         }
 
         return PipelineProgress(phase: .completed, recordsDone: total, totalRecords: total)
     }
 
-    // MARK: - Per-record helpers (nonisolated, no allocation of CalcRequest inside actor)
+    // MARK: - Per-record helpers
 
     private static func calculateChart(
         record: ResearchInputRecord,
@@ -288,11 +270,8 @@ private enum PipelineRunner {
         handle: FileHandle,
         fileURL: URL
     ) throws {
-        // Build the raw record bytes inline (avoids ResultsBinaryFile.write overhead
-        // of opening/closing the handle and the per-call seek overhead being serialised)
         var bytes = [UInt8](repeating: 0, count: recordSize)
 
-        // Prefix: recordId (Int64 LE) at 0, isData at 8, 7 pad bytes
         var rid = Int64(record.id).littleEndian
         withUnsafeMutableBytes(of: &rid) { bytes.replaceSubrange(0..<8, with: $0) }
         bytes[8] = record.isData ? 1 : 0
@@ -342,25 +321,3 @@ private enum PipelineRunner {
     }
 }
 
-// MARK: - Shared atomic progress counter
-
-/// Tracks records completed across all parallel workers and fires throttled progress callbacks.
-private actor ProgressCounter {
-    private let total: Int
-    private let updateInterval: Int
-    private var done: Int = 0
-    private var lastPublished: Int = 0
-
-    init(total: Int) {
-        self.total = total
-        self.updateInterval = max(100, total / 200)
-    }
-
-    func increment(onProgress: PipelineRunner.ProgressCallback) async {
-        done += 1
-        if done - lastPublished >= updateInterval || done == total {
-            lastPublished = done
-            await onProgress(PipelineProgress(phase: .calculating, recordsDone: done, totalRecords: total))
-        }
-    }
-}
