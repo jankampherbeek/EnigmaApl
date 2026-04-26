@@ -216,7 +216,6 @@ public class SEWrapper {
     ///         double hour,
     ///         int gregflag);
     public func julianDay(date: AstronomicalDate, time: AstronomicalTime) -> Double {
-        Logger.log.verbose("AstronomicalDate \(date.Year)-\(date.Month)-\(date.Day) AstronomicalTime \(time.HourDecimal)")
         let gregflag = date.Gregorian ? 1 : 0
         let ut = time.HourDecimal
         return swe_julday(Int32(date.Year), Int32(date.Month), Int32(date.Day), ut, Int32(gregflag))
@@ -675,14 +674,11 @@ public class SEWrapper {
             Logger.log.error("Swiss Ephemeris not initialized")
             return nil
         }
-        Logger.log.debug("SEWrapper.calculateApsides, after guard")
         var xnasc = [Double](repeating: 0.0, count: 6)  // ascending node
         var xndsc = [Double](repeating: 0.0, count: 6)  // descending node
         var xperi = [Double](repeating: 0.0, count: 6)  // perihelion/perigee
         var xaphe = [Double](repeating: 0.0, count: 6)  // aphelion/apogee
         var error = [CChar](repeating: 0, count: 256)
-        
-        Logger.log.debug("SEWrapper.calculateApsides, after initialization")
         
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseJD = julianDay
@@ -706,7 +702,6 @@ public class SEWrapper {
                                 Logger.log.error("Failed to get valid pointers for apsides calculation")
                                 return
                             }
-                            Logger.log.debug("SEWrapper.calculateApsides, before calling swe_nod_aps_ut")
                             returnCode = swe_nod_aps_ut(
                                 preciseJD,
                                 Int32(planet),
@@ -718,7 +713,6 @@ public class SEWrapper {
                                 xaphePtr,
                                 errorPtr
                             )
-                            Logger.log.debug("SEWrapper.calculateApsides, after calling swe_nod_aps_ut")
                             if returnCode < 0 {
                                 errorMessage = String(cString: errorPtr)
                             }

@@ -108,29 +108,29 @@ final class ResearchPipelineOrchestrator: ObservableObject {
     // MARK: - Internal
 
     private func runDetached(path: String, config: ResearchConfig) async {
-        // Build a sync progress callback that fires a lightweight main-actor task.
-        // Creating a Task is ~µs — fine for throttled updates.
-        let progressCallback: @Sendable (PipelineProgress) -> Void = { [weak self] p in
-            Task { @MainActor [weak self] in
-                self?.progress = p
-            }
-        }
-
-        let finalProgress = await Task.detached(priority: .userInitiated) {
-            await PipelineRunner.run(path: path, config: config, onProgress: progressCallback)
+        let finalProgress = await Task.detached(priority: .userInitiated) { [weak self] in
+            await PipelineRunner.run(path: path, config: config, onProgress: { p in
+                await MainActor.run { [weak self] in self?.progress = p }
+            })
         }.value
 
         self.progress = finalProgress
+    }
+
+    @MainActor
+    private func publishOnMain(_ p: PipelineProgress) {
+        self.progress = p
     }
 }
 
 // MARK: - Off-actor pipeline runner
 
 /// Stateless namespace. Runs entirely off the main actor.
-/// Progress callbacks fire synchronously from worker threads; callers must dispatch to main as needed.
+/// Progress callbacks hop to the main actor via `MainActor.run`; the loop awaits each one,
+/// guaranteeing SwiftUI sees every update (200 hops max for any practical dataset).
 private enum PipelineRunner {
 
-    typealias ProgressCallback = @Sendable (PipelineProgress) -> Void
+    typealias ProgressCallback = @Sendable (PipelineProgress) async -> Void
 
     static func run(
         path: String,
@@ -188,8 +188,8 @@ private enum PipelineRunner {
             throw PipelineError.binaryFileCreationFailed(error)
         }
 
-        // ── Phase 3 + 4: Parallel calculation + write ────────────────────────
-        onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
+        // ── Phase 3 + 4: Serial calculation + write (libswe is not thread-safe) ─
+        await onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
 
         let factors = config.enabledFactors
         let layouts = config.factorLayouts
@@ -228,7 +228,7 @@ private enum PipelineRunner {
             if done - lastPublished >= updateInterval || done == total {
                 lastPublished = done
                 let snapshot = PipelineProgress(phase: .calculating, recordsDone: done, totalRecords: total)
-                onProgress(snapshot)
+                await onProgress(snapshot)
             }
         }
 

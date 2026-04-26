@@ -19,9 +19,12 @@ public struct Logger {
         console.logPrintWay = .print
         console.minLevel = .warning
         
-        // File destination for persistent logging
+        // File destination for persistent logging — warnings and above only.
+        // verbose/debug/info are for development; setting them to file causes quarantine
+        // during research runs (42k+ log entries per run).
         let file = FileDestination()
         file.format = "$DHH:mm:ss.SSS$d $L $N.$F:$l - $M"
+        file.minLevel = .warning
         
         // Set log file path to Documents directory
         if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
