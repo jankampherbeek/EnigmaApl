@@ -140,7 +140,7 @@ private enum PipelineRunner {
     static func run(
         path: String,
         config: ResearchConfig,
-        onProgress: ProgressCallback
+        onProgress: @escaping ProgressCallback
     ) async -> PipelineProgress {
         do {
             return try await execute(path: path, config: config, onProgress: onProgress)
@@ -155,9 +155,10 @@ private enum PipelineRunner {
     private static func execute(
         path: String,
         config: ResearchConfig,
-        onProgress: ProgressCallback
+        onProgress: @escaping ProgressCallback
     ) async throws -> PipelineProgress {
 
+        // Pre-decode once — config.calculationConfig decodes JSON on every call
         guard let calcConfig = config.calculationConfig else {
             throw PipelineError.missingCalculationConfig
         }
@@ -176,67 +177,190 @@ private enum PipelineRunner {
             return PipelineProgress(phase: .completed, recordsDone: 0, totalRecords: 0)
         }
 
-        // ── Phase 2: Create results.bin ──────────────────────────────────────
-        // Delete any stale results.bin from a previous run before creating the new one.
+        // ── Phase 2: Create results.bin (pre-allocated, fixed-offset records) ─
         let resultsBinURL = URL(fileURLWithPath: path, isDirectory: true)
             .appendingPathComponent("results.bin")
         try? FileManager.default.removeItem(at: resultsBinURL)
 
-        let binaryFile: ResultsBinaryFile
         do {
-            binaryFile = try ResultsBinaryFile.create(at: path, config: config,
-                                                      recordCount: UInt64(total))
-            try binaryFile.openForWriting()
+            // Create + close immediately — workers each open their own FileHandle
+            let binaryFile = try ResultsBinaryFile.create(at: path, config: config,
+                                                          recordCount: UInt64(total))
+            // Just verify it was created; workers will write via their own handles
+            _ = binaryFile
         } catch {
             throw PipelineError.binaryFileCreationFailed(error)
         }
 
-        let factors = config.enabledFactors
-        let seActor = SEActor()
-
-        // ── Phase 3 + 4: Calculate and write ────────────────────────────────
+        // ── Phase 3 + 4: Parallel calculation + write ────────────────────────
         await onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
 
-        // Throttle UI updates to ~200 across the entire run
-        let updateInterval = max(1, total / 200)
-        var lastPublished = 0
+        // Pre-compute layout once; workers capture the snapshot
+        let factors = config.enabledFactors
+        let layouts = config.factorLayouts
+        let recordSize = config.recordSize
 
-        for (index, inputRecord) in inputRecords.enumerated() {
-            try Task.checkCancellation()
+        // Counter shared across workers for throttled progress reporting
+        let counter = ProgressCounter(total: total)
 
-            let chart = await seActor.calculate(
-                input: inputRecord,
-                factors: factors,
-                calcConfig: calcConfig
-            )
+        // Number of parallel workers = number of active CPU cores (capped at record count)
+        let coreCount = max(1, ProcessInfo.processInfo.activeProcessorCount)
+        let workerCount = min(coreCount, total)
+        let sliceSize = (total + workerCount - 1) / workerCount   // ceiling division
 
-            do {
-                try binaryFile.write(
-                    recordId: inputRecord.id,
-                    isData: inputRecord.isData,
-                    at: index,
-                    coordinates: chart.Coordinates,
-                    config: config
-                )
-            } catch {
-                binaryFile.closeForWriting()
-                throw PipelineError.writeFailed(error)
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for w in 0..<workerCount {
+                let start = w * sliceSize
+                let end   = min(start + sliceSize, total)
+                guard start < end else { continue }
+
+                let slice = Array(inputRecords[start..<end])
+                let sliceStart = start
+
+                group.addTask {
+                    try Task.checkCancellation()
+                    // Each worker owns its own SEWrapper — no actor serialisation
+                    let seWrapper = SEWrapper()
+                    guard let handle = try? FileHandle(forWritingTo: resultsBinURL) else {
+                        throw PipelineError.binaryFileCreationFailed(
+                            ResultsBinaryFileError.cannotOpenFile(resultsBinURL.path))
+                    }
+                    defer { try? handle.close() }
+
+                    for (localIndex, record) in slice.enumerated() {
+                        try Task.checkCancellation()
+
+                        let chart = Self.calculateChart(
+                            record: record, factors: factors,
+                            calcConfig: calcConfig, seWrapper: seWrapper
+                        )
+
+                        let globalIndex = sliceStart + localIndex
+                        try Self.writeRecord(
+                            chart: chart, record: record,
+                            at: globalIndex, recordSize: recordSize,
+                            layouts: layouts,
+                            handle: handle, fileURL: resultsBinURL
+                        )
+
+                        await counter.increment(onProgress: onProgress)
+                    }
+                }
             }
+            try await group.waitForAll()
+        }
 
-            let done = index + 1
-            if done - lastPublished >= updateInterval || done == total {
-                lastPublished = done
-                await onProgress(PipelineProgress(
-                    phase: .calculating,
-                    recordsDone: done,
-                    totalRecords: total
-                ))
+        return PipelineProgress(phase: .completed, recordsDone: total, totalRecords: total)
+    }
+
+    // MARK: - Per-record helpers (nonisolated, no allocation of CalcRequest inside actor)
+
+    private static func calculateChart(
+        record: ResearchInputRecord,
+        factors: [Factors],
+        calcConfig: CalculationConfig,
+        seWrapper: SEWrapper
+    ) -> FullChart {
+        let localDecimal = Double(record.hour) + Double(record.minute) / 60.0 + Double(record.second) / 3600.0
+        let utHour = localDecimal - record.offset
+        let date = AstronomicalDate(Year: record.year, Month: record.month, Day: record.day)
+        let time = AstronomicalTime(HourDecimal: utHour)
+        let julDay = seWrapper.julianDay(date: date, time: time)
+
+        let request = CalcRequest(
+            JulianDay: julDay,
+            FactorsToUse: factors,
+            HouseSystem: calcConfig.houseSystem.rawValue,
+            Latitude: record.geoLat,
+            Longitude: record.geoLon,
+            Height: 0,
+            calculationConfig: calcConfig
+        )
+        return AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
+    }
+
+    private static func writeRecord(
+        chart: FullChart,
+        record: ResearchInputRecord,
+        at position: Int,
+        recordSize: Int,
+        layouts: [FactorLayout],
+        handle: FileHandle,
+        fileURL: URL
+    ) throws {
+        // Build the raw record bytes inline (avoids ResultsBinaryFile.write overhead
+        // of opening/closing the handle and the per-call seek overhead being serialised)
+        var bytes = [UInt8](repeating: 0, count: recordSize)
+
+        // Prefix: recordId (Int64 LE) at 0, isData at 8, 7 pad bytes
+        var rid = Int64(record.id).littleEndian
+        withUnsafeMutableBytes(of: &rid) { bytes.replaceSubrange(0..<8, with: $0) }
+        bytes[8] = record.isData ? 1 : 0
+
+        let kRecordPrefix = 16
+        let kBytesPerCoord = 40   // 5 Doubles × 8
+
+        var byteOffset = kRecordPrefix
+        for layout in layouts {
+            guard let pos = chart.Coordinates[layout.factor] else {
+                byteOffset += layout.byteSize; continue
+            }
+            if layout.hasEcliptical {
+                if let ecl = pos.ecliptical.first {
+                    byteOffset = writeCoordBytes(ecl.mainPos, ecl.deviation, ecl.distance,
+                                                  ecl.mainPosSpeed, ecl.deviationSpeed,
+                                                  into: &bytes, at: byteOffset)
+                } else { byteOffset += kBytesPerCoord }
+            }
+            if layout.hasEquatorial {
+                if let eq = pos.equatorial.first {
+                    byteOffset = writeCoordBytes(eq.mainPos, eq.deviation, eq.distance,
+                                                  eq.mainPosSpeed, eq.deviationSpeed,
+                                                  into: &bytes, at: byteOffset)
+                } else { byteOffset += kBytesPerCoord }
             }
         }
 
-        // ── Phase 5: Complete ────────────────────────────────────────────────
-        binaryFile.closeForWriting()
+        let kHeaderSize = 256
+        let fileOffset = UInt64(kHeaderSize + position * recordSize)
+        try handle.seek(toOffset: fileOffset)
+        handle.write(Data(bytes))
+    }
 
-        return PipelineProgress(phase: .completed, recordsDone: total, totalRecords: total)
+    @inline(__always)
+    private static func writeCoordBytes(
+        _ v0: Double, _ v1: Double, _ v2: Double, _ v3: Double, _ v4: Double,
+        into buf: inout [UInt8], at offset: Int
+    ) -> Int {
+        var o = offset
+        for v in [v0, v1, v2, v3, v4] {
+            var le = v.bitPattern.littleEndian
+            withUnsafeMutableBytes(of: &le) { buf.replaceSubrange(o..<o+8, with: $0) }
+            o += 8
+        }
+        return o
+    }
+}
+
+// MARK: - Shared atomic progress counter
+
+/// Tracks records completed across all parallel workers and fires throttled progress callbacks.
+private actor ProgressCounter {
+    private let total: Int
+    private let updateInterval: Int
+    private var done: Int = 0
+    private var lastPublished: Int = 0
+
+    init(total: Int) {
+        self.total = total
+        self.updateInterval = max(100, total / 200)
+    }
+
+    func increment(onProgress: PipelineRunner.ProgressCallback) async {
+        done += 1
+        if done - lastPublished >= updateInterval || done == total {
+            lastPublished = done
+            await onProgress(PipelineProgress(phase: .calculating, recordsDone: done, totalRecords: total))
+        }
     }
 }
