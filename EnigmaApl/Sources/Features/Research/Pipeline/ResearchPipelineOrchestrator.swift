@@ -78,6 +78,10 @@ final class ResearchPipelineOrchestrator: ObservableObject {
     // MARK: - Private state
 
     private var pipelineTask: Task<Void, Never>?
+    /// Held separately so cancel() can reach the detached task directly.
+    /// Task.detached is unstructured — cancelling the outer Task does not
+    /// propagate into it, so we must cancel this handle explicitly.
+    private var detachedTask: Task<PipelineProgress, Never>?
 
     // MARK: - Public API
 
@@ -101,6 +105,8 @@ final class ResearchPipelineOrchestrator: ObservableObject {
 
     /// Cancels a running pipeline.
     func cancel() {
+        detachedTask?.cancel()
+        detachedTask = nil
         pipelineTask?.cancel()
         pipelineTask = nil
     }
@@ -108,12 +114,14 @@ final class ResearchPipelineOrchestrator: ObservableObject {
     // MARK: - Internal
 
     private func runDetached(path: String, config: ResearchConfig) async {
-        let finalProgress = await Task.detached(priority: .userInitiated) { [weak self] in
+        let task = Task.detached(priority: .userInitiated) { [weak self] in
             await PipelineRunner.run(path: path, config: config, onProgress: { p in
                 await MainActor.run { [weak self] in self?.progress = p }
             })
-        }.value
-
+        }
+        detachedTask = task
+        let finalProgress = await task.value
+        detachedTask = nil
         self.progress = finalProgress
     }
 

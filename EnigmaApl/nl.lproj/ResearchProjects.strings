@@ -49,6 +49,7 @@
 "view.researchprojectdetailscreen.button.selectfile"        = "Kies bestand...";
 "view.researchprojectdetailscreen.label.filetype"           = "Bestandstype";
 "view.researchprojectdetailscreen.button.start"             = "Start onderzoek";
+"view.researchprojectdetailscreen.button.interrupt"         = "Onderbreek";
 "view.researchprojectdetailscreen.file.readok"              = "Bestand succesvol gelezen (%d records).";
 "view.researchprojectdetailscreen.file.error"               = "Het gegevensbestand kon niet worden gelezen.";
 "view.researchprojectdetailscreen.file.errorline"           = "Parsefout op regel %d: %@";

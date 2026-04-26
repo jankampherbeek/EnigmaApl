@@ -55,6 +55,7 @@ struct ResearchProjectsKeys {
     static let detailButtonSelectFile   = "view.researchprojectdetailscreen.button.selectfile"
     static let detailLabelFileType      = "view.researchprojectdetailscreen.label.filetype"
     static let detailButtonStart        = "view.researchprojectdetailscreen.button.start"
+    static let detailButtonInterrupt    = "view.researchprojectdetailscreen.button.interrupt"
     static let detailFileReadOk         = "view.researchprojectdetailscreen.file.readok"
     static let detailFileError          = "view.researchprojectdetailscreen.file.error"
     static let detailFileErrorLine      = "view.researchprojectdetailscreen.file.errorline"

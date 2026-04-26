@@ -830,11 +830,19 @@ struct ResearchProjectDetailScreen: View {
                         activeSubscreen = .overview
                     }
                     Spacer()
-                    Button(t(ResearchProjectsKeys.detailButtonStart)) {
-                        startInquiry()
+                    if case .pipeline = runState {
+                        Button(t(ResearchProjectsKeys.detailButtonInterrupt)) {
+                            pipelineOrchestrator.cancel()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                    } else {
+                        Button(t(ResearchProjectsKeys.detailButtonStart)) {
+                            startInquiry()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(!canStartInquiry)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(!canStartInquiry)
                 }
                 .padding(.top, 8)
             }
@@ -1036,8 +1044,12 @@ struct ResearchProjectDetailScreen: View {
                 }
             }
         case .failed(let error):
-            runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
-                               + "\n" + error.localizedDescription)
+            if let pe = error as? PipelineError, case .cancelled = pe {
+                runState = .idle
+            } else {
+                runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
+                                   + "\n" + error.localizedDescription)
+            }
         case .calculating, .readingInput, .writingResults:
             runState = .pipeline(progress)
         default:

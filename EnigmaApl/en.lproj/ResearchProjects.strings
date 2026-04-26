@@ -49,6 +49,7 @@
 "view.researchprojectdetailscreen.button.selectfile"        = "Select file...";
 "view.researchprojectdetailscreen.label.filetype"           = "File type";
 "view.researchprojectdetailscreen.button.start"             = "Start inquiry";
+"view.researchprojectdetailscreen.button.interrupt"         = "Interrupt";
 "view.researchprojectdetailscreen.file.readok"              = "File read successfully (%d records).";
 "view.researchprojectdetailscreen.file.error"               = "Could not read the data file.";
 "view.researchprojectdetailscreen.file.errorline"           = "Parse error on line %d: %@";

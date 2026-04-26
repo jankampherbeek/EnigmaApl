@@ -49,6 +49,7 @@
 "view.researchprojectdetailscreen.button.selectfile"        = "Datei auswählen...";
 "view.researchprojectdetailscreen.label.filetype"           = "Dateityp";
 "view.researchprojectdetailscreen.button.start"             = "Untersuchung starten";
+"view.researchprojectdetailscreen.button.interrupt"         = "Unterbrechen";
 "view.researchprojectdetailscreen.file.readok"              = "Datei erfolgreich gelesen (%d Datensätze).";
 "view.researchprojectdetailscreen.file.error"               = "Die Datendatei konnte nicht gelesen werden.";
 "view.researchprojectdetailscreen.file.errorline"           = "Analysefehler in Zeile %d: %@";
