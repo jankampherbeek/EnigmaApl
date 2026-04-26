@@ -191,15 +191,24 @@ private enum PipelineRunner {
         // ── Phase 3 + 4: Serial calculation + write (libswe is not thread-safe) ─
         await onProgress(PipelineProgress(phase: .calculating, recordsDone: 0, totalRecords: total))
 
-        let factors = config.enabledFactors
-        let layouts = config.factorLayouts
+        let layouts    = config.factorLayouts
         let recordSize = config.recordSize
 
-        // Swiss Ephemeris (libswe) is not thread-safe — it uses global internal state.
-        // All SE calls must be serialized on a single thread. We run the full loop in
-        // Task.detached (off main actor) to keep the UI free, and fire lightweight
-        // Task { @MainActor in } for throttled progress updates.
+        // Pre-compute SE flags once — they are constant across all records.
+        let eclFlags = SEFlags.defineFlags(calculationConfig: calcConfig, coordSystem: .ecliptical)
+        let eqFlags  = SEFlags.defineFlags(calculationConfig: calcConfig, coordSystem: .equatorial)
+
+        // Flags derived from config — evaluated once, used per-record.
+        let isTopocentric = calcConfig.observerPosition == .topoCentric
+        let isSidereal    = calcConfig.ayanamsha != .tropical
+
         let seWrapper = SEWrapper()
+
+        // Sidereal mode does not change between records — set once.
+        if isSidereal {
+            seWrapper.setAyanamsha(idAyanamsha: calcConfig.ayanamsha.seId)
+        }
+
         guard let handle = try? FileHandle(forWritingTo: resultsBinURL) else {
             throw PipelineError.binaryFileCreationFailed(
                 ResultsBinaryFileError.cannotOpenFile(resultsBinURL.path))
@@ -207,27 +216,104 @@ private enum PipelineRunner {
         defer { try? handle.close() }
 
         let updateInterval = max(100, total / 200)
-        var lastPublished = 0
+        var lastPublished  = 0
+
+        // Pre-allocate the byte buffer once and reuse it for every record.
+        // Only the 16-byte prefix is zeroed each iteration; the data region
+        // is always fully overwritten by the factor loop below.
+        var bytes = [UInt8](repeating: 0, count: recordSize)
+
+        let kRecordPrefix = 16
+        let kBytesPerCoord = 40   // 5 Doubles × 8 bytes
+        let kHeaderSize    = 256
 
         for (index, record) in inputRecords.enumerated() {
             try Task.checkCancellation()
 
-            let chart = Self.calculateChart(
-                record: record, factors: factors,
-                calcConfig: calcConfig, seWrapper: seWrapper
-            )
+            // ── Reset header (16 bytes) ───────────────────────────────────────
+            for i in 0..<kRecordPrefix { bytes[i] = 0 }
+            var rid = Int64(record.id).littleEndian
+            withUnsafeMutableBytes(of: &rid) { bytes.replaceSubrange(0..<8, with: $0) }
+            bytes[8] = record.isData ? 1 : 0
 
-            try Self.writeRecord(
-                chart: chart, record: record,
-                at: index, recordSize: recordSize,
-                layouts: layouts,
-                handle: handle, fileURL: resultsBinURL
-            )
+            // ── Julian Day ────────────────────────────────────────────────────
+            let utHour = (Double(record.hour) + Double(record.minute) / 60.0
+                         + Double(record.second) / 3600.0) - record.offset
+            let date   = AstronomicalDate(Year: record.year, Month: record.month, Day: record.day)
+            let julDay = seWrapper.julianDay(date: date, time: AstronomicalTime(HourDecimal: utHour))
+
+            // Topocentric origin differs per chart — must be set every record.
+            if isTopocentric {
+                seWrapper.setTopocentric(geoLon: record.geoLon, geoLat: record.geoLat, height: 0)
+            }
+
+            // ── Per-factor calculation + write ────────────────────────────────
+            var byteOffset = kRecordPrefix
+            for layout in layouts {
+                switch layout.factor.calculationType {
+
+                case .CommonSe:
+                    // Hot path: direct swe_calc_ut — no intermediate structs,
+                    // no Dictionary lookups, no array allocations.
+                    if layout.hasEcliptical {
+                        if let pos = seWrapper.calculateFactorPosition(
+                                julianDay: julDay,
+                                factor: layout.factor.seId,
+                                flags: eclFlags) {
+                            byteOffset = writeCoordBytes(
+                                pos.mainPos, pos.deviation, pos.distance,
+                                pos.mainPosSpeed, pos.deviationSpeed,
+                                into: &bytes, at: byteOffset)
+                        } else { byteOffset += kBytesPerCoord }
+                    }
+                    if layout.hasEquatorial {
+                        if let pos = seWrapper.calculateFactorPosition(
+                                julianDay: julDay,
+                                factor: layout.factor.seId,
+                                flags: eqFlags) {
+                            byteOffset = writeCoordBytes(
+                                pos.mainPos, pos.deviation, pos.distance,
+                                pos.mainPosSpeed, pos.deviationSpeed,
+                                into: &bytes, at: byteOffset)
+                        } else { byteOffset += kBytesPerCoord }
+                    }
+
+                // ── Future inquiry types: add cases here ──────────────────────
+                // case .Apsides:
+                //     // swe_nod_aps_ut — for BlackSun, Diamond
+                // case .ZodiacFixed:
+                //     // Always 0° longitude — write constant
+                // case .CommonFormulaFull:
+                //     // Priapus, Dragon, Beast, SouthNode — formula-based
+                // case .Mundane:
+                //     // Asc, MC, EastPoint, Vertex — requires house calculation
+                // Fixed stars (future inquiry):
+                //     // swe_fixstar2_ut — needs star name lookup table
+
+                default:
+                    // Not yet handled in the research pipeline.
+                    // Bytes remain zero (buffer was pre-zeroed at header reset;
+                    // data region carries zeros from the initial allocation for
+                    // the first record, and from previous overwrite thereafter).
+                    // Since layouts always cover the full data region, advancing
+                    // past non-implemented types keeps the offset correct.
+                    byteOffset += layout.byteSize
+                }
+            }
+
+            // ── Write to file (pwrite: single syscall, no seek needed) ────────
+            let fileOffset = off_t(kHeaderSize + index * recordSize)
+            bytes.withUnsafeBytes { ptr in
+                _ = Darwin.pwrite(handle.fileDescriptor,
+                                  ptr.baseAddress!, recordSize,
+                                  fileOffset)
+            }
 
             let done = index + 1
             if done - lastPublished >= updateInterval || done == total {
                 lastPublished = done
-                let snapshot = PipelineProgress(phase: .calculating, recordsDone: done, totalRecords: total)
+                let snapshot = PipelineProgress(
+                    phase: .calculating, recordsDone: done, totalRecords: total)
                 await onProgress(snapshot)
             }
         }
@@ -235,77 +321,10 @@ private enum PipelineRunner {
         return PipelineProgress(phase: .completed, recordsDone: total, totalRecords: total)
     }
 
-    // MARK: - Per-record helpers
+    // MARK: - Byte-writing helper
 
-    private static func calculateChart(
-        record: ResearchInputRecord,
-        factors: [Factors],
-        calcConfig: CalculationConfig,
-        seWrapper: SEWrapper
-    ) -> FullChart {
-        let localDecimal = Double(record.hour) + Double(record.minute) / 60.0 + Double(record.second) / 3600.0
-        let utHour = localDecimal - record.offset
-        let date = AstronomicalDate(Year: record.year, Month: record.month, Day: record.day)
-        let time = AstronomicalTime(HourDecimal: utHour)
-        let julDay = seWrapper.julianDay(date: date, time: time)
-
-        let request = CalcRequest(
-            JulianDay: julDay,
-            FactorsToUse: factors,
-            HouseSystem: calcConfig.houseSystem.rawValue,
-            Latitude: record.geoLat,
-            Longitude: record.geoLon,
-            Height: 0,
-            calculationConfig: calcConfig
-        )
-        return AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
-    }
-
-    private static func writeRecord(
-        chart: FullChart,
-        record: ResearchInputRecord,
-        at position: Int,
-        recordSize: Int,
-        layouts: [FactorLayout],
-        handle: FileHandle,
-        fileURL: URL
-    ) throws {
-        var bytes = [UInt8](repeating: 0, count: recordSize)
-
-        var rid = Int64(record.id).littleEndian
-        withUnsafeMutableBytes(of: &rid) { bytes.replaceSubrange(0..<8, with: $0) }
-        bytes[8] = record.isData ? 1 : 0
-
-        let kRecordPrefix = 16
-        let kBytesPerCoord = 40   // 5 Doubles × 8
-
-        var byteOffset = kRecordPrefix
-        for layout in layouts {
-            guard let pos = chart.Coordinates[layout.factor] else {
-                byteOffset += layout.byteSize; continue
-            }
-            if layout.hasEcliptical {
-                if let ecl = pos.ecliptical.first {
-                    byteOffset = writeCoordBytes(ecl.mainPos, ecl.deviation, ecl.distance,
-                                                  ecl.mainPosSpeed, ecl.deviationSpeed,
-                                                  into: &bytes, at: byteOffset)
-                } else { byteOffset += kBytesPerCoord }
-            }
-            if layout.hasEquatorial {
-                if let eq = pos.equatorial.first {
-                    byteOffset = writeCoordBytes(eq.mainPos, eq.deviation, eq.distance,
-                                                  eq.mainPosSpeed, eq.deviationSpeed,
-                                                  into: &bytes, at: byteOffset)
-                } else { byteOffset += kBytesPerCoord }
-            }
-        }
-
-        let kHeaderSize = 256
-        let fileOffset = UInt64(kHeaderSize + position * recordSize)
-        try handle.seek(toOffset: fileOffset)
-        handle.write(Data(bytes))
-    }
-
+    /// Writes five IEEE-754 little-endian doubles into `buf` starting at `offset`.
+    /// Returns the next write position.
     @inline(__always)
     private static func writeCoordBytes(
         _ v0: Double, _ v1: Double, _ v2: Double, _ v3: Double, _ v4: Double,
