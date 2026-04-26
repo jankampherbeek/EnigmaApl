@@ -63,12 +63,33 @@ struct ImportOrchestrator {
             throw ImportOrchestratorError.noRecordsAfterImport
         }
 
-        // 2. Open / create database, clearing any data from a previous run
+        // 2. Open the database and reset it for a fresh import.
+        //    Strategy: try to delete the file first (cleanest); if that fails
+        //    (e.g. permissions), open the existing file and DROP + recreate the
+        //    table instead. Log every failure so the log file reveals the real cause.
+        let dbURL = URL(fileURLWithPath: projectPath, isDirectory: true)
+            .appendingPathComponent("horoscope_data.db")
+
+        let fileDeleted: Bool
+        do {
+            try FileManager.default.removeItem(at: dbURL)
+            try? FileManager.default.removeItem(at: dbURL.appendingPathExtension("wal"))
+            try? FileManager.default.removeItem(at: dbURL.appendingPathExtension("shm"))
+            fileDeleted = true
+        } catch {
+            Logger.log.warning("ImportOrchestrator: could not delete DB file at '\(dbURL.path)': \(error.localizedDescription)")
+            fileDeleted = false
+        }
+
         let db: ResearchDbManager
         do {
             db = try ResearchDbManager(folderPath: projectPath)
-            try db.deleteAll()
+            if !fileDeleted {
+                // File still exists — reset by dropping and recreating the table.
+                try db.resetTable()
+            }
         } catch {
+            Logger.log.error("ImportOrchestrator: DB open/reset failed at '\(projectPath)': \(error)")
             throw ImportOrchestratorError.databaseFailed(error)
         }
 

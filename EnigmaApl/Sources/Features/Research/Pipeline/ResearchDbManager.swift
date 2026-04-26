@@ -36,7 +36,11 @@ public final class ResearchDbManager {
     }
 
     deinit {
-        sqlite3_close(db)
+        // close_v2 is safe even when prepared statements are still open —
+        // it marks the connection as "zombie" and SQLite cleans it up when
+        // the last statement is finalized, rather than returning SQLITE_BUSY
+        // and silently leaving the file locked.
+        sqlite3_close_v2(db)
     }
 
     // MARK: - Schema
@@ -162,6 +166,19 @@ public final class ResearchDbManager {
             sqlite3_free(errMsg)
             throw ResearchDbError.stepFailed(msg)
         }
+    }
+
+    /// Drops and recreates the table — a more robust alternative to `deleteAll()`
+    /// when the previous connection may not have closed cleanly.
+    public func resetTable() throws {
+        var errMsg: UnsafeMutablePointer<CChar>?
+        let dropSql = "DROP TABLE IF EXISTS horoscope_data;"
+        guard sqlite3_exec(db, dropSql, nil, nil, &errMsg) == SQLITE_OK else {
+            let msg = errMsg.map { String(cString: $0) } ?? "unknown"
+            sqlite3_free(errMsg)
+            throw ResearchDbError.schemaCreationFailed("DROP failed: \(msg)")
+        }
+        try createTableIfNeeded()
     }
 
     // MARK: - Helpers

@@ -50,6 +50,7 @@
 "view.researchprojectdetailscreen.label.filetype"           = "Type de fichier";
 "view.researchprojectdetailscreen.button.start"             = "Lancer l'investigation";
 "view.researchprojectdetailscreen.button.interrupt"         = "Interrompre";
+"view.researchprojectdetailscreen.button.close"             = "Fermer";
 "view.researchprojectdetailscreen.file.readok"              = "Fichier lu avec succès (%d enregistrements).";
 "view.researchprojectdetailscreen.file.error"               = "Impossible de lire le fichier de données.";
 "view.researchprojectdetailscreen.file.errorline"           = "Erreur d'analyse à la ligne %d : %@";

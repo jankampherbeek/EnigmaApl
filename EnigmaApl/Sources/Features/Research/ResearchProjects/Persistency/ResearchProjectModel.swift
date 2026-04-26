@@ -18,6 +18,8 @@ final class ResearchProjectModel {
     var cgMultiplication: Int
     var path: String
     var creationDate: Date
+    /// Security-scoped bookmark for the project folder, used to re-acquire sandbox access across sessions.
+    var bookmark: Data?
 
     init(
         id: Int,
@@ -27,7 +29,8 @@ final class ResearchProjectModel {
         config: String,
         cgMultiplication: Int,
         path: String,
-        creationDate: Date = Date()
+        creationDate: Date = Date(),
+        bookmark: Data? = nil
     ) {
         self.id = id
         self.name = name
@@ -37,6 +40,7 @@ final class ResearchProjectModel {
         self.cgMultiplication = cgMultiplication
         self.path = path
         self.creationDate = creationDate
+        self.bookmark = bookmark
     }
 
     /// Convenience accessor that returns the enquiry as an Inquiries enum value.

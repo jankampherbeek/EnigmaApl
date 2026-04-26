@@ -14,6 +14,10 @@ enum ResultsExporterError: Error {
 ///
 /// Each `AnalysisResult` case produces its own column layout.
 /// The file is written to `destinationPath` and overwrites any existing file.
+///
+/// Output order: data section first, control-group section second.
+/// When `divisor` > 1, control-group counts are divided by `divisor` and
+/// formatted to one decimal place (matching the "Proportional" view in the UI).
 struct ResultsExporter {
 
     init() {}
@@ -21,28 +25,20 @@ struct ResultsExporter {
     /// Exports `result` to a CSV file at `destinationPath`.
     /// - Parameters:
     ///   - result: The analysis result to export.
-    ///   - destinationPath: Full path of the output file (e.g. `.../exports/factors_in_signs.csv`).
-    func export(_ result: AnalysisResult, to destinationPath: String) throws {
+    ///   - destinationPath: Full path of the output file.
+    ///   - divisor: 1 for raw control counts; `cgMultiplication` for proportional counts.
+    func export(_ result: AnalysisResult, to destinationPath: String, divisor: Int = 1) throws {
         let csv: String
         switch result {
-        case .factorsInSigns(let r):
-            csv = buildFactorsInSignsCsv(r)
-        case .factorsInHouses(let r):
-            csv = buildFactorsInHousesCsv(r)
-        case .aspects(let r):
-            csv = buildAspectsCsv(r)
-        case .unaspect(let r):
-            csv = buildUnaspectCsv(r)
-        case .midpoints(let r):
-            csv = buildMidpointsCsv(r)
-        case .harmonics(let r):
-            csv = buildHarmonicsCsv(r)
-        case .parallels(let r):
-            csv = buildParallelsCsv(r)
-        case .declMidpoints(let r):
-            csv = buildDeclMidpointsCsv(r)
-        case .oob(let r):
-            csv = buildOobCsv(r)
+        case .factorsInSigns(let r):    csv = buildFactorsInSignsCsv(r, divisor: divisor)
+        case .factorsInHouses(let r):   csv = buildFactorsInHousesCsv(r, divisor: divisor)
+        case .aspects(let r):           csv = buildAspectsCsv(r, divisor: divisor)
+        case .unaspect(let r):          csv = buildUnaspectCsv(r, divisor: divisor)
+        case .midpoints(let r):         csv = buildMidpointsCsv(r, divisor: divisor)
+        case .harmonics(let r):         csv = buildHarmonicsCsv(r, divisor: divisor)
+        case .parallels(let r):         csv = buildParallelsCsv(r, divisor: divisor)
+        case .declMidpoints(let r):     csv = buildDeclMidpointsCsv(r, divisor: divisor)
+        case .oob(let r):               csv = buildOobCsv(r, divisor: divisor)
         }
         do {
             try csv.write(toFile: destinationPath, atomically: true, encoding: .utf8)
@@ -51,31 +47,49 @@ struct ResultsExporter {
         }
     }
 
+    // MARK: - Helpers
+
+    /// Formats a control-group integer count.
+    /// When divisor > 1, divides and shows one decimal place; otherwise plain integer.
+    private func ctrl(_ count: Int, divisor: Int) -> String {
+        divisor > 1 ? String(format: "%.1f", Double(count) / Double(divisor)) : "\(count)"
+    }
+
     // MARK: - Factors in Signs
 
     /// Layout:
     /// ```
-    /// Factor;<sign1>;…;<sign12>;Total data;Total control
-    /// <factorName>;<dataCount1>;…;<dataCount12>;<totalData>;<totalControl>
-    /// <factorName> (control);<ctrlCount1>;…;<ctrlCount12>;<totalData>;<totalControl>
-    /// (blank line between factors)
+    /// Data
+    /// Factor;<sign1>;…;<sign12>;Total
+    /// <factorName>;<dataCount1>;…;<dataCount12>;<totalData>
+    /// …
+    ///
+    /// Control group
+    /// Factor;<sign1>;…;<sign12>;Total
+    /// <factorName>;<ctrlCount1>;…;<ctrlCount12>;<ctrlTotal>
+    /// …
     /// ```
-    private func buildFactorsInSignsCsv(_ result: FactorsInSignsResult) -> String {
+    private func buildFactorsInSignsCsv(_ result: FactorsInSignsResult, divisor: Int) -> String {
         var lines: [String] = []
-
         let signHeaders = Signs.allCases.map { "\($0)" }.joined(separator: ";")
-        lines.append("Factor;\(signHeaders);Total data;Total control")
+        let colHeader   = "Factor;\(signHeaders);Total"
 
+        lines.append("Data")
+        lines.append(colHeader)
         for dist in result.distributions {
-            let factorName = "\(dist.factor)"
-            let dataCounts    = dist.signCounts.map { String($0.dataCount)    }.joined(separator: ";")
-            let controlCounts = dist.signCounts.map { String($0.controlCount) }.joined(separator: ";")
-            lines.append("\(factorName);\(dataCounts);\(dist.totalData);\(dist.totalControl)")
-            lines.append("\(factorName) (control);\(controlCounts);\(dist.totalData);\(dist.totalControl)")
-            lines.append("")
+            let dataCounts = dist.signCounts.map { String($0.dataCount) }.joined(separator: ";")
+            lines.append("\(dist.factor);\(dataCounts);\(dist.totalData)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for dist in result.distributions {
+            let ctrlCounts = dist.signCounts.map { ctrl($0.controlCount, divisor: divisor) }.joined(separator: ";")
+            lines.append("\(dist.factor);\(ctrlCounts);\(ctrl(dist.totalControl, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -85,29 +99,37 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor;House 1;…;House 12;Total data;Total control
-    /// <factorName>;<dataCount1>;…;<dataCount12>;<totalData>;<totalControl>
-    /// <factorName> (control);<ctrlCount1>;…;<ctrlCount12>;<totalData>;<totalControl>
-    /// (blank line between factors)
+    /// Data
+    /// Factor;House 1;…;House 12;Total
+    /// …
+    ///
+    /// Control group
+    /// Factor;House 1;…;House 12;Total
+    /// …
     /// ```
-    private func buildFactorsInHousesCsv(_ result: FactorsInHousesResult) -> String {
+    private func buildFactorsInHousesCsv(_ result: FactorsInHousesResult, divisor: Int) -> String {
         var lines: [String] = []
+        let houseHeaders = (1...result.nrOfHouses).map { "House \($0)" }.joined(separator: ";")
+        let colHeader    = "Factor;\(houseHeaders);Total"
 
-        let houseHeaders = (1...12).map { "House \($0)" }.joined(separator: ";")
-        lines.append("Factor;\(houseHeaders);Total data;Total control")
-
+        lines.append("Data")
+        lines.append(colHeader)
         for dist in result.distributions {
-            let factorName = "\(dist.factor)"
-            let dataCounts    = dist.houseCounts.map { String($0.dataCount)    }.joined(separator: ";")
-            let controlCounts = dist.houseCounts.map { String($0.controlCount) }.joined(separator: ";")
+            let dataCounts   = dist.houseCounts.map { String($0.dataCount) }.joined(separator: ";")
             let totalData    = dist.houseCounts.reduce(0) { $0 + $1.dataCount }
+            lines.append("\(dist.factor);\(dataCounts);\(totalData)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for dist in result.distributions {
+            let ctrlCounts   = dist.houseCounts.map { ctrl($0.controlCount, divisor: divisor) }.joined(separator: ";")
             let totalControl = dist.houseCounts.reduce(0) { $0 + $1.controlCount }
-            lines.append("\(factorName);\(dataCounts);\(totalData);\(totalControl)")
-            lines.append("\(factorName) (control);\(controlCounts);\(totalData);\(totalControl)")
-            lines.append("")
+            lines.append("\(dist.factor);\(ctrlCounts);\(ctrl(totalControl, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -117,19 +139,32 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor 1;Factor 2;Aspect angle;Data count;Control count
-    /// <f1>;<f2>;<angle>;<data>;<ctrl>
+    /// Data
+    /// Factor 1;Factor 2;Aspect angle;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor 1;Factor 2;Aspect angle;Count
     /// …
     /// ```
-    private func buildAspectsCsv(_ result: AspectsResult) -> String {
+    private func buildAspectsCsv(_ result: AspectsResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Factor 1;Factor 2;Aspect angle;Data count;Control count")
+        let colHeader = "Factor 1;Factor 2;Aspect angle;Count"
 
-        for count in result.counts {
-            lines.append("\(count.factor1);\(count.factor2);\(count.aspectAngle);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor1);\(c.factor2);\(c.aspectAngle);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor1);\(c.factor2);\(c.aspectAngle);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -139,19 +174,32 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor;Data count;Control count
-    /// <factor>;<data>;<ctrl>
+    /// Data
+    /// Factor;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor;Count
     /// …
     /// ```
-    private func buildUnaspectCsv(_ result: UnaspectResult) -> String {
+    private func buildUnaspectCsv(_ result: UnaspectResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Factor;Data count;Control count")
+        let colHeader = "Factor;Count"
 
-        for count in result.counts {
-            lines.append("\(count.factor);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -161,18 +209,32 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor A;Factor B;Occupant;Dial size;Data count;Control count
+    /// Data
+    /// Factor A;Factor B;Occupant;Dial size;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor A;Factor B;Occupant;Dial size;Count
     /// …
     /// ```
-    private func buildMidpointsCsv(_ result: MidpointsResult) -> String {
+    private func buildMidpointsCsv(_ result: MidpointsResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Factor A;Factor B;Occupant;Dial size;Data count;Control count")
+        let colHeader = "Factor A;Factor B;Occupant;Dial size;Count"
 
-        for count in result.counts {
-            lines.append("\(count.factorA);\(count.factorB);\(count.occupant);\(count.dialSize);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factorA);\(c.factorB);\(c.occupant);\(c.dialSize);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factorA);\(c.factorB);\(c.occupant);\(c.dialSize);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -182,20 +244,36 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Harmonic number;<harmonicNumber>
-    /// Harmonic factor;Radix factor;Data count;Control count
+    /// Harmonic number;<n>
+    ///
+    /// Data
+    /// Harmonic factor;Radix factor;Count
+    /// …
+    ///
+    /// Control group
+    /// Harmonic factor;Radix factor;Count
     /// …
     /// ```
-    private func buildHarmonicsCsv(_ result: HarmonicsResult) -> String {
+    private func buildHarmonicsCsv(_ result: HarmonicsResult, divisor: Int) -> String {
         var lines: [String] = []
         lines.append("Harmonic number;\(result.harmonicNumber)")
-        lines.append("Harmonic factor;Radix factor;Data count;Control count")
+        lines.append("")
+        let colHeader = "Harmonic factor;Radix factor;Count"
 
-        for count in result.counts {
-            lines.append("\(count.harmonicFactor);\(count.radixFactor);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.harmonicFactor);\(c.radixFactor);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.harmonicFactor);\(c.radixFactor);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -205,21 +283,34 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor 1;Factor 2;Type;Data count;Control count
-    /// <f1>;<f2>;Parallel;<data>;<ctrl>
-    /// <f1>;<f2>;Contra-parallel;<data>;<ctrl>
+    /// Data
+    /// Factor 1;Factor 2;Type;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor 1;Factor 2;Type;Count
     /// …
     /// ```
-    private func buildParallelsCsv(_ result: ParallelsResult) -> String {
+    private func buildParallelsCsv(_ result: ParallelsResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Factor 1;Factor 2;Type;Data count;Control count")
+        let colHeader = "Factor 1;Factor 2;Type;Count"
 
-        for count in result.counts {
-            let typeStr = count.isContraParallel ? "Contra-parallel" : "Parallel"
-            lines.append("\(count.factor1);\(count.factor2);\(typeStr);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            let typeStr = c.isContraParallel ? "Contra-parallel" : "Parallel"
+            lines.append("\(c.factor1);\(c.factor2);\(typeStr);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            let typeStr = c.isContraParallel ? "Contra-parallel" : "Parallel"
+            lines.append("\(c.factor1);\(c.factor2);\(typeStr);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -229,18 +320,32 @@ struct ResultsExporter {
 
     /// Layout:
     /// ```
-    /// Factor A;Factor B;Occupant;Data count;Control count
+    /// Data
+    /// Factor A;Factor B;Occupant;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor A;Factor B;Occupant;Count
     /// …
     /// ```
-    private func buildDeclMidpointsCsv(_ result: DeclMidpointsResult) -> String {
+    private func buildDeclMidpointsCsv(_ result: DeclMidpointsResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Factor A;Factor B;Occupant;Data count;Control count")
+        let colHeader = "Factor A;Factor B;Occupant;Count"
 
-        for count in result.counts {
-            lines.append("\(count.factorA);\(count.factorB);\(count.occupant);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factorA);\(c.factorB);\(c.occupant);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factorA);\(c.factorB);\(c.occupant);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")
@@ -251,19 +356,35 @@ struct ResultsExporter {
     /// Layout:
     /// ```
     /// Obliquity threshold;<obliquity>
-    /// Factor;Data count;Control count
+    ///
+    /// Data
+    /// Factor;Count
+    /// …
+    ///
+    /// Control group
+    /// Factor;Count
     /// …
     /// ```
-    private func buildOobCsv(_ result: OobResult) -> String {
+    private func buildOobCsv(_ result: OobResult, divisor: Int) -> String {
         var lines: [String] = []
         lines.append("Obliquity threshold;\(result.obliquity)")
-        lines.append("Factor;Data count;Control count")
+        lines.append("")
+        let colHeader = "Factor;Count"
 
-        for count in result.counts {
-            lines.append("\(count.factor);\(count.dataCount);\(count.controlCount)")
+        lines.append("Data")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor);\(c.dataCount)")
+        }
+        lines.append("")
+        lines.append("Control group")
+        lines.append(colHeader)
+        for c in result.counts {
+            lines.append("\(c.factor);\(ctrl(c.controlCount, divisor: divisor))")
         }
 
         if result.skippedRecords > 0 {
+            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")

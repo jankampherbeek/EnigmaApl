@@ -30,6 +30,8 @@ struct ProjectDraft {
     let inquiry: Inquiries
     let cgMultiplication: Int
     let baseFolder: String
+    /// The URL returned by NSOpenPanel; used to create a security-scoped bookmark.
+    let selectedURL: URL?
 }
 
 // MARK: - Root switcher
@@ -95,6 +97,7 @@ struct ResearchProjectInputScreen: View {
     @State private var selectedInquiry: Inquiries = .factorsInSigns
     @State private var cgMultiplicationText: String = "1"
     @State private var selectedPath: String = ""
+    @State private var selectedURL: URL? = nil
     @State private var errorMessage: String = ""
 
     private var nameIsEmpty: Bool { name.trimmingCharacters(in: .whitespaces).isEmpty }
@@ -184,8 +187,9 @@ struct ResearchProjectInputScreen: View {
         panel.canCreateDirectories = true
         panel.allowsMultipleSelection = false
         panel.prompt = t(ResearchProjectsKeys.buttonSelectPath)
-        if panel.runModal() == .OK {
-            selectedPath = panel.url?.path ?? ""
+        if panel.runModal() == .OK, let url = panel.url {
+            selectedURL = url
+            selectedPath = url.path
         }
     }
 
@@ -197,7 +201,8 @@ struct ResearchProjectInputScreen: View {
             projectDescription: projectDescription,
             inquiry: selectedInquiry,
             cgMultiplication: max(1, Int(cgMultiplicationText) ?? 1),
-            baseFolder: selectedPath
+            baseFolder: selectedPath,
+            selectedURL: selectedURL
         )
         activeSubscreen = .configProject(draft)
     }
@@ -497,6 +502,17 @@ struct ResearchProjectConfigScreen: View {
                 cgMultiplication: draft.cgMultiplication,
                 baseFolder: draft.baseFolder
             )
+            // Create a security-scoped bookmark for the project folder so that the sandbox
+            // grants access again in future sessions without requiring a new NSOpenPanel prompt.
+            let projectFolderURL = URL(fileURLWithPath: project.path, isDirectory: true)
+            if let bookmarkData = try? projectFolderURL.bookmarkData(
+                options: .withSecurityScope,
+                includingResourceValuesForKeys: nil,
+                relativeTo: nil
+            ) {
+                project.bookmark = bookmarkData
+                try? modelContext.save()
+            }
             activeSubscreen = .openProject(project)
         } catch {
             errorMessage = t(ResearchProjectsKeys.errorSave)
@@ -733,6 +749,10 @@ struct ResearchProjectDetailScreen: View {
     @State private var fileReadState: FileReadState = .none
     @State private var runState: RunState = .idle
     @StateObject private var pipelineOrchestrator = ResearchPipelineOrchestrator()
+    /// Tracks the security-scoped URL and whether access was successfully started,
+    /// so it can be released after the inquiry (import + pipeline + analysis) completes.
+    @State private var scopedURL: URL? = nil
+    @State private var didStartScopedAccess = false
 
     private static let dateFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -836,12 +856,18 @@ struct ResearchProjectDetailScreen: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.red)
-                    } else {
+                    } else if case .done = runState {
+                        Button(t(ResearchProjectsKeys.detailButtonClose)) {
+                            activeSubscreen = .overview
+                        }
+                        .buttonStyle(.borderedProminent)
+                    } else if case .ok = fileReadState, case .idle = runState {
+                        // Only show Start once a data file has been read successfully,
+                        // so the user has a deliberate moment to review before committing.
                         Button(t(ResearchProjectsKeys.detailButtonStart)) {
                             startInquiry()
                         }
                         .buttonStyle(.borderedProminent)
-                        .disabled(!canStartInquiry)
                     }
                 }
                 .padding(.top, 8)
@@ -979,6 +1005,20 @@ struct ResearchProjectDetailScreen: View {
     }
 
     private func startInquiry() {
+        // Resolve the security-scoped bookmark so the sandbox allows read/write access
+        // to the project folder across sessions. Without this, all file operations in
+        // the project folder fail after an app relaunch (sandboxed app limitation).
+        if let data = project.bookmark, !data.isEmpty {
+            var isStale = false
+            if let url = try? URL(resolvingBookmarkData: data,
+                                  options: .withSecurityScope,
+                                  relativeTo: nil,
+                                  bookmarkDataIsStale: &isStale) {
+                scopedURL = url
+                didStartScopedAccess = url.startAccessingSecurityScopedResource()
+            }
+        }
+
         runState = .importing
         let filePath = selectedFilePath
         let importer = importerForType(selectedFileType)
@@ -998,8 +1038,20 @@ struct ResearchProjectDetailScreen: View {
 
             switch importResult {
             case .failure(let error):
-                runState = .failed(t(ResearchProjectsKeys.detailRunImportFailed)
-                                   + "\n" + error.localizedDescription)
+                // Unwrap ImportOrchestratorError to show the underlying cause.
+                let detail: String
+                switch error as? ImportOrchestratorError {
+                case .parseFailed(let inner):
+                    detail = "Parse: \(inner.localizedDescription)"
+                case .databaseFailed(let inner):
+                    detail = "Database: \(inner.localizedDescription)"
+                case .noRecordsAfterImport:
+                    detail = "No records found in the file."
+                case .none:
+                    detail = error.localizedDescription
+                }
+                releaseScopedAccess()
+                runState = .failed(t(ResearchProjectsKeys.detailRunImportFailed) + "\n" + detail)
                 return
             case .success:
                 break
@@ -1012,10 +1064,21 @@ struct ResearchProjectDetailScreen: View {
             do {
                 try service.runPipeline(for: project)
             } catch {
+                releaseScopedAccess()
                 runState = .failed(t(ResearchProjectsKeys.detailRunPipelineFailed)
                                    + "\n" + error.localizedDescription)
             }
             // Pipeline completion and analysis are handled in handleProgressUpdate()
+        }
+    }
+
+    /// Releases the security-scoped resource access started in `startInquiry()`.
+    /// Safe to call multiple times — only acts when access was actually started.
+    private func releaseScopedAccess() {
+        if didStartScopedAccess {
+            scopedURL?.stopAccessingSecurityScopedResource()
+            didStartScopedAccess = false
+            scopedURL = nil
         }
     }
 
@@ -1035,15 +1098,20 @@ struct ResearchProjectDetailScreen: View {
                                                            configJson: projectConfig,
                                                            inquiryId: projectEnquiry)
                     }.value
-                    await MainActor.run { runState = .done(result) }
+                    await MainActor.run {
+                        releaseScopedAccess()
+                        runState = .done(result)
+                    }
                 } catch {
                     await MainActor.run {
+                        releaseScopedAccess()
                         runState = .failed(t(ResearchProjectsKeys.detailRunAnalysisFailed)
                                            + "\n" + error.localizedDescription)
                     }
                 }
             }
         case .failed(let error):
+            releaseScopedAccess()
             if let pe = error as? PipelineError, case .cancelled = pe {
                 runState = .idle
             } else {
@@ -1128,7 +1196,7 @@ private struct InlineResultView: View {
         panel.nameFieldStringValue = "results.csv"
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            try ResultsExporter().export(result, to: url.path)
+            try ResultsExporter().export(result, to: url.path, divisor: divisor)
             exportMessage = t(ResearchProjectsKeys.resultExportOk)
             exportIsError = false
         } catch {
@@ -1231,7 +1299,7 @@ struct ResearchResultScreen: View {
         panel.nameFieldStringValue = "\(project.name).csv"
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            try ResultsExporter().export(result, to: url.path)
+            try ResultsExporter().export(result, to: url.path, divisor: divisor)
             exportMessage = t(ResearchProjectsKeys.resultExportOk)
             exportIsError = false
         } catch {

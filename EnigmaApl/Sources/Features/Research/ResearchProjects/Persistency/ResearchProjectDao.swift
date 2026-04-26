@@ -53,7 +53,8 @@ struct ResearchProjectDao {
         config: String,
         cgMultiplication: Int,
         path: String,
-        creationDate: Date = Date()
+        creationDate: Date = Date(),
+        bookmark: Data? = nil
     ) throws -> ResearchProjectModel {
         let existing = FetchDescriptor<ResearchProjectModel>(
             predicate: #Predicate { $0.id == id }
@@ -69,7 +70,8 @@ struct ResearchProjectDao {
             config: config,
             cgMultiplication: cgMultiplication,
             path: path,
-            creationDate: creationDate
+            creationDate: creationDate,
+            bookmark: bookmark
         )
         context.insert(project)
         try context.save()
