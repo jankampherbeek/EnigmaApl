@@ -1204,7 +1204,7 @@ struct ResearchProjectDetailScreen: View {
         switch type {
         case .standardEnigma: return EnigmaFormatImporter()
         case .gauquelin:      return CsvDataImporter()   // placeholder until GauquelinImporter exists
-        case .quickChart:     return CsvDataImporter()   // placeholder until QuickChartImporter exists
+        case .quickChart:     return QuickChartImporter()
         }
     }
 
