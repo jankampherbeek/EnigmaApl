@@ -93,6 +93,7 @@ struct ResearchProjectsKeys {
     static let resultTypeContra      = "view.researchresultscreen.type.contraparallel"
     static let resultObliquity       = "view.researchresultscreen.obliquity"
     static let resultHarmonicNumber  = "view.researchresultscreen.harmonicnumber"
+    static let resultRowTotal        = "view.researchresultscreen.row.total"
     static let resultSkipped         = "view.researchresultscreen.skipped"
     static let resultButtonExport        = "view.researchresultscreen.button.export"
     static let resultButtonProportional  = "view.researchresultscreen.button.proportional"

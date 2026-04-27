@@ -74,12 +74,25 @@ struct ResultsExporter {
         let signHeaders = Signs.allCases.map { "\($0)" }.joined(separator: ";")
         let colHeader   = "Factor;\(signHeaders);Total"
 
+        // Per-sign totals across all factors
+        let dataSignTotals: [Int] = (0..<12).map { si in
+            result.distributions.reduce(0) { $0 + $1.signCounts[si].dataCount }
+        }
+        let ctrlSignTotals: [Int] = (0..<12).map { si in
+            result.distributions.reduce(0) { $0 + $1.signCounts[si].controlCount }
+        }
+        let dataGrandTotal = dataSignTotals.reduce(0, +)
+        let ctrlGrandTotal = ctrlSignTotals.reduce(0, +)
+
         lines.append("Data")
         lines.append(colHeader)
         for dist in result.distributions {
             let dataCounts = dist.signCounts.map { String($0.dataCount) }.joined(separator: ";")
             lines.append("\(dist.factor);\(dataCounts);\(dist.totalData)")
         }
+        let dataTotalRow = dataSignTotals.map { String($0) }.joined(separator: ";")
+        lines.append("Total;\(dataTotalRow);\(dataGrandTotal)")
+
         lines.append("")
         lines.append("Control group")
         lines.append(colHeader)
@@ -87,6 +100,8 @@ struct ResultsExporter {
             let ctrlCounts = dist.signCounts.map { ctrl($0.controlCount, divisor: divisor) }.joined(separator: ";")
             lines.append("\(dist.factor);\(ctrlCounts);\(ctrl(dist.totalControl, divisor: divisor))")
         }
+        let ctrlTotalRow = ctrlSignTotals.map { ctrl($0, divisor: divisor) }.joined(separator: ";")
+        lines.append("Total;\(ctrlTotalRow);\(ctrl(ctrlGrandTotal, divisor: divisor))")
 
         if result.skippedRecords > 0 {
             lines.append("")
@@ -112,21 +127,34 @@ struct ResultsExporter {
         let houseHeaders = (1...result.nrOfHouses).map { "House \($0)" }.joined(separator: ";")
         let colHeader    = "Factor;\(houseHeaders);Total"
 
+        // Per-house totals across all factors
+        let dataHouseTotals: [Int] = (0..<result.nrOfHouses).map { hi in
+            result.distributions.reduce(0) { $0 + $1.houseCounts[hi].dataCount }
+        }
+        let ctrlHouseTotals: [Int] = (0..<result.nrOfHouses).map { hi in
+            result.distributions.reduce(0) { $0 + $1.houseCounts[hi].controlCount }
+        }
+        let dataGrandTotal = dataHouseTotals.reduce(0, +)
+        let ctrlGrandTotal = ctrlHouseTotals.reduce(0, +)
+
         lines.append("Data")
         lines.append(colHeader)
         for dist in result.distributions {
-            let dataCounts   = dist.houseCounts.map { String($0.dataCount) }.joined(separator: ";")
-            let totalData    = dist.houseCounts.reduce(0) { $0 + $1.dataCount }
-            lines.append("\(dist.factor);\(dataCounts);\(totalData)")
+            let dataCounts = dist.houseCounts.map { String($0.dataCount) }.joined(separator: ";")
+            lines.append("\(dist.factor);\(dataCounts);\(dist.totalData)")
         }
+        let dataTotalRow = dataHouseTotals.map { String($0) }.joined(separator: ";")
+        lines.append("Total;\(dataTotalRow);\(dataGrandTotal)")
+
         lines.append("")
         lines.append("Control group")
         lines.append(colHeader)
         for dist in result.distributions {
-            let ctrlCounts   = dist.houseCounts.map { ctrl($0.controlCount, divisor: divisor) }.joined(separator: ";")
-            let totalControl = dist.houseCounts.reduce(0) { $0 + $1.controlCount }
-            lines.append("\(dist.factor);\(ctrlCounts);\(ctrl(totalControl, divisor: divisor))")
+            let ctrlCounts = dist.houseCounts.map { ctrl($0.controlCount, divisor: divisor) }.joined(separator: ";")
+            lines.append("\(dist.factor);\(ctrlCounts);\(ctrl(dist.totalControl, divisor: divisor))")
         }
+        let ctrlTotalRow = ctrlHouseTotals.map { ctrl($0, divisor: divisor) }.joined(separator: ";")
+        lines.append("Total;\(ctrlTotalRow);\(ctrl(ctrlGrandTotal, divisor: divisor))")
 
         if result.skippedRecords > 0 {
             lines.append("")
@@ -137,34 +165,60 @@ struct ResultsExporter {
 
     // MARK: - Aspects
 
-    /// Layout:
+    /// Matrix layout:
     /// ```
     /// Data
-    /// Factor 1;Factor 2;Aspect angle;Count
+    /// Factor 1;Factor 2;<angle1>°;<angle2>°;…;Total
+    /// <f1>;<f2>;<count>;…;<rowTotal>
     /// …
+    /// Total;;<colTotal>;…;<grandTotal>
     ///
     /// Control group
-    /// Factor 1;Factor 2;Aspect angle;Count
     /// …
     /// ```
     private func buildAspectsCsv(_ result: AspectsResult, divisor: Int) -> String {
         var lines: [String] = []
-        let colHeader = "Factor 1;Factor 2;Aspect angle;Count"
 
-        lines.append("Data")
-        lines.append(colHeader)
+        let angles: [Double] = Array(Set(result.counts.map(\.aspectAngle))).sorted()
+
+        var seenPairs = Set<String>()
+        var factorPairs: [(Factors, Factors)] = []
         for c in result.counts {
-            lines.append("\(c.factor1);\(c.factor2);\(c.aspectAngle);\(c.dataCount)")
+            let key = "\(c.factor1.rawValue)-\(c.factor2.rawValue)"
+            if seenPairs.insert(key).inserted { factorPairs.append((c.factor1, c.factor2)) }
         }
-        lines.append("")
-        lines.append("Control group")
-        lines.append(colHeader)
-        for c in result.counts {
-            lines.append("\(c.factor1);\(c.factor2);\(c.aspectAngle);\(ctrl(c.controlCount, divisor: divisor))")
+
+        func lookup(_ f1: Factors, _ f2: Factors, _ angle: Double, isData: Bool) -> Int {
+            result.counts.first { $0.factor1 == f1 && $0.factor2 == f2 && $0.aspectAngle == angle }
+                .map { isData ? $0.dataCount : $0.controlCount } ?? 0
+        }
+
+        let angleHeaders = angles.map { String(format: "%.5g°", $0) }.joined(separator: ";")
+        let colHeader = "Factor 1;Factor 2;\(angleHeaders);Total"
+
+        for (sectionLabel, isData) in [("Data", true), ("Control group", false)] {
+            let angleTotals: [Int] = angles.map { angle in
+                result.counts.filter { $0.aspectAngle == angle }
+                    .reduce(0) { $0 + (isData ? $1.dataCount : $1.controlCount) }
+            }
+            let grandTotal = angleTotals.reduce(0, +)
+
+            lines.append(sectionLabel)
+            lines.append(colHeader)
+            for pair in factorPairs {
+                let row = angles.map { lookup(pair.0, pair.1, $0, isData: isData) }
+                let rowTotal = row.reduce(0, +)
+                let cells = row.map { isData ? "\($0)" : ctrl($0, divisor: divisor) }.joined(separator: ";")
+                let rowTotalStr = isData ? "\(rowTotal)" : ctrl(rowTotal, divisor: divisor)
+                lines.append("\(pair.0);\(pair.1);\(cells);\(rowTotalStr)")
+            }
+            let totCells = angleTotals.map { isData ? "\($0)" : ctrl($0, divisor: divisor) }.joined(separator: ";")
+            let grandTotalStr = isData ? "\(grandTotal)" : ctrl(grandTotal, divisor: divisor)
+            lines.append("Total;;\(totCells);\(grandTotalStr)")
+            lines.append("")
         }
 
         if result.skippedRecords > 0 {
-            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")

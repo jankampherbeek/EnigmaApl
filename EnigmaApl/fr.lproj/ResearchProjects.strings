@@ -86,6 +86,7 @@
 "view.researchresultscreen.type.contraparallel"        = "Contre-parallèle";
 "view.researchresultscreen.obliquity"                  = "Seuil d'obliquité: %.4f°";
 "view.researchresultscreen.harmonicnumber"             = "Nombre harmonique: %d";
+"view.researchresultscreen.row.total"                  = "Total";
 "view.researchresultscreen.skipped"                    = "Enregistrements ignorés: %d";
 "view.researchresultscreen.button.export"              = "Exporter en CSV…";
 "view.researchresultscreen.button.proportional"        = "Proportionnel";

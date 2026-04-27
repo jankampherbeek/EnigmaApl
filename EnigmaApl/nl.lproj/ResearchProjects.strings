@@ -86,6 +86,7 @@
 "view.researchresultscreen.type.contraparallel"        = "Contraparallel";
 "view.researchresultscreen.obliquity"                  = "Obliquiteitsdrempel: %.4f°";
 "view.researchresultscreen.harmonicnumber"             = "Harmonisch getal: %d";
+"view.researchresultscreen.row.total"                  = "Totaal";
 "view.researchresultscreen.skipped"                    = "Overgeslagen records: %d";
 "view.researchresultscreen.button.export"              = "Exporteren naar CSV…";
 "view.researchresultscreen.button.proportional"        = "Proportioneel";

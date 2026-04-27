@@ -250,106 +250,7 @@ struct ResearchProjectConfigScreen: View {
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                // MARK: Factors
-                GroupBox(t(ResearchProjectsKeys.configSectionFactors)) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        ForEach(Factors.allCases, id: \.self) { factor in
-                            Toggle(NSLocalizedString(FactorKeys.key(for: factor), bundle: .main, comment: ""),
-                                   isOn: toggleBinding(for: factor))
-                        }
-                    }
-                    .padding(4)
-                }
-
-                // MARK: House system (only for .factorsInHouses)
-                if draft.inquiry == .factorsInHouses {
-                    GroupBox(t(ResearchProjectsKeys.configSectionHouseSystem)) {
-                        Picker("", selection: $selectedHouseSystem) {
-                            ForEach(HouseSystems.allCases, id: \.self) { system in
-                                Text(NSLocalizedString(system.localizedName, bundle: .main, comment: ""))
-                                    .tag(system)
-                            }
-                        }
-                        .labelsHidden()
-                        .pickerStyle(.menu)
-                        .padding(4)
-                    }
-                }
-
-                // MARK: Aspects section (only for .aspects)
-                if draft.inquiry == .aspects {
-                    GroupBox(t(ResearchProjectsKeys.configSectionAspects)) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            ForEach(Aspects.allCases, id: \.self) { aspect in
-                                Toggle(NSLocalizedString(AspectKeys.key(for: aspect), bundle: .main, comment: ""),
-                                       isOn: aspectToggleBinding(for: aspect))
-                            }
-                        }
-                        .padding(4)
-                    }
-
-                    GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(t(ResearchProjectsKeys.configOrbFromConfig))
-                                .foregroundStyle(.secondary)
-                            Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideOrb)
-                            if overrideOrb {
-                                FieldBlock(t(ResearchProjectsKeys.configOrbValue)) {
-                                    TextField("", text: $orbText)
-                                        .textFieldStyle(.roundedBorder)
-                                        .frame(maxWidth: 80)
-                                }
-                            }
-                        }
-                        .padding(4)
-                    }
-                }
-
-                // MARK: Orb display for inquiry types that have a predefined orb
-                let inquiriesWithOrb: Set<Inquiries> = [.harmonics, .midpoints, .declMidpoints, .parallels]
-                if inquiriesWithOrb.contains(draft.inquiry), let orbConfig = activeConfig?.orbConfig {
-                    GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            orbRow(for: draft.inquiry, orbConfig: orbConfig)
-                        }
-                        .padding(4)
-                    }
-                }
-
-                // MARK: Harmonic number (only for .harmonics)
-                if draft.inquiry == .harmonics {
-                    GroupBox(t(ResearchProjectsKeys.configSectionHarmonics)) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            FieldBlock(t(ResearchProjectsKeys.configHarmonicNumber)) {
-                                TextField("", text: $harmonicNumberText)
-                                    .textFieldStyle(.roundedBorder)
-                                    .frame(maxWidth: 80)
-                                    .onChange(of: harmonicNumberText) { _, newValue in
-                                        let filtered = newValue.filter(\.isNumber)
-                                        if filtered != newValue { harmonicNumberText = filtered }
-                                    }
-                            }
-                            if !harmonicNumberError.isEmpty {
-                                Text(harmonicNumberError)
-                                    .font(.caption)
-                                    .foregroundStyle(.red)
-                            }
-                        }
-                        .padding(4)
-                    }
-                }
-
-                // MARK: Dial type (only for .midpoints)
-                if draft.inquiry == .midpoints {
-                    GroupBox(t(ResearchProjectsKeys.configSectionDial)) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Toggle(t(ResearchProjectsKeys.configDial360), isOn: $useDial360)
-                            Toggle(t(ResearchProjectsKeys.configDial90), isOn: $useDial90)
-                            Toggle(t(ResearchProjectsKeys.configDial45), isOn: $useDial45)
-                        }
-                        .padding(4)
-                    }
-                }
+                inquirySpecificSections
 
                 if !errorMessage.isEmpty {
                     Text(errorMessage)
@@ -378,25 +279,154 @@ struct ResearchProjectConfigScreen: View {
         .onAppear { initializeFromConfig() }
     }
 
-    // MARK: - Orb info row per inquiry type
+    // MARK: - Inquiry-specific section order
 
     @ViewBuilder
-    private func orbRow(for inquiry: Inquiries, orbConfig: OrbConfig) -> some View {
-        switch inquiry {
-        case .harmonics:
-            Text("\(String(format: "%.2f", orbConfig.harmonicOrb))°")
+    private var inquirySpecificSections: some View {
+        switch draft.inquiry {
+        case .factorsInHouses:
+            houseSystemSection
+            factorsSection
+        case .aspects:
+            aspectsOrbSection
+            aspectsSection
+            factorsSection
         case .midpoints:
-            VStack(alignment: .leading, spacing: 2) {
-                Text(t(ResearchProjectsKeys.configDial360) + ": \(String(format: "%.2f", orbConfig.midpoint360DialOrb))°")
-                Text(t(ResearchProjectsKeys.configDial90)  + ": \(String(format: "%.2f", orbConfig.midpoint90DialOrb))°")
-                Text(t(ResearchProjectsKeys.configDial45)  + ": \(String(format: "%.2f", orbConfig.midpoint45DialOrb))°")
-            }
-        case .declMidpoints:
-            Text("\(String(format: "%.2f", orbConfig.declinationMidpointOrb))°")
+            dialTypeSection
+            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            factorsSection
+        case .harmonics:
+            harmonicNumberSection
+            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            factorsSection
         case .parallels:
-            Text("\(String(format: "%.2f", orbConfig.parallelOrb))°")
+            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            factorsSection
+        case .declMidpoints:
+            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            factorsSection
         default:
-            EmptyView()
+            factorsSection
+        }
+    }
+
+    // MARK: - Section views
+
+    @ViewBuilder
+    private var factorsSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionFactors)) {
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(Factors.allCases, id: \.self) { factor in
+                    Toggle(NSLocalizedString(FactorKeys.key(for: factor), bundle: .main, comment: ""),
+                           isOn: toggleBinding(for: factor))
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var houseSystemSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionHouseSystem)) {
+            Picker("", selection: $selectedHouseSystem) {
+                ForEach(HouseSystems.allCases, id: \.self) { system in
+                    Text(NSLocalizedString(system.localizedName, bundle: .main, comment: ""))
+                        .tag(system)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.menu)
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var aspectsSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionAspects)) {
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(Aspects.allCases, id: \.self) { aspect in
+                    Toggle(NSLocalizedString(AspectKeys.key(for: aspect), bundle: .main, comment: ""),
+                           isOn: aspectToggleBinding(for: aspect))
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var aspectsOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                    .foregroundStyle(.secondary)
+                Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideOrb)
+                if overrideOrb {
+                    FieldBlock(t(ResearchProjectsKeys.configOrbValue)) {
+                        TextField("", text: $orbText)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 80)
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private func predefinedOrbSection(orbConfig: OrbConfig) -> some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 4) {
+                switch draft.inquiry {
+                case .harmonics:
+                    Text("\(String(format: "%.2f", orbConfig.harmonicOrb))°")
+                case .midpoints:
+                    Text(t(ResearchProjectsKeys.configDial360) + ": \(String(format: "%.2f", orbConfig.midpoint360DialOrb))°")
+                    Text(t(ResearchProjectsKeys.configDial90)  + ": \(String(format: "%.2f", orbConfig.midpoint90DialOrb))°")
+                    Text(t(ResearchProjectsKeys.configDial45)  + ": \(String(format: "%.2f", orbConfig.midpoint45DialOrb))°")
+                case .declMidpoints:
+                    Text("\(String(format: "%.2f", orbConfig.declinationMidpointOrb))°")
+                case .parallels:
+                    Text("\(String(format: "%.2f", orbConfig.parallelOrb))°")
+                default:
+                    EmptyView()
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var harmonicNumberSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionHarmonics)) {
+            VStack(alignment: .leading, spacing: 8) {
+                FieldBlock(t(ResearchProjectsKeys.configHarmonicNumber)) {
+                    TextField("", text: $harmonicNumberText)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 80)
+                        .onChange(of: harmonicNumberText) { _, newValue in
+                            let filtered = newValue.filter(\.isNumber)
+                            if filtered != newValue { harmonicNumberText = filtered }
+                        }
+                }
+                if !harmonicNumberError.isEmpty {
+                    Text(harmonicNumberError)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var dialTypeSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionDial)) {
+            VStack(alignment: .leading, spacing: 4) {
+                Toggle(t(ResearchProjectsKeys.configDial360), isOn: $useDial360)
+                Toggle(t(ResearchProjectsKeys.configDial90), isOn: $useDial90)
+                Toggle(t(ResearchProjectsKeys.configDial45), isOn: $useDial45)
+            }
+            .padding(4)
         }
     }
 
@@ -1329,6 +1359,14 @@ private struct FactorsInSignsResultView: View {
 
     @ViewBuilder
     private func signsTable(title: String, isData: Bool) -> some View {
+        // Per-sign totals across all factors
+        let signTotals: [Int] = (0..<12).map { si in
+            result.distributions.reduce(0) { sum, dist in
+                sum + (isData ? dist.signCounts[si].dataCount : dist.signCounts[si].controlCount)
+            }
+        }
+        let grandTotal = signTotals.reduce(0, +)
+
         GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
@@ -1357,6 +1395,19 @@ private struct FactorsInSignsResultView: View {
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                     }
+                    Divider()
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultRowTotal))
+                            .frame(width: factorWidth, alignment: .leading)
+                        ForEach(Array(signTotals.enumerated()), id: \.offset) { _, count in
+                            Text(isData ? "\(count)" : controlText(count, divisor: divisor))
+                                .frame(width: countWidth, alignment: .trailing)
+                        }
+                        Text(isData ? "\(grandTotal)" : controlText(grandTotal, divisor: divisor))
+                            .frame(width: totalWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 8).padding(.vertical, 3)
                 }
             }
         }
@@ -1383,6 +1434,14 @@ private struct FactorsInHousesResultView: View {
 
     @ViewBuilder
     private func housesTable(title: String, isData: Bool) -> some View {
+        // Per-house totals across all factors
+        let houseTotals: [Int] = (0..<result.nrOfHouses).map { hi in
+            result.distributions.reduce(0) { sum, dist in
+                sum + (isData ? dist.houseCounts[hi].dataCount : dist.houseCounts[hi].controlCount)
+            }
+        }
+        let grandTotal = houseTotals.reduce(0, +)
+
         GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
@@ -1411,6 +1470,19 @@ private struct FactorsInHousesResultView: View {
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                     }
+                    Divider()
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultRowTotal))
+                            .frame(width: factorWidth, alignment: .leading)
+                        ForEach(Array(houseTotals.enumerated()), id: \.offset) { _, count in
+                            Text(isData ? "\(count)" : controlText(count, divisor: divisor))
+                                .frame(width: countWidth, alignment: .trailing)
+                        }
+                        Text(isData ? "\(grandTotal)" : controlText(grandTotal, divisor: divisor))
+                            .frame(width: totalWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 8).padding(.vertical, 3)
                 }
             }
         }
@@ -1424,47 +1496,101 @@ private struct AspectsResultView: View {
     let divisor: Int
 
     private let factorWidth: CGFloat = 120
-    private let angleWidth: CGFloat  = 80
-    private let countWidth: CGFloat  = 70
+    private let angleWidth: CGFloat  = 55
+    private let totalWidth: CGFloat  = 70
+
+    /// Aspect angles present in the result, sorted ascending.
+    private var aspectAngles: [Double] {
+        Array(Set(result.counts.map(\.aspectAngle))).sorted()
+    }
+
+    /// Unique (factor1, factor2) pairs in their original result order.
+    private var factorPairs: [(Factors, Factors)] {
+        var seen = Set<String>()
+        var pairs: [(Factors, Factors)] = []
+        for c in result.counts {
+            let key = "\(c.factor1.rawValue)-\(c.factor2.rawValue)"
+            if seen.insert(key).inserted { pairs.append((c.factor1, c.factor2)) }
+        }
+        return pairs
+    }
+
+    private func count(f1: Factors, f2: Factors, angle: Double, isData: Bool) -> Int {
+        result.counts.first { $0.factor1 == f1 && $0.factor2 == f2 && $0.aspectAngle == angle }
+            .map { isData ? $0.dataCount : $0.controlCount } ?? 0
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            aspectsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
-            aspectsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            aspectsMatrix(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            aspectsMatrix(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
             skippedView(result.skippedRecords)
         }
     }
 
     @ViewBuilder
-    private func aspectsTable(title: String, isData: Bool) -> some View {
+    private func aspectsMatrix(title: String, isData: Bool) -> some View {
+        let angles = aspectAngles
+        let pairs  = factorPairs
+        let angleTotals: [Int] = angles.map { angle in
+            result.counts.filter { $0.aspectAngle == angle }
+                .reduce(0) { $0 + (isData ? $1.dataCount : $1.controlCount) }
+        }
+        let grandTotal = angleTotals.reduce(0, +)
+
         GroupBox(title) {
             ScrollView(.horizontal, showsIndicators: true) {
                 VStack(spacing: 0) {
+                    // Header
                     HStack(spacing: 4) {
                         Text(t(ResearchProjectsKeys.resultColumnFactor1))
                             .frame(width: factorWidth, alignment: .leading)
                         Text(t(ResearchProjectsKeys.resultColumnFactor2))
                             .frame(width: factorWidth, alignment: .leading)
-                        Text(t(ResearchProjectsKeys.resultColumnAspect))
-                            .frame(width: angleWidth, alignment: .trailing)
-                        Text("∑").frame(width: countWidth, alignment: .trailing)
+                        ForEach(angles, id: \.self) { angle in
+                            Text(String(format: "%.5g°", angle))
+                                .frame(width: angleWidth, alignment: .trailing)
+                        }
+                        Text("∑").frame(width: totalWidth, alignment: .trailing)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 8).padding(.vertical, 4)
                     Divider()
-                    ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+                    // One row per factor pair
+                    ForEach(Array(pairs.enumerated()), id: \.offset) { idx, pair in
+                        let rowTotal = angles.reduce(0) {
+                            $0 + count(f1: pair.0, f2: pair.1, angle: $1, isData: isData)
+                        }
                         HStack(spacing: 4) {
-                            Text("\(c.factor1)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
-                            Text(String(format: "%.5g", c.aspectAngle))
-                                .frame(width: angleWidth, alignment: .trailing)
-                            Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
-                                .frame(width: countWidth, alignment: .trailing)
+                            Text("\(pair.0)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(pair.1)").frame(width: factorWidth, alignment: .leading)
+                            ForEach(angles, id: \.self) { angle in
+                                let c = count(f1: pair.0, f2: pair.1, angle: angle, isData: isData)
+                                Text(isData ? "\(c)" : controlText(c, divisor: divisor))
+                                    .frame(width: angleWidth, alignment: .trailing)
+                            }
+                            Text(isData ? "\(rowTotal)" : controlText(rowTotal, divisor: divisor))
+                                .frame(width: totalWidth, alignment: .trailing)
                         }
                         .padding(.horizontal, 8).padding(.vertical, 3)
                         .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                     }
+                    Divider()
+                    // Totals row
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultRowTotal))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Spacer().frame(width: factorWidth)
+                        ForEach(Array(angleTotals.enumerated()), id: \.offset) { _, total in
+                            Text(isData ? "\(total)" : controlText(total, divisor: divisor))
+                                .frame(width: angleWidth, alignment: .trailing)
+                        }
+                        Text(isData ? "\(grandTotal)" : controlText(grandTotal, divisor: divisor))
+                            .frame(width: totalWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 8).padding(.vertical, 3)
                 }
             }
         }

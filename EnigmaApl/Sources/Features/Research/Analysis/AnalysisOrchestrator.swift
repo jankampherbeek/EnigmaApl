@@ -116,7 +116,9 @@ struct AnalysisOrchestrator {
                 return .declMidpoints(try worker.run())
 
             case .oob:
-                let worker = OobWorker(binaryFile: binaryFile, config: config)
+                let obliquities = try obliquitiesPerRecord(atPath: projectPath)
+                let worker = OobWorker(binaryFile: binaryFile, config: config,
+                                       obliquityPerRecord: obliquities)
                 return .oob(try worker.run())
             }
         } catch {
@@ -178,6 +180,30 @@ struct AnalysisOrchestrator {
             )
             let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
             return chart.HousePositions.cusps.map { $0.longitude }
+        }
+    }
+
+    /// Calculates the true obliquity of the ecliptic for every record in the project database.
+    /// Uses Swiss Ephemeris factor id -1 with flags 2 (SE, no speed), which returns the
+    /// true obliquity in `mainPos`.  Returns values in binary-file order (same as `fetchAll()`).
+    private func obliquitiesPerRecord(atPath path: String) throws -> [Double] {
+        let db: ResearchDbManager
+        do {
+            db = try ResearchDbManager(folderPath: path)
+        } catch {
+            throw AnalysisOrchestratorError.missingInputDatabase(path)
+        }
+        let records = try db.fetchAll()
+        let seWrapper = SEWrapper()
+
+        return records.map { record in
+            let utHour = utDecimalHour(hour: record.hour, minute: record.minute,
+                                       second: record.second, offset: record.offset)
+            let date = AstronomicalDate(Year: record.year, Month: record.month, Day: record.day)
+            let time = AstronomicalTime(HourDecimal: utHour)
+            let julDay = seWrapper.julianDay(date: date, time: time)
+            return seWrapper.calculateFactorPosition(julianDay: julDay, factor: -1, flags: 2)?.mainPos
+                ?? 23.4393
         }
     }
 
