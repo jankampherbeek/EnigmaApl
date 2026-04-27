@@ -86,16 +86,23 @@ struct AnalysisOrchestrator {
                 return .aspects(try worker.run())
 
             case .unaspect:
-                let (angles, orb) = aspectParameters(config: config)
+                let (angles, _) = aspectParameters(config: config)
+                let unaspectOrb = config.unaspectOrbOverride
+                    ?? config.orbConfig?.aspectBaseOrb
+                    ?? 8.0
                 let worker = UnaspectWorker(binaryFile: binaryFile, config: config,
-                                           aspectAngles: angles, orb: orb)
+                                           aspectAngles: angles, orb: unaspectOrb)
                 return .unaspect(try worker.run())
 
             case .midpoints:
                 let dialSizes = config.enabledDialSizes ?? [360]
-                let orb = config.orbConfig?.midpoint360DialOrb ?? 1.5
+                let orbsPerDialSize: [Int: Double] = [
+                    360: config.orbConfig?.midpoint360DialOrb ?? 1.5,
+                    90:  config.orbConfig?.midpoint90DialOrb  ?? 1.0,
+                    45:  config.orbConfig?.midpoint45DialOrb  ?? 0.5
+                ]
                 let worker = MidpointsWorker(binaryFile: binaryFile, config: config,
-                                            dialSizes: dialSizes, orb: orb)
+                                            dialSizes: dialSizes, orbsPerDialSize: orbsPerDialSize)
                 return .midpoints(try worker.run())
 
             case .harmonics:

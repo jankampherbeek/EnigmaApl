@@ -42,14 +42,14 @@ public struct MidpointsWorker {
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig
     private let dialSizes: [Int]
-    private let orb: Double
+    private let orbsPerDialSize: [Int: Double]
 
     public init(binaryFile: ResultsBinaryFile, config: ResearchConfig,
-                dialSizes: [Int], orb: Double) {
+                dialSizes: [Int], orbsPerDialSize: [Int: Double]) {
         self.binaryFile = binaryFile
         self.config = config
         self.dialSizes = dialSizes
-        self.orb = orb
+        self.orbsPerDialSize = orbsPerDialSize
     }
 
     public func run() throws -> MidpointsResult {
@@ -80,6 +80,7 @@ public struct MidpointsWorker {
 
             for (di, dial) in dialSizes.enumerated() {
                 let d = Double(dial)
+                let orb = orbsPerDialSize[dial] ?? 1.5
                 for a in 0..<n {
                     guard let lonA = longitudes[a] else { continue }
                     let ra = lonA.truncatingRemainder(dividingBy: d)
@@ -87,7 +88,7 @@ public struct MidpointsWorker {
                         guard let lonB = longitudes[b] else { continue }
                         let rb = lonB.truncatingRemainder(dividingBy: d)
                         let midpoint = ((ra + rb) / 2).truncatingRemainder(dividingBy: d)
-                        for c in 0..<n where c != a && c != b {
+                        for c in 0..<n {
                             guard let lonC = longitudes[c] else { continue }
                             let rc = lonC.truncatingRemainder(dividingBy: d)
                             let diff = min(abs(rc - midpoint), d - abs(rc - midpoint))
@@ -125,8 +126,11 @@ public struct MidpointsWorker {
                 controlCount: cc
             ))
         }
-        return MidpointsResult(counts: counts.sorted { $0.factorA.rawValue < $1.factorA.rawValue },
-                               skippedRecords: skipped)
+        return MidpointsResult(counts: counts.sorted {
+            if $0.factorA.rawValue != $1.factorA.rawValue { return $0.factorA.rawValue < $1.factorA.rawValue }
+            if $0.factorB.rawValue != $1.factorB.rawValue { return $0.factorB.rawValue < $1.factorB.rawValue }
+            return $0.occupant.rawValue < $1.occupant.rawValue
+        }, skippedRecords: skipped)
     }
 }
 

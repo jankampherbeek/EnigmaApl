@@ -45,6 +45,11 @@
 "view.researchprojectdetailscreen.label.cgmult"             = "Control group multiplier";
 "view.researchprojectdetailscreen.label.path"               = "Project folder";
 "view.researchprojectdetailscreen.label.created"            = "Created";
+"view.researchprojectdetailscreen.label.orb"                = "Orb";
+"view.researchprojectdetailscreen.orb.fromconfig"           = "From configuration";
+"view.researchprojectdetailscreen.label.housesystem"        = "House system";
+"view.researchprojectdetailscreen.label.dial"               = "Dial types";
+"view.researchprojectdetailscreen.label.harmonicnr"         = "Harmonic number";
 "view.researchprojectdetailscreen.label.datafile"           = "Data file";
 "view.researchprojectdetailscreen.button.selectfile"        = "Select file...";
 "view.researchprojectdetailscreen.label.filetype"           = "File type";

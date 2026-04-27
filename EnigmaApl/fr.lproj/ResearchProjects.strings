@@ -45,6 +45,11 @@
 "view.researchprojectdetailscreen.label.cgmult"             = "Multiplicateur du groupe de contrôle";
 "view.researchprojectdetailscreen.label.path"               = "Dossier du projet";
 "view.researchprojectdetailscreen.label.created"            = "Créé le";
+"view.researchprojectdetailscreen.label.orb"                = "Orbe";
+"view.researchprojectdetailscreen.orb.fromconfig"           = "De la configuration";
+"view.researchprojectdetailscreen.label.housesystem"        = "Système de maisons";
+"view.researchprojectdetailscreen.label.dial"               = "Types de cadran";
+"view.researchprojectdetailscreen.label.harmonicnr"         = "Nombre harmonique";
 "view.researchprojectdetailscreen.label.datafile"           = "Fichier de données";
 "view.researchprojectdetailscreen.button.selectfile"        = "Choisir un fichier...";
 "view.researchprojectdetailscreen.label.filetype"           = "Type de fichier";

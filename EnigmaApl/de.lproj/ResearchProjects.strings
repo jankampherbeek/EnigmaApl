@@ -45,6 +45,11 @@
 "view.researchprojectdetailscreen.label.cgmult"             = "Kontrollgruppen-Multiplikator";
 "view.researchprojectdetailscreen.label.path"               = "Projektordner";
 "view.researchprojectdetailscreen.label.created"            = "Erstellt";
+"view.researchprojectdetailscreen.label.orb"                = "Orb";
+"view.researchprojectdetailscreen.orb.fromconfig"           = "Aus Konfiguration";
+"view.researchprojectdetailscreen.label.housesystem"        = "Häusersystem";
+"view.researchprojectdetailscreen.label.dial"               = "Zifferblätter";
+"view.researchprojectdetailscreen.label.harmonicnr"         = "Harmonische Zahl";
 "view.researchprojectdetailscreen.label.datafile"           = "Datendatei";
 "view.researchprojectdetailscreen.button.selectfile"        = "Datei auswählen...";
 "view.researchprojectdetailscreen.label.filetype"           = "Dateityp";

@@ -347,24 +347,49 @@ struct ResultsExporter {
     /// ```
     private func buildParallelsCsv(_ result: ParallelsResult, divisor: Int) -> String {
         var lines: [String] = []
-        let colHeader = "Factor 1;Factor 2;Type;Count"
+        let colHeader = "Factor 1;Factor 2;Parallel;Contra-parallel;Total"
 
-        lines.append("Data")
-        lines.append(colHeader)
+        // Unique factor pairs in sorted order
+        var seen = Set<String>()
+        var pairs: [(Factors, Factors)] = []
         for c in result.counts {
-            let typeStr = c.isContraParallel ? "Contra-parallel" : "Parallel"
-            lines.append("\(c.factor1);\(c.factor2);\(typeStr);\(c.dataCount)")
+            let key = "\(c.factor1.rawValue)-\(c.factor2.rawValue)"
+            if seen.insert(key).inserted { pairs.append((c.factor1, c.factor2)) }
         }
-        lines.append("")
-        lines.append("Control group")
-        lines.append(colHeader)
-        for c in result.counts {
-            let typeStr = c.isContraParallel ? "Contra-parallel" : "Parallel"
-            lines.append("\(c.factor1);\(c.factor2);\(typeStr);\(ctrl(c.controlCount, divisor: divisor))")
+        pairs.sort {
+            if $0.0.rawValue != $1.0.rawValue { return $0.0.rawValue < $1.0.rawValue }
+            return $0.1.rawValue < $1.1.rawValue
+        }
+
+        func parallelCount(_ f1: Factors, _ f2: Factors, isContra: Bool) -> (data: Int, control: Int) {
+            let match = result.counts.first { $0.factor1 == f1 && $0.factor2 == f2 && $0.isContraParallel == isContra }
+            return (match?.dataCount ?? 0, match?.controlCount ?? 0)
+        }
+
+        for section in ["Data", "Control group"] {
+            let isData = (section == "Data")
+            lines.append(section)
+            lines.append(colHeader)
+            var totalP = 0, totalC = 0
+            for (f1, f2) in pairs {
+                let p = parallelCount(f1, f2, isContra: false)
+                let c = parallelCount(f1, f2, isContra: true)
+                let pRaw = isData ? p.data    : p.control
+                let cRaw = isData ? c.data    : c.control
+                let pOut = isData ? "\(pRaw)" : ctrl(pRaw, divisor: divisor)
+                let cOut = isData ? "\(cRaw)" : ctrl(cRaw, divisor: divisor)
+                let sOut = isData ? "\(pRaw + cRaw)" : ctrl(pRaw + cRaw, divisor: divisor)
+                lines.append("\(f1);\(f2);\(pOut);\(cOut);\(sOut)")
+                totalP += pRaw; totalC += cRaw
+            }
+            let pOut = isData ? "\(totalP)" : ctrl(totalP, divisor: divisor)
+            let cOut = isData ? "\(totalC)" : ctrl(totalC, divisor: divisor)
+            let sOut = isData ? "\(totalP + totalC)" : ctrl(totalP + totalC, divisor: divisor)
+            lines.append("Total;\(pOut);\(cOut);\(sOut)")
+            lines.append("")
         }
 
         if result.skippedRecords > 0 {
-            lines.append("")
             lines.append("# Skipped records: \(result.skippedRecords)")
         }
         return lines.joined(separator: "\n")

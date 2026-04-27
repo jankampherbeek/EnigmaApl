@@ -76,7 +76,7 @@ public struct DeclMidpointsWorker {
                 for b in (a + 1)..<n {
                     guard let dB = declinations[b] else { continue }
                     let midpoint = (dA + dB) / 2.0
-                    for c in 0..<n where c != a && c != b {
+                    for c in 0..<n {
                         guard let dC = declinations[c] else { continue }
                         if abs(dC - midpoint) <= orb {
                             let key = TriKey(a, b, c)
@@ -107,8 +107,11 @@ public struct DeclMidpointsWorker {
                 controlCount: cc
             ))
         }
-        return DeclMidpointsResult(counts: counts.sorted { $0.factorA.rawValue < $1.factorA.rawValue },
-                                   skippedRecords: skipped)
+        return DeclMidpointsResult(counts: counts.sorted {
+            if $0.factorA.rawValue != $1.factorA.rawValue { return $0.factorA.rawValue < $1.factorA.rawValue }
+            if $0.factorB.rawValue != $1.factorB.rawValue { return $0.factorB.rawValue < $1.factorB.rawValue }
+            return $0.occupant.rawValue < $1.occupant.rawValue
+        }, skippedRecords: skipped)
     }
 }
 

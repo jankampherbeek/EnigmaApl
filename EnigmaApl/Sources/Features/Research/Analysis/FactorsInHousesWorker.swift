@@ -87,11 +87,13 @@ public struct FactorsInHousesWorker {
                 guard let longitude = readDouble(from: regionData, at: byteOffset) else { skipped += 1; continue }
                 var normalised = ((longitude.truncatingRemainder(dividingBy: 360)) + 360)
                     .truncatingRemainder(dividingBy: 360)
-                // The Ascendant defines the 1st house cusp, so it must always land in house 1.
-                // Floating-point rounding can store it as (cuspLongitude − ε), causing the
-                // boundary check to fail and placing it in house 12 instead.
+                // The Ascendant defines the 1st house cusp and the MC defines the 10th house cusp,
+                // so they must always land in house 1 and house 10 respectively.
+                // Floating-point rounding can store the longitude as (cuspLongitude − ε), causing
+                // the boundary check to fail and placing them one house too early.
                 // Adding 0.01 arc-second (≈ 0.0000028°) corrects this without any meaningful error.
-                if layout.factor.seId == Factors.ascendant.seId {
+                if layout.factor.seId == Factors.ascendant.seId ||
+                   layout.factor.seId == Factors.mc.seId {
                     let epsilon = 0.01 / 3600.0
                     normalised = ((normalised + epsilon).truncatingRemainder(dividingBy: 360) + 360)
                         .truncatingRemainder(dividingBy: 360)

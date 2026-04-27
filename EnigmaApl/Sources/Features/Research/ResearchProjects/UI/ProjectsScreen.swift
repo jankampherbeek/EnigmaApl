@@ -229,6 +229,10 @@ struct ResearchProjectConfigScreen: View {
     @State private var overrideOrb: Bool = false
     @State private var orbText: String = ""
 
+    // Unaspected orb (only for .unaspect inquiry)
+    @State private var overrideUnaspectOrb: Bool = false
+    @State private var unaspectOrbText: String = ""
+
     // Harmonic number (only for .harmonics inquiry)
     @State private var harmonicNumberText: String = "5"
     @State private var harmonicNumberError: String = ""
@@ -237,6 +241,11 @@ struct ResearchProjectConfigScreen: View {
     @State private var useDial360: Bool = true
     @State private var useDial90: Bool = true
     @State private var useDial45: Bool = false
+
+    // Midpoint orbs per dial (only for .midpoints inquiry)
+    @State private var orbMidpoint360Text: String = "1.50"
+    @State private var orbMidpoint90Text: String = "1.00"
+    @State private var orbMidpoint45Text: String = "0.50"
 
     @State private var errorMessage: String = ""
     @State private var initialized = false
@@ -291,9 +300,12 @@ struct ResearchProjectConfigScreen: View {
             aspectsOrbSection
             aspectsSection
             factorsSection
+        case .unaspect:
+            unaspectOrbSection
+            factorsSection
         case .midpoints:
             dialTypeSection
-            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            midpointOrbSection
             factorsSection
         case .harmonics:
             harmonicNumberSection
@@ -373,6 +385,25 @@ struct ResearchProjectConfigScreen: View {
     }
 
     @ViewBuilder
+    private var unaspectOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                    .foregroundStyle(.secondary)
+                Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideUnaspectOrb)
+                if overrideUnaspectOrb {
+                    FieldBlock(t(ResearchProjectsKeys.configOrbValue)) {
+                        TextField("", text: $unaspectOrbText)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 80)
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
     private func predefinedOrbSection(orbConfig: OrbConfig) -> some View {
         GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
             VStack(alignment: .leading, spacing: 4) {
@@ -430,6 +461,36 @@ struct ResearchProjectConfigScreen: View {
         }
     }
 
+    @ViewBuilder
+    private var midpointOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                if useDial360 {
+                    FieldBlock(t(ResearchProjectsKeys.configDial360)) {
+                        TextField("", text: $orbMidpoint360Text)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 80)
+                    }
+                }
+                if useDial90 {
+                    FieldBlock(t(ResearchProjectsKeys.configDial90)) {
+                        TextField("", text: $orbMidpoint90Text)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 80)
+                    }
+                }
+                if useDial45 {
+                    FieldBlock(t(ResearchProjectsKeys.configDial45)) {
+                        TextField("", text: $orbMidpoint45Text)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(maxWidth: 80)
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
     // MARK: - Bindings
 
     private func toggleBinding(for factor: Factors) -> Binding<Bool> {
@@ -457,6 +518,14 @@ struct ResearchProjectConfigScreen: View {
             if draft.inquiry == .aspects {
                 selectedAspects = Set(config.aspectConfig.aspectSettings.filter(\.isUsed).map(\.aspect))
                 orbText = String(format: "%.2f", config.orbConfig.aspectBaseOrb)
+            }
+            if draft.inquiry == .unaspect {
+                unaspectOrbText = String(format: "%.2f", config.orbConfig.aspectBaseOrb)
+            }
+            if draft.inquiry == .midpoints {
+                orbMidpoint360Text = String(format: "%.2f", config.orbConfig.midpoint360DialOrb)
+                orbMidpoint90Text  = String(format: "%.2f", config.orbConfig.midpoint90DialOrb)
+                orbMidpoint45Text  = String(format: "%.2f", config.orbConfig.midpoint45DialOrb)
             }
         }
     }
@@ -486,14 +555,33 @@ struct ResearchProjectConfigScreen: View {
         }
 
         var orbConfigJson = "{}"
-        if let orb = activeConfig?.orbConfig,
-           let data = try? JSONEncoder().encode(orb),
-           let json = String(data: data, encoding: .utf8) {
-            orbConfigJson = json
+        if var orb = activeConfig?.orbConfig {
+            if draft.inquiry == .midpoints {
+                let parse = { (text: String, fallback: Double) -> Double in
+                    Double(text.replacingOccurrences(of: ",", with: ".")) ?? fallback
+                }
+                orb = OrbConfig(
+                    orbSystem: orb.orbSystem,
+                    aspectBaseOrb: orb.aspectBaseOrb,
+                    midpoint360DialOrb: parse(orbMidpoint360Text, orb.midpoint360DialOrb),
+                    midpoint90DialOrb:  parse(orbMidpoint90Text,  orb.midpoint90DialOrb),
+                    midpoint45DialOrb:  parse(orbMidpoint45Text,  orb.midpoint45DialOrb),
+                    harmonicOrb: orb.harmonicOrb,
+                    parallelOrb: orb.parallelOrb,
+                    declinationMidpointOrb: orb.declinationMidpointOrb
+                )
+            }
+            if let data = try? JSONEncoder().encode(orb),
+               let json = String(data: data, encoding: .utf8) {
+                orbConfigJson = json
+            }
         }
 
         let aspectOrbOverride: Double? = (draft.inquiry == .aspects && overrideOrb)
             ? Double(orbText.replacingOccurrences(of: ",", with: "."))
+            : nil
+        let unaspectOrbOverride: Double? = (draft.inquiry == .unaspect && overrideUnaspectOrb)
+            ? Double(unaspectOrbText.replacingOccurrences(of: ",", with: "."))
             : nil
 
         let enabledAspectIds: [Int]? = (draft.inquiry == .aspects)
@@ -517,6 +605,7 @@ struct ResearchProjectConfigScreen: View {
             orbConfigJson: orbConfigJson,
             enabledAspectIds: enabledAspectIds,
             aspectOrbOverride: aspectOrbOverride,
+            unaspectOrbOverride: unaspectOrbOverride,
             enabledDialSizes: enabledDialSizes,
             harmonicNumber: resolvedHarmonicNumber
         )
@@ -791,6 +880,79 @@ struct ResearchProjectDetailScreen: View {
         return f
     }()
 
+    /// Extra LabeledContent rows derived from the stored ResearchConfig,
+    /// shown directly below the inquiry-type row in the project info GroupBox.
+    @ViewBuilder
+    private var configInfoRows: some View {
+        if let config = try? ResearchConfig.from(json: project.config),
+           let inquiry = project.inquiryType {
+            switch inquiry {
+            case .factorsInHouses:
+                LabeledContent(t(ResearchProjectsKeys.detailLabelHouseSystem)) {
+                    Text(NSLocalizedString(config.houseSystem.localizedName, bundle: .main, comment: ""))
+                }
+            case .aspects:
+                LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                    if let orb = config.aspectOrbOverride {
+                        Text(String(format: "%.2f°", orb))
+                    } else {
+                        Text(t(ResearchProjectsKeys.detailOrbFromConfig))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            case .unaspect:
+                LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                    if let orb = config.unaspectOrbOverride {
+                        Text(String(format: "%.2f°", orb))
+                    } else {
+                        Text(t(ResearchProjectsKeys.detailOrbFromConfig))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            case .midpoints:
+                if let orbConfig = config.orbConfig, let dials = config.enabledDialSizes {
+                    LabeledContent(t(ResearchProjectsKeys.detailLabelDial)) {
+                        Text(dials.map { "\($0)°" }.joined(separator: ", "))
+                    }
+                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                        let parts: [String] = dials.compactMap { size -> String? in
+                            switch size {
+                            case 360: return "360°: \(String(format: "%.2f°", orbConfig.midpoint360DialOrb))"
+                            case 90:  return "90°: \(String(format: "%.2f°", orbConfig.midpoint90DialOrb))"
+                            case 45:  return "45°: \(String(format: "%.2f°", orbConfig.midpoint45DialOrb))"
+                            default:  return nil
+                            }
+                        }
+                        Text(parts.joined(separator: "  "))
+                    }
+                }
+            case .harmonics:
+                LabeledContent(t(ResearchProjectsKeys.detailLabelHarmonicNr)) {
+                    Text("\(config.harmonicNumber ?? 5)")
+                }
+                if let orb = config.orbConfig?.harmonicOrb {
+                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                        Text(String(format: "%.2f°", orb))
+                    }
+                }
+            case .parallels:
+                if let orb = config.orbConfig?.parallelOrb {
+                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                        Text(String(format: "%.2f°", orb))
+                    }
+                }
+            case .declMidpoints:
+                if let orb = config.orbConfig?.declinationMidpointOrb {
+                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                        Text(String(format: "%.2f°", orb))
+                    }
+                }
+            default:
+                EmptyView()
+            }
+        }
+    }
+
     private var canStartInquiry: Bool {
         if case .ok = fileReadState, case .idle = runState { return true }
         return false
@@ -823,6 +985,7 @@ struct ResearchProjectDetailScreen: View {
                                 NSLocalizedString($0.rbKey, bundle: .main, comment: "")
                             } ?? "-")
                         }
+                        configInfoRows
                         LabeledContent(t(ResearchProjectsKeys.detailLabelCgMult)) {
                             Text("\(project.cgMultiplication)")
                         }
@@ -1754,47 +1917,92 @@ private struct ParallelsResultView: View {
     let divisor: Int
 
     private let factorWidth: CGFloat = 120
-    private let typeWidth: CGFloat   = 140
-    private let countWidth: CGFloat  = 70
+    private let countWidth: CGFloat  = 90
+
+    /// Unique (factor1, factor2) pairs in sorted order.
+    private var factorPairs: [(Factors, Factors)] {
+        var seen = Set<String>()
+        var pairs: [(Factors, Factors)] = []
+        for c in result.counts {
+            let key = "\(c.factor1.rawValue)-\(c.factor2.rawValue)"
+            if seen.insert(key).inserted { pairs.append((c.factor1, c.factor2)) }
+        }
+        return pairs.sorted {
+            if $0.0.rawValue != $1.0.rawValue { return $0.0.rawValue < $1.0.rawValue }
+            return $0.1.rawValue < $1.1.rawValue
+        }
+    }
+
+    private func count(f1: Factors, f2: Factors, isContra: Bool, isData: Bool) -> Int {
+        result.counts.first { $0.factor1 == f1 && $0.factor2 == f2 && $0.isContraParallel == isContra }
+            .map { isData ? $0.dataCount : $0.controlCount } ?? 0
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            parallelsTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
-            parallelsTable(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
+            parallelsMatrix(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
+            parallelsMatrix(title: t(ResearchProjectsKeys.resultColumnControl), isData: false)
             skippedView(result.skippedRecords)
         }
     }
 
     @ViewBuilder
-    private func parallelsTable(title: String, isData: Bool) -> some View {
+    private func parallelsMatrix(title: String, isData: Bool) -> some View {
+        let pairs = factorPairs
+        let totalP = pairs.reduce(0) { $0 + count(f1: $1.0, f2: $1.1, isContra: false, isData: isData) }
+        let totalC = pairs.reduce(0) { $0 + count(f1: $1.0, f2: $1.1, isContra: true,  isData: isData) }
+
         GroupBox(title) {
-            VStack(spacing: 0) {
-                HStack(spacing: 4) {
-                    Text(t(ResearchProjectsKeys.resultColumnFactor1))
-                        .frame(width: factorWidth, alignment: .leading)
-                    Text(t(ResearchProjectsKeys.resultColumnFactor2))
-                        .frame(width: factorWidth, alignment: .leading)
-                    Text(t(ResearchProjectsKeys.resultColumnType))
-                        .frame(width: typeWidth, alignment: .leading)
-                    Text("∑").frame(width: countWidth, alignment: .trailing)
-                }
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 8).padding(.vertical, 4)
-                Divider()
-                ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
+            ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                    // Header
                     HStack(spacing: 4) {
-                        Text("\(c.factor1)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(c.factor2)").frame(width: factorWidth, alignment: .leading)
-                        Text(c.isContraParallel
-                             ? t(ResearchProjectsKeys.resultTypeContra)
-                             : t(ResearchProjectsKeys.resultTypeParallel))
-                            .frame(width: typeWidth, alignment: .leading)
-                        Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
+                        Text(t(ResearchProjectsKeys.resultColumnFactor1))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultColumnFactor2))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Text(t(ResearchProjectsKeys.resultTypeParallel))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(t(ResearchProjectsKeys.resultTypeContra))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text("∑").frame(width: countWidth, alignment: .trailing)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    Divider()
+                    // One row per factor pair
+                    ForEach(Array(pairs.enumerated()), id: \.offset) { idx, pair in
+                        let p = count(f1: pair.0, f2: pair.1, isContra: false, isData: isData)
+                        let c = count(f1: pair.0, f2: pair.1, isContra: true,  isData: isData)
+                        HStack(spacing: 4) {
+                            Text("\(pair.0)").frame(width: factorWidth, alignment: .leading)
+                            Text("\(pair.1)").frame(width: factorWidth, alignment: .leading)
+                            Text(isData ? "\(p)" : controlText(p, divisor: divisor))
+                                .frame(width: countWidth, alignment: .trailing)
+                            Text(isData ? "\(c)" : controlText(c, divisor: divisor))
+                                .frame(width: countWidth, alignment: .trailing)
+                            Text(isData ? "\(p + c)" : controlText(p + c, divisor: divisor))
+                                .frame(width: countWidth, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 8).padding(.vertical, 3)
+                        .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                    }
+                    Divider()
+                    // Totals row
+                    HStack(spacing: 4) {
+                        Text(t(ResearchProjectsKeys.resultRowTotal))
+                            .frame(width: factorWidth, alignment: .leading)
+                        Spacer().frame(width: factorWidth)
+                        Text(isData ? "\(totalP)" : controlText(totalP, divisor: divisor))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(isData ? "\(totalC)" : controlText(totalC, divisor: divisor))
+                            .frame(width: countWidth, alignment: .trailing)
+                        Text(isData ? "\(totalP + totalC)" : controlText(totalP + totalC, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
+                    .font(.caption.weight(.semibold))
                     .padding(.horizontal, 8).padding(.vertical, 3)
-                    .background(idx.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
                 }
             }
         }
