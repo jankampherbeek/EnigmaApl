@@ -1203,7 +1203,7 @@ struct ResearchProjectDetailScreen: View {
     private func importerForType(_ type: DataFileType) -> DataImporter {
         switch type {
         case .standardEnigma: return EnigmaFormatImporter()
-        case .gauquelin:      return CsvDataImporter()   // placeholder until GauquelinImporter exists
+        case .gauquelin:      return GauquelinImporter()
         case .quickChart:     return QuickChartImporter()
         }
     }
