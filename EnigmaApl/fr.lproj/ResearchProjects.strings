@@ -18,6 +18,7 @@
 "view.researchprojectinputscreen.button.selectpath"    = "Choisir un dossier...";
 "view.researchprojectinputscreen.error.nameempty"      = "Un nom de projet est requis.";
 "view.researchprojectinputscreen.error.pathempty"      = "Veuillez sélectionner un dossier pour le projet.";
+"view.researchprojectinputscreen.error.duplicatename"  = "Un projet portant ce nom existe déjà.";
 "view.researchprojectinputscreen.error.save"           = "Le projet n'a pas pu être enregistré. Veuillez réessayer.";
 
 "view.researchprojectlistscreen.title"                 = "Projets de recherche";
@@ -31,7 +32,7 @@
 "view.researchprojectlistscreen.button.open"           = "Ouvrir";
 "view.researchprojectlistscreen.button.delete"         = "Supprimer";
 "view.researchprojectlistscreen.delete.title"          = "Supprimer le projet";
-"view.researchprojectlistscreen.delete.message"        = "Voulez-vous vraiment supprimer '%@' ? Cette action est irréversible.";
+"view.researchprojectlistscreen.delete.message"        = "Voulez-vous vraiment supprimer '%@' ? Le dossier du projet et toutes les données associées seront définitivement supprimés. Cette action est irréversible.";
 "view.researchprojectlistscreen.delete.confirm"        = "Supprimer";
 "view.researchprojectlistscreen.delete.cancel"         = "Annuler";
 "view.researchprojectlistscreen.delete.failed"         = "Impossible de supprimer le projet.";

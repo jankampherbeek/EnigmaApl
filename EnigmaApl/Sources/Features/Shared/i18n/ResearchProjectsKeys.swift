@@ -20,9 +20,10 @@ struct ResearchProjectsKeys {
     static let labelPath        = "view.researchprojectinputscreen.label.path"
     static let buttonSelectPath = "view.researchprojectinputscreen.button.selectpath"
     static let buttonNext       = "view.researchprojectinputscreen.button.next"
-    static let errorNameEmpty   = "view.researchprojectinputscreen.error.nameempty"
-    static let errorPathEmpty   = "view.researchprojectinputscreen.error.pathempty"
-    static let errorSave        = "view.researchprojectinputscreen.error.save"
+    static let errorNameEmpty        = "view.researchprojectinputscreen.error.nameempty"
+    static let errorPathEmpty        = "view.researchprojectinputscreen.error.pathempty"
+    static let errorDuplicateName    = "view.researchprojectinputscreen.error.duplicatename"
+    static let errorSave             = "view.researchprojectinputscreen.error.save"
 
     // List / search screen
     static let listTitle            = "view.researchprojectlistscreen.title"

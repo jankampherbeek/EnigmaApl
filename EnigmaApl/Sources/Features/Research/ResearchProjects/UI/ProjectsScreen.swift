@@ -196,8 +196,14 @@ struct ResearchProjectInputScreen: View {
     private func proceed() {
         guard !nameIsEmpty else { errorMessage = t(ResearchProjectsKeys.errorNameEmpty); return }
         guard !pathIsEmpty else { errorMessage = t(ResearchProjectsKeys.errorPathEmpty); return }
+        let trimmedName = name.trimmingCharacters(in: .whitespaces)
+        let dao = ResearchProjectDao(context: modelContext)
+        if let found = try? dao.fetch(byName: trimmedName), found != nil {
+            errorMessage = t(ResearchProjectsKeys.errorDuplicateName)
+            return
+        }
         let draft = ProjectDraft(
-            name: name.trimmingCharacters(in: .whitespaces),
+            name: trimmedName,
             projectDescription: projectDescription,
             inquiry: selectedInquiry,
             cgMultiplication: max(1, Int(cgMultiplicationText) ?? 1),
@@ -844,6 +850,24 @@ struct ResearchProjectListScreen: View {
 
     private func confirmDelete(_ project: ResearchProjectModel) {
         showDeleteError = false
+
+        // Resolve the security-scoped bookmark so the sandbox grants access
+        // to the project folder for the FileManager removal that follows.
+        var scopedURL: URL? = nil
+        if let data = project.bookmark, !data.isEmpty {
+            var isStale = false
+            if let url = try? URL(resolvingBookmarkData: data,
+                                  options: .withSecurityScope,
+                                  relativeTo: nil,
+                                  bookmarkDataIsStale: &isStale) {
+                if url.startAccessingSecurityScopedResource() {
+                    scopedURL = url
+                }
+            }
+        }
+
+        defer { scopedURL?.stopAccessingSecurityScopedResource() }
+
         let service = ResearchProjectService(context: modelContext,
                                              pipelineOrchestrator: ResearchPipelineOrchestrator())
         do {

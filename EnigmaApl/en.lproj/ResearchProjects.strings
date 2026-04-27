@@ -18,6 +18,7 @@
 "view.researchprojectinputscreen.button.selectpath"    = "Select folder...";
 "view.researchprojectinputscreen.error.nameempty"      = "A project name is required.";
 "view.researchprojectinputscreen.error.pathempty"      = "Please select a folder for the project.";
+"view.researchprojectinputscreen.error.duplicatename"  = "A project with this name already exists.";
 "view.researchprojectinputscreen.error.save"           = "Could not save the project. Please try again.";
 
 "view.researchprojectlistscreen.title"                 = "Research Projects";
@@ -31,7 +32,7 @@
 "view.researchprojectlistscreen.button.open"           = "Open";
 "view.researchprojectlistscreen.button.delete"         = "Delete";
 "view.researchprojectlistscreen.delete.title"          = "Delete project";
-"view.researchprojectlistscreen.delete.message"        = "Are you sure you want to delete '%@'? This cannot be undone.";
+"view.researchprojectlistscreen.delete.message"        = "Are you sure you want to delete '%@'? The project folder and all its data will be permanently removed. This cannot be undone.";
 "view.researchprojectlistscreen.delete.confirm"        = "Delete";
 "view.researchprojectlistscreen.delete.cancel"         = "Cancel";
 "view.researchprojectlistscreen.delete.failed"         = "Could not delete the project.";

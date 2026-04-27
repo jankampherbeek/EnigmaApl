@@ -18,6 +18,7 @@
 "view.researchprojectinputscreen.button.selectpath"    = "Kies map...";
 "view.researchprojectinputscreen.error.nameempty"      = "Een projectnaam is verplicht.";
 "view.researchprojectinputscreen.error.pathempty"      = "Selecteer een map voor het project.";
+"view.researchprojectinputscreen.error.duplicatename"  = "Er bestaat al een project met deze naam.";
 "view.researchprojectinputscreen.error.save"           = "Het project kon niet worden opgeslagen. Probeer het opnieuw.";
 
 "view.researchprojectlistscreen.title"                 = "Onderzoeksprojecten";
@@ -31,7 +32,7 @@
 "view.researchprojectlistscreen.button.open"           = "Openen";
 "view.researchprojectlistscreen.button.delete"         = "Verwijderen";
 "view.researchprojectlistscreen.delete.title"          = "Project verwijderen";
-"view.researchprojectlistscreen.delete.message"        = "Weet je zeker dat je '%@' wilt verwijderen? Dit kan niet ongedaan worden gemaakt.";
+"view.researchprojectlistscreen.delete.message"        = "Weet je zeker dat je '%@' wilt verwijderen? De projectmap en alle bijbehorende gegevens worden definitief verwijderd. Dit kan niet ongedaan worden gemaakt.";
 "view.researchprojectlistscreen.delete.confirm"        = "Verwijderen";
 "view.researchprojectlistscreen.delete.cancel"         = "Annuleren";
 "view.researchprojectlistscreen.delete.failed"         = "Het project kon niet worden verwijderd.";
