@@ -51,6 +51,12 @@
 "view.researchprojectdetailscreen.label.housesystem"        = "House system";
 "view.researchprojectdetailscreen.label.dial"               = "Dial types";
 "view.researchprojectdetailscreen.label.harmonicnr"         = "Harmonic number";
+"view.researchprojectdetailscreen.label.observerposition"   = "Observer position";
+"view.researchprojectdetailscreen.label.ayanamsha"          = "Ayanamsha";
+"view.researchprojectdetailscreen.label.projectiontype"     = "Projection type";
+"view.researchprojectdetailscreen.label.lunarnode"          = "Lunar node";
+"view.researchprojectdetailscreen.label.blackmoon"          = "Black Moon correction";
+"view.researchprojectdetailscreen.label.lotstype"           = "Lots type";
 "view.researchprojectdetailscreen.label.datafile"           = "Data file";
 "view.researchprojectdetailscreen.button.selectfile"        = "Select file...";
 "view.researchprojectdetailscreen.label.filetype"           = "File type";

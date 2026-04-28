@@ -51,6 +51,12 @@
 "view.researchprojectdetailscreen.label.housesystem"        = "Huizensysteem";
 "view.researchprojectdetailscreen.label.dial"               = "Wijzerplaten";
 "view.researchprojectdetailscreen.label.harmonicnr"         = "Harmonisch getal";
+"view.researchprojectdetailscreen.label.observerposition"   = "Waarnemer positie";
+"view.researchprojectdetailscreen.label.ayanamsha"          = "Ayanamsha";
+"view.researchprojectdetailscreen.label.projectiontype"     = "Projectietype";
+"view.researchprojectdetailscreen.label.lunarnode"          = "Maansknoop type";
+"view.researchprojectdetailscreen.label.blackmoon"          = "Zwarte Maan correctie";
+"view.researchprojectdetailscreen.label.lotstype"           = "Loten type";
 "view.researchprojectdetailscreen.label.datafile"           = "Gegevensbestand";
 "view.researchprojectdetailscreen.button.selectfile"        = "Kies bestand...";
 "view.researchprojectdetailscreen.label.filetype"           = "Bestandstype";

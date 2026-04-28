@@ -51,6 +51,12 @@
 "view.researchprojectdetailscreen.label.housesystem"        = "Häusersystem";
 "view.researchprojectdetailscreen.label.dial"               = "Zifferblätter";
 "view.researchprojectdetailscreen.label.harmonicnr"         = "Harmonische Zahl";
+"view.researchprojectdetailscreen.label.observerposition"   = "Beobachterposition";
+"view.researchprojectdetailscreen.label.ayanamsha"          = "Ayanamsha";
+"view.researchprojectdetailscreen.label.projectiontype"     = "Projektionstyp";
+"view.researchprojectdetailscreen.label.lunarnode"          = "Mondknoten-Typ";
+"view.researchprojectdetailscreen.label.blackmoon"          = "Schwarzmond-Korrektur";
+"view.researchprojectdetailscreen.label.lotstype"           = "Los-Typ";
 "view.researchprojectdetailscreen.label.datafile"           = "Datendatei";
 "view.researchprojectdetailscreen.button.selectfile"        = "Datei auswählen...";
 "view.researchprojectdetailscreen.label.filetype"           = "Dateityp";

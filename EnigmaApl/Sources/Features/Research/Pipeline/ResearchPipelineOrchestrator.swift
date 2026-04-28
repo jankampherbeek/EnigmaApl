@@ -212,6 +212,8 @@ private enum PipelineRunner {
         // Flags derived from config — evaluated once, used per-record.
         let isTopocentric = calcConfig.observerPosition == .topoCentric
         let isSidereal    = calcConfig.ayanamsha != .tropical
+        // Lunar node: mean node = SE id 10, true node = SE id 11.
+        let northNodeSeId = calcConfig.lunarNodeType == .trueNode ? 11 : 10
 
         let seWrapper = SEWrapper()
 
@@ -266,10 +268,12 @@ private enum PipelineRunner {
                 case .CommonSe:
                     // Hot path: direct swe_calc_ut — no intermediate structs,
                     // no Dictionary lookups, no array allocations.
+                    // North Node: mean (10) or true (11) per lunarNodeType config.
+                    let seId = layout.factor == .northNode ? northNodeSeId : layout.factor.seId
                     if layout.hasEcliptical {
                         if let pos = seWrapper.calculateFactorPosition(
                                 julianDay: julDay,
-                                factor: layout.factor.seId,
+                                factor: seId,
                                 flags: eclFlags) {
                             byteOffset = writeCoordBytes(
                                 pos.mainPos, pos.deviation, pos.distance,
@@ -280,7 +284,7 @@ private enum PipelineRunner {
                     if layout.hasEquatorial {
                         if let pos = seWrapper.calculateFactorPosition(
                                 julianDay: julDay,
-                                factor: layout.factor.seId,
+                                factor: seId,
                                 flags: eqFlags) {
                             byteOffset = writeCoordBytes(
                                 pos.mainPos, pos.deviation, pos.distance,

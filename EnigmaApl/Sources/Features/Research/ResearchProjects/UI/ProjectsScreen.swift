@@ -1193,6 +1193,28 @@ struct ResearchProjectDetailScreen: View {
             default:
                 EmptyView()
             }
+
+            // Calculation config rows — shown for all inquiry types.
+            if let calcConfig = config.calculationConfig {
+                LabeledContent(t(ResearchProjectsKeys.detailLabelObserverPosition)) {
+                    Text(NSLocalizedString(calcConfig.observerPosition.rbKey, bundle: .main, comment: ""))
+                }
+                LabeledContent(t(ResearchProjectsKeys.detailLabelAyanamsha)) {
+                    Text(NSLocalizedString(calcConfig.ayanamsha.rbKey, bundle: .main, comment: ""))
+                }
+                LabeledContent(t(ResearchProjectsKeys.detailLabelProjectionType)) {
+                    Text(NSLocalizedString(calcConfig.projectionType.rbKey, bundle: .main, comment: ""))
+                }
+                LabeledContent(t(ResearchProjectsKeys.detailLabelLunarNode)) {
+                    Text(NSLocalizedString(calcConfig.lunarNodeType.rbKey, bundle: .main, comment: ""))
+                }
+                LabeledContent(t(ResearchProjectsKeys.detailLabelBlackMoon)) {
+                    Text(NSLocalizedString(calcConfig.blackMoonCorrectionType.rbKey, bundle: .main, comment: ""))
+                }
+                LabeledContent(t(ResearchProjectsKeys.detailLabelLotsType)) {
+                    Text(NSLocalizedString(calcConfig.lotsType.rbKey, bundle: .main, comment: ""))
+                }
+            }
         }
     }
 
