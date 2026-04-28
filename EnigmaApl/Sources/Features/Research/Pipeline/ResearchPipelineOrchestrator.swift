@@ -300,21 +300,35 @@ private enum PipelineRunner {
                     case 703: ascmcIndex = 3   // Vertex
                     default:  ascmcIndex = nil
                     }
+                    // Resolve ecliptic longitude once — reused by both coordinate blocks.
+                    var mundaneLong: Double? = nil
+                    if layout.hasEcliptical || layout.hasEquatorial,
+                       let idx = ascmcIndex,
+                       let (_, ascmc) = try? seWrapper.calculateHouses(
+                           julianDay: julDay,
+                           latitude: record.geoLat,
+                           longitude: record.geoLon,
+                           houseSystem: houseSystemInt),
+                       ascmc.count > idx {
+                        mundaneLong = ascmc[idx]
+                    }
                     if layout.hasEcliptical {
-                        if let idx = ascmcIndex,
-                           let (_, ascmc) = try? seWrapper.calculateHouses(
-                               julianDay: julDay,
-                               latitude: record.geoLat,
-                               longitude: record.geoLon,
-                               houseSystem: houseSystemInt),
-                           ascmc.count > idx {
-                            byteOffset = writeCoordBytes(ascmc[idx], 0, 0, 0, 0,
+                        if let lon = mundaneLong {
+                            byteOffset = writeCoordBytes(lon, 0, 0, 0, 0,
                                                          into: &bytes, at: byteOffset)
                         } else { byteOffset += kBytesPerCoord }
                     }
                     if layout.hasEquatorial {
-                        // Equatorial for Mundane factors not implemented — write zeros.
-                        byteOffset += kBytesPerCoord
+                        if let lon = mundaneLong {
+                            // Convert ecliptic longitude (latitude = 0) to equatorial
+                            // using the true obliquity for this Julian day.
+                            let obl = seWrapper.calculateFactorPosition(
+                                julianDay: julDay, factor: -1, flags: 2)?.mainPos ?? 23.4393
+                            let (ra, dec) = seWrapper.eclipticToEquatorial(
+                                eclipticCoordinates: [lon, 0.0], obliquity: obl)
+                            byteOffset = writeCoordBytes(ra, dec, 0, 0, 0,
+                                                         into: &bytes, at: byteOffset)
+                        } else { byteOffset += kBytesPerCoord }
                     }
 
                 // ── Future inquiry types: add cases here ──────────────────────
