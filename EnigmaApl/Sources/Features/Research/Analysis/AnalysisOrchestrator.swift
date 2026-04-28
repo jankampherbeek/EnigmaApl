@@ -106,14 +106,14 @@ struct AnalysisOrchestrator {
                 return .midpoints(try worker.run())
 
             case .harmonics:
-                let orb = config.orbConfig?.harmonicOrb ?? 1.0
+                let orb = config.harmonicOrbOverride ?? config.orbConfig?.harmonicOrb ?? 1.0
                 let harmonicNumber = config.harmonicNumber ?? 5
                 let worker = HarmonicsWorker(binaryFile: binaryFile, config: config,
                                             harmonicNumber: harmonicNumber, orb: orb)
                 return .harmonics(try worker.run())
 
             case .parallels:
-                let orb = config.orbConfig?.parallelOrb ?? 1.0
+                let orb = config.parallelOrbOverride ?? config.orbConfig?.parallelOrb ?? 1.0
                 let worker = ParallelsWorker(binaryFile: binaryFile, config: config, orb: orb)
                 return .parallels(try worker.run())
 

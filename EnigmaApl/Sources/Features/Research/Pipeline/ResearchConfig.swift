@@ -55,6 +55,10 @@ public struct ResearchConfig: Codable, Sendable {
     public let unaspectOrbOverride: Double?
     /// Override orb in degrees for declination midpoints. nil = use the value from OrbConfig.
     public let declMidpointOrbOverride: Double?
+    /// Override orb in degrees for harmonics. nil = use the value from OrbConfig.
+    public let harmonicOrbOverride: Double?
+    /// Override orb in degrees for parallels. nil = use the value from OrbConfig.
+    public let parallelOrbOverride: Double?
     /// Dial sizes (360, 90, 45) enabled for midpoint analysis.
     public let enabledDialSizes: [Int]?
     /// Harmonic number for harmonics analysis. nil = use default (5).
@@ -132,6 +136,8 @@ public struct ResearchConfig: Codable, Sendable {
         aspectOrbOverride: Double? = nil,
         unaspectOrbOverride: Double? = nil,
         declMidpointOrbOverride: Double? = nil,
+        harmonicOrbOverride: Double? = nil,
+        parallelOrbOverride: Double? = nil,
         enabledDialSizes: [Int]? = nil,
         harmonicNumber: Int? = nil
     ) {
@@ -144,6 +150,8 @@ public struct ResearchConfig: Codable, Sendable {
         self.aspectOrbOverride = aspectOrbOverride
         self.unaspectOrbOverride = unaspectOrbOverride
         self.declMidpointOrbOverride = declMidpointOrbOverride
+        self.harmonicOrbOverride = harmonicOrbOverride
+        self.parallelOrbOverride = parallelOrbOverride
         self.enabledDialSizes = enabledDialSizes
         self.harmonicNumber = harmonicNumber
     }

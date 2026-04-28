@@ -233,15 +233,25 @@ struct ResearchProjectConfigScreen: View {
     // Aspects (only for .aspects inquiry)
     @State private var selectedAspects: Set<Aspects> = []
     @State private var overrideOrb: Bool = false
-    @State private var orbText: String = ""
+    @State private var orbDeg: Int = 8
+    @State private var orbMin: Int = 0
 
     // Unaspected orb (only for .unaspect inquiry)
     @State private var overrideUnaspectOrb: Bool = false
-    @State private var unaspectOrbText: String = ""
+    @State private var unaspectOrbDeg: Int = 8
+    @State private var unaspectOrbMin: Int = 0
 
-    // Harmonic number (only for .harmonics inquiry)
+    // Harmonic number and orb (only for .harmonics inquiry)
     @State private var harmonicNumberText: String = "5"
     @State private var harmonicNumberError: String = ""
+    @State private var overrideHarmonicOrb: Bool = false
+    @State private var harmonicOrbDeg: Int = 2
+    @State private var harmonicOrbMin: Int = 0
+
+    // Parallels orb (only for .parallels inquiry)
+    @State private var overrideParallelOrb: Bool = false
+    @State private var parallelOrbDeg: Int = 1
+    @State private var parallelOrbMin: Int = 0
 
     // Dial type (only for .midpoints inquiry)
     @State private var useDial360: Bool = true
@@ -249,9 +259,12 @@ struct ResearchProjectConfigScreen: View {
     @State private var useDial45: Bool = false
 
     // Midpoint orbs per dial (only for .midpoints inquiry)
-    @State private var orbMidpoint360Text: String = "1.50"
-    @State private var orbMidpoint90Text: String = "1.00"
-    @State private var orbMidpoint45Text: String = "0.50"
+    @State private var orbMidpoint360Deg: Int = 1
+    @State private var orbMidpoint360Min: Int = 30
+    @State private var orbMidpoint90Deg:  Int = 1
+    @State private var orbMidpoint90Min:  Int = 0
+    @State private var orbMidpoint45Deg:  Int = 0
+    @State private var orbMidpoint45Min:  Int = 30
 
     // DeclMidpoints orb (only for .declMidpoints inquiry)
     @State private var overrideDeclMidpointOrb: Bool = false
@@ -320,10 +333,10 @@ struct ResearchProjectConfigScreen: View {
             factorsSection
         case .harmonics:
             harmonicNumberSection
-            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            harmonicsOrbSection
             factorsSection
         case .parallels:
-            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            parallelsOrbSection
             factorsSection
         case .declMidpoints:
             declMidpointsOrbSection
@@ -380,14 +393,27 @@ struct ResearchProjectConfigScreen: View {
     private var aspectsOrbSection: some View {
         GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(t(ResearchProjectsKeys.configOrbFromConfig))
-                    .foregroundStyle(.secondary)
+                if let orbConfig = activeConfig?.orbConfig {
+                    let (d, m) = researchSexagesimalFromDouble(orbConfig.aspectBaseOrb)
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig) + ": \(d)° \(m)'")
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                        .foregroundStyle(.secondary)
+                }
                 Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideOrb)
                 if overrideOrb {
-                    FieldBlock(t(ResearchProjectsKeys.configOrbValue)) {
-                        TextField("", text: $orbText)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 80)
+                    HStack(spacing: 4) {
+                        Text("\(orbDeg)°")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $orbDeg, in: 0...30)
+                            .labelsHidden().fixedSize()
+                        Text("\(orbMin)'")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $orbMin, in: 0...59)
+                            .labelsHidden().fixedSize()
                     }
                 }
             }
@@ -399,14 +425,91 @@ struct ResearchProjectConfigScreen: View {
     private var unaspectOrbSection: some View {
         GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(t(ResearchProjectsKeys.configOrbFromConfig))
-                    .foregroundStyle(.secondary)
+                if let orbConfig = activeConfig?.orbConfig {
+                    let (d, m) = researchSexagesimalFromDouble(orbConfig.aspectBaseOrb)
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig) + ": \(d)° \(m)'")
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                        .foregroundStyle(.secondary)
+                }
                 Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideUnaspectOrb)
                 if overrideUnaspectOrb {
-                    FieldBlock(t(ResearchProjectsKeys.configOrbValue)) {
-                        TextField("", text: $unaspectOrbText)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 80)
+                    HStack(spacing: 4) {
+                        Text("\(unaspectOrbDeg)°")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $unaspectOrbDeg, in: 0...30)
+                            .labelsHidden().fixedSize()
+                        Text("\(unaspectOrbMin)'")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $unaspectOrbMin, in: 0...59)
+                            .labelsHidden().fixedSize()
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var harmonicsOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                if let orbConfig = activeConfig?.orbConfig {
+                    let (d, m) = researchSexagesimalFromDouble(orbConfig.harmonicOrb)
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig) + ": \(d)° \(m)'")
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                        .foregroundStyle(.secondary)
+                }
+                Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideHarmonicOrb)
+                if overrideHarmonicOrb {
+                    HStack(spacing: 4) {
+                        Text("\(harmonicOrbDeg)°")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $harmonicOrbDeg, in: 0...10)
+                            .labelsHidden().fixedSize()
+                        Text("\(harmonicOrbMin)'")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $harmonicOrbMin, in: 0...59)
+                            .labelsHidden().fixedSize()
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private var parallelsOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                if let orbConfig = activeConfig?.orbConfig {
+                    let (d, m) = researchSexagesimalFromDouble(orbConfig.parallelOrb)
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig) + ": \(d)° \(m)'")
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                        .foregroundStyle(.secondary)
+                }
+                Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideParallelOrb)
+                if overrideParallelOrb {
+                    HStack(spacing: 4) {
+                        Text("\(parallelOrbDeg)°")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $parallelOrbDeg, in: 0...10)
+                            .labelsHidden().fixedSize()
+                        Text("\(parallelOrbMin)'")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $parallelOrbMin, in: 0...59)
+                            .labelsHidden().fixedSize()
                     }
                 }
             }
@@ -477,28 +580,37 @@ struct ResearchProjectConfigScreen: View {
         GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
             VStack(alignment: .leading, spacing: 8) {
                 if useDial360 {
-                    FieldBlock(t(ResearchProjectsKeys.configDial360)) {
-                        TextField("", text: $orbMidpoint360Text)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 80)
-                    }
+                    orbStepperRow(label: t(ResearchProjectsKeys.configDial360),
+                                  deg: $orbMidpoint360Deg, min: $orbMidpoint360Min)
                 }
                 if useDial90 {
-                    FieldBlock(t(ResearchProjectsKeys.configDial90)) {
-                        TextField("", text: $orbMidpoint90Text)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 80)
-                    }
+                    orbStepperRow(label: t(ResearchProjectsKeys.configDial90),
+                                  deg: $orbMidpoint90Deg, min: $orbMidpoint90Min)
                 }
                 if useDial45 {
-                    FieldBlock(t(ResearchProjectsKeys.configDial45)) {
-                        TextField("", text: $orbMidpoint45Text)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 80)
-                    }
+                    orbStepperRow(label: t(ResearchProjectsKeys.configDial45),
+                                  deg: $orbMidpoint45Deg, min: $orbMidpoint45Min)
                 }
             }
             .padding(4)
+        }
+    }
+
+    private func orbStepperRow(label: String, deg: Binding<Int>, min: Binding<Int>) -> some View {
+        HStack(spacing: 8) {
+            Text(label)
+                .frame(minWidth: 40, alignment: .leading)
+            Spacer()
+            Text("\(deg.wrappedValue)°")
+                .frame(width: 30, alignment: .trailing)
+                .monospacedDigit()
+            Stepper("", value: deg, in: 0...10)
+                .labelsHidden().fixedSize()
+            Text("\(min.wrappedValue)'")
+                .frame(width: 30, alignment: .trailing)
+                .monospacedDigit()
+            Stepper("", value: min, in: 0...59)
+                .labelsHidden().fixedSize()
         }
     }
 
@@ -560,18 +672,24 @@ struct ResearchProjectConfigScreen: View {
             selectedHouseSystem = config.calculationConfig.houseSystem
             if draft.inquiry == .aspects {
                 selectedAspects = Set(config.aspectConfig.aspectSettings.filter(\.isUsed).map(\.aspect))
-                orbText = String(format: "%.2f", config.orbConfig.aspectBaseOrb)
+                (orbDeg, orbMin) = researchSexagesimalFromDouble(config.orbConfig.aspectBaseOrb)
             }
             if draft.inquiry == .unaspect {
-                unaspectOrbText = String(format: "%.2f", config.orbConfig.aspectBaseOrb)
+                (unaspectOrbDeg, unaspectOrbMin) = researchSexagesimalFromDouble(config.orbConfig.aspectBaseOrb)
             }
             if draft.inquiry == .midpoints {
-                orbMidpoint360Text = String(format: "%.2f", config.orbConfig.midpoint360DialOrb)
-                orbMidpoint90Text  = String(format: "%.2f", config.orbConfig.midpoint90DialOrb)
-                orbMidpoint45Text  = String(format: "%.2f", config.orbConfig.midpoint45DialOrb)
+                (orbMidpoint360Deg, orbMidpoint360Min) = researchSexagesimalFromDouble(config.orbConfig.midpoint360DialOrb)
+                (orbMidpoint90Deg,  orbMidpoint90Min)  = researchSexagesimalFromDouble(config.orbConfig.midpoint90DialOrb)
+                (orbMidpoint45Deg,  orbMidpoint45Min)  = researchSexagesimalFromDouble(config.orbConfig.midpoint45DialOrb)
             }
             if draft.inquiry == .declMidpoints {
                 (declMidpointOrbDeg, declMidpointOrbMin) = researchSexagesimalFromDouble(config.orbConfig.declinationMidpointOrb)
+            }
+            if draft.inquiry == .harmonics {
+                (harmonicOrbDeg, harmonicOrbMin) = researchSexagesimalFromDouble(config.orbConfig.harmonicOrb)
+            }
+            if draft.inquiry == .parallels {
+                (parallelOrbDeg, parallelOrbMin) = researchSexagesimalFromDouble(config.orbConfig.parallelOrb)
             }
         }
     }
@@ -603,15 +721,12 @@ struct ResearchProjectConfigScreen: View {
         var orbConfigJson = "{}"
         if var orb = activeConfig?.orbConfig {
             if draft.inquiry == .midpoints {
-                let parse = { (text: String, fallback: Double) -> Double in
-                    Double(text.replacingOccurrences(of: ",", with: ".")) ?? fallback
-                }
                 orb = OrbConfig(
                     orbSystem: orb.orbSystem,
                     aspectBaseOrb: orb.aspectBaseOrb,
-                    midpoint360DialOrb: parse(orbMidpoint360Text, orb.midpoint360DialOrb),
-                    midpoint90DialOrb:  parse(orbMidpoint90Text,  orb.midpoint90DialOrb),
-                    midpoint45DialOrb:  parse(orbMidpoint45Text,  orb.midpoint45DialOrb),
+                    midpoint360DialOrb: researchDoubleFromSexagesimal(orbMidpoint360Deg, orbMidpoint360Min),
+                    midpoint90DialOrb:  researchDoubleFromSexagesimal(orbMidpoint90Deg,  orbMidpoint90Min),
+                    midpoint45DialOrb:  researchDoubleFromSexagesimal(orbMidpoint45Deg,  orbMidpoint45Min),
                     harmonicOrb: orb.harmonicOrb,
                     parallelOrb: orb.parallelOrb,
                     declinationMidpointOrb: orb.declinationMidpointOrb
@@ -624,13 +739,19 @@ struct ResearchProjectConfigScreen: View {
         }
 
         let aspectOrbOverride: Double? = (draft.inquiry == .aspects && overrideOrb)
-            ? Double(orbText.replacingOccurrences(of: ",", with: "."))
+            ? researchDoubleFromSexagesimal(orbDeg, orbMin)
             : nil
         let unaspectOrbOverride: Double? = (draft.inquiry == .unaspect && overrideUnaspectOrb)
-            ? Double(unaspectOrbText.replacingOccurrences(of: ",", with: "."))
+            ? researchDoubleFromSexagesimal(unaspectOrbDeg, unaspectOrbMin)
             : nil
         let declMidpointOrbOverride: Double? = (draft.inquiry == .declMidpoints && overrideDeclMidpointOrb)
             ? researchDoubleFromSexagesimal(declMidpointOrbDeg, declMidpointOrbMin)
+            : nil
+        let harmonicOrbOverride: Double? = (draft.inquiry == .harmonics && overrideHarmonicOrb)
+            ? researchDoubleFromSexagesimal(harmonicOrbDeg, harmonicOrbMin)
+            : nil
+        let parallelOrbOverride: Double? = (draft.inquiry == .parallels && overrideParallelOrb)
+            ? researchDoubleFromSexagesimal(parallelOrbDeg, parallelOrbMin)
             : nil
 
         let enabledAspectIds: [Int]? = (draft.inquiry == .aspects)
@@ -656,6 +777,8 @@ struct ResearchProjectConfigScreen: View {
             aspectOrbOverride: aspectOrbOverride,
             unaspectOrbOverride: unaspectOrbOverride,
             declMidpointOrbOverride: declMidpointOrbOverride,
+            harmonicOrbOverride: harmonicOrbOverride,
+            parallelOrbOverride: parallelOrbOverride,
             enabledDialSizes: enabledDialSizes,
             harmonicNumber: resolvedHarmonicNumber
         )
@@ -973,7 +1096,12 @@ struct ResearchProjectDetailScreen: View {
             case .aspects:
                 LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
                     if let orb = config.aspectOrbOverride {
-                        Text(String(format: "%.2f°", orb))
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                    } else if let orb = config.orbConfig?.aspectBaseOrb {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                            .foregroundStyle(.secondary)
                     } else {
                         Text(t(ResearchProjectsKeys.detailOrbFromConfig))
                             .foregroundStyle(.secondary)
@@ -982,7 +1110,12 @@ struct ResearchProjectDetailScreen: View {
             case .unaspect:
                 LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
                     if let orb = config.unaspectOrbOverride {
-                        Text(String(format: "%.2f°", orb))
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                    } else if let orb = config.orbConfig?.aspectBaseOrb {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                            .foregroundStyle(.secondary)
                     } else {
                         Text(t(ResearchProjectsKeys.detailOrbFromConfig))
                             .foregroundStyle(.secondary)
@@ -996,10 +1129,17 @@ struct ResearchProjectDetailScreen: View {
                     LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
                         let parts: [String] = dials.compactMap { size -> String? in
                             switch size {
-                            case 360: return "360°: \(String(format: "%.2f°", orbConfig.midpoint360DialOrb))"
-                            case 90:  return "90°: \(String(format: "%.2f°", orbConfig.midpoint90DialOrb))"
-                            case 45:  return "45°: \(String(format: "%.2f°", orbConfig.midpoint45DialOrb))"
-                            default:  return nil
+                            case 360:
+                                let (d, m) = researchSexagesimalFromDouble(orbConfig.midpoint360DialOrb)
+                                return "360°: \(d)° \(m)'"
+                            case 90:
+                                let (d, m) = researchSexagesimalFromDouble(orbConfig.midpoint90DialOrb)
+                                return "90°: \(d)° \(m)'"
+                            case 45:
+                                let (d, m) = researchSexagesimalFromDouble(orbConfig.midpoint45DialOrb)
+                                return "45°: \(d)° \(m)'"
+                            default:
+                                return nil
                             }
                         }
                         Text(parts.joined(separator: "  "))
@@ -1009,15 +1149,31 @@ struct ResearchProjectDetailScreen: View {
                 LabeledContent(t(ResearchProjectsKeys.detailLabelHarmonicNr)) {
                     Text("\(config.harmonicNumber ?? 5)")
                 }
-                if let orb = config.orbConfig?.harmonicOrb {
-                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
-                        Text(String(format: "%.2f°", orb))
+                LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                    if let orb = config.harmonicOrbOverride {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                    } else if let orb = config.orbConfig?.harmonicOrb {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(t(ResearchProjectsKeys.detailOrbFromConfig))
+                            .foregroundStyle(.secondary)
                     }
                 }
             case .parallels:
-                if let orb = config.orbConfig?.parallelOrb {
-                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
-                        Text(String(format: "%.2f°", orb))
+                LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                    if let orb = config.parallelOrbOverride {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                    } else if let orb = config.orbConfig?.parallelOrb {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(t(ResearchProjectsKeys.detailOrbFromConfig))
+                            .foregroundStyle(.secondary)
                     }
                 }
             case .declMidpoints:
