@@ -118,7 +118,7 @@ struct AnalysisOrchestrator {
                 return .parallels(try worker.run())
 
             case .declMidpoints:
-                let orb = config.orbConfig?.declinationMidpointOrb ?? 1.0
+                let orb = config.declMidpointOrbOverride ?? config.orbConfig?.declinationMidpointOrb ?? 1.0
                 let worker = DeclMidpointsWorker(binaryFile: binaryFile, config: config, orb: orb)
                 return .declMidpoints(try worker.run())
 

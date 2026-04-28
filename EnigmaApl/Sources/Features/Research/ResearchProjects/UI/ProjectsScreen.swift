@@ -253,6 +253,11 @@ struct ResearchProjectConfigScreen: View {
     @State private var orbMidpoint90Text: String = "1.00"
     @State private var orbMidpoint45Text: String = "0.50"
 
+    // DeclMidpoints orb (only for .declMidpoints inquiry)
+    @State private var overrideDeclMidpointOrb: Bool = false
+    @State private var declMidpointOrbDeg: Int = 0
+    @State private var declMidpointOrbMin: Int = 45
+
     @State private var errorMessage: String = ""
     @State private var initialized = false
 
@@ -321,7 +326,7 @@ struct ResearchProjectConfigScreen: View {
             if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
             factorsSection
         case .declMidpoints:
-            if let orbConfig = activeConfig?.orbConfig { predefinedOrbSection(orbConfig: orbConfig) }
+            declMidpointsOrbSection
             factorsSection
         default:
             factorsSection
@@ -497,6 +502,38 @@ struct ResearchProjectConfigScreen: View {
         }
     }
 
+    @ViewBuilder
+    private var declMidpointsOrbSection: some View {
+        GroupBox(t(ResearchProjectsKeys.configSectionOrb)) {
+            VStack(alignment: .leading, spacing: 8) {
+                if let orbConfig = activeConfig?.orbConfig {
+                    let (d, m) = researchSexagesimalFromDouble(orbConfig.declinationMidpointOrb)
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig) + ": \(d)° \(m)'")
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(t(ResearchProjectsKeys.configOrbFromConfig))
+                        .foregroundStyle(.secondary)
+                }
+                Toggle(t(ResearchProjectsKeys.configOrbOverride), isOn: $overrideDeclMidpointOrb)
+                if overrideDeclMidpointOrb {
+                    HStack(spacing: 4) {
+                        Text("\(declMidpointOrbDeg)°")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $declMidpointOrbDeg, in: 0...10)
+                            .labelsHidden().fixedSize()
+                        Text("\(declMidpointOrbMin)'")
+                            .frame(width: 30, alignment: .trailing)
+                            .monospacedDigit()
+                        Stepper("", value: $declMidpointOrbMin, in: 0...59)
+                            .labelsHidden().fixedSize()
+                    }
+                }
+            }
+            .padding(4)
+        }
+    }
+
     // MARK: - Bindings
 
     private func toggleBinding(for factor: Factors) -> Binding<Bool> {
@@ -532,6 +569,9 @@ struct ResearchProjectConfigScreen: View {
                 orbMidpoint360Text = String(format: "%.2f", config.orbConfig.midpoint360DialOrb)
                 orbMidpoint90Text  = String(format: "%.2f", config.orbConfig.midpoint90DialOrb)
                 orbMidpoint45Text  = String(format: "%.2f", config.orbConfig.midpoint45DialOrb)
+            }
+            if draft.inquiry == .declMidpoints {
+                (declMidpointOrbDeg, declMidpointOrbMin) = researchSexagesimalFromDouble(config.orbConfig.declinationMidpointOrb)
             }
         }
     }
@@ -589,6 +629,9 @@ struct ResearchProjectConfigScreen: View {
         let unaspectOrbOverride: Double? = (draft.inquiry == .unaspect && overrideUnaspectOrb)
             ? Double(unaspectOrbText.replacingOccurrences(of: ",", with: "."))
             : nil
+        let declMidpointOrbOverride: Double? = (draft.inquiry == .declMidpoints && overrideDeclMidpointOrb)
+            ? researchDoubleFromSexagesimal(declMidpointOrbDeg, declMidpointOrbMin)
+            : nil
 
         let enabledAspectIds: [Int]? = (draft.inquiry == .aspects)
             ? selectedAspects.map(\.rawValue).sorted()
@@ -612,6 +655,7 @@ struct ResearchProjectConfigScreen: View {
             enabledAspectIds: enabledAspectIds,
             aspectOrbOverride: aspectOrbOverride,
             unaspectOrbOverride: unaspectOrbOverride,
+            declMidpointOrbOverride: declMidpointOrbOverride,
             enabledDialSizes: enabledDialSizes,
             harmonicNumber: resolvedHarmonicNumber
         )
@@ -643,6 +687,17 @@ struct ResearchProjectConfigScreen: View {
             errorMessage = t(ResearchProjectsKeys.errorSave)
         }
     }
+}
+
+// MARK: - Sexagesimal helpers
+
+private func researchSexagesimalFromDouble(_ value: Double) -> (Int, Int) {
+    let totalMinutes = Int((value * 60.0).rounded())
+    return (totalMinutes / 60, totalMinutes % 60)
+}
+
+private func researchDoubleFromSexagesimal(_ deg: Int, _ min: Int) -> Double {
+    Double(deg) + Double(min) / 60.0
 }
 
 // MARK: - List / Search screen
@@ -966,9 +1021,17 @@ struct ResearchProjectDetailScreen: View {
                     }
                 }
             case .declMidpoints:
-                if let orb = config.orbConfig?.declinationMidpointOrb {
-                    LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
-                        Text(String(format: "%.2f°", orb))
+                LabeledContent(t(ResearchProjectsKeys.detailLabelOrb)) {
+                    if let orb = config.declMidpointOrbOverride {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                    } else if let orb = config.orbConfig?.declinationMidpointOrb {
+                        let (d, m) = researchSexagesimalFromDouble(orb)
+                        Text("\(d)° \(m)'")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(t(ResearchProjectsKeys.detailOrbFromConfig))
+                            .foregroundStyle(.secondary)
                     }
                 }
             default:
