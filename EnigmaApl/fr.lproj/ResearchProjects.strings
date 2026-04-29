@@ -69,6 +69,7 @@
 "view.researchprojectdetailscreen.file.errorrange"          = "Valeur hors plage à la ligne %d — champ '%@' : %@";
 "view.researchprojectdetailscreen.file.errornodata"         = "Le fichier ne contient aucune ligne de données.";
 "view.researchprojectdetailscreen.file.errorunreadable"     = "Le fichier n'a pas pu être lu : %@";
+"view.researchprojectdetailscreen.file.wrongtype"           = "Une erreur s'est produite lors de la lecture des positions. Vérifiez si vous avez sélectionné le bon type de fichier et si les données de votre fichier contiennent des erreurs.";
 "view.researchprojectdetailscreen.run.importing"            = "Importation du fichier de données…";
 "view.researchprojectdetailscreen.run.reading"              = "Lecture des enregistrements d'entrée…";
 "view.researchprojectdetailscreen.run.calculating"          = "Calcul : %d sur %d enregistrements…";

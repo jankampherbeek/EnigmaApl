@@ -1324,9 +1324,14 @@ struct ResearchProjectDetailScreen: View {
                 .font(.caption)
                 .foregroundStyle(.green)
         case .error(let message):
-            Text(message)
-                .font(.caption)
-                .foregroundStyle(.red)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                Text(t(ResearchProjectsKeys.detailFileWrongType))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 

@@ -69,6 +69,7 @@
 "view.researchprojectdetailscreen.file.errorrange"          = "Wert außerhalb des Bereichs in Zeile %d — Feld '%@': %@";
 "view.researchprojectdetailscreen.file.errornodata"         = "Die Datei enthält keine Datenzeilen.";
 "view.researchprojectdetailscreen.file.errorunreadable"     = "Die Datei konnte nicht gelesen werden: %@";
+"view.researchprojectdetailscreen.file.wrongtype"           = "Beim Lesen der Stände ist ein Fehler aufgetreten. Überprüfen Sie, ob Sie den richtigen Dateityp ausgewählt haben und ob Fehler in den Daten Ihrer Datei vorhanden sind.";
 "view.researchprojectdetailscreen.run.importing"            = "Datendatei importieren…";
 "view.researchprojectdetailscreen.run.reading"              = "Eingabedatensätze lesen…";
 "view.researchprojectdetailscreen.run.calculating"          = "Berechnung: %d von %d Datensätzen…";

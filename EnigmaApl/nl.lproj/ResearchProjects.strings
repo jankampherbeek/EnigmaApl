@@ -69,6 +69,7 @@
 "view.researchprojectdetailscreen.file.errorrange"          = "Waarde buiten bereik op regel %d — veld '%@': %@";
 "view.researchprojectdetailscreen.file.errornodata"         = "Het bestand bevat geen gegevensrijen.";
 "view.researchprojectdetailscreen.file.errorunreadable"     = "Het bestand kon niet worden gelezen: %@";
+"view.researchprojectdetailscreen.file.wrongtype"           = "Er ging iets fout bij het lezen van het stand. Controleer of je het juist bestandstype hebt gekozen en of er fouten zitten in de data van je bestand.";
 "view.researchprojectdetailscreen.run.importing"            = "Gegevensbestand importeren…";
 "view.researchprojectdetailscreen.run.reading"              = "Invoerrecords lezen…";
 "view.researchprojectdetailscreen.run.calculating"          = "Berekenen: %d van %d records…";

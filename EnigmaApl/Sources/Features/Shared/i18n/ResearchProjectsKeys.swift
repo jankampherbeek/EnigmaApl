@@ -75,6 +75,7 @@ struct ResearchProjectsKeys {
     static let detailFileErrorRange     = "view.researchprojectdetailscreen.file.errorrange"
     static let detailFileErrorNoData    = "view.researchprojectdetailscreen.file.errornodata"
     static let detailFileErrorUnreadable  = "view.researchprojectdetailscreen.file.errorunreadable"
+    static let detailFileWrongType        = "view.researchprojectdetailscreen.file.wrongtype"
     static let detailRunImporting         = "view.researchprojectdetailscreen.run.importing"
     static let detailRunReading           = "view.researchprojectdetailscreen.run.reading"
     static let detailRunCalculating       = "view.researchprojectdetailscreen.run.calculating"

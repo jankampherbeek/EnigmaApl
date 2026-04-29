@@ -69,6 +69,7 @@
 "view.researchprojectdetailscreen.file.errorrange"          = "Value out of range on line %d — field '%@': %@";
 "view.researchprojectdetailscreen.file.errornodata"         = "The file contains no data rows.";
 "view.researchprojectdetailscreen.file.errorunreadable"     = "The file could not be read: %@";
+"view.researchprojectdetailscreen.file.wrongtype"           = "Something went wrong reading the positions. Check whether you selected the correct file type and whether there are errors in the data of your file.";
 "view.researchprojectdetailscreen.run.importing"            = "Importing data file…";
 "view.researchprojectdetailscreen.run.reading"              = "Reading input records…";
 "view.researchprojectdetailscreen.run.calculating"          = "Calculating: %d of %d records…";
