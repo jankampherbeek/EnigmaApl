@@ -838,7 +838,6 @@ struct ResearchProjectListScreen: View {
 
     @State private var projects: [ResearchProjectModel] = []
     @State private var query: String = ""
-    @State private var showSearchPopup: Bool = false
     @State private var projectToDelete: ResearchProjectModel? = nil
     @State private var showDeleteConfirmation: Bool = false
     @State private var showDeleteError: Bool = false
@@ -863,6 +862,23 @@ struct ResearchProjectListScreen: View {
                     .font(.title2.weight(.semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
+                if mode == .search {
+                    HStack(alignment: .bottom, spacing: 8) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(t(ResearchProjectsKeys.searchLabel))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            TextField("", text: $query)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(minWidth: 200, maxWidth: 400)
+                                .onSubmit { performSearch() }
+                        }
+                        Button(t(ResearchProjectsKeys.searchButton)) { performSearch() }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(query.trimmingCharacters(in: .whitespaces).isEmpty)
+                    }
+                }
+
                 if showDeleteError {
                     Text(t(ResearchProjectsKeys.deleteFailed))
                         .font(.caption)
@@ -876,17 +892,8 @@ struct ResearchProjectListScreen: View {
                         .foregroundStyle(.secondary)
                 }
 
-                HStack {
-                    Button(t(ResearchProjectsKeys.buttonCancel)) {
-                        activeSubscreen = .overview
-                    }
-                    if mode == .search {
-                        Spacer()
-                        Button(t(ResearchProjectsKeys.searchButton)) {
-                            showSearchPopup = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
+                Button(t(ResearchProjectsKeys.buttonCancel)) {
+                    activeSubscreen = .overview
                 }
                 .padding(.top, 8)
             }
@@ -895,9 +902,6 @@ struct ResearchProjectListScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(mode == .all ? ResearchProjectsKeys.listTitle : ResearchProjectsKeys.searchTitle))
-        .sheet(isPresented: $showSearchPopup) {
-            searchPopup
-        }
         .alert(t(ResearchProjectsKeys.deleteTitle),
                isPresented: $showDeleteConfirmation,
                presenting: projectToDelete) { project in
@@ -911,38 +915,6 @@ struct ResearchProjectListScreen: View {
         .onAppear {
             if mode == .all { loadAll() }
         }
-    }
-
-    // MARK: - Search popup
-
-    private var searchPopup: some View {
-        NavigationStack {
-            VStack(alignment: .leading, spacing: 12) {
-                FieldBlock(t(ResearchProjectsKeys.searchLabel)) {
-                    TextField("", text: $query)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(minWidth: 200, maxWidth: 400)
-                        .onSubmit { performSearch() }
-                }
-                Button(t(ResearchProjectsKeys.searchButton)) {
-                    performSearch()
-                    showSearchPopup = false
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(query.trimmingCharacters(in: .whitespaces).isEmpty)
-                Spacer()
-            }
-            .padding()
-            .navigationTitle(t(ResearchProjectsKeys.searchPopupTitle))
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(t(ResearchProjectsKeys.searchPopupClose)) {
-                        showSearchPopup = false
-                    }
-                }
-            }
-        }
-        .frame(minWidth: 360, minHeight: 180)
     }
 
     // MARK: - Table
