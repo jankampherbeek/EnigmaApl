@@ -75,35 +75,68 @@ struct MidpointMatchFinderTests {
         #expect(match == nil)
     }
 
-    // MARK: - Dial360: 180° opposition
+    // MARK: - Dial360: antipodal midpoint (180° from primary)
 
-    /// In Dial360, a planet 180° from the midpoint is a match (opposition).
-    /// Midpoint Sun/Moon = 100°; opposition = 280°.
-    /// reduceToDial(280, 360)=280, reduceToDial(100, 360)=100.
-    /// diff = 180°; 180 >= 180 → deviation = 360-180 = 180°. NOT within 1.6°.
-    /// → use Saturn at 280.8° to get orb of 0.8°:
-    ///   reduceToDial(280.8, 360)=280.8; diff=|280.8-100|=180.8; 180.8>=180 → 360-180.8=179.2° ≠ 0.8.
-    /// Correct approach: deviation = min(|pos1-pos2|, 360-|pos1-pos2|).
-    /// |280-100|=180 → min(180, 180)=180. Still 180°, which is NOT ≤ 1.6.
-    /// Conclusion: a pure 180° opposition needs to be tested by placing the planet
-    /// just WITHIN orb of the opposition.
-    /// Saturn at 281° → |281-100|=181; min(181, 360-181=179)=179° → no match.
-    /// Wait — reduceToDial first:
-    ///   midPos = 100 mod 360 = 100; factorPos = 281 mod 360 = 281.
-    ///   diff = |100-281| = 181; 181 >= 180 → deviation = 360-181 = 179°. No match.
-    /// The 180° opposition in Dial360 only works if it lands within the ±orb window
-    /// ON THE SAME SIDE.  Place Saturn at 99° (1° before midpoint):
-    ///   diff = |100-99| = 1°; 1 < 180 → deviation = 1° ≤ 1.6 → match.
-    /// Opposition match: Saturn at 100+180 = 280 reduced to dial:
-    ///   deviation = shortestDeviation(100, 280, 360):
-    ///     small=100, large=280, diff=180; 180 >= 180 → 360-180 = 180°. Not ≤ 1.6.
-    /// So in this implementation the full-circle 180° anti-point does NOT automatically
-    /// match in Dial360 — the planet needs to be within ±orb of the midpoint longitude.
-    /// In Dial90 and Dial45 all "hard" separations DO match because they fold to the same
-    /// reduced position. This is documented in the tests below.
+    /// Every midpoint has two valid positions 180° apart.  MidpointsCalculator stores
+    /// only the shorter-arc position, but MidpointMatchFinder checks both that position
+    /// AND its antipodal (primary + 180°).
+    ///
+    /// Midpoint Sun/Moon = 100° (primary); antipodal = 280°.
+    /// A planet at 280° is within orb 0° of the antipodal → must be found.
+    /// A planet at 279° is within orb 1° of the antipodal → must be found.
+    /// A planet at 278° is 2° from the antipodal → outside orb 1.6° → must NOT be found.
+    ///
+    /// Real-world example that motivated this fix (Jan Kampherbeek's chart):
+    ///   Sun = 309.118°, Uranus = 105.563° → primary midpoint ≈ 27.34° (Aries);
+    ///   antipodal ≈ 207.34°.  Saturn = 207.258° (Libra), orb ≈ 0°05' — was missed
+    ///   before this fix.
 
-    /// Saturn 1° before midpoint Sun/Moon (99°) → match, orb 1°.
-    @Test("MidpointMatchFinder Dial360: planet just before midpoint is found")
+    /// Saturn exactly on antipodal (280°) of Sun/Moon midpoint (100°) → orb 0°.
+    @Test("MidpointMatchFinder Dial360: exact match at antipodal midpoint")
+    func testDial360ExactMatchAtAntipodal() {
+        let positions = Self.basePositions + [(.saturn, 280.0)]
+        let mids = MidpointsCalculator.calculate(positions: positions)
+        let results = MidpointMatchFinder.find(
+            baseMidpoints: mids, positions: positions,
+            dialType: .dial360, orb: orb)
+        let match = results.first {
+            $0.matchingFactor == .saturn && $0.factor1 == .sun && $0.factor2 == .moon
+        }
+        #expect(match != nil)
+        #expect(abs((match?.actualOrb ?? 99) - 0.0) < delta)
+    }
+
+    /// Saturn 1° before antipodal (279°) → orb 1°, within 1.6°.
+    @Test("MidpointMatchFinder Dial360: match within orb at antipodal midpoint")
+    func testDial360WithinOrbAtAntipodal() {
+        let positions = Self.basePositions + [(.saturn, 279.0)]
+        let mids = MidpointsCalculator.calculate(positions: positions)
+        let results = MidpointMatchFinder.find(
+            baseMidpoints: mids, positions: positions,
+            dialType: .dial360, orb: orb)
+        let match = results.first {
+            $0.matchingFactor == .saturn && $0.factor1 == .sun && $0.factor2 == .moon
+        }
+        #expect(match != nil)
+        #expect(abs((match?.actualOrb ?? 99) - 1.0) < delta)
+    }
+
+    /// Saturn 2° before antipodal (278°) → orb 2°, outside 1.6° → no match.
+    @Test("MidpointMatchFinder Dial360: outside orb at antipodal midpoint — no match")
+    func testDial360OutsideOrbAtAntipodal() {
+        let positions = Self.basePositions + [(.saturn, 278.0)]
+        let mids = MidpointsCalculator.calculate(positions: positions)
+        let results = MidpointMatchFinder.find(
+            baseMidpoints: mids, positions: positions,
+            dialType: .dial360, orb: orb)
+        let match = results.first {
+            $0.matchingFactor == .saturn && $0.factor1 == .sun && $0.factor2 == .moon
+        }
+        #expect(match == nil)
+    }
+
+    /// Saturn 1° before primary midpoint Sun/Moon (99°) → match, orb 1°.
+    @Test("MidpointMatchFinder Dial360: planet just before primary midpoint is found")
     func testDial360MatchJustBeforeMidpoint() {
         let positions = Self.basePositions + [(.saturn, 99.0)]
         let mids = MidpointsCalculator.calculate(positions: positions)

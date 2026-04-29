@@ -26,9 +26,13 @@ struct MidpointMatchFinder {
 
         for midpoint in baseMidpoints {
             let midPos = reduceToDial(midpoint.position, dialSize: dialSize)
+            let midPosAntipodal = (midPos + dialSize / 2).truncatingRemainder(dividingBy: dialSize)
             for (factor, longitude) in positions {
                 let factorPos = reduceToDial(longitude, dialSize: dialSize)
-                let deviation = shortestDeviation(midPos, factorPos, dialSize: dialSize)
+                let deviation = min(
+                    shortestDeviation(midPos, factorPos, dialSize: dialSize),
+                    shortestDeviation(midPosAntipodal, factorPos, dialSize: dialSize)
+                )
                 if deviation <= orb {
                     matches.append(MidpointMatch(
                         factor1: midpoint.factor1,

@@ -87,12 +87,14 @@ public struct MidpointsWorker {
                     for b in (a + 1)..<n {
                         guard let lonB = longitudes[b] else { continue }
                         let rb = lonB.truncatingRemainder(dividingBy: d)
-                        let midpoint = ((ra + rb) / 2).truncatingRemainder(dividingBy: d)
+                        let mid1 = ((ra + rb) / 2).truncatingRemainder(dividingBy: d)
+                        let mid2 = (mid1 + d / 2).truncatingRemainder(dividingBy: d)
                         for c in 0..<n {
                             guard let lonC = longitudes[c] else { continue }
                             let rc = lonC.truncatingRemainder(dividingBy: d)
-                            let diff = min(abs(rc - midpoint), d - abs(rc - midpoint))
-                            if diff <= orb {
+                            let diff1 = min(abs(rc - mid1), d - abs(rc - mid1))
+                            let diff2 = min(abs(rc - mid2), d - abs(rc - mid2))
+                            if min(diff1, diff2) <= orb {
                                 let key = FourKey(a, b, c, di)
                                 if isData { dataCounts[key, default: 0] += 1 }
                                 else       { controlCounts[key, default: 0] += 1 }
