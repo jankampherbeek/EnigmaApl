@@ -63,6 +63,7 @@ struct ResearchProjectsScreen: View {
 
 struct ResearchProjectsOverview: View {
     @Binding var activeSubscreen: ResearchProjectSubscreen
+    @State private var showHelp = false
 
     var body: some View {
         VStack(spacing: 24) {
@@ -83,6 +84,17 @@ struct ResearchProjectsOverview: View {
         }
         .padding()
         .navigationTitle(t(ResearchProjectsKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ResearchProjectsKeys.overviewHelp))
+        }
     }
 }
 
@@ -99,6 +111,7 @@ struct ResearchProjectInputScreen: View {
     @State private var selectedPath: String = ""
     @State private var selectedURL: URL? = nil
     @State private var errorMessage: String = ""
+    @State private var showHelp = false
 
     private var nameIsEmpty: Bool { name.trimmingCharacters(in: .whitespaces).isEmpty }
     private var pathIsEmpty: Bool { selectedPath.isEmpty }
@@ -178,6 +191,17 @@ struct ResearchProjectInputScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(ResearchProjectsKeys.newTitle))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ResearchProjectsKeys.newHelp))
+        }
     }
 
     private func selectFolder() {
@@ -273,6 +297,7 @@ struct ResearchProjectConfigScreen: View {
 
     @State private var errorMessage: String = ""
     @State private var initialized = false
+    @State private var showHelp = false
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
 
@@ -310,6 +335,17 @@ struct ResearchProjectConfigScreen: View {
         }
         .navigationTitle(t(ResearchProjectsKeys.configTitle))
         .onAppear { initializeFromConfig() }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ResearchProjectsKeys.configHelp))
+        }
     }
 
     // MARK: - Inquiry-specific section order
@@ -838,6 +874,7 @@ struct ResearchProjectListScreen: View {
 
     @State private var projects: [ResearchProjectModel] = []
     @State private var query: String = ""
+    @State private var showHelp = false
     @State private var projectToDelete: ResearchProjectModel? = nil
     @State private var showDeleteConfirmation: Bool = false
     @State private var showDeleteError: Bool = false
@@ -902,6 +939,19 @@ struct ResearchProjectListScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(mode == .all ? ResearchProjectsKeys.listTitle : ResearchProjectsKeys.searchTitle))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(mode == .all
+                ? ResearchProjectsKeys.listHelp
+                : ResearchProjectsKeys.searchHelp))
+        }
         .alert(t(ResearchProjectsKeys.deleteTitle),
                isPresented: $showDeleteConfirmation,
                presenting: projectToDelete) { project in
@@ -1046,6 +1096,7 @@ struct ResearchProjectDetailScreen: View {
     /// so it can be released after the inquiry (import + pipeline + analysis) completes.
     @State private var scopedURL: URL? = nil
     @State private var didStartScopedAccess = false
+    @State private var showHelp = false
 
     private static let dateFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -1307,6 +1358,17 @@ struct ResearchProjectDetailScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(ResearchProjectsKeys.detailTitle))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(ResearchProjectsKeys.detailHelp))
+        }
         .onReceive(pipelineOrchestrator.$progress) { progress in
             handleProgressUpdate(progress)
         }

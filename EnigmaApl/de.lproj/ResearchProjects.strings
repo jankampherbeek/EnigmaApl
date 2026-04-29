@@ -5,6 +5,7 @@
 "view.researchprojectsscreen.button.new"               = "Neues Projekt";
 "view.researchprojectsscreen.button.search"            = "Projekt suchen";
 "view.researchprojectsscreen.button.all"               = "Alle Projekte";
+"view.researchprojectsscreen.help"                     = "Für jede Untersuchung müssen Sie ein Projekt anlegen. Dies geschieht mit der Schaltfläche 'Neues Projekt'. Ein bestehendes Projekt können Sie über die Schaltfläche 'Projekt suchen' finden, und eine Übersicht aller Projekte erhalten Sie über die Schaltfläche 'Alle Projekte'.\n\nNach dem Erstellen eines neuen Projekts oder dem Abrufen eines bestehenden Projekts haben Sie die Möglichkeit, Forschungsdaten einzulesen und nach den Kriterien des Projekts zu analysieren.";
 
 "view.researchprojectinputscreen.title"                = "Neues Forschungsprojekt";
 "view.researchprojectinputscreen.label.name"           = "Name";
@@ -20,6 +21,7 @@
 "view.researchprojectinputscreen.error.pathempty"      = "Bitte wählen Sie einen Ordner für das Projekt.";
 "view.researchprojectinputscreen.error.duplicatename"  = "Ein Projekt mit diesem Namen existiert bereits.";
 "view.researchprojectinputscreen.error.save"           = "Das Projekt konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.";
+"view.researchprojectinputscreen.help"                 = "Geben Sie den Namen des Projekts ein; dieser Name darf bei einem bestehenden Projekt noch nicht verwendet werden. Sie können auch eine Beschreibung hinzufügen, dies ist jedoch nicht erforderlich.\n\nEnigma unterstützt neun Arten von Untersuchungen. Treffen Sie Ihre Wahl in der Dropdown-Liste unter 'Untersuchungstyp'.\n\nEnigma erstellt immer eine Kontrollgruppe. Besonders bei kleineren Datensätzen kann es sinnvoll sein, einen Multiplikator für die Kontrollgruppe zu verwenden. Wenn Ihr Multiplikator 10 ist und Ihr Datensatz 2030 Einträge enthält, erhalten Sie eine Kontrollgruppe mit 20300 Einträgen. Sie können einen Multiplikator von bis zu 1000 einstellen, aber bei großen Datendateien ist das nicht nötig und es würde sehr viel Zeit kosten, alle Horoskope in der Kontrollgruppe zu berechnen.\n\nUnter 'Projektordner' wählen Sie einen Ordner, in dem Sie die Ergebnisse speichern möchten. Enigma erstellt in diesem Ordner einen Unterordner mit dem Namen Ihres Projekts.\n\nSobald Sie alles ausgefüllt haben, erscheint die Schaltfläche 'Weiter', mit der Sie einen Bildschirm öffnen, auf dem Sie detaillierte Informationen zu Ihrem Projekt eingeben können.";
 
 "view.researchprojectlistscreen.title"                 = "Forschungsprojekte";
 "view.researchprojectlistscreen.searchtitle"           = "Projekt suchen";
@@ -38,6 +40,8 @@
 "view.researchprojectlistscreen.delete.failed"         = "Das Projekt konnte nicht gelöscht werden.";
 "view.researchprojectlistscreen.popup.title"           = "Projekt suchen";
 "view.researchprojectlistscreen.popup.close"           = "Schließen";
+"view.researchprojectlistscreen.searchhelp"            = "Geben Sie einen Teil des Projektnamens als Suchkriterium ein. Sie können ein gefundenes Projekt öffnen und mit einem Datensatz Ihrer Wahl ausführen. Ein bestehendes Projekt kann auch gelöscht werden. Wenn Sie das Projekt löschen, löscht Enigma auch die Daten auf Ihrem Datenträger.";
+"view.researchprojectlistscreen.help"                  = "Hier sehen Sie eine Übersicht aller Projekte. Sie können ein Projekt öffnen und mit einer Datendatei Ihrer Wahl ausführen. Ein bestehendes Projekt kann auch gelöscht werden. Wenn Sie das Projekt löschen, löscht Enigma auch die Daten auf Ihrem Datenträger.";
 
 "view.researchprojectdetailscreen.title"                    = "Projektdetails";
 "view.researchprojectdetailscreen.label.name"               = "Name";
@@ -80,6 +84,7 @@
 "view.researchprojectdetailscreen.run.pipelinefailed"       = "Berechnungspipeline fehlgeschlagen.";
 "view.researchprojectdetailscreen.run.analysisfailed"       = "Analyse fehlgeschlagen.";
 "view.researchprojectdetailscreen.button.showresults"       = "Ergebnisse anzeigen";
+"view.researchprojectdetailscreen.help"                     = "Hier sehen Sie eine Zusammenfassung Ihrer Untersuchung. Der Bildschirm zeigt relevante Einstellungen aus der Konfiguration sowie einige bereits getroffene Auswahlen. Um eine Untersuchung durchzuführen, müssen Sie einen Dateityp und eine Datendatei wählen. Enigma unterstützt drei Formate: Standard Enigma, Gauquelin und QuickChart. Weitere Informationen zu diesen Formaten finden Sie im Benutzerhandbuch. Mit der Schaltfläche 'Datei auswählen' können Sie eine Datendatei auf Ihrem Datenträger auswählen. Stellen Sie sicher, dass Sie den richtigen Dateityp ausgewählt haben.\n\nNach der Auswahl einer Datei zeigt Enigma an, wie viele Datensätze (Horoskope) die Datei enthält.\n\nSie können jetzt die Schaltfläche 'Untersuchung starten' anklicken.\n\nSie erhalten dann eine Übersicht der Untersuchungsergebnisse, sowohl die regulären Daten als auch die Kontrollgruppendaten. Bei großen Dateien zeigt eine Fortschrittsleiste den Fortschritt an. Sie können die Verarbeitung mit der Schaltfläche 'Unterbrechen' stoppen.\n\nWenn Sie einen Kontrollgruppen-Multiplikator größer als 1 verwendet haben, können Sie die Durchschnittswerte anzeigen. Dadurch sind die Ergebnisse der echten Daten und die der Kontrollgruppe leichter zu vergleichen.\n\nUnten in den Daten sehen Sie eine Schaltfläche 'Als CSV exportieren…'. Damit können Sie die Ergebnisse im CSV-Format speichern.";
 
 "view.researchresultscreen.title"                      = "Ergebnisse";
 "view.researchresultscreen.column.factor"              = "Faktor";
@@ -123,3 +128,4 @@
 "view.researchprojectconfigscreen.dial.360"            = "360°";
 "view.researchprojectconfigscreen.dial.90"             = "90°";
 "view.researchprojectconfigscreen.dial.45"             = "45°";
+"view.researchprojectconfigscreen.help"                = "In diesem Bildschirm können Sie detaillierte Informationen zu Ihrem Projekt eingeben. Der Inhalt hängt vom Untersuchungstyp ab. Es kann um Orben, das Häusersystem oder die zu verwendende Midpunktscheibe gehen.\n\nIn allen Fällen können Sie die Faktoren auswählen, die Sie in Ihre Untersuchung einbeziehen möchten. Enigma wählt bereits die Einstellungen vor, die Sie in der aktuellen Konfiguration festgelegt haben, aber viele dieser Einstellungen können angepasst werden.\n\nWenn Sie einen Orb anpassen möchten, aktivieren Sie das Kontrollkästchen 'Mit festem Orb überschreiben'; Sie erhalten dann ein Eingabefeld für die Orben.\n\nKlicken Sie auf die Schaltfläche 'Speichern', um das Projekt in der Datenbank zu speichern und die Untersuchung gegebenenfalls auszuführen.";

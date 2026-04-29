@@ -5,6 +5,7 @@
 "view.researchprojectsscreen.button.new"               = "Nieuw project";
 "view.researchprojectsscreen.button.search"            = "Zoek project";
 "view.researchprojectsscreen.button.all"               = "Alle projecten";
+"view.researchprojectsscreen.help"                     = "Voor elk onderzoek moet je een project aanmaken. Dat doe je met de knop 'Nieuw project'. Een bestaand project kun je zoeken via de knop 'Zoek project' en een overzicht van alle projecten krijg je via de knop 'Alle projecten'.\n\nNa het maken van een nieuw project, of het ophalen van een bestaand project, krijg je de mogelijkheid onderzoeksdata in te lezen en volgens de criteria van het project te analyseren.";
 
 "view.researchprojectinputscreen.title"                = "Nieuw onderzoeksproject";
 "view.researchprojectinputscreen.label.name"           = "Naam";
@@ -20,6 +21,7 @@
 "view.researchprojectinputscreen.error.pathempty"      = "Selecteer een map voor het project.";
 "view.researchprojectinputscreen.error.duplicatename"  = "Er bestaat al een project met deze naam.";
 "view.researchprojectinputscreen.error.save"           = "Het project kon niet worden opgeslagen. Probeer het opnieuw.";
+"view.researchprojectinputscreen.help"                 = "Voer de naam van het project in, die naam mag nog niet in gebruik zijn bij een bestaand project. Je kunt ook een omschrijving toevoegen maar dat is niet verplicht.\n\nEnigma ondersteunt negen typen onderzoek, maak je keuze in de scroll-down list onder 'Type onderzoek'.\n\nEnigma maakt altijd een controlegroep aan. Zeker bij kleinere datasets kan het verstandig zijn een vermenigvuldiger te gebruiken voor de controle groep. Als je vermenigvuldiger 10 is, en je dataset telt 2030 items, dan krijg je een controlegroep met 20300 items. Je kunt een vermenigvuldiger instellen van maximaal 1000 maar bij grote data-bestanden is dat niet nodig en zal het erg veel tijd kosten alle horoscopen in de controlegroep te berekenen.\n\nOnder 'Projectmap' kies je een folder waarin je de resultaten op wilt slaan. Enigma maakt in die folder een subfolder aan met de naam van je project.\n\nAls je alles hebt ingevuld zie je de knop 'Volgende', daarmee open je een scherm waar je detail informatie over je project op kunt geven.";
 
 "view.researchprojectlistscreen.title"                 = "Onderzoeksprojecten";
 "view.researchprojectlistscreen.searchtitle"           = "Zoek project";
@@ -38,6 +40,8 @@
 "view.researchprojectlistscreen.delete.failed"         = "Het project kon niet worden verwijderd.";
 "view.researchprojectlistscreen.popup.title"           = "Zoek project";
 "view.researchprojectlistscreen.popup.close"           = "Sluiten";
+"view.researchprojectlistscreen.searchhelp"            = "Type een deel van de tekst van de projectnaam als zoekcriterium. Je kunt een gevonden project openen en met een dataset naar jouw keuze uitvoeren. Een bestaand project kun je ook verwijderen. Als je het project verwijdert zal Enigma ook de data op je schijf verwijderen.";
+"view.researchprojectlistscreen.help"                  = "Hier zie je een overzicht van alle projecten. Je kunt een project openen en met een databestand van jouw keuze uitvoeren. Een bestaand project kun je ook verwijderen. Als je het project verwijdert zal Enigma ook de data op je schijf verwijderen.";
 
 "view.researchprojectdetailscreen.title"                    = "Projectdetails";
 "view.researchprojectdetailscreen.label.name"               = "Naam";
@@ -80,6 +84,7 @@
 "view.researchprojectdetailscreen.run.pipelinefailed"       = "Berekeningspijplijn mislukt.";
 "view.researchprojectdetailscreen.run.analysisfailed"       = "Analyse mislukt.";
 "view.researchprojectdetailscreen.button.showresults"       = "Resultaten tonen";
+"view.researchprojectdetailscreen.help"                     = "Hier zie je een opsomming van je onderzoek. Het scherm toont relevante keuzes uit de configuratie evenals enkele keuzes die je al maakte. Om een onderzoek uit te voeren moet je een bestandstype en een databestand kiezen. Enigma ondersteunt drie formaten: Standaard Enigma, Gauquelin en QuickChart. Meer informatie over deze formaten vind je in de gebruikershandleiding. Via de knop 'Kies bestand' kun je een databestand op je schijf selecteren. Zorg ervoor dat je het juiste bestandstype hebt geselecteerd.\n\nNa keuze van een bestand geeft Enigma aan hoeveel records (horoscopen) er in het bestand staan.\n\nJe kunt nu de knop 'Start onderzoek' aanklikken.\n\nJe krijgt dan een overzicht van de resultaten van het onderzoek, zowel de gewone data als de controlegroep data. Als het om grote bestanden gaat zie je een progressiebalk die de voortgang toont. Je kunt besluiten de verwerking stop te zetten met de knop 'Onderbreek'.\n\nAls je een grotere vermenigvuldiger voor de controlegroep dan 1 hebt gebruikt kun je de gemiddelde waarden weergeven. Daardoor zijn de resultaten van de echte data en die van de controlegroep gemakkelijker te vergelijken.\n\nOnderaan de gegevens zie je een knop 'Exporteren naar CSV…'. Hiermee kun je de resultaten in csv-formaat opslaan.";
 
 "view.researchresultscreen.title"                      = "Resultaten";
 "view.researchresultscreen.column.factor"              = "Factor";
@@ -123,3 +128,4 @@
 "view.researchprojectconfigscreen.dial.360"            = "360°";
 "view.researchprojectconfigscreen.dial.90"             = "90°";
 "view.researchprojectconfigscreen.dial.45"             = "45°";
+"view.researchprojectconfigscreen.help"                = "In dit scherm kun je detail informatie over je project opgeven. De inhoud is afhankelijk van het type onderzoek. Het kan gaan om orbs, het huizensysteem of de te gebruiken midpunt schijf.\n\nIn alle gevallen kun je de factoren kiezen die je mee wilt nemen in je onderzoek. Enigma selecteert al de keuzes die je hebt vastgelegd in de huidige configuratie. Maar veel van die keuzes kun je aanpassen.\n\nAls je een orb wilt aanpassen markeer je de checkbox 'Overschrijf met vaste orb', je krijgt dan een invoerveld voor de orb(s).\n\nKlik op de knop 'Opslaan' om het project vast te leggen in de database en eventueel het onderzoek uit te voeren.";

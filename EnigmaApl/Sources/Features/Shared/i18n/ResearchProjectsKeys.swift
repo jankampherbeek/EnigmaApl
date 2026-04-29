@@ -8,6 +8,7 @@ struct ResearchProjectsKeys {
     static let buttonNew        = "view.researchprojectsscreen.button.new"
     static let buttonSearch     = "view.researchprojectsscreen.button.search"
     static let buttonAll        = "view.researchprojectsscreen.button.all"
+    static let overviewHelp     = "view.researchprojectsscreen.help"
 
     // New project input screen
     static let newTitle         = "view.researchprojectinputscreen.title"
@@ -24,6 +25,7 @@ struct ResearchProjectsKeys {
     static let errorPathEmpty        = "view.researchprojectinputscreen.error.pathempty"
     static let errorDuplicateName    = "view.researchprojectinputscreen.error.duplicatename"
     static let errorSave             = "view.researchprojectinputscreen.error.save"
+    static let newHelp               = "view.researchprojectinputscreen.help"
 
     // List / search screen
     static let listTitle            = "view.researchprojectlistscreen.title"
@@ -43,6 +45,8 @@ struct ResearchProjectsKeys {
     static let deleteFailed         = "view.researchprojectlistscreen.delete.failed"
     static let searchPopupTitle     = "view.researchprojectlistscreen.popup.title"
     static let searchPopupClose     = "view.researchprojectlistscreen.popup.close"
+    static let listHelp             = "view.researchprojectlistscreen.help"
+    static let searchHelp           = "view.researchprojectlistscreen.searchhelp"
 
     // Detail / open project screen
     static let detailTitle              = "view.researchprojectdetailscreen.title"
@@ -86,6 +90,7 @@ struct ResearchProjectsKeys {
     static let detailRunPipelineFailed    = "view.researchprojectdetailscreen.run.pipelinefailed"
     static let detailRunAnalysisFailed    = "view.researchprojectdetailscreen.run.analysisfailed"
     static let detailButtonShowResults    = "view.researchprojectdetailscreen.button.showresults"
+    static let detailHelp                 = "view.researchprojectdetailscreen.help"
 
     // Result screen
     static let resultTitle           = "view.researchresultscreen.title"
@@ -131,4 +136,5 @@ struct ResearchProjectsKeys {
     static let configDial360        = "view.researchprojectconfigscreen.dial.360"
     static let configDial90         = "view.researchprojectconfigscreen.dial.90"
     static let configDial45         = "view.researchprojectconfigscreen.dial.45"
+    static let configHelp           = "view.researchprojectconfigscreen.help"
 }

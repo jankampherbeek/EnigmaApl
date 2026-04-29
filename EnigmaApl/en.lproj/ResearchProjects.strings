@@ -5,6 +5,7 @@
 "view.researchprojectsscreen.button.new"               = "New project";
 "view.researchprojectsscreen.button.search"            = "Search project";
 "view.researchprojectsscreen.button.all"               = "All projects";
+"view.researchprojectsscreen.help"                     = "For each research you need to create a project. You do this with the 'New project' button. You can search for an existing project with the 'Search project' button, and get an overview of all projects with the 'All projects' button.\n\nAfter creating a new project, or retrieving an existing one, you get the opportunity to read in research data and analyse it according to the criteria of the project.";
 
 "view.researchprojectinputscreen.title"                = "New Research Project";
 "view.researchprojectinputscreen.label.name"           = "Name";
@@ -20,6 +21,7 @@
 "view.researchprojectinputscreen.error.pathempty"      = "Please select a folder for the project.";
 "view.researchprojectinputscreen.error.duplicatename"  = "A project with this name already exists.";
 "view.researchprojectinputscreen.error.save"           = "Could not save the project. Please try again.";
+"view.researchprojectinputscreen.help"                 = "Enter the name of the project; this name must not already be in use by an existing project. You can also add a description, but this is not required.\n\nEnigma supports nine types of research. Make your choice from the drop-down list under 'Inquiry type'.\n\nEnigma always creates a control group. Especially with smaller datasets it can be wise to use a multiplier for the control group. If your multiplier is 10 and your dataset contains 2030 items, you get a control group of 20300 items. You can set a multiplier of up to 1000, but for large data files this is not necessary and it will take a very long time to calculate all the horoscopes in the control group.\n\nUnder 'Project folder' you choose a folder in which to save the results. Enigma creates a subfolder with the name of your project inside that folder.\n\nOnce you have filled in everything, the 'Next' button appears, which opens a screen where you can enter detailed information about your project.";
 
 "view.researchprojectlistscreen.title"                 = "Research Projects";
 "view.researchprojectlistscreen.searchtitle"           = "Search Project";
@@ -38,6 +40,8 @@
 "view.researchprojectlistscreen.delete.failed"         = "Could not delete the project.";
 "view.researchprojectlistscreen.popup.title"           = "Search project";
 "view.researchprojectlistscreen.popup.close"           = "Close";
+"view.researchprojectlistscreen.searchhelp"            = "Type part of the project name as a search criterion. You can open a found project and run it with a dataset of your choice. You can also delete an existing project. If you delete the project, Enigma will also delete the data on your disk.";
+"view.researchprojectlistscreen.help"                  = "Here you see an overview of all projects. You can open a project and run it with a data file of your choice. You can also delete an existing project. If you delete the project, Enigma will also delete the data on your disk.";
 
 "view.researchprojectdetailscreen.title"                    = "Project Details";
 "view.researchprojectdetailscreen.label.name"               = "Name";
@@ -80,6 +84,7 @@
 "view.researchprojectdetailscreen.run.pipelinefailed"       = "Calculation pipeline failed.";
 "view.researchprojectdetailscreen.run.analysisfailed"       = "Analysis failed.";
 "view.researchprojectdetailscreen.button.showresults"       = "Show results";
+"view.researchprojectdetailscreen.help"                     = "Here you see a summary of your research. The screen shows relevant choices from the configuration as well as some choices you already made. To run a research you must choose a file type and a data file. Enigma supports three formats: Standard Enigma, Gauquelin and QuickChart. More information about these formats can be found in the user manual. Use the 'Select file' button to select a data file on your disk. Make sure you have selected the correct file type.\n\nAfter selecting a file, Enigma shows how many records (horoscopes) the file contains.\n\nYou can now click the 'Start research' button.\n\nYou will then see an overview of the research results, both the regular data and the control group data. For large files a progress bar shows the progress. You can choose to stop the processing with the 'Interrupt' button.\n\nIf you used a control group multiplier greater than 1, you can display the average values. This makes the results of the real data and those of the control group easier to compare.\n\nAt the bottom of the data you see an 'Export to CSV…' button. This allows you to save the results in CSV format.";
 
 "view.researchresultscreen.title"                      = "Results";
 "view.researchresultscreen.column.factor"              = "Factor";
@@ -123,3 +128,4 @@
 "view.researchprojectconfigscreen.dial.360"            = "360°";
 "view.researchprojectconfigscreen.dial.90"             = "90°";
 "view.researchprojectconfigscreen.dial.45"             = "45°";
+"view.researchprojectconfigscreen.help"                = "In this screen you can enter detailed information about your project. The content depends on the type of research. It may involve orbs, the house system, or the midpoint dial to use.\n\nIn all cases you can choose the factors to include in your research. Enigma already selects the choices you have recorded in the current configuration, but many of these choices can be adjusted.\n\nIf you want to adjust an orb, check the 'Override with fixed orb' checkbox; you will then get an input field for the orb(s).\n\nClick the 'Save' button to store the project in the database and optionally run the research.";
