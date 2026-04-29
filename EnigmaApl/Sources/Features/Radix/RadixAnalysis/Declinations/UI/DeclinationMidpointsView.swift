@@ -157,8 +157,12 @@ struct DeclinationMidpointsView: View {
                     VStack(spacing: 0) {
                         tableHeader
                         Divider()
-                        ForEach(Array(midpoints.enumerated()), id: \.offset) { index, item in
-                            tableRow(item, index: index)
+                        ScrollView(.vertical) {
+                            VStack(spacing: 0) {
+                                ForEach(Array(midpoints.enumerated()), id: \.offset) { index, item in
+                                    tableRow(item, index: index)
+                                }
+                            }
                         }
                     }
                 }
