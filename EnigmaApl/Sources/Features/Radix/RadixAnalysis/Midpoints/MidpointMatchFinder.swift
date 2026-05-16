@@ -26,13 +26,20 @@ struct MidpointMatchFinder {
 
         for midpoint in baseMidpoints {
             let midPos = reduceToDial(midpoint.position, dialSize: dialSize)
-            let midPosAntipodal = (midPos + dialSize / 2).truncatingRemainder(dividingBy: dialSize)
+            // For Dial360, also check the antipodal (midpoint + 180°) so that
+            // oppositions are found. Smaller dials (90°, 45°) don't need this:
+            // all multiples of the dial size already reduce to the same position
+            // via reduceToDial, so adding a dialSize/2 check would incorrectly
+            // match 45° separations in Dial90 and 22.5° separations in Dial45.
+            let midPosAntipodal: Double? = dialType == .dial360
+                ? (midPos + 180.0).truncatingRemainder(dividingBy: 360.0)
+                : nil
             for (factor, longitude) in positions {
                 let factorPos = reduceToDial(longitude, dialSize: dialSize)
-                let deviation = min(
-                    shortestDeviation(midPos, factorPos, dialSize: dialSize),
-                    shortestDeviation(midPosAntipodal, factorPos, dialSize: dialSize)
-                )
+                var deviation = shortestDeviation(midPos, factorPos, dialSize: dialSize)
+                if let antipodal = midPosAntipodal {
+                    deviation = min(deviation, shortestDeviation(antipodal, factorPos, dialSize: dialSize))
+                }
                 if deviation <= orb {
                     matches.append(MidpointMatch(
                         factor1: midpoint.factor1,
