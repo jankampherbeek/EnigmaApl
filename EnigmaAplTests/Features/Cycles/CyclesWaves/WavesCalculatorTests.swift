@@ -179,4 +179,130 @@ struct WavesCalculatorTests {
         #expect(first.count == second.count)
         #expect(abs(first[0].waveValue - second[0].waveValue) < delta)
     }
+
+    // MARK: - Jupiter cycle type
+
+    @Test("WavesCalculator (Jupiter): single step produces exactly one result")
+    func testJupiter_singleStep_resultCount() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(results.count == 1)
+    }
+
+    @Test("WavesCalculator (Jupiter): three-step period produces exactly three results")
+    func testJupiter_threeSteps_resultCount() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .jupiter,
+            seWrapper: seWrapper)
+        #expect(results.count == 3)
+    }
+
+    @Test("WavesCalculator (Jupiter): wave value is non-negative")
+    func testJupiter_waveValue_isNonNegative() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .jupiter,
+            seWrapper: seWrapper)
+        for entry in results {
+            #expect(entry.waveValue >= 0.0,
+                    "Jupiter waveValue \(entry.waveValue) at JD \(entry.julianDay) is negative")
+        }
+    }
+
+    @Test("WavesCalculator (Jupiter): wave value does not exceed 180°")
+    func testJupiter_waveValue_doesNotExceed180() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .jupiter,
+            seWrapper: seWrapper)
+        for entry in results {
+            #expect(entry.waveValue <= 180.0,
+                    "Jupiter waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 180°")
+        }
+    }
+
+    /// Computes the Jupiter-cycle wave value independently (10 pairs) and checks it matches.
+    @Test("WavesCalculator (Jupiter): single-step result matches manual 10-pair mean computation")
+    func testJupiter_singleStep_matchesManualComputation() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(results.count == 1)
+
+        // Independently fetch each planet's longitude (Jupiter added)
+        let planets: [Factors] = [.jupiter, .saturn, .uranus, .neptune, .pluto]
+        let config = CalculationConfig(houseSystem: .noHouses)
+        var longitudes: [Factors: Double] = [:]
+        for factor in planets {
+            let request = CalcRequest(
+                JulianDay: baseJd,
+                FactorsToUse: [factor],
+                HouseSystem: HouseSystems.noHouses.rawValue,
+                Latitude: 0.0,
+                Longitude: 0.0,
+                Height: 0.0,
+                calculationConfig: config
+            )
+            let (_, lon) = AstronCalcOrchestrator.PerformSingleCoordinateCalculation(
+                request, coordinate: .longitude, seWrapper: seWrapper)
+            longitudes[factor] = lon
+        }
+
+        // Compute the 10 pairwise shortest distances and their mean
+        var distances: [Double] = []
+        for i in 0..<planets.count {
+            for j in (i + 1)..<planets.count {
+                let lon1 = longitudes[planets[i]] ?? 0.0
+                let lon2 = longitudes[planets[j]] ?? 0.0
+                let diff = abs(lon1 - lon2).truncatingRemainder(dividingBy: 360.0)
+                distances.append(diff > 180.0 ? 360.0 - diff : diff)
+            }
+        }
+        let expectedWave = distances.reduce(0.0, +) / Double(distances.count)
+
+        #expect(abs(results[0].waveValue - expectedWave) < delta,
+                "Expected Jupiter wave value \(expectedWave), got \(results[0].waveValue)")
+    }
+
+    /// Jupiter and Saturn cycles use different planet sets, so their wave values must differ.
+    @Test("WavesCalculator: Jupiter and Saturn cycles produce different wave values")
+    func testJupiterAndSaturn_waveValuesDiffer() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let saturnResult = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .saturn, seWrapper: seWrapper)
+        let jupiterResult = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(abs(saturnResult[0].waveValue - jupiterResult[0].waveValue) > delta,
+                "Saturn and Jupiter cycles should produce different wave values at the same JD")
+    }
+
+    /// Verifies that the Jupiter cycle is deterministic.
+    @Test("WavesCalculator (Jupiter): repeated call with same parameters returns identical results")
+    func testJupiter_determinism_sameInputSameOutput() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let first = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        let second = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(first.count == second.count)
+        #expect(abs(first[0].waveValue - second[0].waveValue) < delta)
+    }
 }

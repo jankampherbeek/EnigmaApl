@@ -5,23 +5,40 @@
 import Foundation
 
 /// Calculates a "wave value" across a time period based on the mean pairwise angular
-/// separation of the four outer planets (Saturn, Uranus, Neptune, Pluto).
+/// separation of a set of slow-moving planets.
 ///
-/// For each time step the ecliptic longitudes of the four planets are calculated.
-/// All six pairwise shortest angular distances (0°–180°) are then averaged to produce
+/// Two cycle types are supported:
+/// - **Saturn** (default): Saturn, Uranus, Neptune, Pluto — 6 pairs.
+/// - **Jupiter**: Jupiter, Saturn, Uranus, Neptune, Pluto — 10 pairs.
+///
+/// For each time step the ecliptic longitudes of the planets are calculated.
+/// All pairwise shortest angular distances (0°–180°) are averaged to produce
 /// a single WaveValue for that moment.
 public struct WavesCalculator {
 
     private init() {}
 
-    /// The four outer planets used in the wave calculation.
-    private static let outerPlanets: [Factors] = [.saturn, .uranus, .neptune, .pluto]
+    /// Returns the planet list for the given cycle type.
+    /// Only `.jupiter` and `.saturn` are valid; any other value falls back to Saturn.
+    private static func planets(for cycleType: Factors) -> [Factors] {
+        switch cycleType {
+        case .jupiter:
+            return [.jupiter, .saturn, .uranus, .neptune, .pluto]
+        default:
+            if cycleType != .saturn {
+                Logger.log.warning("WavesCalculator: unsupported cycleType \(cycleType), falling back to Saturn cycle.")
+            }
+            return [.saturn, .uranus, .neptune, .pluto]
+        }
+    }
 
     /// Calculates the wave value at each step between two Julian Day numbers.
     /// - Parameters:
     ///   - startJdNr: Julian Day number for the start of the period.
     ///   - endJdNr: Julian Day number for the end of the period (inclusive).
     ///   - interval: Step size in days between successive calculations.
+    ///   - cycleType: The planet that defines the cycle. Must be `.jupiter` or `.saturn`.
+    ///                Defaults to `.saturn`.
     ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with
     ///                Swiss Ephemeris. For production use the app-level instance; for tests
     ///                use SEWrapperTestCoordinator.shared.getSEWrapper().
@@ -30,16 +47,18 @@ public struct WavesCalculator {
         startJdNr: Double,
         endJdNr: Double,
         interval: Int,
+        cycleType: Factors = .saturn,
         seWrapper: SEWrapper
     ) -> [(julianDay: Double, waveValue: Double)] {
 
         let config = CalculationConfig(houseSystem: .noHouses)
         let step = Double(interval)
+        let outerPlanets = planets(for: cycleType)
         var results: [(julianDay: Double, waveValue: Double)] = []
         var jd = startJdNr
 
         while jd <= endJdNr {
-            // Calculate ecliptic longitude for each outer planet at this JD
+            // Calculate ecliptic longitude for each planet at this JD
             var longitudes: [Factors: Double] = [:]
             for factor in outerPlanets {
                 let calcRequest = CalcRequest(
