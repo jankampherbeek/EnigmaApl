@@ -264,5 +264,141 @@ public struct AstronCalcOrchestrator {
         )
     }
     
-  
+
+    /// Performs a single-coordinate calculation for the first factor in the request.
+    /// Supports all calculation types (CommonSe, CommonElements, CommonFormulaLongitude,
+    /// CommonFormulaFull, ZodiacFixed, Apsides). Only the coordinate system required for
+    /// the requested coordinate is used, making this significantly cheaper than
+    /// PerformCalculation for bulk/research use.
+    /// Horizontal coordinates (azimuth / altitude) are not supported.
+    /// Lots and Mundane factors are not supported (they require derived values such as
+    /// house positions and Sun/Moon longitudes that presuppose a full chart calculation).
+    /// - Parameters:
+    ///   - request: The CalcRequest containing calculation parameters. Only the first
+    ///              entry in FactorsToUse is evaluated.
+    ///   - coordinate: The specific coordinate whose value should be returned.
+    ///                 Longitude and Latitude use ecliptical coordinates;
+    ///                 RightAscension and Declination use equatorial coordinates;
+    ///                 Distance uses ecliptical coordinates.
+    ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with
+    ///                Swiss Ephemeris. For production use the app-level instance; for tests
+    ///                use SEWrapperTestCoordinator.shared.getSEWrapper().
+    /// - Returns: A tuple of (julianDay, position) where position is the value for the
+    ///            requested coordinate in degrees (or AU for Distance). Returns (julianDay, 0.0)
+    ///            when FactorsToUse is empty, the calculation type is unsupported, or the
+    ///            underlying calculation fails.
+    public static func PerformSingleCoordinateCalculation(
+        _ request: CalcRequest,
+        coordinate: Coordinates,
+        seWrapper: SEWrapper
+    ) -> (julianDay: Double, position: Double) {
+
+        let julianDay = request.JulianDay
+
+        guard let factor = request.FactorsToUse.first else {
+            return (julianDay, 0.0)
+        }
+
+        // Apply topocentric correction when needed
+        if request.calculationConfig.observerPosition == .topoCentric {
+            seWrapper.setTopocentric(geoLon: request.Longitude, geoLat: request.Latitude, height: request.Height)
+        }
+
+        // Apply sidereal zodiac and compute offset (offset is needed by non-SE calcs)
+        var ayanamshaOffset = 0.0
+        if request.calculationConfig.ayanamsha != .tropical {
+            seWrapper.setAyanamsha(idAyanamsha: request.calculationConfig.ayanamsha.seId)
+            ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
+        }
+
+        switch factor.calculationType {
+
+        case .CommonSe:
+            let coordSystem: CoordinateSystems = (coordinate == .rightAscension || coordinate == .declination)
+                ? .equatorial : .ecliptical
+            let flags = SEFlags.defineFlags(calculationConfig: request.calculationConfig, coordSystem: coordSystem)
+            guard let pos = seWrapper.calculateFactorPosition(julianDay: julianDay, factor: factor.seId, flags: flags) else {
+                return (julianDay, 0.0)
+            }
+            return (julianDay, extractCoordinate(coordinate, from: pos))
+
+        case .CommonElements:
+            let results = ElementsCalc.calculateElementsFactors(
+                request: request, seWrapper: seWrapper, ayanamshaOffset: ayanamshaOffset)
+            return (julianDay, extractCoordinateFromFullPosition(coordinate, results[factor]))
+
+        case .CommonFormulaLongitude:
+            let fCalc = FormulaCalc()
+            let results = fCalc.calculateFormulaFactors(
+                seWrapper: seWrapper, calcRequest: request, ayanamshaOffset: ayanamshaOffset)
+            return (julianDay, extractCoordinateFromFullPosition(coordinate, results[factor]))
+
+        case .CommonFormulaFull:
+            let obliquity = calculateObliquity(julianDay: julianDay, seWrapper: seWrapper)
+            let fFullCalc = FormulaFullCalc()
+            let results = fFullCalc.CalculateFormulaFullFactors(
+                seWrapper: seWrapper, calcRequest: request, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset)
+            return (julianDay, extractCoordinateFromFullPosition(coordinate, results[factor]))
+
+        case .ZodiacFixed:
+            let obliquity = calculateObliquity(julianDay: julianDay, seWrapper: seWrapper)
+            let zodiacFixedCalc = ZodiacFixedCalc()
+            let results = zodiacFixedCalc.zodiacFixedFactors(
+                calcRequest: request, obliquity: obliquity, seWrapper: seWrapper)
+            return (julianDay, extractCoordinateFromFullPosition(coordinate, results[factor]))
+
+        case .Apsides:
+            let obliquity = calculateObliquity(julianDay: julianDay, seWrapper: seWrapper)
+            let seFlagsEcliptical = SEFlags.defineFlags(
+                calculationConfig: request.calculationConfig, coordSystem: .ecliptical)
+            let apsidesCalc = ApsidesCalc()
+            let results = apsidesCalc.calculateApsidesFactors(
+                calcRequest: request, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset,
+                flags: seFlagsEcliptical, seWrapper: seWrapper)
+            return (julianDay, extractCoordinateFromFullPosition(coordinate, results[factor]))
+
+        case .Lots:
+            Logger.log.warning("PerformSingleCoordinateCalculation: Lots factors require a full chart calculation (Sun/Moon/Ascendant). Factor \(factor) ignored.")
+            return (julianDay, 0.0)
+
+        case .Mundane:
+            Logger.log.warning("PerformSingleCoordinateCalculation: Mundane factors require house positions from a full chart calculation. Factor \(factor) ignored.")
+            return (julianDay, 0.0)
+
+        case .Unknown:
+            Logger.log.warning("PerformSingleCoordinateCalculation: Unknown calculation type for factor \(factor).")
+            return (julianDay, 0.0)
+        }
+    }
+
+    // MARK: - Private helpers
+
+    /// Calculates the obliquity of the ecliptic using Swiss Ephemeris (SE id -1).
+    private static func calculateObliquity(julianDay: Double, seWrapper: SEWrapper) -> Double {
+        seWrapper.calculateFactorPosition(julianDay: julianDay, factor: -1, flags: 2)?.mainPos ?? 0.0
+    }
+
+    /// Extracts a single coordinate value from a raw `MainAstronomicalPosition` (CommonSe path).
+    private static func extractCoordinate(_ coordinate: Coordinates, from pos: MainAstronomicalPosition) -> Double {
+        switch coordinate {
+        case .longitude:      return pos.mainPos
+        case .latitude:       return pos.deviation
+        case .rightAscension: return pos.mainPos
+        case .declination:    return pos.deviation
+        case .distance:       return pos.distance
+        }
+    }
+
+    /// Extracts a single coordinate value from a `FullFactorPosition` (all non-SE paths).
+    private static func extractCoordinateFromFullPosition(_ coordinate: Coordinates, _ position: FullFactorPosition?) -> Double {
+        guard let position else { return 0.0 }
+        switch coordinate {
+        case .longitude:      return position.ecliptical.first?.mainPos ?? 0.0
+        case .latitude:       return position.ecliptical.first?.deviation ?? 0.0
+        case .rightAscension: return position.equatorial.first?.mainPos ?? 0.0
+        case .declination:    return position.equatorial.first?.deviation ?? 0.0
+        case .distance:       return position.ecliptical.first?.distance ?? 0.0
+        }
+    }
+
 }
