@@ -1,0 +1,22 @@
+// AstronomicalCycles.strings - Nederlands
+// EnigmaApl
+
+"view.astrocycles.title"                   = "Cycli";
+"view.astrocycles.startdate"               = "Begindatum";
+"view.astrocycles.enddate"                 = "Einddatum";
+"view.astrocycles.observerposition"        = "Waarnemeerspositie";
+"view.astrocycles.coordinate"              = "Coördinaat";
+"view.astrocycles.singlefactors"           = "Enkelvoudige factoren";
+"view.astrocycles.pairsoffactors"          = "Factorenpaartjes";
+"view.astrocycles.year"                    = "Jaar";
+"view.astrocycles.month"                   = "Maand";
+"view.astrocycles.day"                     = "Dag";
+"view.astrocycles.calendar"                = "Kalender";
+"view.astrocycles.yearcount"               = "Jaartelling";
+"view.astrocycles.factora"                 = "Factor A";
+"view.astrocycles.factorb"                 = "Factor B";
+"view.astrocycles.addpair"                 = "Paar toevoegen";
+"view.astrocycles.addedpairs"              = "Toegevoegde paren";
+"view.astrocycles.calculate"               = "Berekenen";
+"view.astrocycles.selectedcount"           = "Geselecteerd: %d / %d";
+"view.astrocycles.validation.invalidyear"  = "Voer een geldig jaar in voor de gekozen jaartelling";

@@ -1,0 +1,22 @@
+// AstronomicalCycles.strings - English
+// EnigmaApl
+
+"view.astrocycles.title"                   = "Cycles";
+"view.astrocycles.startdate"               = "Start date";
+"view.astrocycles.enddate"                 = "End date";
+"view.astrocycles.observerposition"        = "Observer position";
+"view.astrocycles.coordinate"              = "Coordinate";
+"view.astrocycles.singlefactors"           = "Single factors";
+"view.astrocycles.pairsoffactors"          = "Pairs of factors";
+"view.astrocycles.year"                    = "Year";
+"view.astrocycles.month"                   = "Month";
+"view.astrocycles.day"                     = "Day";
+"view.astrocycles.calendar"                = "Calendar";
+"view.astrocycles.yearcount"               = "Year count";
+"view.astrocycles.factora"                 = "Factor A";
+"view.astrocycles.factorb"                 = "Factor B";
+"view.astrocycles.addpair"                 = "Add pair";
+"view.astrocycles.addedpairs"              = "Added pairs";
+"view.astrocycles.calculate"               = "Calculate";
+"view.astrocycles.selectedcount"           = "Selected: %d / %d";
+"view.astrocycles.validation.invalidyear"  = "Enter a valid year for the selected year count";
