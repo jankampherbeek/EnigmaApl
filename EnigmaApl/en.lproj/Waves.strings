@@ -14,3 +14,6 @@
 "view.waves.cycletype"                = "Cycle type";
 "view.waves.calculate"                = "Calculate";
 "view.waves.validation.invalidyear"   = "Enter a valid year for the selected year count";
+"view.waves.chart.noresults"          = "No results yet. Select a cycle type and click Calculate.";
+"view.waves.chart.date"               = "Date";
+"view.waves.chart.ywavevalue"         = "Wave value (°)";

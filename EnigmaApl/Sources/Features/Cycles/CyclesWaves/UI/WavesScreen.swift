@@ -25,6 +25,7 @@ private enum WaveCycleType: CaseIterable {
 }
 
 struct WavesScreen: View {
+    @EnvironmentObject private var wavesModel: WavesModel
 
     private let seWrapper = SEWrapper()
 
@@ -44,7 +45,6 @@ struct WavesScreen: View {
     @State private var selectedCoordinate: Coordinates     = .longitude
     @State private var cycleType: WaveCycleType            = .saturn
 
-    @State private var waveResults: [(julianDay: Double, waveValue: Double)] = []
 
     // MARK: - Validation
 
@@ -218,12 +218,15 @@ struct WavesScreen: View {
             date: AstronomicalDate(Year: endYear, Month: endMonth, Day: endDay,
                                    Gregorian: endCalendar == .gregorian),
             time: midnight)
-        waveResults = WavesCalculator.PerformCalculation(
-            startJdNr: jdStart,
-            endJdNr: jdEnd,
-            interval: cycleType.interval,
-            cycleType: cycleType.factor,
-            seWrapper: seWrapper)
+        let request = WavesRequest(
+            CycleType: cycleType.factor,
+            Interval: cycleType.interval,
+            JdStart: jdStart,
+            JdEnd: jdEnd,
+            Coordinate: selectedCoordinate
+        )
+        wavesModel.cycleType = cycleType.factor
+        wavesModel.results = WavesCalculator.PerformCalculation(request, seWrapper: seWrapper)
     }
 
     // MARK: - i18n

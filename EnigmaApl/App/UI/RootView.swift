@@ -57,6 +57,7 @@ struct RootView: View {
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)
         .environmentObject(composition.cyclesModel)
+        .environmentObject(composition.wavesModel)
         .environmentObject(composition.configNav)
         .onAppear {
             DispatchQueue.main.async {

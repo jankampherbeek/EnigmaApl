@@ -54,7 +54,14 @@ struct ContentColumn: View {
             case .research:
                 ResearchProjectsScreen()
             case .cycles:
-                CyclesChartView()
+                switch app.nav.cycles.section {
+                case .astronomicalCycles:
+                    CyclesChartView()
+                case .waves:
+                    WavesChartView()
+                case .tablesGraphs:
+                    EmptyView()
+                }
             case .config:
                 ConfigListScreen()
             }

@@ -14,3 +14,6 @@
 "view.waves.cycletype"                = "Cyclustype";
 "view.waves.calculate"                = "Berekenen";
 "view.waves.validation.invalidyear"   = "Voer een geldig jaar in voor de gekozen jaartelling";
+"view.waves.chart.noresults"          = "Nog geen resultaten. Kies een cyclustype en klik op Berekenen.";
+"view.waves.chart.date"               = "Datum";
+"view.waves.chart.ywavevalue"         = "Golfwaarde (°)";

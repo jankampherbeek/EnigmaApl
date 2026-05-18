@@ -19,4 +19,7 @@ struct WavesKeys {
     static let cycleType         = "view.waves.cycletype"
     static let calculate         = "view.waves.calculate"
     static let invalidYear       = "view.waves.validation.invalidyear"
+    static let chartNoResults    = "view.waves.chart.noresults"
+    static let chartDate         = "view.waves.chart.date"
+    static let chartYWaveValue   = "view.waves.chart.ywavevalue"
 }

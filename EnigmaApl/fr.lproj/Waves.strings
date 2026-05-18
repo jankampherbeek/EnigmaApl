@@ -14,3 +14,6 @@
 "view.waves.cycletype"                = "Type de cycle";
 "view.waves.calculate"                = "Calculer";
 "view.waves.validation.invalidyear"   = "Saisissez une année valide pour la numérotation sélectionnée";
+"view.waves.chart.noresults"          = "Aucun résultat. Sélectionnez un type de cycle et cliquez sur Calculer.";
+"view.waves.chart.date"               = "Date";
+"view.waves.chart.ywavevalue"         = "Valeur d'onde (°)";

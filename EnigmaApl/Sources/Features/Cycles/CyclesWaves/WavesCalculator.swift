@@ -35,6 +35,20 @@ public struct WavesCalculator {
         }
     }
 
+    /// Calculates the wave value using a WavesRequest.
+    public static func PerformCalculation(
+        _ request: WavesRequest,
+        seWrapper: SEWrapper
+    ) -> [(julianDay: Double, waveValue: Double)] {
+        PerformCalculation(
+            startJdNr: request.JdStart,
+            endJdNr: request.JdEnd,
+            interval: request.Interval,
+            cycleType: request.CycleType,
+            seWrapper: seWrapper
+        )
+    }
+
     /// Calculates the wave value at each step between two Julian Day numbers.
     /// - Parameters:
     ///   - startJdNr: Julian Day number for the start of the period.

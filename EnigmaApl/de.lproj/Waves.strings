@@ -14,3 +14,6 @@
 "view.waves.cycletype"                = "Zyklustyp";
 "view.waves.calculate"                = "Berechnen";
 "view.waves.validation.invalidyear"   = "Gib ein gültiges Jahr für die gewählte Jahreszählung ein";
+"view.waves.chart.noresults"          = "Noch keine Ergebnisse. Zyklustyp wählen und Berechnen klicken.";
+"view.waves.chart.date"               = "Datum";
+"view.waves.chart.ywavevalue"         = "Wellenwert (°)";
