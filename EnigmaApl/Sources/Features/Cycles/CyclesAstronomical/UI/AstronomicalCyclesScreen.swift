@@ -31,6 +31,7 @@ struct AstronomicalCyclesScreen: View {
 
     @State private var observerPosition: ObserverPositions = .geoCentric
     @State private var selectedCoordinate: Coordinates = .longitude
+    @State private var ayanamsha: Ayanamshas = .tropical
     @State private var factorMode: FactorSelectionMode = .single
     @State private var selectedFactors: [Factors] = []
     @State private var pendingFactorA: Factors? = nil
@@ -151,6 +152,17 @@ struct AstronomicalCyclesScreen: View {
                     Picker(ac(AstroCyclesKeys.coordinate), selection: $selectedCoordinate) {
                         ForEach(availableCoordinates, id: \.self) { coord in
                             Text(LocalizedStringKey(coord.rbKey)).tag(coord)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .focusable(true)
+                }
+
+                FieldBlock(ac(AstroCyclesKeys.ayanamsha)) {
+                    Picker(ac(AstroCyclesKeys.ayanamsha), selection: $ayanamsha) {
+                        ForEach(Ayanamshas.allCases, id: \.self) { ayan in
+                            Text(LocalizedStringKey(ayan.rbKey)).tag(ayan)
                         }
                     }
                     .pickerStyle(.menu)

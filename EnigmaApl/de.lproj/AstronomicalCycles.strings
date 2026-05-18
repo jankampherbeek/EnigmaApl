@@ -18,5 +18,6 @@
 "view.astrocycles.addpair"                 = "Paar hinzufügen";
 "view.astrocycles.addedpairs"              = "Hinzugefügte Paare";
 "view.astrocycles.calculate"               = "Berechnen";
+"view.astrocycles.ayanamsha"               = "Ayanamsha";
 "view.astrocycles.selectedcount"           = "Ausgewählt: %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Gib ein gültiges Jahr für die gewählte Jahreszählung ein";

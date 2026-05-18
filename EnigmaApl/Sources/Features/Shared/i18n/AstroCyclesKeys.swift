@@ -24,5 +24,6 @@ struct AstroCyclesKeys {
     static let calculate       = "view.astrocycles.calculate"
     static let observerPosition = "view.astrocycles.observerposition"
     static let selectedCount   = "view.astrocycles.selectedcount"
+    static let ayanamsha       = "view.astrocycles.ayanamsha"
     static let invalidYear     = "view.astrocycles.validation.invalidyear"
 }
