@@ -152,7 +152,7 @@ struct WavesCalculatorTests {
             longitudes[factor] = lon
         }
 
-        // Compute the six pairwise shortest distances and their mean
+        // Compute the six pairwise shortest distances and their total
         var distances: [Double] = []
         for i in 0..<planets.count {
             for j in (i + 1)..<planets.count {
@@ -162,7 +162,7 @@ struct WavesCalculatorTests {
                 distances.append(diff > 180.0 ? 360.0 - diff : diff)
             }
         }
-        let expectedWave = distances.reduce(0.0, +) / Double(distances.count)
+        let expectedWave = distances.reduce(0.0, +)
 
         #expect(abs(results[0].waveValue - expectedWave) < delta,
                 "Expected wave value \(expectedWave), got \(results[0].waveValue)")
@@ -262,7 +262,7 @@ struct WavesCalculatorTests {
             longitudes[factor] = lon
         }
 
-        // Compute the 10 pairwise shortest distances and their mean
+        // Compute the 10 pairwise shortest distances and their total
         var distances: [Double] = []
         for i in 0..<planets.count {
             for j in (i + 1)..<planets.count {
@@ -272,7 +272,7 @@ struct WavesCalculatorTests {
                 distances.append(diff > 180.0 ? 360.0 - diff : diff)
             }
         }
-        let expectedWave = distances.reduce(0.0, +) / Double(distances.count)
+        let expectedWave = distances.reduce(0.0, +)
 
         #expect(abs(results[0].waveValue - expectedWave) < delta,
                 "Expected Jupiter wave value \(expectedWave), got \(results[0].waveValue)")
@@ -302,6 +302,131 @@ struct WavesCalculatorTests {
         let second = WavesCalculator.PerformCalculation(
             startJdNr: baseJd, endJdNr: baseJd, interval: interval,
             cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(first.count == second.count)
+        #expect(abs(first[0].waveValue - second[0].waveValue) < delta)
+    }
+
+    // MARK: - Uranus cycle type
+
+    @Test("WavesCalculator (Uranus): single step produces exactly one result")
+    func testUranus_singleStep_resultCount() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .uranus, seWrapper: seWrapper)
+        #expect(results.count == 1)
+    }
+
+    @Test("WavesCalculator (Uranus): three-step period produces exactly three results")
+    func testUranus_threeSteps_resultCount() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .uranus,
+            seWrapper: seWrapper)
+        #expect(results.count == 3)
+    }
+
+    @Test("WavesCalculator (Uranus): wave value is non-negative")
+    func testUranus_waveValue_isNonNegative() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .uranus,
+            seWrapper: seWrapper)
+        for entry in results {
+            #expect(entry.waveValue >= 0.0,
+                    "Uranus waveValue \(entry.waveValue) at JD \(entry.julianDay) is negative")
+        }
+    }
+
+    @Test("WavesCalculator (Uranus): wave value does not exceed 180°")
+    func testUranus_waveValue_doesNotExceed180() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd,
+            endJdNr: baseJd + Double(interval * 2),
+            interval: interval,
+            cycleType: .uranus,
+            seWrapper: seWrapper)
+        for entry in results {
+            #expect(entry.waveValue <= 180.0,
+                    "Uranus waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 180°")
+        }
+    }
+
+    /// Computes the Uranus-cycle wave value independently (6 pairs: Uranus, Saturn, Neptune, Pluto)
+    /// and verifies that WavesCalculator produces an identical result.
+    @Test("WavesCalculator (Uranus): single-step result matches manual 6-pair mean computation")
+    func testUranus_singleStep_matchesManualComputation() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+
+        let results = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .uranus, seWrapper: seWrapper)
+        #expect(results.count == 1)
+
+        let planets: [Factors] = [.uranus, .saturn, .neptune, .pluto]
+        let config = CalculationConfig(houseSystem: .noHouses)
+        var longitudes: [Factors: Double] = [:]
+        for factor in planets {
+            let request = CalcRequest(
+                JulianDay: baseJd,
+                FactorsToUse: [factor],
+                HouseSystem: HouseSystems.noHouses.rawValue,
+                Latitude: 0.0,
+                Longitude: 0.0,
+                Height: 0.0,
+                calculationConfig: config
+            )
+            let (_, lon) = AstronCalcOrchestrator.PerformSingleCoordinateCalculation(
+                request, coordinate: .longitude, seWrapper: seWrapper)
+            longitudes[factor] = lon
+        }
+
+        var distances: [Double] = []
+        for i in 0..<planets.count {
+            for j in (i + 1)..<planets.count {
+                let lon1 = longitudes[planets[i]] ?? 0.0
+                let lon2 = longitudes[planets[j]] ?? 0.0
+                let diff = abs(lon1 - lon2).truncatingRemainder(dividingBy: 360.0)
+                distances.append(diff > 180.0 ? 360.0 - diff : diff)
+            }
+        }
+        let expectedWave = distances.reduce(0.0, +)
+
+        #expect(abs(results[0].waveValue - expectedWave) < delta,
+                "Expected Uranus wave value \(expectedWave), got \(results[0].waveValue)")
+    }
+
+    /// Uranus and Jupiter use different planet sets (4 vs 5 planets), so their wave values must differ.
+    @Test("WavesCalculator: Uranus and Jupiter cycles produce different wave values")
+    func testUranusAndJupiter_waveValuesDiffer() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let uranusResult = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .uranus, seWrapper: seWrapper)
+        let jupiterResult = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .jupiter, seWrapper: seWrapper)
+        #expect(abs(uranusResult[0].waveValue - jupiterResult[0].waveValue) > delta,
+                "Uranus and Jupiter cycles should produce different wave values at the same JD")
+    }
+
+    /// Verifies that the Uranus cycle is deterministic.
+    @Test("WavesCalculator (Uranus): repeated call with same parameters returns identical results")
+    func testUranus_determinism_sameInputSameOutput() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let first = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .uranus, seWrapper: seWrapper)
+        let second = WavesCalculator.PerformCalculation(
+            startJdNr: baseJd, endJdNr: baseJd, interval: interval,
+            cycleType: .uranus, seWrapper: seWrapper)
         #expect(first.count == second.count)
         #expect(abs(first[0].waveValue - second[0].waveValue) < delta)
     }
