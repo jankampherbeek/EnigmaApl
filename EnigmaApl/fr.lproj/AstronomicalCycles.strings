@@ -19,5 +19,9 @@
 "view.astrocycles.addedpairs"              = "Paires ajoutées";
 "view.astrocycles.calculate"               = "Calculer";
 "view.astrocycles.ayanamsha"               = "Ayanamsha";
+"view.astrocycles.warning.maxperiod"       = "Pour les facteurs choisis, une période maximale de %d jours est applicable. La période actuelle est de %d jours. Veuillez corriger les facteurs ou la période.";
+"view.astrocycles.chart.noresults"         = "Aucun résultat. Sélectionnez des facteurs et cliquez sur Calculer.";
+"view.astrocycles.chart.date"              = "Date";
+"view.astrocycles.chart.ydifference"       = "Différence (°)";
 "view.astrocycles.selectedcount"           = "Sélectionné : %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Saisissez une année valide pour la numérotation sélectionnée";

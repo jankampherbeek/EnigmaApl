@@ -4,7 +4,7 @@
 
 import Foundation
 
-/// Calculates the difference in a single coordinate between two celestial factors
+/// Calculates the difference in a single coordinate between pairs of celestial factors
 /// across a time period at regular intervals.
 ///
 /// For longitude and right ascension the result is the shortest angular distance
@@ -14,34 +14,36 @@ public struct PeriodDifference {
 
     private init() {}
 
-    /// Calculates the positional difference between two factors at each step.
+    /// Calculates the positional difference for each factor pair at each step.
     /// - Parameters:
-    ///   - request: The PeriodDifferenceRequest describing the two factors, interval,
+    ///   - request: The PeriodDifferenceRequest describing the factor pairs, interval,
     ///              time range, and coordinate to compare.
     ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with
     ///                Swiss Ephemeris. For production use the app-level instance; for tests
     ///                use SEWrapperTestCoordinator.shared.getSEWrapper().
-    /// - Returns: A list of (julianDay, difference) tuples in chronological order, one
-    ///            entry per step from JdStart up to and including JdEnd.
+    /// - Returns: One time series per factor pair, in the same order as request.FactorPairs.
+    ///            Each series contains (julianDay, difference) tuples from JdStart to JdEnd.
     public static func PerformCalculation(
         _ request: PeriodDifferenceRequest,
         seWrapper: SEWrapper
-    ) -> [(julianDay: Double, difference: Double)] {
+    ) -> [[(julianDay: Double, difference: Double)]] {
 
         let config = CalculationConfig(houseSystem: .noHouses)
-        var results: [(julianDay: Double, difference: Double)] = []
+        var results: [[(julianDay: Double, difference: Double)]] =
+            Array(repeating: [], count: request.FactorPairs.count)
+
         var jd = request.JdStart
-
         while jd <= request.JdEnd {
-            let pos1 = calculatePosition(
-                factor: request.Factor1, jd: jd,
-                coordinate: request.Coordinate, config: config, seWrapper: seWrapper)
-            let pos2 = calculatePosition(
-                factor: request.Factor2, jd: jd,
-                coordinate: request.Coordinate, config: config, seWrapper: seWrapper)
-
-            let difference = computeDifference(pos1, pos2, coordinate: request.Coordinate)
-            results.append((julianDay: jd, difference: difference))
+            for (index, pair) in request.FactorPairs.enumerated() {
+                let pos1 = calculatePosition(
+                    factor: pair.factor1, jd: jd,
+                    coordinate: request.Coordinate, config: config, seWrapper: seWrapper)
+                let pos2 = calculatePosition(
+                    factor: pair.factor2, jd: jd,
+                    coordinate: request.Coordinate, config: config, seWrapper: seWrapper)
+                let difference = computeDifference(pos1, pos2, coordinate: request.Coordinate)
+                results[index].append((julianDay: jd, difference: difference))
+            }
             jd += request.Interval
         }
 

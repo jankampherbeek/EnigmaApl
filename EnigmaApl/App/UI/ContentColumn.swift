@@ -54,7 +54,7 @@ struct ContentColumn: View {
             case .research:
                 ResearchProjectsScreen()
             case .cycles:
-                Text("Content (\(app.nav.mode.rawValue))")
+                CyclesChartView()
             case .config:
                 ConfigListScreen()
             }

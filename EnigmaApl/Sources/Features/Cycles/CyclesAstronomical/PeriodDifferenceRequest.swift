@@ -4,12 +4,10 @@
 
 import Foundation
 
-/// Request for a period-based calculation of the difference between two celestial factors.
+/// Request for a period-based calculation of the difference between pairs of celestial factors.
 public struct PeriodDifferenceRequest {
-    /// The first celestial factor.
-    public let Factor1: Factors
-    /// The second celestial factor.
-    public let Factor2: Factors
+    /// The pairs of celestial factors to compare.
+    public let FactorPairs: [(factor1: Factors, factor2: Factors)]
     /// Interval in days between successive calculations.
     public let Interval: Double
     /// Julian Day number for the start of the period.
@@ -18,20 +16,22 @@ public struct PeriodDifferenceRequest {
     public let JdEnd: Double
     /// The coordinate to calculate for both factors.
     public let Coordinate: Coordinates
+    /// The ayanamsha to apply; use .tropical for no sidereal correction.
+    public let Ayanamsha: Ayanamshas
 
     public init(
-        Factor1: Factors,
-        Factor2: Factors,
+        FactorPairs: [(factor1: Factors, factor2: Factors)],
         Interval: Double,
         JdStart: Double,
         JdEnd: Double,
-        Coordinate: Coordinates
+        Coordinate: Coordinates,
+        Ayanamsha: Ayanamshas
     ) {
-        self.Factor1 = Factor1
-        self.Factor2 = Factor2
+        self.FactorPairs = FactorPairs
         self.Interval = Interval
         self.JdStart = JdStart
         self.JdEnd = JdEnd
         self.Coordinate = Coordinate
+        self.Ayanamsha = Ayanamsha
     }
 }

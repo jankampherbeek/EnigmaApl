@@ -18,6 +18,7 @@ final class AppComposition: ObservableObject {
 
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
+    let cyclesModel: AstronomicalCyclesModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -44,5 +45,6 @@ final class AppComposition: ObservableObject {
             get: { app.nav.cycles },
             set: { app.nav.cycles = $0 }
         ))
+        self.cyclesModel = AstronomicalCyclesModel()
     }
 }

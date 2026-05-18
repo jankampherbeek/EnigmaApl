@@ -17,6 +17,10 @@ private struct FactorPair: Identifiable {
 }
 
 struct AstronomicalCyclesScreen: View {
+    @EnvironmentObject private var cyclesModel: AstronomicalCyclesModel
+
+    private let seWrapper = SEWrapper()
+
     @State private var startYearText = "2024"
     @State private var startMonth = 1
     @State private var startDay = 1
@@ -37,6 +41,7 @@ struct AstronomicalCyclesScreen: View {
     @State private var pendingFactorA: Factors? = nil
     @State private var pendingFactorB: Factors? = nil
     @State private var factorPairs: [FactorPair] = []
+    @State private var periodWarning: String? = nil
 
     private let maxSingleFactors = 12
     private let maxPairs = 6
@@ -192,6 +197,13 @@ struct AstronomicalCyclesScreen: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.regular)
                     .disabled(!canCalculate)
+
+                if let warning = periodWarning {
+                    Text(warning)
+                        .foregroundStyle(.orange)
+                        .font(.callout)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             .frame(maxWidth: 900, alignment: .leading)
             .padding()
@@ -297,7 +309,67 @@ struct AstronomicalCyclesScreen: View {
     // MARK: - Calculate
 
     private func calculate() {
-        // Wire up requests when calculation backend is connected.
+        periodWarning = nil
+        cyclesModel.singleResults = []
+        cyclesModel.pairResults = []
+        cyclesModel.factorPairs = []
+
+        let allFactors: [Factors] = factorMode == .single
+            ? selectedFactors
+            : factorPairs.flatMap { [$0.factorA, $0.factorB] }
+
+        let specs = allFactors.compactMap { $0.cycleSpec }
+        guard !specs.isEmpty,
+              let smallestInterval = specs.map({ $0.interval }).min(),
+              let smallestMaxPeriod = specs.map({ $0.maxPeriod }).min(),
+              let startYear = startAstrYear,
+              let endYear = endAstrYear
+        else { return }
+
+        let midnight = AstronomicalTime(HourDecimal: 0.0)
+        let jdStart = seWrapper.julianDay(
+            date: AstronomicalDate(Year: startYear, Month: startMonth, Day: startDay, Gregorian: startCalendar == .gregorian),
+            time: midnight)
+        let jdEnd = seWrapper.julianDay(
+            date: AstronomicalDate(Year: endYear, Month: endMonth, Day: endDay, Gregorian: endCalendar == .gregorian),
+            time: midnight)
+
+        let periodDays = Int(round(jdEnd - jdStart))
+
+        if periodDays > smallestMaxPeriod {
+            periodWarning = String(format: ac(AstroCyclesKeys.warningMaxPeriod), smallestMaxPeriod, periodDays)
+            return
+        }
+
+        cyclesModel.isPairs = factorMode == .pairs
+        cyclesModel.coordinate = selectedCoordinate
+
+        switch factorMode {
+        case .single:
+            cyclesModel.singleResults = selectedFactors.map { factor in
+                let request = PeriodCalculatorRequest(
+                    Factor: factor,
+                    Interval: smallestInterval,
+                    JdStart: jdStart,
+                    JdEnd: jdEnd,
+                    Coordinate: selectedCoordinate,
+                    Ayanamsha: ayanamsha
+                )
+                return (factor: factor, series: PeriodCalculator.PerformCalculation(request, seWrapper: seWrapper))
+            }
+        case .pairs:
+            let pairs = factorPairs.map { (factor1: $0.factorA, factor2: $0.factorB) }
+            cyclesModel.factorPairs = pairs
+            let request = PeriodDifferenceRequest(
+                FactorPairs: pairs,
+                Interval: smallestInterval,
+                JdStart: jdStart,
+                JdEnd: jdEnd,
+                Coordinate: selectedCoordinate,
+                Ayanamsha: ayanamsha
+            )
+            cyclesModel.pairResults = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
+        }
     }
 }
 

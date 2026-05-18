@@ -17,18 +17,22 @@ public struct PeriodCalculatorRequest {
     public let JdEnd: Double
     /// The coordinate to calculate for the factor.
     public let Coordinate: Coordinates
+    /// The ayanamsha to apply; use .tropical for no sidereal correction.
+    public let Ayanamsha: Ayanamshas
 
     public init(
         Factor: Factors,
         Interval: Double,
         JdStart: Double,
         JdEnd: Double,
-        Coordinate: Coordinates
+        Coordinate: Coordinates,
+        Ayanamsha: Ayanamshas
     ) {
         self.Factor = Factor
         self.Interval = Interval
         self.JdStart = JdStart
         self.JdEnd = JdEnd
         self.Coordinate = Coordinate
+        self.Ayanamsha = Ayanamsha
     }
 }

@@ -19,5 +19,9 @@
 "view.astrocycles.addedpairs"              = "Added pairs";
 "view.astrocycles.calculate"               = "Calculate";
 "view.astrocycles.ayanamsha"               = "Ayanamsha";
+"view.astrocycles.warning.maxperiod"       = "For the chosen factors, a maximum period of %d days is applicable. The current period is %d days. Please correct the factors or the period.";
+"view.astrocycles.chart.noresults"         = "No results yet. Select factors and click Calculate.";
+"view.astrocycles.chart.date"              = "Date";
+"view.astrocycles.chart.ydifference"       = "Difference (°)";
 "view.astrocycles.selectedcount"           = "Selected: %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Enter a valid year for the selected year count";
