@@ -1,0 +1,16 @@
+// Waves.strings - Nederlands
+// EnigmaApl
+
+"view.waves.title"                    = "Golven";
+"view.waves.startdate"                = "Begindatum";
+"view.waves.enddate"                  = "Einddatum";
+"view.waves.year"                     = "Jaar";
+"view.waves.month"                    = "Maand";
+"view.waves.day"                      = "Dag";
+"view.waves.calendar"                 = "Kalender";
+"view.waves.yearcount"                = "Jaartelling";
+"view.waves.observerposition"         = "Waarnemeerspositie";
+"view.waves.coordinate"               = "Coördinaat";
+"view.waves.cycletype"                = "Cyclustype";
+"view.waves.calculate"                = "Berekenen";
+"view.waves.validation.invalidyear"   = "Voer een geldig jaar in voor de gekozen jaartelling";

@@ -107,8 +107,8 @@ struct WavesCalculatorTests {
         }
     }
 
-    @Test("WavesCalculator: wave value does not exceed 180°")
-    func testWaveValue_doesNotExceed180() {
+    @Test("WavesCalculator: wave value does not exceed 1080° (6 pairs × 180°)")
+    func testWaveValue_doesNotExceedMax() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = WavesCalculator.PerformCalculation(
             startJdNr: baseJd,
@@ -116,8 +116,8 @@ struct WavesCalculatorTests {
             interval: interval,
             seWrapper: seWrapper)
         for entry in results {
-            #expect(entry.waveValue <= 180.0,
-                    "waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 180°")
+            #expect(entry.waveValue <= 1080.0,
+                    "waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 1080°")
         }
     }
 
@@ -218,8 +218,8 @@ struct WavesCalculatorTests {
         }
     }
 
-    @Test("WavesCalculator (Jupiter): wave value does not exceed 180°")
-    func testJupiter_waveValue_doesNotExceed180() {
+    @Test("WavesCalculator (Jupiter): wave value does not exceed 1800° (10 pairs × 180°)")
+    func testJupiter_waveValue_doesNotExceedMax() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = WavesCalculator.PerformCalculation(
             startJdNr: baseJd,
@@ -228,8 +228,8 @@ struct WavesCalculatorTests {
             cycleType: .jupiter,
             seWrapper: seWrapper)
         for entry in results {
-            #expect(entry.waveValue <= 180.0,
-                    "Jupiter waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 180°")
+            #expect(entry.waveValue <= 1800.0,
+                    "Jupiter waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 1800°")
         }
     }
 
@@ -344,8 +344,8 @@ struct WavesCalculatorTests {
         }
     }
 
-    @Test("WavesCalculator (Uranus): wave value does not exceed 180°")
-    func testUranus_waveValue_doesNotExceed180() {
+    @Test("WavesCalculator (Uranus): wave value does not exceed 540° (3 pairs × 180°)")
+    func testUranus_waveValue_doesNotExceedMax() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = WavesCalculator.PerformCalculation(
             startJdNr: baseJd,
@@ -354,14 +354,14 @@ struct WavesCalculatorTests {
             cycleType: .uranus,
             seWrapper: seWrapper)
         for entry in results {
-            #expect(entry.waveValue <= 180.0,
-                    "Uranus waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 180°")
+            #expect(entry.waveValue <= 540.0,
+                    "Uranus waveValue \(entry.waveValue) at JD \(entry.julianDay) exceeds 540°")
         }
     }
 
-    /// Computes the Uranus-cycle wave value independently (6 pairs: Uranus, Saturn, Neptune, Pluto)
+    /// Computes the Uranus-cycle wave value independently (3 pairs: Uranus, Neptune, Pluto)
     /// and verifies that WavesCalculator produces an identical result.
-    @Test("WavesCalculator (Uranus): single-step result matches manual 6-pair mean computation")
+    @Test("WavesCalculator (Uranus): single-step result matches manual 3-pair total computation")
     func testUranus_singleStep_matchesManualComputation() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
 
@@ -370,7 +370,7 @@ struct WavesCalculatorTests {
             cycleType: .uranus, seWrapper: seWrapper)
         #expect(results.count == 1)
 
-        let planets: [Factors] = [.uranus, .saturn, .neptune, .pluto]
+        let planets: [Factors] = [.uranus, .neptune, .pluto]
         let config = CalculationConfig(houseSystem: .noHouses)
         var longitudes: [Factors: Double] = [:]
         for factor in planets {
@@ -403,7 +403,7 @@ struct WavesCalculatorTests {
                 "Expected Uranus wave value \(expectedWave), got \(results[0].waveValue)")
     }
 
-    /// Uranus and Jupiter use different planet sets (4 vs 5 planets), so their wave values must differ.
+    /// Uranus and Jupiter use different planet sets (3 vs 5 planets), so their wave values must differ.
     @Test("WavesCalculator: Uranus and Jupiter cycles produce different wave values")
     func testUranusAndJupiter_waveValuesDiffer() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()

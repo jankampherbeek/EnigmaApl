@@ -1,0 +1,16 @@
+// Waves.strings - Français
+// EnigmaApl
+
+"view.waves.title"                    = "Vagues";
+"view.waves.startdate"                = "Date de début";
+"view.waves.enddate"                  = "Date de fin";
+"view.waves.year"                     = "Année";
+"view.waves.month"                    = "Mois";
+"view.waves.day"                      = "Jour";
+"view.waves.calendar"                 = "Calendrier";
+"view.waves.yearcount"                = "Numérotation des années";
+"view.waves.observerposition"         = "Position de l'observateur";
+"view.waves.coordinate"               = "Coordonnée";
+"view.waves.cycletype"                = "Type de cycle";
+"view.waves.calculate"                = "Calculer";
+"view.waves.validation.invalidyear"   = "Saisissez une année valide pour la numérotation sélectionnée";

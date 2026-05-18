@@ -21,33 +21,34 @@ struct PeriodDifferenceTests {
         factor2: Factors = .moon,
         interval: Double? = nil,
         endOffset: Double = 0.0,
-        coordinate: Coordinates = .longitude
+        coordinate: Coordinates = .longitude,
+        ayanamsha: Ayanamshas = .tropical
     ) -> PeriodDifferenceRequest {
         PeriodDifferenceRequest(
-            Factor1: factor1,
-            Factor2: factor2,
+            FactorPairs: [(factor1: factor1, factor2: factor2)],
             Interval: interval ?? self.interval,
             JdStart: baseJd,
             JdEnd: baseJd + endOffset,
-            Coordinate: coordinate
+            Coordinate: coordinate,
+            Ayanamsha: ayanamsha
         )
     }
 
     // MARK: - Result count and JD sequence
 
-    @Test("PeriodDifference: single step produces exactly one result")
+    @Test("PeriodDifference: single step produces exactly one result per pair")
     func testSingleStep_resultCount() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = PeriodDifference.PerformCalculation(makeRequest(), seWrapper: seWrapper)
-        #expect(results.count == 1)
+        #expect(results[0].count == 1)
     }
 
-    @Test("PeriodDifference: three-step period produces exactly three results")
+    @Test("PeriodDifference: three-step period produces exactly three results per pair")
     func testThreeSteps_resultCount() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = PeriodDifference.PerformCalculation(
             makeRequest(endOffset: interval * 2), seWrapper: seWrapper)
-        #expect(results.count == 3)
+        #expect(results[0].count == 3)
     }
 
     @Test("PeriodDifference: Julian day values follow the correct sequence")
@@ -55,7 +56,7 @@ struct PeriodDifferenceTests {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = PeriodDifference.PerformCalculation(
             makeRequest(endOffset: interval * 2), seWrapper: seWrapper)
-        for (index, entry) in results.enumerated() {
+        for (index, entry) in results[0].enumerated() {
             let expectedJd = baseJd + interval * Double(index)
             #expect(abs(entry.julianDay - expectedJd) < delta,
                     "Step \(index): expected JD \(expectedJd), got \(entry.julianDay)")
@@ -67,28 +68,66 @@ struct PeriodDifferenceTests {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let results = PeriodDifference.PerformCalculation(
             makeRequest(endOffset: interval * 2), seWrapper: seWrapper)
-        #expect(results.count == 3)
-        #expect(abs(results.last!.julianDay - (baseJd + interval * 2)) < delta)
+        #expect(results[0].count == 3)
+        #expect(abs(results[0].last!.julianDay - (baseJd + interval * 2)) < delta)
     }
 
     @Test("PeriodDifference: endJdNr between steps stops before exceeding it")
     func testEndJdBetweenSteps_stopsBeforeExceeding() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
-        // end falls halfway between step 2 and step 3 → only 3 results
         let results = PeriodDifference.PerformCalculation(
             makeRequest(endOffset: interval * 2 + interval / 2), seWrapper: seWrapper)
-        #expect(results.count == 3)
-        #expect(results.last!.julianDay <= baseJd + interval * 2 + interval / 2)
+        #expect(results[0].count == 3)
+        #expect(results[0].last!.julianDay <= baseJd + interval * 2 + interval / 2)
     }
 
-    @Test("PeriodDifference: startJdNr after endJdNr returns empty list")
-    func testStartAfterEnd_returnsEmpty() {
+    @Test("PeriodDifference: startJdNr after endJdNr returns empty series per pair")
+    func testStartAfterEnd_returnsEmptySeries() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
         let request = PeriodDifferenceRequest(
-            Factor1: .sun, Factor2: .moon, Interval: interval,
-            JdStart: baseJd + 1.0, JdEnd: baseJd, Coordinate: .longitude)
+            FactorPairs: [(factor1: .sun, factor2: .moon)],
+            Interval: interval,
+            JdStart: baseJd + 1.0,
+            JdEnd: baseJd,
+            Coordinate: .longitude,
+            Ayanamsha: .tropical)
         let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(results.isEmpty)
+        #expect(results[0].isEmpty)
+    }
+
+    // MARK: - Multiple pairs
+
+    @Test("PeriodDifference: two pairs produce two independent series")
+    func testTwoPairs_produceTwoSeries() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let request = PeriodDifferenceRequest(
+            FactorPairs: [(factor1: .sun, factor2: .moon),
+                          (factor1: .sun, factor2: .saturn)],
+            Interval: interval,
+            JdStart: baseJd,
+            JdEnd: baseJd + interval * 2,
+            Coordinate: .longitude,
+            Ayanamsha: .tropical)
+        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
+        #expect(results.count == 2)
+        #expect(results[0].count == 3)
+        #expect(results[1].count == 3)
+    }
+
+    @Test("PeriodDifference: two pairs produce different differences at the same JD")
+    func testTwoPairs_differencesDiffer() {
+        let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
+        let request = PeriodDifferenceRequest(
+            FactorPairs: [(factor1: .sun, factor2: .moon),
+                          (factor1: .sun, factor2: .saturn)],
+            Interval: interval,
+            JdStart: baseJd,
+            JdEnd: baseJd,
+            Coordinate: .longitude,
+            Ayanamsha: .tropical)
+        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
+        #expect(abs(results[0][0].difference - results[1][0].difference) > delta,
+                "Sun-Moon and Sun-Saturn should give different differences")
     }
 
     // MARK: - Difference correctness: same factor
@@ -96,19 +135,21 @@ struct PeriodDifferenceTests {
     @Test("PeriodDifference: same factor produces zero longitude difference")
     func testSameFactor_longitudeDifferenceIsZero() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
-        let request = makeRequest(factor1: .sun, factor2: .sun, coordinate: .longitude)
-        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(abs(results[0].difference) < delta,
-                "Sun vs Sun longitude difference should be 0, got \(results[0].difference)")
+        let results = PeriodDifference.PerformCalculation(
+            makeRequest(factor1: .sun, factor2: .sun, coordinate: .longitude),
+            seWrapper: seWrapper)
+        #expect(abs(results[0][0].difference) < delta,
+                "Sun vs Sun longitude difference should be 0, got \(results[0][0].difference)")
     }
 
     @Test("PeriodDifference: same factor produces zero declination difference")
     func testSameFactor_declinationDifferenceIsZero() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
-        let request = makeRequest(factor1: .moon, factor2: .moon, coordinate: .declination)
-        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(abs(results[0].difference) < delta,
-                "Moon vs Moon declination difference should be 0, got \(results[0].difference)")
+        let results = PeriodDifference.PerformCalculation(
+            makeRequest(factor1: .moon, factor2: .moon, coordinate: .declination),
+            seWrapper: seWrapper)
+        #expect(abs(results[0][0].difference) < delta,
+                "Moon vs Moon declination difference should be 0, got \(results[0][0].difference)")
     }
 
     // MARK: - Difference correctness: manual computation
@@ -116,11 +157,11 @@ struct PeriodDifferenceTests {
     @Test("PeriodDifference: longitude difference matches manual shortest-arc computation")
     func testLongitudeDifference_matchesManual() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
-        let request = makeRequest(factor1: .sun, factor2: .moon, coordinate: .longitude)
-        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(results.count == 1)
+        let results = PeriodDifference.PerformCalculation(
+            makeRequest(factor1: .sun, factor2: .moon, coordinate: .longitude),
+            seWrapper: seWrapper)
+        #expect(results[0].count == 1)
 
-        // Independently fetch longitudes via PerformSingleCoordinateCalculation
         let config = CalculationConfig(houseSystem: .noHouses)
         func longitude(for factor: Factors) -> Double {
             let req = CalcRequest(
@@ -138,16 +179,17 @@ struct PeriodDifferenceTests {
         let diff = abs(lon1 - lon2).truncatingRemainder(dividingBy: 360.0)
         let expected = diff > 180.0 ? 360.0 - diff : diff
 
-        #expect(abs(results[0].difference - expected) < delta,
-                "Expected longitude difference \(expected), got \(results[0].difference)")
+        #expect(abs(results[0][0].difference - expected) < delta,
+                "Expected longitude difference \(expected), got \(results[0][0].difference)")
     }
 
     @Test("PeriodDifference: declination difference matches manual absolute computation")
     func testDeclinationDifference_matchesManual() {
         let seWrapper = SEWrapperTestCoordinator.shared.getSEWrapper()
-        let request = makeRequest(factor1: .sun, factor2: .moon, coordinate: .declination)
-        let results = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(results.count == 1)
+        let results = PeriodDifference.PerformCalculation(
+            makeRequest(factor1: .sun, factor2: .moon, coordinate: .declination),
+            seWrapper: seWrapper)
+        #expect(results[0].count == 1)
 
         let config = CalculationConfig(houseSystem: .noHouses)
         func declination(for factor: Factors) -> Double {
@@ -162,8 +204,8 @@ struct PeriodDifferenceTests {
         }
 
         let expected = abs(declination(for: .sun) - declination(for: .moon))
-        #expect(abs(results[0].difference - expected) < delta,
-                "Expected declination difference \(expected), got \(results[0].difference)")
+        #expect(abs(results[0][0].difference - expected) < delta,
+                "Expected declination difference \(expected), got \(results[0][0].difference)")
     }
 
     // MARK: - Symmetry
@@ -177,7 +219,7 @@ struct PeriodDifferenceTests {
         let swapped = PeriodDifference.PerformCalculation(
             makeRequest(factor1: .saturn, factor2: .sun, coordinate: .longitude),
             seWrapper: seWrapper)
-        #expect(abs(forward[0].difference - swapped[0].difference) < delta,
+        #expect(abs(forward[0][0].difference - swapped[0][0].difference) < delta,
                 "Sun-Saturn and Saturn-Sun should give identical difference")
     }
 
@@ -190,7 +232,7 @@ struct PeriodDifferenceTests {
             makeRequest(factor1: .sun, factor2: .moon,
                         endOffset: interval * 2, coordinate: .longitude),
             seWrapper: seWrapper)
-        for entry in results {
+        for entry in results[0] {
             #expect(entry.difference >= 0.0,
                     "Longitude difference \(entry.difference) at JD \(entry.julianDay) is negative")
             #expect(entry.difference <= 180.0,
@@ -205,7 +247,7 @@ struct PeriodDifferenceTests {
             makeRequest(factor1: .sun, factor2: .moon,
                         endOffset: interval * 2, coordinate: .declination),
             seWrapper: seWrapper)
-        for entry in results {
+        for entry in results[0] {
             #expect(entry.difference >= 0.0,
                     "Declination difference \(entry.difference) at JD \(entry.julianDay) is negative")
         }
@@ -218,7 +260,7 @@ struct PeriodDifferenceTests {
             makeRequest(factor1: .sun, factor2: .moon,
                         endOffset: interval * 2, coordinate: .distance),
             seWrapper: seWrapper)
-        for entry in results {
+        for entry in results[0] {
             #expect(entry.difference >= 0.0,
                     "Distance difference \(entry.difference) at JD \(entry.julianDay) is negative")
         }
@@ -232,7 +274,7 @@ struct PeriodDifferenceTests {
         let request = makeRequest(factor1: .sun, factor2: .moon, coordinate: .longitude)
         let first  = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
         let second = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
-        #expect(first.count == second.count)
-        #expect(abs(first[0].difference - second[0].difference) < delta)
+        #expect(first[0].count == second[0].count)
+        #expect(abs(first[0][0].difference - second[0][0].difference) < delta)
     }
 }
