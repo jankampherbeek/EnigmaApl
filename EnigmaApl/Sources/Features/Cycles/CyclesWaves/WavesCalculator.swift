@@ -4,17 +4,17 @@
 
 import Foundation
 
-/// Calculates a "wave value" across a time period based on the total pairwise angular
-/// separation of a set of slow-moving planets.
+/// Calculates a "wave value" across a time period based on the total pairwise
+/// separation of a set of slow-moving planets for a given coordinate.
 ///
 /// Three cycle types are supported:
 /// - **Saturn** (default): Saturn, Uranus, Neptune, Pluto — 6 pairs.
 /// - **Jupiter**: Jupiter, Saturn, Uranus, Neptune, Pluto — 10 pairs.
-/// - **Uranus**: Uranus,  Neptune, Pluto — 4 pairs.
+/// - **Uranus**: Uranus, Neptune, Pluto — 3 pairs.
 ///
-/// For each time step the ecliptic longitudes of the planets are calculated.
-/// All pairwise shortest angular distances (0°–180°) are summed to produce
-/// a single WaveValue for that moment.
+/// For longitude and right ascension the pairwise distance is the shortest arc (0°–180°).
+/// For all other coordinates (latitude, declination, distance) it is the absolute difference.
+/// All pairwise distances are summed to produce a single WaveValue for each time step.
 public struct WavesCalculator {
 
     private init() {}
@@ -45,6 +45,7 @@ public struct WavesCalculator {
             endJdNr: request.JdEnd,
             interval: request.Interval,
             cycleType: request.CycleType,
+            coordinate: request.Coordinate,
             seWrapper: seWrapper
         )
     }
@@ -56,6 +57,7 @@ public struct WavesCalculator {
     ///   - interval: Step size in days between successive calculations.
     ///   - cycleType: The planet that defines the cycle. Must be `.jupiter`, `.saturn`, or `.uranus`.
     ///                Defaults to `.saturn`.
+    ///   - coordinate: The coordinate to calculate for each planet. Defaults to `.longitude`.
     ///   - seWrapper: SEWrapper instance. Must be provided to ensure thread-safety with
     ///                Swiss Ephemeris. For production use the app-level instance; for tests
     ///                use SEWrapperTestCoordinator.shared.getSEWrapper().
@@ -65,6 +67,7 @@ public struct WavesCalculator {
         endJdNr: Double,
         interval: Int,
         cycleType: Factors = .saturn,
+        coordinate: Coordinates = .longitude,
         seWrapper: SEWrapper
     ) -> [(julianDay: Double, waveValue: Double)] {
 
@@ -75,8 +78,7 @@ public struct WavesCalculator {
         var jd = startJdNr
 
         while jd <= endJdNr {
-            // Calculate ecliptic longitude for each planet at this JD
-            var longitudes: [Factors: Double] = [:]
+            var positions: [Factors: Double] = [:]
             for factor in outerPlanets {
                 let calcRequest = CalcRequest(
                     JulianDay: jd,
@@ -87,21 +89,20 @@ public struct WavesCalculator {
                     Height: 0.0,
                     calculationConfig: config
                 )
-                let (_, longitude) = AstronCalcOrchestrator.PerformSingleCoordinateCalculation(
+                let (_, position) = AstronCalcOrchestrator.PerformSingleCoordinateCalculation(
                     calcRequest,
-                    coordinate: .longitude,
+                    coordinate: coordinate,
                     seWrapper: seWrapper
                 )
-                longitudes[factor] = longitude
+                positions[factor] = position
             }
 
-            // Compute shortest angular distance for all pairs and sum them
             var distances: [Double] = []
             for i in 0..<outerPlanets.count {
                 for j in (i + 1)..<outerPlanets.count {
-                    let lon1 = longitudes[outerPlanets[i]] ?? 0.0
-                    let lon2 = longitudes[outerPlanets[j]] ?? 0.0
-                    distances.append(shortestAngularDistance(lon1, lon2))
+                    let p1 = positions[outerPlanets[i]] ?? 0.0
+                    let p2 = positions[outerPlanets[j]] ?? 0.0
+                    distances.append(computeDifference(p1, p2, coordinate: coordinate))
                 }
             }
 
@@ -115,9 +116,14 @@ public struct WavesCalculator {
 
     // MARK: - Private helpers
 
-    /// Returns the shortest angular distance between two ecliptic longitudes (0°–180°).
-    private static func shortestAngularDistance(_ lon1: Double, _ lon2: Double) -> Double {
-        let diff = abs(lon1 - lon2).truncatingRemainder(dividingBy: 360.0)
-        return diff > 180.0 ? 360.0 - diff : diff
+    /// Shortest arc (0°–180°) for cyclic coordinates; absolute difference for linear ones.
+    private static func computeDifference(_ p1: Double, _ p2: Double, coordinate: Coordinates) -> Double {
+        switch coordinate {
+        case .longitude, .rightAscension:
+            let diff = abs(p1 - p2).truncatingRemainder(dividingBy: 360.0)
+            return diff > 180.0 ? 360.0 - diff : diff
+        case .latitude, .declination, .distance:
+            return abs(p1 - p2)
+        }
     }
 }

@@ -82,6 +82,13 @@ struct WavesScreen: View {
             year: y, month: endMonth, day: endDay, gregorian: endCalendar == .gregorian)
     }
 
+    private var availableCoordinates: [Coordinates] {
+        if observerPosition == .helioCentric {
+            return Coordinates.allCases.filter { $0 != .rightAscension && $0 != .declination }
+        }
+        return Coordinates.allCases
+    }
+
     private var canCalculate: Bool {
         startDateValidation.isValid && endDateValidation.isValid
     }
@@ -122,7 +129,7 @@ struct WavesScreen: View {
 
                 FieldBlock(w(WavesKeys.coordinate)) {
                     Picker(w(WavesKeys.coordinate), selection: $selectedCoordinate) {
-                        ForEach(Coordinates.allCases, id: \.self) { coord in
+                        ForEach(availableCoordinates, id: \.self) { coord in
                             Text(LocalizedStringKey(coord.rbKey)).tag(coord)
                         }
                     }
@@ -153,6 +160,11 @@ struct WavesScreen: View {
         }
         .controlSize(.small)
         .navigationTitle(w(WavesKeys.title))
+        .onChange(of: observerPosition) { _, _ in
+            if !availableCoordinates.contains(selectedCoordinate) {
+                selectedCoordinate = .longitude
+            }
+        }
     }
 
     // MARK: - Date input
