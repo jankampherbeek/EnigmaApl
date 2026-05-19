@@ -23,10 +23,12 @@
 "view.astrocycles.chart.noresults"         = "Nog geen resultaten. Selecteer factoren en klik op Berekenen.";
 "view.astrocycles.chart.date"              = "Datum";
 "view.astrocycles.chart.ydifference"       = "Verschil (°)";
+"view.astrocycles.chart.export"            = "Exporteren";
 "view.astrocycles.tab.chart"               = "Lijngrafiek";
 "view.astrocycles.tab.positions"           = "Posities";
 "view.astrocycles.positions.julianday"     = "Juliaanse dag";
 "view.astrocycles.positions.format.dms"    = "DMS";
 "view.astrocycles.positions.format.decimal" = "Decimal";
+"view.astrocycles.positions.export"        = "Exporteren";
 "view.astrocycles.selectedcount"           = "Geselecteerd: %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Voer een geldig jaar in voor de gekozen jaartelling";

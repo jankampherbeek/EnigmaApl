@@ -4,6 +4,37 @@
 
 import SwiftUI
 import Charts
+import UniformTypeIdentifiers
+
+private struct WavesPNGDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.png] }
+    var data: Data
+
+    init(data: Data) { self.data = data }
+
+    init(configuration: ReadConfiguration) throws {
+        data = configuration.file.regularFileContents ?? Data()
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: data)
+    }
+}
+
+private struct WavesCSVDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.commaSeparatedText] }
+    var content: String
+
+    init(content: String) { self.content = content }
+
+    init(configuration: ReadConfiguration) throws {
+        content = String(data: configuration.file.regularFileContents ?? Data(), encoding: .utf8) ?? ""
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: Data(content.utf8))
+    }
+}
 
 struct WavesChartView: View {
     @EnvironmentObject private var model: WavesModel
@@ -12,6 +43,10 @@ struct WavesChartView: View {
     @State private var dragStartHeight: CGFloat = 400
     @State private var selectedTab: Int = 0
     @State private var showDms: Bool = true
+    @State private var showExporter: Bool = false
+    @State private var csvDocument = WavesCSVDocument(content: "")
+    @State private var showChartExporter: Bool = false
+    @State private var chartPNGDocument = WavesPNGDocument(data: Data())
 
     var body: some View {
         if model.hasResults {
@@ -34,18 +69,62 @@ struct WavesChartView: View {
 
     private var chartTab: some View {
         VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Button(w(WavesKeys.chartExport)) {
+                    if let data = renderChartToPNG() {
+                        chartPNGDocument = WavesPNGDocument(data: data)
+                        showChartExporter = true
+                    }
+                }
+                .buttonStyle(.bordered)
+                .padding([.top, .trailing])
+            }
+
             chart
                 .frame(height: chartHeight)
                 .padding([.horizontal, .top])
             resizeHandle
         }
+        .fileExporter(
+            isPresented: $showChartExporter,
+            document: chartPNGDocument,
+            contentType: .png,
+            defaultFilename: "waves"
+        ) { _ in }
+    }
+
+    @MainActor
+    private func renderChartToPNG() -> Data? {
+        #if os(macOS)
+        let bgColor = Color(nsColor: .windowBackgroundColor)
+        #else
+        let bgColor = Color(uiColor: .systemBackground)
+        #endif
+        let exportWidth: CGFloat = 1400
+        let content = buildChart(forExport: true)
+            .frame(width: exportWidth, height: chartHeight)
+            .padding()
+            .background(bgColor)
+        let renderer = ImageRenderer(content: content)
+        renderer.scale = 2.0
+        #if os(macOS)
+        guard let nsImage = renderer.nsImage,
+              let tiffData = nsImage.tiffRepresentation,
+              let bitmapRep = NSBitmapImageRep(data: tiffData) else { return nil }
+        return bitmapRep.representation(using: .png, properties: [:])
+        #else
+        return renderer.uiImage?.pngData()
+        #endif
     }
 
     // MARK: - Chart
 
-    private var chart: some View {
+    private var chart: some View { buildChart(forExport: false) }
+
+    private func buildChart(forExport: Bool) -> AnyView {
         let seriesLabel = NSLocalizedString(model.cycleType.localizedName, comment: "")
-        return Chart {
+        let base = Chart {
             ForEach(model.results.indices, id: \.self) { i in
                 let point = model.results[i]
                 LineMark(
@@ -64,9 +143,9 @@ struct WavesChartView: View {
             }
         }
         .chartLegend(.visible)
-        .chartScrollableAxes(.horizontal)
         .chartXAxis { xAxisMarks }
         .chartPlotStyle { $0.padding(.bottom, 80) }
+        return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
     }
 
     // MARK: - Positions tab
@@ -78,7 +157,15 @@ struct WavesChartView: View {
     private var positionsTab: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
+                Button(w(WavesKeys.positionsExport)) {
+                    csvDocument = WavesCSVDocument(content: buildCSV())
+                    showExporter = true
+                }
+                .buttonStyle(.bordered)
+                .padding([.top, .leading])
+
                 Spacer()
+
                 Picker("", selection: $showDms) {
                     Text(w(WavesKeys.positionsFormatDms)).tag(true)
                     Text(w(WavesKeys.positionsFormatDecimal)).tag(false)
@@ -129,6 +216,28 @@ struct WavesChartView: View {
                 }
             }
         }
+        .fileExporter(
+            isPresented: $showExporter,
+            document: csvDocument,
+            contentType: .commaSeparatedText,
+            defaultFilename: "waves"
+        ) { _ in }
+    }
+
+    private func buildCSV() -> String {
+        let valueHeader = NSLocalizedString(model.cycleType.localizedName, comment: "")
+        let headers = [w(WavesKeys.chartDate), w(WavesKeys.positionsJulianDay), valueHeader]
+            .map { csvEscape($0) }.joined(separator: ",")
+        let dataLines = model.results.map { point in
+            [jdToDateString(point.julianDay), String(format: "%.4f", point.julianDay), formatValue(point.waveValue)]
+                .map { csvEscape($0) }.joined(separator: ",")
+        }
+        return ([headers] + dataLines).joined(separator: "\n")
+    }
+
+    private func csvEscape(_ value: String) -> String {
+        guard value.contains(",") || value.contains("\"") || value.contains("\n") else { return value }
+        return "\"" + value.replacingOccurrences(of: "\"", with: "\"\"") + "\""
     }
 
     private func formatValue(_ value: Double) -> String {

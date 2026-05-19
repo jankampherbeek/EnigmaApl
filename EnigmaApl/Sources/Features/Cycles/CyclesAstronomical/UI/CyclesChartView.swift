@@ -4,6 +4,37 @@
 
 import SwiftUI
 import Charts
+import UniformTypeIdentifiers
+
+private struct CyclesPNGDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.png] }
+    var data: Data
+
+    init(data: Data) { self.data = data }
+
+    init(configuration: ReadConfiguration) throws {
+        data = configuration.file.regularFileContents ?? Data()
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: data)
+    }
+}
+
+private struct CyclesCSVDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.commaSeparatedText] }
+    var content: String
+
+    init(content: String) { self.content = content }
+
+    init(configuration: ReadConfiguration) throws {
+        content = String(data: configuration.file.regularFileContents ?? Data(), encoding: .utf8) ?? ""
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: Data(content.utf8))
+    }
+}
 
 struct CyclesChartView: View {
     @EnvironmentObject private var model: AstronomicalCyclesModel
@@ -12,6 +43,10 @@ struct CyclesChartView: View {
     @State private var dragStartHeight: CGFloat = 400
     @State private var selectedTab: Int = 0
     @State private var showDms: Bool = true
+    @State private var showExporter: Bool = false
+    @State private var csvDocument = CyclesCSVDocument(content: "")
+    @State private var showChartExporter: Bool = false
+    @State private var chartPNGDocument = CyclesPNGDocument(data: Data())
 
     var body: some View {
         if model.hasResults {
@@ -34,6 +69,18 @@ struct CyclesChartView: View {
 
     private var chartTab: some View {
         VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Button(ac(AstroCyclesKeys.chartExport)) {
+                    if let data = renderChartToPNG() {
+                        chartPNGDocument = CyclesPNGDocument(data: data)
+                        showChartExporter = true
+                    }
+                }
+                .buttonStyle(.bordered)
+                .padding([.top, .trailing])
+            }
+
             Group {
                 if model.isPairs {
                     pairsChart
@@ -46,6 +93,39 @@ struct CyclesChartView: View {
 
             resizeHandle
         }
+        .fileExporter(
+            isPresented: $showChartExporter,
+            document: chartPNGDocument,
+            contentType: .png,
+            defaultFilename: "astronomical_cycles"
+        ) { _ in }
+    }
+
+    @MainActor
+    private func renderChartToPNG() -> Data? {
+        #if os(macOS)
+        let bgColor = Color(nsColor: .windowBackgroundColor)
+        #else
+        let bgColor = Color(uiColor: .systemBackground)
+        #endif
+        let exportWidth: CGFloat = 1400
+        let chartView = model.isPairs
+            ? buildPairsChart(forExport: true)
+            : buildSingleChart(forExport: true)
+        let content = chartView
+            .frame(width: exportWidth, height: chartHeight)
+            .padding()
+            .background(bgColor)
+        let renderer = ImageRenderer(content: content)
+        renderer.scale = 2.0
+        #if os(macOS)
+        guard let nsImage = renderer.nsImage,
+              let tiffData = nsImage.tiffRepresentation,
+              let bitmapRep = NSBitmapImageRep(data: tiffData) else { return nil }
+        return bitmapRep.representation(using: .png, properties: [:])
+        #else
+        return renderer.uiImage?.pngData()
+        #endif
     }
 
     // MARK: - Positions tab
@@ -93,7 +173,15 @@ struct CyclesChartView: View {
     private var positionsTab: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
+                Button(ac(AstroCyclesKeys.positionsExport)) {
+                    csvDocument = CyclesCSVDocument(content: buildCSV())
+                    showExporter = true
+                }
+                .buttonStyle(.bordered)
+                .padding([.top, .leading])
+
                 Spacer()
+
                 Picker("", selection: $showDms) {
                     Text(ac(AstroCyclesKeys.positionsFormatDms)).tag(true)
                     Text(ac(AstroCyclesKeys.positionsFormatDecimal)).tag(false)
@@ -147,6 +235,28 @@ struct CyclesChartView: View {
                 }
             }
         }
+        .fileExporter(
+            isPresented: $showExporter,
+            document: csvDocument,
+            contentType: .commaSeparatedText,
+            defaultFilename: "astronomical_cycles"
+        ) { _ in }
+    }
+
+    private func buildCSV() -> String {
+        let headers = ([ac(AstroCyclesKeys.chartDate), ac(AstroCyclesKeys.positionsJulianDay)] + columnHeaders)
+            .map { csvEscape($0) }.joined(separator: ",")
+        let dataLines = positionRows.map { row in
+            ([jdToDateString(row.julianDay), String(format: "%.4f", row.julianDay)]
+                + row.values.map { formatValue($0) })
+                .map { csvEscape($0) }.joined(separator: ",")
+        }
+        return ([headers] + dataLines).joined(separator: "\n")
+    }
+
+    private func csvEscape(_ value: String) -> String {
+        guard value.contains(",") || value.contains("\"") || value.contains("\n") else { return value }
+        return "\"" + value.replacingOccurrences(of: "\"", with: "\"\"") + "\""
     }
 
     private func formatValue(_ value: Double) -> String {
@@ -198,8 +308,9 @@ struct CyclesChartView: View {
 
     // MARK: - Single factors chart
 
-    @ViewBuilder
-    private var singleChart: some View {
+    private var singleChart: some View { buildSingleChart(forExport: false) }
+
+    private func buildSingleChart(forExport: Bool) -> AnyView {
         let isAngular = model.coordinate == .longitude || model.coordinate == .rightAscension
         let segmented = model.singleResults.map { factorResult in
             (
@@ -212,7 +323,7 @@ struct CyclesChartView: View {
         }
         switch model.coordinate {
         case .longitude, .rightAscension:
-            singleChartMarks(segmented)
+            let base = singleChartMarks(segmented)
                 .chartYScale(domain: 0...360)
                 .chartYAxis {
                     AxisMarks(values: Array(stride(from: 0, through: 360, by: 15))) { _ in
@@ -223,9 +334,9 @@ struct CyclesChartView: View {
                 }
                 .chartYAxisLabel(coordinateLabel)
                 .chartLegend(.visible)
-                .chartScrollableAxes(.horizontal)
+            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
         case .latitude:
-            singleChartMarks(segmented)
+            let base = singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 1)) { _ in
                         AxisGridLine()
@@ -235,9 +346,9 @@ struct CyclesChartView: View {
                 }
                 .chartYAxisLabel(coordinateLabel)
                 .chartLegend(.visible)
-                .chartScrollableAxes(.horizontal)
+            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
         case .declination:
-            singleChartMarks(segmented)
+            let base = singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 2)) { _ in
                         AxisGridLine()
@@ -247,9 +358,9 @@ struct CyclesChartView: View {
                 }
                 .chartYAxisLabel(coordinateLabel)
                 .chartLegend(.visible)
-                .chartScrollableAxes(.horizontal)
+            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
         case .distance:
-            singleChartMarks(segmented)
+            let base = singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 5)) { _ in
                         AxisGridLine()
@@ -259,7 +370,7 @@ struct CyclesChartView: View {
                 }
                 .chartYAxisLabel(coordinateLabel)
                 .chartLegend(.visible)
-                .chartScrollableAxes(.horizontal)
+            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
         }
     }
 
@@ -302,8 +413,10 @@ struct CyclesChartView: View {
 
     // MARK: - Factor pairs chart
 
-    private var pairsChart: some View {
-        Chart {
+    private var pairsChart: some View { buildPairsChart(forExport: false) }
+
+    private func buildPairsChart(forExport: Bool) -> AnyView {
+        let base = Chart {
             ForEach(Array(model.pairResults.enumerated()), id: \.offset) { index, series in
                 let label = pairLabel(for: index)
                 ForEach(series, id: \.julianDay) { point in
@@ -317,9 +430,9 @@ struct CyclesChartView: View {
         }
         .chartYAxisLabel(ac(AstroCyclesKeys.chartYDifference))
         .chartLegend(.visible)
-        .chartScrollableAxes(.horizontal)
         .chartXAxis { xAxisMarks }
         .chartPlotStyle { $0.padding(.bottom, 80) }
+        return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
     }
 
     // MARK: - Helpers

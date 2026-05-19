@@ -17,8 +17,10 @@
 "view.waves.chart.noresults"          = "No results yet. Select a cycle type and click Calculate.";
 "view.waves.chart.date"               = "Date";
 "view.waves.chart.ywavevalue"         = "Wave value (°)";
+"view.waves.chart.export"             = "Export";
 "view.waves.tab.chart"                = "Line Chart";
 "view.waves.tab.positions"            = "Positions";
 "view.waves.positions.julianday"      = "Julian Day";
 "view.waves.positions.format.dms"     = "DMS";
 "view.waves.positions.format.decimal" = "Decimal";
+"view.waves.positions.export"         = "Export";

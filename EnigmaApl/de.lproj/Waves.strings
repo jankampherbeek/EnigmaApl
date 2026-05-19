@@ -17,8 +17,10 @@
 "view.waves.chart.noresults"          = "Noch keine Ergebnisse. Zyklustyp wählen und Berechnen klicken.";
 "view.waves.chart.date"               = "Datum";
 "view.waves.chart.ywavevalue"         = "Wellenwert (°)";
+"view.waves.chart.export"             = "Exportieren";
 "view.waves.tab.chart"                = "Liniendiagramm";
 "view.waves.tab.positions"            = "Positionen";
 "view.waves.positions.julianday"      = "Julianischer Tag";
 "view.waves.positions.format.dms"     = "DMS";
 "view.waves.positions.format.decimal" = "Dezimal";
+"view.waves.positions.export"         = "Exportieren";

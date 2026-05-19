@@ -29,10 +29,12 @@ struct AstroCyclesKeys {
     static let chartNoResults          = "view.astrocycles.chart.noresults"
     static let chartDate               = "view.astrocycles.chart.date"
     static let chartYDifference        = "view.astrocycles.chart.ydifference"
+    static let chartExport             = "view.astrocycles.chart.export"
     static let tabChart                = "view.astrocycles.tab.chart"
     static let tabPositions            = "view.astrocycles.tab.positions"
     static let positionsJulianDay      = "view.astrocycles.positions.julianday"
     static let positionsFormatDms      = "view.astrocycles.positions.format.dms"
     static let positionsFormatDecimal  = "view.astrocycles.positions.format.decimal"
+    static let positionsExport         = "view.astrocycles.positions.export"
     static let invalidYear             = "view.astrocycles.validation.invalidyear"
 }

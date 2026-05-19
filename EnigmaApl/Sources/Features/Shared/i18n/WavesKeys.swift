@@ -22,9 +22,11 @@ struct WavesKeys {
     static let chartNoResults          = "view.waves.chart.noresults"
     static let chartDate               = "view.waves.chart.date"
     static let chartYWaveValue         = "view.waves.chart.ywavevalue"
+    static let chartExport             = "view.waves.chart.export"
     static let tabChart                = "view.waves.tab.chart"
     static let tabPositions            = "view.waves.tab.positions"
     static let positionsJulianDay      = "view.waves.positions.julianday"
     static let positionsFormatDms      = "view.waves.positions.format.dms"
     static let positionsFormatDecimal  = "view.waves.positions.format.decimal"
+    static let positionsExport         = "view.waves.positions.export"
 }
