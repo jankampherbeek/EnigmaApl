@@ -47,6 +47,7 @@ struct WavesChartView: View {
     @State private var csvDocument = WavesCSVDocument(content: "")
     @State private var showChartExporter: Bool = false
     @State private var chartPNGDocument = WavesPNGDocument(data: Data())
+    @State private var chartWidth: CGFloat = 0
 
     var body: some View {
         if model.hasResults {
@@ -83,6 +84,13 @@ struct WavesChartView: View {
 
             chart
                 .frame(height: chartHeight)
+                .background(
+                    GeometryReader { geo in
+                        Color.clear
+                            .onAppear { chartWidth = geo.size.width }
+                            .onChange(of: geo.size.width) { chartWidth = $0 }
+                    }
+                )
                 .padding([.horizontal, .top])
             resizeHandle
         }
@@ -96,17 +104,17 @@ struct WavesChartView: View {
 
     @MainActor
     private func renderChartToPNG() -> Data? {
+        let exportWidth = exportChartWidth
         #if os(macOS)
         let bgColor = Color(nsColor: .windowBackgroundColor)
         #else
         let bgColor = Color(uiColor: .systemBackground)
         #endif
-        let exportWidth: CGFloat = 1400
-        let content = buildChart(forExport: true)
+        let content = buildChart()
             .frame(width: exportWidth, height: chartHeight)
-            .padding()
             .background(bgColor)
         let renderer = ImageRenderer(content: content)
+        renderer.proposedSize = .init(width: exportWidth, height: chartHeight)
         renderer.scale = 2.0
         #if os(macOS)
         guard let nsImage = renderer.nsImage,
@@ -120,11 +128,11 @@ struct WavesChartView: View {
 
     // MARK: - Chart
 
-    private var chart: some View { buildChart(forExport: false) }
+    private var chart: some View { buildChart() }
 
-    private func buildChart(forExport: Bool) -> AnyView {
+    private func buildChart() -> AnyView {
         let seriesLabel = NSLocalizedString(model.cycleType.localizedName, comment: "")
-        let base = Chart {
+        return AnyView(Chart {
             ForEach(model.results.indices, id: \.self) { i in
                 let point = model.results[i]
                 LineMark(
@@ -143,9 +151,8 @@ struct WavesChartView: View {
             }
         }
         .chartLegend(.visible)
-        .chartXAxis { xAxisMarks }
-        .chartPlotStyle { $0.padding(.bottom, 80) }
-        return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+        .chartXAxis { xAxisContent(stride: xAxisStrideDays) }
+        .chartPlotStyle { $0.padding(.bottom, 80) })
     }
 
     // MARK: - Positions tab
@@ -302,9 +309,14 @@ struct WavesChartView: View {
 
     private var xAxisStrideDays: Int { max(1, Int(round(periodDays / 60.0))) }
 
+    // Width used when rendering the export PNG: at least 2 px per day so the full period fits.
+    private var exportChartWidth: CGFloat {
+        max(chartWidth > 0 ? chartWidth : 900.0, periodDays * 2.0)
+    }
+
     @AxisContentBuilder
-    private var xAxisMarks: some AxisContent {
-        AxisMarks(values: .stride(by: .day, count: xAxisStrideDays)) { value in
+    private func xAxisContent(stride: Int) -> some AxisContent {
+        AxisMarks(values: .stride(by: .day, count: stride)) { value in
             AxisGridLine()
             AxisTick()
             AxisValueLabel {

@@ -47,6 +47,7 @@ struct CyclesChartView: View {
     @State private var csvDocument = CyclesCSVDocument(content: "")
     @State private var showChartExporter: Bool = false
     @State private var chartPNGDocument = CyclesPNGDocument(data: Data())
+    @State private var chartWidth: CGFloat = 0
 
     var body: some View {
         if model.hasResults {
@@ -89,6 +90,13 @@ struct CyclesChartView: View {
                 }
             }
             .frame(height: chartHeight)
+            .background(
+                GeometryReader { geo in
+                    Color.clear
+                        .onAppear { chartWidth = geo.size.width }
+                        .onChange(of: geo.size.width) { chartWidth = $0 }
+                }
+            )
             .padding([.horizontal, .top])
 
             resizeHandle
@@ -103,20 +111,20 @@ struct CyclesChartView: View {
 
     @MainActor
     private func renderChartToPNG() -> Data? {
+        let exportWidth = exportChartWidth
         #if os(macOS)
         let bgColor = Color(nsColor: .windowBackgroundColor)
         #else
         let bgColor = Color(uiColor: .systemBackground)
         #endif
-        let exportWidth: CGFloat = 1400
         let chartView = model.isPairs
-            ? buildPairsChart(forExport: true)
-            : buildSingleChart(forExport: true)
+            ? buildPairsChart()
+            : buildSingleChart()
         let content = chartView
             .frame(width: exportWidth, height: chartHeight)
-            .padding()
             .background(bgColor)
         let renderer = ImageRenderer(content: content)
+        renderer.proposedSize = .init(width: exportWidth, height: chartHeight)
         renderer.scale = 2.0
         #if os(macOS)
         guard let nsImage = renderer.nsImage,
@@ -308,9 +316,9 @@ struct CyclesChartView: View {
 
     // MARK: - Single factors chart
 
-    private var singleChart: some View { buildSingleChart(forExport: false) }
+    private var singleChart: some View { buildSingleChart() }
 
-    private func buildSingleChart(forExport: Bool) -> AnyView {
+    private func buildSingleChart() -> AnyView {
         let isAngular = model.coordinate == .longitude || model.coordinate == .rightAscension
         let segmented = model.singleResults.map { factorResult in
             (
@@ -323,7 +331,7 @@ struct CyclesChartView: View {
         }
         switch model.coordinate {
         case .longitude, .rightAscension:
-            let base = singleChartMarks(segmented)
+            return AnyView(singleChartMarks(segmented)
                 .chartYScale(domain: 0...360)
                 .chartYAxis {
                     AxisMarks(values: Array(stride(from: 0, through: 360, by: 15))) { _ in
@@ -333,10 +341,9 @@ struct CyclesChartView: View {
                     }
                 }
                 .chartYAxisLabel(coordinateLabel)
-                .chartLegend(.visible)
-            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+                .chartLegend(.visible))
         case .latitude:
-            let base = singleChartMarks(segmented)
+            return AnyView(singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 1)) { _ in
                         AxisGridLine()
@@ -345,10 +352,9 @@ struct CyclesChartView: View {
                     }
                 }
                 .chartYAxisLabel(coordinateLabel)
-                .chartLegend(.visible)
-            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+                .chartLegend(.visible))
         case .declination:
-            let base = singleChartMarks(segmented)
+            return AnyView(singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 2)) { _ in
                         AxisGridLine()
@@ -357,10 +363,9 @@ struct CyclesChartView: View {
                     }
                 }
                 .chartYAxisLabel(coordinateLabel)
-                .chartLegend(.visible)
-            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+                .chartLegend(.visible))
         case .distance:
-            let base = singleChartMarks(segmented)
+            return AnyView(singleChartMarks(segmented)
                 .chartYAxis {
                     AxisMarks(values: .stride(by: 5)) { _ in
                         AxisGridLine()
@@ -369,8 +374,7 @@ struct CyclesChartView: View {
                     }
                 }
                 .chartYAxisLabel(coordinateLabel)
-                .chartLegend(.visible)
-            return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+                .chartLegend(.visible))
         }
     }
 
@@ -392,7 +396,7 @@ struct CyclesChartView: View {
                 }
             }
         }
-        .chartXAxis { xAxisMarks }
+        .chartXAxis { xAxisContent(stride: xAxisStrideDays) }
         .chartPlotStyle { $0.padding(.bottom, 80) }
     }
 
@@ -413,10 +417,10 @@ struct CyclesChartView: View {
 
     // MARK: - Factor pairs chart
 
-    private var pairsChart: some View { buildPairsChart(forExport: false) }
+    private var pairsChart: some View { buildPairsChart() }
 
-    private func buildPairsChart(forExport: Bool) -> AnyView {
-        let base = Chart {
+    private func buildPairsChart() -> AnyView {
+        AnyView(Chart {
             ForEach(Array(model.pairResults.enumerated()), id: \.offset) { index, series in
                 let label = pairLabel(for: index)
                 ForEach(series, id: \.julianDay) { point in
@@ -430,9 +434,8 @@ struct CyclesChartView: View {
         }
         .chartYAxisLabel(ac(AstroCyclesKeys.chartYDifference))
         .chartLegend(.visible)
-        .chartXAxis { xAxisMarks }
-        .chartPlotStyle { $0.padding(.bottom, 80) }
-        return forExport ? AnyView(base) : AnyView(base.chartScrollableAxes(.horizontal))
+        .chartXAxis { xAxisContent(stride: xAxisStrideDays) }
+        .chartPlotStyle { $0.padding(.bottom, 80) })
     }
 
     // MARK: - Helpers
@@ -455,9 +458,14 @@ struct CyclesChartView: View {
 
     private var xAxisStrideDays: Int { max(1, Int(round(periodDays / 60.0))) }
 
+    // Width used when rendering the export PNG: at least 2 px per day so the full period fits.
+    private var exportChartWidth: CGFloat {
+        max(chartWidth > 0 ? chartWidth : 900.0, periodDays * 2.0)
+    }
+
     @AxisContentBuilder
-    private var xAxisMarks: some AxisContent {
-        AxisMarks(values: .stride(by: .day, count: xAxisStrideDays)) { value in
+    private func xAxisContent(stride: Int) -> some AxisContent {
+        AxisMarks(values: .stride(by: .day, count: stride)) { value in
             AxisGridLine()
             AxisTick()
             AxisValueLabel {
