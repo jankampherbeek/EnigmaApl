@@ -23,5 +23,10 @@
 "view.astrocycles.chart.noresults"         = "No results yet. Select factors and click Calculate.";
 "view.astrocycles.chart.date"              = "Date";
 "view.astrocycles.chart.ydifference"       = "Difference (°)";
+"view.astrocycles.tab.chart"               = "Line Chart";
+"view.astrocycles.tab.positions"           = "Positions";
+"view.astrocycles.positions.julianday"     = "Julian Day";
+"view.astrocycles.positions.format.dms"    = "DMS";
+"view.astrocycles.positions.format.decimal" = "Decimal";
 "view.astrocycles.selectedcount"           = "Selected: %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Enter a valid year for the selected year count";

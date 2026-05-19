@@ -10,27 +10,157 @@ struct CyclesChartView: View {
 
     @State private var chartHeight: CGFloat = 400
     @State private var dragStartHeight: CGFloat = 400
+    @State private var selectedTab: Int = 0
+    @State private var showDms: Bool = true
 
     var body: some View {
         if model.hasResults {
-            VStack(spacing: 0) {
-                Group {
-                    if model.isPairs {
-                        pairsChart
-                    } else {
-                        singleChart
-                    }
-                }
-                .frame(height: chartHeight)
-                .padding([.horizontal, .top])
-
-                resizeHandle
+            TabView(selection: $selectedTab) {
+                chartTab
+                    .tabItem { Text(ac(AstroCyclesKeys.tabChart)) }
+                    .tag(0)
+                positionsTab
+                    .tabItem { Text(ac(AstroCyclesKeys.tabPositions)) }
+                    .tag(1)
             }
         } else {
             Text(ac(AstroCyclesKeys.chartNoResults))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+
+    // MARK: - Chart tab
+
+    private var chartTab: some View {
+        VStack(spacing: 0) {
+            Group {
+                if model.isPairs {
+                    pairsChart
+                } else {
+                    singleChart
+                }
+            }
+            .frame(height: chartHeight)
+            .padding([.horizontal, .top])
+
+            resizeHandle
+        }
+    }
+
+    // MARK: - Positions tab
+
+    private struct PositionRow: Identifiable {
+        let id: Int
+        let julianDay: Double
+        let values: [Double]
+    }
+
+    private var positionRows: [PositionRow] {
+        if model.isPairs {
+            guard let firstSeries = model.pairResults.first else { return [] }
+            return firstSeries.indices.map { i in
+                let jd = firstSeries[i].julianDay
+                let values = model.pairResults.map { $0.count > i ? $0[i].difference : 0.0 }
+                return PositionRow(id: i, julianDay: jd, values: values)
+            }
+        } else {
+            guard let firstResult = model.singleResults.first else { return [] }
+            return firstResult.series.indices.map { i in
+                let jd = firstResult.series[i].julianDay
+                let values = model.singleResults.map { $0.series.count > i ? $0.series[i].position : 0.0 }
+                return PositionRow(id: i, julianDay: jd, values: values)
+            }
+        }
+    }
+
+    private var columnHeaders: [String] {
+        if model.isPairs {
+            return model.factorPairs.map { pair in
+                let n1 = NSLocalizedString(pair.factor1.localizedName, comment: "")
+                let n2 = NSLocalizedString(pair.factor2.localizedName, comment: "")
+                return "\(n1) – \(n2)"
+            }
+        } else {
+            return model.singleResults.map { NSLocalizedString($0.factor.localizedName, comment: "") }
+        }
+    }
+
+    private let dateColWidth: CGFloat  = 100
+    private let jdColWidth: CGFloat    = 130
+    private let valueColWidth: CGFloat = 120
+
+    private var positionsTab: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Spacer()
+                Picker("", selection: $showDms) {
+                    Text(ac(AstroCyclesKeys.positionsFormatDms)).tag(true)
+                    Text(ac(AstroCyclesKeys.positionsFormatDecimal)).tag(false)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 160)
+                .padding([.top, .trailing])
+            }
+
+            ScrollView([.horizontal, .vertical]) {
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(ac(AstroCyclesKeys.chartDate))
+                            .fontWeight(.semibold)
+                            .frame(width: dateColWidth, alignment: .leading)
+                        Text(ac(AstroCyclesKeys.positionsJulianDay))
+                            .fontWeight(.semibold)
+                            .frame(width: jdColWidth, alignment: .leading)
+                        ForEach(columnHeaders.indices, id: \.self) { i in
+                            Text(columnHeaders[i])
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+                                .frame(width: valueColWidth, alignment: .trailing)
+                        }
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 6)
+                    .background(Color.primary.opacity(0.10))
+
+                    Divider()
+
+                    let rows = positionRows
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(rows) { row in
+                            HStack(spacing: 0) {
+                                Text(jdToDateString(row.julianDay))
+                                    .frame(width: dateColWidth, alignment: .leading)
+                                Text(String(format: "%.4f", row.julianDay))
+                                    .frame(width: jdColWidth, alignment: .leading)
+                                ForEach(row.values.indices, id: \.self) { i in
+                                    Text(formatValue(row.values[i]))
+                                        .frame(width: valueColWidth, alignment: .trailing)
+                                }
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(row.id % 2 == 1 ? Color.primary.opacity(0.06) : Color.clear)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func formatValue(_ value: Double) -> String {
+        showDms ? PositionInDegreesConversion.DoubleToDms(value) : String(format: "%.4f", value)
+    }
+
+    private static let tableDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy/MM/dd"
+        return f
+    }()
+
+    private func jdToDateString(_ jd: Double) -> String {
+        Self.tableDateFormatter.string(from: jdToDate(jd))
     }
 
     // MARK: - Resize handle
