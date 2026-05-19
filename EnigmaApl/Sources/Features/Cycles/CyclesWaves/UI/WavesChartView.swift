@@ -10,19 +10,34 @@ struct WavesChartView: View {
 
     @State private var chartHeight: CGFloat = 400
     @State private var dragStartHeight: CGFloat = 400
+    @State private var selectedTab: Int = 0
+    @State private var showDms: Bool = true
 
     var body: some View {
         if model.hasResults {
-            VStack(spacing: 0) {
-                chart
-                    .frame(height: chartHeight)
-                    .padding([.horizontal, .top])
-                resizeHandle
+            TabView(selection: $selectedTab) {
+                chartTab
+                    .tabItem { Text(w(WavesKeys.tabChart)) }
+                    .tag(0)
+                positionsTab
+                    .tabItem { Text(w(WavesKeys.tabPositions)) }
+                    .tag(1)
             }
         } else {
             Text(w(WavesKeys.chartNoResults))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    // MARK: - Chart tab
+
+    private var chartTab: some View {
+        VStack(spacing: 0) {
+            chart
+                .frame(height: chartHeight)
+                .padding([.horizontal, .top])
+            resizeHandle
         }
     }
 
@@ -52,6 +67,82 @@ struct WavesChartView: View {
         .chartScrollableAxes(.horizontal)
         .chartXAxis { xAxisMarks }
         .chartPlotStyle { $0.padding(.bottom, 80) }
+    }
+
+    // MARK: - Positions tab
+
+    private let dateColWidth: CGFloat  = 100
+    private let jdColWidth: CGFloat    = 130
+    private let valueColWidth: CGFloat = 120
+
+    private var positionsTab: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Spacer()
+                Picker("", selection: $showDms) {
+                    Text(w(WavesKeys.positionsFormatDms)).tag(true)
+                    Text(w(WavesKeys.positionsFormatDecimal)).tag(false)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 160)
+                .padding([.top, .trailing])
+            }
+
+            let valueHeader = NSLocalizedString(model.cycleType.localizedName, comment: "")
+
+            ScrollView([.horizontal, .vertical]) {
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(w(WavesKeys.chartDate))
+                            .fontWeight(.semibold)
+                            .frame(width: dateColWidth, alignment: .leading)
+                        Text(w(WavesKeys.positionsJulianDay))
+                            .fontWeight(.semibold)
+                            .frame(width: jdColWidth, alignment: .leading)
+                        Text(valueHeader)
+                            .fontWeight(.semibold)
+                            .frame(width: valueColWidth, alignment: .trailing)
+                    }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 6)
+                    .background(Color.primary.opacity(0.10))
+
+                    Divider()
+
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(model.results.indices, id: \.self) { i in
+                            let point = model.results[i]
+                            HStack(spacing: 0) {
+                                Text(jdToDateString(point.julianDay))
+                                    .frame(width: dateColWidth, alignment: .leading)
+                                Text(String(format: "%.4f", point.julianDay))
+                                    .frame(width: jdColWidth, alignment: .leading)
+                                Text(formatValue(point.waveValue))
+                                    .frame(width: valueColWidth, alignment: .trailing)
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(i % 2 == 1 ? Color.primary.opacity(0.06) : Color.clear)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func formatValue(_ value: Double) -> String {
+        showDms ? PositionInDegreesConversion.DoubleToDms(value) : String(format: "%.4f", value)
+    }
+
+    private static let tableDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy/MM/dd"
+        return f
+    }()
+
+    private func jdToDateString(_ jd: Double) -> String {
+        Self.tableDateFormatter.string(from: jdToDate(jd))
     }
 
     // MARK: - Resize handle

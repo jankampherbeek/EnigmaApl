@@ -17,3 +17,8 @@
 "view.waves.chart.noresults"          = "Nog geen resultaten. Kies een cyclustype en klik op Berekenen.";
 "view.waves.chart.date"               = "Datum";
 "view.waves.chart.ywavevalue"         = "Golfwaarde (°)";
+"view.waves.tab.chart"                = "Lijngrafiek";
+"view.waves.tab.positions"            = "Posities";
+"view.waves.positions.julianday"      = "Juliaanse dag";
+"view.waves.positions.format.dms"     = "DMS";
+"view.waves.positions.format.decimal" = "Decimal";
