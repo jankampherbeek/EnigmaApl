@@ -189,7 +189,7 @@ struct RadixSearchScreen: View {
 
     private func select(_ horoscope: HoroscopeModel) {
         let factors = configFactors.isEmpty ? [Factors.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto] : configFactors
-        guard let (chart, request) = searchModel.calculateChart(for: horoscope, factorsToUse: factors) else { return }
+        guard let (chart, request) = searchModel.calculateChart(for: horoscope, factorsToUse: factors, calculationConfig: activeConfigs.first?.calculationConfig ?? CalculationConfig()) else { return }
         let preferredDT = horoscope.dateTimes.first(where: { $0.isPreferred }) ?? horoscope.dateTimes.first
         let tzOffset = parseTimeZoneOffset(preferredDT?.timeZoneIdentifier ?? "+00:00")
         chartSession.add(name: horoscope.name, chart: chart, baseRequest: request, timeZoneOffsetHours: tzOffset)

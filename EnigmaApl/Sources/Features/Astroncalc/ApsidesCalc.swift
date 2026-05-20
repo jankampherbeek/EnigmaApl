@@ -18,8 +18,13 @@ public struct ApsidesCalc {
     public func calculateApsidesFactors(calcRequest: CalcRequest, obliquity: Double, ayanamshaOffset: Double, flags: Int, seWrapper: SEWrapper) -> [Factors: FullFactorPosition] {
         
         Logger.log.debug( "Calculating apsides, start of method" )
-        
+
         var coordinates: [Factors: FullFactorPosition] = [:]
+
+        if calcRequest.calculationConfig.observerPosition == .helioCentric {
+            Logger.log.warning("ApsidesCalc: heliocentric position requested for apsides factors — not applicable, skipping")
+            return coordinates
+        }
         let julianDay = calcRequest.JulianDay
         let method =  1  // SE_NODBIT_MEAN for mean nodes/apsides, currently only Black Sun and Diamond are supported
                          // so there is no need for an oscillating method

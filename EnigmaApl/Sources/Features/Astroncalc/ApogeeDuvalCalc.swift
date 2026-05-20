@@ -13,10 +13,15 @@ public struct ApogeeDuvalCalc {
     /// - Parameters:
     ///   - julianDay: Julian day for UT
     ///   - seWrapper: SEWrapper instance for calculations
-    /// - Returns: Longitude in degrees (0-360)
-    public func calcApogeeDuval(julianDay: Double, seWrapper: SEWrapper) -> Double {
-        let flagsEcl = 2 + 256  // use SE + speed
-        
+    ///   - calculationConfig: Active calculation configuration
+    /// - Returns: Longitude in degrees (0-360), or 0.0 when observer position is heliocentric
+    public func calcApogeeDuval(julianDay: Double, seWrapper: SEWrapper, calculationConfig: CalculationConfig) -> Double {
+        guard calculationConfig.observerPosition != .helioCentric else {
+            Logger.log.warning("ApogeeDuvalCalc: heliocentric position requested for corrected apogee — not applicable, returning 0.0")
+            return 0.0
+        }
+        let flagsEcl = SEFlags.defineFlags(calculationConfig: calculationConfig, coordSystem: .ecliptical)
+
         // Get Sun longitude
         guard let sunPosition = seWrapper.calculateFactorPosition(
             julianDay: julianDay,

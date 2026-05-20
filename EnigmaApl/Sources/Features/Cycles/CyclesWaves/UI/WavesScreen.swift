@@ -235,7 +235,8 @@ struct WavesScreen: View {
             Interval: cycleType.interval,
             JdStart: jdStart,
             JdEnd: jdEnd,
-            Coordinate: selectedCoordinate
+            Coordinate: selectedCoordinate,
+            ObserverPosition: observerPosition
         )
         wavesModel.cycleType = cycleType.factor
         wavesModel.results = WavesCalculator.PerformCalculation(request, seWrapper: seWrapper)

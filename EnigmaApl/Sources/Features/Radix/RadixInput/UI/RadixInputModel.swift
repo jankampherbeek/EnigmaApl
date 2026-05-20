@@ -31,6 +31,7 @@ final class RadixInputModel: ObservableObject {
             .sun, .moon, .mercury, .venus, .mars,
             .jupiter, .saturn, .uranus, .neptune, .pluto
         ]
+        var calculationConfig: CalculationConfig = CalculationConfig()
     }
 
     @Published private(set) var lastRequest: CalcRequest?
@@ -85,7 +86,7 @@ final class RadixInputModel: ObservableObject {
                 negative: input.longitudeWest
             ),
             Height: 0.0,
-            calculationConfig: CalculationConfig()
+            calculationConfig: input.calculationConfig
         )
 
         let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)

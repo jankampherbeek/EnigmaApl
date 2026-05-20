@@ -23,7 +23,7 @@ public struct PeriodCalculator {
         seWrapper: SEWrapper
     ) -> [(julianDay: Double, position: Double)] {
 
-        let config = CalculationConfig(houseSystem: .noHouses)
+        let config = CalculationConfig(houseSystem: .noHouses, observerPosition: request.ObserverPosition)
         var results: [(julianDay: Double, position: Double)] = []
         var jd = request.JdStart
 

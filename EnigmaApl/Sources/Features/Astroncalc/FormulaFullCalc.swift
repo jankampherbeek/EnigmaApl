@@ -19,12 +19,18 @@ public struct FormulaFullCalc {
     /// - Returns: A dictionary of factor positions
     public func CalculateFormulaFullFactors(seWrapper: SEWrapper, calcRequest: CalcRequest, obliquity: Double, ayanamshaOffset: Double) -> [Factors: FullFactorPosition] {
         var coordinates: [Factors: FullFactorPosition] = [:]
+        let configData = calcRequest.calculationConfig
+
+        if configData.observerPosition == .helioCentric {
+            Logger.log.warning("FormulaFullCalc: heliocentric position requested for formula-based factors — not applicable, skipping")
+            return coordinates
+        }
+
         let julianDay = calcRequest.JulianDay
         let julianDayPrevious = julianDay - 0.5
         let julianDayNext = julianDay + 0.5
-        let flagsEcliptical = 258  // SEFLG_SWIEPH (2) + SEFLG_SPEED (256)
-        let flagsEquatorial = 258 + 2048  // Add equatorial flag (2048)
-        let configData = calcRequest.calculationConfig
+        let flagsEcliptical = SEFlags.defineFlags(calculationConfig: configData, coordSystem: .ecliptical)
+        let flagsEquatorial = SEFlags.defineFlags(calculationConfig: configData, coordSystem: .equatorial)
         
         let seIdMoon = Factors.moon.seId
         let orbitalElements = seWrapper.calcOrbitalElements(julianDay: julianDay, planet: seIdMoon, flags: flagsEcliptical)
@@ -114,9 +120,9 @@ public struct FormulaFullCalc {
                 // If using Duval correction, calculate via formula
                 if apogeeFactor == .apogeeCorrected && configData.blackMoonCorrectionType == .duval {
                     let apogeeCalc = ApogeeDuvalCalc()
-                    let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper)
-                    let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper)
-                    let longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper)
+                    let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper, calculationConfig: configData)
+                    let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper, calculationConfig: configData)
+                    let longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper, calculationConfig: configData)
                     let longitudeSpeed = longitudeNext - longitudePrevious
                     let zeroPos = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)
                     let zeroHor = HorizontalPosition(azimuth: 0.0, altitude: 0.0)

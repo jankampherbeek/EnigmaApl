@@ -50,10 +50,14 @@ public struct FormulaCalc {
                 longitudePrevious = calcCarteretHypPlanet(julianDay: julianDayPrevious, startPoint: 15.7, yearlySpeed: 0.55)
                 longitudeNext = calcCarteretHypPlanet(julianDay: julianDayNext, startPoint: 15.7, yearlySpeed: 0.55)
             case .apogeeCorrected:
+                if calcRequest.calculationConfig.observerPosition == .helioCentric {
+                    Logger.log.warning("FormulaCalc: heliocentric position requested for apogeeCorrected — not applicable, skipping")
+                    continue
+                }
                 let apogeeCalc = ApogeeDuvalCalc()
-                longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper)
-                longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper)
-                longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper)
+                longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper, calculationConfig: calcRequest.calculationConfig)
+                longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper, calculationConfig: calcRequest.calculationConfig)
+                longitudeNext = apogeeCalc.calcApogeeDuval(julianDay: julianDayNext, seWrapper: seWrapper, calculationConfig: calcRequest.calculationConfig)
             default :
                 Logger.log.error ("Unsupported factor \(factor) in FormulaCalc")
                 break;

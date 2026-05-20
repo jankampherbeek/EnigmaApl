@@ -85,6 +85,7 @@ struct RadixInputScreen: View {
             longitudeDegrees: longitudeDegrees, longitudeMinutes: longitudeMinutes, longitudeSeconds: longitudeSeconds, longitudeWest: lonHemi == .west
         )
         if !configFactors.isEmpty { input.factorsToUse = configFactors }
+        input.calculationConfig = activeConfigs.first?.calculationConfig ?? CalculationConfig()
         return input
     }
 

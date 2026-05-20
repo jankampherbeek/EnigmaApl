@@ -19,6 +19,8 @@ public struct PeriodCalculatorRequest {
     public let Coordinate: Coordinates
     /// The ayanamsha to apply; use .tropical for no sidereal correction.
     public let Ayanamsha: Ayanamshas
+    /// The observer position (geocentric, heliocentric, topocentric).
+    public let ObserverPosition: ObserverPositions
 
     public init(
         Factor: Factors,
@@ -26,7 +28,8 @@ public struct PeriodCalculatorRequest {
         JdStart: Double,
         JdEnd: Double,
         Coordinate: Coordinates,
-        Ayanamsha: Ayanamshas
+        Ayanamsha: Ayanamshas,
+        ObserverPosition: ObserverPositions = .geoCentric
     ) {
         self.Factor = Factor
         self.Interval = Interval
@@ -34,5 +37,6 @@ public struct PeriodCalculatorRequest {
         self.JdEnd = JdEnd
         self.Coordinate = Coordinate
         self.Ayanamsha = Ayanamsha
+        self.ObserverPosition = ObserverPosition
     }
 }

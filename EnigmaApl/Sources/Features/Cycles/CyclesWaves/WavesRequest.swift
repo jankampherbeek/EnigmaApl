@@ -18,18 +18,22 @@ public struct WavesRequest {
     public let JdEnd: Double
     /// The coordinate to calculate for each planet.
     public let Coordinate: Coordinates
+    /// The observer position (geocentric, heliocentric, topocentric).
+    public let ObserverPosition: ObserverPositions
 
     public init(
         CycleType: Factors,
         Interval: Int,
         JdStart: Double,
         JdEnd: Double,
-        Coordinate: Coordinates
+        Coordinate: Coordinates,
+        ObserverPosition: ObserverPositions = .geoCentric
     ) {
         self.CycleType = CycleType
         self.Interval = Interval
         self.JdStart = JdStart
         self.JdEnd = JdEnd
         self.Coordinate = Coordinate
+        self.ObserverPosition = ObserverPosition
     }
 }

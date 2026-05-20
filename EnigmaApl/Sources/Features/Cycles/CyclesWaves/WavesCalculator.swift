@@ -46,6 +46,7 @@ public struct WavesCalculator {
             interval: request.Interval,
             cycleType: request.CycleType,
             coordinate: request.Coordinate,
+            observerPosition: request.ObserverPosition,
             seWrapper: seWrapper
         )
     }
@@ -68,10 +69,11 @@ public struct WavesCalculator {
         interval: Int,
         cycleType: Factors = .saturn,
         coordinate: Coordinates = .longitude,
+        observerPosition: ObserverPositions = .geoCentric,
         seWrapper: SEWrapper
     ) -> [(julianDay: Double, waveValue: Double)] {
 
-        let config = CalculationConfig(houseSystem: .noHouses)
+        let config = CalculationConfig(houseSystem: .noHouses, observerPosition: observerPosition)
         let step = Double(interval)
         let outerPlanets = planets(for: cycleType)
         var results: [(julianDay: Double, waveValue: Double)] = []

@@ -18,6 +18,8 @@ public struct PeriodDifferenceRequest {
     public let Coordinate: Coordinates
     /// The ayanamsha to apply; use .tropical for no sidereal correction.
     public let Ayanamsha: Ayanamshas
+    /// The observer position (geocentric, heliocentric, topocentric).
+    public let ObserverPosition: ObserverPositions
 
     public init(
         FactorPairs: [(factor1: Factors, factor2: Factors)],
@@ -25,7 +27,8 @@ public struct PeriodDifferenceRequest {
         JdStart: Double,
         JdEnd: Double,
         Coordinate: Coordinates,
-        Ayanamsha: Ayanamshas
+        Ayanamsha: Ayanamshas,
+        ObserverPosition: ObserverPositions = .geoCentric
     ) {
         self.FactorPairs = FactorPairs
         self.Interval = Interval
@@ -33,5 +36,6 @@ public struct PeriodDifferenceRequest {
         self.JdEnd = JdEnd
         self.Coordinate = Coordinate
         self.Ayanamsha = Ayanamsha
+        self.ObserverPosition = ObserverPosition
     }
 }

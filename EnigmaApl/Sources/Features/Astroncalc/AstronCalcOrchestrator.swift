@@ -50,20 +50,29 @@ public struct AstronCalcOrchestrator {
         
         // Handle CommonSe factors
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
-            // Create a temporary request with only CommonSe factors
-            let commonRequest = CalcRequest(
-                JulianDay: request.JulianDay,
-                FactorsToUse: commonSeFactors,
-                HouseSystem: request.HouseSystem,
-                Latitude: request.Latitude,
-                Longitude: request.Longitude,
-                Height: request.Height,
-                calculationConfig: request.calculationConfig
-            )
-            let commonSeCoordinates = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
-            allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
-            longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
-            longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
+            let isHelio = request.calculationConfig.observerPosition == .helioCentric
+            let geoOnlyRequested = isHelio ? commonSeFactors.filter { Self.geocentricOnlyFactors.contains($0) } : []
+            let helioCompatible = isHelio ? commonSeFactors.filter { !Self.geocentricOnlyFactors.contains($0) } : commonSeFactors
+
+            if !geoOnlyRequested.isEmpty {
+                Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(geoOnlyRequested) — not applicable, skipping")
+            }
+
+            if !helioCompatible.isEmpty {
+                let commonRequest = CalcRequest(
+                    JulianDay: request.JulianDay,
+                    FactorsToUse: helioCompatible,
+                    HouseSystem: request.HouseSystem,
+                    Latitude: request.Latitude,
+                    Longitude: request.Longitude,
+                    Height: request.Height,
+                    calculationConfig: request.calculationConfig
+                )
+                let commonSeCoordinates = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
+                allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
+                longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
+                longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
+            }
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
             let commonElementsRequest = CalcRequest(
@@ -314,6 +323,10 @@ public struct AstronCalcOrchestrator {
         switch factor.calculationType {
 
         case .CommonSe:
+            if request.calculationConfig.observerPosition == .helioCentric && Self.geocentricOnlyFactors.contains(factor) {
+                Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(factor) — not applicable, returning 0.0")
+                return (julianDay, 0.0)
+            }
             let coordSystem: CoordinateSystems = (coordinate == .rightAscension || coordinate == .declination)
                 ? .equatorial : .ecliptical
             let flags = SEFlags.defineFlags(calculationConfig: request.calculationConfig, coordSystem: coordSystem)
@@ -372,6 +385,13 @@ public struct AstronCalcOrchestrator {
     }
 
     // MARK: - Private helpers
+
+    /// Factors that have no meaningful heliocentric position. When observer position is heliocentric,
+    /// calculations for these factors are skipped and zero positions are returned instead.
+    private static let geocentricOnlyFactors: Set<Factors> = [
+        .sun, .moon, .northNode, .apogeeMean, .apogeeCorrected,
+        .apogeeInterpolated, .perigeeInterpolated
+    ]
 
     /// Calculates the obliquity of the ecliptic using Swiss Ephemeris (SE id -1).
     private static func calculateObliquity(julianDay: Double, seWrapper: SEWrapper) -> Double {

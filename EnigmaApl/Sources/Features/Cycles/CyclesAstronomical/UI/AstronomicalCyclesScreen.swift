@@ -353,7 +353,8 @@ struct AstronomicalCyclesScreen: View {
                     JdStart: jdStart,
                     JdEnd: jdEnd,
                     Coordinate: selectedCoordinate,
-                    Ayanamsha: ayanamsha
+                    Ayanamsha: ayanamsha,
+                    ObserverPosition: observerPosition
                 )
                 return (factor: factor, series: PeriodCalculator.PerformCalculation(request, seWrapper: seWrapper))
             }
@@ -366,7 +367,8 @@ struct AstronomicalCyclesScreen: View {
                 JdStart: jdStart,
                 JdEnd: jdEnd,
                 Coordinate: selectedCoordinate,
-                Ayanamsha: ayanamsha
+                Ayanamsha: ayanamsha,
+                ObserverPosition: observerPosition
             )
             cyclesModel.pairResults = PeriodDifference.PerformCalculation(request, seWrapper: seWrapper)
         }

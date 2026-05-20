@@ -34,7 +34,7 @@ final class RadixSearchModel: ObservableObject {
 
     /// Calculates the FullChart for the preferred (or first) datetime of the given horoscope.
     /// Returns nil when the horoscope has no datetimes or no location.
-    func calculateChart(for horoscope: HoroscopeModel, factorsToUse: [Factors]) -> (FullChart, CalcRequest)? {
+    func calculateChart(for horoscope: HoroscopeModel, factorsToUse: [Factors], calculationConfig: CalculationConfig) -> (FullChart, CalcRequest)? {
         guard let dateTime = horoscope.dateTimes.first(where: { $0.isPreferred }) ?? horoscope.dateTimes.first,
               let latitude = horoscope.latitude,
               let longitude = horoscope.longitude else { return nil }
@@ -46,7 +46,7 @@ final class RadixSearchModel: ObservableObject {
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,
-            calculationConfig: CalculationConfig()
+            calculationConfig: calculationConfig
         )
         let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
         return (chart, request)

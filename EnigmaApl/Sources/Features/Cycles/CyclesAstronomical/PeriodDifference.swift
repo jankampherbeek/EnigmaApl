@@ -28,7 +28,7 @@ public struct PeriodDifference {
         seWrapper: SEWrapper
     ) -> [[(julianDay: Double, difference: Double)]] {
 
-        let config = CalculationConfig(houseSystem: .noHouses)
+        let config = CalculationConfig(houseSystem: .noHouses, observerPosition: request.ObserverPosition)
         var results: [[(julianDay: Double, difference: Double)]] =
             Array(repeating: [], count: request.FactorPairs.count)
 

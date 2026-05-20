@@ -6,36 +6,6 @@ import SwiftUI
 import Charts
 import UniformTypeIdentifiers
 
-private struct WavesPNGDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.png] }
-    var data: Data
-
-    init(data: Data) { self.data = data }
-
-    init(configuration: ReadConfiguration) throws {
-        data = configuration.file.regularFileContents ?? Data()
-    }
-
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: data)
-    }
-}
-
-private struct WavesCSVDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.commaSeparatedText] }
-    var content: String
-
-    init(content: String) { self.content = content }
-
-    init(configuration: ReadConfiguration) throws {
-        content = String(data: configuration.file.regularFileContents ?? Data(), encoding: .utf8) ?? ""
-    }
-
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: Data(content.utf8))
-    }
-}
-
 struct WavesChartView: View {
     @EnvironmentObject private var model: WavesModel
 
@@ -43,10 +13,6 @@ struct WavesChartView: View {
     @State private var dragStartHeight: CGFloat = 400
     @State private var selectedTab: Int = 0
     @State private var showDms: Bool = true
-    @State private var showExporter: Bool = false
-    @State private var csvDocument = WavesCSVDocument(content: "")
-    @State private var showChartExporter: Bool = false
-    @State private var chartPNGDocument = WavesPNGDocument(data: Data())
     @State private var chartWidth: CGFloat = 0
 
     var body: some View {
@@ -74,8 +40,9 @@ struct WavesChartView: View {
                 Spacer()
                 Button(w(WavesKeys.chartExport)) {
                     if let data = renderChartToPNG() {
-                        chartPNGDocument = WavesPNGDocument(data: data)
-                        showChartExporter = true
+                        #if os(macOS)
+                        savePanel(data: data, defaultName: "waves.png", ext: "png")
+                        #endif
                     }
                 }
                 .buttonStyle(.bordered)
@@ -94,17 +61,12 @@ struct WavesChartView: View {
                 .padding([.horizontal, .top])
             resizeHandle
         }
-        .fileExporter(
-            isPresented: $showChartExporter,
-            document: chartPNGDocument,
-            contentType: .png,
-            defaultFilename: "waves"
-        ) { _ in }
     }
 
     @MainActor
     private func renderChartToPNG() -> Data? {
         let exportWidth = exportChartWidth
+        Logger.log.debug("WavesChartView.renderChartToPNG: exportWidth=\(exportWidth) chartHeight=\(self.chartHeight) results=\(self.model.results.count)")
         #if os(macOS)
         let bgColor = Color(nsColor: .windowBackgroundColor)
         #else
@@ -113,18 +75,35 @@ struct WavesChartView: View {
         let content = buildChart()
             .frame(width: exportWidth, height: chartHeight)
             .background(bgColor)
+            .environmentObject(model)
         let renderer = ImageRenderer(content: content)
         renderer.proposedSize = .init(width: exportWidth, height: chartHeight)
         renderer.scale = 2.0
         #if os(macOS)
-        guard let nsImage = renderer.nsImage,
-              let tiffData = nsImage.tiffRepresentation,
-              let bitmapRep = NSBitmapImageRep(data: tiffData) else { return nil }
-        return bitmapRep.representation(using: .png, properties: [:])
+        guard let cgImage = renderer.cgImage else {
+            Logger.log.error("WavesChartView.renderChartToPNG: cgImage is nil")
+            return nil
+        }
+        let bitmapRep = NSBitmapImageRep(cgImage: cgImage)
+        let png = bitmapRep.representation(using: .png, properties: [:])
+        Logger.log.debug("WavesChartView.renderChartToPNG: png bytes=\(png?.count ?? -1)")
+        return png
         #else
         return renderer.uiImage?.pngData()
         #endif
     }
+
+    #if os(macOS)
+    private func savePanel(data: Data, defaultName: String, ext: String) {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = defaultName
+        panel.allowedContentTypes = ext == "png" ? [.png] : [.commaSeparatedText]
+        panel.begin { response in
+            guard response == .OK, let url = panel.url else { return }
+            try? data.write(to: url)
+        }
+    }
+    #endif
 
     // MARK: - Chart
 
@@ -165,8 +144,12 @@ struct WavesChartView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Button(w(WavesKeys.positionsExport)) {
-                    csvDocument = WavesCSVDocument(content: buildCSV())
-                    showExporter = true
+                    let csv = buildCSV()
+                    if let data = csv.data(using: .utf8) {
+                        #if os(macOS)
+                        savePanel(data: data, defaultName: "waves.csv", ext: "csv")
+                        #endif
+                    }
                 }
                 .buttonStyle(.bordered)
                 .padding([.top, .leading])
@@ -223,12 +206,6 @@ struct WavesChartView: View {
                 }
             }
         }
-        .fileExporter(
-            isPresented: $showExporter,
-            document: csvDocument,
-            contentType: .commaSeparatedText,
-            defaultFilename: "waves"
-        ) { _ in }
     }
 
     private func buildCSV() -> String {
@@ -309,9 +286,9 @@ struct WavesChartView: View {
 
     private var xAxisStrideDays: Int { max(1, Int(round(periodDays / 60.0))) }
 
-    // Width used when rendering the export PNG: at least 2 px per day so the full period fits.
     private var exportChartWidth: CGFloat {
-        max(chartWidth > 0 ? chartWidth : 900.0, periodDays * 2.0)
+        let base = chartWidth > 0 ? chartWidth : 900.0
+        return max(base, 1800.0)
     }
 
     @AxisContentBuilder
