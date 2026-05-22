@@ -44,6 +44,7 @@ struct WavesScreen: View {
     @State private var observerPosition: ObserverPositions = .helioCentric
     @State private var selectedCoordinate: Coordinates     = .longitude
     @State private var selectedCycleTypes: Set<WaveCycleType> = [.saturn]
+    @State private var showFactsheet = false
     @State private var showHelp = false
 
 
@@ -187,11 +188,20 @@ struct WavesScreen: View {
         .navigationTitle(w(WavesKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "waves")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: w(WavesKeys.help))
