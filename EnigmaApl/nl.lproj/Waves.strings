@@ -14,9 +14,13 @@
 "view.waves.cycletype"                = "Cyclustype";
 "view.waves.calculate"                = "Berekenen";
 "view.waves.validation.invalidyear"   = "Voer een geldig jaar in voor de gekozen jaartelling";
+"view.waves.validation.enddateorder"  = "De einddatum moet later zijn dan de begindatum";
+"view.waves.help"                     = "Met dit scherm bereken je de 'Golven', een cyclus die is gedefinieerd door Robert Doolaard. Voor achtergrondinformatie kun je de factsheet raadplegen.\n\nVoer de begindatum en de einddatum in, 'G' staat voor de standaard Gregoriaanse kalender en 'J' voor de Juliaanse kalender.\n\nSelecteer of je geocentrisch of heliocentrisch wilt werken.\n\nKies één van de coördinaten, als je heliocentrische standen hebt gekozen kun je niet kiezen uit declinatie of rechte klimming.\n\nStandaard gebruik je heliocentrische posities maar je kunt kiezen voor geocentrisch.\n\nGolven bereken je in lengte, maar Enigma ondersteunt ook breedte en afstand. Als je geocentrische standen hebt gekozen kun je ook kijken naar rechte klimming en declinatie.\n\nSelecteer één of meer van de beschikbare cyclustypen en klik op 'Berekenen'.";
+"view.waves.chart.help"               = "Dit scherm toont de grafiek van de golven die je hebt gedefinieerd. Elk cyclustype heeft een eigen kleur. Je kunt de grafiek exporteren naar een afbeelding in PNG-formaat via de knop 'Exporteren'.\n\nMet de knop 'Posities' ga je naar een tabel met alle berekende posities. Met de knoppen 'DMS' en 'Decimaal' kun je aangeven of je de standen in graden, minuten en seconden wilt zien of in decimaal formaat. Je kunt de standen exporteren naar csv-formaat via de knop 'Exporteren'.";
 "view.waves.chart.noresults"          = "Nog geen resultaten. Kies een cyclustype en klik op Berekenen.";
 "view.waves.chart.date"               = "Datum";
 "view.waves.chart.ywavevalue"         = "Golfwaarde (°)";
+"view.waves.chart.series"             = "Reeks";
 "view.waves.chart.export"             = "Exporteren";
 "view.waves.tab.chart"                = "Lijngrafiek";
 "view.waves.tab.positions"            = "Posities";

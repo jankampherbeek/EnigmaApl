@@ -7,8 +7,8 @@ import Combine
 
 @MainActor
 final class WavesModel: ObservableObject {
-    @Published var results: [(julianDay: Double, waveValue: Double)] = []
-    @Published var cycleType: Factors = .saturn
+    @Published var allResults: [Factors: [(julianDay: Double, waveValue: Double)]] = [:]
+    @Published var selectedFactors: [Factors] = []
 
-    var hasResults: Bool { !results.isEmpty }
+    var hasResults: Bool { !allResults.isEmpty }
 }

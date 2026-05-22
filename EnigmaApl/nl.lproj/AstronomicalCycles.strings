@@ -7,7 +7,7 @@
 "view.astrocycles.observerposition"        = "Waarnemeerspositie";
 "view.astrocycles.coordinate"              = "Coördinaat";
 "view.astrocycles.singlefactors"           = "Enkelvoudige factoren";
-"view.astrocycles.pairsoffactors"          = "Factorenpaartjes";
+"view.astrocycles.pairsoffactors"          = "Factorenparen";
 "view.astrocycles.year"                    = "Jaar";
 "view.astrocycles.month"                   = "Maand";
 "view.astrocycles.day"                     = "Dag";
@@ -28,7 +28,10 @@
 "view.astrocycles.tab.positions"           = "Posities";
 "view.astrocycles.positions.julianday"     = "Juliaanse dag";
 "view.astrocycles.positions.format.dms"    = "DMS";
-"view.astrocycles.positions.format.decimal" = "Decimal";
+"view.astrocycles.positions.format.decimal" = "Decimaal";
 "view.astrocycles.positions.export"        = "Exporteren";
 "view.astrocycles.selectedcount"           = "Geselecteerd: %d / %d";
 "view.astrocycles.validation.invalidyear"  = "Voer een geldig jaar in voor de gekozen jaartelling";
+"view.astrocycles.validation.enddateorder" = "De einddatum moet later zijn dan de begindatum";
+"view.astrocycles.help"                    = "Voer de begindatum en de einddatum in, 'G' staat voor de standaard Gregoriaanse kalender en 'J' voor de Juliaanse kalender.\n\nSelecteer of je geocentrisch of heliocentrisch wilt werken.\n\nKies één van de coördinaten, als je heliocentrische standen hebt gekozen kun je niet kiezen uit declinatie of rechte klimming.\n\nVia de ayanamsha kun je één van de siderische zodiaks kiezen, voor de tropische zodiak gebruik je 'Tropisch: Geen ayanamsha'.\n\nEnigma kan werken met enkelvoudige factoren. Je krijgt dan een cyclus van één of meer hemellichamen. Je kunt maximaal 12 factoren kiezen.\n\nJe kunt ook paren van factoren kiezen. Enigma toont dan voor elk gekozen paar het verschil, gemeten in de gekozen coördinaten. Het maximaal aantal paren dat je kunt selecteren is 6. Kies een factor onder 'Factor A' en een factor onder 'Factor B' en klik op 'Paar toevoegen'. Je kunt een paar verwijderen door op het kruisje te klikken in de lijst 'Toegevoegde paren'.\n\nAls je de gegevens hebt ingevuld klik je op 'Berekenen'. Enigma toont dan automatisch een grafiek van de gedefinieerde cycli.\n\nHoud er rekening mee dat er een limiet is aan de periode die je kiest, afhankelijk van de gekozen factoren. En er is verschil in de intervallen.\n\nEnigma berekent de Maan 10 keer per dag, de periode voor de Maan is beperkt tot 2.000 dagen (iets minder dan 5,5 jaar).\n\nDe Zon, Aarde, Mercurius, Venus, Mars, Pallas, Juno, Vesta en de gemiddelde Zwarte Maan berekent Enigma 1 keer per dag en voor een periode van maximaal 20.000 dagen (ruim 54 jaar).\n\nJupiter, Saturnus en Ceres worden 1 keer per 5 dagen berekend en hebben een periode van maximaal 200.000 dagen (ruim 547 jaar).\n\nUranus, Neptunus en Pluto berekent Enigma elke 10 dagen voor een periode van maximaal 750.000 dagen (2053 jaar).\n\nAlle overige factoren krijg je ook per 10 dagen voor een periode van maximaal 200.000 dagen.\n\nAls je meerdere factoren kiest geldt de kortste periode.";
+"view.astrocycles.chart.help"              = "Hier zie je de grafiek van de cycli die je hebt gedefinieerd. De factoren, of factorparen, hebben elk een eigen kleur. Je kunt de grafiek exporteren naar een afbeelding in PNG-formaat via de knop 'Exporteren'.\n\nMet de knop 'Posities' ga je naar een tabel met alle berekende posities. Met de knoppen 'DMS' en 'Decimaal' kun je aangeven of je de standen in graden, minuten en seconden wilt zien of in decimaal formaat. Je kunt de standen exporteren naar csv-formaat via de knop 'Exporteren'.";

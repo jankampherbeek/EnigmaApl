@@ -14,9 +14,13 @@
 "view.waves.cycletype"                = "Zyklustyp";
 "view.waves.calculate"                = "Berechnen";
 "view.waves.validation.invalidyear"   = "Gib ein gültiges Jahr für die gewählte Jahreszählung ein";
+"view.waves.validation.enddateorder"  = "Das Enddatum muss nach dem Startdatum liegen";
+"view.waves.help"                     = "Mit diesem Bildschirm berechnest du die 'Wellen', einen Zyklus, der von Robert Doolaard definiert wurde. Für Hintergrundinformationen kannst du das Factsheet konsultieren.\n\nGib das Startdatum und das Enddatum ein. 'G' steht für den Gregorianischen Kalender und 'J' für den Julianischen Kalender.\n\nWähle, ob du geozentrisch oder heliozentrisch arbeiten möchtest.\n\nWähle eine der Koordinaten. Bei heliozentrischen Positionen stehen Deklination und Rektaszension nicht zur Verfügung.\n\nStandardmäßig verwendest du heliozentrische Positionen, du kannst aber auch geozentrisch wählen.\n\nWellen werden in Länge berechnet, aber Enigma unterstützt auch Breite und Abstand. Bei geozentrischen Positionen kannst du auch Rektaszension und Deklination betrachten.\n\nWähle einen oder mehrere der verfügbaren Zyklustypen und klicke auf 'Berechnen'.";
+"view.waves.chart.help"               = "Dieser Bildschirm zeigt das Diagramm der Wellen, die du definiert hast. Jeder Zyklustyp hat eine eigene Farbe. Du kannst das Diagramm über die Schaltfläche 'Exportieren' als PNG-Bild exportieren.\n\nMit der Schaltfläche 'Positionen' gelangst du zu einer Tabelle mit allen berechneten Positionen. Mit den Schaltflächen 'DMS' und 'Dezimal' kannst du angeben, ob du die Positionen in Grad, Minuten und Sekunden oder im Dezimalformat anzeigen möchtest. Du kannst die Positionen über die Schaltfläche 'Exportieren' im CSV-Format exportieren.";
 "view.waves.chart.noresults"          = "Noch keine Ergebnisse. Zyklustyp wählen und Berechnen klicken.";
 "view.waves.chart.date"               = "Datum";
 "view.waves.chart.ywavevalue"         = "Wellenwert (°)";
+"view.waves.chart.series"             = "Reihe";
 "view.waves.chart.export"             = "Exportieren";
 "view.waves.tab.chart"                = "Liniendiagramm";
 "view.waves.tab.positions"            = "Positionen";

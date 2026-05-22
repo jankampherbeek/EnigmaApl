@@ -14,21 +14,35 @@ struct CyclesChartView: View {
     @State private var selectedTab: Int = 0
     @State private var showDms: Bool = true
     @State private var chartWidth: CGFloat = 0
+    @State private var showHelp = false
 
     var body: some View {
-        if model.hasResults {
-            TabView(selection: $selectedTab) {
-                chartTab
-                    .tabItem { Text(ac(AstroCyclesKeys.tabChart)) }
-                    .tag(0)
-                positionsTab
-                    .tabItem { Text(ac(AstroCyclesKeys.tabPositions)) }
-                    .tag(1)
+        Group {
+            if model.hasResults {
+                TabView(selection: $selectedTab) {
+                    chartTab
+                        .tabItem { Text(ac(AstroCyclesKeys.tabChart)) }
+                        .tag(0)
+                    positionsTab
+                        .tabItem { Text(ac(AstroCyclesKeys.tabPositions)) }
+                        .tag(1)
+                }
+            } else {
+                Text(ac(AstroCyclesKeys.chartNoResults))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        } else {
-            Text(ac(AstroCyclesKeys.chartNoResults))
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ac(AstroCyclesKeys.chartHelp))
         }
     }
 

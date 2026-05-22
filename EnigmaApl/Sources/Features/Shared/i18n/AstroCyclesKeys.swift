@@ -37,4 +37,7 @@ struct AstroCyclesKeys {
     static let positionsFormatDecimal  = "view.astrocycles.positions.format.decimal"
     static let positionsExport         = "view.astrocycles.positions.export"
     static let invalidYear             = "view.astrocycles.validation.invalidyear"
+    static let endDateOrder            = "view.astrocycles.validation.enddateorder"
+    static let help                    = "view.astrocycles.help"
+    static let chartHelp               = "view.astrocycles.chart.help"
 }

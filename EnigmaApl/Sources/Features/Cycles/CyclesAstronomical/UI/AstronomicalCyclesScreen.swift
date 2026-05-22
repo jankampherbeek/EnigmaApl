@@ -42,6 +42,7 @@ struct AstronomicalCyclesScreen: View {
     @State private var pendingFactorB: Factors? = nil
     @State private var factorPairs: [FactorPair] = []
     @State private var periodWarning: String? = nil
+    @State private var showHelp = false
 
     private let maxSingleFactors = 12
     private let maxPairs = 6
@@ -111,8 +112,21 @@ struct AstronomicalCyclesScreen: View {
         }
     }
 
+    private var endDateIsAfterStart: Bool {
+        guard startDateValidation.isValid, endDateValidation.isValid,
+              let startYear = startAstrYear, let endYear = endAstrYear else { return true }
+        let midnight = AstronomicalTime(HourDecimal: 0.0)
+        let jdStart = seWrapper.julianDay(
+            date: AstronomicalDate(Year: startYear, Month: startMonth, Day: startDay, Gregorian: startCalendar == .gregorian),
+            time: midnight)
+        let jdEnd = seWrapper.julianDay(
+            date: AstronomicalDate(Year: endYear, Month: endMonth, Day: endDay, Gregorian: endCalendar == .gregorian),
+            time: midnight)
+        return jdEnd > jdStart
+    }
+
     private var canCalculate: Bool {
-        startDateValidation.isValid && endDateValidation.isValid && hasSelections
+        startDateValidation.isValid && endDateValidation.isValid && endDateIsAfterStart && hasSelections
     }
 
     private var canAddPair: Bool {
@@ -142,9 +156,15 @@ struct AstronomicalCyclesScreen: View {
                         validation: endDateValidation)
                 }
 
+                if startDateValidation.isValid && endDateValidation.isValid && !endDateIsAfterStart {
+                    Text(ac(AstroCyclesKeys.endDateOrder))
+                        .foregroundStyle(.red)
+                        .font(.caption)
+                }
+
                 FieldBlock(ac(AstroCyclesKeys.observerPosition)) {
                     Picker(ac(AstroCyclesKeys.observerPosition), selection: $observerPosition) {
-                        ForEach(ObserverPositions.allCases, id: \.self) { pos in
+                        ForEach(ObserverPositions.allCases.filter { $0 != .topoCentric }, id: \.self) { pos in
                             Text(LocalizedStringKey(pos.rbKey)).tag(pos)
                         }
                     }
@@ -220,6 +240,17 @@ struct AstronomicalCyclesScreen: View {
         }
         .controlSize(.small)
         .navigationTitle(ac(AstroCyclesKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ac(AstroCyclesKeys.help))
+        }
     }
 
     // MARK: - Date input

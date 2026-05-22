@@ -14,9 +14,13 @@
 "view.waves.cycletype"                = "Cycle type";
 "view.waves.calculate"                = "Calculate";
 "view.waves.validation.invalidyear"   = "Enter a valid year for the selected year count";
+"view.waves.validation.enddateorder"  = "The end date must be later than the start date";
+"view.waves.help"                     = "With this screen you calculate the 'Waves', a cycle defined by Robert Doolaard. For background information you can consult the factsheet.\n\nEnter the start date and the end date. 'G' stands for the standard Gregorian calendar and 'J' for the Julian calendar.\n\nSelect whether you want to work geocentrically or heliocentrically.\n\nChoose one of the coordinates. If you have selected heliocentric positions, declination and right ascension are not available.\n\nBy default you use heliocentric positions, but you can choose geocentric.\n\nWaves are calculated in longitude, but Enigma also supports latitude and distance. If you have selected geocentric positions you can also look at right ascension and declination.\n\nSelect one or more of the available cycle types and click 'Calculate'.";
+"view.waves.chart.help"               = "This screen shows the chart of the waves you have defined. Each cycle type has its own colour. You can export the chart as a PNG image using the 'Export' button.\n\nThe 'Positions' button takes you to a table with all calculated positions. Use the 'DMS' and 'Decimal' buttons to indicate whether you want to see positions in degrees, minutes and seconds or in decimal format. You can export the positions to CSV format using the 'Export' button.";
 "view.waves.chart.noresults"          = "No results yet. Select a cycle type and click Calculate.";
 "view.waves.chart.date"               = "Date";
 "view.waves.chart.ywavevalue"         = "Wave value (°)";
+"view.waves.chart.series"             = "Series";
 "view.waves.chart.export"             = "Export";
 "view.waves.tab.chart"                = "Line Chart";
 "view.waves.tab.positions"            = "Positions";

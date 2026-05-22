@@ -14,9 +14,13 @@
 "view.waves.cycletype"                = "Type de cycle";
 "view.waves.calculate"                = "Calculer";
 "view.waves.validation.invalidyear"   = "Saisissez une année valide pour la numérotation sélectionnée";
+"view.waves.validation.enddateorder"  = "La date de fin doit être postérieure à la date de début";
+"view.waves.help"                     = "Cet écran vous permet de calculer les 'Vagues', un cycle défini par Robert Doolaard. Pour des informations de fond, vous pouvez consulter la fiche d'information.\n\nSaisissez la date de début et la date de fin. 'G' désigne le calendrier grégorien standard et 'J' le calendrier julien.\n\nSélectionnez si vous souhaitez travailler en géocentrique ou en héliocentrique.\n\nChoisissez une des coordonnées. Si vous avez sélectionné des positions héliocentriques, la déclinaison et l'ascension droite ne sont pas disponibles.\n\nPar défaut, vous utilisez des positions héliocentriques, mais vous pouvez choisir le géocentrique.\n\nLes vagues sont calculées en longitude, mais Enigma prend également en charge la latitude et la distance. Si vous avez sélectionné des positions géocentriques, vous pouvez également consulter l'ascension droite et la déclinaison.\n\nSélectionnez un ou plusieurs des types de cycle disponibles et cliquez sur 'Calculer'.";
+"view.waves.chart.help"               = "Cet écran affiche le graphique des vagues que vous avez définies. Chaque type de cycle a sa propre couleur. Vous pouvez exporter le graphique sous forme d'image PNG via le bouton 'Exporter'.\n\nLe bouton 'Positions' vous amène à un tableau avec toutes les positions calculées. Les boutons 'DMS' et 'Décimal' vous permettent d'indiquer si vous souhaitez voir les positions en degrés, minutes et secondes ou en format décimal. Vous pouvez exporter les positions au format CSV via le bouton 'Exporter'.";
 "view.waves.chart.noresults"          = "Aucun résultat. Sélectionnez un type de cycle et cliquez sur Calculer.";
 "view.waves.chart.date"               = "Date";
 "view.waves.chart.ywavevalue"         = "Valeur d'onde (°)";
+"view.waves.chart.series"             = "Série";
 "view.waves.chart.export"             = "Exporter";
 "view.waves.tab.chart"                = "Graphique linéaire";
 "view.waves.tab.positions"            = "Positions";

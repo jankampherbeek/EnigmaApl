@@ -41,9 +41,10 @@ struct WavesScreen: View {
     @State private var endCalendar: CalendarStyle = .gregorian
     @State private var endYearCount: YearCount    = .ce
 
-    @State private var observerPosition: ObserverPositions = .geoCentric
+    @State private var observerPosition: ObserverPositions = .helioCentric
     @State private var selectedCoordinate: Coordinates     = .longitude
-    @State private var cycleType: WaveCycleType            = .saturn
+    @State private var selectedCycleTypes: Set<WaveCycleType> = [.saturn]
+    @State private var showHelp = false
 
 
     // MARK: - Validation
@@ -89,8 +90,21 @@ struct WavesScreen: View {
         return Coordinates.allCases
     }
 
+    private var endDateIsAfterStart: Bool {
+        guard startDateValidation.isValid, endDateValidation.isValid,
+              let startYear = startAstrYear, let endYear = endAstrYear else { return true }
+        let midnight = AstronomicalTime(HourDecimal: 0.0)
+        let jdStart = seWrapper.julianDay(
+            date: AstronomicalDate(Year: startYear, Month: startMonth, Day: startDay, Gregorian: startCalendar == .gregorian),
+            time: midnight)
+        let jdEnd = seWrapper.julianDay(
+            date: AstronomicalDate(Year: endYear, Month: endMonth, Day: endDay, Gregorian: endCalendar == .gregorian),
+            time: midnight)
+        return jdEnd > jdStart
+    }
+
     private var canCalculate: Bool {
-        startDateValidation.isValid && endDateValidation.isValid
+        startDateValidation.isValid && endDateValidation.isValid && endDateIsAfterStart && !selectedCycleTypes.isEmpty
     }
 
     // MARK: - Body
@@ -116,10 +130,16 @@ struct WavesScreen: View {
                         validation: endDateValidation)
                 }
 
+                if startDateValidation.isValid && endDateValidation.isValid && !endDateIsAfterStart {
+                    Text(w(WavesKeys.endDateOrder))
+                        .foregroundStyle(.red)
+                        .font(.caption)
+                }
+
                 FieldBlock(w(WavesKeys.observerPosition)) {
                     Picker(w(WavesKeys.observerPosition), selection: $observerPosition) {
-                        ForEach(ObserverPositions.allCases, id: \.self) { pos in
-                            Text(LocalizedStringKey(pos.rbKey)).tag(pos)
+                        ForEach(ObserverPositions.allCases.filter { $0 != .topoCentric }, id: \.self) { pos in
+                            Text(NSLocalizedString(pos.rbKey, comment: "")).tag(pos)
                         }
                     }
                     .pickerStyle(.menu)
@@ -130,7 +150,7 @@ struct WavesScreen: View {
                 FieldBlock(w(WavesKeys.coordinate)) {
                     Picker(w(WavesKeys.coordinate), selection: $selectedCoordinate) {
                         ForEach(availableCoordinates, id: \.self) { coord in
-                            Text(LocalizedStringKey(coord.rbKey)).tag(coord)
+                            Text(NSLocalizedString(coord.rbKey, comment: "")).tag(coord)
                         }
                     }
                     .pickerStyle(.menu)
@@ -139,14 +159,19 @@ struct WavesScreen: View {
                 }
 
                 FieldBlock(w(WavesKeys.cycleType)) {
-                    Picker(w(WavesKeys.cycleType), selection: $cycleType) {
+                    HStack(spacing: 16) {
                         ForEach(WaveCycleType.allCases, id: \.self) { ct in
-                            Text(NSLocalizedString(ct.factor.localizedName, comment: "")).tag(ct)
+                            let isOn = selectedCycleTypes.contains(ct)
+                            Toggle(NSLocalizedString(ct.factor.localizedName, comment: ""), isOn: Binding(
+                                get: { isOn },
+                                set: { on in
+                                    if on { selectedCycleTypes.insert(ct) }
+                                    else  { selectedCycleTypes.remove(ct) }
+                                }
+                            ))
+                            .toggleStyle(.checkbox)
                         }
                     }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .fixedSize()
                 }
 
                 Button(w(WavesKeys.calculate)) { calculate() }
@@ -160,6 +185,17 @@ struct WavesScreen: View {
         }
         .controlSize(.small)
         .navigationTitle(w(WavesKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: w(WavesKeys.help))
+        }
         .onChange(of: observerPosition) { _, _ in
             if !availableCoordinates.contains(selectedCoordinate) {
                 selectedCoordinate = .longitude
@@ -194,7 +230,7 @@ struct WavesScreen: View {
             HStack(spacing: 8) {
                 Picker(w(WavesKeys.calendar), selection: calendar) {
                     ForEach(CalendarStyle.allCases) { style in
-                        Text(LocalizedStringKey(style.rbKey)).tag(style)
+                        Text(NSLocalizedString(style.rbKey, comment: "")).tag(style)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -203,7 +239,7 @@ struct WavesScreen: View {
                 .focusable(true)
                 Picker(w(WavesKeys.yearCount), selection: yearCount) {
                     ForEach(YearCount.allCases) { count in
-                        Text(LocalizedStringKey(count.rbKey)).tag(count)
+                        Text(NSLocalizedString(count.rbKey, comment: "")).tag(count)
                     }
                 }
                 .pickerStyle(.menu)
@@ -230,16 +266,22 @@ struct WavesScreen: View {
             date: AstronomicalDate(Year: endYear, Month: endMonth, Day: endDay,
                                    Gregorian: endCalendar == .gregorian),
             time: midnight)
-        let request = WavesRequest(
-            CycleType: cycleType.factor,
-            Interval: cycleType.interval,
-            JdStart: jdStart,
-            JdEnd: jdEnd,
-            Coordinate: selectedCoordinate,
-            ObserverPosition: observerPosition
-        )
-        wavesModel.cycleType = cycleType.factor
-        wavesModel.results = WavesCalculator.PerformCalculation(request, seWrapper: seWrapper)
+        var allResults: [Factors: [(julianDay: Double, waveValue: Double)]] = [:]
+        for ct in WaveCycleType.allCases where selectedCycleTypes.contains(ct) {
+            let request = WavesRequest(
+                CycleType: ct.factor,
+                Interval: ct.interval,
+                JdStart: jdStart,
+                JdEnd: jdEnd,
+                Coordinate: selectedCoordinate,
+                ObserverPosition: observerPosition
+            )
+            allResults[ct.factor] = WavesCalculator.PerformCalculation(request, seWrapper: seWrapper)
+        }
+        wavesModel.selectedFactors = WaveCycleType.allCases
+            .filter { selectedCycleTypes.contains($0) }
+            .map { $0.factor }
+        wavesModel.allResults = allResults
     }
 
     // MARK: - i18n

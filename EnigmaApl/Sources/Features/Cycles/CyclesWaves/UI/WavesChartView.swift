@@ -14,21 +14,35 @@ struct WavesChartView: View {
     @State private var selectedTab: Int = 0
     @State private var showDms: Bool = true
     @State private var chartWidth: CGFloat = 0
+    @State private var showHelp = false
 
     var body: some View {
-        if model.hasResults {
-            TabView(selection: $selectedTab) {
-                chartTab
-                    .tabItem { Text(w(WavesKeys.tabChart)) }
-                    .tag(0)
-                positionsTab
-                    .tabItem { Text(w(WavesKeys.tabPositions)) }
-                    .tag(1)
+        Group {
+            if model.hasResults {
+                TabView(selection: $selectedTab) {
+                    chartTab
+                        .tabItem { Text(w(WavesKeys.tabChart)) }
+                        .tag(0)
+                    positionsTab
+                        .tabItem { Text(w(WavesKeys.tabPositions)) }
+                        .tag(1)
+                }
+            } else {
+                Text(w(WavesKeys.chartNoResults))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-        } else {
-            Text(w(WavesKeys.chartNoResults))
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: w(WavesKeys.chartHelp))
         }
     }
 
@@ -55,7 +69,7 @@ struct WavesChartView: View {
                     GeometryReader { geo in
                         Color.clear
                             .onAppear { chartWidth = geo.size.width }
-                            .onChange(of: geo.size.width) { chartWidth = $0 }
+                            .onChange(of: geo.size.width) { _, new in chartWidth = new }
                     }
                 )
                 .padding([.horizontal, .top])
@@ -66,7 +80,8 @@ struct WavesChartView: View {
     @MainActor
     private func renderChartToPNG() -> Data? {
         let exportWidth = exportChartWidth
-        Logger.log.debug("WavesChartView.renderChartToPNG: exportWidth=\(exportWidth) chartHeight=\(self.chartHeight) results=\(self.model.results.count)")
+        let totalPoints = model.allResults.values.map { $0.count }.reduce(0, +)
+        Logger.log.debug("WavesChartView.renderChartToPNG: exportWidth=\(exportWidth) chartHeight=\(self.chartHeight) totalPoints=\(totalPoints)")
         #if os(macOS)
         let bgColor = Color(nsColor: .windowBackgroundColor)
         #else
@@ -110,15 +125,18 @@ struct WavesChartView: View {
     private var chart: some View { buildChart() }
 
     private func buildChart() -> AnyView {
-        let seriesLabel = NSLocalizedString(model.cycleType.localizedName, comment: "")
-        return AnyView(Chart {
-            ForEach(model.results.indices, id: \.self) { i in
-                let point = model.results[i]
-                LineMark(
-                    x: .value(w(WavesKeys.chartDate), jdToDate(point.julianDay)),
-                    y: .value(w(WavesKeys.chartYWaveValue), point.waveValue)
-                )
-                .foregroundStyle(by: .value("", seriesLabel))
+        AnyView(Chart {
+            ForEach(model.selectedFactors, id: \.self) { factor in
+                let points = model.allResults[factor] ?? []
+                let seriesLabel = NSLocalizedString(factor.localizedName, comment: "")
+                ForEach(points.indices, id: \.self) { i in
+                    let point = points[i]
+                    LineMark(
+                        x: .value(w(WavesKeys.chartDate), jdToDate(point.julianDay)),
+                        y: .value(w(WavesKeys.chartYWaveValue), point.waveValue)
+                    )
+                    .foregroundStyle(by: .value(w(WavesKeys.chartSeries), seriesLabel))
+                }
             }
         }
         .chartYAxisLabel(w(WavesKeys.chartYWaveValue))
@@ -139,6 +157,25 @@ struct WavesChartView: View {
     private let dateColWidth: CGFloat  = 100
     private let jdColWidth: CGFloat    = 130
     private let valueColWidth: CGFloat = 120
+
+    private struct MergedRow {
+        let julianDay: Double
+        let values: [Factors: Double]
+    }
+
+    private var mergedRows: [MergedRow] {
+        var jdSet: Set<Double> = []
+        for points in model.allResults.values { points.forEach { jdSet.insert($0.julianDay) } }
+        let valueDicts: [Factors: [Double: Double]] = model.allResults.reduce(into: [:]) { dict, pair in
+            dict[pair.key] = Dictionary(uniqueKeysWithValues: pair.value.map { ($0.julianDay, $0.waveValue) })
+        }
+        return jdSet.sorted().map { jd in
+            let values = model.selectedFactors.reduce(into: [Factors: Double]()) { d, f in
+                if let v = valueDicts[f]?[jd] { d[f] = v }
+            }
+            return MergedRow(julianDay: jd, values: values)
+        }
+    }
 
     private var positionsTab: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -165,7 +202,7 @@ struct WavesChartView: View {
                 .padding([.top, .trailing])
             }
 
-            let valueHeader = NSLocalizedString(model.cycleType.localizedName, comment: "")
+            let rows = mergedRows
 
             ScrollView([.horizontal, .vertical]) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -176,9 +213,11 @@ struct WavesChartView: View {
                         Text(w(WavesKeys.positionsJulianDay))
                             .fontWeight(.semibold)
                             .frame(width: jdColWidth, alignment: .leading)
-                        Text(valueHeader)
-                            .fontWeight(.semibold)
-                            .frame(width: valueColWidth, alignment: .trailing)
+                        ForEach(model.selectedFactors, id: \.self) { factor in
+                            Text(NSLocalizedString(factor.localizedName, comment: ""))
+                                .fontWeight(.semibold)
+                                .frame(width: valueColWidth, alignment: .trailing)
+                        }
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 6)
@@ -187,15 +226,22 @@ struct WavesChartView: View {
                     Divider()
 
                     LazyVStack(alignment: .leading, spacing: 0) {
-                        ForEach(model.results.indices, id: \.self) { i in
-                            let point = model.results[i]
+                        ForEach(rows.indices, id: \.self) { i in
+                            let row = rows[i]
                             HStack(spacing: 0) {
-                                Text(jdToDateString(point.julianDay))
+                                Text(jdToDateString(row.julianDay))
                                     .frame(width: dateColWidth, alignment: .leading)
-                                Text(String(format: "%.4f", point.julianDay))
+                                Text(String(format: "%.4f", row.julianDay))
                                     .frame(width: jdColWidth, alignment: .leading)
-                                Text(formatValue(point.waveValue))
-                                    .frame(width: valueColWidth, alignment: .trailing)
+                                ForEach(model.selectedFactors, id: \.self) { factor in
+                                    if let v = row.values[factor] {
+                                        Text(formatValue(v))
+                                            .frame(width: valueColWidth, alignment: .trailing)
+                                    } else {
+                                        Text("—")
+                                            .frame(width: valueColWidth, alignment: .trailing)
+                                    }
+                                }
                             }
                             .font(.system(.body, design: .monospaced))
                             .padding(.horizontal, 8)
@@ -209,12 +255,19 @@ struct WavesChartView: View {
     }
 
     private func buildCSV() -> String {
-        let valueHeader = NSLocalizedString(model.cycleType.localizedName, comment: "")
-        let headers = [w(WavesKeys.chartDate), w(WavesKeys.positionsJulianDay), valueHeader]
+        let factorHeaders = model.selectedFactors.map {
+            NSLocalizedString($0.localizedName, comment: "")
+        }
+        let headers = ([w(WavesKeys.chartDate), w(WavesKeys.positionsJulianDay)] + factorHeaders)
             .map { csvEscape($0) }.joined(separator: ",")
-        let dataLines = model.results.map { point in
-            [jdToDateString(point.julianDay), String(format: "%.4f", point.julianDay), formatValue(point.waveValue)]
-                .map { csvEscape($0) }.joined(separator: ",")
+        let rows = mergedRows
+        let dataLines = rows.map { row in
+            var cols = [jdToDateString(row.julianDay), String(format: "%.4f", row.julianDay)]
+            for factor in model.selectedFactors {
+                if let v = row.values[factor] { cols.append(formatValue(v)) }
+                else { cols.append("") }
+            }
+            return cols.map { csvEscape($0) }.joined(separator: ",")
         }
         return ([headers] + dataLines).joined(separator: "\n")
     }
@@ -280,8 +333,9 @@ struct WavesChartView: View {
     }()
 
     private var periodDays: Double {
-        guard let first = model.results.first, let last = model.results.last else { return 365 }
-        return last.julianDay - first.julianDay
+        let allJds = model.allResults.values.flatMap { $0.map { $0.julianDay } }
+        guard let first = allJds.min(), let last = allJds.max() else { return 365 }
+        return last - first
     }
 
     private var xAxisStrideDays: Int { max(1, Int(round(periodDays / 60.0))) }
@@ -311,7 +365,8 @@ struct WavesChartView: View {
     // MARK: - Y-axis scale
 
     private var yAxisStride: Double {
-        guard let maxVal = model.results.map({ $0.waveValue }).max(), maxVal > 0 else { return 10 }
+        let allValues = model.allResults.values.flatMap { $0.map { $0.waveValue } }
+        guard let maxVal = allValues.max(), maxVal > 0 else { return 10 }
         let candidates: [Double] = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000]
         let target = maxVal / 8.0
         return candidates.first(where: { $0 >= target }) ?? 1000
