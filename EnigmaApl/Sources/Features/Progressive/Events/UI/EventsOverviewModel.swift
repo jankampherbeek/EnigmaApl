@@ -38,13 +38,13 @@ final class EventsOverviewModel: ObservableObject {
         }
     }
 
-    /// Deletes the given event from the store and refreshes the list.
+    /// Deletes the given event via EventsOrchestrator and refreshes the list.
     func delete(_ event: EventModel) {
         guard let context = modelContext else { return }
-        let repo = EventRepository(context: context)
+        let orchestrator = EventsOrchestrator(context: context)
         do {
             if selectedEvent?.id == event.id { selectedEvent = nil }
-            try repo.delete(event)
+            try orchestrator.delete(event)
             refreshEvents()
         } catch {
             errorMessage = error.localizedDescription

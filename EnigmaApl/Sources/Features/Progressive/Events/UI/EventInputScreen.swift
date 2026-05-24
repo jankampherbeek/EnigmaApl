@@ -34,12 +34,14 @@ struct EventInputScreen: View {
     @State private var lonHemi: LongitudeHemisphere = .east
     @State private var selectedCity: LocationCity? = nil
 
-    // Date/time fields
-    @State private var yearText = "2026"
-    @State private var month = 1
-    @State private var day = 1
-    @State private var hour = 12
-    @State private var minute = 0
+    // Date/time fields — initialised to today so the user gets a sensible starting point
+    @State private var yearText: String = {
+        String(Calendar.current.component(.year, from: Date()))
+    }()
+    @State private var month = Calendar.current.component(.month, from: Date())
+    @State private var day   = Calendar.current.component(.day,   from: Date())
+    @State private var hour  = Calendar.current.component(.hour,  from: Date())
+    @State private var minute = Calendar.current.component(.minute, from: Date())
     @State private var second = 0
     @State private var offsetHour = 0
     @State private var offsetMinute = 0
@@ -49,8 +51,8 @@ struct EventInputScreen: View {
     @State private var utOffsetDirection: UTOffsetDirection = .later
     @State private var dstOption: DSTOption = .noDST
 
-    // UI state
-    @State private var expandedSection: AccordionSection = .location
+    // UI state — DateTime open by default since the date is the core of an event
+    @State private var expandedSection: AccordionSection = .dateTime
     @State private var showHelp = false
     @FocusState private var focusedHeader: AccordionSection?
 
