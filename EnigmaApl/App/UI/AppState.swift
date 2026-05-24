@@ -108,7 +108,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
 struct NavigationState: Equatable {
     var mode: AppMode = .radix
     var radix = RadixNav()
-
+    var progressive = ProgressiveNav()
     var research = ResearchNav()
     var cycles = CyclesNav()
 }

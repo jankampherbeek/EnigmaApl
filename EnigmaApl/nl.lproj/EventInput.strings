@@ -1,0 +1,16 @@
+// EventInput.strings - Nederlands
+// EnigmaApl
+
+"view.eventinputscreen.title"                    = "Nieuwe Gebeurtenis";
+"view.eventinputscreen.eventtitle"               = "Titel";
+"view.eventinputscreen.eventdescription"         = "Beschrijving";
+"view.eventinputscreen.location"                 = "Locatie";
+"view.eventinputscreen.datetime"                 = "Datum & Tijd";
+"view.eventinputscreen.create"                   = "Aanmaken";
+"view.eventinputscreen.cancel"                   = "Annuleren";
+"view.eventinputscreen.validation.titleempty"    = "Voer een titel in.";
+"view.eventinputscreen.validation.invalidyear"   = "Voer een geldig jaar in.";
+"view.eventinputscreen.help.title"               = "Help";
+"view.eventinputscreen.help.close"               = "Sluiten";
+"view.eventinputscreen.help"                     = "Voer een titel en optioneel een beschrijving in voor de gebeurtenis. Gebruik de sectie Locatie om de plaats van de gebeurtenis op te geven — dit is optioneel. Gebruik de sectie Datum & Tijd om het moment van de gebeurtenis in te voeren. Het Juliaans Dagnummer wordt automatisch berekend.";
+"view.eventinputscreen.error.createfailed"       = "De gebeurtenis kon niet worden opgeslagen. Probeer het opnieuw.";

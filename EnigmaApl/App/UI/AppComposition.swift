@@ -15,7 +15,7 @@ final class AppComposition: ObservableObject {
     let app: AppState
     let chartSession: ChartSession
     let radixNav: RadixNavigator
-
+    let progressiveNav: ProgressiveNavigator
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
     let cyclesModel: AstronomicalCyclesModel
@@ -35,6 +35,11 @@ final class AppComposition: ObservableObject {
         self.radixNav = RadixNavigator(nav: Binding(
             get: { app.nav.radix },
             set: { app.nav.radix = $0 }
+        ))
+
+        self.progressiveNav = ProgressiveNavigator(nav: Binding(
+            get: { app.nav.progressive },
+            set: { app.nav.progressive = $0 }
         ))
 
         self.researchNav = ResearchNavigator(nav: Binding(

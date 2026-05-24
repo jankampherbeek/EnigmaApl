@@ -53,7 +53,7 @@ struct DetailColumn: View {
                 return "Wijzig horoscoop"
             }
         case .progressive:
-            return "Progressive"
+            return app.nav.progressive.section.rawValue
         case .research:
             return ""
         case .cycles:
@@ -109,7 +109,12 @@ struct DetailColumn: View {
                             }
                         }
                     case .progressive:
-                        EmptyView()
+                        switch app.nav.progressive.section {
+                        case .events:
+                            EventsOverviewScreen()
+                        default:
+                            EmptyView()
+                        }
                     case .research:
                         EmptyView()
                     case .cycles:

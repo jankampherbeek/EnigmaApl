@@ -7,7 +7,7 @@ import SwiftUI
 struct AppCommands: Commands {
     @ObservedObject var app: AppState
     @ObservedObject var radixNav: RadixNavigator
-
+    @ObservedObject var progressiveNav: ProgressiveNavigator
     @ObservedObject var researchNav: ResearchNavigator
     @ObservedObject var cyclesNav: CyclesNavigator
     @Environment(\.openWindow) private var openWindow
@@ -31,6 +31,23 @@ struct AppCommands: Commands {
             Button("Declinations") { app.setMode(.radix); radixNav.setInspector(.analysisDeclinations) }
             Button("Zoek")       { app.setMode(.radix); radixNav.setInspector(.search) }
                 .keyboardShortcut("4", modifiers: [.command, .option])
+        }
+
+        CommandMenu("Progressive") {
+            Button("Activeer Progressive") { app.setMode(.progressive) }
+                .keyboardShortcut("2", modifiers: [.command, .shift])
+            Divider()
+            Button("Events")               { app.setMode(.progressive); progressiveNav.setSection(.events) }
+            Button("Primary")              { app.setMode(.progressive); progressiveNav.setSection(.primary) }
+            Button("Secondary")            { app.setMode(.progressive); progressiveNav.setSection(.secondary) }
+            Button("Transit")              { app.setMode(.progressive); progressiveNav.setSection(.transit) }
+            Button("Symbolic")             { app.setMode(.progressive); progressiveNav.setSection(.symbolic) }
+            Button("Solar")                { app.setMode(.progressive); progressiveNav.setSection(.solar) }
+            Button("Prenatal")             { app.setMode(.progressive); progressiveNav.setSection(.prenatal) }
+            Button("Logarithmic Timescale") { app.setMode(.progressive); progressiveNav.setSection(.logarithmicTimescale) }
+            Button("Profections")          { app.setMode(.progressive); progressiveNav.setSection(.profections) }
+            Button("Firdaria")             { app.setMode(.progressive); progressiveNav.setSection(.firdaria) }
+            Button("Progressive Calendar") { app.setMode(.progressive); progressiveNav.setSection(.progressiveCalendar) }
         }
 
         CommandMenu("Research") {

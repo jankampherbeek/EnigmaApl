@@ -13,7 +13,7 @@ import Combine
 struct SidebarView: View {
     @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
-
+    @EnvironmentObject private var progressiveNav: ProgressiveNavigator
     @EnvironmentObject private var researchNav: ResearchNavigator
     @EnvironmentObject private var cyclesNav: CyclesNavigator
     @EnvironmentObject private var configNav: ConfigNavigator
@@ -46,7 +46,14 @@ struct SidebarView: View {
                     }.buttonStyle(.plain)
                 }
             case .progressive:
-                EmptyView()
+                Section("Progressive") {
+                    ForEach(ProgressiveSection.allCases) { section in
+                        Button { progressiveNav.setSection(section) } label: {
+                            row(section.rawValue, app.nav.progressive.section == section)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             case .research:
                 Section("Research") {
                     Button { researchNav.setSection(.projects) } label: {

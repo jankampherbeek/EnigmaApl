@@ -1,0 +1,16 @@
+// EventInput.strings - English
+// EnigmaApl
+
+"view.eventinputscreen.title"                    = "New Event";
+"view.eventinputscreen.eventtitle"               = "Title";
+"view.eventinputscreen.eventdescription"         = "Description";
+"view.eventinputscreen.location"                 = "Location";
+"view.eventinputscreen.datetime"                 = "Date & Time";
+"view.eventinputscreen.create"                   = "Create";
+"view.eventinputscreen.cancel"                   = "Cancel";
+"view.eventinputscreen.validation.titleempty"    = "Please enter a title.";
+"view.eventinputscreen.validation.invalidyear"   = "Enter a valid year.";
+"view.eventinputscreen.help.title"               = "Help";
+"view.eventinputscreen.help.close"               = "Close";
+"view.eventinputscreen.help"                     = "Enter a title and optionally a description for the event. Use the Location section to specify where the event takes place — this is optional. Use the Date & Time section to enter the moment of the event. The Julian Day number is calculated automatically.";
+"view.eventinputscreen.error.createfailed"       = "Could not save the event. Please try again.";

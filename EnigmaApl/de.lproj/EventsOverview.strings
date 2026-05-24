@@ -1,0 +1,20 @@
+// EventsOverview.strings - Deutsch
+// EnigmaApl
+
+"view.eventsoverviewscreen.title"                = "Ereignisse";
+"view.eventsoverviewscreen.chartsection"         = "Horoskop";
+"view.eventsoverviewscreen.nosession"            = "Keine Horoskope in der Sitzung. Öffnen Sie zuerst ein Horoskop über Radix.";
+"view.eventsoverviewscreen.eventsheader"         = "Ereignisse für dieses Horoskop";
+"view.eventsoverviewscreen.empty"                = "Noch keine Ereignisse für dieses Horoskop. Verwenden Sie Erstellen, um eines hinzuzufügen.";
+"view.eventsoverviewscreen.create"               = "Erstellen";
+"view.eventsoverviewscreen.column.title"         = "Titel";
+"view.eventsoverviewscreen.column.datetime"      = "Datum / Zeit";
+"view.eventsoverviewscreen.column.location"      = "Ort";
+"view.eventsoverviewscreen.select"               = "Auswählen";
+"view.eventsoverviewscreen.edit"                 = "Bearbeiten";
+"view.eventsoverviewscreen.delete"               = "Löschen";
+"view.eventsoverviewscreen.delete.title"         = "Ereignis löschen";
+"view.eventsoverviewscreen.delete.message"       = "Möchten Sie '%@' wirklich löschen? Dies kann nicht rückgängig gemacht werden.";
+"view.eventsoverviewscreen.delete.confirm"       = "Löschen";
+"view.eventsoverviewscreen.delete.cancel"        = "Abbrechen";
+"view.eventsoverviewscreen.help"                 = "Ereignisse sind Daten, die bei progressiven Techniken wie Transite und Sekundärdirektionen verwendet werden. Jedes Ereignis ist mit einem oder mehreren Horoskopen verknüpft. Verwenden Sie Erstellen, um ein neues Ereignis hinzuzufügen, Auswählen, um es für Berechnungen zu aktivieren, Bearbeiten, um die Daten zu ändern, und Löschen, um es zu entfernen.";

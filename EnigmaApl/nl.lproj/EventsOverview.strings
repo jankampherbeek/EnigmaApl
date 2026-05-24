@@ -1,0 +1,20 @@
+// EventsOverview.strings - Nederlands
+// EnigmaApl
+
+"view.eventsoverviewscreen.title"                = "Gebeurtenissen";
+"view.eventsoverviewscreen.chartsection"         = "Horoscoop";
+"view.eventsoverviewscreen.nosession"            = "Geen horoscopen in de sessie. Open eerst een horoscoop via Radix.";
+"view.eventsoverviewscreen.eventsheader"         = "Gebeurtenissen voor deze horoscoop";
+"view.eventsoverviewscreen.empty"                = "Nog geen gebeurtenissen voor deze horoscoop. Gebruik Aanmaken om er een toe te voegen.";
+"view.eventsoverviewscreen.create"               = "Aanmaken";
+"view.eventsoverviewscreen.column.title"         = "Titel";
+"view.eventsoverviewscreen.column.datetime"      = "Datum / Tijd";
+"view.eventsoverviewscreen.column.location"      = "Locatie";
+"view.eventsoverviewscreen.select"               = "Selecteer";
+"view.eventsoverviewscreen.edit"                 = "Wijzig";
+"view.eventsoverviewscreen.delete"               = "Verwijder";
+"view.eventsoverviewscreen.delete.title"         = "Gebeurtenis verwijderen";
+"view.eventsoverviewscreen.delete.message"       = "Weet u zeker dat u '%@' wilt verwijderen? Dit kan niet ongedaan worden gemaakt.";
+"view.eventsoverviewscreen.delete.confirm"       = "Verwijder";
+"view.eventsoverviewscreen.delete.cancel"        = "Annuleer";
+"view.eventsoverviewscreen.help"                 = "Gebeurtenissen zijn datums die worden gebruikt bij progressieve technieken zoals transits en secundaire directies. Elke gebeurtenis is gekoppeld aan één of meerdere horoscopen. Gebruik Aanmaken om een nieuwe gebeurtenis toe te voegen, Selecteer om deze actief te maken voor berekeningen, Wijzig om de gegevens aan te passen en Verwijder om de gebeurtenis te wissen.";

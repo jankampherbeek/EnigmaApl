@@ -40,6 +40,7 @@ struct EnigmaAplApp: App {
             AppCommands(
                 app: composition.app,
                 radixNav: composition.radixNav,
+                progressiveNav: composition.progressiveNav,
                 researchNav: composition.researchNav,
                 cyclesNav: composition.cyclesNav
             )

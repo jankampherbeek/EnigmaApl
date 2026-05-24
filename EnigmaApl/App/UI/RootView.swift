@@ -53,7 +53,7 @@ struct RootView: View {
         .environmentObject(app)
         .environmentObject(composition.chartSession)
         .environmentObject(composition.radixNav)
-
+        .environmentObject(composition.progressiveNav)
         .environmentObject(composition.researchNav)
         .environmentObject(composition.cyclesNav)
         .environmentObject(composition.cyclesModel)

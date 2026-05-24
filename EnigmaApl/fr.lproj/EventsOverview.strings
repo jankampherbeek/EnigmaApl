@@ -1,0 +1,20 @@
+// EventsOverview.strings - Français
+// EnigmaApl
+
+"view.eventsoverviewscreen.title"                = "Événements";
+"view.eventsoverviewscreen.chartsection"         = "Horoscope";
+"view.eventsoverviewscreen.nosession"            = "Aucun horoscope en session. Ouvrez d'abord un horoscope via Radix.";
+"view.eventsoverviewscreen.eventsheader"         = "Événements pour cet horoscope";
+"view.eventsoverviewscreen.empty"                = "Aucun événement pour cet horoscope. Utilisez Créer pour en ajouter un.";
+"view.eventsoverviewscreen.create"               = "Créer";
+"view.eventsoverviewscreen.column.title"         = "Titre";
+"view.eventsoverviewscreen.column.datetime"      = "Date / Heure";
+"view.eventsoverviewscreen.column.location"      = "Lieu";
+"view.eventsoverviewscreen.select"               = "Sélectionner";
+"view.eventsoverviewscreen.edit"                 = "Modifier";
+"view.eventsoverviewscreen.delete"               = "Supprimer";
+"view.eventsoverviewscreen.delete.title"         = "Supprimer l'événement";
+"view.eventsoverviewscreen.delete.message"       = "Voulez-vous vraiment supprimer '%@' ? Cette action est irréversible.";
+"view.eventsoverviewscreen.delete.confirm"       = "Supprimer";
+"view.eventsoverviewscreen.delete.cancel"        = "Annuler";
+"view.eventsoverviewscreen.help"                 = "Les événements représentent des dates utilisées dans les techniques progressives telles que les transits et les directions secondaires. Chaque événement est lié à un ou plusieurs horoscopes. Utilisez Créer pour ajouter un nouvel événement, Sélectionner pour l'activer dans les calculs, Modifier pour changer ses données et Supprimer pour le retirer.";
