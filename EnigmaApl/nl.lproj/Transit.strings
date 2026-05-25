@@ -1,0 +1,36 @@
+// Transit.strings - Nederlands
+// EnigmaApl
+
+// TransitScreen
+"view.transitscreen.title"              = "Transits";
+"view.transitscreen.nochart"            = "Bereken of selecteer eerst een horoscoop.";
+"view.transitscreen.chart"              = "Horoscoop";
+"view.transitscreen.createevent"        = "Nieuw Evenement Aanmaken";
+"view.transitscreen.eventsheader"       = "Evenementen";
+"view.transitscreen.noevents"           = "Geen evenementen gekoppeld aan deze horoscoop.";
+"view.transitscreen.col.title"          = "Titel";
+"view.transitscreen.col.datetime"       = "Datum & Tijd";
+"view.transitscreen.col.location"       = "Locatie";
+"view.transitscreen.select"             = "Selecteer";
+"view.transitscreen.calculate"          = "Bereken";
+"view.transitscreen.error.calcfailed"   = "Berekening mislukt. Probeer opnieuw.";
+
+// TransitResults - tabs
+"view.transitresults.title"                    = "Transitposities";
+"view.transitresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
+"view.transitresults.tab.positions"            = "Posities";
+"view.transitresults.tab.matches"              = "Overeenkomsten";
+"view.transitresults.tab.dualwheel"            = "Dubbel Wiel";
+
+// Tab Posities
+"view.transitresults.col.factor"               = "Factor";
+"view.transitresults.col.longitude"            = "Lengte";
+"view.transitresults.col.declination"          = "Declinatie";
+
+// Tab Overeenkomsten
+"view.transitresults.matches.nomatches"        = "Geen aspecten gevonden tussen transit- en radixposities.";
+"view.transitresults.matches.col.transit"      = "Transit";
+"view.transitresults.matches.col.aspect"       = "Aspect";
+"view.transitresults.matches.col.radix"        = "Radix";
+"view.transitresults.matches.col.orb"          = "Orb";
+"view.transitresults.matches.col.exactness"    = "Nauwkeurigheid";

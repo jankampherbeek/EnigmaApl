@@ -1,0 +1,36 @@
+// Transit.strings - Deutsch
+// EnigmaApl
+
+// TransitScreen
+"view.transitscreen.title"              = "Transite";
+"view.transitscreen.nochart"            = "Bitte zuerst ein Horoskop berechnen oder auswählen.";
+"view.transitscreen.chart"              = "Horoskop";
+"view.transitscreen.createevent"        = "Neues Ereignis Erstellen";
+"view.transitscreen.eventsheader"       = "Ereignisse";
+"view.transitscreen.noevents"           = "Keine Ereignisse mit diesem Horoskop verknüpft.";
+"view.transitscreen.col.title"          = "Titel";
+"view.transitscreen.col.datetime"       = "Datum & Zeit";
+"view.transitscreen.col.location"       = "Ort";
+"view.transitscreen.select"             = "Auswählen";
+"view.transitscreen.calculate"          = "Berechnen";
+"view.transitscreen.error.calcfailed"   = "Berechnung fehlgeschlagen. Bitte erneut versuchen.";
+
+// TransitResults - Tabs
+"view.transitresults.title"                    = "Transitpositionen";
+"view.transitresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
+"view.transitresults.tab.positions"            = "Positionen";
+"view.transitresults.tab.matches"              = "Treffer";
+"view.transitresults.tab.dualwheel"            = "Doppelrad";
+
+// Tab Positionen
+"view.transitresults.col.factor"               = "Faktor";
+"view.transitresults.col.longitude"            = "Länge";
+"view.transitresults.col.declination"          = "Deklination";
+
+// Tab Treffer
+"view.transitresults.matches.nomatches"        = "Keine Aspekte zwischen Transit- und Radixpositionen gefunden.";
+"view.transitresults.matches.col.transit"      = "Transit";
+"view.transitresults.matches.col.aspect"       = "Aspekt";
+"view.transitresults.matches.col.radix"        = "Radix";
+"view.transitresults.matches.col.orb"          = "Orb";
+"view.transitresults.matches.col.exactness"    = "Genauigkeit";

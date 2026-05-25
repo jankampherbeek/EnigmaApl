@@ -50,7 +50,12 @@ struct ContentColumn: View {
                     )
                 }
             case .progressive:
-                EmptyView()
+                switch app.nav.progressive.section {
+                case .transit:
+                    TransitResults()
+                default:
+                    EmptyView()
+                }
             case .research:
                 ResearchProjectsScreen()
             case .cycles:

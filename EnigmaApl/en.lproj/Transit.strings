@@ -1,0 +1,36 @@
+// Transit.strings - English
+// EnigmaApl
+
+// TransitScreen
+"view.transitscreen.title"              = "Transits";
+"view.transitscreen.nochart"            = "Calculate or select a chart first.";
+"view.transitscreen.chart"              = "Chart";
+"view.transitscreen.createevent"        = "Create New Event";
+"view.transitscreen.eventsheader"       = "Events";
+"view.transitscreen.noevents"           = "No events linked to this chart.";
+"view.transitscreen.col.title"          = "Title";
+"view.transitscreen.col.datetime"       = "Date & Time";
+"view.transitscreen.col.location"       = "Location";
+"view.transitscreen.select"             = "Select";
+"view.transitscreen.calculate"          = "Calculate";
+"view.transitscreen.error.calcfailed"   = "Calculation failed. Please try again.";
+
+// TransitResults - tabs
+"view.transitresults.title"                    = "Transit Positions";
+"view.transitresults.noresults"                = "Select an event and press Calculate to see positions.";
+"view.transitresults.tab.positions"            = "Positions";
+"view.transitresults.tab.matches"              = "Matches";
+"view.transitresults.tab.dualwheel"            = "Dual Wheel";
+
+// Positions tab
+"view.transitresults.col.factor"               = "Factor";
+"view.transitresults.col.longitude"            = "Longitude";
+"view.transitresults.col.declination"          = "Declination";
+
+// Matches tab
+"view.transitresults.matches.nomatches"        = "No aspects found between transit and radix positions.";
+"view.transitresults.matches.col.transit"      = "Transit";
+"view.transitresults.matches.col.aspect"       = "Aspect";
+"view.transitresults.matches.col.radix"        = "Radix";
+"view.transitresults.matches.col.orb"          = "Orb";
+"view.transitresults.matches.col.exactness"    = "Exactness";

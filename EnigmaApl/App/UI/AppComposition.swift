@@ -20,6 +20,7 @@ final class AppComposition: ObservableObject {
     let cyclesNav: CyclesNavigator
     let cyclesModel: AstronomicalCyclesModel
     let wavesModel: WavesModel
+    let transitModel: TransitModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -53,5 +54,6 @@ final class AppComposition: ObservableObject {
         ))
         self.cyclesModel = AstronomicalCyclesModel()
         self.wavesModel = WavesModel()
+        self.transitModel = TransitModel()
     }
 }

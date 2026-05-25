@@ -313,3 +313,12 @@
 "enum.datafiletype.standardenigma"          = "Standard Enigma";
 "enum.datafiletype.gauquelin"               = "Gauquelin";
 "enum.datafiletype.quickchart"              = "Quick Chart";
+
+// Progressive methods
+"enum.progressivemethod.transit"    = "Transite";
+"enum.progressivemethod.secdir"     = "Sekundäre Direktionen";
+"enum.progressivemethod.symdir"     = "Symbolische Direktionen";
+"enum.progressivemethod.primdir"    = "Primäre Direktionen";
+"enum.progressivemethod.solar"      = "Solar Return";
+"enum.progressivemethod.profection" = "Profektionen";
+"enum.progressivemethod.firdaria"   = "Firdaria";

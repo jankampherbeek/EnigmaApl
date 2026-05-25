@@ -4,12 +4,14 @@
 
 import Foundation
 
-/// Request for a progressive calculation (transits, secondary directions).
-/// Contains only the Julian Day; all other settings are derived from the configuration.
+/// Request for a progressive calculation.
+/// Contains the Julian Day and the progressive method to apply.
 public struct ProgressiveCalcRequest {
     public let julianDay: Double
+    public let method: ProgressiveMethods
 
-    public init(julianDay: Double) {
+    public init(julianDay: Double, method: ProgressiveMethods) {
         self.julianDay = julianDay
+        self.method = method
     }
 }

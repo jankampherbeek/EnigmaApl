@@ -112,6 +112,8 @@ struct DetailColumn: View {
                         switch app.nav.progressive.section {
                         case .events:
                             EventsOverviewScreen()
+                        case .transit:
+                            TransitScreen()
                         default:
                             EmptyView()
                         }

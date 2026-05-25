@@ -1,0 +1,36 @@
+// Transit.strings - Français
+// EnigmaApl
+
+// TransitScreen
+"view.transitscreen.title"              = "Transits";
+"view.transitscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
+"view.transitscreen.chart"              = "Thème";
+"view.transitscreen.createevent"        = "Créer un Nouvel Événement";
+"view.transitscreen.eventsheader"       = "Événements";
+"view.transitscreen.noevents"           = "Aucun événement lié à ce thème.";
+"view.transitscreen.col.title"          = "Titre";
+"view.transitscreen.col.datetime"       = "Date & Heure";
+"view.transitscreen.col.location"       = "Lieu";
+"view.transitscreen.select"             = "Sélectionner";
+"view.transitscreen.calculate"          = "Calculer";
+"view.transitscreen.error.calcfailed"   = "Calcul échoué. Veuillez réessayer.";
+
+// TransitResults - onglets
+"view.transitresults.title"                    = "Positions de Transit";
+"view.transitresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
+"view.transitresults.tab.positions"            = "Positions";
+"view.transitresults.tab.matches"              = "Correspondances";
+"view.transitresults.tab.dualwheel"            = "Double Roue";
+
+// Onglet Positions
+"view.transitresults.col.factor"               = "Facteur";
+"view.transitresults.col.longitude"            = "Longitude";
+"view.transitresults.col.declination"          = "Déclinaison";
+
+// Onglet Correspondances
+"view.transitresults.matches.nomatches"        = "Aucun aspect trouvé entre les positions de transit et de radix.";
+"view.transitresults.matches.col.transit"      = "Transit";
+"view.transitresults.matches.col.aspect"       = "Aspect";
+"view.transitresults.matches.col.radix"        = "Radix";
+"view.transitresults.matches.col.orb"          = "Orbe";
+"view.transitresults.matches.col.exactness"    = "Exactitude";
