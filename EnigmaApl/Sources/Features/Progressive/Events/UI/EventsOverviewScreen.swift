@@ -81,6 +81,13 @@ struct EventsOverviewScreen: View {
                 }
             }
         }
+        .sheet(item: $eventToEdit) { event in
+            NavigationStack {
+                EventEditScreen(event: event) {
+                    model.reload()
+                }
+            }
+        }
         .onAppear {
             model.setup(context: modelContext)
             if let chart = chartSession.selected {

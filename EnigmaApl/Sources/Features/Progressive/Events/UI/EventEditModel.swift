@@ -1,4 +1,4 @@
-// EventInputModel.swift
+// EventEditModel.swift
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 
@@ -7,13 +7,13 @@ import SwiftData
 import Combine
 
 @MainActor
-final class EventInputModel: ObservableObject {
+final class EventEditModel: ObservableObject {
 
     @Published var errorMessage: String?
 
     private let seWrapper = SEWrapper()
 
-    /// Computes the Julian Day in UT for the given local date, time and offset fields.
+    /// Computes the Julian Day in UT from the given local date, time and offset fields.
     func computeJulianDay(
         astronomicalYear: Int,
         month: Int, day: Int,
@@ -33,9 +33,10 @@ final class EventInputModel: ObservableObject {
         return localJD + (sign * offsetSec + dst) / 86_400.0
     }
 
-    /// Creates and persists a new EventModel linked to the given horoscope.
+    /// Updates the EventModel in place via EventsOrchestrator and saves.
     /// Returns true on success; sets errorMessage and returns false on failure.
-    func createEvent(
+    func updateEvent(
+        event: EventModel,
         title: String,
         eventDescription: String?,
         julianDate: Double,
@@ -46,24 +47,23 @@ final class EventInputModel: ObservableObject {
         longitude: Double?,
         country: String?,
         location: String?,
-        horoscope: HoroscopeModel,
         context: ModelContext
     ) -> Bool {
-        let repo = EventRepository(context: context)
+        let orchestrator = EventsOrchestrator(context: context)
+        let values = EventValues(
+            title: title,
+            eventDescription: eventDescription.flatMap { $0.isEmpty ? nil : $0 },
+            julianDate: julianDate,
+            timeZoneIdentifier: timeZoneIdentifier,
+            originalInput: originalInput,
+            placeName: placeName.flatMap { $0.isEmpty ? nil : $0 },
+            latitude: latitude,
+            longitude: longitude,
+            country: country.flatMap { $0.isEmpty ? nil : $0 },
+            location: location.flatMap { $0.isEmpty ? nil : $0 }
+        )
         do {
-            _ = try repo.add(
-                title: title,
-                eventDescription: eventDescription.flatMap { $0.isEmpty ? nil : $0 },
-                julianDate: julianDate,
-                timeZoneIdentifier: timeZoneIdentifier,
-                originalInput: originalInput,
-                placeName: placeName.flatMap { $0.isEmpty ? nil : $0 },
-                latitude: latitude,
-                longitude: longitude,
-                country: country.flatMap { $0.isEmpty ? nil : $0 },
-                location: location.flatMap { $0.isEmpty ? nil : $0 },
-                horoscopes: [horoscope]
-            )
+            try orchestrator.updateValues(event, values: values)
             return true
         } catch {
             errorMessage = error.localizedDescription

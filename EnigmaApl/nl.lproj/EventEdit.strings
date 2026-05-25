@@ -1,0 +1,16 @@
+// EventEdit.strings - Nederlands
+// EnigmaApl
+
+"view.eventeditscreen.title"                    = "Gebeurtenis Wijzigen";
+"view.eventeditscreen.eventtitle"               = "Titel";
+"view.eventeditscreen.eventdescription"         = "Beschrijving";
+"view.eventeditscreen.location"                 = "Locatie";
+"view.eventeditscreen.datetime"                 = "Datum & Tijd";
+"view.eventeditscreen.save"                     = "Opslaan";
+"view.eventeditscreen.cancel"                   = "Annuleren";
+"view.eventeditscreen.validation.titleempty"    = "Voer een titel in.";
+"view.eventeditscreen.validation.invalidyear"   = "Voer een geldig jaar in.";
+"view.eventeditscreen.help.title"               = "Help";
+"view.eventeditscreen.help.close"               = "Sluiten";
+"view.eventeditscreen.help"                     = "Wijzig de titel, beschrijving, locatie of datum en tijd van de gebeurtenis. Het Juliaans Dagnummer wordt automatisch herberekend bij het opslaan.";
+"view.eventeditscreen.error.savefailed"         = "De wijzigingen konden niet worden opgeslagen. Probeer het opnieuw.";

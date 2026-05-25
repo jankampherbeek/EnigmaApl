@@ -18,6 +18,8 @@ struct EventValues {
     let placeName: String?
     let latitude: Double?
     let longitude: Double?
+    let country: String?
+    let location: String?
 
     init(
         title: String,
@@ -27,7 +29,9 @@ struct EventValues {
         originalInput: String? = nil,
         placeName: String? = nil,
         latitude: Double? = nil,
-        longitude: Double? = nil
+        longitude: Double? = nil,
+        country: String? = nil,
+        location: String? = nil
     ) {
         self.title = title
         self.eventDescription = eventDescription
@@ -37,6 +41,8 @@ struct EventValues {
         self.placeName = placeName
         self.latitude = latitude
         self.longitude = longitude
+        self.country = country
+        self.location = location
     }
 }
 
@@ -69,7 +75,9 @@ struct EventsOrchestrator {
             originalInput: values.originalInput,
             placeName: values.placeName,
             latitude: values.latitude,
-            longitude: values.longitude
+            longitude: values.longitude,
+            country: values.country,
+            location: values.location
         )
         event.horoscopes.append(chart)
         try dao.insert(event)
@@ -96,6 +104,8 @@ struct EventsOrchestrator {
         event.placeName = values.placeName
         event.latitude = values.latitude
         event.longitude = values.longitude
+        event.country = values.country
+        event.location = values.location
         try dao.save()
     }
 

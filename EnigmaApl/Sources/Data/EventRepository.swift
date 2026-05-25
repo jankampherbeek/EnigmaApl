@@ -31,6 +31,8 @@ final class EventRepository {
         placeName: String? = nil,
         latitude: Double? = nil,
         longitude: Double? = nil,
+        country: String? = nil,
+        location: String? = nil,
         horoscopes: [HoroscopeModel]
     ) throws -> EventModel {
         let event = EventModel(
@@ -41,7 +43,9 @@ final class EventRepository {
             originalInput: originalInput,
             placeName: placeName,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            country: country,
+            location: location
         )
         context.insert(event)
         event.horoscopes = horoscopes

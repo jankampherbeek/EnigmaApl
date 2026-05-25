@@ -289,8 +289,8 @@ private final class LocationSearchModel: ObservableObject {
     }
 
     func onCountryQueryChanged() {
-        countrySelected = false
         guard !suppressCountrySearch else { return }
+        countrySelected = false
         countryDebounceTask?.cancel()
         let q = countryQuery.trimmingCharacters(in: .whitespaces)
         guard !q.isEmpty, q != "*" else { filteredCountries = []; return }
@@ -307,8 +307,8 @@ private final class LocationSearchModel: ObservableObject {
     }
 
     func onCityQueryChanged() {
-        citySelected = false
         guard !suppressCitySearch else { return }
+        citySelected = false
         cityDebounceTask?.cancel()
         let country = selectedCountry
         let q = cityQuery.trimmingCharacters(in: .whitespaces)
@@ -356,6 +356,29 @@ private final class LocationSearchModel: ObservableObject {
         }
     }
 
+    func prePopulate(country: String?, city: String?) {
+        if let c = country, !c.isEmpty {
+            // Resolve the real country object so city search is enabled after pre-population.
+            let results = (try? orchestrator?.countries(lang: lang, pattern: c)) ?? []
+            if let found = results.first(where: { $0.name.lowercased() == c.lowercased() }) ?? results.first {
+                // selectCountry sets selectedCountry (enabling city search) and resets city fields.
+                selectCountry(found)
+            } else {
+                suppressCountrySearch = true
+                countryQuery = c
+                countrySelected = true
+                filteredCountries = []
+                Task { @MainActor in self.suppressCountrySearch = false }
+            }
+        }
+        // Set city text after country selection (suppress is still active, so no search fires).
+        if let ci = city, !ci.isEmpty {
+            cityQuery = ci
+            citySelected = true
+            filteredCities = []
+        }
+    }
+
     func resolveTimezone(tzName: String, longitude: Double) -> ZoneInfo? {
         let dateTime = AstronomicalDateTime(
             Date: AstronomicalDate(Year: 2000, Month: 1, Day: 1),
@@ -382,6 +405,9 @@ struct LocationSection: View {
     @Binding var utOffsetDirection: UTOffsetDirection
     @Binding var dstOption: DSTOption
     @Binding var selectedCity: LocationCity?
+    var initialCountry: String? = nil
+    var initialCity: String? = nil
+    var selectedCountryName: Binding<String>? = nil
 
     @StateObject private var searchModel = LocationSearchModel()
 
@@ -395,11 +421,18 @@ struct LocationSection: View {
                     .frame(maxWidth: .infinity)
                     .adaptiveBorder()
                     .onChange(of: searchModel.countryQuery) { _, _ in searchModel.onCountryQueryChanged() }
-                    .onAppear { searchModel.setup() }
+                    .onAppear {
+                        searchModel.setup()
+                        if let c = initialCountry {
+                            searchModel.prePopulate(country: c, city: initialCity)
+                            selectedCountryName?.wrappedValue = c
+                        }
+                    }
             }
             if !searchModel.filteredCountries.isEmpty && !searchModel.countrySelected {
                 dropdownList(searchModel.filteredCountries, keyPath: \.name) { country in
                     searchModel.selectCountry(country)
+                    selectedCountryName?.wrappedValue = country.name
                 }
             }
 

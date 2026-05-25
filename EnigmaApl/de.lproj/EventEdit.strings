@@ -1,0 +1,16 @@
+// EventEdit.strings - Deutsch
+// EnigmaApl
+
+"view.eventeditscreen.title"                    = "Ereignis Bearbeiten";
+"view.eventeditscreen.eventtitle"               = "Titel";
+"view.eventeditscreen.eventdescription"         = "Beschreibung";
+"view.eventeditscreen.location"                 = "Ort";
+"view.eventeditscreen.datetime"                 = "Datum & Uhrzeit";
+"view.eventeditscreen.save"                     = "Speichern";
+"view.eventeditscreen.cancel"                   = "Abbrechen";
+"view.eventeditscreen.validation.titleempty"    = "Bitte geben Sie einen Titel ein.";
+"view.eventeditscreen.validation.invalidyear"   = "Bitte geben Sie ein gültiges Jahr ein.";
+"view.eventeditscreen.help.title"               = "Hilfe";
+"view.eventeditscreen.help.close"               = "Schließen";
+"view.eventeditscreen.help"                     = "Bearbeiten Sie Titel, Beschreibung, Ort oder Datum und Uhrzeit des Ereignisses. Die Julianische Tageszahl wird beim Speichern automatisch neu berechnet.";
+"view.eventeditscreen.error.savefailed"         = "Die Änderungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.";

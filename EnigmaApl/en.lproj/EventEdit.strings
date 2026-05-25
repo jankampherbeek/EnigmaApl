@@ -1,0 +1,16 @@
+// EventEdit.strings - English
+// EnigmaApl
+
+"view.eventeditscreen.title"                    = "Edit Event";
+"view.eventeditscreen.eventtitle"               = "Title";
+"view.eventeditscreen.eventdescription"         = "Description";
+"view.eventeditscreen.location"                 = "Location";
+"view.eventeditscreen.datetime"                 = "Date & Time";
+"view.eventeditscreen.save"                     = "Save";
+"view.eventeditscreen.cancel"                   = "Cancel";
+"view.eventeditscreen.validation.titleempty"    = "Please enter a title.";
+"view.eventeditscreen.validation.invalidyear"   = "Enter a valid year.";
+"view.eventeditscreen.help.title"               = "Help";
+"view.eventeditscreen.help.close"               = "Close";
+"view.eventeditscreen.help"                     = "Edit the title, description, location or date and time of the event. The Julian Day number is recalculated automatically when you save.";
+"view.eventeditscreen.error.savefailed"         = "Could not save the changes. Please try again.";

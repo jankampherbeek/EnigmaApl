@@ -21,6 +21,8 @@ final class EventModel {
     var placeName: String?
     var latitude: Double?
     var longitude: Double?
+    var country: String?
+    var location: String?
 
     var horoscopes: [HoroscopeModel]
 
@@ -32,7 +34,9 @@ final class EventModel {
         originalInput: String? = nil,
         placeName: String? = nil,
         latitude: Double? = nil,
-        longitude: Double? = nil
+        longitude: Double? = nil,
+        country: String? = nil,
+        location: String? = nil
     ) {
         self.id = UUID()
         self.title = title
@@ -43,6 +47,8 @@ final class EventModel {
         self.placeName = placeName
         self.latitude = latitude
         self.longitude = longitude
+        self.country = country
+        self.location = location
         self.horoscopes = []
     }
 }
