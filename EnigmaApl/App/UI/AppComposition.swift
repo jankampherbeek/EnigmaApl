@@ -20,6 +20,7 @@ final class AppComposition: ObservableObject {
     let cyclesNav: CyclesNavigator
     let cyclesModel: AstronomicalCyclesModel
     let wavesModel: WavesModel
+    let progressiveSession: ProgressiveSession
     let transitModel: TransitModel
     let secondaryModel: SecondaryModel
     let configNav: ConfigNavigator
@@ -55,6 +56,7 @@ final class AppComposition: ObservableObject {
         ))
         self.cyclesModel = AstronomicalCyclesModel()
         self.wavesModel = WavesModel()
+        self.progressiveSession = ProgressiveSession()
         self.transitModel = TransitModel()
         self.secondaryModel = SecondaryModel()
     }

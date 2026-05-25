@@ -14,14 +14,25 @@ final class EventsOverviewModel: ObservableObject {
 
     @Published private(set) var events: [EventModel] = []
     @Published private(set) var horoscope: HoroscopeModel?
-    /// The event chosen for use in progressive calculations.
     @Published var selectedEvent: EventModel?
     @Published var errorMessage: String?
 
     private var modelContext: ModelContext?
+    private var progressiveSession: ProgressiveSession?
+    private var cancellables = Set<AnyCancellable>()
 
     func setup(context: ModelContext) {
         modelContext = context
+    }
+
+    func setSession(_ session: ProgressiveSession) {
+        progressiveSession = session
+        selectedEvent = session.selectedEvent
+        session.$selectedEvent
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in self?.selectedEvent = event }
+            .store(in: &cancellables)
     }
 
     /// Finds the persisted HoroscopeModel whose name matches the given session chart
@@ -31,7 +42,11 @@ final class EventsOverviewModel: ObservableObject {
         let repo = HoroscopeRepository(context: context)
         do {
             let all = try repo.fetchAll()
-            horoscope = all.first(where: { $0.name == namedChart.name })
+            let newHoroscope = all.first(where: { $0.name == namedChart.name })
+            if let current = horoscope, let new = newHoroscope, current.id != new.id {
+                progressiveSession?.clearSelection()
+            }
+            horoscope = newHoroscope
             refreshEvents()
         } catch {
             errorMessage = error.localizedDescription
@@ -43,7 +58,7 @@ final class EventsOverviewModel: ObservableObject {
         guard let context = modelContext else { return }
         let orchestrator = EventsOrchestrator(context: context)
         do {
-            if selectedEvent?.id == event.id { selectedEvent = nil }
+            progressiveSession?.clearIfDeleted(event)
             try orchestrator.delete(event)
             refreshEvents()
         } catch {
@@ -53,7 +68,7 @@ final class EventsOverviewModel: ObservableObject {
 
     /// Marks an event as the active one for progressive calculations.
     func select(_ event: EventModel) {
-        selectedEvent = event
+        progressiveSession?.select(event)
     }
 
     /// Re-reads events from the current horoscope. Call after external mutations (e.g. event creation).

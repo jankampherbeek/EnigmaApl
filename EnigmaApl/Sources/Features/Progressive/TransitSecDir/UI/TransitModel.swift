@@ -18,10 +18,25 @@ final class TransitModel: ObservableObject {
     @Published var errorMessage: String?
 
     private var modelContext: ModelContext?
+    private var progressiveSession: ProgressiveSession?
+    private var cancellables = Set<AnyCancellable>()
 
     /// Must be called once from onAppear before any other method.
     func setup(context: ModelContext) {
         modelContext = context
+    }
+
+    func setSession(_ session: ProgressiveSession) {
+        progressiveSession = session
+        selectedEvent = session.selectedEvent
+        session.$selectedEvent
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in
+                self?.selectedEvent = event
+                self?.results = [:]
+            }
+            .store(in: &cancellables)
     }
 
     /// Finds the persisted HoroscopeModel whose name matches the given session chart
@@ -31,9 +46,12 @@ final class TransitModel: ObservableObject {
         let repo = HoroscopeRepository(context: context)
         do {
             let all = try repo.fetchAll()
-            horoscope = all.first(where: { $0.name == namedChart.name })
-            selectedEvent = nil
-            results = [:]
+            let newHoroscope = all.first(where: { $0.name == namedChart.name })
+            if let current = horoscope, let new = newHoroscope, current.id != new.id {
+                progressiveSession?.clearSelection()
+                results = [:]
+            }
+            horoscope = newHoroscope
             refreshEvents()
         } catch {
             errorMessage = error.localizedDescription
@@ -42,7 +60,7 @@ final class TransitModel: ObservableObject {
 
     /// Marks an event as selected for the transit calculation. Clears any previous results.
     func select(_ event: EventModel) {
-        selectedEvent = event
+        progressiveSession?.select(event)
         results = [:]
     }
 

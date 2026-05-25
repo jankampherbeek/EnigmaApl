@@ -11,6 +11,7 @@ private func t(_ key: String) -> String {
 
 struct EventsOverviewScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
+    @EnvironmentObject private var progressiveSession: ProgressiveSession
     @Environment(\.modelContext) private var modelContext
     @StateObject private var model = EventsOverviewModel()
 
@@ -90,6 +91,7 @@ struct EventsOverviewScreen: View {
         }
         .onAppear {
             model.setup(context: modelContext)
+            model.setSession(progressiveSession)
             if let chart = chartSession.selected {
                 selectedChartId = chart.id
                 model.loadHoroscope(matching: chart)

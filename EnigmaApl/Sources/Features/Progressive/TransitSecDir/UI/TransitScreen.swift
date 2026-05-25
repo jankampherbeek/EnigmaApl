@@ -12,6 +12,7 @@ private func t(_ key: String) -> String {
 struct TransitScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var transitModel: TransitModel
+    @EnvironmentObject private var progressiveSession: ProgressiveSession
     @Environment(\.modelContext) private var modelContext
 
     @State private var selectedChartId: UUID?
@@ -55,6 +56,7 @@ struct TransitScreen: View {
         }
         .onAppear {
             transitModel.setup(context: modelContext)
+            transitModel.setSession(progressiveSession)
             if let chart = chartSession.selected {
                 selectedChartId = chart.id
                 transitModel.loadHoroscope(matching: chart)

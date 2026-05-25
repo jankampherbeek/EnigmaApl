@@ -12,6 +12,7 @@ private func t(_ key: String) -> String {
 struct SecondaryScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var secondaryModel: SecondaryModel
+    @EnvironmentObject private var progressiveSession: ProgressiveSession
     @Environment(\.modelContext) private var modelContext
 
     @State private var selectedChartId: UUID?
@@ -55,6 +56,7 @@ struct SecondaryScreen: View {
         }
         .onAppear {
             secondaryModel.setup(context: modelContext)
+            secondaryModel.setSession(progressiveSession)
             if let chart = chartSession.selected {
                 selectedChartId = chart.id
                 secondaryModel.loadHoroscope(matching: chart)

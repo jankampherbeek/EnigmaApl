@@ -18,9 +18,24 @@ final class SecondaryModel: ObservableObject {
     @Published var errorMessage: String?
 
     private var modelContext: ModelContext?
+    private var progressiveSession: ProgressiveSession?
+    private var cancellables = Set<AnyCancellable>()
 
     func setup(context: ModelContext) {
         modelContext = context
+    }
+
+    func setSession(_ session: ProgressiveSession) {
+        progressiveSession = session
+        selectedEvent = session.selectedEvent
+        session.$selectedEvent
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in
+                self?.selectedEvent = event
+                self?.results = [:]
+            }
+            .store(in: &cancellables)
     }
 
     func loadHoroscope(matching namedChart: NamedChart) {
@@ -28,9 +43,12 @@ final class SecondaryModel: ObservableObject {
         let repo = HoroscopeRepository(context: context)
         do {
             let all = try repo.fetchAll()
-            horoscope = all.first(where: { $0.name == namedChart.name })
-            selectedEvent = nil
-            results = [:]
+            let newHoroscope = all.first(where: { $0.name == namedChart.name })
+            if let current = horoscope, let new = newHoroscope, current.id != new.id {
+                progressiveSession?.clearSelection()
+                results = [:]
+            }
+            horoscope = newHoroscope
             refreshEvents()
         } catch {
             errorMessage = error.localizedDescription
@@ -38,7 +56,7 @@ final class SecondaryModel: ObservableObject {
     }
 
     func select(_ event: EventModel) {
-        selectedEvent = event
+        progressiveSession?.select(event)
         results = [:]
     }
 
