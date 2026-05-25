@@ -1,0 +1,37 @@
+// SymbolicDir.strings - Français
+// EnigmaApl
+
+// SymbolicScreen
+"view.symbolicscreen.title"              = "Directions Symboliques";
+"view.symbolicscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
+"view.symbolicscreen.chart"              = "Thème";
+"view.symbolicscreen.createevent"        = "Créer un Nouvel Événement";
+"view.symbolicscreen.eventsheader"       = "Événements";
+"view.symbolicscreen.noevents"           = "Aucun événement lié à ce thème.";
+"view.symbolicscreen.col.title"          = "Titre";
+"view.symbolicscreen.col.datetime"       = "Date & Heure";
+"view.symbolicscreen.col.location"       = "Lieu";
+"view.symbolicscreen.select"             = "Sélectionner";
+"view.symbolicscreen.calculate"          = "Calculer";
+"view.symbolicscreen.arcmethod"          = "Méthode d'Arc";
+"view.symbolicscreen.error.calcfailed"   = "Calcul échoué. Veuillez réessayer.";
+"view.symbolicscreen.error.nonataldate"  = "Aucune date de naissance préférée trouvée pour ce thème.";
+
+// SymbolicResults - onglets
+"view.symbolicresults.title"                    = "Positions de Directions Symboliques";
+"view.symbolicresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
+"view.symbolicresults.tab.positions"            = "Positions";
+"view.symbolicresults.tab.matches"              = "Correspondances";
+"view.symbolicresults.tab.dualwheel"            = "Double Roue";
+
+// Onglet Positions
+"view.symbolicresults.col.factor"               = "Facteur";
+"view.symbolicresults.col.longitude"            = "Longitude";
+
+// Onglet Correspondances
+"view.symbolicresults.matches.nomatches"        = "Aucun aspect trouvé entre les directions symboliques et les positions de radix.";
+"view.symbolicresults.matches.col.directed"     = "Dirigé";
+"view.symbolicresults.matches.col.aspect"       = "Aspect";
+"view.symbolicresults.matches.col.radix"        = "Radix";
+"view.symbolicresults.matches.col.orb"          = "Orbe";
+"view.symbolicresults.matches.col.exactness"    = "Exactitude";

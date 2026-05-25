@@ -1,0 +1,37 @@
+// SymbolicDir.strings - English
+// EnigmaApl
+
+// SymbolicScreen
+"view.symbolicscreen.title"              = "Symbolic Directions";
+"view.symbolicscreen.nochart"            = "Calculate or select a chart first.";
+"view.symbolicscreen.chart"              = "Chart";
+"view.symbolicscreen.createevent"        = "Create New Event";
+"view.symbolicscreen.eventsheader"       = "Events";
+"view.symbolicscreen.noevents"           = "No events linked to this chart.";
+"view.symbolicscreen.col.title"          = "Title";
+"view.symbolicscreen.col.datetime"       = "Date & Time";
+"view.symbolicscreen.col.location"       = "Location";
+"view.symbolicscreen.select"             = "Select";
+"view.symbolicscreen.calculate"          = "Calculate";
+"view.symbolicscreen.arcmethod"          = "Arc Method";
+"view.symbolicscreen.error.calcfailed"   = "Calculation failed. Please try again.";
+"view.symbolicscreen.error.nonataldate"  = "No preferred birth date found for this chart.";
+
+// SymbolicResults - tabs
+"view.symbolicresults.title"                    = "Symbolic Direction Positions";
+"view.symbolicresults.noresults"                = "Select an event and press Calculate to see positions.";
+"view.symbolicresults.tab.positions"            = "Positions";
+"view.symbolicresults.tab.matches"              = "Matches";
+"view.symbolicresults.tab.dualwheel"            = "Dual Wheel";
+
+// Positions tab
+"view.symbolicresults.col.factor"               = "Factor";
+"view.symbolicresults.col.longitude"            = "Longitude";
+
+// Matches tab
+"view.symbolicresults.matches.nomatches"        = "No aspects found between symbolic directions and radix positions.";
+"view.symbolicresults.matches.col.directed"     = "Directed";
+"view.symbolicresults.matches.col.aspect"       = "Aspect";
+"view.symbolicresults.matches.col.radix"        = "Radix";
+"view.symbolicresults.matches.col.orb"          = "Orb";
+"view.symbolicresults.matches.col.exactness"    = "Exactness";

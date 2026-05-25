@@ -322,3 +322,8 @@
 "enum.progressivemethod.solar"      = "Retour Solaire";
 "enum.progressivemethod.profection" = "Profections";
 "enum.progressivemethod.firdaria"   = "Firdaria";
+
+// Méthodes de directions symboliques
+"enum.symbolicmethod.truesun"    = "Arc du Soleil Vrai";
+"enum.symbolicmethod.meansun"    = "Arc du Soleil Moyen";
+"enum.symbolicmethod.onedegree"  = "Un Degré";

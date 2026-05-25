@@ -23,6 +23,7 @@ final class AppComposition: ObservableObject {
     let progressiveSession: ProgressiveSession
     let transitModel: TransitModel
     let secondaryModel: SecondaryModel
+    let symbolicModel: SymbolicModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -59,5 +60,6 @@ final class AppComposition: ObservableObject {
         self.progressiveSession = ProgressiveSession()
         self.transitModel = TransitModel()
         self.secondaryModel = SecondaryModel()
+        self.symbolicModel = SymbolicModel()
     }
 }

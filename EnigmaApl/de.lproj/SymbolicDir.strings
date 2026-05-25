@@ -1,0 +1,37 @@
+// SymbolicDir.strings - Deutsch
+// EnigmaApl
+
+// SymbolicScreen
+"view.symbolicscreen.title"              = "Symbolische Direktionen";
+"view.symbolicscreen.nochart"            = "Bitte zuerst ein Horoskop berechnen oder auswählen.";
+"view.symbolicscreen.chart"              = "Horoskop";
+"view.symbolicscreen.createevent"        = "Neues Ereignis Erstellen";
+"view.symbolicscreen.eventsheader"       = "Ereignisse";
+"view.symbolicscreen.noevents"           = "Keine Ereignisse mit diesem Horoskop verknüpft.";
+"view.symbolicscreen.col.title"          = "Titel";
+"view.symbolicscreen.col.datetime"       = "Datum & Zeit";
+"view.symbolicscreen.col.location"       = "Ort";
+"view.symbolicscreen.select"             = "Auswählen";
+"view.symbolicscreen.calculate"          = "Berechnen";
+"view.symbolicscreen.arcmethod"          = "Bogenmethode";
+"view.symbolicscreen.error.calcfailed"   = "Berechnung fehlgeschlagen. Bitte erneut versuchen.";
+"view.symbolicscreen.error.nonataldate"  = "Kein bevorzugtes Geburtsdatum für dieses Horoskop gefunden.";
+
+// SymbolicResults - Tabs
+"view.symbolicresults.title"                    = "Symbolische Direktionspositionen";
+"view.symbolicresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
+"view.symbolicresults.tab.positions"            = "Positionen";
+"view.symbolicresults.tab.matches"              = "Treffer";
+"view.symbolicresults.tab.dualwheel"            = "Doppelrad";
+
+// Tab Positionen
+"view.symbolicresults.col.factor"               = "Faktor";
+"view.symbolicresults.col.longitude"            = "Länge";
+
+// Tab Treffer
+"view.symbolicresults.matches.nomatches"        = "Keine Aspekte zwischen symbolischen Direktionen und Radixpositionen gefunden.";
+"view.symbolicresults.matches.col.directed"     = "Gerichtet";
+"view.symbolicresults.matches.col.aspect"       = "Aspekt";
+"view.symbolicresults.matches.col.radix"        = "Radix";
+"view.symbolicresults.matches.col.orb"          = "Orb";
+"view.symbolicresults.matches.col.exactness"    = "Genauigkeit";

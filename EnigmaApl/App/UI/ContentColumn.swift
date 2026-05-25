@@ -55,6 +55,8 @@ struct ContentColumn: View {
                     TransitResults()
                 case .secondary:
                     SecondaryResults()
+                case .symbolic:
+                    SymbolicResults()
                 default:
                     EmptyView()
                 }

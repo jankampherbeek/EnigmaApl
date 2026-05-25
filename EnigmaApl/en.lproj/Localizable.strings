@@ -322,3 +322,8 @@
 "enum.progressivemethod.solar"      = "Solar";
 "enum.progressivemethod.profection" = "Profections";
 "enum.progressivemethod.firdaria"   = "Firdaria";
+
+// Symbolic direction methods
+"enum.symbolicmethod.truesun"    = "True Sun Arc";
+"enum.symbolicmethod.meansun"    = "Mean Sun Arc";
+"enum.symbolicmethod.onedegree"  = "One Degree";

@@ -1,0 +1,37 @@
+// SymbolicDir.strings - Nederlands
+// EnigmaApl
+
+// SymbolicScreen
+"view.symbolicscreen.title"              = "Symbolische Richtingen";
+"view.symbolicscreen.nochart"            = "Bereken of selecteer eerst een horoscoop.";
+"view.symbolicscreen.chart"              = "Horoscoop";
+"view.symbolicscreen.createevent"        = "Nieuw Evenement Aanmaken";
+"view.symbolicscreen.eventsheader"       = "Evenementen";
+"view.symbolicscreen.noevents"           = "Geen evenementen gekoppeld aan deze horoscoop.";
+"view.symbolicscreen.col.title"          = "Titel";
+"view.symbolicscreen.col.datetime"       = "Datum & Tijd";
+"view.symbolicscreen.col.location"       = "Locatie";
+"view.symbolicscreen.select"             = "Selecteer";
+"view.symbolicscreen.calculate"          = "Bereken";
+"view.symbolicscreen.arcmethod"          = "Boogmethode";
+"view.symbolicscreen.error.calcfailed"   = "Berekening mislukt. Probeer opnieuw.";
+"view.symbolicscreen.error.nonataldate"  = "Geen voorkeursgeboortedatum gevonden voor deze horoscoop.";
+
+// SymbolicResults - tabs
+"view.symbolicresults.title"                    = "Symbolische Richtingposities";
+"view.symbolicresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
+"view.symbolicresults.tab.positions"            = "Posities";
+"view.symbolicresults.tab.matches"              = "Overeenkomsten";
+"view.symbolicresults.tab.dualwheel"            = "Dubbel Wiel";
+
+// Tab Posities
+"view.symbolicresults.col.factor"               = "Factor";
+"view.symbolicresults.col.longitude"            = "Lengte";
+
+// Tab Overeenkomsten
+"view.symbolicresults.matches.nomatches"        = "Geen aspecten gevonden tussen symbolische richtingen en radixposities.";
+"view.symbolicresults.matches.col.directed"     = "Gericht";
+"view.symbolicresults.matches.col.aspect"       = "Aspect";
+"view.symbolicresults.matches.col.radix"        = "Radix";
+"view.symbolicresults.matches.col.orb"          = "Orb";
+"view.symbolicresults.matches.col.exactness"    = "Nauwkeurigheid";

@@ -61,6 +61,7 @@ struct RootView: View {
         .environmentObject(composition.progressiveSession)
         .environmentObject(composition.transitModel)
         .environmentObject(composition.secondaryModel)
+        .environmentObject(composition.symbolicModel)
         .environmentObject(composition.configNav)
         .onAppear {
             DispatchQueue.main.async {

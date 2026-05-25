@@ -116,6 +116,8 @@ struct DetailColumn: View {
                             TransitScreen()
                         case .secondary:
                             SecondaryScreen()
+                        case .symbolic:
+                            SymbolicScreen()
                         default:
                             EmptyView()
                         }

@@ -322,3 +322,8 @@
 "enum.progressivemethod.solar"      = "Solar Return";
 "enum.progressivemethod.profection" = "Profecties";
 "enum.progressivemethod.firdaria"   = "Firdaria";
+
+// Symbolische richtingsmethoden
+"enum.symbolicmethod.truesun"    = "Ware Zonneboog";
+"enum.symbolicmethod.meansun"    = "Gemiddelde Zonneboog";
+"enum.symbolicmethod.onedegree"  = "Één Graad";

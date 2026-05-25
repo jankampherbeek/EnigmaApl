@@ -322,3 +322,8 @@
 "enum.progressivemethod.solar"      = "Solar Return";
 "enum.progressivemethod.profection" = "Profektionen";
 "enum.progressivemethod.firdaria"   = "Firdaria";
+
+// Symbolische Direktionsmethoden
+"enum.symbolicmethod.truesun"    = "Wahrer Sonnenbogen";
+"enum.symbolicmethod.meansun"    = "Mittlerer Sonnenbogen";
+"enum.symbolicmethod.onedegree"  = "Ein Grad";
