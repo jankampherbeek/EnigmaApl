@@ -1,0 +1,36 @@
+// Secondary.strings - Deutsch
+// EnigmaApl
+
+"view.secondaryscreen.title"              = "Sekundäre Direktionen";
+"view.secondaryscreen.nochart"            = "Bitte zuerst ein Horoskop berechnen oder auswählen.";
+"view.secondaryscreen.chart"              = "Horoskop";
+"view.secondaryscreen.createevent"        = "Neues Ereignis Erstellen";
+"view.secondaryscreen.eventsheader"       = "Ereignisse";
+"view.secondaryscreen.noevents"           = "Keine Ereignisse mit diesem Horoskop verknüpft.";
+"view.secondaryscreen.col.title"          = "Titel";
+"view.secondaryscreen.col.datetime"       = "Datum & Zeit";
+"view.secondaryscreen.col.location"       = "Ort";
+"view.secondaryscreen.select"             = "Auswählen";
+"view.secondaryscreen.calculate"          = "Berechnen";
+"view.secondaryscreen.error.calcfailed"   = "Berechnung fehlgeschlagen. Bitte erneut versuchen.";
+"view.secondaryscreen.error.nonataldate"  = "Kein bevorzugtes Geburtsdatum für dieses Horoskop gefunden.";
+
+// SecondaryResults - Tabs
+"view.secondaryresults.title"                    = "Sekundäre Direktionspositionen";
+"view.secondaryresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
+"view.secondaryresults.tab.positions"            = "Positionen";
+"view.secondaryresults.tab.matches"              = "Treffer";
+"view.secondaryresults.tab.dualwheel"            = "Doppelrad";
+
+// Tab Positionen
+"view.secondaryresults.col.factor"               = "Faktor";
+"view.secondaryresults.col.longitude"            = "Länge";
+"view.secondaryresults.col.declination"          = "Deklination";
+
+// Tab Treffer
+"view.secondaryresults.matches.nomatches"        = "Keine Aspekte zwischen sekundären Direktionen und Radixpositionen gefunden.";
+"view.secondaryresults.matches.col.secondary"    = "Sekundär";
+"view.secondaryresults.matches.col.aspect"       = "Aspekt";
+"view.secondaryresults.matches.col.radix"        = "Radix";
+"view.secondaryresults.matches.col.orb"          = "Orb";
+"view.secondaryresults.matches.col.exactness"    = "Genauigkeit";

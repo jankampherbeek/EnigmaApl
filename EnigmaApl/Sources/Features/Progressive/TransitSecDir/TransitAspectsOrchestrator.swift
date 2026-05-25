@@ -15,7 +15,7 @@ struct TransitAspectsOrchestrator {
         radixChart: FullChart,
         factorConfig: FactorConfig,
         aspectConfig: AspectConfig,
-        orbConfig: OrbConfig
+        baseOrb: Double
     ) -> [FoundAspect] {
         let transitPairs: [(Factors, Double)] = transitPositions.map { ($0.key, $0.value.longitude) }
         guard !transitPairs.isEmpty else { return [] }
@@ -26,31 +26,20 @@ struct TransitAspectsOrchestrator {
         let usedAspects = aspectConfig.aspectSettings.filter { $0.isUsed }
         guard !usedAspects.isEmpty else { return [] }
 
-        let factorOrbPct: [Factors: Int] = Dictionary(
-            uniqueKeysWithValues: factorConfig.factorSettings.map { ($0.factor, $0.orbPercentage) }
-        )
-
         var found: [FoundAspect] = []
 
         for (tFactor, tLong) in transitPairs {
             for (rFactor, rLong) in radixPairs {
                 let distance = shortestDistance(tLong, rLong)
-                let tOrbFraction = Double(factorOrbPct[tFactor] ?? 100) / 100.0
-                let rOrbFraction = Double(factorOrbPct[rFactor] ?? 100) / 100.0
-                let maxFactorFraction = max(tOrbFraction, rOrbFraction)
-
                 for aspectSetting in usedAspects {
-                    let maxOrb = maxFactorFraction
-                                 * (Double(aspectSetting.orbPercentage) / 100.0)
-                                 * orbConfig.aspectBaseOrb
                     let deviation = abs(distance - aspectSetting.aspect.angle)
-                    if deviation <= maxOrb {
+                    if deviation <= baseOrb {
                         found.append(FoundAspect(
                             factor1: tFactor,
                             factor2: rFactor,
                             aspect:  aspectSetting.aspect,
                             orb:     deviation,
-                            maxOrb:  maxOrb
+                            maxOrb:  baseOrb
                         ))
                     }
                 }

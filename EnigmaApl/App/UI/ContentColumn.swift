@@ -53,6 +53,8 @@ struct ContentColumn: View {
                 switch app.nav.progressive.section {
                 case .transit:
                     TransitResults()
+                case .secondary:
+                    SecondaryResults()
                 default:
                     EmptyView()
                 }

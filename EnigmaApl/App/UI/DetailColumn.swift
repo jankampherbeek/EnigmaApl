@@ -114,6 +114,8 @@ struct DetailColumn: View {
                             EventsOverviewScreen()
                         case .transit:
                             TransitScreen()
+                        case .secondary:
+                            SecondaryScreen()
                         default:
                             EmptyView()
                         }

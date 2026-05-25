@@ -1,0 +1,36 @@
+// Secondary.strings - English
+// EnigmaApl
+
+"view.secondaryscreen.title"              = "Secondary Directions";
+"view.secondaryscreen.nochart"            = "Calculate or select a chart first.";
+"view.secondaryscreen.chart"              = "Chart";
+"view.secondaryscreen.createevent"        = "Create New Event";
+"view.secondaryscreen.eventsheader"       = "Events";
+"view.secondaryscreen.noevents"           = "No events linked to this chart.";
+"view.secondaryscreen.col.title"          = "Title";
+"view.secondaryscreen.col.datetime"       = "Date & Time";
+"view.secondaryscreen.col.location"       = "Location";
+"view.secondaryscreen.select"             = "Select";
+"view.secondaryscreen.calculate"          = "Calculate";
+"view.secondaryscreen.error.calcfailed"   = "Calculation failed. Please try again.";
+"view.secondaryscreen.error.nonataldate"  = "No preferred birth date found for this chart.";
+
+// SecondaryResults - tabs
+"view.secondaryresults.title"                    = "Secondary Direction Positions";
+"view.secondaryresults.noresults"                = "Select an event and press Calculate to see positions.";
+"view.secondaryresults.tab.positions"            = "Positions";
+"view.secondaryresults.tab.matches"              = "Matches";
+"view.secondaryresults.tab.dualwheel"            = "Dual Wheel";
+
+// Positions tab
+"view.secondaryresults.col.factor"               = "Factor";
+"view.secondaryresults.col.longitude"            = "Longitude";
+"view.secondaryresults.col.declination"          = "Declination";
+
+// Matches tab
+"view.secondaryresults.matches.nomatches"        = "No aspects found between secondary direction and radix positions.";
+"view.secondaryresults.matches.col.secondary"    = "Secondary";
+"view.secondaryresults.matches.col.aspect"       = "Aspect";
+"view.secondaryresults.matches.col.radix"        = "Radix";
+"view.secondaryresults.matches.col.orb"          = "Orb";
+"view.secondaryresults.matches.col.exactness"    = "Exactness";

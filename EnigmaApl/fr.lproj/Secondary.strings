@@ -1,0 +1,36 @@
+// Secondary.strings - Français
+// EnigmaApl
+
+"view.secondaryscreen.title"              = "Directions Secondaires";
+"view.secondaryscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
+"view.secondaryscreen.chart"              = "Thème";
+"view.secondaryscreen.createevent"        = "Créer un Nouvel Événement";
+"view.secondaryscreen.eventsheader"       = "Événements";
+"view.secondaryscreen.noevents"           = "Aucun événement lié à ce thème.";
+"view.secondaryscreen.col.title"          = "Titre";
+"view.secondaryscreen.col.datetime"       = "Date & Heure";
+"view.secondaryscreen.col.location"       = "Lieu";
+"view.secondaryscreen.select"             = "Sélectionner";
+"view.secondaryscreen.calculate"          = "Calculer";
+"view.secondaryscreen.error.calcfailed"   = "Calcul échoué. Veuillez réessayer.";
+"view.secondaryscreen.error.nonataldate"  = "Aucune date de naissance préférée trouvée pour ce thème.";
+
+// SecondaryResults - onglets
+"view.secondaryresults.title"                    = "Positions de Directions Secondaires";
+"view.secondaryresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
+"view.secondaryresults.tab.positions"            = "Positions";
+"view.secondaryresults.tab.matches"              = "Correspondances";
+"view.secondaryresults.tab.dualwheel"            = "Double Roue";
+
+// Onglet Positions
+"view.secondaryresults.col.factor"               = "Facteur";
+"view.secondaryresults.col.longitude"            = "Longitude";
+"view.secondaryresults.col.declination"          = "Déclinaison";
+
+// Onglet Correspondances
+"view.secondaryresults.matches.nomatches"        = "Aucun aspect trouvé entre les directions secondaires et les positions de radix.";
+"view.secondaryresults.matches.col.secondary"    = "Secondaire";
+"view.secondaryresults.matches.col.aspect"       = "Aspect";
+"view.secondaryresults.matches.col.radix"        = "Radix";
+"view.secondaryresults.matches.col.orb"          = "Orbe";
+"view.secondaryresults.matches.col.exactness"    = "Exactitude";

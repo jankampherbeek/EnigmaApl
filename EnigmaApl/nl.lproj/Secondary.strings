@@ -1,0 +1,36 @@
+// Secondary.strings - Nederlands
+// EnigmaApl
+
+"view.secondaryscreen.title"              = "Secundaire Richtingen";
+"view.secondaryscreen.nochart"            = "Bereken of selecteer eerst een horoscoop.";
+"view.secondaryscreen.chart"              = "Horoscoop";
+"view.secondaryscreen.createevent"        = "Nieuw Evenement Aanmaken";
+"view.secondaryscreen.eventsheader"       = "Evenementen";
+"view.secondaryscreen.noevents"           = "Geen evenementen gekoppeld aan deze horoscoop.";
+"view.secondaryscreen.col.title"          = "Titel";
+"view.secondaryscreen.col.datetime"       = "Datum & Tijd";
+"view.secondaryscreen.col.location"       = "Locatie";
+"view.secondaryscreen.select"             = "Selecteer";
+"view.secondaryscreen.calculate"          = "Bereken";
+"view.secondaryscreen.error.calcfailed"   = "Berekening mislukt. Probeer opnieuw.";
+"view.secondaryscreen.error.nonataldate"  = "Geen voorkeursgeboortedatum gevonden voor deze horoscoop.";
+
+// SecondaryResults - tabs
+"view.secondaryresults.title"                    = "Secundaire Richtingposities";
+"view.secondaryresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
+"view.secondaryresults.tab.positions"            = "Posities";
+"view.secondaryresults.tab.matches"              = "Overeenkomsten";
+"view.secondaryresults.tab.dualwheel"            = "Dubbel Wiel";
+
+// Tab Posities
+"view.secondaryresults.col.factor"               = "Factor";
+"view.secondaryresults.col.longitude"            = "Lengte";
+"view.secondaryresults.col.declination"          = "Declinatie";
+
+// Tab Overeenkomsten
+"view.secondaryresults.matches.nomatches"        = "Geen aspecten gevonden tussen secundaire richtingen en radixposities.";
+"view.secondaryresults.matches.col.secondary"    = "Secundair";
+"view.secondaryresults.matches.col.aspect"       = "Aspect";
+"view.secondaryresults.matches.col.radix"        = "Radix";
+"view.secondaryresults.matches.col.orb"          = "Orb";
+"view.secondaryresults.matches.col.exactness"    = "Nauwkeurigheid";

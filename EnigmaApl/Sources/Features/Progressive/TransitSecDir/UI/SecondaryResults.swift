@@ -1,4 +1,4 @@
-// TransitResults.swift
+// SecondaryResults.swift
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 
@@ -6,24 +6,24 @@ import SwiftUI
 import SwiftData
 
 private func t(_ key: String) -> String {
-    NSLocalizedString(key, tableName: "Transit", bundle: .main, comment: "")
+    NSLocalizedString(key, tableName: "Secondary", bundle: .main, comment: "")
 }
 
 // MARK: - Tab enum
 
-private enum TransitResultTab: String, CaseIterable {
+private enum SecondaryResultTab: String, CaseIterable {
     case positions, matches, dualWheel
 }
 
 // MARK: - Main view
 
-struct TransitResults: View {
-    @EnvironmentObject private var transitModel: TransitModel
+struct SecondaryResults: View {
+    @EnvironmentObject private var secondaryModel: SecondaryModel
     @EnvironmentObject private var chartSession: ChartSession
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var selectedTab:  TransitResultTab = .positions
+    @State private var selectedTab:  SecondaryResultTab = .positions
     @State private var blackWhite:   Bool = false
     @State private var hideAspects:  Bool = false
     @State private var showExport:   Bool = false
@@ -42,18 +42,18 @@ struct TransitResults: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text(t(TransitKeys.resultsTitle))
+                Text(t(SecondaryKeys.resultsTitle))
                     .font(.title2.weight(.semibold))
 
-                if transitModel.results.isEmpty {
-                    Text(t(TransitKeys.noResults))
+                if secondaryModel.results.isEmpty {
+                    Text(t(SecondaryKeys.noResults))
                         .foregroundStyle(.secondary)
                         .font(.callout)
                 } else {
                     Picker("", selection: $selectedTab) {
-                        Text(t(TransitKeys.tabPositions)).tag(TransitResultTab.positions)
-                        Text(t(TransitKeys.tabMatches)).tag(TransitResultTab.matches)
-                        Text(t(TransitKeys.tabDualWheel)).tag(TransitResultTab.dualWheel)
+                        Text(t(SecondaryKeys.tabPositions)).tag(SecondaryResultTab.positions)
+                        Text(t(SecondaryKeys.tabMatches)).tag(SecondaryResultTab.matches)
+                        Text(t(SecondaryKeys.tabDualWheel)).tag(SecondaryResultTab.dualWheel)
                     }
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 500)
@@ -64,14 +64,14 @@ struct TransitResults: View {
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .navigationTitle(t(TransitKeys.resultsTitle))
+        .navigationTitle(t(SecondaryKeys.resultsTitle))
         .sheet(isPresented: $showExport) {
             if let chart = chartSession.selectedChart,
                let config = activeConfigs.first {
                 WheelExportSheet(
                     wheelView: DualWheelCanvas(
                         radixData:    WheelPlotDataBuilder.build(from: chart, config: config),
-                        transitItems: resolvedTransitItems(ascLong: chart.HousePositions.ascendant.longitude),
+                        transitItems: resolvedSecondaryItems(ascLong: chart.HousePositions.ascendant.longitude),
                         theme:        blackWhite ? .blackWhite : .color,
                         showAspects:  !hideAspects
                     )
@@ -116,11 +116,11 @@ struct TransitResults: View {
     private var positionsHeader: some View {
         HStack(spacing: 12) {
             Spacer().frame(width: glyphWidth)
-            Text(t(TransitKeys.columnFactor))
+            Text(t(SecondaryKeys.columnFactor))
                 .frame(width: 80, alignment: .leading)
-            Text(t(TransitKeys.columnLongitude))
+            Text(t(SecondaryKeys.columnLongitude))
                 .frame(width: longitudeWidth, alignment: .leading)
-            Text(t(TransitKeys.columnDeclination))
+            Text(t(SecondaryKeys.columnDeclination))
                 .frame(width: declinationWidth, alignment: .leading)
         }
         .font(.caption.weight(.semibold))
@@ -164,7 +164,7 @@ struct TransitResults: View {
     @ViewBuilder
     private var matchesTable: some View {
         if foundMatches.isEmpty {
-            Text(t(TransitKeys.matchesNoMatches))
+            Text(t(SecondaryKeys.matchesNoMatches))
                 .foregroundStyle(.secondary)
                 .font(.callout)
         } else {
@@ -185,17 +185,17 @@ struct TransitResults: View {
     private var matchesHeader: some View {
         HStack(spacing: 8) {
             Spacer().frame(width: glyphW)
-            Text(t(TransitKeys.matchesColTransit))
+            Text(t(SecondaryKeys.matchesColSecondary))
                 .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(TransitKeys.matchesColAspect))
+            Text(t(SecondaryKeys.matchesColAspect))
                 .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(TransitKeys.matchesColRadix))
+            Text(t(SecondaryKeys.matchesColRadix))
                 .frame(width: nameW, alignment: .leading)
-            Text(t(TransitKeys.matchesColOrb))
+            Text(t(SecondaryKeys.matchesColOrb))
                 .frame(width: orbW, alignment: .trailing)
-            Text(t(TransitKeys.matchesColExactness))
+            Text(t(SecondaryKeys.matchesColExactness))
                 .frame(width: exactW, alignment: .trailing)
         }
         .font(.caption.weight(.semibold))
@@ -206,10 +206,10 @@ struct TransitResults: View {
 
     private func matchRow(_ row: AspectMatchRow, index: Int) -> some View {
         HStack(spacing: 8) {
-            Text(row.transitGlyph)
+            Text(row.progressedGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
                 .frame(width: glyphW, alignment: .leading)
-            Text(row.transitName)
+            Text(row.progressedName)
                 .frame(width: nameW, alignment: .leading)
                 .lineLimit(1)
             Text(row.aspectGlyph)
@@ -267,7 +267,7 @@ struct TransitResults: View {
            let config = activeConfigs.first {
             DualWheelCanvas(
                 radixData:    WheelPlotDataBuilder.build(from: chart, config: config),
-                transitItems: resolvedTransitItems(ascLong: chart.HousePositions.ascendant.longitude),
+                transitItems: resolvedSecondaryItems(ascLong: chart.HousePositions.ascendant.longitude),
                 theme:        blackWhite ? .blackWhite : .color,
                 showAspects:  !hideAspects
             )
@@ -282,7 +282,7 @@ struct TransitResults: View {
     }
 
     private var sortedResults: [FactorResult] {
-        transitModel.results
+        secondaryModel.results
             .map { FactorResult(factor: $0.key, position: $0.value) }
             .sorted { $0.factor.rawValue < $1.factor.rawValue }
     }
@@ -291,11 +291,11 @@ struct TransitResults: View {
         guard let chart = chartSession.selectedChart,
               let config = activeConfigs.first else { return [] }
         return TransitAspectsOrchestrator.calculate(
-            transitPositions: transitModel.results,
+            transitPositions: secondaryModel.results,
             radixChart:       chart,
             factorConfig:     config.factorConfig,
             aspectConfig:     config.aspectConfig,
-            baseOrb:          config.progressionsConfig.transits.orb
+            baseOrb:          config.progressionsConfig.secondaryDirections.orb
         )
     }
 
@@ -307,20 +307,20 @@ struct TransitResults: View {
             let totalMin = Int(abs(found.orb) * 60)
             let orbText  = "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
             return AspectMatchRow(
-                transitGlyph: GlyphSelector.getGlyphForFactor(found.factor1),
-                transitName:  NSLocalizedString(found.factor1.localizedName, comment: ""),
-                aspectGlyph:  GlyphSelector.getGlyphForAspect(found.aspect),
-                aspectName:   NSLocalizedString(found.aspect.rbKey, comment: ""),
-                radixGlyph:   GlyphSelector.getGlyphForFactor(found.factor2),
-                radixName:    NSLocalizedString(found.factor2.localizedName, comment: ""),
-                orbText:      orbText,
-                exactness:    exactness
+                progressedGlyph: GlyphSelector.getGlyphForFactor(found.factor1),
+                progressedName:  NSLocalizedString(found.factor1.localizedName, comment: ""),
+                aspectGlyph:     GlyphSelector.getGlyphForAspect(found.aspect),
+                aspectName:      NSLocalizedString(found.aspect.rbKey, comment: ""),
+                radixGlyph:      GlyphSelector.getGlyphForFactor(found.factor2),
+                radixName:       NSLocalizedString(found.factor2.localizedName, comment: ""),
+                orbText:         orbText,
+                exactness:       exactness
             )
         }
     }
 
-    private func resolvedTransitItems(ascLong: Double) -> [WheelPlotItem] {
-        let items: [WheelPlotItem] = transitModel.results.map { factor, position in
+    private func resolvedSecondaryItems(ascLong: Double) -> [WheelPlotItem] {
+        let items: [WheelPlotItem] = secondaryModel.results.map { factor, position in
             let mundane = WheelGeometry.mundaneAngle(
                 longitude: position.longitude,
                 ascendantLongitude: ascLong
@@ -342,12 +342,12 @@ struct TransitResults: View {
 // MARK: - Row model
 
 private struct AspectMatchRow {
-    let transitGlyph: String
-    let transitName:  String
-    let aspectGlyph:  String
-    let aspectName:   String
-    let radixGlyph:   String
-    let radixName:    String
-    let orbText:      String
-    let exactness:    Int
+    let progressedGlyph: String
+    let progressedName:  String
+    let aspectGlyph:     String
+    let aspectName:      String
+    let radixGlyph:      String
+    let radixName:       String
+    let orbText:         String
+    let exactness:       Int
 }
