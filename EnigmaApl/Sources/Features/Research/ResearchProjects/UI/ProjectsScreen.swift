@@ -559,15 +559,15 @@ struct ResearchProjectConfigScreen: View {
             VStack(alignment: .leading, spacing: 4) {
                 switch draft.inquiry {
                 case .harmonics:
-                    Text("\(String(format: "%.2f", orbConfig.harmonicOrb))°")
+                    Text("\(orbConfig.harmonicOrb.formatted(.number.precision(.fractionLength(2))))°")
                 case .midpoints:
-                    Text(t(ResearchProjectsKeys.configDial360) + ": \(String(format: "%.2f", orbConfig.midpoint360DialOrb))°")
-                    Text(t(ResearchProjectsKeys.configDial90)  + ": \(String(format: "%.2f", orbConfig.midpoint90DialOrb))°")
-                    Text(t(ResearchProjectsKeys.configDial45)  + ": \(String(format: "%.2f", orbConfig.midpoint45DialOrb))°")
+                    Text(t(ResearchProjectsKeys.configDial360) + ": \(orbConfig.midpoint360DialOrb.formatted(.number.precision(.fractionLength(2))))°")
+                    Text(t(ResearchProjectsKeys.configDial90)  + ": \(orbConfig.midpoint90DialOrb.formatted(.number.precision(.fractionLength(2))))°")
+                    Text(t(ResearchProjectsKeys.configDial45)  + ": \(orbConfig.midpoint45DialOrb.formatted(.number.precision(.fractionLength(2))))°")
                 case .declMidpoints:
-                    Text("\(String(format: "%.2f", orbConfig.declinationMidpointOrb))°")
+                    Text("\(orbConfig.declinationMidpointOrb.formatted(.number.precision(.fractionLength(2))))°")
                 case .parallels:
-                    Text("\(String(format: "%.2f", orbConfig.parallelOrb))°")
+                    Text("\(orbConfig.parallelOrb.formatted(.number.precision(.fractionLength(2))))°")
                 default:
                     EmptyView()
                 }
@@ -2015,7 +2015,7 @@ private struct AspectsResultView: View {
                         Text(t(ResearchProjectsKeys.resultColumnFactor2))
                             .frame(width: factorWidth, alignment: .leading)
                         ForEach(angles, id: \.self) { angle in
-                            Text(String(format: "%.5g°", angle))
+                            Text(formatAngle(angle))
                                 .frame(width: angleWidth, alignment: .trailing)
                         }
                         Text("∑").frame(width: totalWidth, alignment: .trailing)
@@ -2376,7 +2376,7 @@ private struct OobResultView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(String(format: t(ResearchProjectsKeys.resultObliquity), result.obliquity))
+            Text(String(format: t(ResearchProjectsKeys.resultObliquity), locale: .current, result.obliquity))
                 .font(.caption)
                 .foregroundStyle(.secondary)
             oobTable(title: t(ResearchProjectsKeys.resultColumnData), isData: true)
@@ -2417,7 +2417,11 @@ private struct OobResultView: View {
 /// Formats a control-group count. When divisor > 1 the value is scaled down
 /// to match the size of the data group, and shown with one decimal place.
 private func controlText(_ count: Int, divisor: Int) -> String {
-    divisor > 1 ? String(format: "%.1f", Double(count) / Double(divisor)) : "\(count)"
+    divisor > 1 ? (Double(count) / Double(divisor)).formatted(.number.precision(.fractionLength(1))) : "\(count)"
+}
+
+private func formatAngle(_ angle: Double) -> String {
+    "\(angle.formatted(.number.precision(.significantDigits(1...5))))°"
 }
 
 @ViewBuilder

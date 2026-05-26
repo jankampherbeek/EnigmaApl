@@ -52,7 +52,7 @@ struct ResultsExporter {
     /// Formats a control-group integer count.
     /// When divisor > 1, divides and shows one decimal place; otherwise plain integer.
     private func ctrl(_ count: Int, divisor: Int) -> String {
-        divisor > 1 ? String(format: "%.1f", Double(count) / Double(divisor)) : "\(count)"
+        divisor > 1 ? (Double(count) / Double(divisor)).formatted(.number.precision(.fractionLength(1))) : "\(count)"
     }
 
     // MARK: - Factors in Signs
@@ -193,7 +193,7 @@ struct ResultsExporter {
                 .map { isData ? $0.dataCount : $0.controlCount } ?? 0
         }
 
-        let angleHeaders = angles.map { String(format: "%.5g°", $0) }.joined(separator: ";")
+        let angleHeaders = angles.map { "\($0.formatted(.number.precision(.significantDigits(1...5))))°" }.joined(separator: ";")
         let colHeader = "Factor 1;Factor 2;\(angleHeaders);Total"
 
         for (sectionLabel, isData) in [("Data", true), ("Control group", false)] {
@@ -446,7 +446,7 @@ struct ResultsExporter {
     /// ```
     private func buildOobCsv(_ result: OobResult, divisor: Int) -> String {
         var lines: [String] = []
-        lines.append("Obliquity threshold;\(result.obliquity)")
+        lines.append("Obliquity threshold;\(result.obliquity.formatted(.number.precision(.fractionLength(4))))")
         lines.append("")
         let colHeader = "Factor;Count"
 
