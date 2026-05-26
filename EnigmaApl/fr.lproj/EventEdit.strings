@@ -12,5 +12,5 @@
 "view.eventeditscreen.validation.invalidyear"   = "Veuillez saisir une année valide.";
 "view.eventeditscreen.help.title"               = "Aide";
 "view.eventeditscreen.help.close"               = "Fermer";
-"view.eventeditscreen.help"                     = "Modifiez le titre, la description, le lieu ou la date et l'heure de l'événement. Le Jour Julien est recalculé automatiquement lors de l'enregistrement.";
+"view.eventeditscreen.help"                     = "Vous pouvez modifier n'importe quelle partie d'un événement. Si vous modifiez le lieu, vous obtenez automatiquement les coordonnées et le fuseau horaire correspondants. La procédure est la même que pour créer un nouvel événement.";
 "view.eventeditscreen.error.savefailed"         = "Les modifications n'ont pas pu être enregistrées. Veuillez réessayer.";

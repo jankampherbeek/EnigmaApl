@@ -6,6 +6,7 @@ struct TransitKeys {
     private init() {}
 
     // TransitScreen
+    static let help             = "view.transitscreen.help"
     static let title           = "view.transitscreen.title"
     static let noChart         = "view.transitscreen.nochart"
     static let chartLabel      = "view.transitscreen.chart"
@@ -20,6 +21,7 @@ struct TransitKeys {
     static let errorCalcFailed = "view.transitscreen.error.calcfailed"
 
     // TransitResults - tabs
+    static let helpResults       = "view.transitresults.help"
     static let resultsTitle      = "view.transitresults.title"
     static let noResults         = "view.transitresults.noresults"
     static let tabPositions      = "view.transitresults.tab.positions"

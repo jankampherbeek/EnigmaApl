@@ -2,6 +2,7 @@
 // EnigmaApl
 
 // SymbolicScreen
+"view.symbolicscreen.help"               = "Enigma berekent symbolische directies voor de horoscoop die je het laatst hebt geselecteerd. Als meerdere horoscopen actief zijn kun je een andere keuze maken.\n\nJe kunt een keuze maken uit drie tijdsleutels: Eén graad per jaar, De ware zonneboog en de gemiddelde zonneboog.\n\nOm een symbolische directie te berekenen moet je een gebeurtenis selecteren. Zo nodig kun je een gebeurtenis opnieuw aanmaken.\n\nKlik op de knop 'Bereken' en je ziet de symbolische directies in het middelste schermdeel. Om symbolische directies voor een andere gebeurtenis te berekenen kies je een andere gebeurtenis en klik je opnieuw op 'Bereken'.";
 "view.symbolicscreen.title"              = "Symbolische Richtingen";
 "view.symbolicscreen.nochart"            = "Bereken of selecteer eerst een horoscoop.";
 "view.symbolicscreen.chart"              = "Horoscoop";
@@ -18,6 +19,7 @@
 "view.symbolicscreen.error.nonataldate"  = "Geen voorkeursgeboortedatum gevonden voor deze horoscoop.";
 
 // SymbolicResults - tabs
+"view.symbolicresults.help"                     = "De informatie die je in dit scherm ziet is afhankelijk van je configuratie. Dat gaat zowel om de keuze voor factoren in de radix als om factoren die je voor je symbolische directies wilt gebruiken.\n\nJe ziet drie tabs.\n\nDe tab 'Posities' toont een overzicht van de symbolische standen in lengte.\n\nDe tab 'Overeenkomsten' laat zien welke symbolische directies een aspect vormen met een punt in de radix. Je ziet ook de orb en de nauwkeurigheid van het aspect.\n\nDe tab 'Dubbel Wiel' toont de horoscoop met de symbolische posities in een extra ring. Boven de figuur zie je drie iconen waarmee je kunt wisselen tussen kleur en zwart-wit, aspecten aan en uit kunt zetten en de figuur kunt exporteren naar een PNG bestand.";
 "view.symbolicresults.title"                    = "Symbolische Richtingposities";
 "view.symbolicresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
 "view.symbolicresults.tab.positions"            = "Posities";

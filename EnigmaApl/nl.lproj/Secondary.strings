@@ -1,6 +1,7 @@
 // Secondary.strings - Nederlands
 // EnigmaApl
 
+"view.secondaryscreen.help"               = "Enigma berekent secundaire directies voor de horoscoop die je het laatst hebt geselecteerd. Als meerdere horoscopen actief zijn kun je een andere keuze maken.\n\nOm een secundaire directie te berekenen moet je een gebeurtenis selecteren. Zo nodig kun je een gebeurtenis opnieuw aanmaken.\n\nKlik op de knop 'Bereken' en je ziet de secundaire directies in het middelste schermdeel. Om secundaire directies voor een andere gebeurtenis te berekenen kies je een andere gebeurtenis en klik je opnieuw op 'Bereken'.";
 "view.secondaryscreen.title"              = "Secundaire Richtingen";
 "view.secondaryscreen.nochart"            = "Bereken of selecteer eerst een horoscoop.";
 "view.secondaryscreen.chart"              = "Horoscoop";
@@ -16,6 +17,7 @@
 "view.secondaryscreen.error.nonataldate"  = "Geen voorkeursgeboortedatum gevonden voor deze horoscoop.";
 
 // SecondaryResults - tabs
+"view.secondaryresults.help"                     = "De informatie die je in dit scherm ziet is afhankelijk van je configuratie. Dat gaat zowel om de keuze voor factoren in de radix als om factoren die je secundair wilt gebruiken.\n\nJe ziet drie tabs.\n\nDe tab 'Posities' toont een overzicht van de secundaire standen, zowel in lengte als in declinatie.\n\nDe tab 'Overeenkomsten' laat zien welke secundaire directies een aspect vormen met een punt in de radix. Je ziet ook de orb en de nauwkeurigheid van het aspect.\n\nDe tab 'Dubbel Wiel' toont de horoscoop met de secundaire posities in een extra ring. Boven de figuur zie je drie iconen waarmee je kunt wisselen tussen kleur en zwart-wit, aspecten aan en uit kunt zetten en de figuur kunt exporteren naar een PNG bestand.";
 "view.secondaryresults.title"                    = "Secundaire Richtingposities";
 "view.secondaryresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
 "view.secondaryresults.tab.positions"            = "Posities";

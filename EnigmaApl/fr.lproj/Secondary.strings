@@ -1,6 +1,7 @@
 // Secondary.strings - Français
 // EnigmaApl
 
+"view.secondaryscreen.help"               = "Enigma calcule les directions secondaires pour l'horoscope que vous avez sélectionné en dernier. Si plusieurs horoscopes sont actifs, vous pouvez faire un autre choix.\n\nPour calculer une direction secondaire, vous devez sélectionner un événement. Si nécessaire, vous pouvez créer un nouvel événement.\n\nCliquez sur le bouton 'Calculer' et vous verrez les directions secondaires dans la partie centrale de l'écran. Pour calculer des directions secondaires pour un autre événement, choisissez un autre événement et cliquez à nouveau sur 'Calculer'.";
 "view.secondaryscreen.title"              = "Directions Secondaires";
 "view.secondaryscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
 "view.secondaryscreen.chart"              = "Thème";
@@ -16,6 +17,7 @@
 "view.secondaryscreen.error.nonataldate"  = "Aucune date de naissance préférée trouvée pour ce thème.";
 
 // SecondaryResults - onglets
+"view.secondaryresults.help"                     = "Les informations affichées dans cet écran dépendent de votre configuration. Cela concerne à la fois le choix des facteurs dans le radix et les facteurs que vous souhaitez utiliser pour les directions secondaires.\n\nVous voyez trois onglets.\n\nL'onglet 'Positions' affiche un aperçu des positions secondaires, à la fois en longitude et en déclinaison.\n\nL'onglet 'Correspondances' montre quelles directions secondaires forment un aspect avec un point dans le radix. Vous voyez aussi l'orbe et la précision de l'aspect.\n\nL'onglet 'Double Roue' affiche l'horoscope avec les positions secondaires dans un anneau supplémentaire. Au-dessus de la figure, vous voyez trois icônes pour basculer entre couleur et noir et blanc, activer et désactiver les aspects, et exporter la figure vers un fichier PNG.";
 "view.secondaryresults.title"                    = "Positions de Directions Secondaires";
 "view.secondaryresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.secondaryresults.tab.positions"            = "Positions";

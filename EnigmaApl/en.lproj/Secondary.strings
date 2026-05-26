@@ -1,6 +1,7 @@
 // Secondary.strings - English
 // EnigmaApl
 
+"view.secondaryscreen.help"               = "Enigma calculates secondary directions for the most recently selected horoscope. If multiple horoscopes are active, you can make a different choice.\n\nTo calculate a secondary direction, you must select an event. If needed, you can create a new event.\n\nClick the 'Calculate' button and you will see the secondary directions in the middle part of the screen. To calculate secondary directions for a different event, choose a different event and click 'Calculate' again.";
 "view.secondaryscreen.title"              = "Secondary Directions";
 "view.secondaryscreen.nochart"            = "Calculate or select a chart first.";
 "view.secondaryscreen.chart"              = "Chart";
@@ -16,6 +17,7 @@
 "view.secondaryscreen.error.nonataldate"  = "No preferred birth date found for this chart.";
 
 // SecondaryResults - tabs
+"view.secondaryresults.help"                     = "The information shown in this screen depends on your configuration. This includes both the choice of factors in the radix and the factors you want to use for secondary directions.\n\nYou see three tabs.\n\nThe 'Positions' tab shows an overview of the secondary positions, both in longitude and declination.\n\nThe 'Matches' tab shows which secondary directions form an aspect with a point in the radix. You also see the orb and the exactness of the aspect.\n\nThe 'Dual Wheel' tab shows the horoscope with the secondary positions in an extra ring. Above the chart you see three icons to switch between color and black-and-white, turn aspects on and off, and export the chart to a PNG file.";
 "view.secondaryresults.title"                    = "Secondary Direction Positions";
 "view.secondaryresults.noresults"                = "Select an event and press Calculate to see positions.";
 "view.secondaryresults.tab.positions"            = "Positions";

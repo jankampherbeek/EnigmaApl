@@ -27,6 +27,7 @@ struct SymbolicResults: View {
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
     @State private var showExport:  Bool = false
+    @State private var showHelp:    Bool = false
 
     // Column widths – positions tab
     private let glyphWidth: CGFloat     = 32
@@ -64,6 +65,17 @@ struct SymbolicResults: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(SymbolicDirKeys.resultsTitle))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SymbolicDirKeys.helpResults))
+        }
         .sheet(isPresented: $showExport) {
             if let chart = chartSession.selectedChart,
                let config = activeConfigs.first {

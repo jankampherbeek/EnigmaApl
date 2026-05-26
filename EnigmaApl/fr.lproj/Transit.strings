@@ -2,6 +2,7 @@
 // EnigmaApl
 
 // TransitScreen
+"view.transitscreen.help"               = "Enigma calcule les transits pour l'horoscope que vous avez sélectionné en dernier. Si plusieurs horoscopes sont actifs, vous pouvez faire un autre choix.\n\nPour calculer un transit, vous devez sélectionner un événement. Si nécessaire, vous pouvez créer un nouvel événement.\n\nCliquez sur le bouton 'Calculer' et vous verrez les transits dans la partie centrale de l'écran. Pour calculer des transits pour un autre événement, choisissez un autre événement et cliquez à nouveau sur 'Calculer'.";
 "view.transitscreen.title"              = "Transits";
 "view.transitscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
 "view.transitscreen.chart"              = "Thème";
@@ -16,6 +17,7 @@
 "view.transitscreen.error.calcfailed"   = "Calcul échoué. Veuillez réessayer.";
 
 // TransitResults - onglets
+"view.transitresults.help"                     = "Les informations affichées dans cet écran dépendent de votre configuration. Cela concerne à la fois le choix des facteurs dans le radix et les facteurs que vous souhaitez utiliser pour les transits.\n\nVous voyez trois onglets.\n\nL'onglet 'Positions' affiche un aperçu des positions en transit, à la fois en longitude et en déclinaison.\n\nL'onglet 'Correspondances' montre quels transits forment un aspect avec un point dans le radix. Vous voyez aussi l'orbe et la précision de l'aspect.\n\nL'onglet 'Double Roue' affiche l'horoscope avec les positions en transit dans un anneau supplémentaire. Au-dessus de la figure, vous voyez trois icônes pour basculer entre couleur et noir et blanc, activer et désactiver les aspects, et exporter la figure vers un fichier PNG.";
 "view.transitresults.title"                    = "Positions de Transit";
 "view.transitresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.transitresults.tab.positions"            = "Positions";

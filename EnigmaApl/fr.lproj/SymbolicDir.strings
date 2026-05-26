@@ -2,6 +2,7 @@
 // EnigmaApl
 
 // SymbolicScreen
+"view.symbolicscreen.help"               = "Enigma calcule les directions symboliques pour l'horoscope que vous avez sélectionné en dernier. Si plusieurs horoscopes sont actifs, vous pouvez faire un autre choix.\n\nVous pouvez choisir parmi trois clés de temps : Un degré par an, Le vrai arc solaire et L'arc solaire moyen.\n\nPour calculer une direction symbolique, vous devez sélectionner un événement. Si nécessaire, vous pouvez créer un nouvel événement.\n\nCliquez sur le bouton 'Calculer' et vous verrez les directions symboliques dans la partie centrale de l'écran. Pour calculer des directions symboliques pour un autre événement, choisissez un autre événement et cliquez à nouveau sur 'Calculer'.";
 "view.symbolicscreen.title"              = "Directions Symboliques";
 "view.symbolicscreen.nochart"            = "Veuillez d'abord calculer ou sélectionner un thème.";
 "view.symbolicscreen.chart"              = "Thème";
@@ -18,6 +19,7 @@
 "view.symbolicscreen.error.nonataldate"  = "Aucune date de naissance préférée trouvée pour ce thème.";
 
 // SymbolicResults - onglets
+"view.symbolicresults.help"                     = "Les informations affichées dans cet écran dépendent de votre configuration. Cela concerne à la fois le choix des facteurs dans le radix et les facteurs que vous souhaitez utiliser pour vos directions symboliques.\n\nVous voyez trois onglets.\n\nL'onglet 'Positions' affiche un aperçu des positions symboliques en longitude.\n\nL'onglet 'Correspondances' montre quelles directions symboliques forment un aspect avec un point dans le radix. Vous voyez aussi l'orbe et la précision de l'aspect.\n\nL'onglet 'Double Roue' affiche l'horoscope avec les positions symboliques dans un anneau supplémentaire. Au-dessus de la figure, vous voyez trois icônes pour basculer entre couleur et noir et blanc, activer et désactiver les aspects, et exporter la figure vers un fichier PNG.";
 "view.symbolicresults.title"                    = "Positions de Directions Symboliques";
 "view.symbolicresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.symbolicresults.tab.positions"            = "Positions";

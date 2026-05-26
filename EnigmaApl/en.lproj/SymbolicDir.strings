@@ -2,6 +2,7 @@
 // EnigmaApl
 
 // SymbolicScreen
+"view.symbolicscreen.help"               = "Enigma calculates symbolic directions for the most recently selected horoscope. If multiple horoscopes are active, you can make a different choice.\n\nYou can choose from three time keys: One degree per year, The true solar arc, and The mean solar arc.\n\nTo calculate a symbolic direction, you must select an event. If needed, you can create a new event.\n\nClick the 'Calculate' button and you will see the symbolic directions in the middle part of the screen. To calculate symbolic directions for a different event, choose a different event and click 'Calculate' again.";
 "view.symbolicscreen.title"              = "Symbolic Directions";
 "view.symbolicscreen.nochart"            = "Calculate or select a chart first.";
 "view.symbolicscreen.chart"              = "Chart";
@@ -18,6 +19,7 @@
 "view.symbolicscreen.error.nonataldate"  = "No preferred birth date found for this chart.";
 
 // SymbolicResults - tabs
+"view.symbolicresults.help"                     = "The information shown in this screen depends on your configuration. This includes both the choice of factors in the radix and the factors you want to use for symbolic directions.\n\nYou see three tabs.\n\nThe 'Positions' tab shows an overview of the symbolic positions in longitude.\n\nThe 'Matches' tab shows which symbolic directions form an aspect with a point in the radix. You also see the orb and the exactness of the aspect.\n\nThe 'Dual Wheel' tab shows the horoscope with the symbolic positions in an extra ring. Above the chart you see three icons to switch between color and black-and-white, turn aspects on and off, and export the chart to a PNG file.";
 "view.symbolicresults.title"                    = "Symbolic Direction Positions";
 "view.symbolicresults.noresults"                = "Select an event and press Calculate to see positions.";
 "view.symbolicresults.tab.positions"            = "Positions";

@@ -5,6 +5,7 @@
 struct SecondaryKeys {
     private init() {}
 
+    static let help             = "view.secondaryscreen.help"
     static let title           = "view.secondaryscreen.title"
     static let noChart         = "view.secondaryscreen.nochart"
     static let chartLabel      = "view.secondaryscreen.chart"
@@ -20,6 +21,7 @@ struct SecondaryKeys {
     static let errorNoNatalJD  = "view.secondaryscreen.error.nonataldate"
 
     // SecondaryResults - tabs
+    static let helpResults       = "view.secondaryresults.help"
     static let resultsTitle      = "view.secondaryresults.title"
     static let noResults         = "view.secondaryresults.noresults"
     static let tabPositions      = "view.secondaryresults.tab.positions"

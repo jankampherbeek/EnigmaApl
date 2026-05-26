@@ -17,6 +17,7 @@ struct TransitScreen: View {
 
     @State private var selectedChartId: UUID?
     @State private var showCreateEvent = false
+    @State private var showHelp = false
 
     private let titleWidth: CGFloat    = 200
     private let dateTimeWidth: CGFloat = 180
@@ -45,6 +46,17 @@ struct TransitScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(TransitKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(TransitKeys.help))
+        }
         .sheet(isPresented: $showCreateEvent) {
             if let horoscope = transitModel.horoscope {
                 NavigationStack {

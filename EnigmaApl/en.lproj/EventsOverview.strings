@@ -17,4 +17,4 @@
 "view.eventsoverviewscreen.delete.message"       = "Are you sure you want to delete '%@'? This cannot be undone.";
 "view.eventsoverviewscreen.delete.confirm"       = "Delete";
 "view.eventsoverviewscreen.delete.cancel"        = "Cancel";
-"view.eventsoverviewscreen.help"                 = "Events represent dates used in progressive techniques such as transits and secondary directions. Each event is linked to one or more charts. Use Create to add a new event, Select to make it active for calculations, Edit to change its data, and Delete to remove it.";
+"view.eventsoverviewscreen.help"                 = "Events must be linked to a horoscope. Before you can work with events, you need to have selected a horoscope. If you have multiple horoscopes open, you can select the correct one at the top of the screen.\n\nIf Enigma already knows events for the selected horoscope, they are displayed. You can create a new event by clicking the 'Create' button.\n\nYou can select, edit, or delete an event.";

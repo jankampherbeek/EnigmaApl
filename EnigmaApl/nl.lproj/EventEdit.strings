@@ -12,5 +12,5 @@
 "view.eventeditscreen.validation.invalidyear"   = "Voer een geldig jaar in.";
 "view.eventeditscreen.help.title"               = "Help";
 "view.eventeditscreen.help.close"               = "Sluiten";
-"view.eventeditscreen.help"                     = "Wijzig de titel, beschrijving, locatie of datum en tijd van de gebeurtenis. Het Juliaans Dagnummer wordt automatisch herberekend bij het opslaan.";
+"view.eventeditscreen.help"                     = "Je kunt elk gewenst onderdeel van een gebeurtenis wijzigen. Als je de locatie aanpast krijg je automatisch de bijbehorende coördinaten en tijdregeling. De werkwijze is gelijk aan het aanmaken van een nieuwe gebeurtenis.";
 "view.eventeditscreen.error.savefailed"         = "De wijzigingen konden niet worden opgeslagen. Probeer het opnieuw.";

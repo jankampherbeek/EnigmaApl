@@ -6,6 +6,7 @@ struct SymbolicDirKeys {
     private init() {}
 
     // SymbolicScreen
+    static let help             = "view.symbolicscreen.help"
     static let title           = "view.symbolicscreen.title"
     static let noChart         = "view.symbolicscreen.nochart"
     static let chartLabel      = "view.symbolicscreen.chart"
@@ -22,6 +23,7 @@ struct SymbolicDirKeys {
     static let errorNoNatalJD  = "view.symbolicscreen.error.nonataldate"
 
     // SymbolicResults - tabs
+    static let helpResults     = "view.symbolicresults.help"
     static let resultsTitle    = "view.symbolicresults.title"
     static let noResults       = "view.symbolicresults.noresults"
     static let tabPositions    = "view.symbolicresults.tab.positions"

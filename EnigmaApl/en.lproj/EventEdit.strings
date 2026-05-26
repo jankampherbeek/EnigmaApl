@@ -12,5 +12,5 @@
 "view.eventeditscreen.validation.invalidyear"   = "Enter a valid year.";
 "view.eventeditscreen.help.title"               = "Help";
 "view.eventeditscreen.help.close"               = "Close";
-"view.eventeditscreen.help"                     = "Edit the title, description, location or date and time of the event. The Julian Day number is recalculated automatically when you save.";
+"view.eventeditscreen.help"                     = "You can modify any desired part of an event. If you adjust the location, you automatically get the corresponding coordinates and time zone. The procedure is the same as creating a new event.";
 "view.eventeditscreen.error.savefailed"         = "Could not save the changes. Please try again.";
