@@ -40,4 +40,6 @@ struct SecondaryKeys {
     static let matchesColRadix     = "view.secondaryresults.matches.col.radix"
     static let matchesColOrb       = "view.secondaryresults.matches.col.orb"
     static let matchesColExactness = "view.secondaryresults.matches.col.exactness"
+    static let parallelName        = "view.secondaryresults.parallel"
+    static let contraparallelName  = "view.secondaryresults.contraparallel"
 }

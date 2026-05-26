@@ -36,7 +36,6 @@ struct SecondaryResults: View {
 
     // Column widths – matches tab
     private let glyphW:  CGFloat = 36
-    private let nameW:   CGFloat = 120
     private let orbW:    CGFloat = 70
     private let exactW:  CGFloat = 100
 
@@ -128,12 +127,10 @@ struct SecondaryResults: View {
     private var positionsHeader: some View {
         HStack(spacing: 12) {
             Spacer().frame(width: glyphWidth)
-            Text(t(SecondaryKeys.columnFactor))
-                .frame(width: 80, alignment: .leading)
             Text(t(SecondaryKeys.columnLongitude))
-                .frame(width: longitudeWidth, alignment: .leading)
+                .frame(width: longitudeWidth, alignment: .trailing)
             Text(t(SecondaryKeys.columnDeclination))
-                .frame(width: declinationWidth, alignment: .leading)
+                .frame(width: declinationWidth, alignment: .trailing)
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.secondary)
@@ -148,10 +145,6 @@ struct SecondaryResults: View {
                 .font(.custom("EnigmaAstrology2", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
 
-            Text(LocalizedStringKey(factor.localizedName))
-                .frame(width: 80, alignment: .leading)
-                .lineLimit(1)
-
             HStack(spacing: 4) {
                 if valid, let sign {
                     Text(dmsString)
@@ -161,10 +154,10 @@ struct SecondaryResults: View {
                     Text(String(format: "%.4f°", position.longitude))
                 }
             }
-            .frame(width: longitudeWidth, alignment: .leading)
+            .frame(width: longitudeWidth, alignment: .trailing)
 
             Text(PositionInDegreesConversion.DoubleToDms(position.declination))
-                .frame(width: declinationWidth, alignment: .leading)
+                .frame(width: declinationWidth, alignment: .trailing)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
@@ -175,7 +168,7 @@ struct SecondaryResults: View {
 
     @ViewBuilder
     private var matchesTable: some View {
-        if foundMatches.isEmpty {
+        if matchRows.isEmpty {
             Text(t(SecondaryKeys.matchesNoMatches))
                 .foregroundStyle(.secondary)
                 .font(.callout)
@@ -197,14 +190,8 @@ struct SecondaryResults: View {
     private var matchesHeader: some View {
         HStack(spacing: 8) {
             Spacer().frame(width: glyphW)
-            Text(t(SecondaryKeys.matchesColSecondary))
-                .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(SecondaryKeys.matchesColAspect))
-                .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(SecondaryKeys.matchesColRadix))
-                .frame(width: nameW, alignment: .leading)
             Text(t(SecondaryKeys.matchesColOrb))
                 .frame(width: orbW, alignment: .trailing)
             Text(t(SecondaryKeys.matchesColExactness))
@@ -220,22 +207,13 @@ struct SecondaryResults: View {
         HStack(spacing: 8) {
             Text(row.progressedGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.progressedName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.aspectGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.aspectName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.radixGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.radixName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.orbText)
                 .frame(width: orbW, alignment: .trailing)
                 .foregroundStyle(.secondary)
@@ -311,24 +289,51 @@ struct SecondaryResults: View {
         )
     }
 
+    private var foundParallels: [FoundParallel] {
+        guard let chart = chartSession.selectedChart,
+              let config = activeConfigs.first else { return [] }
+        return TransitParallelsOrchestrator.calculate(
+            transitPositions: secondaryModel.results,
+            radixChart:       chart,
+            factorConfig:     config.factorConfig,
+            parallelOrb:      config.orbConfig.parallelOrb
+        )
+    }
+
     private var matchRows: [AspectMatchRow] {
-        foundMatches.map { found in
+        var rows: [(orb: Double, row: AspectMatchRow)] = []
+
+        for found in foundMatches {
             let exactness = found.maxOrb > 0
                 ? max(0, min(100, Int((1.0 - found.orb / found.maxOrb) * 100)))
                 : 100
             let totalMin = Int(abs(found.orb) * 60)
             let orbText  = "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
-            return AspectMatchRow(
+            rows.append((found.orb, AspectMatchRow(
                 progressedGlyph: GlyphSelector.getGlyphForFactor(found.factor1),
-                progressedName:  NSLocalizedString(found.factor1.localizedName, comment: ""),
                 aspectGlyph:     GlyphSelector.getGlyphForAspect(found.aspect),
-                aspectName:      NSLocalizedString(found.aspect.rbKey, comment: ""),
                 radixGlyph:      GlyphSelector.getGlyphForFactor(found.factor2),
-                radixName:       NSLocalizedString(found.factor2.localizedName, comment: ""),
                 orbText:         orbText,
                 exactness:       exactness
-            )
+            )))
         }
+
+        for found in foundParallels {
+            let exactness = found.maxOrb > 0
+                ? max(0, min(100, Int((1.0 - found.orb / found.maxOrb) * 100)))
+                : 100
+            let totalMin = Int(abs(found.orb) * 60)
+            let orbText  = "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
+            rows.append((found.orb, AspectMatchRow(
+                progressedGlyph: GlyphSelector.getGlyphForFactor(found.factor1),
+                aspectGlyph:     found.isContraParallel ? "\u{F010}" : "\u{F000}",
+                radixGlyph:      GlyphSelector.getGlyphForFactor(found.factor2),
+                orbText:         orbText,
+                exactness:       exactness
+            )))
+        }
+
+        return rows.sorted { $0.orb < $1.orb }.map { $0.row }
     }
 
     private func resolvedSecondaryItems(ascLong: Double) -> [WheelPlotItem] {
@@ -355,11 +360,8 @@ struct SecondaryResults: View {
 
 private struct AspectMatchRow {
     let progressedGlyph: String
-    let progressedName:  String
     let aspectGlyph:     String
-    let aspectName:      String
     let radixGlyph:      String
-    let radixName:       String
     let orbText:         String
     let exactness:       Int
 }

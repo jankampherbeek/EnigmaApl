@@ -36,3 +36,5 @@
 "view.secondaryresults.matches.col.radix"        = "Radix";
 "view.secondaryresults.matches.col.orb"          = "Orbe";
 "view.secondaryresults.matches.col.exactness"    = "Exactitude";
+"view.secondaryresults.parallel"                 = "Parallèle";
+"view.secondaryresults.contraparallel"           = "Contraparallèle";

@@ -35,7 +35,6 @@ struct SymbolicResults: View {
 
     // Column widths – matches tab
     private let glyphW: CGFloat = 36
-    private let nameW:  CGFloat = 120
     private let orbW:   CGFloat = 70
     private let exactW: CGFloat = 100
 
@@ -127,10 +126,8 @@ struct SymbolicResults: View {
     private var positionsHeader: some View {
         HStack(spacing: 12) {
             Spacer().frame(width: glyphWidth)
-            Text(t(SymbolicDirKeys.columnFactor))
-                .frame(width: 80, alignment: .leading)
             Text(t(SymbolicDirKeys.columnLongitude))
-                .frame(width: longitudeWidth, alignment: .leading)
+                .frame(width: longitudeWidth, alignment: .trailing)
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.secondary)
@@ -145,10 +142,6 @@ struct SymbolicResults: View {
                 .font(.custom("EnigmaAstrology2", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
 
-            Text(LocalizedStringKey(factor.localizedName))
-                .frame(width: 80, alignment: .leading)
-                .lineLimit(1)
-
             HStack(spacing: 4) {
                 if valid, let sign {
                     Text(dmsString)
@@ -158,7 +151,7 @@ struct SymbolicResults: View {
                     Text(String(format: "%.4f°", longitude))
                 }
             }
-            .frame(width: longitudeWidth, alignment: .leading)
+            .frame(width: longitudeWidth, alignment: .trailing)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
@@ -169,7 +162,7 @@ struct SymbolicResults: View {
 
     @ViewBuilder
     private var matchesTable: some View {
-        if foundMatches.isEmpty {
+        if matchRows.isEmpty {
             Text(t(SymbolicDirKeys.matchesNoMatches))
                 .foregroundStyle(.secondary)
                 .font(.callout)
@@ -191,14 +184,8 @@ struct SymbolicResults: View {
     private var matchesHeader: some View {
         HStack(spacing: 8) {
             Spacer().frame(width: glyphW)
-            Text(t(SymbolicDirKeys.matchesColDirected))
-                .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(SymbolicDirKeys.matchesColAspect))
-                .frame(width: nameW, alignment: .leading)
             Spacer().frame(width: glyphW)
-            Text(t(SymbolicDirKeys.matchesColRadix))
-                .frame(width: nameW, alignment: .leading)
             Text(t(SymbolicDirKeys.matchesColOrb))
                 .frame(width: orbW, alignment: .trailing)
             Text(t(SymbolicDirKeys.matchesColExactness))
@@ -214,22 +201,13 @@ struct SymbolicResults: View {
         HStack(spacing: 8) {
             Text(row.directedGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.directedName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.aspectGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.aspectName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.radixGlyph)
                 .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .leading)
-            Text(row.radixName)
-                .frame(width: nameW, alignment: .leading)
-                .lineLimit(1)
+                .frame(width: glyphW, alignment: .center)
             Text(row.orbText)
                 .frame(width: orbW, alignment: .trailing)
                 .foregroundStyle(.secondary)
@@ -314,11 +292,8 @@ struct SymbolicResults: View {
             let orbText  = "\(totalMin / 60)°\(String(format: "%02d", totalMin % 60))'"
             return AspectMatchRow(
                 directedGlyph: GlyphSelector.getGlyphForFactor(found.factor1),
-                directedName:  NSLocalizedString(found.factor1.localizedName, comment: ""),
                 aspectGlyph:   GlyphSelector.getGlyphForAspect(found.aspect),
-                aspectName:    NSLocalizedString(found.aspect.rbKey, comment: ""),
                 radixGlyph:    GlyphSelector.getGlyphForFactor(found.factor2),
-                radixName:     NSLocalizedString(found.factor2.localizedName, comment: ""),
                 orbText:       orbText,
                 exactness:     exactness
             )
@@ -349,11 +324,8 @@ struct SymbolicResults: View {
 
 private struct AspectMatchRow {
     let directedGlyph: String
-    let directedName:  String
     let aspectGlyph:   String
-    let aspectName:    String
     let radixGlyph:    String
-    let radixName:     String
     let orbText:       String
     let exactness:     Int
 }

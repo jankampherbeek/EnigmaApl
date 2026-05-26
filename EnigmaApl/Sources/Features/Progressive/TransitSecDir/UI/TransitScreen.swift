@@ -17,6 +17,7 @@ struct TransitScreen: View {
 
     @State private var selectedChartId: UUID?
     @State private var showCreateEvent = false
+    @State private var showFactsheet = false
     @State private var showHelp = false
 
     private let titleWidth: CGFloat    = 200
@@ -48,11 +49,20 @@ struct TransitScreen: View {
         .navigationTitle(t(TransitKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "transits")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(TransitKeys.help))

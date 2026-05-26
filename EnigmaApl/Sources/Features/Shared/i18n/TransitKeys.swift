@@ -34,10 +34,12 @@ struct TransitKeys {
     static let columnDeclination = "view.transitresults.col.declination"
 
     // Matches tab
-    static let matchesNoMatches  = "view.transitresults.matches.nomatches"
+    static let matchesNoMatches   = "view.transitresults.matches.nomatches"
     static let matchesColTransit  = "view.transitresults.matches.col.transit"
     static let matchesColAspect   = "view.transitresults.matches.col.aspect"
     static let matchesColRadix    = "view.transitresults.matches.col.radix"
     static let matchesColOrb      = "view.transitresults.matches.col.orb"
     static let matchesColExactness = "view.transitresults.matches.col.exactness"
+    static let parallelName       = "view.transitresults.parallel"
+    static let contraparallelName = "view.transitresults.contraparallel"
 }

@@ -52,10 +52,17 @@ struct FactsheetView: View {
         case "fr": suffix = "fr"
         default:   suffix = "en"
         }
-        if let url = Bundle.main.url(forResource: "\(baseName)-\(suffix)", withExtension: "pdf") {
-            return url
+        for sep in ["-", "_"] {
+            if let url = Bundle.main.url(forResource: "\(baseName)\(sep)\(suffix)", withExtension: "pdf") {
+                return url
+            }
         }
-        return Bundle.main.url(forResource: "\(baseName)-en", withExtension: "pdf")
+        for sep in ["-", "_"] {
+            if let url = Bundle.main.url(forResource: "\(baseName)\(sep)en", withExtension: "pdf") {
+                return url
+            }
+        }
+        return nil
     }
 }
 
