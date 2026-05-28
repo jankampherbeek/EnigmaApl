@@ -28,7 +28,7 @@ final class EventEditModel: ObservableObject {
         let localJD = seWrapper.julianDay(date: localDate, time: localTime)
 
         let offsetSec = Double(offsetHour * 3600 + offsetMinute * 60 + offsetSecond)
-        let sign = utOffsetEarlier ? 1.0 : -1.0
+        let sign = utOffsetEarlier ? -1.0 : 1.0
         let dst = dstActive ? -3600.0 : 0.0
         return localJD + (sign * offsetSec + dst) / 86_400.0
     }

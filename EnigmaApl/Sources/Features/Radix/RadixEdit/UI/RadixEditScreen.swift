@@ -131,10 +131,11 @@ struct RadixEditScreen: View {
         guard let orch = try? LocationOrchestrator(seWrapper: SEWrapper()),
               let zone = try? orch.timezoneInfo(tzName: city.timezoneName, dateTime: dateTime, longitude: city.longitude)
         else { return }
-        let totalSec = abs(zone.offsetSeconds)
-        offsetHour = totalSec / 3600
-        offsetMinute = (totalSec % 3600) / 60
-        utOffsetDirection = zone.offsetSeconds >= 0 ? .later : .earlier
+        let rawOffset = zone.dstUsed ? zone.offsetSeconds - 3600 : zone.offsetSeconds
+        let standardSec = abs(rawOffset)
+        offsetHour = standardSec / 3600
+        offsetMinute = (standardSec % 3600) / 60
+        utOffsetDirection = rawOffset >= 0 ? .earlier : .later
         dstOption = zone.dstUsed ? .dst : .noDST
     }
 

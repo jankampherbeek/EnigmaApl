@@ -65,7 +65,7 @@ final class RadixInputModel: ObservableObject {
         let localJulianDay = seWrapper.julianDay(date: localDate, time: localTime)
 
         let offsetSeconds = Double((input.offsetHour * 3600) + (input.offsetMinute * 60) + input.offsetSecond)
-        let utOffsetSign = input.utOffsetEarlier ? 1.0 : -1.0
+        let utOffsetSign = input.utOffsetEarlier ? -1.0 : 1.0
         let dstSeconds = input.dstActive ? -3600.0 : 0.0
         let utJulianDay = localJulianDay + ((utOffsetSign * offsetSeconds + dstSeconds) / 86_400.0)
 
