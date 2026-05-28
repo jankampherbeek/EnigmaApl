@@ -52,6 +52,48 @@ struct MidpointsOrchestrator {
         )
     }
 
+    /// Returns radix midpoints occupied by progressive factors, sorted by orb (most exact first).
+    static func radixMidpointsOccupiedByProgressive(
+        radixChart: FullChart,
+        progressivePositions: [Factors: ProgressivePosition],
+        factorConfig: FactorConfig,
+        orbConfig: OrbConfig,
+        dialType: MidpointDialType
+    ) -> [MidpointMatch] {
+        let radixPos = activePositions(chart: radixChart, factorConfig: factorConfig)
+        guard radixPos.count >= 2 else { return [] }
+        let mids = MidpointsCalculator.calculate(positions: radixPos)
+        let progPos = progressivePositions.map { ($0.key, $0.value.longitude) }
+        guard !progPos.isEmpty else { return [] }
+        return MidpointMatchFinder.find(
+            baseMidpoints: mids,
+            positions: progPos,
+            dialType: dialType,
+            orb: orb(for: dialType, orbConfig: orbConfig)
+        )
+    }
+
+    /// Returns progressive midpoints occupied by radix factors, sorted by orb (most exact first).
+    static func progressiveMidpointsOccupiedByRadix(
+        radixChart: FullChart,
+        progressivePositions: [Factors: ProgressivePosition],
+        factorConfig: FactorConfig,
+        orbConfig: OrbConfig,
+        dialType: MidpointDialType
+    ) -> [MidpointMatch] {
+        let progPos = progressivePositions.map { ($0.key, $0.value.longitude) }
+        guard progPos.count >= 2 else { return [] }
+        let mids = MidpointsCalculator.calculate(positions: progPos)
+        let radixPos = activePositions(chart: radixChart, factorConfig: factorConfig)
+        guard !radixPos.isEmpty else { return [] }
+        return MidpointMatchFinder.find(
+            baseMidpoints: mids,
+            positions: radixPos,
+            dialType: dialType,
+            orb: orb(for: dialType, orbConfig: orbConfig)
+        )
+    }
+
     // MARK: - Private helpers
 
     /// Returns (factor, ecliptic longitude) for all used factors that have a position in the chart.
@@ -64,6 +106,14 @@ struct MidpointsOrchestrator {
             guard usedFactors.contains(factor),
                   let longitude = position.ecliptical.first?.mainPos else { return nil }
             return (factor, longitude)
+        }
+    }
+
+    private static func orb(for dialType: MidpointDialType, orbConfig: OrbConfig) -> Double {
+        switch dialType {
+        case .dial360: return orbConfig.midpoint360DialOrb
+        case .dial90:  return orbConfig.midpoint90DialOrb
+        case .dial45:  return orbConfig.midpoint45DialOrb
         }
     }
 }

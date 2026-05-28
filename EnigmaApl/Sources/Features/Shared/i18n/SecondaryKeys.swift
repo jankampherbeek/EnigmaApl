@@ -42,4 +42,10 @@ struct SecondaryKeys {
     static let matchesColExactness = "view.secondaryresults.matches.col.exactness"
     static let parallelName        = "view.secondaryresults.parallel"
     static let contraparallelName  = "view.secondaryresults.contraparallel"
+
+    // Midpoints tab
+    static let tabMidpoints              = "view.secondaryresults.tab.midpoints"
+    static let midpointsRadixHeader      = "view.secondaryresults.midpoints.radixheader"
+    static let midpointsSecondaryHeader  = "view.secondaryresults.midpoints.secondaryheader"
+    static let midpointsNoMatches        = "view.secondaryresults.midpoints.nomatches"
 }

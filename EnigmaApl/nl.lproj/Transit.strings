@@ -21,7 +21,7 @@
 "view.transitresults.title"                    = "Transitposities";
 "view.transitresults.noresults"                = "Selecteer een gebeurtenis en druk op Bereken om posities te zien.";
 "view.transitresults.tab.positions"            = "Posities";
-"view.transitresults.tab.matches"              = "Overeenkomsten";
+"view.transitresults.tab.matches"              = "Aspecten";
 "view.transitresults.tab.dualwheel"            = "Dubbel Wiel";
 
 // Tab Posities
@@ -38,3 +38,9 @@
 "view.transitresults.matches.col.exactness"    = "Nauwkeurigheid";
 "view.transitresults.parallel"                 = "Parallel";
 "view.transitresults.contraparallel"           = "Contraparallel";
+
+// Tab Middelpunten
+"view.transitresults.tab.midpoints"              = "Middelpunten";
+"view.transitresults.midpoints.radixheader"      = "Radix middelpunten";
+"view.transitresults.midpoints.transitheader"    = "Transit middelpunten";
+"view.transitresults.midpoints.nomatches"        = "Geen bezette middelpunten gevonden.";

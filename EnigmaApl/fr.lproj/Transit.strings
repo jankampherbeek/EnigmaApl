@@ -21,7 +21,7 @@
 "view.transitresults.title"                    = "Positions de Transit";
 "view.transitresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.transitresults.tab.positions"            = "Positions";
-"view.transitresults.tab.matches"              = "Correspondances";
+"view.transitresults.tab.matches"              = "Aspects";
 "view.transitresults.tab.dualwheel"            = "Double Roue";
 
 // Onglet Positions
@@ -38,3 +38,9 @@
 "view.transitresults.matches.col.exactness"    = "Exactitude";
 "view.transitresults.parallel"                 = "Parallèle";
 "view.transitresults.contraparallel"           = "Contraparallèle";
+
+// Onglet Points médians
+"view.transitresults.tab.midpoints"              = "Points médians";
+"view.transitresults.midpoints.radixheader"      = "Points médians du radix";
+"view.transitresults.midpoints.transitheader"    = "Points médians de transit";
+"view.transitresults.midpoints.nomatches"        = "Aucun point médian occupé trouvé.";

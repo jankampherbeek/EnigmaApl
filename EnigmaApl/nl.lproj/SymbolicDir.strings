@@ -23,7 +23,7 @@
 "view.symbolicresults.title"                    = "Symbolische Richtingposities";
 "view.symbolicresults.noresults"                = "Selecteer een evenement en druk op Bereken om posities te zien.";
 "view.symbolicresults.tab.positions"            = "Posities";
-"view.symbolicresults.tab.matches"              = "Overeenkomsten";
+"view.symbolicresults.tab.matches"              = "Aspecten";
 "view.symbolicresults.tab.dualwheel"            = "Dubbel Wiel";
 
 // Tab Posities
@@ -37,3 +37,9 @@
 "view.symbolicresults.matches.col.radix"        = "Radix";
 "view.symbolicresults.matches.col.orb"          = "Orb";
 "view.symbolicresults.matches.col.exactness"    = "Nauwkeurigheid";
+
+// Tab Middelpunten
+"view.symbolicresults.tab.midpoints"              = "Middelpunten";
+"view.symbolicresults.midpoints.radixheader"      = "Radix middelpunten";
+"view.symbolicresults.midpoints.symbolicheader"   = "Symbolische middelpunten";
+"view.symbolicresults.midpoints.nomatches"        = "Geen bezette middelpunten gevonden.";

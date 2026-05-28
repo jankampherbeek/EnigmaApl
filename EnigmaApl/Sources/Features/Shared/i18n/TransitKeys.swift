@@ -42,4 +42,10 @@ struct TransitKeys {
     static let matchesColExactness = "view.transitresults.matches.col.exactness"
     static let parallelName       = "view.transitresults.parallel"
     static let contraparallelName = "view.transitresults.contraparallel"
+
+    // Midpoints tab
+    static let tabMidpoints           = "view.transitresults.tab.midpoints"
+    static let midpointsRadixHeader   = "view.transitresults.midpoints.radixheader"
+    static let midpointsTransitHeader = "view.transitresults.midpoints.transitheader"
+    static let midpointsNoMatches     = "view.transitresults.midpoints.nomatches"
 }

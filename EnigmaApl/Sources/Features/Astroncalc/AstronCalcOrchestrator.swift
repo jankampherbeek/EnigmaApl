@@ -52,10 +52,16 @@ public struct AstronCalcOrchestrator {
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
             let isHelio = request.calculationConfig.observerPosition == .helioCentric
             let geoOnlyRequested = isHelio ? commonSeFactors.filter { Self.geocentricOnlyFactors.contains($0) } : []
-            let helioCompatible = isHelio ? commonSeFactors.filter { !Self.geocentricOnlyFactors.contains($0) } : commonSeFactors
+            let helioOnlyRequested = !isHelio ? commonSeFactors.filter { Self.heliocentricOnlyFactors.contains($0) } : []
+            let helioCompatible = isHelio
+                ? commonSeFactors.filter { !Self.geocentricOnlyFactors.contains($0) }
+                : commonSeFactors.filter { !Self.heliocentricOnlyFactors.contains($0) }
 
             if !geoOnlyRequested.isEmpty {
                 Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(geoOnlyRequested) — not applicable, skipping")
+            }
+            if !helioOnlyRequested.isEmpty {
+                Logger.log.warning("AstronCalcOrchestrator: geocentric/topocentric position requested for \(helioOnlyRequested) — not applicable, skipping")
             }
 
             if !helioCompatible.isEmpty {
@@ -327,6 +333,10 @@ public struct AstronCalcOrchestrator {
                 Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(factor) — not applicable, returning 0.0")
                 return (julianDay, 0.0)
             }
+            if request.calculationConfig.observerPosition != .helioCentric && Self.heliocentricOnlyFactors.contains(factor) {
+                Logger.log.warning("AstronCalcOrchestrator: geocentric/topocentric position requested for \(factor) — not applicable, returning 0.0")
+                return (julianDay, 0.0)
+            }
             let coordSystem: CoordinateSystems = (coordinate == .rightAscension || coordinate == .declination)
                 ? .equatorial : .ecliptical
             let flags = SEFlags.defineFlags(calculationConfig: request.calculationConfig, coordSystem: coordSystem)
@@ -392,6 +402,10 @@ public struct AstronCalcOrchestrator {
         .sun, .moon, .northNode, .apogeeMean, .apogeeCorrected,
         .apogeeInterpolated, .perigeeInterpolated
     ]
+
+    /// Factors that only have a meaningful heliocentric position. When observer position is geocentric
+    /// or topocentric, calculations for these factors are skipped and zero positions are returned instead.
+    private static let heliocentricOnlyFactors: Set<Factors> = [.earth]
 
     /// Calculates the obliquity of the ecliptic using Swiss Ephemeris (SE id -1).
     private static func calculateObliquity(julianDay: Double, seWrapper: SEWrapper) -> Double {

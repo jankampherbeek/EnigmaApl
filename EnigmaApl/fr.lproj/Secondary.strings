@@ -21,7 +21,7 @@
 "view.secondaryresults.title"                    = "Positions de Directions Secondaires";
 "view.secondaryresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.secondaryresults.tab.positions"            = "Positions";
-"view.secondaryresults.tab.matches"              = "Correspondances";
+"view.secondaryresults.tab.matches"              = "Aspects";
 "view.secondaryresults.tab.dualwheel"            = "Double Roue";
 
 // Onglet Positions
@@ -38,3 +38,9 @@
 "view.secondaryresults.matches.col.exactness"    = "Exactitude";
 "view.secondaryresults.parallel"                 = "Parallèle";
 "view.secondaryresults.contraparallel"           = "Contraparallèle";
+
+// Onglet Points médians
+"view.secondaryresults.tab.midpoints"              = "Points médians";
+"view.secondaryresults.midpoints.radixheader"      = "Points médians du radix";
+"view.secondaryresults.midpoints.secondaryheader"  = "Points médians secondaires";
+"view.secondaryresults.midpoints.nomatches"        = "Aucun point médian occupé trouvé.";

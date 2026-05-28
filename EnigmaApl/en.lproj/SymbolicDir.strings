@@ -23,7 +23,7 @@
 "view.symbolicresults.title"                    = "Symbolic Direction Positions";
 "view.symbolicresults.noresults"                = "Select an event and press Calculate to see positions.";
 "view.symbolicresults.tab.positions"            = "Positions";
-"view.symbolicresults.tab.matches"              = "Matches";
+"view.symbolicresults.tab.matches"              = "Aspects";
 "view.symbolicresults.tab.dualwheel"            = "Dual Wheel";
 
 // Positions tab
@@ -37,3 +37,9 @@
 "view.symbolicresults.matches.col.radix"        = "Radix";
 "view.symbolicresults.matches.col.orb"          = "Orb";
 "view.symbolicresults.matches.col.exactness"    = "Exactness";
+
+// Midpoints tab
+"view.symbolicresults.tab.midpoints"              = "Midpoints";
+"view.symbolicresults.midpoints.radixheader"      = "Radix midpoints";
+"view.symbolicresults.midpoints.symbolicheader"   = "Symbolic midpoints";
+"view.symbolicresults.midpoints.nomatches"        = "No occupied midpoints found.";

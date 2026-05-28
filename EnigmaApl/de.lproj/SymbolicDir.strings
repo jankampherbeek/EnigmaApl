@@ -23,7 +23,7 @@
 "view.symbolicresults.title"                    = "Symbolische Direktionspositionen";
 "view.symbolicresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
 "view.symbolicresults.tab.positions"            = "Positionen";
-"view.symbolicresults.tab.matches"              = "Treffer";
+"view.symbolicresults.tab.matches"              = "Aspekte";
 "view.symbolicresults.tab.dualwheel"            = "Doppelrad";
 
 // Tab Positionen
@@ -37,3 +37,9 @@
 "view.symbolicresults.matches.col.radix"        = "Radix";
 "view.symbolicresults.matches.col.orb"          = "Orb";
 "view.symbolicresults.matches.col.exactness"    = "Genauigkeit";
+
+// Tab Mittelpunkte
+"view.symbolicresults.tab.midpoints"              = "Mittelpunkte";
+"view.symbolicresults.midpoints.radixheader"      = "Radix-Mittelpunkte";
+"view.symbolicresults.midpoints.symbolicheader"   = "Symbolische Mittelpunkte";
+"view.symbolicresults.midpoints.nomatches"        = "Keine besetzten Mittelpunkte gefunden.";

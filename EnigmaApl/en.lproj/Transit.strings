@@ -21,7 +21,7 @@
 "view.transitresults.title"                    = "Transit Positions";
 "view.transitresults.noresults"                = "Select an event and press Calculate to see positions.";
 "view.transitresults.tab.positions"            = "Positions";
-"view.transitresults.tab.matches"              = "Matches";
+"view.transitresults.tab.matches"              = "Aspects";
 "view.transitresults.tab.dualwheel"            = "Dual Wheel";
 
 // Positions tab
@@ -38,3 +38,9 @@
 "view.transitresults.matches.col.exactness"    = "Exactness";
 "view.transitresults.parallel"                 = "Parallel";
 "view.transitresults.contraparallel"           = "Contraparallel";
+
+// Midpoints tab
+"view.transitresults.tab.midpoints"              = "Midpoints";
+"view.transitresults.midpoints.radixheader"      = "Radix midpoints";
+"view.transitresults.midpoints.transitheader"    = "Transit midpoints";
+"view.transitresults.midpoints.nomatches"        = "No occupied midpoints found.";

@@ -21,7 +21,7 @@
 "view.transitresults.title"                    = "Transitpositionen";
 "view.transitresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
 "view.transitresults.tab.positions"            = "Positionen";
-"view.transitresults.tab.matches"              = "Treffer";
+"view.transitresults.tab.matches"              = "Aspekte";
 "view.transitresults.tab.dualwheel"            = "Doppelrad";
 
 // Tab Positionen
@@ -38,3 +38,9 @@
 "view.transitresults.matches.col.exactness"    = "Genauigkeit";
 "view.transitresults.parallel"                 = "Parallel";
 "view.transitresults.contraparallel"           = "Kontraparallel";
+
+// Tab Mittelpunkte
+"view.transitresults.tab.midpoints"              = "Mittelpunkte";
+"view.transitresults.midpoints.radixheader"      = "Radix-Mittelpunkte";
+"view.transitresults.midpoints.transitheader"    = "Transit-Mittelpunkte";
+"view.transitresults.midpoints.nomatches"        = "Keine besetzten Mittelpunkte gefunden.";

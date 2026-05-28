@@ -21,7 +21,7 @@
 "view.secondaryresults.title"                    = "Sekundäre Direktionspositionen";
 "view.secondaryresults.noresults"                = "Ereignis auswählen und Berechnen drücken, um Positionen zu sehen.";
 "view.secondaryresults.tab.positions"            = "Positionen";
-"view.secondaryresults.tab.matches"              = "Treffer";
+"view.secondaryresults.tab.matches"              = "Aspekte";
 "view.secondaryresults.tab.dualwheel"            = "Doppelrad";
 
 // Tab Positionen
@@ -38,3 +38,9 @@
 "view.secondaryresults.matches.col.exactness"    = "Genauigkeit";
 "view.secondaryresults.parallel"                 = "Parallel";
 "view.secondaryresults.contraparallel"           = "Kontraparallel";
+
+// Tab Mittelpunkte
+"view.secondaryresults.tab.midpoints"              = "Mittelpunkte";
+"view.secondaryresults.midpoints.radixheader"      = "Radix-Mittelpunkte";
+"view.secondaryresults.midpoints.secondaryheader"  = "Sekundäre Mittelpunkte";
+"view.secondaryresults.midpoints.nomatches"        = "Keine besetzten Mittelpunkte gefunden.";

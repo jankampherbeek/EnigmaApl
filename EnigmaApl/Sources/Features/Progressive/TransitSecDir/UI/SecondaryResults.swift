@@ -12,7 +12,7 @@ private func t(_ key: String) -> String {
 // MARK: - Tab enum
 
 private enum SecondaryResultTab: String, CaseIterable {
-    case positions, matches, dualWheel
+    case positions, matches, midpoints, dualWheel
 }
 
 // MARK: - Main view
@@ -53,10 +53,11 @@ struct SecondaryResults: View {
                     Picker("", selection: $selectedTab) {
                         Text(t(SecondaryKeys.tabPositions)).tag(SecondaryResultTab.positions)
                         Text(t(SecondaryKeys.tabMatches)).tag(SecondaryResultTab.matches)
+                        Text(t(SecondaryKeys.tabMidpoints)).tag(SecondaryResultTab.midpoints)
                         Text(t(SecondaryKeys.tabDualWheel)).tag(SecondaryResultTab.dualWheel)
                     }
                     .pickerStyle(.segmented)
-                    .frame(maxWidth: 500)
+                    .frame(maxWidth: 650)
 
                     tabContent
                 }
@@ -102,6 +103,13 @@ struct SecondaryResults: View {
         case .matches:
             matchesTable
                 .frame(maxWidth: 700, alignment: .leading)
+        case .midpoints:
+            ProgressiveMidpointsTab(
+                progressivePositions: secondaryModel.results,
+                radixSectionTitle: t(SecondaryKeys.midpointsRadixHeader),
+                progressiveSectionTitle: t(SecondaryKeys.midpointsSecondaryHeader),
+                noMatchesText: t(SecondaryKeys.midpointsNoMatches)
+            )
         case .dualWheel:
             VStack(alignment: .leading, spacing: 8) {
                 dualWheelControls

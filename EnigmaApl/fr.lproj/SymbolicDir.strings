@@ -23,7 +23,7 @@
 "view.symbolicresults.title"                    = "Positions de Directions Symboliques";
 "view.symbolicresults.noresults"                = "Sélectionnez un événement et appuyez sur Calculer pour voir les positions.";
 "view.symbolicresults.tab.positions"            = "Positions";
-"view.symbolicresults.tab.matches"              = "Correspondances";
+"view.symbolicresults.tab.matches"              = "Aspects";
 "view.symbolicresults.tab.dualwheel"            = "Double Roue";
 
 // Onglet Positions
@@ -37,3 +37,9 @@
 "view.symbolicresults.matches.col.radix"        = "Radix";
 "view.symbolicresults.matches.col.orb"          = "Orbe";
 "view.symbolicresults.matches.col.exactness"    = "Exactitude";
+
+// Onglet Points médians
+"view.symbolicresults.tab.midpoints"              = "Points médians";
+"view.symbolicresults.midpoints.radixheader"      = "Points médians du radix";
+"view.symbolicresults.midpoints.symbolicheader"   = "Points médians symboliques";
+"view.symbolicresults.midpoints.nomatches"        = "Aucun point médian occupé trouvé.";

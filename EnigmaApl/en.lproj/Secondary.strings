@@ -21,7 +21,7 @@
 "view.secondaryresults.title"                    = "Secondary Direction Positions";
 "view.secondaryresults.noresults"                = "Select an event and press Calculate to see positions.";
 "view.secondaryresults.tab.positions"            = "Positions";
-"view.secondaryresults.tab.matches"              = "Matches";
+"view.secondaryresults.tab.matches"              = "Aspects";
 "view.secondaryresults.tab.dualwheel"            = "Dual Wheel";
 
 // Positions tab
@@ -38,3 +38,9 @@
 "view.secondaryresults.matches.col.exactness"    = "Exactness";
 "view.secondaryresults.parallel"                 = "Parallel";
 "view.secondaryresults.contraparallel"           = "Contraparallel";
+
+// Midpoints tab
+"view.secondaryresults.tab.midpoints"              = "Midpoints";
+"view.secondaryresults.midpoints.radixheader"      = "Radix midpoints";
+"view.secondaryresults.midpoints.secondaryheader"  = "Secondary midpoints";
+"view.secondaryresults.midpoints.nomatches"        = "No occupied midpoints found.";

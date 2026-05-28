@@ -21,7 +21,7 @@
 "view.secondaryresults.title"                    = "Secundaire Directies";
 "view.secondaryresults.noresults"                = "Selecteer een gebeurtenis en druk op Bereken om posities te zien.";
 "view.secondaryresults.tab.positions"            = "Posities";
-"view.secondaryresults.tab.matches"              = "Overeenkomsten";
+"view.secondaryresults.tab.matches"              = "Aspecten";
 "view.secondaryresults.tab.dualwheel"            = "Dubbel Wiel";
 
 // Tab Posities
@@ -38,3 +38,9 @@
 "view.secondaryresults.matches.col.exactness"    = "Nauwkeurigheid";
 "view.secondaryresults.parallel"                 = "Parallel";
 "view.secondaryresults.contraparallel"           = "Contraparallel";
+
+// Tab Middelpunten
+"view.secondaryresults.tab.midpoints"              = "Middelpunten";
+"view.secondaryresults.midpoints.radixheader"      = "Radix middelpunten";
+"view.secondaryresults.midpoints.secondaryheader"  = "Secundaire middelpunten";
+"view.secondaryresults.midpoints.nomatches"        = "Geen bezette middelpunten gevonden.";

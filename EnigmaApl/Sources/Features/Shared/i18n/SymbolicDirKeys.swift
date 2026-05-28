@@ -41,4 +41,10 @@ struct SymbolicDirKeys {
     static let matchesColRadix     = "view.symbolicresults.matches.col.radix"
     static let matchesColOrb       = "view.symbolicresults.matches.col.orb"
     static let matchesColExactness = "view.symbolicresults.matches.col.exactness"
+
+    // Midpoints tab
+    static let tabMidpoints             = "view.symbolicresults.tab.midpoints"
+    static let midpointsRadixHeader     = "view.symbolicresults.midpoints.radixheader"
+    static let midpointsSymbolicHeader  = "view.symbolicresults.midpoints.symbolicheader"
+    static let midpointsNoMatches       = "view.symbolicresults.midpoints.nomatches"
 }
