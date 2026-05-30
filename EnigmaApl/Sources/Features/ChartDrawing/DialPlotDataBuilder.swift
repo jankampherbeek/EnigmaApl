@@ -18,6 +18,7 @@ struct DialPlotDataBuilder {
         for (factor, position) in chart.Coordinates {
             guard factor.calculationType != .Mundane,
                   factor.calculationType != .Unknown,
+                  !chart.omittedFactors.contains(factor),
                   FactorDisplaySelector.shouldDraw(factor),
                   let eclPos = position.ecliptical.first?.mainPos else { continue }
 

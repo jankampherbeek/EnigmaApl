@@ -42,7 +42,7 @@ final class RadixSearchModel: ObservableObject {
         let request = CalcRequest(
             JulianDay: dateTime.julianDate,
             FactorsToUse: factorsToUse,
-            HouseSystem: HouseSystems.placidus.rawValue,
+            HouseSystem: Int(calculationConfig.houseSystem.seId.asciiValue ?? 80),
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,

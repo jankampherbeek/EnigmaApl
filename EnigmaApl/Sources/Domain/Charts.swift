@@ -10,18 +10,21 @@ public struct FullChart {
     public let SiderealTime: Double
     public let JulianDay: Double
     public let Obliquity: Double
-    
+    public let omittedFactors: [Factors]
+
     public init(
         Coordinates: [Factors: FullFactorPosition],
         HousePositions: HousePositions,
         SiderealTime: Double,
         JulianDay: Double,
-        Obliquity: Double
+        Obliquity: Double,
+        omittedFactors: [Factors] = []
     ) {
         self.Coordinates = Coordinates
         self.HousePositions = HousePositions
         self.SiderealTime = SiderealTime
         self.JulianDay = JulianDay
         self.Obliquity = Obliquity
+        self.omittedFactors = omittedFactors
     }
 }

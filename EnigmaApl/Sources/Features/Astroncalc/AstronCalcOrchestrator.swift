@@ -42,12 +42,13 @@ public struct AstronCalcOrchestrator {
         
         // Group factors by calculation type
         let factorsByType = Dictionary(grouping: request.FactorsToUse) { $0.calculationType }
-        
+
         // Calculate factors for each calculation type
         var allCoordinates: [Factors: FullFactorPosition] = [:]
+        var omittedFactors: [Factors] = []
         var longitudeSun = -1.0
         var longitudeMoon = -1.0
-        
+
         // Handle CommonSe factors
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
             let isHelio = request.calculationConfig.observerPosition == .helioCentric
@@ -74,8 +75,9 @@ public struct AstronCalcOrchestrator {
                     Height: request.Height,
                     calculationConfig: request.calculationConfig
                 )
-                let commonSeCoordinates = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
+                let (commonSeCoordinates, seOmitted) = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
                 allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
+                omittedFactors.append(contentsOf: seOmitted)
                 longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
                 longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
             }
@@ -275,7 +277,8 @@ public struct AstronCalcOrchestrator {
             HousePositions: housePositions,
             SiderealTime: siderealTime,
             JulianDay: julianDay,
-            Obliquity: obliquity
+            Obliquity: obliquity,
+            omittedFactors: omittedFactors
         )
     }
     

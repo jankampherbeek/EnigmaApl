@@ -13,36 +13,36 @@ public struct SECalculation {
     ///   - flagsEquatorial: SE flags for calculation using equatorial coordinates
     ///   - seWrapper: The SEWrapper instance to use (must be shared across calculations to avoid thread-safety issues)
     /// - Returns: A tuple containing a dictionary of factor positions
-    public static func CalculateFactors(_ request: CalcRequest, flagsEcliptical: Int, flagsEquatorial: Int, seWrapper: SEWrapper) -> ([Factors: FullFactorPosition]) {
+    public static func CalculateFactors(_ request: CalcRequest, flagsEcliptical: Int, flagsEquatorial: Int, seWrapper: SEWrapper) -> (positions: [Factors: FullFactorPosition], omittedFactors: [Factors]) {
         let julianDay = request.JulianDay
-        
-        // Calculate positions for each factor
+
         var coordinates: [Factors: FullFactorPosition] = [:]
-        
+        var omittedFactors: [Factors] = []
+
         for factor in request.FactorsToUse {
             let factorId = factor.seId
-            
+
             // Calculate ecliptical position
             let eclipticalPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
                 factor: factorId,
                 flags: flagsEcliptical
             )
-            
+
             // Calculate equatorial position
             let equatorialPos = seWrapper.calculateFactorPosition(
                 julianDay: julianDay,
                 factor: factorId,
                 flags: flagsEquatorial
             )
-            
+
             // Create arrays for FullPosition
             // Each FullPosition contains arrays, so we wrap single positions in arrays
             let eclipticalArray: [MainAstronomicalPosition]
             if let pos = eclipticalPos {
                 eclipticalArray = [pos]
             } else {
-                // If calculation failed, use zero values
+                omittedFactors.append(factor)
                 eclipticalArray = [MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0)]
             }
             
@@ -73,11 +73,11 @@ public struct SECalculation {
                 equatorial: equatorialArray,
                 horizontal: horizontalArray
             )
-            
+
             coordinates[factor] = fullPosition
         }
-        
-        return coordinates
+
+        return (positions: coordinates, omittedFactors: omittedFactors)
     }
     
     /// Calculates house positions (cusps, ascendant, MC, vertex, and eastpoint)

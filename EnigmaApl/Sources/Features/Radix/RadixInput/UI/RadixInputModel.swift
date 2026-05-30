@@ -72,7 +72,7 @@ final class RadixInputModel: ObservableObject {
         let request = CalcRequest(
             JulianDay: utJulianDay,
             FactorsToUse: input.factorsToUse,
-            HouseSystem: HouseSystems.placidus.rawValue,
+            HouseSystem: Int(input.calculationConfig.houseSystem.seId.asciiValue ?? 80),
             Latitude: Self.dmsToDecimal(
                 degrees: input.latitudeDegrees,
                 minutes: input.latitudeMinutes,

@@ -46,6 +46,7 @@ struct RadixInputScreen: View {
     @State private var selectedCity: LocationCity? = nil
     @State private var showHelp = false
     @State private var showSaveWarning = false
+    @State private var showOmittedWarning = false
     @State private var expandedSection: AccordionSection = .chartInfo
     @State private var chartInfoSubmitted = false
     @FocusState private var focusedHeader: AccordionSection?
@@ -107,14 +108,30 @@ struct RadixInputScreen: View {
         dstOption = zone.dstUsed ? .dst : .noDST
     }
 
+    private var omittedFactorsMessage: String {
+        guard let chart = inputModel.lastChart, !chart.omittedFactors.isEmpty else { return "" }
+        let names = chart.omittedFactors
+            .map { NSLocalizedString($0.localizedName, bundle: .main, comment: "") }
+            .joined(separator: ", ")
+        return String(format: ri("view.radixinputscreen.warning.omittedfactors"), names)
+    }
+
     private func calculate() {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
-        if let chart = inputModel.lastChart, let request = inputModel.lastRequest {
-            chartSession.add(name: chartName, chart: chart, baseRequest: request, timeZoneOffsetHours: utOffsetDecimalHours())
-            radixNav.setInspector(.positions)
-            saveHoroscope(julianDate: request.JulianDay)
+        guard let chart = inputModel.lastChart else { return }
+        if !chart.omittedFactors.isEmpty {
+            showOmittedWarning = true
+        } else {
+            navigateToResult()
         }
+    }
+
+    private func navigateToResult() {
+        guard let chart = inputModel.lastChart, let request = inputModel.lastRequest else { return }
+        chartSession.add(name: chartName, chart: chart, baseRequest: request, timeZoneOffsetHours: utOffsetDecimalHours())
+        radixNav.setInspector(.positions)
+        saveHoroscope(julianDate: request.JulianDay)
     }
 
     private func utOffsetDecimalHours() -> Double {
@@ -214,6 +231,14 @@ struct RadixInputScreen: View {
                 if showSaveWarning {
                     Label(ri("view.radixinputscreen.warning.savefailed"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
                 }
+                if let chart = inputModel.lastChart, !chart.omittedFactors.isEmpty {
+                    let names = chart.omittedFactors
+                        .map { NSLocalizedString($0.localizedName, bundle: .main, comment: "") }
+                        .joined(separator: ", ")
+                    Label(String(format: ri("view.radixinputscreen.warning.omittedfactors"), names), systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                }
             }
             .frame(maxWidth: 900, alignment: .leading).padding().frame(maxWidth: .infinity, alignment: .leading)
             .onChange(of: focusedHeader) { _, header in
@@ -240,5 +265,11 @@ struct RadixInputScreen: View {
             }
         }
         .sheet(isPresented: $showHelp) { RadixChartHelpView() }
+        .alert(ri("view.radixinputscreen.warning.omittedfactors.title"), isPresented: $showOmittedWarning) {
+            Button(ri("view.radixinputscreen.warning.omittedfactors.confirm")) { navigateToResult() }
+            Button(ri("view.radixinputscreen.warning.omittedfactors.cancel"), role: .cancel) { }
+        } message: {
+            Text(omittedFactorsMessage)
+        }
     }
 }
