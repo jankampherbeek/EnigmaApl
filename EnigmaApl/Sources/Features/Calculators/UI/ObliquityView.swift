@@ -10,6 +10,8 @@ private func ca(_ key: String) -> String {
 
 struct ObliquityView: View {
 
+    private let seWrapper = SEWrapper()
+
     // MARK: - Date and time input
     @State private var yearText: String       = "2000"
     @State private var month: Int             = 1
@@ -58,26 +60,26 @@ struct ObliquityView: View {
                         dateTimeInputSection
 
                         Button(ca(CalculatorsKeys.oblCalcButton)) {
-                            // Backend not yet implemented
+                            calculateObliquity()
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(!dateValidation.isValid)
 
                         if let mean = meanObliquityResult {
                             LabeledContent(ca(CalculatorsKeys.oblResultMean)) {
-                                Text(String(format: "%.6f°", mean))
+                                Text(mean.formatted(.number.precision(.fractionLength(6))) + "°")
                                     .monospacedDigit()
                             }
                         }
                         if let trueObl = trueObliquityResult {
                             LabeledContent(ca(CalculatorsKeys.oblResultTrue)) {
-                                Text(String(format: "%.6f°", trueObl))
+                                Text(trueObl.formatted(.number.precision(.fractionLength(6))) + "°")
                                     .monospacedDigit()
                             }
                         }
                         if let nutation = nutationResult {
                             LabeledContent(ca(CalculatorsKeys.oblResultNutation)) {
-                                Text(String(format: "%.6f°", nutation))
+                                Text(nutation.formatted(.number.precision(.fractionLength(6))) + "°")
                                     .monospacedDigit()
                             }
                         }
@@ -89,6 +91,23 @@ struct ObliquityView: View {
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    // MARK: - Calculation
+
+    private func calculateObliquity() {
+        guard let year = astronomicalYear else { return }
+        let date = AstronomicalDate(Year: year, Month: month, Day: day,
+                                    Gregorian: calendarStyle == .gregorian)
+        let localTime = AstronomicalTime(Hour: hour, Minute: minute, Second: second)
+        let localJD = seWrapper.julianDay(date: date, time: localTime)
+        let offsetSeconds = Double(offsetHour * 3600 + offsetMinute * 60)
+        let sign = utOffsetDirection == .earlier ? -1.0 : 1.0
+        let utJD = localJD + (sign * offsetSeconds) / 86_400.0
+        guard let result = seWrapper.calculateObliquity(jdUt: utJD) else { return }
+        meanObliquityResult  = result.meanObliquity
+        trueObliquityResult  = result.trueObliquity
+        nutationResult       = result.nutation
     }
 
     // MARK: - Date/time entry block

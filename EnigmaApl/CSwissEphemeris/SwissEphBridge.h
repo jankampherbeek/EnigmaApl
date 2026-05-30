@@ -33,6 +33,7 @@ int32_t swe_get_orbital_elements(double tjd_et, int32_t ipl, int32_t iflag, doub
 int32_t swe_nod_aps_ut(double tjd_ut, int32_t ipl, int32_t iflag, int32_t method, double *xnasc, double *xndsc, double *xperi, double *xaphe, char *serr);
 
 // Planet constants
+#define SE_ECL_NUT      -1
 #define SE_SUN          0
 #define SE_MOON         1
 #define SE_MERCURY      2

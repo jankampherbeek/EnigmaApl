@@ -281,6 +281,51 @@ public class SEWrapper {
         return deltaT * 86400.0   // SE returns days; convert to seconds
     }
 
+    // MARK: - Obliquity and Nutation Calculation
+    /// Calculate mean obliquity, true obliquity and nutation in longitude.
+    /// - Parameters
+    ///     - jdUt: Julian day number in UT
+    /// - Returns
+    ///     - Tuple (meanObliquity, trueObliquity, nutation) in degrees, or nil on error
+    /// From docu SE:
+    ///     Call swe_calc_ut() with ipl = SE_ECL_NUT (-1).
+    ///     xx[0] = true obliquity of the ecliptic (epsilon true)
+    ///     xx[1] = mean obliquity of the ecliptic (epsilon mean)
+    ///     xx[2] = nutation in longitude (delta psi)
+    ///     xx[3] = nutation in obliquity (delta epsilon)
+    public func calculateObliquity(jdUt: Double) -> (meanObliquity: Double, trueObliquity: Double, nutation: Double)? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var result = [Double](repeating: 0.0, count: 6)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        result.withUnsafeMutableBufferPointer { resultBuffer in
+            error.withUnsafeMutableBufferPointer { errorBuffer in
+                guard let resultPtr = resultBuffer.baseAddress,
+                      let errorPtr = errorBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for obliquity calculation")
+                    return
+                }
+                returnCode = swe_calc_ut(jdUt, SE_ECL_NUT, SEFLG_SWIEPH, resultPtr, errorPtr)
+                if returnCode < 0 {
+                    errorMessage = String(cString: errorPtr)
+                }
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating obliquity: \(errorMessage)")
+            return nil
+        }
+
+        return (meanObliquity: result[1], trueObliquity: result[0], nutation: result[2])
+    }
+
     // MARK: - Factor Position Calculation
     /// Calculate the position of a factor.
     /// - Parameters
