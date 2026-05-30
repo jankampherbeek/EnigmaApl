@@ -58,6 +58,8 @@ struct DetailColumn: View {
             return ""
         case .cycles:
             return "Detail"
+        case .calculators:
+            return app.nav.calculators.section.rawValue
         case .config:
             return configNav.selectedConfig?.name ?? "Configuratie"
         }
@@ -131,6 +133,15 @@ struct DetailColumn: View {
                             WavesScreen()
                         case .tablesGraphs:
                             TablesGraphsScreen()
+                        }
+                    case .calculators:
+                        switch app.nav.calculators.section {
+                        case .julianDay:
+                            JulianDayView()
+                        case .obliquity:
+                            ObliquityView()
+                        case .siderealTime:
+                            EmptyView()
                         }
                     case .config:
                         EmptyView()

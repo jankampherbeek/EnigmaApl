@@ -40,6 +40,8 @@ final class AppState: ObservableObject {
             if nav.research.selectedID == nil { nav.research.selectedID = projects.first?.id }
         case .cycles:
             if nav.cycles.selectedID == nil { nav.cycles.selectedID = profiles.first?.id }
+        case .calculators:
+            break
         case .config:
             break
         }
@@ -88,6 +90,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case progressive = "Progressive"
     case research = "Research"
     case cycles = "Cycles"
+    case calculators = "Calculators"
     case config = "Configuratie"
 
     var id: String { rawValue }
@@ -98,6 +101,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
         case .progressive:  return "arrow.forward.circle"
         case .research:     return "flask"
         case .cycles:       return "waveform.path.ecg"
+        case .calculators:  return "function"
         case .config:       return "gear"
         }
     }
@@ -111,6 +115,7 @@ struct NavigationState: Equatable {
     var progressive = ProgressiveNav()
     var research = ResearchNav()
     var cycles = CyclesNav()
+    var calculators = CalculatorsNav()
 }
 
 struct UIState: Equatable {

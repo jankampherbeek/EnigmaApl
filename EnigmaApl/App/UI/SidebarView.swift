@@ -16,6 +16,7 @@ struct SidebarView: View {
     @EnvironmentObject private var progressiveNav: ProgressiveNavigator
     @EnvironmentObject private var researchNav: ResearchNavigator
     @EnvironmentObject private var cyclesNav: CyclesNavigator
+    @EnvironmentObject private var calculatorsNav: CalculatorsNavigator
     @EnvironmentObject private var configNav: ConfigNavigator
 
     var body: some View {
@@ -71,6 +72,15 @@ struct SidebarView: View {
                     Button { cyclesNav.setSection(.tablesGraphs) } label: {
                         row(CyclesSection.tablesGraphs.rawValue, app.nav.cycles.section == .tablesGraphs)
                     }.buttonStyle(.plain)
+                }
+            case .calculators:
+                Section("Calculators") {
+                    ForEach(CalculatorsSection.allCases) { section in
+                        Button { calculatorsNav.setSection(section) } label: {
+                            row(section.rawValue, app.nav.calculators.section == section)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
             case .config:
                 EmptyView()

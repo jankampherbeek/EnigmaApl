@@ -71,6 +71,8 @@ struct ContentColumn: View {
                 case .tablesGraphs:
                     EmptyView()
                 }
+            case .calculators:
+                CalculatorsScreen()
             case .config:
                 ConfigListScreen()
             }
