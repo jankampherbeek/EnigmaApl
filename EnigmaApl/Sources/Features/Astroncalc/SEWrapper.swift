@@ -244,6 +244,43 @@ public class SEWrapper {
     
     
     
+    // MARK: - Delta T Calculation
+    /// Calculate Delta T (difference between Terrestrial Time and Universal Time).
+    /// - Parameters
+    ///     - jdUt: Julian day number in UT
+    ///     - flag: ephemeris flag; always pass 2 (SEFLG_SWIEPH)
+    /// - Returns
+    ///     - Delta T in seconds
+    /// From docu SE:
+    ///     double swe_deltat_ex(
+    ///         double tjd,     /* Julian day number */
+    ///         int32 iflag,    /* ephemeris flag */
+    ///         char *serr);    /* error string */
+    ///     The function returns DeltaT in days; multiply by 86400 to get seconds.
+    public func calculateDeltaT(jdUt: Double, flag: Int = 2) -> Double {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return 0.0
+        }
+
+        var error = [CChar](repeating: 0, count: 256)
+        var deltaT: Double = 0.0
+
+        error.withUnsafeMutableBufferPointer { errorBuffer in
+            guard let errorPtr = errorBuffer.baseAddress else {
+                Logger.log.error("Failed to get valid pointer for Delta T calculation")
+                return
+            }
+            deltaT = swe_deltat_ex(jdUt, Int32(flag), errorPtr)
+            if errorBuffer[0] != 0 {
+                let errorMessage = String(cString: errorPtr)
+                Logger.log.error("Error calculating Delta T: \(errorMessage)")
+            }
+        }
+
+        return deltaT * 86400.0   // SE returns days; convert to seconds
+    }
+
     // MARK: - Factor Position Calculation
     /// Calculate the position of a factor.
     /// - Parameters

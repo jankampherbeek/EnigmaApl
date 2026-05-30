@@ -10,6 +10,8 @@ private func ca(_ key: String) -> String {
 
 struct JulianDayView: View {
 
+    private let seWrapper = SEWrapper()
+
     // MARK: - Date and time input (date → JD)
     @State private var yearText: String       = "2000"
     @State private var month: Int             = 1
@@ -65,20 +67,20 @@ struct JulianDayView: View {
                         dateTimeInputSection
 
                         Button(ca(CalculatorsKeys.jdCalcButton)) {
-                            // Backend not yet implemented
+                            calculateJulianDay()
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(!dateValidation.isValid)
 
                         if let jd = julianDayResult {
                             LabeledContent(ca(CalculatorsKeys.jdResultJd)) {
-                                Text(String(format: "%.6f", jd))
+                                Text(jd.formatted(.number.precision(.fractionLength(6))))
                                     .monospacedDigit()
                             }
                         }
                         if let dt = deltaTResult {
                             LabeledContent(ca(CalculatorsKeys.jdResultDeltaT)) {
-                                Text(String(format: "%.2f s", dt))
+                                Text(dt.formatted(.number.precision(.fractionLength(2))) + " s")
                                     .monospacedDigit()
                             }
                         }
@@ -96,7 +98,7 @@ struct JulianDayView: View {
                         }
 
                         Button(ca(CalculatorsKeys.jdCalcDateTimeButton)) {
-                            // Backend not yet implemented
+                            calculateDateTime()
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(Double(jdInputText) == nil)
@@ -119,6 +121,30 @@ struct JulianDayView: View {
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    // MARK: - Calculations
+
+    private func calculateJulianDay() {
+        guard let year = astronomicalYear else { return }
+        let date = AstronomicalDate(Year: year, Month: month, Day: day,
+                                    Gregorian: calendarStyle == .gregorian)
+        let localTime = AstronomicalTime(Hour: hour, Minute: minute, Second: second)
+        let localJD = seWrapper.julianDay(date: date, time: localTime)
+        let offsetSeconds = Double(offsetHour * 3600 + offsetMinute * 60)
+        let sign = utOffsetDirection == .earlier ? -1.0 : 1.0
+        let utJD = localJD + (sign * offsetSeconds) / 86_400.0
+        julianDayResult = utJD
+        deltaTResult = seWrapper.calculateDeltaT(jdUt: utJD)
+    }
+
+    private func calculateDateTime() {
+        guard let jd = Double(jdInputText) else { return }
+        let dateTime = seWrapper.dateFromJulianDay(jd)
+        let d = dateTime.Date
+        let t = dateTime.Time
+        dateResult = String(format: "%d-%02d-%02d", d.Year, d.Month, d.Day)
+        timeResult = String(format: "%02d:%02d:%02d", t.Hour, t.Minute, t.Second)
     }
 
     // MARK: - Shared date/time entry block
