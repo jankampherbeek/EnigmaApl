@@ -16,6 +16,7 @@
 "view.calculators.validation.invalidyear" = "Geben Sie ein gültiges Jahr für die ausgewählte Jahreszählung ein";
 
 // MARK: - JulianDayView
+"view.julianday.help"               = "Die Julianische Tageszahl ist eine Methode zur einheitlichen Angabe eines Zeitpunkts in der Astronomie. Ein Julianischer Tag beginnt um 12:00 Uhr UT.\n\nDatum und Uhrzeit können auf die übliche Weise eingegeben werden. Die Julianische Tageszahl wird durch Klicken auf 'Julianischen Tag berechnen' ermittelt.\n\nNeben dem Julianischen Tag wird auch der Wert von Delta T angezeigt, einer Zeitabweichung, die die Berechnung von Planetenstellungen beeinflusst.\n\nWenn du eine Julianische Tageszahl kennst und das entsprechende Datum ermitteln möchtest, kannst du das im unteren Teil des Bildschirms tun.";
 "view.julianday.title"              = "Julianischer Tag Rechner";
 "view.julianday.datetimetojd"       = "Datum und Uhrzeit zu Julianischem Tag";
 "view.julianday.calcbutton"         = "Julianischen Tag berechnen";
@@ -28,9 +29,9 @@
 "view.julianday.result.time"        = "Uhrzeit (UT)";
 
 // MARK: - ObliquityView
+"view.obliquity.help"               = "Die Neigung der Erdachse ist für eine Vielzahl astronomischer Berechnungen von Bedeutung. Die Veränderungen verlaufen sehr langsam, sind aber relevant, u.a. für die Bestimmung von OOB-Positionen.\n\nGib Datum und Uhrzeit auf die übliche Weise ein. Klicke auf 'Obliquität berechnen' und du siehst zwei Werte: die mittlere Obliquität und die wahre Obliquität. Die wahre Obliquität berücksichtigt die Anziehungskraft des Mondes, die minimale Schwankungen in der Neigung der Erdachse verursacht.";
 "view.obliquity.title"              = "Obliquität Rechner";
 "view.obliquity.datetimesection"    = "Datum und Uhrzeit";
 "view.obliquity.calcbutton"         = "Obliquität berechnen";
 "view.obliquity.result.mean"        = "Mittlere Obliquität";
 "view.obliquity.result.true"        = "Wahre Obliquität";
-"view.obliquity.result.nutation"    = "Nutation";

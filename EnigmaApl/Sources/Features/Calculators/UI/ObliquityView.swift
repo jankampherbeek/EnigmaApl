@@ -24,11 +24,11 @@ struct ObliquityView: View {
     @State private var offsetHour: Int                  = 0
     @State private var offsetMinute: Int                = 0
     @State private var utOffsetDirection: UTOffsetDirection = .later
+    @State private var showHelp: Bool = false
 
     // MARK: - Results
     @State private var meanObliquityResult: Double? = nil
     @State private var trueObliquityResult: Double? = nil
-    @State private var nutationResult: Double?      = nil
 
     private var dateValidation: DateComponentsValidationResult {
         guard let year = astronomicalYear else {
@@ -77,12 +77,6 @@ struct ObliquityView: View {
                                     .monospacedDigit()
                             }
                         }
-                        if let nutation = nutationResult {
-                            LabeledContent(ca(CalculatorsKeys.oblResultNutation)) {
-                                Text(nutation.formatted(.number.precision(.fractionLength(6))) + "°")
-                                    .monospacedDigit()
-                            }
-                        }
                     }
                     .padding(.top, 4)
                 }
@@ -90,6 +84,17 @@ struct ObliquityView: View {
             .frame(maxWidth: 900, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ca(CalculatorsKeys.oblHelp))
         }
     }
 
@@ -105,9 +110,8 @@ struct ObliquityView: View {
         let sign = utOffsetDirection == .earlier ? -1.0 : 1.0
         let utJD = localJD + (sign * offsetSeconds) / 86_400.0
         guard let result = seWrapper.calculateObliquity(jdUt: utJD) else { return }
-        meanObliquityResult  = result.meanObliquity
-        trueObliquityResult  = result.trueObliquity
-        nutationResult       = result.nutation
+        meanObliquityResult = result.meanObliquity
+        trueObliquityResult = result.trueObliquity
     }
 
     // MARK: - Date/time entry block

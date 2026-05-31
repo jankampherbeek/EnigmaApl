@@ -24,6 +24,7 @@ struct JulianDayView: View {
     @State private var offsetHour: Int                  = 0
     @State private var offsetMinute: Int                = 0
     @State private var utOffsetDirection: UTOffsetDirection = .later
+    @State private var showHelp: Bool = false
 
     // MARK: - Results: date → JD
     @State private var julianDayResult: Double?   = nil
@@ -120,6 +121,17 @@ struct JulianDayView: View {
             .frame(maxWidth: 900, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ca(CalculatorsKeys.jdHelp))
         }
     }
 

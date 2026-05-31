@@ -16,6 +16,7 @@
 "view.calculators.validation.invalidyear" = "Enter a valid year for the selected year count";
 
 // MARK: - JulianDayView
+"view.julianday.help"               = "The Julian Day number is a method for uniformly expressing a point in time within astronomy. A Julian Day begins at 12:00 UT.\n\nYou can enter a date and time in the usual way. Calculate the Julian Day number by clicking 'Calculate Julian Day'.\n\nBesides the Julian Day, you also see the value of delta T, a time deviation that affects the calculation of planetary positions.\n\nIf you know a Julian Day and want to find the corresponding date, you can do so in the lower part of the screen.";
 "view.julianday.title"              = "Julian Day Calculator";
 "view.julianday.datetimetojd"       = "Date and Time to Julian Day";
 "view.julianday.calcbutton"         = "Calculate Julian Day";
@@ -28,9 +29,9 @@
 "view.julianday.result.time"        = "Time (UT)";
 
 // MARK: - ObliquityView
+"view.obliquity.help"               = "The tilt of the Earth's axis is important for a large number of astronomical calculations. Changes occur very slowly but are relevant, for example for determining out-of-bounds (OOB) positions.\n\nEnter the date and time in the usual way. Click 'Calculate Obliquity' and you see two values: the mean obliquity and the true obliquity. The true obliquity takes into account the gravitational pull of the Moon, which causes minimal fluctuations in the tilt of the Earth's axis.";
 "view.obliquity.title"              = "Obliquity Calculator";
 "view.obliquity.datetimesection"    = "Date and Time";
 "view.obliquity.calcbutton"         = "Calculate Obliquity";
 "view.obliquity.result.mean"        = "Mean Obliquity";
 "view.obliquity.result.true"        = "True Obliquity";
-"view.obliquity.result.nutation"    = "Nutation";

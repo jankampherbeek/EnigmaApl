@@ -16,6 +16,7 @@
 "view.calculators.validation.invalidyear" = "Voer een geldig jaar in voor de geselecteerde jaartelling";
 
 // MARK: - JulianDayView
+"view.julianday.help"               = "Het Juliaanse dagnummer is een methode om een tijd binnen de astronomie uniform te bepalen. Een Juliaanse dag begint om 12:00 uur UT.\n\nJe kunt datum en tijd invullen op de gebruikelijke manier. Je berekent het Juliaanse dagnummer door te klikken op 'Bereken Juliaanse dag'.\n\nBehalve de Juliaanse dag zie je ook de waarde van delta T, een afwijking in de tijd die effect heeft op de berekening van planeetstanden.\n\nAls je een Juliaanse dag weet en de overeenkomende datum wilt bepalen kan dat in het onderste deel van het scherm.";
 "view.julianday.title"              = "Juliaanse Dag Calculator";
 "view.julianday.datetimetojd"       = "Datum en tijd naar Juliaanse Dag";
 "view.julianday.calcbutton"         = "Bereken Juliaanse Dag";
@@ -28,9 +29,9 @@
 "view.julianday.result.time"        = "Tijd (UT)";
 
 // MARK: - ObliquityView
+"view.obliquity.help"               = "De helling van de aardas is van belang voor een groot aantal astronomische berekeningen. De veranderingen gaan zeer langzaam maar zijn wel relevant, o.a. voor het bepalen van OOB posities.\n\nIn het scherm voer je op de gebruikelijke manier datum en tijd in. Klik op 'Bereken obliquiteit' en je ziet twee waarden: de gemiddelde obliquiteit en de ware obliquiteit. De ware obliquiteit houdt rekening met de aantrekkingskracht van de Maan die minimale schommelingen veroorzaakt in de helling van de aardas.";
 "view.obliquity.title"              = "Obliquiteits-calculator";
 "view.obliquity.datetimesection"    = "Datum en tijd";
 "view.obliquity.calcbutton"         = "Bereken obliquiteit";
 "view.obliquity.result.mean"        = "Gemiddelde obliquiteit";
 "view.obliquity.result.true"        = "Ware obliquiteit";
-"view.obliquity.result.nutation"    = "Nutatie";

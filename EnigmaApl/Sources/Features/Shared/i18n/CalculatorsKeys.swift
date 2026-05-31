@@ -20,6 +20,7 @@ struct CalculatorsKeys {
     static let invalidYear      = "view.calculators.validation.invalidyear"
 
     // MARK: - JulianDayView
+    static let jdHelp               = "view.julianday.help"
     static let jdTitle              = "view.julianday.title"
     static let jdDateTimeToJd       = "view.julianday.datetimetojd"
     static let jdCalcButton         = "view.julianday.calcbutton"
@@ -32,10 +33,10 @@ struct CalculatorsKeys {
     static let jdResultTime         = "view.julianday.result.time"
 
     // MARK: - ObliquityView
+    static let oblHelp           = "view.obliquity.help"
     static let oblTitle          = "view.obliquity.title"
     static let oblDateTimeSection = "view.obliquity.datetimesection"
     static let oblCalcButton     = "view.obliquity.calcbutton"
     static let oblResultMean     = "view.obliquity.result.mean"
     static let oblResultTrue     = "view.obliquity.result.true"
-    static let oblResultNutation = "view.obliquity.result.nutation"
 }

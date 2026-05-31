@@ -16,6 +16,7 @@
 "view.calculators.validation.invalidyear" = "Entrez une année valide pour le décompte des années sélectionné";
 
 // MARK: - JulianDayView
+"view.julianday.help"               = "Le numéro du Jour Julien est une méthode pour exprimer uniformément un moment dans le temps en astronomie. Un Jour Julien commence à 12:00 UT.\n\nVous pouvez saisir la date et l'heure de la manière habituelle. Calculez le numéro du Jour Julien en cliquant sur 'Calculer le Jour Julien'.\n\nEn plus du Jour Julien, vous voyez aussi la valeur de delta T, un écart de temps qui influence le calcul des positions planétaires.\n\nSi vous connaissez un Jour Julien et souhaitez trouver la date correspondante, vous pouvez le faire dans la partie inférieure de l'écran.";
 "view.julianday.title"              = "Calculateur du Jour Julien";
 "view.julianday.datetimetojd"       = "Date et heure vers Jour Julien";
 "view.julianday.calcbutton"         = "Calculer le Jour Julien";
@@ -28,9 +29,9 @@
 "view.julianday.result.time"        = "Heure (UT)";
 
 // MARK: - ObliquityView
+"view.obliquity.help"               = "L'inclinaison de l'axe terrestre est importante pour un grand nombre de calculs astronomiques. Les changements se produisent très lentement mais sont pertinents, notamment pour déterminer les positions hors limites (OOB).\n\nSaisissez la date et l'heure de la manière habituelle. Cliquez sur 'Calculer l'obliquité' et vous voyez deux valeurs : l'obliquité moyenne et l'obliquité vraie. L'obliquité vraie tient compte de l'attraction gravitationnelle de la Lune qui provoque des fluctuations minimales dans l'inclinaison de l'axe terrestre.";
 "view.obliquity.title"              = "Calculateur d'obliquité";
 "view.obliquity.datetimesection"    = "Date et heure";
 "view.obliquity.calcbutton"         = "Calculer l'obliquité";
 "view.obliquity.result.mean"        = "Obliquité moyenne";
 "view.obliquity.result.true"        = "Obliquité vraie";
-"view.obliquity.result.nutation"    = "Nutation";
