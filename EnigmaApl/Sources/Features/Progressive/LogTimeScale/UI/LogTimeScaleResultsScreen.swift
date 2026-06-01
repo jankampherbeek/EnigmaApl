@@ -382,7 +382,6 @@ struct LogTimeScaleResultsScreen: View {
                 return LtsWheelMark(label: String(format: t(LogTimeScaleKeys.overviewMonthFmt), m),
                                     mundaneAngle: angle, isMonth: true)
             case .age(let y):
-                guard y > 0 else { return nil }  // age 0 = birth = ascendant, already visible
                 let angle = WheelGeometry.mundaneAngle(longitude: entry.longitude, ascendantLongitude: asc)
                 return LtsWheelMark(label: String(format: t(LogTimeScaleKeys.overviewAgeFmt), y),
                                     mundaneAngle: angle, isMonth: false)

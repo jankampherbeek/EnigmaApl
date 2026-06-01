@@ -60,16 +60,16 @@ final class LogTimeScaleModel: ObservableObject {
             }
             let asc = chart.HousePositions.ascendant.longitude
             var entries: [LtsOverviewEntry] = []
-            // Month 0 = birth at the ascendant (age 0).
-            entries.append(LtsOverviewEntry(kind: .month(0), longitude: asc))
-            // Prenatal months 1–9: age = -(10 - m) * Z maps month 1 to exactly 120° before ASC
-            // (9th cusp = conception) and month 9 to just before ASC. Uses Mann's lunar-month unit Z.
+            // Prenatal months 0–8: month 0 = conception (120° before ASC), month 8 = just before ASC.
+            // age = -(9 - m) * Z uses Mann's lunar-month unit Z.
             let Z = 0.0766835
-            for m in 1...9 {
-                let lon = orchestrator.mannPositionFromAge(age: -Double(10 - m) * Z, ascendant: asc)
+            for m in 0...8 {
+                let lon = orchestrator.mannPositionFromAge(age: -Double(9 - m) * Z, ascendant: asc)
                 entries.append(LtsOverviewEntry(kind: .month(m), longitude: lon))
             }
-            for y in stride(from: 0, through: 40, by: 1) {
+            // Age 0 = birth at the ascendant, listed directly after the prenatal months.
+            entries.append(LtsOverviewEntry(kind: .age(0), longitude: asc))
+            for y in stride(from: 1, through: 40, by: 1) {
                 let lon = orchestrator.mannPositionFromAge(age: Double(y), ascendant: asc)
                 entries.append(LtsOverviewEntry(kind: .age(y), longitude: lon))
             }
