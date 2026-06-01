@@ -1,0 +1,30 @@
+// LogTimeScale.strings - Deutsch
+// EnigmaApl
+
+// Eingabebildschirm
+"view.logtimescale.title"                  = "Logarithmische Zeitskala";
+"view.logtimescale.mode.positionsforevent" = "Positionen für Ereignis";
+"view.logtimescale.mode.overview"          = "Übersicht";
+"view.logtimescale.calculate"              = "Berechnen";
+
+// Ergebnisbildschirm – allgemein
+"view.logtimescale.results.title"  = "Logarithmische Zeitskala Ergebnisse";
+"view.logtimescale.noresults"      = "Klicken Sie auf Berechnen, um Ergebnisse zu sehen.";
+"view.logtimescale.tab.positions"  = "Positionen";
+"view.logtimescale.tab.matches"    = "Übereinstimmungen";
+"view.logtimescale.tab.wheel"      = "Rad";
+"view.logtimescale.positionlabel"  = "Zeitskala Position";
+"view.logtimescale.col.position"   = "Position";
+
+// Ergebnisbildschirm – Übereinstimmungen: Aspekte
+"view.logtimescale.matches.aspectsheader"   = "Aspekte";
+"view.logtimescale.matches.noaspects"       = "Keine Aspekte gefunden.";
+"view.logtimescale.matches.col.aspect"      = "Aspekt";
+"view.logtimescale.matches.col.radix"       = "Radix";
+"view.logtimescale.matches.col.orb"         = "Orb";
+"view.logtimescale.matches.col.exactness"   = "Genauigkeit";
+
+// Ergebnisbildschirm – Übereinstimmungen: Mittelpunkte
+"view.logtimescale.matches.midpoints.radixheader"       = "Radix Mittelpunkte";
+"view.logtimescale.matches.midpoints.timescaleheader"   = "Zeitskala Mittelpunkte";
+"view.logtimescale.matches.midpoints.nomatches"         = "Keine besetzten Mittelpunkte gefunden.";

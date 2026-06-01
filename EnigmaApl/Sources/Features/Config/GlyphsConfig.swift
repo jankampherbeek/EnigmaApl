@@ -136,6 +136,7 @@ public struct GlyphsConfig: Codable, Sendable {
         case .vertex:               glyph = "\u{E502}"
         case .zeroAries:            glyph = "\u{E000}"
         case .parsfortuna:          glyph = "\u{F400}"
+        case .logTimeScale:         glyph = "*"
         default:                    glyph = "?"
         }
         return FactorGlyphSetting(factor: factor, glyph: glyph)

@@ -173,6 +173,7 @@
 "enum.factor.vertex" = "Vertex";
 "enum.factor.zeroaries" = " 0° Ram";
 "enum.factor.parsfortuna" = "Gelukspunt";
+"enum.factor.logtimescale" = "Logaritmische Tijdschaal";
 // House systems
 "enum.housesystem.nohouses" = "Geen huizen";
 "enum.housesystem.placidus" = "Placidus";

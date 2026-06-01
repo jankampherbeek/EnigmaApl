@@ -1,0 +1,30 @@
+// LogTimeScale.strings - Nederlands
+// EnigmaApl
+
+// Invoerscherm
+"view.logtimescale.title"                  = "Logaritmische Tijdschaal";
+"view.logtimescale.mode.positionsforevent" = "Posities voor Gebeurtenis";
+"view.logtimescale.mode.overview"          = "Overzicht";
+"view.logtimescale.calculate"              = "Bereken";
+
+// Resultatenscherm – algemeen
+"view.logtimescale.results.title"  = "Logaritmische Tijdschaal Resultaten";
+"view.logtimescale.noresults"      = "Klik op Bereken om resultaten te zien.";
+"view.logtimescale.tab.positions"  = "Posities";
+"view.logtimescale.tab.matches"    = "Overeenkomsten";
+"view.logtimescale.tab.wheel"      = "Wiel";
+"view.logtimescale.positionlabel"  = "Tijdschaal Positie";
+"view.logtimescale.col.position"   = "Positie";
+
+// Resultatenscherm – tabblad Overeenkomsten: aspecten
+"view.logtimescale.matches.aspectsheader"   = "Aspecten";
+"view.logtimescale.matches.noaspects"       = "Geen aspecten gevonden.";
+"view.logtimescale.matches.col.aspect"      = "Aspect";
+"view.logtimescale.matches.col.radix"       = "Radix";
+"view.logtimescale.matches.col.orb"         = "Orb";
+"view.logtimescale.matches.col.exactness"   = "Exactheid";
+
+// Resultatenscherm – tabblad Overeenkomsten: middelpunten
+"view.logtimescale.matches.midpoints.radixheader"       = "Radix middelpunten";
+"view.logtimescale.matches.midpoints.timescaleheader"   = "Tijdschaal middelpunten";
+"view.logtimescale.matches.midpoints.nomatches"         = "Geen bezette middelpunten gevonden.";

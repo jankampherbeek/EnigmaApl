@@ -68,6 +68,7 @@ struct FactorKeys {
         .vertex:             "enum.factor.vertex",
         .zeroAries:          "enum.factor.zeroaries",
         .parsfortuna:        "enum.factor.parsfortuna",
+        .logTimeScale:       "enum.factor.logtimescale",
     ]
 
     static func key(for factor: Factors) -> String {

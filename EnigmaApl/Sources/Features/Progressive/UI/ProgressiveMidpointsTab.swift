@@ -13,6 +13,8 @@ struct ProgressiveMidpointsTab: View {
     let radixSectionTitle: String
     let progressiveSectionTitle: String
     let noMatchesText: String
+    var showMatchingFactor: Bool = true
+    var showProgressiveSection: Bool = true
 
     @EnvironmentObject private var chartSession: ChartSession
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
@@ -41,9 +43,10 @@ struct ProgressiveMidpointsTab: View {
 
             midpointsSection(title: radixSectionTitle, matches: radixMatches)
 
-            Divider()
-
-            midpointsSection(title: progressiveSectionTitle, matches: progressiveMatches)
+            if showProgressiveSection {
+                Divider()
+                midpointsSection(title: progressiveSectionTitle, matches: progressiveMatches)
+            }
         }
     }
 
@@ -83,8 +86,10 @@ struct ProgressiveMidpointsTab: View {
                             .frame(width: glyphW, alignment: .center)
                         Text(t(MidpointsKeys.colMidpoint))
                             .frame(width: posW, alignment: .trailing)
-                        Text(t(MidpointsKeys.colPlanet))
-                            .frame(width: glyphW, alignment: .center)
+                        if showMatchingFactor {
+                            Text(t(MidpointsKeys.colPlanet))
+                                .frame(width: glyphW, alignment: .center)
+                        }
                         Text(t(MidpointsKeys.colOrb))
                             .frame(width: orbW, alignment: .trailing)
                         Text(t(MidpointsKeys.colExactness))
@@ -121,10 +126,12 @@ struct ProgressiveMidpointsTab: View {
             positionText(match.midpointPosition)
                 .frame(width: posW, alignment: .trailing)
 
-            Text(GlyphSelector.getGlyphForFactor(match.matchingFactor))
-                .font(.custom("EnigmaAstrology2", size: 18))
-                .frame(width: glyphW, alignment: .center)
-                .accessibilityLabel(match.matchingFactor.localizedName)
+            if showMatchingFactor {
+                Text(GlyphSelector.getGlyphForFactor(match.matchingFactor))
+                    .font(.custom("EnigmaAstrology2", size: 18))
+                    .frame(width: glyphW, alignment: .center)
+                    .accessibilityLabel(match.matchingFactor.localizedName)
+            }
 
             Text(orbText(match.actualOrb))
                 .frame(width: orbW, alignment: .trailing)

@@ -25,6 +25,7 @@ final class AppComposition: ObservableObject {
     let transitModel: TransitModel
     let secondaryModel: SecondaryModel
     let symbolicModel: SymbolicModel
+    let logTimeScaleModel: LogTimeScaleModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -67,5 +68,6 @@ final class AppComposition: ObservableObject {
         self.transitModel = TransitModel()
         self.secondaryModel = SecondaryModel()
         self.symbolicModel = SymbolicModel()
+        self.logTimeScaleModel = LogTimeScaleModel()
     }
 }

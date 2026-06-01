@@ -57,6 +57,8 @@ struct ContentColumn: View {
                     SecondaryResults()
                 case .symbolic:
                     SymbolicResults()
+                case .logarithmicTimescale:
+                    LogTimeScaleResultsScreen()
                 default:
                     EmptyView()
                 }

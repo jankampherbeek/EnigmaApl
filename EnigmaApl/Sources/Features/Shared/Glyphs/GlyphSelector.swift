@@ -20,11 +20,20 @@ struct GlyphSelector {
         Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultAspectGlyphs.map { ($0.aspect, $0.glyph) })
 
     /// Updates the glyph maps from the active configuration.
-    /// Call this on app launch and whenever the active configuration changes.
+    /// Starts from the current defaults so that factors added after a config was saved
+    /// still have their default glyph available; user overrides take precedence.
     static func configure(with glyphsConfig: GlyphsConfig) {
-        factorMap = Dictionary(uniqueKeysWithValues: glyphsConfig.factorGlyphs.map { ($0.factor, $0.glyph) })
-        signMap   = Dictionary(uniqueKeysWithValues: glyphsConfig.signGlyphs.map   { ($0.sign,   $0.glyph) })
-        aspectMap = Dictionary(uniqueKeysWithValues: glyphsConfig.aspectGlyphs.map { ($0.aspect, $0.glyph) })
+        var fMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultFactorGlyphs.map { ($0.factor, $0.glyph) })
+        for s in glyphsConfig.factorGlyphs { fMap[s.factor] = s.glyph }
+        factorMap = fMap
+
+        var sMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultSignGlyphs.map { ($0.sign, $0.glyph) })
+        for s in glyphsConfig.signGlyphs { sMap[s.sign] = s.glyph }
+        signMap = sMap
+
+        var aMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultAspectGlyphs.map { ($0.aspect, $0.glyph) })
+        for s in glyphsConfig.aspectGlyphs { aMap[s.aspect] = s.glyph }
+        aspectMap = aMap
     }
 
     /// Returns the glyph for an aspect from the active configuration.

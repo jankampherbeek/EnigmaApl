@@ -88,6 +88,7 @@ public enum Factors: Int, CaseIterable, Codable {
     case vertex = 1004
     case zeroAries = 3001
     case parsfortuna = 4001
+    case logTimeScale = 5001
     
     /// Indicates if the calculation of this point can be performed by the Swiss Ephemeris
     var calculationType: CalculationTypes {

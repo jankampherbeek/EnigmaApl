@@ -1,0 +1,30 @@
+// LogTimeScale.strings - Français
+// EnigmaApl
+
+// Écran de saisie
+"view.logtimescale.title"                  = "Échelle de Temps Logarithmique";
+"view.logtimescale.mode.positionsforevent" = "Positions pour Événement";
+"view.logtimescale.mode.overview"          = "Vue d'ensemble";
+"view.logtimescale.calculate"              = "Calculer";
+
+// Écran de résultats – général
+"view.logtimescale.results.title"  = "Résultats de l'Échelle de Temps Logarithmique";
+"view.logtimescale.noresults"      = "Cliquez sur Calculer pour voir les résultats.";
+"view.logtimescale.tab.positions"  = "Positions";
+"view.logtimescale.tab.matches"    = "Correspondances";
+"view.logtimescale.tab.wheel"      = "Roue";
+"view.logtimescale.positionlabel"  = "Position de l'Échelle de Temps";
+"view.logtimescale.col.position"   = "Position";
+
+// Écran de résultats – Correspondances : aspects
+"view.logtimescale.matches.aspectsheader"   = "Aspects";
+"view.logtimescale.matches.noaspects"       = "Aucun aspect trouvé.";
+"view.logtimescale.matches.col.aspect"      = "Aspect";
+"view.logtimescale.matches.col.radix"       = "Radix";
+"view.logtimescale.matches.col.orb"         = "Orbe";
+"view.logtimescale.matches.col.exactness"   = "Exactitude";
+
+// Écran de résultats – Correspondances : points médians
+"view.logtimescale.matches.midpoints.radixheader"       = "Points médians du radix";
+"view.logtimescale.matches.midpoints.timescaleheader"   = "Points médians de l'échelle de temps";
+"view.logtimescale.matches.midpoints.nomatches"         = "Aucun point médian occupé trouvé.";

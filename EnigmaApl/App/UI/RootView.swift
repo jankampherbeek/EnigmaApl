@@ -62,6 +62,7 @@ struct RootView: View {
         .environmentObject(composition.transitModel)
         .environmentObject(composition.secondaryModel)
         .environmentObject(composition.symbolicModel)
+        .environmentObject(composition.logTimeScaleModel)
         .environmentObject(composition.calculatorsNav)
         .environmentObject(composition.configNav)
         .onAppear {

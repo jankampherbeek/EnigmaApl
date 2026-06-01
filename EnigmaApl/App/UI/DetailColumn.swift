@@ -120,6 +120,8 @@ struct DetailColumn: View {
                             SecondaryScreen()
                         case .symbolic:
                             SymbolicScreen()
+                        case .logarithmicTimescale:
+                            LogTimeScaleInputScreen()
                         default:
                             EmptyView()
                         }

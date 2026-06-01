@@ -173,6 +173,7 @@
 "enum.factor.vertex" = "Vertex";
 "enum.factor.zeroaries" = "Zero Aries";
 "enum.factor.parsfortuna" = "Point of Fortune";
+"enum.factor.logtimescale" = "Logarithmic TimeScale";
 // House systems
 "enum.housesystem.nohouses" = "No Houses";
 "enum.housesystem.placidus" = "Placidus";
