@@ -14,6 +14,7 @@ struct LogTimeScaleInputScreen: View {
     @EnvironmentObject private var logTimeScaleModel: LogTimeScaleModel
 
     @State private var selectedMode: LogTimeScaleMode = .overview
+    @State private var showHelp = false
 
     private var hasEvent: Bool { progressiveSession.selectedEvent != nil }
 
@@ -31,6 +32,17 @@ struct LogTimeScaleInputScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(LogTimeScaleKeys.title))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(LogTimeScaleKeys.help))
+        }
         .onChange(of: hasEvent) { _, newValue in
             if !newValue { selectedMode = .overview }
         }

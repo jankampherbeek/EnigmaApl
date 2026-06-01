@@ -23,6 +23,7 @@ struct LogTimeScaleResultsScreen: View {
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
     @State private var showExport:  Bool = false
+    @State private var showHelp:    Bool = false
 
     private let labelWidth: CGFloat    = 160
     private let positionWidth: CGFloat = 130
@@ -68,6 +69,17 @@ struct LogTimeScaleResultsScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(LogTimeScaleKeys.resultsTitle))
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(LogTimeScaleKeys.helpResults))
+        }
         .onChange(of: logTimeScaleModel.activeMode) { _, mode in
             if mode == .overview && selectedTab == .matches {
                 selectedTab = .positions

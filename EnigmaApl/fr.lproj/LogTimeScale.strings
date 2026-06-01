@@ -6,6 +6,7 @@
 "view.logtimescale.mode.positionsforevent" = "Positions pour Événement";
 "view.logtimescale.mode.overview"          = "Vue d'ensemble";
 "view.logtimescale.calculate"              = "Calculer";
+"view.logtimescaleinput.help"              = "Pour connaître la position dans l'Échelle de Temps Logarithmique pour un événement spécifique, sélectionnez 'Positions pour Événement'. Vous obtiendrez la position exacte ainsi que les aspects et les points médians dans le thème natal.\n\nPour une vue d'ensemble de l'échelle de temps logarithmique sur toute une vie, choisissez 'Vue d'ensemble'. Vous obtiendrez toutes les positions par âge.\n\nCliquez sur 'Calculer' pour voir les résultats.";
 
 // Écran de résultats – général
 "view.logtimescale.results.title"  = "Résultats de l'Échelle de Temps Logarithmique";
@@ -33,3 +34,4 @@
 "view.logtimescale.matches.midpoints.radixheader"       = "Points médians du radix";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Points médians de l'échelle de temps";
 "view.logtimescale.matches.midpoints.nomatches"         = "Aucun point médian occupé trouvé.";
+"view.logtimescaleresults.help"            = "Le contenu de cet écran dépend du choix effectué dans l'écran de saisie.\n\nSi vous avez choisi 'Positions pour Événement', vous voyez trois onglets. L'onglet Positions affiche la position exacte selon l'Échelle de Temps Logarithmique. L'onglet 'Correspondances' montre les aspects et les points médians. L'astérisque '*' représente la position dans l'Échelle de Temps Logarithmique. L'onglet 'Roue' affiche le thème natal avec la position dans l'échelle de temps indiquée par une flèche.\n\nSi vous avez choisi 'Vue d'ensemble', vous voyez deux onglets. L'onglet 'Positions' donne une liste des positions pour tous les âges. L'onglet 'Roue' montre le thème natal avec les moments depuis la conception dans la bordure extérieure, indiqués en mois ou en années.\n\nPour les deux thèmes natals, les icônes en haut permettent de basculer entre couleur et noir/blanc, d'afficher ou de masquer les aspects et d'exporter le thème en PNG.";

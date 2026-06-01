@@ -6,6 +6,7 @@
 "view.logtimescale.mode.positionsforevent" = "Positionen für Ereignis";
 "view.logtimescale.mode.overview"          = "Übersicht";
 "view.logtimescale.calculate"              = "Berechnen";
+"view.logtimescaleinput.help"              = "Um die Position in der Logarithmischen Zeitskala für ein bestimmtes Ereignis zu ermitteln, wähle 'Positionen für Ereignis'. Du siehst dann die genaue Stellung sowie die Aspekte und Mittelpunkte zum Radix.\n\nFür einen Überblick über die logarithmische Zeitskala im Laufe eines Lebens wähle 'Übersicht'. Du erhältst dann alle Stellungen nach Lebensalter.\n\nKlicke auf 'Berechnen', um die Ergebnisse zu sehen.";
 
 // Ergebnisbildschirm – allgemein
 "view.logtimescale.results.title"  = "Logarithmische Zeitskala Ergebnisse";
@@ -33,3 +34,4 @@
 "view.logtimescale.matches.midpoints.radixheader"       = "Radix Mittelpunkte";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Zeitskala Mittelpunkte";
 "view.logtimescale.matches.midpoints.nomatches"         = "Keine besetzten Mittelpunkte gefunden.";
+"view.logtimescaleresults.help"            = "Der Inhalt dieses Bildschirms hängt von der Auswahl ab, die du im Eingabebildschirm getroffen hast.\n\nWenn du 'Positionen für Ereignis' gewählt hast, siehst du drei Tabs. Der Tab Positionen zeigt die genaue Stellung gemäß der Logarithmischen Zeitskala. Der Tab 'Übereinstimmungen' zeigt die Aspekte und Mittelpunkte. Das Sternchen '*' steht für die Position in der Logarithmischen Zeitskala. Der Tab 'Rad' zeigt das Horoskop mit der Position in der Zeitskala, die durch einen Pfeil angezeigt wird.\n\nWenn du 'Übersicht' gewählt hast, siehst du zwei Tabs. Der Tab 'Positionen' zeigt eine Liste mit Stellungen für alle Lebensalter. Im Tab 'Rad' siehst du die Horoskopfigur mit den Momenten ab der Empfängnis am äußeren Rand, angegeben in Monaten oder Jahren.\n\nFür beide Horoskopfiguren kannst du über die Icons oben zwischen Farbe und Schwarz/Weiß wechseln, Aspekte ein- oder ausblenden und die Figur als PNG exportieren.";

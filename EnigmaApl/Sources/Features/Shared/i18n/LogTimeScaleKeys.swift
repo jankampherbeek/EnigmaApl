@@ -10,6 +10,8 @@ struct LogTimeScaleKeys {
     static let modePositionsForEvent = "view.logtimescale.mode.positionsforevent"
     static let modeOverview          = "view.logtimescale.mode.overview"
     static let calculate             = "view.logtimescale.calculate"
+    static let help                  = "view.logtimescaleinput.help"
+    static let helpResults           = "view.logtimescaleresults.help"
 
     // MARK: - Results screen – general
     static let resultsTitle   = "view.logtimescale.results.title"
