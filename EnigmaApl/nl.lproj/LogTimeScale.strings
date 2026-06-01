@@ -24,6 +24,11 @@
 "view.logtimescale.matches.col.orb"         = "Orb";
 "view.logtimescale.matches.col.exactness"   = "Exactheid";
 
+// Resultatenscherm – overzichtstabel posities
+"view.logtimescale.overview.col.label" = "Periode";
+"view.logtimescale.overview.month"     = "Maand %d";
+"view.logtimescale.overview.age"       = "Leeftijd %d";
+
 // Resultatenscherm – tabblad Overeenkomsten: middelpunten
 "view.logtimescale.matches.midpoints.radixheader"       = "Radix middelpunten";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Tijdschaal middelpunten";

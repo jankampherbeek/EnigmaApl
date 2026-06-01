@@ -4,15 +4,23 @@
 
 import SwiftUI
 
-/// Draws the radix chart with a single inward-pointing arrow marking the
-/// Logarithmic TimeScale position. If `ltsMundaneAngle` is nil (Overview mode)
-/// the chart is shown without the arrow.
+struct LtsWheelMark {
+    let label: String
+    let mundaneAngle: Double
+    let isMonth: Bool
+}
+
+/// Draws the radix chart with either:
+/// - a single inward-pointing arrow (Positions for Event mode), or
+/// - tick marks with labels in the outer ring for each month and age (Overview mode).
 struct LogTimeScaleWheelCanvas: View {
     let radixData: WheelPlotData
     /// Mundane angle (0–360) of the calculated LogTimeScale position, or nil when unavailable.
     let ltsMundaneAngle: Double?
     /// Ecliptic longitude of the position, used to label the arrow. Must be non-nil when ltsMundaneAngle is non-nil.
     let ltsLongitude: Double?
+    /// Overview tick marks. When set, draws marks instead of an arrow.
+    let overviewItems: [LtsWheelMark]?
     let theme: WheelTheme
     let showAspects: Bool
 
@@ -50,8 +58,10 @@ struct LogTimeScaleWheelCanvas: View {
             drawPlanetGlyphs(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
             drawPlanetTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
 
-            // Arrow pointing inward at the LogTimeScale position
-            if let angle = ltsMundaneAngle, let longitude = ltsLongitude {
+            if let items = overviewItems {
+                drawOverviewMarks(&ctx, center: center, fullRadius: fullRadius,
+                                  innerRadius: innerRadius, items: items, theme: theme)
+            } else if let angle = ltsMundaneAngle, let longitude = ltsLongitude {
                 drawLogTimeScaleArrow(&ctx, center: center, fullRadius: fullRadius,
                                       innerRadius: innerRadius, mundaneAngle: angle,
                                       longitude: longitude, theme: theme)
@@ -62,7 +72,7 @@ struct LogTimeScaleWheelCanvas: View {
     }
 }
 
-// MARK: - Arrow drawing
+// MARK: - Arrow drawing (Positions for Event)
 
 private func drawLogTimeScaleArrow(
     _ ctx: inout GraphicsContext,
@@ -145,4 +155,53 @@ private func drawArrowLabel(
     labelCtx.translateBy(x: textPoint.x, y: textPoint.y)
     labelCtx.rotate(by: .degrees(rotDeg))
     labelCtx.draw(label, at: .zero, anchor: .center)
+}
+
+// MARK: - Overview tick marks
+
+private func drawOverviewMarks(
+    _ ctx: inout GraphicsContext,
+    center: CGPoint,
+    fullRadius: Double,
+    innerRadius: Double,
+    items: [LtsWheelMark],
+    theme: WheelTheme
+) {
+    let ringOuter  = fullRadius * 0.864
+    let ringWidth  = ringOuter - innerRadius
+    // Ticks run from the outer zodiac ring stroke (outerSign) upward through the blank
+    // degree-ring gap into the transit ring. Labels sit clearly inside the transit ring.
+    let zodiacOutR = innerRadius * WheelMetrics.outerSign
+    let degreeH    = innerRadius - zodiacOutR   // gap between zodiac stroke and transit ring
+    let monthTickH = degreeH * 0.25
+    let yearTickH  = degreeH * 0.5
+    let labelR     = innerRadius + ringWidth * 0.4
+    let fontSize   = WheelMetrics.fontSize(WheelMetrics.positionTextFraction * 0.85, outerRadius: innerRadius)
+
+    for item in items {
+        let tickLen  = item.isMonth ? monthTickH : yearTickH
+        let tickInR  = zodiacOutR
+        let tickOutR = zodiacOutR + tickLen
+
+        let innerPt = WheelGeometry.point(angleDeg: item.mundaneAngle, radius: tickInR,  center: center)
+        let outerPt = WheelGeometry.point(angleDeg: item.mundaneAngle, radius: tickOutR, center: center)
+
+        var tick = Path()
+        tick.move(to: innerPt)
+        tick.addLine(to: outerPt)
+        ctx.stroke(tick, with: .color(theme.planetGlyph), lineWidth: 1.0)
+
+        // Label in the transit ring — well above innerRadius so it never overlaps radix content.
+        let labelPt = WheelGeometry.point(angleDeg: item.mundaneAngle, radius: labelR, center: center)
+        let rotDeg  = item.mundaneAngle <= 180.0 ? (90.0 - item.mundaneAngle) : (270.0 - item.mundaneAngle)
+
+        var labelCtx = ctx
+        labelCtx.translateBy(x: labelPt.x, y: labelPt.y)
+        labelCtx.rotate(by: .degrees(rotDeg))
+        labelCtx.draw(
+            Text(item.label).font(.system(size: fontSize)).foregroundColor(Color(theme.planetGlyph)),
+            at: .zero,
+            anchor: .center
+        )
+    }
 }

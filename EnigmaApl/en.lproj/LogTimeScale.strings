@@ -24,6 +24,11 @@
 "view.logtimescale.matches.col.orb"         = "Orb";
 "view.logtimescale.matches.col.exactness"   = "Exactness";
 
+// Results screen – Overview positions table
+"view.logtimescale.overview.col.label" = "Period";
+"view.logtimescale.overview.month"     = "Month %d";
+"view.logtimescale.overview.age"       = "Age %d";
+
 // Results screen – Matches tab: midpoints section
 "view.logtimescale.matches.midpoints.radixheader"       = "Radix midpoints";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Timescale midpoints";

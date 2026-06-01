@@ -33,20 +33,29 @@ struct LogTimeScaleResultsScreen: View {
     private let orbW:    CGFloat = 70
     private let exactW:  CGFloat = 100
 
+    private var hasResults: Bool {
+        switch logTimeScaleModel.activeMode {
+        case .positionsForEvent: return logTimeScaleModel.positionResult != nil
+        case .overview:          return !logTimeScaleModel.overviewEntries.isEmpty
+        }
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text(t(LogTimeScaleKeys.resultsTitle))
                     .font(.title2.weight(.semibold))
 
-                if logTimeScaleModel.positionResult == nil {
+                if !hasResults {
                     Text(t(LogTimeScaleKeys.noResults))
                         .foregroundStyle(.secondary)
                         .font(.callout)
                 } else {
                     Picker("", selection: $selectedTab) {
                         Text(t(LogTimeScaleKeys.tabPositions)).tag(LogTimeScaleResultTab.positions)
-                        Text(t(LogTimeScaleKeys.tabMatches)).tag(LogTimeScaleResultTab.matches)
+                        if logTimeScaleModel.activeMode == .positionsForEvent {
+                            Text(t(LogTimeScaleKeys.tabMatches)).tag(LogTimeScaleResultTab.matches)
+                        }
                         Text(t(LogTimeScaleKeys.tabWheel)).tag(LogTimeScaleResultTab.wheel)
                     }
                     .pickerStyle(.segmented)
@@ -59,6 +68,11 @@ struct LogTimeScaleResultsScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(LogTimeScaleKeys.resultsTitle))
+        .onChange(of: logTimeScaleModel.activeMode) { _, mode in
+            if mode == .overview && selectedTab == .matches {
+                selectedTab = .positions
+            }
+        }
         .sheet(isPresented: $showExport) {
             if let chart = chartSession.selectedChart,
                let config = activeConfigs.first {
@@ -67,6 +81,7 @@ struct LogTimeScaleResultsScreen: View {
                         radixData:       WheelPlotDataBuilder.build(from: chart, config: config),
                         ltsMundaneAngle: ltsMundaneAngle,
                         ltsLongitude:    logTimeScaleModel.positionResult,
+                        overviewItems:   overviewWheelItems,
                         theme:           blackWhite ? .blackWhite : .color,
                         showAspects:     !hideAspects
                     )
@@ -81,8 +96,13 @@ struct LogTimeScaleResultsScreen: View {
     private var tabContent: some View {
         switch selectedTab {
         case .positions:
-            positionsTab
-                .frame(maxWidth: 500, alignment: .leading)
+            if logTimeScaleModel.activeMode == .overview {
+                overviewPositionsTab
+                    .frame(maxWidth: 500, alignment: .leading)
+            } else {
+                positionsTab
+                    .frame(maxWidth: 500, alignment: .leading)
+            }
         case .matches:
             matchesTab
         case .wheel:
@@ -90,7 +110,7 @@ struct LogTimeScaleResultsScreen: View {
         }
     }
 
-    // MARK: - Positions tab
+    // MARK: - Single-position tab (Positions for Event)
 
     @ViewBuilder
     private var positionsTab: some View {
@@ -129,6 +149,61 @@ struct LogTimeScaleResultsScreen: View {
                         .font(.custom("EnigmaAstrology2", size: 14))
                 } else {
                     Text(String(format: "%.4f°", longitude))
+                }
+            }
+            .frame(width: positionWidth, alignment: .trailing)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+        .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+    }
+
+    // MARK: - Overview positions tab
+
+    @ViewBuilder
+    private var overviewPositionsTab: some View {
+        GroupBox {
+            VStack(spacing: 0) {
+                overviewHeader
+                Divider()
+                ForEach(Array(logTimeScaleModel.overviewEntries.enumerated()), id: \.offset) { index, entry in
+                    overviewRow(entry, index: index)
+                }
+            }
+        }
+    }
+
+    private var overviewHeader: some View {
+        HStack(spacing: 12) {
+            Text(t(LogTimeScaleKeys.overviewColLabel))
+                .frame(width: labelWidth, alignment: .leading)
+            Text(t(LogTimeScaleKeys.columnPosition))
+                .frame(width: positionWidth, alignment: .trailing)
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(.secondary)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+    }
+
+    private func overviewRow(_ entry: LtsOverviewEntry, index: Int) -> some View {
+        let label: String = {
+            switch entry.kind {
+            case .month(let m): return String(format: t(LogTimeScaleKeys.overviewMonthFmt), m)
+            case .age(let y):   return String(format: t(LogTimeScaleKeys.overviewAgeFmt), y)
+            }
+        }()
+        let (dmsString, sign, valid) = PositionInDegreesConversion.DoubleToDmsSign(entry.longitude)
+        return HStack(spacing: 12) {
+            Text(label)
+                .frame(width: labelWidth, alignment: .leading)
+            HStack(spacing: 4) {
+                if valid, let sign {
+                    Text(dmsString)
+                    Text(GlyphSelector.getGlyphForSign(sign))
+                        .font(.custom("EnigmaAstrology2", size: 14))
+                } else {
+                    Text(String(format: "%.4f°", entry.longitude))
                 }
             }
             .frame(width: positionWidth, alignment: .trailing)
@@ -240,6 +315,7 @@ struct LogTimeScaleResultsScreen: View {
                     radixData:       WheelPlotDataBuilder.build(from: chart, config: config),
                     ltsMundaneAngle: ltsMundaneAngle,
                     ltsLongitude:    logTimeScaleModel.positionResult,
+                    overviewItems:   overviewWheelItems,
                     theme:           blackWhite ? .blackWhite : .color,
                     showAspects:     !hideAspects
                 )
@@ -272,8 +348,6 @@ struct LogTimeScaleResultsScreen: View {
 
     // MARK: - Helpers
 
-    /// Converts the calculated position to a mundane wheel angle.
-    /// Returns nil when no position is available or mode is Overview.
     private var ltsMundaneAngle: Double? {
         guard let pos = logTimeScaleModel.positionResult,
               logTimeScaleModel.activeMode == .positionsForEvent,
@@ -282,6 +356,26 @@ struct LogTimeScaleResultsScreen: View {
             longitude:          pos,
             ascendantLongitude: chart.HousePositions.ascendant.longitude
         )
+    }
+
+    private var overviewWheelItems: [LtsWheelMark]? {
+        guard logTimeScaleModel.activeMode == .overview,
+              let chart = chartSession.selectedChart,
+              !logTimeScaleModel.overviewEntries.isEmpty else { return nil }
+        let asc = chart.HousePositions.ascendant.longitude
+        return logTimeScaleModel.overviewEntries.compactMap { entry in
+            switch entry.kind {
+            case .month(let m):
+                let angle = WheelGeometry.mundaneAngle(longitude: entry.longitude, ascendantLongitude: asc)
+                return LtsWheelMark(label: String(format: t(LogTimeScaleKeys.overviewMonthFmt), m),
+                                    mundaneAngle: angle, isMonth: true)
+            case .age(let y):
+                guard y > 0 else { return nil }  // age 0 = birth = ascendant, already visible
+                let angle = WheelGeometry.mundaneAngle(longitude: entry.longitude, ascendantLongitude: asc)
+                return LtsWheelMark(label: String(format: t(LogTimeScaleKeys.overviewAgeFmt), y),
+                                    mundaneAngle: angle, isMonth: false)
+            }
+        }
     }
 
     // MARK: - Computed aspect rows

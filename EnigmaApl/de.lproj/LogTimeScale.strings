@@ -24,6 +24,11 @@
 "view.logtimescale.matches.col.orb"         = "Orb";
 "view.logtimescale.matches.col.exactness"   = "Genauigkeit";
 
+// Ergebnisbildschirm – Übersicht Positionstabelle
+"view.logtimescale.overview.col.label" = "Periode";
+"view.logtimescale.overview.month"     = "Monat %d";
+"view.logtimescale.overview.age"       = "Alter %d";
+
 // Ergebnisbildschirm – Übereinstimmungen: Mittelpunkte
 "view.logtimescale.matches.midpoints.radixheader"       = "Radix Mittelpunkte";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Zeitskala Mittelpunkte";

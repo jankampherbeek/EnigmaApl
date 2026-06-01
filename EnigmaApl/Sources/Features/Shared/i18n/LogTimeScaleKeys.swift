@@ -32,4 +32,9 @@ struct LogTimeScaleKeys {
     static let midpointsRadixHeader       = "view.logtimescale.matches.midpoints.radixheader"
     static let midpointsTimescaleHeader   = "view.logtimescale.matches.midpoints.timescaleheader"
     static let midpointsNoMatches         = "view.logtimescale.matches.midpoints.nomatches"
+
+    // MARK: - Results screen – Overview positions table
+    static let overviewColLabel  = "view.logtimescale.overview.col.label"
+    static let overviewMonthFmt  = "view.logtimescale.overview.month"
+    static let overviewAgeFmt    = "view.logtimescale.overview.age"
 }

@@ -24,6 +24,11 @@
 "view.logtimescale.matches.col.orb"         = "Orbe";
 "view.logtimescale.matches.col.exactness"   = "Exactitude";
 
+// Écran de résultats – tableau de positions de la vue d'ensemble
+"view.logtimescale.overview.col.label" = "Période";
+"view.logtimescale.overview.month"     = "Mois %d";
+"view.logtimescale.overview.age"       = "Âge %d";
+
 // Écran de résultats – Correspondances : points médians
 "view.logtimescale.matches.midpoints.radixheader"       = "Points médians du radix";
 "view.logtimescale.matches.midpoints.timescaleheader"   = "Points médians de l'échelle de temps";
