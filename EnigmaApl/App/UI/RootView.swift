@@ -81,14 +81,20 @@ struct RootView: View {
                 SignColorSelector.configure(with: active.displayConfig)
                 FactorDisplaySelector.configure(with: active.factorConfig)
                 let factors = active.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
-                composition.chartSession.recalculateAll(factorsToUse: factors)
+                composition.chartSession.recalculateAll(factorsToUse: factors, calculationConfig: active.calculationConfig)
             }
         }
         .onChange(of: activeConfigs.first?.factorConfigData) { _, _ in
             if let active = activeConfigs.first {
                 FactorDisplaySelector.configure(with: active.factorConfig)
                 let factors = active.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
-                composition.chartSession.recalculateAll(factorsToUse: factors)
+                composition.chartSession.recalculateAll(factorsToUse: factors, calculationConfig: active.calculationConfig)
+            }
+        }
+        .onChange(of: activeConfigs.first?.calculationConfigData) { _, _ in
+            if let active = activeConfigs.first {
+                let factors = active.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
+                composition.chartSession.recalculateAll(factorsToUse: factors, calculationConfig: active.calculationConfig)
             }
         }
         .onChange(of: activeConfigs.first?.displayConfigData) { _, _ in

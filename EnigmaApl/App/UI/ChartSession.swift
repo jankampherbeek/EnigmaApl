@@ -99,19 +99,20 @@ final class ChartSession: ObservableObject {
         }
     }
 
-    /// Recalculates all session charts using the given factor list and keeps each chart's identity stable.
-    func recalculateAll(factorsToUse: [Factors]) {
+    /// Recalculates all session charts using the given factor list and calculation config,
+    /// keeping each chart's identity stable.
+    func recalculateAll(factorsToUse: [Factors], calculationConfig: CalculationConfig) {
         guard !charts.isEmpty else { return }
         let selectedId = selected?.id
         charts = charts.map { named in
             let newRequest = CalcRequest(
                 JulianDay: named.baseRequest.JulianDay,
                 FactorsToUse: factorsToUse,
-                HouseSystem: named.baseRequest.HouseSystem,
+                HouseSystem: Int(calculationConfig.houseSystem.seId.asciiValue ?? 80),
                 Latitude: named.baseRequest.Latitude,
                 Longitude: named.baseRequest.Longitude,
                 Height: named.baseRequest.Height,
-                calculationConfig: named.baseRequest.calculationConfig
+                calculationConfig: calculationConfig
             )
             let newChart = AstronCalcOrchestrator.PerformCalculation(newRequest, seWrapper: seWrapper)
             return NamedChart(preservingId: named.id, name: named.name, chart: newChart, baseRequest: newRequest, timeZoneOffsetHours: named.timeZoneOffsetHours)
