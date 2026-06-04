@@ -59,6 +59,8 @@ struct ContentColumn: View {
                     SymbolicResults()
                 case .logarithmicTimescale:
                     LogTimeScaleResultsScreen()
+                case .agePoint:
+                    AgePointResultsScreen()
                 default:
                     EmptyView()
                 }

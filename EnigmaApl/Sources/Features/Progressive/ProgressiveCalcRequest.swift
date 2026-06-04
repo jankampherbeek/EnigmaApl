@@ -15,7 +15,7 @@ public struct ProgressiveCalcRequest {
     /// age-based techniques; `nil` for transits and similar techniques.
     public let natalJulianDay: Double?
 
-    public init(julianDay: Double, method: ProgressiveMethods, natalJulianDay: Double? = nil) {
+    public init(julianDay: Double, method: ProgressiveMethods = .transit, natalJulianDay: Double? = nil) {
         self.julianDay = julianDay
         self.method = method
         self.natalJulianDay = natalJulianDay

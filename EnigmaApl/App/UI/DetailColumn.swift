@@ -122,6 +122,8 @@ struct DetailColumn: View {
                             SymbolicScreen()
                         case .logarithmicTimescale:
                             LogTimeScaleInputScreen()
+                        case .agePoint:
+                            AgePointInputScreen()
                         default:
                             EmptyView()
                         }

@@ -158,15 +158,15 @@ struct SECalculationTests {
         
         // Verify all factors are present in the result
         let expectedCount = factorsToUse.count
-        let actualCount = result.count
+        let actualCount = result.positions.count
         if actualCount != expectedCount {
             Issue.record("All factors should be calculated, expected \(expectedCount), got \(actualCount)")
             return
         }
-        
+
         // Verify each factor's values
         for (factor, expected) in expectedValues {
-            guard let factorPosition = result[factor] else {
+            guard let factorPosition = result.positions[factor] else {
                 Issue.record("Factor \(factor) not found in result")
                 continue
             }

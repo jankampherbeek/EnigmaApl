@@ -45,6 +45,7 @@ struct AppCommands: Commands {
             Button("Solar")                { app.setMode(.progressive); progressiveNav.setSection(.solar) }
             Button("Prenatal")             { app.setMode(.progressive); progressiveNav.setSection(.prenatal) }
             Button("Logarithmic Timescale") { app.setMode(.progressive); progressiveNav.setSection(.logarithmicTimescale) }
+            Button("Age Point")            { app.setMode(.progressive); progressiveNav.setSection(.agePoint) }
             Button("Profections")          { app.setMode(.progressive); progressiveNav.setSection(.profections) }
             Button("Firdaria")             { app.setMode(.progressive); progressiveNav.setSection(.firdaria) }
             Button("Progressive Calendar") { app.setMode(.progressive); progressiveNav.setSection(.progressiveCalendar) }

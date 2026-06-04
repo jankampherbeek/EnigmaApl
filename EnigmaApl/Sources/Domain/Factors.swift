@@ -89,7 +89,8 @@ public enum Factors: Int, CaseIterable, Codable {
     case zeroAries = 3001
     case parsfortuna = 4001
     case logTimeScale = 5001
-    
+    case agePoint = 5002
+
     /// Indicates if the calculation of this point can be performed by the Swiss Ephemeris
     var calculationType: CalculationTypes {
         switch self {
@@ -112,6 +113,8 @@ public enum Factors: Int, CaseIterable, Codable {
             return .Lots
         case .blackSun, .diamond:
             return .Apsides
+        case .logTimeScale, .agePoint:
+            return .CommonFormulaFull
         default:
             return .Unknown
         }

@@ -49,6 +49,20 @@ final class ChartSession: ObservableObject {
 
     var selectedChart: FullChart? { selected?.chart }
 
+    /// Calculates the 12 house-cusp ecliptic longitudes for the selected chart using
+    /// the given house system. Returns nil when no chart is selected or the calculation fails.
+    func houseCuspLongitudes(for houseSystem: HouseSystems) -> [Double]? {
+        guard let named = selected else { return nil }
+        let hsInt = Int(houseSystem.seId.asciiValue ?? 75)
+        guard let (raw, _) = try? seWrapper.calculateHouses(
+            julianDay:   named.chart.JulianDay,
+            latitude:    named.baseRequest.Latitude,
+            longitude:   named.baseRequest.Longitude,
+            houseSystem: hsInt
+        ), raw.count >= 13 else { return nil }
+        return Array(raw[1...12])
+    }
+
     func add(name: String, chart: FullChart, baseRequest: CalcRequest, timeZoneOffsetHours: Double = 0.0) {
         let named = NamedChart(name: name, chart: chart, baseRequest: baseRequest, timeZoneOffsetHours: timeZoneOffsetHours)
         charts.append(named)

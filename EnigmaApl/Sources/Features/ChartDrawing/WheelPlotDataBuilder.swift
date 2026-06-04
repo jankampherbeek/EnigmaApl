@@ -7,10 +7,13 @@ import SwiftUI
 struct WheelPlotDataBuilder {
 
     /// Builds a WheelPlotData from a FullChart and optional active configuration.
-    static func build(from chart: FullChart, config: UserConfiguration? = nil) -> WheelPlotData {
+    /// - Parameter cuspLongitudes: When provided, replaces the chart's stored house cusps (e.g. to
+    ///   apply a different house system than the one used when the chart was originally calculated).
+    static func build(from chart: FullChart, config: UserConfiguration? = nil,
+                      cuspLongitudes: [Double]? = nil) -> WheelPlotData {
         let ascLong = chart.HousePositions.ascendant.longitude
         let mcLong  = chart.HousePositions.midheaven.longitude
-        let cusps   = chart.HousePositions.cusps.map { $0.longitude }
+        let cusps   = cuspLongitudes ?? chart.HousePositions.cusps.map { $0.longitude }
         let hasTime = true  // FullChart always has time; extend later if needed
 
         var items: [WheelPlotItem] = []
