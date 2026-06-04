@@ -27,6 +27,7 @@ final class AppComposition: ObservableObject {
     let symbolicModel: SymbolicModel
     let logTimeScaleModel: LogTimeScaleModel
     let agePointModel: AgePointModel
+    let zodiacDivisionsModel: ZodiacDivisionsModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -71,5 +72,6 @@ final class AppComposition: ObservableObject {
         self.symbolicModel = SymbolicModel()
         self.logTimeScaleModel = LogTimeScaleModel()
         self.agePointModel = AgePointModel()
+        self.zodiacDivisionsModel = ZodiacDivisionsModel()
     }
 }

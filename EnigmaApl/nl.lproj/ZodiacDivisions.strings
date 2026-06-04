@@ -1,0 +1,29 @@
+// ZodiacDivisions.strings - Nederlands
+// EnigmaApl
+
+// ZodiacDivisionsInputView
+"view.zodiacdivisionsinput.backlabel"               = "Terug naar Analyse";
+"view.zodiacdivisionsinput.title"                   = "Opties";
+"view.zodiacdivisionsinput.decans.header"           = "Decanen";
+"view.zodiacdivisionsinput.decans.signs"            = "Tekens";
+"view.zodiacdivisionsinput.decans.planets"          = "Planeten";
+"view.zodiacdivisionsinput.dodecatemoria.header"    = "Dodecatemoria";
+"view.zodiacdivisionsinput.dodecatemoria.original"  = "Origineel";
+"view.zodiacdivisionsinput.dodecatemoria.paulus"    = "Paulus";
+"view.zodiacdivisionsinput.bounds.header"           = "Grenzen";
+"view.zodiacdivisionsinput.bounds.egyptian"         = "Egyptisch";
+"view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemeus";
+"view.zodiacdivisionsinput.help"                    = "Selecteer een variant voor decanen, dodecatemoria en grenzen. Decanen Tekens kent het teken van het tripliciteits-element toe; Decanen Planeten gebruikt de Chaldeeuwse volgorde te beginnen met Mars. Dodecatemoria Origineel verdeelt elk teken in twaalf gedeelten van 2,5°; Paulus vermenigvuldigt de lengtegraad met 13. Grenzen Egyptisch gebruikt de traditionele Egyptische termtabel; Ptolemeus gebruikt de versie van Ptolemeus.";
+
+// ZodiacDivisionsResultsView
+"view.zodiacdivisionsresults.title"                 = "Zodiacale Verdelingen";
+"view.zodiacdivisionsresults.nochart"               = "Bereken of selecteer een horoscoop om zodiacale verdelingen te bekijken.";
+"view.zodiacdivisionsresults.noresults"             = "Geen factoren beschikbaar voor de huidige configuratie.";
+"view.zodiacdivisionsresults.tab.positions"         = "Standen";
+"view.zodiacdivisionsresults.tab.wheel"             = "Figuur";
+"view.zodiacdivisionsresults.col.position"          = "Positie";
+"view.zodiacdivisionsresults.col.sign"              = "Teken";
+"view.zodiacdivisionsresults.col.decan"             = "Decaan";
+"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemoria";
+"view.zodiacdivisionsresults.col.bound"             = "Grens";
+"view.zodiacdivisionsresults.help"                  = "Het tabblad Standen toont per factor het dierenriemteken, de decaan, de dodecatemoria en de grens (term), afhankelijk van je keuze in het paneel Opties aan de rechterkant.\nHet tabblad Figuur toont de horoscoop met vier verdelingsgliefen in de buitenring op de positie van elke factor. Van buiten naar binnen: teken, decaan, dodecatemoria, grens.";

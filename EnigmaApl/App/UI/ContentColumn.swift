@@ -40,6 +40,8 @@ struct ContentColumn: View {
             switch app.nav.mode {
             case .radix:
                 switch app.nav.radix.inspector {
+                case .analysisZodiacDivisions:
+                    ZodiacDivisionsResultsView()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations, .newChart, .search, .editChart:
                     HoroscopeScreen(

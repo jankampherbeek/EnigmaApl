@@ -1,0 +1,29 @@
+// ZodiacDivisions.strings - Deutsch
+// EnigmaApl
+
+// ZodiacDivisionsInputView
+"view.zodiacdivisionsinput.backlabel"               = "Zurück zur Analyse";
+"view.zodiacdivisionsinput.title"                   = "Optionen";
+"view.zodiacdivisionsinput.decans.header"           = "Dekane";
+"view.zodiacdivisionsinput.decans.signs"            = "Zeichen";
+"view.zodiacdivisionsinput.decans.planets"          = "Planeten";
+"view.zodiacdivisionsinput.dodecatemoria.header"    = "Dodekatemorion";
+"view.zodiacdivisionsinput.dodecatemoria.original"  = "Original";
+"view.zodiacdivisionsinput.dodecatemoria.paulus"    = "Paulus";
+"view.zodiacdivisionsinput.bounds.header"           = "Grenzen";
+"view.zodiacdivisionsinput.bounds.egyptian"         = "Ägyptisch";
+"view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemäus";
+"view.zodiacdivisionsinput.help"                    = "Wählen Sie eine Variante für Dekane, Dodekatemorion und Grenzen. Dekane Zeichen weist das Zeichen des Triplicität-Elements zu; Dekane Planeten verwendet die chaldäische Reihenfolge beginnend mit Mars. Dodekatemorion Original teilt jedes Zeichen in zwölf 2,5°-Abschnitte; Paulus multipliziert den Längengrad mit 13. Grenzen Ägyptisch verwendet die traditionelle ägyptische Termtabelle; Ptolemäus verwendet die Version von Ptolemäus.";
+
+// ZodiacDivisionsResultsView
+"view.zodiacdivisionsresults.title"                 = "Zodiakale Einteilungen";
+"view.zodiacdivisionsresults.nochart"               = "Berechnen oder wählen Sie ein Horoskop, um zodiakale Einteilungen anzuzeigen.";
+"view.zodiacdivisionsresults.noresults"             = "Keine Faktoren für die aktuelle Konfiguration verfügbar.";
+"view.zodiacdivisionsresults.tab.positions"         = "Positionen";
+"view.zodiacdivisionsresults.tab.wheel"             = "Figur";
+"view.zodiacdivisionsresults.col.position"          = "Position";
+"view.zodiacdivisionsresults.col.sign"              = "Zeichen";
+"view.zodiacdivisionsresults.col.decan"             = "Dekan";
+"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodekatemorion";
+"view.zodiacdivisionsresults.col.bound"             = "Grenze";
+"view.zodiacdivisionsresults.help"                  = "Das Register Positionen zeigt für jeden Faktor das Tierkreiszeichen, den Dekan, das Dodekatemorion und die Grenze (Term), abhängig von Ihrer Auswahl im Optionen-Panel rechts.\nDas Register Figur zeigt das Horoskop mit vier Einteilungsglyphen im äußeren Ring an der Position jedes Faktors. Von außen nach innen: Zeichen, Dekan, Dodekatemorion, Grenze.";

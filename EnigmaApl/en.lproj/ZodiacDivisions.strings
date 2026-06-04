@@ -1,0 +1,29 @@
+// ZodiacDivisions.strings - English
+// EnigmaApl
+
+// ZodiacDivisionsInputView
+"view.zodiacdivisionsinput.backlabel"               = "Back to Analysis";
+"view.zodiacdivisionsinput.title"                   = "Options";
+"view.zodiacdivisionsinput.decans.header"           = "Decans";
+"view.zodiacdivisionsinput.decans.signs"            = "Signs";
+"view.zodiacdivisionsinput.decans.planets"          = "Planets";
+"view.zodiacdivisionsinput.dodecatemoria.header"    = "Dodecatemoria";
+"view.zodiacdivisionsinput.dodecatemoria.original"  = "Original";
+"view.zodiacdivisionsinput.dodecatemoria.paulus"    = "Paulus";
+"view.zodiacdivisionsinput.bounds.header"           = "Bounds";
+"view.zodiacdivisionsinput.bounds.egyptian"         = "Egyptian";
+"view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemy";
+"view.zodiacdivisionsinput.help"                    = "Select a variant for decans, dodecatemoria and bounds. Decans Signs assigns the sign of the triplicity element; Decans Planets uses the Chaldean order starting with Mars. Dodecatemoria Original divides each sign into twelve 2.5° sub-portions; Paulus multiplies the longitude by 13. Bounds Egyptian uses the traditional Egyptian term table; Ptolemy uses Ptolemy's version.";
+
+// ZodiacDivisionsResultsView
+"view.zodiacdivisionsresults.title"                 = "Zodiacal Divisions";
+"view.zodiacdivisionsresults.nochart"               = "Calculate or select a horoscope to view zodiacal divisions.";
+"view.zodiacdivisionsresults.noresults"             = "No factors available for the current configuration.";
+"view.zodiacdivisionsresults.tab.positions"         = "Positions";
+"view.zodiacdivisionsresults.tab.wheel"             = "Wheel";
+"view.zodiacdivisionsresults.col.position"          = "Position";
+"view.zodiacdivisionsresults.col.sign"              = "Sign";
+"view.zodiacdivisionsresults.col.decan"             = "Decan";
+"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemoria";
+"view.zodiacdivisionsresults.col.bound"             = "Bound";
+"view.zodiacdivisionsresults.help"                  = "The Positions tab shows for each chart factor the zodiac sign it occupies, together with the decan, dodecatemoria and bound (term) signs or planets, depending on your selection in the Options panel on the right.\nThe Wheel tab shows the chart with the four division glyphs displayed in the outer ring at each factor's position. From outside to inside: sign, decan, dodecatemoria, bound.";
