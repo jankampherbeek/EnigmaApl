@@ -13,7 +13,7 @@
 "view.zodiacdivisionsinput.bounds.header"           = "Grenzen";
 "view.zodiacdivisionsinput.bounds.egyptian"         = "Ägyptisch";
 "view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemäus";
-"view.zodiacdivisionsinput.help"                    = "Wählen Sie eine Variante für Dekane, Dodekatemorion und Grenzen. Dekane Zeichen weist das Zeichen des Triplicität-Elements zu; Dekane Planeten verwendet die chaldäische Reihenfolge beginnend mit Mars. Dodekatemorion Original teilt jedes Zeichen in zwölf 2,5°-Abschnitte; Paulus multipliziert den Längengrad mit 13. Grenzen Ägyptisch verwendet die traditionelle ägyptische Termtabelle; Ptolemäus verwendet die Version von Ptolemäus.";
+"view.zodiacdivisionsinput.help"                    = "Wählen Sie, welche Variante Sie für Dekane (Dekanate), Dodekatemorion (Dwads) und Grenzen (Terme) verwenden möchten.\n\nDas Ergebnis erscheint im mittleren Teil des Bildschirms. Wenn Sie eine der Optionen ändern, wird das Ergebnis automatisch aktualisiert.\n\nWeitere Erläuterungen zu den verschiedenen Varianten finden Sie im Factsheet.";
 
 // ZodiacDivisionsResultsView
 "view.zodiacdivisionsresults.title"                 = "Zodiakale Einteilungen";
@@ -26,4 +26,4 @@
 "view.zodiacdivisionsresults.col.decan"             = "Dekan";
 "view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodekatemorion";
 "view.zodiacdivisionsresults.col.bound"             = "Grenze";
-"view.zodiacdivisionsresults.help"                  = "Das Register Positionen zeigt für jeden Faktor das Tierkreiszeichen, den Dekan, das Dodekatemorion und die Grenze (Term), abhängig von Ihrer Auswahl im Optionen-Panel rechts.\nDas Register Figur zeigt das Horoskop mit vier Einteilungsglyphen im äußeren Ring an der Position jedes Faktors. Von außen nach innen: Zeichen, Dekan, Dodekatemorion, Grenze.";
+"view.zodiacdivisionsresults.help"                  = "Dieser Bildschirm zeigt zwei Registerkarten. Die Registerkarte 'Positionen' gibt eine Tabelle mit für jeden Punkt im Horoskop dem Zeichen, dem Dekan, Dodekatemorion und der Grenze.\n\nDie Registerkarte 'Figur' zeigt eine Horoskopzeichnung mit im äußeren Ring den Symbolen, von außen nach innen, für Zeichen, Dekan, Dodekatemorion und Grenze,";

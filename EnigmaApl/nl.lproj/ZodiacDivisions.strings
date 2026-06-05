@@ -13,7 +13,7 @@
 "view.zodiacdivisionsinput.bounds.header"           = "Grenzen";
 "view.zodiacdivisionsinput.bounds.egyptian"         = "Egyptisch";
 "view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemeus";
-"view.zodiacdivisionsinput.help"                    = "Selecteer een variant voor decanen, dodecatemoria en grenzen. Decanen Tekens kent het teken van het tripliciteits-element toe; Decanen Planeten gebruikt de Chaldeeuwse volgorde te beginnen met Mars. Dodecatemoria Origineel verdeelt elk teken in twaalf gedeelten van 2,5°; Paulus vermenigvuldigt de lengtegraad met 13. Grenzen Egyptisch gebruikt de traditionele Egyptische termtabel; Ptolemeus gebruikt de versie van Ptolemeus.";
+"view.zodiacdivisionsinput.help"                    = "Selecter welke variant je wilt gebruiken voor decanen (decanaten), dodecatemoria (dwads) en grenzen (termen).\n\nHet resultaat zie je in het middelste deel van het scherm. Als je één van de keuzes aanpast verandert het resultaat automatisch.\n\nZie de Factsheet voor een uitleg over de verschillende varianten.";
 
 // ZodiacDivisionsResultsView
 "view.zodiacdivisionsresults.title"                 = "Zodiacale Verdelingen";
@@ -24,6 +24,6 @@
 "view.zodiacdivisionsresults.col.position"          = "Positie";
 "view.zodiacdivisionsresults.col.sign"              = "Teken";
 "view.zodiacdivisionsresults.col.decan"             = "Decaan";
-"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemoria";
+"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemorium";
 "view.zodiacdivisionsresults.col.bound"             = "Grens";
-"view.zodiacdivisionsresults.help"                  = "Het tabblad Standen toont per factor het dierenriemteken, de decaan, de dodecatemoria en de grens (term), afhankelijk van je keuze in het paneel Opties aan de rechterkant.\nHet tabblad Figuur toont de horoscoop met vier verdelingsgliefen in de buitenring op de positie van elke factor. Van buiten naar binnen: teken, decaan, dodecatemoria, grens.";
+"view.zodiacdivisionsresults.help"                  = "In dit scherm zie je twee tabs. De tab 'Standen' geeft een tabel met voor elk punt in de horoscoop het teken, de decaan, dodecatemorium en de grens.\n\nDe tab 'Figuur' laat een horoscooptekening zien met op de buitenste ring de symbolen, van buiten naar binnen, voor teken, decaan, dodecatemorium en grens,";

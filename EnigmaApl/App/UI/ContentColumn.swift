@@ -35,6 +35,10 @@ struct ContentColumn: View {
         drawingType == .dial360 || drawingType == .dial90 || drawingType == .dial45
     }
 
+    private var isZodiacDivisions: Bool {
+        app.nav.radix.inspector == .analysisZodiacDivisions
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -132,6 +136,8 @@ struct ContentColumn: View {
                     }
                     .accessibilityLabel("Export")
                 }
+            }
+            if isRadix && !isZodiacDivisions {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")

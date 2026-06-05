@@ -13,7 +13,7 @@
 "view.zodiacdivisionsinput.bounds.header"           = "Bounds";
 "view.zodiacdivisionsinput.bounds.egyptian"         = "Egyptian";
 "view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolemy";
-"view.zodiacdivisionsinput.help"                    = "Select a variant for decans, dodecatemoria and bounds. Decans Signs assigns the sign of the triplicity element; Decans Planets uses the Chaldean order starting with Mars. Dodecatemoria Original divides each sign into twelve 2.5° sub-portions; Paulus multiplies the longitude by 13. Bounds Egyptian uses the traditional Egyptian term table; Ptolemy uses Ptolemy's version.";
+"view.zodiacdivisionsinput.help"                    = "Select which variant you want to use for decans (decanates), dodecatemoria (dwads) and bounds (terms).\n\nThe result is shown in the middle part of the screen. When you change one of the options, the result updates automatically.\n\nSee the Factsheet for an explanation of the different variants.";
 
 // ZodiacDivisionsResultsView
 "view.zodiacdivisionsresults.title"                 = "Zodiacal Divisions";
@@ -24,6 +24,6 @@
 "view.zodiacdivisionsresults.col.position"          = "Position";
 "view.zodiacdivisionsresults.col.sign"              = "Sign";
 "view.zodiacdivisionsresults.col.decan"             = "Decan";
-"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemoria";
+"view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodecatemorium";
 "view.zodiacdivisionsresults.col.bound"             = "Bound";
-"view.zodiacdivisionsresults.help"                  = "The Positions tab shows for each chart factor the zodiac sign it occupies, together with the decan, dodecatemoria and bound (term) signs or planets, depending on your selection in the Options panel on the right.\nThe Wheel tab shows the chart with the four division glyphs displayed in the outer ring at each factor's position. From outside to inside: sign, decan, dodecatemoria, bound.";
+"view.zodiacdivisionsresults.help"                  = "This screen shows two tabs. The 'Positions' tab gives a table with for each point in the horoscope the sign, the decan, dodecatemorium and the bound.\n\nThe 'Wheel' tab shows a horoscope chart with on the outer ring the symbols, from outside to inside, for sign, decan, dodecatemorium and bound,";

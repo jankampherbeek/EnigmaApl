@@ -13,7 +13,7 @@
 "view.zodiacdivisionsinput.bounds.header"           = "Termes";
 "view.zodiacdivisionsinput.bounds.egyptian"         = "Égyptien";
 "view.zodiacdivisionsinput.bounds.ptolemy"          = "Ptolémée";
-"view.zodiacdivisionsinput.help"                    = "Sélectionnez une variante pour les décans, la dodécatémorie et les termes. Décans Signes attribue le signe de l'élément de triplicité ; Décans Planètes utilise l'ordre chaldéen à partir de Mars. Dodécatémorie Originale divise chaque signe en douze portions de 2,5° ; Paulus multiplie la longitude par 13. Termes Égyptien utilise la table des termes égyptiens traditionnels ; Ptolémée utilise la version de Ptolémée.";
+"view.zodiacdivisionsinput.help"                    = "Sélectionnez la variante à utiliser pour les décans (décanats), la dodécatémorie (dwads) et les termes.\n\nLe résultat s'affiche dans la partie centrale de l'écran. Lorsque vous modifiez l'une des options, le résultat se met à jour automatiquement.\n\nConsultez la fiche descriptive pour une explication des différentes variantes.";
 
 // ZodiacDivisionsResultsView
 "view.zodiacdivisionsresults.title"                 = "Divisions Zodiacales";
@@ -26,4 +26,4 @@
 "view.zodiacdivisionsresults.col.decan"             = "Décan";
 "view.zodiacdivisionsresults.col.dodecatemoria"     = "Dodécatémorie";
 "view.zodiacdivisionsresults.col.bound"             = "Terme";
-"view.zodiacdivisionsresults.help"                  = "L'onglet Positions affiche pour chaque facteur le signe zodiacal, le décan, la dodécatémorie et le terme, selon la sélection dans le panneau Options à droite.\nL'onglet Figure affiche le thème avec quatre glyphes de division dans l'anneau extérieur à la position de chaque facteur. De l'extérieur vers l'intérieur : signe, décan, dodécatémorie, terme.";
+"view.zodiacdivisionsresults.help"                  = "Cet écran affiche deux onglets. L'onglet 'Positions' donne un tableau avec pour chaque point du thème le signe, le décan, le dodécatémorion et le terme.\n\nL'onglet 'Figure' montre un thème astrologique avec sur l'anneau extérieur les symboles, de l'extérieur vers l'intérieur, pour le signe, le décan, le dodécatémorion et le terme,";
