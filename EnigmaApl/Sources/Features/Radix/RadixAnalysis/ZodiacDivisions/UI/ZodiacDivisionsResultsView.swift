@@ -29,11 +29,12 @@ struct ZodiacDivisionsResultsView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @State private var selectedTab: ZodiacDivisionsTab = .positions
-    @State private var blackWhite  = false
-    @State private var hideAspects = false
-    @State private var showExport  = false
-    @State private var showHelp    = false
+    @State private var selectedTab:  ZodiacDivisionsTab = .positions
+    @State private var blackWhite   = false
+    @State private var hideAspects  = false
+    @State private var showExport   = false
+    @State private var showHelp     = false
+    @State private var showFactsheet = false
 
     // Column widths
     private let glyphW: CGFloat  = 36
@@ -67,11 +68,20 @@ struct ZodiacDivisionsResultsView: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "zodiacal-divisions")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(ZodiacDivisionsKeys.resultsHelp))
