@@ -6,5 +6,9 @@
 	<array>
 		<string>EnigmaAstrology2.ttf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Enigma uses your location to calculate a chart for the current moment.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Enigma uses your location to calculate a chart for the current moment.</string>
 </dict>
 </plist>

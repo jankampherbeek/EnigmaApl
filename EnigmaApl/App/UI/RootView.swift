@@ -11,6 +11,7 @@
 import SwiftUI
 import SwiftData
 import Combine
+import CoreLocation
 
 
 struct RootView: View {
@@ -76,6 +77,9 @@ struct RootView: View {
                 SignColorSelector.configure(with: active.displayConfig)
                 FactorDisplaySelector.configure(with: active.factorConfig)
             }
+            Task {
+                await buildStartupChart(config: activeConfigs.first)
+            }
         }
         .onChange(of: activeConfigs.first?.persistentModelID) {
             if let active = activeConfigs.first {
@@ -120,5 +124,53 @@ struct RootView: View {
             }
             .presentationDetents([.medium, .large])
         }
+    }
+
+    private func buildStartupChart(config: UserConfiguration?) async {
+        guard composition.chartSession.charts.isEmpty else { return }
+
+        let coord = await composition.locationService.fetchCurrentLocation()
+
+        var utcCalendar = Calendar(identifier: .gregorian)
+        utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+        let comps = utcCalendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: Date())
+
+        let astroDate = AstronomicalDate(
+            Year: comps.year ?? 2000,
+            Month: comps.month ?? 1,
+            Day: comps.day ?? 1,
+            Gregorian: true
+        )
+        let astroTime = AstronomicalTime(
+            Hour: comps.hour ?? 0,
+            Minute: comps.minute ?? 0,
+            Second: comps.second ?? 0
+        )
+
+        let calcConfig = config?.calculationConfig ?? CalculationConfig()
+        let factors: [Factors]
+        if let config {
+            factors = config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
+        } else {
+            factors = [.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto]
+        }
+
+        let seWrapper = SEWrapper()
+        let jd = seWrapper.julianDay(date: astroDate, time: astroTime)
+
+        let request = CalcRequest(
+            JulianDay: jd,
+            FactorsToUse: factors,
+            HouseSystem: Int(calcConfig.houseSystem.seId.asciiValue ?? 80),
+            Latitude: coord?.latitude ?? 0.0,
+            Longitude: coord?.longitude ?? 0.0,
+            Height: 0.0,
+            calculationConfig: calcConfig
+        )
+
+        let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
+        let chartName = NSLocalizedString(StartupChartKeys.chartName, tableName: "StartupChart", bundle: .main, comment: "")
+        composition.chartSession.add(name: chartName, chart: chart, baseRequest: request)
+        app.nav.radix.inspector = .positions
     }
 }

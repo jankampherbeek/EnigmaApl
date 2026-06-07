@@ -31,6 +31,7 @@ final class AppComposition: ObservableObject {
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
+    let locationService: LocationService
 
     init(app: AppState) {
         self.app = app
@@ -39,6 +40,7 @@ final class AppComposition: ObservableObject {
         let context = PersistenceController.shared.container.mainContext
         self.horoscopeRepository = HoroscopeRepository(context: context)
         self.eventRepository = EventRepository(context: context)
+        self.locationService = LocationService()
 
         self.radixNav = RadixNavigator(nav: Binding(
             get: { app.nav.radix },
