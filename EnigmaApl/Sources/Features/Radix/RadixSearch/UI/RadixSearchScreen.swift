@@ -114,9 +114,6 @@ struct RadixSearchScreen: View {
     private let nameWidth: CGFloat = 200
     private let dateTimeWidth: CGFloat = 200
     private let locationWidth: CGFloat = 140
-    private let selectWidth: CGFloat = 80
-    private let editWidth: CGFloat = 70
-    private let deleteWidth: CGFloat = 80
 
     @ViewBuilder
     private func resultsTable(_ results: [HoroscopeModel]) -> some View {
@@ -127,9 +124,6 @@ struct RadixSearchScreen: View {
                         Text(rs("view.radixsearchscreen.column.name")).frame(width: nameWidth, alignment: .leading)
                         Text(rs("view.radixsearchscreen.column.datetime")).frame(width: dateTimeWidth, alignment: .leading)
                         Text(rs("view.radixsearchscreen.column.location")).frame(width: locationWidth, alignment: .leading)
-                        Spacer().frame(width: selectWidth)
-                        Spacer().frame(width: editWidth)
-                        Spacer().frame(width: deleteWidth)
                     }
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -149,23 +143,30 @@ struct RadixSearchScreen: View {
                             Text(horoscope.placeName ?? "–")
                                 .frame(width: locationWidth, alignment: .leading)
                                 .foregroundStyle(.secondary)
-                            Button(rs("view.radixsearchscreen.select")) { select(horoscope) }
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
-                                .frame(width: selectWidth)
-                            Button(rs("view.radixsearchscreen.edit")) { editHoroscope(horoscope) }
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
-                                .frame(width: editWidth)
-                            Button(rs("view.radixsearchscreen.delete")) { startDelete(horoscope) }
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
-                                .frame(width: deleteWidth)
-                                .tint(.red)
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 6)
                         .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                        .contentShape(Rectangle())
+                        .onTapGesture { select(horoscope) }
+                        .contextMenu {
+                            Button {
+                                select(horoscope)
+                            } label: {
+                                Label(rs("view.radixsearchscreen.select"), systemImage: "checkmark.circle")
+                            }
+                            Button {
+                                editHoroscope(horoscope)
+                            } label: {
+                                Label(rs("view.radixsearchscreen.edit"), systemImage: "pencil")
+                            }
+                            Divider()
+                            Button(role: .destructive) {
+                                startDelete(horoscope)
+                            } label: {
+                                Label(rs("view.radixsearchscreen.delete"), systemImage: "trash")
+                            }
+                        }
                     }
                 }
             }

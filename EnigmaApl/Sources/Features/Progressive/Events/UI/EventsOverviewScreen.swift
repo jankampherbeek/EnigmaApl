@@ -25,9 +25,6 @@ struct EventsOverviewScreen: View {
     private let titleWidth: CGFloat    = 200
     private let dateTimeWidth: CGFloat = 180
     private let locationWidth: CGFloat = 130
-    private let selectWidth: CGFloat   = 90
-    private let editWidth: CGFloat     = 75
-    private let deleteWidth: CGFloat   = 85
 
     var body: some View {
         ScrollView {
@@ -172,9 +169,6 @@ struct EventsOverviewScreen: View {
                 .frame(width: dateTimeWidth, alignment: .leading)
             Text(t(EventsOverviewKeys.columnLocation))
                 .frame(width: locationWidth, alignment: .leading)
-            Spacer().frame(width: selectWidth)
-            Spacer().frame(width: editWidth)
-            Spacer().frame(width: deleteWidth)
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.secondary)
@@ -205,32 +199,32 @@ struct EventsOverviewScreen: View {
                 .frame(width: locationWidth, alignment: .leading)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
-
-            Button(t(EventsOverviewKeys.select)) {
-                model.select(event)
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .frame(width: selectWidth)
-
-            Button(t(EventsOverviewKeys.edit)) {
-                eventToEdit = event
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .frame(width: editWidth)
-
-            Button(t(EventsOverviewKeys.delete)) {
-                eventToDelete = event
-                showDeleteConfirmation = true
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .frame(width: deleteWidth)
-            .tint(.red)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+        .contentShape(Rectangle())
+        .onTapGesture {
+            model.select(event)
+        }
+        .contextMenu {
+            Button {
+                model.select(event)
+            } label: {
+                Label(t(EventsOverviewKeys.select), systemImage: "checkmark.circle")
+            }
+            Button {
+                eventToEdit = event
+            } label: {
+                Label(t(EventsOverviewKeys.edit), systemImage: "pencil")
+            }
+            Divider()
+            Button(role: .destructive) {
+                eventToDelete = event
+                showDeleteConfirmation = true
+            } label: {
+                Label(t(EventsOverviewKeys.delete), systemImage: "trash")
+            }
+        }
     }
 }

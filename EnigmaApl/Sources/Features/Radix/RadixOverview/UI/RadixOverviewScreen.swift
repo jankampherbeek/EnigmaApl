@@ -16,7 +16,6 @@ struct RadixOverviewScreen: View {
 
     private let nameWidth: CGFloat = 240
     private let julianDayWidth: CGFloat = 120
-    private let selectWidth: CGFloat = 80
 
     var body: some View {
         ScrollView {
@@ -79,7 +78,6 @@ struct RadixOverviewScreen: View {
                                 .frame(width: nameWidth, alignment: .leading)
                             Text(ro(RadixOverviewKeys.columnJulianDay))
                                 .frame(width: julianDayWidth, alignment: .trailing)
-                            Spacer().frame(width: selectWidth)
                         }
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
@@ -89,24 +87,30 @@ struct RadixOverviewScreen: View {
                         Divider()
 
                         ForEach(Array(chartSession.charts.enumerated()), id: \.element.id) { index, named in
+                            let isSelected = chartSession.selected?.id == named.id
                             HStack(spacing: 12) {
-                                Text(named.name)
-                                    .frame(width: nameWidth, alignment: .leading)
-                                    .lineLimit(1)
+                                HStack(spacing: 4) {
+                                    if isSelected {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundStyle(Color.accentColor)
+                                            .imageScale(.small)
+                                    }
+                                    Text(named.name)
+                                        .lineLimit(1)
+                                }
+                                .frame(width: nameWidth, alignment: .leading)
                                 Text(model.formattedJulianDay(named.chart.JulianDay))
                                     .frame(width: julianDayWidth, alignment: .trailing)
                                     .foregroundStyle(.secondary)
-                                Button(ro(RadixOverviewKeys.select)) {
-                                    chartSession.select(named)
-                                    radixNav.setInspector(.positions)
-                                }
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
-                                .frame(width: selectWidth)
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 6)
                             .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                chartSession.select(named)
+                                radixNav.setInspector(.positions)
+                            }
                         }
                     }
                 }
