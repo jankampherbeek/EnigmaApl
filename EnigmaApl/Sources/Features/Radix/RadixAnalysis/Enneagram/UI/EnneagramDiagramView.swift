@@ -9,6 +9,8 @@ import SwiftUI
 struct EnneagramDiagramView: View {
     let results: [EnneagramTypeResult]
 
+    @State private var selectedType: Int?
+
     private func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "Enneagram", bundle: .main, comment: "")
     }
@@ -21,8 +23,10 @@ struct EnneagramDiagramView: View {
 
                 GeometryReader { geo in
                     let size = min(geo.size.width, geo.size.height)
-                    EnneagramCanvas(results: results, size: size)
-                        .frame(width: size, height: size)
+                    EnneagramCanvas(results: results, size: size) { tappedType in
+                        selectedType = tappedType
+                    }
+                    .frame(width: size, height: size)
                 }
                 .frame(maxWidth: 500)
                 .aspectRatio(1, contentMode: .fit)
@@ -30,14 +34,23 @@ struct EnneagramDiagramView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
         }
+        .sheet(isPresented: Binding(
+            get: { selectedType != nil },
+            set: { if !$0 { selectedType = nil } }
+        )) {
+            if let type = selectedType {
+                EnneagramTypeDescriptionSheet(type: type)
+            }
+        }
     }
 }
 
 // MARK: - Canvas
 
-private struct EnneagramCanvas: View {
+struct EnneagramCanvas: View {
     let results: [EnneagramTypeResult]
     let size: CGFloat
+    let onTap: (Int) -> Void
 
     private var center: CGPoint { CGPoint(x: size / 2, y: size / 2) }
     private var ringRadius: CGFloat { size * 0.38 }
@@ -111,5 +124,7 @@ private struct EnneagramCanvas: View {
                 .foregroundStyle(color)
         }
         .position(pt)
+        .contentShape(Circle())
+        .onTapGesture { onTap(type) }
     }
 }

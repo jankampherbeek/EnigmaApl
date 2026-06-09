@@ -8,7 +8,7 @@ struct EnneagramOverviewView: View {
     let results: [EnneagramTypeResult]
     let typeNames: [Int: String]
 
-    @State private var showHelp = false
+    @State private var activeSheet: ActiveSheet?
 
     private let typeW:     CGFloat = 50
     private let nameW:     CGFloat = 240
@@ -37,14 +37,19 @@ struct EnneagramOverviewView: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showHelp = true } label: {
+                Button { activeSheet = .help } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showHelp) {
-            WheelHelpSheet(helpText: t(EnneagramKeys.overviewHelp))
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .help:
+                WheelHelpSheet(helpText: t(EnneagramKeys.overviewHelp))
+            case .typeDescription(let type):
+                EnneagramTypeDescriptionSheet(type: type)
+            }
         }
     }
 
@@ -93,5 +98,21 @@ struct EnneagramOverviewView: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+        .contentShape(Rectangle())
+        .onTapGesture { activeSheet = .typeDescription(result.type) }
+    }
+}
+
+// MARK: - Sheet routing
+
+private enum ActiveSheet: Identifiable {
+    case help
+    case typeDescription(Int)
+
+    var id: String {
+        switch self {
+        case .help:               return "help"
+        case .typeDescription(let n): return "desc_\(n)"
+        }
     }
 }

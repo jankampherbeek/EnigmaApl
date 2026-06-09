@@ -13,13 +13,14 @@ struct EnneagramOrchestrator {
         var useHouses: Bool = true
         var doublePluto: Bool = false
         var useUpdatedVersion: Bool = true
+        var selectedFactors: Set<Factors> = Set(EnneagramCalculator.factorToPointId.keys)
     }
 
     /// Returns the 9 type strengths, sorted highest-first.
     static func strengths(chart: FullChart, options: Options) -> [EnneagramTypeResult] {
         let signsData  = EnneagramDataLoader.signs(updated: options.useUpdatedVersion)
         let housesData = EnneagramDataLoader.houses(updated: options.useUpdatedVersion)
-        let positions  = activePositions(chart: chart)
+        let positions  = activePositions(chart: chart, options: options)
         let cusps      = buildCuspArray(chart: chart)
         return EnneagramCalculator.calculateStrengths(
             signs: signsData,
@@ -35,7 +36,7 @@ struct EnneagramOrchestrator {
     static func details(chart: FullChart, options: Options) -> [EnneagramDetailLine] {
         let signsData  = EnneagramDataLoader.signs(updated: options.useUpdatedVersion)
         let housesData = EnneagramDataLoader.houses(updated: options.useUpdatedVersion)
-        let positions  = activePositions(chart: chart)
+        let positions  = activePositions(chart: chart, options: options)
         let cusps      = buildCuspArray(chart: chart)
         return EnneagramCalculator.calculateDetails(
             signs: signsData,
@@ -49,8 +50,9 @@ struct EnneagramOrchestrator {
 
     // MARK: - Helpers
 
-    private static func activePositions(chart: FullChart) -> [(Factors, Double)] {
+    private static func activePositions(chart: FullChart, options: Options) -> [(Factors, Double)] {
         EnneagramCalculator.factorToPointId.keys.compactMap { factor -> (Factors, Double)? in
+            guard options.selectedFactors.contains(factor) else { return nil }
             guard let pos = chart.Coordinates[factor],
                   let longitude = pos.ecliptical.first?.mainPos else { return nil }
             return (factor, longitude)

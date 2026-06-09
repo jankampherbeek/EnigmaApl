@@ -51,7 +51,7 @@ struct ContentColumn: View {
                 case .analysisZodiacDivisions:
                     ZodiacDivisionsResultsView()
                 case .analysisEnneagram:
-                    EnneagramFigureScreen()
+                    EnneagramResultsScreen()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
                      .newChart, .search, .editChart:

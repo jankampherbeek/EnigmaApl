@@ -108,7 +108,7 @@ struct DetailColumn: View {
                         case .analysisZodiacDivisions:
                             ZodiacDivisionsInputView()
                         case .analysisEnneagram:
-                            EnneagramScreen()
+                            EnneagramOptionsView()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

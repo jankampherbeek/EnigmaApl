@@ -44,5 +44,21 @@ struct EnneagramKeys {
     static let diagramTitle     = "view.enneagramdiagram.title"
     static let diagramHelp      = "view.enneagramdiagram.help"
 
+    // Type descriptions (popup)
+    static let desc1            = "view.enneagram.desc.1"
+    static let desc2            = "view.enneagram.desc.2"
+    static let desc3            = "view.enneagram.desc.3"
+    static let desc4            = "view.enneagram.desc.4"
+    static let desc5            = "view.enneagram.desc.5"
+    static let desc6            = "view.enneagram.desc.6"
+    static let desc7            = "view.enneagram.desc.7"
+    static let desc8            = "view.enneagram.desc.8"
+    static let desc9            = "view.enneagram.desc.9"
+
+    // Options panel
+    static let optionsTitle    = "view.enneagramoptions.title"
+    static let optionsPlanets  = "view.enneagramoptions.planets"
+    static let optionsSettings = "view.enneagramoptions.settings"
+
     static let help             = "view.enneagramscreen.help"
 }
