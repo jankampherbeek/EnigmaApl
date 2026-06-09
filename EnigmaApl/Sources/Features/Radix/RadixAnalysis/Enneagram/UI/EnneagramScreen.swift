@@ -7,6 +7,8 @@ import SwiftUI
 struct EnneagramOptionsView: View {
     @EnvironmentObject private var enneagramModel: EnneagramModel
 
+    @State private var showFactsheet = false
+
     /// Display order matches the Windows reference application.
     private static let supportedFactors: [Factors] = [
         .sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn,
@@ -70,6 +72,17 @@ struct EnneagramOptionsView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "enneagram")
         }
     }
 }
