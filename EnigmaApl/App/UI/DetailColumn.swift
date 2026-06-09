@@ -47,6 +47,8 @@ struct DetailColumn: View {
                 return "Declinaties"
             case .analysisZodiacDivisions:
                 return "Zodiacal Divisions"
+            case .analysisEnneagram:
+                return "Enneagram"
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -105,6 +107,8 @@ struct DetailColumn: View {
                             DeclinationsScreen()
                         case .analysisZodiacDivisions:
                             ZodiacDivisionsInputView()
+                        case .analysisEnneagram:
+                            EnneagramScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

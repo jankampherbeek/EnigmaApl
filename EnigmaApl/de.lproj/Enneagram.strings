@@ -1,0 +1,41 @@
+// Enneagram.strings - Deutsch
+// EnigmaApl
+
+"view.enneagramscreen.title"          = "Enneagramm";
+"view.enneagramscreen.nochart"        = "Berechnen oder wählen Sie ein Horoskop, um das Enneagramm anzuzeigen.";
+"view.enneagramscreen.tab.overview"   = "Übersicht";
+"view.enneagramscreen.tab.details"    = "Details";
+"view.enneagramscreen.tab.diagram"    = "Diagramm";
+"view.enneagramscreen.opt.usehouses"  = "Häuser einbeziehen";
+"view.enneagramscreen.opt.doublepluto" = "Pluto doppelt zählen";
+"view.enneagramscreen.opt.updated"    = "Aktualisierte Version verwenden (2012)";
+"view.enneagramscreen.help"           = "Das Enneagramm-Fenster berechnet die relative Stärke der neun Enneagramm-Persönlichkeitstypen anhand der Planetenstellungen in Zeichen und Häusern.\n\nSie können wählen, ob Hauspositionen berücksichtigt werden sollen und ob Pluto doppelt gezählt werden soll. Die aktualisierte Version von 2012 verwendet überarbeitete Bewertungstabellen.\n\nDer Reiter Übersicht zeigt die neun Typen nach Stärke sortiert. Der Reiter Details zeigt den Beitrag jedes Faktors. Der Reiter Diagramm zeigt die traditionelle Enneagramm-Figur mit nach Stärke hervorgehobenen Typen.";
+
+// Typennamen
+"view.enneagram.type.1"  = "Perfektionist / Reformer";
+"view.enneagram.type.2"  = "Helfer / Geber";
+"view.enneagram.type.3"  = "Leistungsträger / Darsteller";
+"view.enneagram.type.4"  = "Romantiker / Individualist";
+"view.enneagram.type.5"  = "Beobachter / Ermittler";
+"view.enneagram.type.6"  = "Loyalist / Skeptiker";
+"view.enneagram.type.7"  = "Enthusiast / Genießer";
+"view.enneagram.type.8"  = "Chef / Herausforderer";
+"view.enneagram.type.9"  = "Friedensstifter / Vermittler";
+
+// Übersicht
+"view.enneagramoverview.title"        = "Enneagramm-Stärken";
+"view.enneagramoverview.col.type"     = "Typ";
+"view.enneagramoverview.col.name"     = "Name";
+"view.enneagramoverview.col.strength" = "Stärke";
+"view.enneagramoverview.help"         = "Die Tabelle zeigt die neun Enneagramm-Typen nach berechneter Stärke sortiert (höchste zuerst). Die Stärke ist das kumulative Produkt aller Faktormultiplikatoren für diesen Typ basierend auf planetarischen Positionen in Zeichen und Häusern.";
+
+// Details
+"view.enneagramdetails.title"         = "Enneagramm-Details";
+"view.enneagramdetails.col.factor"    = "Faktor";
+"view.enneagramdetails.col.position"  = "Pos.";
+"view.enneagramdetails.col.insigns"   = "In Zeichen";
+"view.enneagramdetails.help"          = "Die Detailtabelle zeigt den Multiplikator, den jeder Faktor zu jedem der neun Enneagramm-Typen beiträgt, basierend auf seiner Stellung in einem Zeichen oder Haus.";
+
+// Diagramm
+"view.enneagramdiagram.title"         = "Enneagramm-Diagramm";
+"view.enneagramdiagram.help"          = "Das Diagramm zeigt die neun Enneagramm-Typen im Kreis angeordnet. Der Typ mit der höchsten Stärke ist rot, der zweite und dritte orange und alle anderen blau. Die Linien zeigen die traditionellen Enneagramm-Verbindungen: das 3-6-9-Dreieck und das 1-4-2-8-5-7-Hexagramm.";

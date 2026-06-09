@@ -1,0 +1,41 @@
+// Enneagram.strings - Nederlands
+// EnigmaApl
+
+"view.enneagramscreen.title"          = "Enneagram";
+"view.enneagramscreen.nochart"        = "Bereken of selecteer een horoscoop om het Enneagram te bekijken.";
+"view.enneagramscreen.tab.overview"   = "Overzicht";
+"view.enneagramscreen.tab.details"    = "Details";
+"view.enneagramscreen.tab.diagram"    = "Diagram";
+"view.enneagramscreen.opt.usehouses"  = "Huizen opnemen";
+"view.enneagramscreen.opt.doublepluto" = "Pluto dubbel tellen";
+"view.enneagramscreen.opt.updated"    = "Gebruik bijgewerkte versie (2012)";
+"view.enneagramscreen.help"           = "Het Enneagram-scherm berekent de relatieve sterkte van de negen Enneagram-persoonlijkheidstypen op basis van de standen van planeten in tekens en huizen.\n\nJe kunt kiezen of je huisposities wilt meenemen en of je Pluto dubbel wilt tellen. De bijgewerkte versie van 2012 gebruikt herziene scoretabellen.\n\nHet tabblad Overzicht toont de negen typen gesorteerd op sterkte. Het tabblad Details toont de bijdrage van elke factor. Het tabblad Diagram toont de traditionele Enneagram-figuur met de typen gemarkeerd op sterkte.";
+
+// Typenamen
+"view.enneagram.type.1"  = "Perfectionist / Hervormer";
+"view.enneagram.type.2"  = "Helper / Gever";
+"view.enneagram.type.3"  = "Presteerder / Uitvoerder";
+"view.enneagram.type.4"  = "Romanticus / Individualist";
+"view.enneagram.type.5"  = "Waarnemer / Onderzoeker";
+"view.enneagram.type.6"  = "Loyalist / Scepticus";
+"view.enneagram.type.7"  = "Enthousiast / Epicurus";
+"view.enneagram.type.8"  = "Baas / Uitdager";
+"view.enneagram.type.9"  = "Vredestichter / Bemiddelaar";
+
+// Overzicht
+"view.enneagramoverview.title"        = "Enneagram-sterktes";
+"view.enneagramoverview.col.type"     = "Type";
+"view.enneagramoverview.col.name"     = "Naam";
+"view.enneagramoverview.col.strength" = "Sterkte";
+"view.enneagramoverview.help"         = "De tabel toont de negen Enneagram-typen gesorteerd op berekende sterkte (hoogste eerst). De sterkte is het cumulatieve product van alle factormultiplicatoren voor dat type op basis van planetaire standen in tekens en huizen.";
+
+// Details
+"view.enneagramdetails.title"         = "Enneagram details";
+"view.enneagramdetails.col.factor"    = "Factor";
+"view.enneagramdetails.col.position"  = "Pos.";
+"view.enneagramdetails.col.insigns"   = "In tekens";
+"view.enneagramdetails.help"          = "De detailtabel toont de multiplicator die elke factor bijdraagt aan elk van de negen Enneagram-typen, op basis van zijn stand in een teken of huis.";
+
+// Diagram
+"view.enneagramdiagram.title"         = "Enneagram diagram";
+"view.enneagramdiagram.help"          = "Het diagram toont de negen Enneagram-typen in een cirkel. Het type met de hoogste sterkte is rood, het tweede en derde oranje en de overige blauw. De lijnen tonen de traditionele Enneagram-verbindingen: de 3-6-9 driehoek en het 1-4-2-8-5-7 hexagram.";

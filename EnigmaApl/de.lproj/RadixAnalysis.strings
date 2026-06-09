@@ -8,6 +8,7 @@
 "view.analysisscreen.btn.harmonics"            = "Harmoniken";
 "view.analysisscreen.btn.declinations"         = "Deklinationen";
 "view.analysisscreen.btn.zodiacdivisions"      = "Zodiakale Einteilungen";
+"view.analysisscreen.btn.enneagram"            = "Enneagramm";
 "view.analysisscreen.help"                     = "Der Analyse-Bildschirm bietet Zugang zu analytischen Werkzeugen. Aspekte zeigt Aspektbeziehungen zwischen Faktoren. Halbsummen zeigt Halbsummenstrukturen und besetzte Halbsummen. Harmoniken zeigt harmonische Positionen und Resonanzen.";
 
 // HarmonicsScreen — shared

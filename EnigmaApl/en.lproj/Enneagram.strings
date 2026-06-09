@@ -1,0 +1,41 @@
+// Enneagram.strings - English
+// EnigmaApl
+
+"view.enneagramscreen.title"          = "Enneagram";
+"view.enneagramscreen.nochart"        = "Calculate or select a horoscope to view the Enneagram.";
+"view.enneagramscreen.tab.overview"   = "Overview";
+"view.enneagramscreen.tab.details"    = "Details";
+"view.enneagramscreen.tab.diagram"    = "Diagram";
+"view.enneagramscreen.opt.usehouses"  = "Include houses";
+"view.enneagramscreen.opt.doublepluto" = "Count Pluto twice";
+"view.enneagramscreen.opt.updated"    = "Use updated version (2012)";
+"view.enneagramscreen.help"           = "The Enneagram screen calculates the relative strength of the nine Enneagram personality types based on the positions of planets in signs and houses.\n\nYou can choose whether to include house positions and whether to count Pluto twice. The 2012 updated version uses revised scoring tables.\n\nThe Overview tab shows the nine types sorted by strength. The Details tab shows the contribution of each factor. The Diagram tab shows the traditional Enneagram figure with the types highlighted by strength.";
+
+// Type names
+"view.enneagram.type.1"  = "Perfectionist / Reformer";
+"view.enneagram.type.2"  = "Helper / Giver";
+"view.enneagram.type.3"  = "Achiever / Performer";
+"view.enneagram.type.4"  = "Romantic / Individualist";
+"view.enneagram.type.5"  = "Observer / Investigator";
+"view.enneagram.type.6"  = "Loyalist / Skeptic";
+"view.enneagram.type.7"  = "Enthusiast / Epicure";
+"view.enneagram.type.8"  = "Boss / Challenger";
+"view.enneagram.type.9"  = "Peacemaker / Mediator";
+
+// Overview
+"view.enneagramoverview.title"        = "Enneagram strengths";
+"view.enneagramoverview.col.type"     = "Type";
+"view.enneagramoverview.col.name"     = "Name";
+"view.enneagramoverview.col.strength" = "Strength";
+"view.enneagramoverview.help"         = "The table shows the nine Enneagram types sorted by their calculated strength (highest first). Strength is the cumulative product of all factor multipliers for that type based on planetary positions in signs and houses.";
+
+// Details
+"view.enneagramdetails.title"         = "Enneagram details";
+"view.enneagramdetails.col.factor"    = "Factor";
+"view.enneagramdetails.col.position"  = "Pos.";
+"view.enneagramdetails.col.insigns"   = "In signs";
+"view.enneagramdetails.help"          = "The details table shows the multiplier that each factor contributes to each of the nine Enneagram types, based on its position in a sign or house.";
+
+// Diagram
+"view.enneagramdiagram.title"         = "Enneagram diagram";
+"view.enneagramdiagram.help"          = "The diagram shows the nine Enneagram types arranged in a circle. The type with the highest strength is shown in red, the second and third highest in orange, and all others in blue. The lines show the traditional Enneagram connections: the 3-6-9 triangle and the 1-4-2-8-5-7 hexagon.";

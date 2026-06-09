@@ -36,6 +36,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisZodiacDivisions)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnEnneagram)) {
+                radixNav.setInspector(.analysisEnneagram)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

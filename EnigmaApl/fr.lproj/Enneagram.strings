@@ -1,0 +1,41 @@
+// Enneagram.strings - Français
+// EnigmaApl
+
+"view.enneagramscreen.title"          = "Ennéagramme";
+"view.enneagramscreen.nochart"        = "Calculez ou sélectionnez un horoscope pour afficher l'Ennéagramme.";
+"view.enneagramscreen.tab.overview"   = "Aperçu";
+"view.enneagramscreen.tab.details"    = "Détails";
+"view.enneagramscreen.tab.diagram"    = "Diagramme";
+"view.enneagramscreen.opt.usehouses"  = "Inclure les maisons";
+"view.enneagramscreen.opt.doublepluto" = "Compter Pluton deux fois";
+"view.enneagramscreen.opt.updated"    = "Utiliser la version mise à jour (2012)";
+"view.enneagramscreen.help"           = "L'écran Ennéagramme calcule la force relative des neuf types de personnalité de l'Ennéagramme en fonction des positions des planètes dans les signes et les maisons.\n\nVous pouvez choisir d'inclure les positions des maisons et de compter Pluton deux fois. La version mise à jour de 2012 utilise des tables de notation révisées.\n\nL'onglet Aperçu affiche les neuf types triés par force. L'onglet Détails affiche la contribution de chaque facteur. L'onglet Diagramme affiche la figure traditionnelle de l'Ennéagramme avec les types mis en évidence par force.";
+
+// Noms des types
+"view.enneagram.type.1"  = "Perfectionniste / Réformateur";
+"view.enneagram.type.2"  = "Aidant / Donneur";
+"view.enneagram.type.3"  = "Accompli / Performeur";
+"view.enneagram.type.4"  = "Romantique / Individualiste";
+"view.enneagram.type.5"  = "Observateur / Investigateur";
+"view.enneagram.type.6"  = "Loyaliste / Sceptique";
+"view.enneagram.type.7"  = "Enthousiaste / Épicurien";
+"view.enneagram.type.8"  = "Chef / Challenger";
+"view.enneagram.type.9"  = "Pacificateur / Médiateur";
+
+// Aperçu
+"view.enneagramoverview.title"        = "Forces de l'Ennéagramme";
+"view.enneagramoverview.col.type"     = "Type";
+"view.enneagramoverview.col.name"     = "Nom";
+"view.enneagramoverview.col.strength" = "Force";
+"view.enneagramoverview.help"         = "Le tableau affiche les neuf types d'Ennéagramme triés par force calculée (la plus élevée en premier). La force est le produit cumulatif de tous les multiplicateurs de facteurs pour ce type en fonction des positions planétaires dans les signes et les maisons.";
+
+// Détails
+"view.enneagramdetails.title"         = "Détails de l'Ennéagramme";
+"view.enneagramdetails.col.factor"    = "Facteur";
+"view.enneagramdetails.col.position"  = "Pos.";
+"view.enneagramdetails.col.insigns"   = "En signes";
+"view.enneagramdetails.help"          = "Le tableau de détails montre le multiplicateur que chaque facteur apporte à chacun des neuf types d'Ennéagramme, en fonction de sa position dans un signe ou une maison.";
+
+// Diagramme
+"view.enneagramdiagram.title"         = "Diagramme de l'Ennéagramme";
+"view.enneagramdiagram.help"          = "Le diagramme montre les neuf types d'Ennéagramme disposés en cercle. Le type avec la plus grande force est en rouge, le deuxième et le troisième en orange et tous les autres en bleu. Les lignes montrent les connexions traditionnelles de l'Ennéagramme : le triangle 3-6-9 et l'hexagone 1-4-2-8-5-7.";

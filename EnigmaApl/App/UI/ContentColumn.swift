@@ -39,6 +39,10 @@ struct ContentColumn: View {
         app.nav.radix.inspector == .analysisZodiacDivisions
     }
 
+    private var isEnneagram: Bool {
+        app.nav.radix.inspector == .analysisEnneagram
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -46,8 +50,11 @@ struct ContentColumn: View {
                 switch app.nav.radix.inspector {
                 case .analysisZodiacDivisions:
                     ZodiacDivisionsResultsView()
+                case .analysisEnneagram:
+                    EnneagramFigureScreen()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
-                     .analysisMidpoints, .analysisHarmonics, .analysisDeclinations, .newChart, .search, .editChart:
+                     .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
+                     .newChart, .search, .editChart:
                     HoroscopeScreen(
                         blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
                         hideAspects: Binding(get: { app.ui.hideAspects }, set: { app.ui.hideAspects = $0 }),
@@ -96,7 +103,7 @@ struct ContentColumn: View {
                     }
                 }
             }
-            if isRadix {
+            if isRadix && !isZodiacDivisions && !isEnneagram {
                 ToolbarItem(placement: .automatic) {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
@@ -137,7 +144,7 @@ struct ContentColumn: View {
                     .accessibilityLabel("Export")
                 }
             }
-            if isRadix && !isZodiacDivisions {
+            if isRadix && !isZodiacDivisions && !isEnneagram {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")
