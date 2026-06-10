@@ -35,8 +35,21 @@ struct VspDiagramView: View {
     }
 
     /// Chart wheel data remapped so the Head point sits at the top of the wheel.
+    /// When hideTime is active, hasTime is forced to false so cusps, cardinal lines,
+    /// and house numbers are all suppressed.
     private var chartPlotData: WheelPlotData {
-        remapped(wheelModel.plotData, toAnchor: vspAnchor)
+        let data = remapped(wheelModel.plotData, toAnchor: vspAnchor)
+        guard !app.ui.hideTime else {
+            return WheelPlotData(
+                ascendantLongitude: data.ascendantLongitude,
+                mcLongitude:        data.mcLongitude,
+                cuspLongitudes:     data.cuspLongitudes,
+                planetItems:        data.planetItems,
+                hasTime:            false,
+                aspectItems:        []
+            )
+        }
+        return data
     }
 
     /// VSP positions projected onto the rotated wheel.
@@ -78,6 +91,14 @@ struct VspDiagramView: View {
                     Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
                 }
                 .accessibilityLabel(app.ui.blackWhite ? "Switch to color" : "Switch to black and white")
+                .disabled(chartSession.selectedChart == nil)
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { app.ui.hideTime.toggle() } label: {
+                    Image(systemName: "clock")
+                        .foregroundStyle(app.ui.hideTime ? .secondary : .primary)
+                }
+                .accessibilityLabel(app.ui.hideTime ? "Show time" : "Hide time")
                 .disabled(chartSession.selectedChart == nil)
             }
             ToolbarItem(placement: .automatic) {
