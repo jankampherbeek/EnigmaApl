@@ -49,6 +49,8 @@ struct DetailColumn: View {
                 return "Zodiacal Divisions"
             case .analysisEnneagram:
                 return "Enneagram"
+            case .analysisVsp:
+                return "Venus Star Point"
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -109,6 +111,8 @@ struct DetailColumn: View {
                             ZodiacDivisionsInputView()
                         case .analysisEnneagram:
                             EnneagramOptionsView()
+                        case .analysisVsp:
+                            VspScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

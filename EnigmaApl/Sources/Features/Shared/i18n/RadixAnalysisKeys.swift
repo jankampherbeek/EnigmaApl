@@ -14,6 +14,7 @@ struct RadixAnalysisKeys {
     static let btnDeclinations       = "view.analysisscreen.btn.declinations"
     static let btnZodiacDivisions    = "view.analysisscreen.btn.zodiacdivisions"
     static let btnEnneagram          = "view.analysisscreen.btn.enneagram"
+    static let btnVsp                = "view.analysisscreen.btn.vsp"
     static let help                  = "view.analysisscreen.help"
 
     // HarmonicsScreen — shared

@@ -43,6 +43,10 @@ struct ContentColumn: View {
         app.nav.radix.inspector == .analysisEnneagram
     }
 
+    private var isVsp: Bool {
+        app.nav.radix.inspector == .analysisVsp
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -52,6 +56,8 @@ struct ContentColumn: View {
                     ZodiacDivisionsResultsView()
                 case .analysisEnneagram:
                     EnneagramResultsScreen()
+                case .analysisVsp:
+                    VspDiagramView()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
                      .newChart, .search, .editChart:
@@ -103,7 +109,7 @@ struct ContentColumn: View {
                     }
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram {
+            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp {
                 ToolbarItem(placement: .automatic) {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
@@ -144,7 +150,7 @@ struct ContentColumn: View {
                     .accessibilityLabel("Export")
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram {
+            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")

@@ -69,6 +69,13 @@ struct EnneagramResultsScreen: View {
                 .fixedSize()
             }
             ToolbarItem(placement: .automatic) {
+                Button { activeSheet = .export } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .accessibilityLabel("Export")
+                .disabled(chartSession.selectedChart == nil)
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { activeSheet = .help } label: {
                     Image(systemName: "questionmark.circle")
                 }
@@ -81,6 +88,14 @@ struct EnneagramResultsScreen: View {
                 WheelHelpSheet(helpText: t(EnneagramKeys.help))
             case .typeDescription(let type):
                 EnneagramTypeDescriptionSheet(type: type)
+            case .export:
+                WheelExportSheet(
+                    wheelView: EnneagramCanvas(
+                        results: results,
+                        size: 800,
+                        onTap: { _ in }
+                    )
+                )
             }
         }
     }
@@ -189,11 +204,13 @@ private enum ResultsTab {
 private enum ActiveSheet: Identifiable {
     case help
     case typeDescription(Int)
+    case export
 
     var id: String {
         switch self {
-        case .help:               return "help"
+        case .help:                   return "help"
         case .typeDescription(let n): return "desc_\(n)"
+        case .export:                 return "export"
         }
     }
 }

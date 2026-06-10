@@ -29,6 +29,7 @@ final class AppComposition: ObservableObject {
     let agePointModel: AgePointModel
     let zodiacDivisionsModel: ZodiacDivisionsModel
     let enneagramModel: EnneagramModel
+    let vspModel: VspModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -77,5 +78,6 @@ final class AppComposition: ObservableObject {
         self.agePointModel = AgePointModel()
         self.zodiacDivisionsModel = ZodiacDivisionsModel()
         self.enneagramModel = EnneagramModel()
+        self.vspModel = VspModel()
     }
 }

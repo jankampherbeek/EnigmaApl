@@ -1,0 +1,24 @@
+// Vsp.strings - Nederlands
+// EnigmaApl
+
+// VspScreen
+"view.vspscreen.title"          = "Venus Sterpunt";
+"view.vspscreen.nochart"        = "Bereken of selecteer een horoscoop om het Venus Sterpunt te bekijken.";
+"view.vspscreen.explanation"    = "Het Venus Sterpunt (VSP) markeert de vijf posities waar Venus conjunct de Zon staat in de achtjarige Venus-cyclus, waarmee een pentagram in de dierenriem wordt gevormd. De huidige weergave is tot stand gekomen in nauw overleg met Arielle Guttman, die dit principe heeft ontdekt en beschreven.";
+"view.vspscreen.help"           = "Het Venus Sterpunt-scherm toont de vijf posities waar Venus conjunct de Zon staat in de achtjarige Venus-cyclus. Deze vijf punten vormen een perfect pentagram in de dierenriem.\n\nElke rij toont:\n– Volg: het chronologische volgnummer (1–5)\n– Naam: het punt op het pentagram (Hoofd, Arm, Been)\n– Conjunctie: of de conjunctie inferieur is (Venus tussen Aarde en Zon) of superieur (Zon tussen Aarde en Venus)\n– Datum / Tijd: de exacte datum en tijd van de conjunctie in UT\n– Longitude: de ecliptische lengte op dat moment\n\nDe verbindingsvolgorde van het pentagram is 1 → 3 → 5 → 2 → 4.";
+
+// Table columns
+"view.vspscreen.col.seq"        = "Volg";
+"view.vspscreen.col.name"       = "Naam";
+"view.vspscreen.col.phenomenon" = "Conjunctie";
+"view.vspscreen.col.date"       = "Datum / Tijd (UT)";
+"view.vspscreen.col.longitude"  = "Longitude";
+
+// Position names (pentagram points)
+"view.vspscreen.name.leg"       = "Been";
+"view.vspscreen.name.arm"       = "Arm";
+"view.vspscreen.name.head"      = "Hoofd";
+
+// Phenomena
+"view.vspscreen.phen.inferior"  = "Inferieur";
+"view.vspscreen.phen.superior"  = "Superieur";

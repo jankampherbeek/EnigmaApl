@@ -9,6 +9,7 @@
 "view.analysisscreen.btn.declinations"         = "Declinaties";
 "view.analysisscreen.btn.zodiacdivisions"      = "Zodiacale verdelingen";
 "view.analysisscreen.btn.enneagram"            = "Enneagram";
+"view.analysisscreen.btn.vsp"                  = "Venus Sterpunt";
 "view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Midpunten toont midpuntstructuren en bezette midpunten. Harmonischen toont harmonische posities en resonanties.";
 
 // HarmonicsScreen — shared

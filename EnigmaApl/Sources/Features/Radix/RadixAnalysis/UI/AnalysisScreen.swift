@@ -41,6 +41,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisEnneagram)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnVsp)) {
+                radixNav.setInspector(.analysisVsp)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

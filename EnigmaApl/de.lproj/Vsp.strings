@@ -1,0 +1,24 @@
+// Vsp.strings - Deutsch
+// EnigmaApl
+
+// VspScreen
+"view.vspscreen.title"          = "Venus-Sternpunkt";
+"view.vspscreen.nochart"        = "Berechnen oder wählen Sie ein Horoskop, um den Venus-Sternpunkt anzuzeigen.";
+"view.vspscreen.explanation"    = "Der Venus-Sternpunkt (VSP) markiert die fünf Positionen, an denen Venus im achtjährigen Venus-Zyklus in Konjunktion mit der Sonne steht und dabei ein Pentagramm im Tierkreis bildet. Die aktuelle Darstellung wurde in enger Zusammenarbeit mit Arielle Guttman entwickelt, die dieses Prinzip entdeckt und beschrieben hat.";
+"view.vspscreen.help"           = "Der Venus-Sternpunkt-Bildschirm zeigt die fünf Positionen, an denen Venus im achtjährigen Venus-Zyklus in Konjunktion mit der Sonne steht. Diese fünf Punkte bilden ein perfektes Pentagramm im Tierkreis.\n\nJede Zeile zeigt:\n– Nr.: die chronologische Sequenznummer (1–5)\n– Name: der Punkt am Pentagramm (Kopf, Arm, Bein)\n– Konjunktion: ob die Konjunktion inferior ist (Venus zwischen Erde und Sonne) oder superior (Sonne zwischen Erde und Venus)\n– Datum / Uhrzeit: das genaue Datum und die genaue Uhrzeit der Konjunktion in UT\n– Länge: die ekliptikale Länge in diesem Moment\n\nDie Verbindungsreihenfolge des Pentagramms ist 1 → 3 → 5 → 2 → 4.";
+
+// Table columns
+"view.vspscreen.col.seq"        = "Nr.";
+"view.vspscreen.col.name"       = "Name";
+"view.vspscreen.col.phenomenon" = "Konjunktion";
+"view.vspscreen.col.date"       = "Datum / Uhrzeit (UT)";
+"view.vspscreen.col.longitude"  = "Länge";
+
+// Position names (pentagram points)
+"view.vspscreen.name.leg"       = "Bein";
+"view.vspscreen.name.arm"       = "Arm";
+"view.vspscreen.name.head"      = "Kopf";
+
+// Phenomena
+"view.vspscreen.phen.inferior"  = "Inferior";
+"view.vspscreen.phen.superior"  = "Superior";
