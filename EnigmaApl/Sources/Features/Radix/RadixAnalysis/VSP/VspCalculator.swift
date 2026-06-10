@@ -62,13 +62,13 @@ struct VspCalculator {
 
     // MARK: - Year fraction (Meeus p. 249)
 
-    private static func yearFraction(year: Int, jd: Double, jdNewYear: Double) -> Double {
+    static func yearFraction(year: Int, jd: Double, jdNewYear: Double) -> Double {
         Double(year) + (jd - jdNewYear) / yearLength
     }
 
     // MARK: - Estimated conjunction date (Meeus p. 250–251)
 
-    private static func estimatedConjunctionDate(yearFrac: Double, type: VenusPhenomena) -> Double {
+    static func estimatedConjunctionDate(yearFrac: Double, type: VenusPhenomena) -> Double {
         let a  = type == .inferiorConjunction ? infA  : supA
         let b  = type == .inferiorConjunction ? infB  : supB
         let m0 = type == .inferiorConjunction ? infM0 : supM0

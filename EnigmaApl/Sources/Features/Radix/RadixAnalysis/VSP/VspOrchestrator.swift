@@ -11,16 +11,20 @@ struct VspOrchestrator {
 
     /// Returns the five VSP positions for the given birth Julian Day.
     static func calculate(birthJd: Double) -> [PresentableVspPosition] {
-        let se        = SEWrapper()
-        let phenomena = VspCalculator.calculateVspJds(birthJd: birthJd, seWrapper: se)
+        calculate(birthJd: birthJd, seWrapper: SEWrapper())
+    }
 
+    /// SE-injectable overload used by tests to share a single SEWrapper.
+    static func calculate(birthJd: Double, seWrapper: SEWrapper) -> [PresentableVspPosition] {
+        let phenomena = VspCalculator.calculateVspJds(birthJd: birthJd, seWrapper: seWrapper)
         return phenomena.enumerated().map { index, item in
             let (jd, phenomenon) = item
-            let longitude = se.calculateFactorPosition(julianDay: jd, factor: 0, flags: 2)?.mainPos ?? 0.0
-            let dt        = se.dateFromJulianDay(jd)
+            let longitude = seWrapper.calculateFactorPosition(julianDay: jd, factor: 0, flags: 2)?.mainPos ?? 0.0
+            let dt        = seWrapper.dateFromJulianDay(jd)
             return PresentableVspPosition(
                 sequenceId: index + 1,
                 phenomenon: phenomenon,
+                jd:         jd,
                 dateText:   formatDateTime(dt),
                 longitude:  longitude
             )

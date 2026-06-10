@@ -9,6 +9,8 @@ struct PresentableVspPosition: Identifiable {
     var id: Int { sequenceId }
     let sequenceId: Int
     let phenomenon: VenusPhenomena
+    /// Julian Day of the exact Sun–Venus conjunction.
+    let jd: Double
     /// Formatted as "yyyy/mm/dd hh:mi:ss"
     let dateText: String
     /// Ecliptical longitude in degrees (0–360)
