@@ -15,7 +15,7 @@
 "view.solarreturn.direction.north"          = "North";
 "view.solarreturn.direction.south"          = "South";
 "view.solarreturn.calculate"                = "Calculate";
-"view.solarreturn.help"                     = "Enter an age to calculate the solar return for that year of life. The solar return is the moment when the Sun returns to its exact natal position.\n\nEnable 'Sidereal return' to calculate the return based on the sidereal (Fagan) zodiac instead of the tropical zodiac.\n\nUnder 'Relocation' you can optionally enter a different location. Leave the fields blank to use the birth location. Click 'Calculate' to start the calculation.";
+"view.solarreturn.help"                     = "Enter the age in whole years.\n\nIf you want to calculate a sidereal return, you can indicate this.\n\nBy default, Enigma calculates the solar return for the birth location. If you want to apply relocation, you can enter the coordinates of the place of residence.";
 
 // Results screen
 "view.solarreturn.results.title"            = "Solar Return Results";
@@ -49,4 +49,4 @@
 "view.solarreturn.details.sidereal"         = "Sidereal (Fagan)";
 
 // Help
-"view.solarreturn.results.help"             = "The results are shown in three tabs.\n\nThe 'Positions' tab shows the ecliptic longitude and declination of all configured factors at the moment of the solar return.\n\nThe 'Aspects with Radix' tab shows the aspects between the solar return positions and the radix positions. The orb is taken from the progressions configuration.\n\nThe 'Details' tab shows technical information: the radix date and Sun position, and the solar return date, location, and Sun position.";
+"view.solarreturn.results.help"             = "You see five tabs. The first tab, 'Solar Chart', shows the horoscope drawing of the calculated solar return. The tab 'Combined Chart' shows the radix with the solar return positions in the outer extra ring. Via 'Positions' you get a table with all positions and via 'Aspects with Radix' a table with the aspects formed between the solar return positions and the radix. The last tab 'Details' provides information about the calculation used.\n\nThe horoscope charts can be switched between colour and black-and-white, you can hide the aspect lines, and you can export the chart.";

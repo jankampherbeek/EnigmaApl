@@ -15,7 +15,7 @@
 "view.solarreturn.direction.north"          = "Nord";
 "view.solarreturn.direction.south"          = "Süd";
 "view.solarreturn.calculate"                = "Berechnen";
-"view.solarreturn.help"                     = "Geben Sie ein Alter ein, um die Sonnenrückkehr für dieses Lebensjahr zu berechnen. Die Sonnenrückkehr ist der Moment, in dem die Sonne zu ihrer genauen Geburtsposition zurückkehrt.\n\nAktivieren Sie 'Siderische Rückkehr', um die Rückkehr auf der Grundlage des siderischen (Fagan) Tierkreises statt des tropischen zu berechnen.\n\nUnter 'Verlegung' können Sie optional einen anderen Ort eingeben. Lassen Sie die Felder leer, um den Geburtsort zu verwenden. Klicken Sie auf 'Berechnen', um die Berechnung zu starten.";
+"view.solarreturn.help"                     = "Geben Sie das Alter in ganzen Jahren ein.\n\nWenn Sie eine siderische Rückkehr berechnen möchten, können Sie dies angeben.\n\nStandardmäßig berechnet Enigma die Sonnenrückkehr für den Geburtsort. Wenn Sie eine Verlegung anwenden möchten, können Sie die Koordinaten des Aufenthaltsorts eingeben.";
 
 // Ergebnisse
 "view.solarreturn.results.title"            = "Ergebnisse Sonnenrückkehr";
@@ -49,4 +49,4 @@
 "view.solarreturn.details.sidereal"         = "Siderisch (Fagan)";
 
 // Hilfe
-"view.solarreturn.results.help"             = "Die Ergebnisse werden in drei Reitern angezeigt.\n\nDer Reiter 'Positionen' zeigt den ekliptischen Längengrad und die Deklination aller konfigurierten Faktoren zum Zeitpunkt der Sonnenrückkehr.\n\nDer Reiter 'Aspekte mit Radix' zeigt die Aspekte zwischen den Sonnenrückkehr-Positionen und den Radix-Positionen. Der Orb wird aus der Progressions-Konfiguration übernommen.\n\nDer Reiter 'Details' zeigt technische Informationen: Geburtsdatum und Sonnenposition des Radix sowie Datum, Ort und Sonnenposition der Sonnenrückkehr.";
+"view.solarreturn.results.help"             = "Sie sehen fünf Reiter. Über den ersten Reiter, 'Sonnenrückkehr-Karte', sehen Sie die Horoskopzeichnung der berechneten Sonnenrückkehr. Der Reiter 'Kombinierte Karte' zeigt das Radix mit den Positionen der Sonnenrückkehr im äußeren Zusatzring. Über 'Positionen' erhalten Sie eine Tabelle mit allen Positionen und über 'Aspekte mit Radix' eine Tabelle mit den gebildeten Aspekten zwischen den Sonnenrückkehr-Positionen und dem Radix. Der letzte Reiter 'Details' gibt Informationen über die verwendete Berechnung.\n\nDie Horoskopfiguren können zwischen Farbe und Schwarz-Weiß umgeschaltet werden, Sie können die Aspektlinien ausblenden und Sie können die Figur exportieren.";

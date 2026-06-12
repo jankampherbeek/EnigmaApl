@@ -15,7 +15,7 @@
 "view.solarreturn.direction.north"          = "Noord";
 "view.solarreturn.direction.south"          = "Zuid";
 "view.solarreturn.calculate"                = "Bereken";
-"view.solarreturn.help"                     = "Voer een leeftijd in om het solaar voor dat levensjaar te berekenen. Het solaar is het moment waarop de Zon terugkeert naar zijn exacte geboorteplaats.\n\nSchakel 'Siderische solaar' in om het solaar te berekenen op basis van de siderische (Fagan) dierenriem in plaats van de tropische.\n\nOnder 'Relocatie' kun je optioneel een andere locatie invoeren. Laat de velden leeg om de geboortelocatie te gebruiken. Klik op 'Bereken' om de berekening te starten.";
+"view.solarreturn.help"                     = "Geef de leeftijd op in hele jaren.\n\nAls je een siderische return wilt berekenen kun je dat aangeven.\n\nStandaard berekent Enigma de solaar voor de geboorteplaats. Als je relocatie wilt toepassen kun je de coördinaten van de verblijfplaats opgeven.";
 
 // Resultaten
 "view.solarreturn.results.title"            = "Resultaten Solaar";
@@ -49,4 +49,4 @@
 "view.solarreturn.details.sidereal"         = "Siderisch (Fagan)";
 
 // Help
-"view.solarreturn.results.help"             = "De resultaten worden getoond in drie tabbladen.\n\nHet tabblad 'Posities' toont de ecliptische lengtegraad en declinatie van alle geconfigureerde factoren op het moment van het solaar.\n\nHet tabblad 'Aspecten met radix' toont de aspecten tussen de solaarposities en de radixposities. De orb wordt overgenomen uit de progressieconfiguratie.\n\nHet tabblad 'Details' toont technische informatie: de geboortedatum en Zonpositie in de radix, en de datum, locatie en Zonpositie van het solaar.";
+"view.solarreturn.results.help"             = "Je ziet vijf tabs. Via de eerste tab, 'Solaar' zie je de horoscooptekening van de berekende solaar. De tab 'Radix met solaar' geeft de radix met de standen uit de solaar in de buitenste extra ring. Via 'Posities' krijg je een tabel met alle standen en via 'Aspecten met radix' een tabel met de gevormde aspecten tussen de solaar standen en de radix. De laatste tab 'Details' geeft informatie over de gebruikte berekening.\n\nDe horoscoopfiguren kun je wisselen tussen kleur en zwart-wit, je kunt de aspectlijnen weglaten en je kunt de figuur exporteren.";

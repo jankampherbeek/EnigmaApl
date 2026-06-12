@@ -22,6 +22,7 @@ struct SolarInputScreen: View {
     @State private var longDirection: Int = 0   // 0 = East, 1 = West
     @State private var latDirection: Int = 0    // 0 = North, 1 = South
     @State private var showHelp = false
+    @State private var showFactsheet = false
     @State private var validationError: String?
 
     private var hasChart: Bool { chartSession.selectedChart != nil }
@@ -41,11 +42,20 @@ struct SolarInputScreen: View {
         .navigationTitle(t(SolarReturnKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "solar")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(SolarReturnKeys.help))

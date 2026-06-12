@@ -15,7 +15,7 @@
 "view.solarreturn.direction.north"          = "Nord";
 "view.solarreturn.direction.south"          = "Sud";
 "view.solarreturn.calculate"                = "Calculer";
-"view.solarreturn.help"                     = "Entrez un âge pour calculer le retour solaire pour cette année de vie. Le retour solaire est le moment où le Soleil revient à sa position natale exacte.\n\nActivez 'Retour sidéral' pour calculer le retour sur la base du zodiaque sidéral (Fagan) plutôt que tropical.\n\nSous 'Délocalisation', vous pouvez saisir un lieu différent. Laissez les champs vides pour utiliser le lieu de naissance. Cliquez sur 'Calculer' pour lancer le calcul.";
+"view.solarreturn.help"                     = "Saisissez l'âge en années entières.\n\nSi vous souhaitez calculer un retour sidéral, vous pouvez l'indiquer.\n\nPar défaut, Enigma calcule le retour solaire pour le lieu de naissance. Si vous souhaitez appliquer une délocalisation, vous pouvez saisir les coordonnées du lieu de résidence.";
 
 // Résultats
 "view.solarreturn.results.title"            = "Résultats du retour solaire";
@@ -49,4 +49,4 @@
 "view.solarreturn.details.sidereal"         = "Sidéral (Fagan)";
 
 // Aide
-"view.solarreturn.results.help"             = "Les résultats sont présentés en trois onglets.\n\nL'onglet 'Positions' affiche la longitude écliptique et la déclinaison de tous les facteurs configurés au moment du retour solaire.\n\nL'onglet 'Aspects avec le radix' affiche les aspects entre les positions du retour solaire et celles du radix. L'orbe est tiré de la configuration des progressions.\n\nL'onglet 'Détails' affiche des informations techniques : la date de naissance et la position du Soleil dans le radix, ainsi que la date, le lieu et la position du Soleil du retour solaire.";
+"view.solarreturn.results.help"             = "Vous voyez cinq onglets. Le premier onglet, 'Carte solaire', affiche le dessin de l'horoscope du retour solaire calculé. L'onglet 'Carte combinée' affiche le radix avec les positions du retour solaire dans l'anneau extérieur supplémentaire. Via 'Positions', vous obtenez un tableau de toutes les positions et via 'Aspects avec le radix', un tableau des aspects formés entre les positions du retour solaire et le radix. Le dernier onglet 'Détails' fournit des informations sur le calcul utilisé.\n\nLes figures horoscopiques peuvent être basculées entre couleur et noir et blanc, vous pouvez masquer les lignes d'aspects et vous pouvez exporter la figure.";

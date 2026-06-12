@@ -22,8 +22,9 @@ struct SolarResultsScreen: View {
     @State private var selectedTab: SolarResultTab = .solarChart
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
-    @State private var showExport:  Bool = false
-    @State private var showHelp:    Bool = false
+    @State private var showExport:    Bool = false
+    @State private var showHelp:      Bool = false
+    @State private var showFactsheet: Bool = false
 
     // Column widths – positions table
     private let glyphW:       CGFloat = 32
@@ -74,11 +75,20 @@ struct SolarResultsScreen: View {
         .navigationTitle(t(SolarReturnKeys.resultsTitle))
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "solar")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(SolarReturnKeys.helpResults))
