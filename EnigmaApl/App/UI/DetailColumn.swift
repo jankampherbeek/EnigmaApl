@@ -136,6 +136,8 @@ struct DetailColumn: View {
                             LogTimeScaleInputScreen()
                         case .agePoint:
                             AgePointInputScreen()
+                        case .solar:
+                            SolarInputScreen()
                         default:
                             EmptyView()
                         }

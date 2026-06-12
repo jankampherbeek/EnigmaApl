@@ -80,6 +80,8 @@ struct ContentColumn: View {
                     LogTimeScaleResultsScreen()
                 case .agePoint:
                     AgePointResultsScreen()
+                case .solar:
+                    SolarResultsScreen()
                 default:
                     EmptyView()
                 }

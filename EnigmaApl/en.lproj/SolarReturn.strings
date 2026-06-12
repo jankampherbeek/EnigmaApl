@@ -1,0 +1,52 @@
+// SolarReturn.strings - English
+// EnigmaApl
+
+// Input screen
+"view.solarreturn.title"                    = "Solar Return";
+"view.solarreturn.nochart"                  = "Calculate or select a horoscope to calculate a solar return.";
+"view.solarreturn.age.label"                = "Age";
+"view.solarreturn.age.placeholder"          = "Age (whole number)";
+"view.solarreturn.sidereal.label"           = "Sidereal return";
+"view.solarreturn.relocation.header"        = "Relocation (optional)";
+"view.solarreturn.longitude.label"          = "Longitude (ddd:mm:ss)";
+"view.solarreturn.latitude.label"           = "Latitude (dd:mm:ss)";
+"view.solarreturn.direction.east"           = "East";
+"view.solarreturn.direction.west"           = "West";
+"view.solarreturn.direction.north"          = "North";
+"view.solarreturn.direction.south"          = "South";
+"view.solarreturn.calculate"                = "Calculate";
+"view.solarreturn.help"                     = "Enter an age to calculate the solar return for that year of life. The solar return is the moment when the Sun returns to its exact natal position.\n\nEnable 'Sidereal return' to calculate the return based on the sidereal (Fagan) zodiac instead of the tropical zodiac.\n\nUnder 'Relocation' you can optionally enter a different location. Leave the fields blank to use the birth location. Click 'Calculate' to start the calculation.";
+
+// Results screen
+"view.solarreturn.results.title"            = "Solar Return Results";
+"view.solarreturn.results.noresults"        = "Click Calculate in the input panel to see results.";
+"view.solarreturn.tab.solarchart"           = "Solar Chart";
+"view.solarreturn.tab.combinedchart"        = "Combined Chart";
+"view.solarreturn.tab.positions"            = "Positions";
+"view.solarreturn.tab.aspects"              = "Aspects with Radix";
+"view.solarreturn.tab.details"              = "Details";
+
+// Positions table
+"view.solarreturn.col.longitude"            = "Longitude";
+"view.solarreturn.col.declination"          = "Declination";
+
+// Aspects tab
+"view.solarreturn.aspects.noaspects"        = "No aspects found.";
+"view.solarreturn.aspects.col.solar"        = "Solar";
+"view.solarreturn.aspects.col.aspect"       = "Aspect";
+"view.solarreturn.aspects.col.radix"        = "Radix";
+"view.solarreturn.aspects.col.orb"          = "Orb";
+
+// Details tab
+"view.solarreturn.details.radix.header"     = "Radix";
+"view.solarreturn.details.radix.date"       = "Date / time";
+"view.solarreturn.details.radix.sun"        = "Sun longitude";
+"view.solarreturn.details.solar.header"     = "Solar Return";
+"view.solarreturn.details.solar.date"       = "Date / time (UT)";
+"view.solarreturn.details.solar.jd"         = "Julian Day";
+"view.solarreturn.details.solar.sun"        = "Sun longitude";
+"view.solarreturn.details.solar.location"   = "Location";
+"view.solarreturn.details.sidereal"         = "Sidereal (Fagan)";
+
+// Help
+"view.solarreturn.results.help"             = "The results are shown in three tabs.\n\nThe 'Positions' tab shows the ecliptic longitude and declination of all configured factors at the moment of the solar return.\n\nThe 'Aspects with Radix' tab shows the aspects between the solar return positions and the radix positions. The orb is taken from the progressions configuration.\n\nThe 'Details' tab shows technical information: the radix date and Sun position, and the solar return date, location, and Sun position.";

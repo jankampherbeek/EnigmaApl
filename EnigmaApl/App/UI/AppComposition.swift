@@ -30,6 +30,7 @@ final class AppComposition: ObservableObject {
     let zodiacDivisionsModel: ZodiacDivisionsModel
     let enneagramModel: EnneagramModel
     let vspModel: VspModel
+    let solarReturnModel: SolarReturnModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -79,5 +80,6 @@ final class AppComposition: ObservableObject {
         self.zodiacDivisionsModel = ZodiacDivisionsModel()
         self.enneagramModel = EnneagramModel()
         self.vspModel = VspModel()
+        self.solarReturnModel = SolarReturnModel()
     }
 }
