@@ -82,6 +82,8 @@ struct ContentColumn: View {
                     AgePointResultsScreen()
                 case .solar:
                     SolarResultsScreen()
+                case .primary:
+                    PrimDirResultsScreen()
                 default:
                     EmptyView()
                 }

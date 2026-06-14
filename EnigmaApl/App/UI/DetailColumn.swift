@@ -138,6 +138,8 @@ struct DetailColumn: View {
                             AgePointInputScreen()
                         case .solar:
                             SolarInputScreen()
+                        case .primary:
+                            PrimDirInputScreen()
                         default:
                             EmptyView()
                         }

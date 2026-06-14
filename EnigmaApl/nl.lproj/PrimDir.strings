@@ -1,0 +1,30 @@
+// PrimDir.strings - Nederlands
+// EnigmaApl
+
+// Invoerscherm
+"view.primdir.title"                        = "Primaire Directies";
+"view.primdir.nochart"                      = "Bereken of selecteer een horoscoop om primaire directies te berekenen.";
+"view.primdir.startdate.label"              = "Begindatum";
+"view.primdir.enddate.label"               = "Einddatum";
+"view.primdir.date.placeholder"             = "jjjj/mm/dd";
+"view.primdir.settings.header"              = "Instellingen";
+"view.primdir.settings.overridenote"        = "Deze instellingen zijn tijdelijk en worden niet opgeslagen in de configuratie.";
+"view.primdir.settings.reset"               = "Terugzetten naar configuratie";
+"view.primdir.settings.method"              = "Methode";
+"view.primdir.settings.approach"            = "Benadering";
+"view.primdir.settings.timekey"             = "Tijdsleutel";
+"view.primdir.calculate"                    = "Berekenen";
+"view.primdir.help"                         = "Voer een begindatum en einddatum in om de periode te bepalen waarvoor primaire directies worden berekend.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen.\n\nDe methode, benadering en tijdsleutel worden ingesteld in de configuratie.";
+
+// Resultatenscherm
+"view.primdir.results.title"                = "Primaire Directies";
+"view.primdir.results.noresults"            = "Voer een datumbereik in en klik op Berekenen om primaire directies te zien.";
+"view.primdir.results.nohits"              = "Geen primaire directies gevonden in de geselecteerde periode.";
+"view.primdir.results.col.date"             = "Datum";
+"view.primdir.results.help"                 = "De tabel toont alle primaire directies die exact zijn binnen de geselecteerde periode. Elke rij toont de datum, de promissor (bewegend punt), het aspect en de significator (vast punt).\n\nDe methode, benadering en tijdsleutel in de koptekst zijn afkomstig uit uw configuratie.";
+
+// Validatiefouten
+"view.primdir.error.invalidstartdate"       = "Ongeldige begindatum. Gebruik het formaat jjjj/mm/dd.";
+"view.primdir.error.invalidenddate"         = "Ongeldige einddatum. Gebruik het formaat jjjj/mm/dd.";
+"view.primdir.error.startbeforebirth"       = "De begindatum moet na de geboortedatum liggen.";
+"view.primdir.error.endbeforestart"         = "De einddatum moet na de begindatum liggen.";

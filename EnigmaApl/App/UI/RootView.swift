@@ -69,6 +69,7 @@ struct RootView: View {
         .environmentObject(composition.enneagramModel)
         .environmentObject(composition.vspModel)
         .environmentObject(composition.solarReturnModel)
+        .environmentObject(composition.primDirModel)
         .environmentObject(composition.calculatorsNav)
         .environmentObject(composition.configNav)
         .onAppear {

@@ -1,0 +1,30 @@
+// PrimDir.strings - Deutsch
+// EnigmaApl
+
+// Eingabe
+"view.primdir.title"                        = "Primäre Direktionen";
+"view.primdir.nochart"                      = "Berechnen oder wählen Sie ein Horoskop, um primäre Direktionen zu berechnen.";
+"view.primdir.startdate.label"              = "Startdatum";
+"view.primdir.enddate.label"               = "Enddatum";
+"view.primdir.date.placeholder"             = "jjjj/mm/tt";
+"view.primdir.settings.header"              = "Einstellungen";
+"view.primdir.settings.overridenote"        = "Diese Einstellungen sind temporär und werden nicht in der Konfiguration gespeichert.";
+"view.primdir.settings.reset"               = "Auf Konfiguration zurücksetzen";
+"view.primdir.settings.method"              = "Methode";
+"view.primdir.settings.approach"            = "Ansatz";
+"view.primdir.settings.timekey"             = "Zeitschlüssel";
+"view.primdir.calculate"                    = "Berechnen";
+"view.primdir.help"                         = "Geben Sie ein Start- und Enddatum ein, um den Zeitraum für die Berechnung primärer Direktionen festzulegen.\n\nDie Daten müssen im Format jjjj/mm/tt sein. Das Startdatum muss nach dem Geburtsdatum liegen und das Enddatum muss nach dem Startdatum liegen.\n\nMethode, Ansatz und Zeitschlüssel werden in der Konfiguration festgelegt.";
+
+// Ergebnisse
+"view.primdir.results.title"                = "Primäre Direktionen";
+"view.primdir.results.noresults"            = "Geben Sie einen Datumsbereich ein und klicken Sie auf Berechnen, um primäre Direktionen zu sehen.";
+"view.primdir.results.nohits"              = "Keine primären Direktionen im ausgewählten Zeitraum gefunden.";
+"view.primdir.results.col.date"             = "Datum";
+"view.primdir.results.help"                 = "Die Tabelle zeigt alle primären Direktionen, die im ausgewählten Zeitraum exakt sind. Jede Zeile zeigt das Datum, den Promissor (beweglicher Punkt), den Aspekt und den Signifikator (fester Punkt).\n\nMethode, Ansatz und Zeitschlüssel in der Kopfzeile stammen aus Ihrer Konfiguration.";
+
+// Validierungsfehler
+"view.primdir.error.invalidstartdate"       = "Ungültiges Startdatum. Verwenden Sie das Format jjjj/mm/tt.";
+"view.primdir.error.invalidenddate"         = "Ungültiges Enddatum. Verwenden Sie das Format jjjj/mm/tt.";
+"view.primdir.error.startbeforebirth"       = "Das Startdatum muss nach dem Geburtsdatum liegen.";
+"view.primdir.error.endbeforestart"         = "Das Enddatum muss nach dem Startdatum liegen.";
