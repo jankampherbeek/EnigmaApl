@@ -14,14 +14,14 @@
 "view.primdir.settings.approach"            = "Approach";
 "view.primdir.settings.timekey"             = "Time key";
 "view.primdir.calculate"                    = "Calculate";
-"view.primdir.help"                         = "Enter a start date and end date to define the period for which primary directions are calculated.\n\nThe dates must be in the format yyyy/mm/dd. The start date must be after the birth date and the end date must be after the start date.\n\nThe method, approach, and time key are defined in the configuration. You can change them there.";
+"view.primdir.help"                         = "Enter a start date and end date and click 'Calculate' to see the primary directions.\n\nThe dates must be in the format yyyy/mm/dd. The start date must be after the birth date and the end date must be after the start date.\n\nEnigma uses your configuration settings by default, but you can override them.";
 
 // Results screen
 "view.primdir.results.title"                = "Primary Directions";
 "view.primdir.results.noresults"            = "Enter a date range and press Calculate to see primary directions.";
 "view.primdir.results.nohits"              = "No primary directions found in the selected period.";
 "view.primdir.results.col.date"             = "Date";
-"view.primdir.results.help"                 = "The table shows all primary directions that are exact within the selected period. Each row shows the date, the promissor (moving point), the aspect, and the significator (fixed point).\n\nThe method, approach, and time key shown in the header are taken from your configuration.";
+"view.primdir.results.help"                 = "The table shows all primary directions that are exact in the specified period. Each row shows the date, the promissor (the moving point), the aspect, and the significator (the fixed point).";
 
 // Validation errors
 "view.primdir.error.invalidstartdate"       = "Invalid start date. Use the format yyyy/mm/dd.";

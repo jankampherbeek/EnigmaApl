@@ -14,14 +14,14 @@
 "view.primdir.settings.approach"            = "Ansatz";
 "view.primdir.settings.timekey"             = "Zeitschlüssel";
 "view.primdir.calculate"                    = "Berechnen";
-"view.primdir.help"                         = "Geben Sie ein Start- und Enddatum ein, um den Zeitraum für die Berechnung primärer Direktionen festzulegen.\n\nDie Daten müssen im Format jjjj/mm/tt sein. Das Startdatum muss nach dem Geburtsdatum liegen und das Enddatum muss nach dem Startdatum liegen.\n\nMethode, Ansatz und Zeitschlüssel werden in der Konfiguration festgelegt.";
+"view.primdir.help"                         = "Geben Sie ein Start- und Enddatum ein und klicken Sie auf 'Berechnen', um die primären Direktionen zu sehen.\n\nDie Daten müssen im Format jjjj/mm/tt sein. Das Startdatum muss nach dem Geburtsdatum liegen und das Enddatum muss nach dem Startdatum liegen.\n\nEnigma verwendet standardmäßig Ihre Konfigurationseinstellungen, Sie können diese jedoch überschreiben.";
 
 // Ergebnisse
 "view.primdir.results.title"                = "Primäre Direktionen";
 "view.primdir.results.noresults"            = "Geben Sie einen Datumsbereich ein und klicken Sie auf Berechnen, um primäre Direktionen zu sehen.";
 "view.primdir.results.nohits"              = "Keine primären Direktionen im ausgewählten Zeitraum gefunden.";
 "view.primdir.results.col.date"             = "Datum";
-"view.primdir.results.help"                 = "Die Tabelle zeigt alle primären Direktionen, die im ausgewählten Zeitraum exakt sind. Jede Zeile zeigt das Datum, den Promissor (beweglicher Punkt), den Aspekt und den Signifikator (fester Punkt).\n\nMethode, Ansatz und Zeitschlüssel in der Kopfzeile stammen aus Ihrer Konfiguration.";
+"view.primdir.results.help"                 = "Die Tabelle zeigt alle primären Direktionen, die im angegebenen Zeitraum exakt sind. Jede Zeile zeigt das Datum, den Promissor (den beweglichen Punkt), den Aspekt und den Signifikator (den festen Punkt).";
 
 // Validierungsfehler
 "view.primdir.error.invalidstartdate"       = "Ungültiges Startdatum. Verwenden Sie das Format jjjj/mm/tt.";

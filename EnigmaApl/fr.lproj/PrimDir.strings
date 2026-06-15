@@ -14,14 +14,14 @@
 "view.primdir.settings.approach"            = "Approche";
 "view.primdir.settings.timekey"             = "Clé de temps";
 "view.primdir.calculate"                    = "Calculer";
-"view.primdir.help"                         = "Entrez une date de début et une date de fin pour définir la période de calcul des directions primaires.\n\nLes dates doivent être au format aaaa/mm/jj. La date de début doit être postérieure à la date de naissance et la date de fin doit être postérieure à la date de début.\n\nLa méthode, l'approche et la clé de temps sont définies dans la configuration.";
+"view.primdir.help"                         = "Entrez une date de début et une date de fin et cliquez sur 'Calculer' pour voir les directions primaires.\n\nLes dates doivent être au format aaaa/mm/jj. La date de début doit être postérieure à la date de naissance et la date de fin doit être postérieure à la date de début.\n\nEnigma utilise par défaut vos paramètres de configuration, mais vous pouvez les remplacer.";
 
 // Résultats
 "view.primdir.results.title"                = "Directions Primaires";
 "view.primdir.results.noresults"            = "Entrez une plage de dates et appuyez sur Calculer pour voir les directions primaires.";
 "view.primdir.results.nohits"              = "Aucune direction primaire trouvée dans la période sélectionnée.";
 "view.primdir.results.col.date"             = "Date";
-"view.primdir.results.help"                 = "Le tableau affiche toutes les directions primaires exactes dans la période sélectionnée. Chaque ligne montre la date, le promisseur (point mobile), l'aspect et le significateur (point fixe).\n\nLa méthode, l'approche et la clé de temps dans l'en-tête proviennent de votre configuration.";
+"view.primdir.results.help"                 = "Le tableau affiche toutes les directions primaires exactes dans la période spécifiée. Chaque ligne montre la date, le promisseur (le point mobile), l'aspect et le significateur (le point fixe).";
 
 // Erreurs de validation
 "view.primdir.error.invalidstartdate"       = "Date de début invalide. Utilisez le format aaaa/mm/jj.";

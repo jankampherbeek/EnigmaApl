@@ -76,6 +76,11 @@ struct PrimDirInputScreen: View {
                 dateSection
                 settingsOverride
                 calculateButton
+                if let error = primDirModel.inputErrorMessage {
+                    Text(error)
+                        .font(.callout)
+                        .foregroundStyle(.red)
+                }
             }
             .frame(maxWidth: 700, alignment: .leading)
             .padding()

@@ -9,6 +9,7 @@ import Combine
 final class PrimDirModel: ObservableObject {
     @Published private(set) var hits: [PrimDirHit] = []
     @Published var errorMessage: String?
+    @Published var inputErrorMessage: String?
     @Published private(set) var methodDescription: String = ""
     @Published private(set) var period: String = ""
 
@@ -23,22 +24,23 @@ final class PrimDirModel: ObservableObject {
         config: PrimaryDirectionsConfig
     ) {
         errorMessage = nil
+        inputErrorMessage = nil
         let seWrapper = SEWrapper()
 
         guard let startJD = parseDate(startDateText, seWrapper: seWrapper) else {
-            errorMessage = NSLocalizedString(PrimDirKeys.errorInvalidStartDate, tableName: "PrimDir", bundle: .main, comment: "")
+            inputErrorMessage = NSLocalizedString(PrimDirKeys.errorInvalidStartDate, tableName: "PrimDir", bundle: .main, comment: "")
             return
         }
         guard let endJD = parseDate(endDateText, seWrapper: seWrapper) else {
-            errorMessage = NSLocalizedString(PrimDirKeys.errorInvalidEndDate, tableName: "PrimDir", bundle: .main, comment: "")
+            inputErrorMessage = NSLocalizedString(PrimDirKeys.errorInvalidEndDate, tableName: "PrimDir", bundle: .main, comment: "")
             return
         }
         guard startJD > natalJD else {
-            errorMessage = NSLocalizedString(PrimDirKeys.errorStartBeforeBirth, tableName: "PrimDir", bundle: .main, comment: "")
+            inputErrorMessage = NSLocalizedString(PrimDirKeys.errorStartBeforeBirth, tableName: "PrimDir", bundle: .main, comment: "")
             return
         }
         guard endJD > startJD else {
-            errorMessage = NSLocalizedString(PrimDirKeys.errorEndBeforeStart, tableName: "PrimDir", bundle: .main, comment: "")
+            inputErrorMessage = NSLocalizedString(PrimDirKeys.errorEndBeforeStart, tableName: "PrimDir", bundle: .main, comment: "")
             return
         }
 
@@ -63,6 +65,7 @@ final class PrimDirModel: ObservableObject {
     func clear() {
         hits = []
         errorMessage = nil
+        inputErrorMessage = nil
         methodDescription = ""
         period = ""
     }

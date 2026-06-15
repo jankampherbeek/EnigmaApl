@@ -14,14 +14,14 @@
 "view.primdir.settings.approach"            = "Benadering";
 "view.primdir.settings.timekey"             = "Tijdsleutel";
 "view.primdir.calculate"                    = "Berekenen";
-"view.primdir.help"                         = "Voer een begindatum en einddatum in om de periode te bepalen waarvoor primaire directies worden berekend.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen.\n\nDe methode, benadering en tijdsleutel worden ingesteld in de configuratie.";
+"view.primdir.help"                         = "Voer een begindatum en einddatum in en klik op 'Bereken' om de primaire directies te zien.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen.\n\nEnigma gebruikt standaard je instellingen uit de configuratie maar je kunt deze overschrijven.";
 
 // Resultatenscherm
 "view.primdir.results.title"                = "Primaire Directies";
 "view.primdir.results.noresults"            = "Voer een datumbereik in en klik op Berekenen om primaire directies te zien.";
 "view.primdir.results.nohits"              = "Geen primaire directies gevonden in de geselecteerde periode.";
 "view.primdir.results.col.date"             = "Datum";
-"view.primdir.results.help"                 = "De tabel toont alle primaire directies die exact zijn binnen de geselecteerde periode. Elke rij toont de datum, de promissor (bewegend punt), het aspect en de significator (vast punt).\n\nDe methode, benadering en tijdsleutel in de koptekst zijn afkomstig uit uw configuratie.";
+"view.primdir.results.help"                 = "In de tabel zie je alle primaire directies die exact zijn in de opgegeven periode. Elke rij toont de datum, de promissor (het bewegende punt), het aspect en de significator (het vaste punt).";
 
 // Validatiefouten
 "view.primdir.error.invalidstartdate"       = "Ongeldige begindatum. Gebruik het formaat jjjj/mm/dd.";
