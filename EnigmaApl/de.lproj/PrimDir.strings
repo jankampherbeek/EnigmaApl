@@ -14,7 +14,7 @@
 "view.primdir.settings.approach"            = "Ansatz";
 "view.primdir.settings.timekey"             = "Zeitschlüssel";
 "view.primdir.calculate"                    = "Berechnen";
-"view.primdir.help"                         = "Geben Sie ein Start- und Enddatum ein und klicken Sie auf 'Berechnen', um die primären Direktionen zu sehen.\n\nDie Daten müssen im Format jjjj/mm/tt sein. Das Startdatum muss nach dem Geburtsdatum liegen und das Enddatum muss nach dem Startdatum liegen.\n\nEnigma verwendet standardmäßig Ihre Konfigurationseinstellungen, Sie können diese jedoch überschreiben.";
+"view.primdir.help"                         = "Geben Sie ein Start- und Enddatum ein und klicken Sie auf 'Berechnen', um die primären Direktionen zu sehen.\n\nDie Daten müssen im Format jjjj/mm/tt sein. Das Startdatum muss nach dem Geburtsdatum liegen und das Enddatum muss nach dem Startdatum liegen. Verwenden Sie für die Daten immer den standardmäßigen Gregorianischen Kalender.\n\nEnigma verwendet standardmäßig Ihre Konfigurationseinstellungen, Sie können diese jedoch überschreiben.";
 
 // Ergebnisse
 "view.primdir.results.title"                = "Primäre Direktionen";

@@ -14,7 +14,7 @@
 "view.primdir.settings.approach"            = "Approche";
 "view.primdir.settings.timekey"             = "Clé de temps";
 "view.primdir.calculate"                    = "Calculer";
-"view.primdir.help"                         = "Entrez une date de début et une date de fin et cliquez sur 'Calculer' pour voir les directions primaires.\n\nLes dates doivent être au format aaaa/mm/jj. La date de début doit être postérieure à la date de naissance et la date de fin doit être postérieure à la date de début.\n\nEnigma utilise par défaut vos paramètres de configuration, mais vous pouvez les remplacer.";
+"view.primdir.help"                         = "Entrez une date de début et une date de fin et cliquez sur 'Calculer' pour voir les directions primaires.\n\nLes dates doivent être au format aaaa/mm/jj. La date de début doit être postérieure à la date de naissance et la date de fin doit être postérieure à la date de début. Utilisez toujours le calendrier grégorien standard pour les dates.\n\nEnigma utilise par défaut vos paramètres de configuration, mais vous pouvez les remplacer.";
 
 // Résultats
 "view.primdir.results.title"                = "Directions Primaires";

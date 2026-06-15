@@ -14,7 +14,7 @@
 "view.primdir.settings.approach"            = "Benadering";
 "view.primdir.settings.timekey"             = "Tijdsleutel";
 "view.primdir.calculate"                    = "Berekenen";
-"view.primdir.help"                         = "Voer een begindatum en einddatum in en klik op 'Bereken' om de primaire directies te zien.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen.\n\nEnigma gebruikt standaard je instellingen uit de configuratie maar je kunt deze overschrijven.";
+"view.primdir.help"                         = "Voer een begindatum en einddatum in en klik op 'Bereken' om de primaire directies te zien.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen. Gebruik voor de datums altijd de standaard Gregoriaanse kalender.\n\nEnigma gebruikt standaard je instellingen uit de configuratie maar je kunt deze overschrijven.";
 
 // Resultatenscherm
 "view.primdir.results.title"                = "Primaire Directies";

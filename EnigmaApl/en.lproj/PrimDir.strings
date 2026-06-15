@@ -14,7 +14,7 @@
 "view.primdir.settings.approach"            = "Approach";
 "view.primdir.settings.timekey"             = "Time key";
 "view.primdir.calculate"                    = "Calculate";
-"view.primdir.help"                         = "Enter a start date and end date and click 'Calculate' to see the primary directions.\n\nThe dates must be in the format yyyy/mm/dd. The start date must be after the birth date and the end date must be after the start date.\n\nEnigma uses your configuration settings by default, but you can override them.";
+"view.primdir.help"                         = "Enter a start date and end date and click 'Calculate' to see the primary directions.\n\nThe dates must be in the format yyyy/mm/dd. The start date must be after the birth date and the end date must be after the start date. Always use the standard Gregorian calendar for the dates.\n\nEnigma uses your configuration settings by default, but you can override them.";
 
 // Results screen
 "view.primdir.results.title"                = "Primary Directions";
