@@ -12,14 +12,19 @@ private func t(_ key: String) -> String {
 struct PrimDirInputScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var primDirModel: PrimDirModel
+    @EnvironmentObject private var progressiveSession: ProgressiveSession
+    @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    @State private var inputMode: PrimDirInputMode = .dateRange
     @State private var startDateText: String = ""
     @State private var endDateText: String = ""
     @State private var selectedMethod: PrimaryMethod = .placidus
     @State private var selectedApproach: PrimaryApproach = .mundane
     @State private var selectedTimeKey: PrimaryTimeKey = .naibod
+    @State private var events: [EventModel] = []
+    @State private var selectedEventId: UUID?
     @State private var showHelp = false
     @State private var showFactsheet = false
 
@@ -66,7 +71,16 @@ struct PrimDirInputScreen: View {
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(PrimDirKeys.help))
         }
-        .onAppear { syncFromConfig() }
+        .onAppear {
+            syncFromConfig()
+            loadEvents()
+        }
+        .onChange(of: chartSession.selected?.id) { _, _ in
+            loadEvents()
+        }
+        .onChange(of: inputMode) { _, _ in
+            primDirModel.clear()
+        }
     }
 
     // MARK: - Form
@@ -83,7 +97,12 @@ struct PrimDirInputScreen: View {
                         .foregroundStyle(.secondary)
                 }
 
-                dateSection
+                modePicker
+                if inputMode == .dateRange {
+                    dateSection
+                } else {
+                    eventSection
+                }
                 settingsOverride
                 calculateButton
                 if let error = primDirModel.inputErrorMessage {
@@ -95,6 +114,22 @@ struct PrimDirInputScreen: View {
             .frame(maxWidth: 700, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    // MARK: - Mode picker
+
+    private var modePicker: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(t(PrimDirKeys.modeLabel))
+                .font(.subheadline.weight(.medium))
+            Picker("", selection: $inputMode) {
+                Text(t(PrimDirKeys.modeDateRange)).tag(PrimDirInputMode.dateRange)
+                Text(t(PrimDirKeys.modeEvent)).tag(PrimDirInputMode.event)
+            }
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 300)
+            .labelsHidden()
         }
     }
 
@@ -115,6 +150,29 @@ struct PrimDirInputScreen: View {
                 TextField(t(PrimDirKeys.datePlaceholder), text: $endDateText)
                     .textFieldStyle(.roundedBorder)
                     .frame(maxWidth: 200)
+            }
+        }
+    }
+
+    // MARK: - Event picker
+
+    private var eventSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(t(PrimDirKeys.eventPickerLabel))
+                .font(.subheadline.weight(.medium))
+            if events.isEmpty {
+                Text(t(PrimDirKeys.eventNoEvents))
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            } else {
+                Picker("", selection: $selectedEventId) {
+                    Text("—").tag(Optional<UUID>.none)
+                    ForEach(events, id: \.id) { event in
+                        Text(event.title).tag(Optional(event.id))
+                    }
+                }
+                .labelsHidden()
+                .frame(maxWidth: 300)
             }
         }
     }
@@ -191,6 +249,30 @@ struct PrimDirInputScreen: View {
         selectedTimeKey = c.timeKey
     }
 
+    private func loadEvents() {
+        guard let named = chartSession.selected else {
+            events = []
+            return
+        }
+        let repo = HoroscopeRepository(context: modelContext)
+        do {
+            let all = try repo.fetchAll()
+            if let horoscope = all.first(where: { $0.name == named.name }) {
+                events = horoscope.events.sorted { $0.julianDate < $1.julianDate }
+            } else {
+                events = []
+            }
+        } catch {
+            events = []
+        }
+        // Pre-select from progressiveSession if the event belongs to this chart
+        if selectedEventId == nil,
+           let sessionEvent = progressiveSession.selectedEvent,
+           events.contains(where: { $0.id == sessionEvent.id }) {
+            selectedEventId = sessionEvent.id
+        }
+    }
+
     private func runCalculation() {
         guard let namedChart = chartSession.selected else { return }
         let effectiveConfig = PrimaryDirectionsConfig(
@@ -201,13 +283,28 @@ struct PrimDirInputScreen: View {
             approach: selectedApproach,
             timeKey: selectedTimeKey
         )
-        primDirModel.calculate(
-            startDateText: startDateText,
-            endDateText: endDateText,
-            chart: namedChart.chart,
-            geoLat: namedChart.baseRequest.Latitude,
-            natalJD: namedChart.baseRequest.JulianDay,
-            config: effectiveConfig
-        )
+        if inputMode == .dateRange {
+            primDirModel.calculate(
+                startDateText: startDateText,
+                endDateText: endDateText,
+                chart: namedChart.chart,
+                geoLat: namedChart.baseRequest.Latitude,
+                natalJD: namedChart.baseRequest.JulianDay,
+                config: effectiveConfig
+            )
+        } else {
+            guard let eventId = selectedEventId,
+                  let event = events.first(where: { $0.id == eventId }) else {
+                primDirModel.inputErrorMessage = t(PrimDirKeys.errorNoEventSelected)
+                return
+            }
+            primDirModel.calculateForEvent(
+                event: event,
+                chart: namedChart.chart,
+                geoLat: namedChart.baseRequest.Latitude,
+                natalJD: namedChart.baseRequest.JulianDay,
+                config: effectiveConfig
+            )
+        }
     }
 }

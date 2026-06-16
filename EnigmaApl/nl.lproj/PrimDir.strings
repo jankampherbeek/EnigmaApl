@@ -14,17 +14,30 @@
 "view.primdir.settings.approach"            = "Benadering";
 "view.primdir.settings.timekey"             = "Tijdsleutel";
 "view.primdir.calculate"                    = "Berekenen";
-"view.primdir.help"                         = "Voer een begindatum en einddatum in en klik op 'Bereken' om de primaire directies te zien.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen. Gebruik voor de datums altijd de standaard Gregoriaanse kalender.\n\nEnigma gebruikt standaard je instellingen uit de configuratie maar je kunt deze overschrijven.";
+"view.primdir.help"                         = "Voer een begindatum en einddatum in en klik op 'Bereken' om de primaire directies te zien.\n\nDe datums moeten in het formaat jjjj/mm/dd zijn. De begindatum moet na de geboortedatum liggen en de einddatum moet na de begindatum liggen. Gebruik voor de datums altijd de standaard Gregoriaanse kalender.\n\nEnigma gebruikt standaard je instellingen uit de configuratie maar je kunt deze overschrijven.\n\nIn de modus Gebeurtenis selecteer je een gebeurtenis die aan de horoscoop is gekoppeld. Enigma toont dan alle primaire directies die binnen de orb vallen op de datum van die gebeurtenis.";
+
+// Moduskeuzeschakelaar
+"view.primdir.mode.label"                   = "Modus";
+"view.primdir.mode.daterange"               = "Datumbereik";
+"view.primdir.mode.event"                   = "Gebeurtenis";
+
+// Gebeurteniskiezer
+"view.primdir.eventpicker.label"            = "Gebeurtenis";
+"view.primdir.eventpicker.noevents"         = "Geen gebeurtenissen voor deze horoscoop. Maak gebeurtenissen aan in de sectie Gebeurtenissen.";
 
 // Resultatenscherm
 "view.primdir.results.title"                = "Primaire Directies";
 "view.primdir.results.noresults"            = "Voer een datumbereik in en klik op Berekenen om primaire directies te zien.";
+"view.primdir.results.noresults.event"      = "Selecteer een gebeurtenis en klik op Berekenen om actieve primaire directies te zien.";
 "view.primdir.results.nohits"              = "Geen primaire directies gevonden in de geselecteerde periode.";
+"view.primdir.results.nohits.event"        = "Geen primaire directies binnen orb op de datum van de geselecteerde gebeurtenis.";
 "view.primdir.results.col.date"             = "Datum";
-"view.primdir.results.help"                 = "In de tabel zie je alle primaire directies die exact zijn in de opgegeven periode. Elke rij toont de datum, de promissor (het bewegende punt), het aspect en de significator (het vaste punt).";
+"view.primdir.results.col.orb"              = "Orb";
+"view.primdir.results.help"                 = "In de tabel zie je alle primaire directies die exact zijn in de opgegeven periode. Elke rij toont de datum, de promissor (het bewegende punt), het aspect en de significator (het vaste punt).\n\nIn de modus Gebeurtenis toont de kolom Orb hoeveel dagen voor (−) of na (+) de gebeurtenis de directie exact is.";
 
 // Validatiefouten
 "view.primdir.error.invalidstartdate"       = "Ongeldige begindatum. Gebruik het formaat jjjj/mm/dd.";
 "view.primdir.error.invalidenddate"         = "Ongeldige einddatum. Gebruik het formaat jjjj/mm/dd.";
 "view.primdir.error.startbeforebirth"       = "De begindatum moet na de geboortedatum liggen.";
 "view.primdir.error.endbeforestart"         = "De einddatum moet na de begindatum liggen.";
+"view.primdir.error.noeventselected"        = "Selecteer een gebeurtenis.";

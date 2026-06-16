@@ -12,6 +12,8 @@ struct PrimDirHit {
     let significator: Factors
     let promissor: Factors
     let aspect: Aspects
+    /// Signed days from the event date (nil in date-range mode). Negative = direction was exact before the event.
+    let orbDays: Double?
 }
 
 // MARK: - Orchestrator
@@ -29,11 +31,38 @@ struct PrimDirOrchestrator {
         endJD: Double,
         config: PrimaryDirectionsConfig
     ) -> [PrimDirHit] {
+        buildHits(chart: chart, geoLat: geoLat, natalJD: natalJD,
+                  startJD: startJD, endJD: endJD, eventJD: nil, config: config)
+    }
+
+    /// Calculate primary direction hits active within orb on the given event date.
+    func calculateForEvent(
+        chart: FullChart,
+        geoLat: Double,
+        natalJD: Double,
+        eventJD: Double,
+        config: PrimaryDirectionsConfig
+    ) -> [PrimDirHit] {
+        let orbWindow = config.orb * TROPICAL_YEAR
+        return buildHits(chart: chart, geoLat: geoLat, natalJD: natalJD,
+                         startJD: eventJD - orbWindow, endJD: eventJD + orbWindow,
+                         eventJD: eventJD, config: config)
+    }
+
+    private func buildHits(
+        chart: FullChart,
+        geoLat: Double,
+        natalJD: Double,
+        startJD: Double,
+        endJD: Double,
+        eventJD: Double?,
+        config: PrimaryDirectionsConfig
+    ) -> [PrimDirHit] {
         let seWrapper = SEWrapper()
         let specBase = buildSpecBase(chart: chart, geoLat: geoLat)
         var hits: [PrimDirHit] = []
 
-        let promissors   = config.promissors.filter   { chart.Coordinates[$0] != nil }
+        let promissors    = config.promissors.filter    { chart.Coordinates[$0] != nil }
         let significators = config.significators.filter { chart.Coordinates[$0] != nil }
 
         for promissor in promissors {
@@ -52,7 +81,8 @@ struct PrimDirOrchestrator {
                             dateTxt: jdToDateString(jd, seWrapper: seWrapper),
                             significator: significator,
                             promissor: promissor,
-                            aspect: aspect
+                            aspect: aspect,
+                            orbDays: eventJD.map { jd - $0 }
                         ))
                     }
                 }

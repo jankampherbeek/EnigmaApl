@@ -17,6 +17,7 @@ struct PrimDirResultsScreen: View {
     private let dateWidth:   CGFloat = 110
     private let glyphWidth:  CGFloat = 36
     private let aspectWidth: CGFloat = 36
+    private let orbWidth:    CGFloat = 60
 
     var body: some View {
         ScrollView {
@@ -42,6 +43,12 @@ struct PrimDirResultsScreen: View {
                         .foregroundStyle(.secondary)
                 }
 
+                if !primDirModel.eventTitle.isEmpty {
+                    Text("\(primDirModel.eventTitle) • \(primDirModel.eventDateTxt)")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+
                 if let error = primDirModel.errorMessage {
                     Text(error)
                         .font(.callout)
@@ -49,7 +56,9 @@ struct PrimDirResultsScreen: View {
                 }
 
                 if !primDirModel.hasResults {
-                    Text(t(PrimDirKeys.noResults))
+                    Text(primDirModel.isEventMode
+                         ? t(PrimDirKeys.noResultsEvent)
+                         : t(PrimDirKeys.noResults))
                         .foregroundStyle(.secondary)
                         .font(.callout)
                 } else {
@@ -94,6 +103,10 @@ struct PrimDirResultsScreen: View {
             Spacer().frame(width: glyphWidth)
             Spacer().frame(width: aspectWidth)
             Spacer().frame(width: glyphWidth)
+            if primDirModel.isEventMode {
+                Text(t(PrimDirKeys.colOrb))
+                    .frame(width: orbWidth, alignment: .trailing)
+            }
         }
         .font(.caption.weight(.semibold))
         .foregroundStyle(.secondary)
@@ -120,9 +133,30 @@ struct PrimDirResultsScreen: View {
                 .font(.custom("EnigmaAstrology2", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
                 .accessibilityLabel(hit.significator.localizedName)
+
+            if primDirModel.isEventMode {
+                Text(formatOrb(hit.orbDays))
+                    .frame(width: orbWidth, alignment: .trailing)
+                    .font(.body.monospacedDigit())
+                    .foregroundStyle(orbColor(hit.orbDays))
+            }
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .background(index.isMultiple(of: 2) ? Color.clear : Color.primary.opacity(0.06))
+    }
+
+    // MARK: - Orb formatting
+
+    private func formatOrb(_ days: Double?) -> String {
+        guard let d = days else { return "" }
+        let absD = Int(abs(d).rounded())
+        if absD == 0 { return "0d" }
+        return d < 0 ? "−\(absD)d" : "+\(absD)d"
+    }
+
+    private func orbColor(_ days: Double?) -> Color {
+        guard let d = days else { return .primary }
+        return d < 0 ? .secondary : .primary
     }
 }

@@ -5,6 +5,11 @@
 import Foundation
 import Combine
 
+enum PrimDirInputMode: CaseIterable {
+    case dateRange
+    case event
+}
+
 @MainActor
 final class PrimDirModel: ObservableObject {
     @Published private(set) var hits: [PrimDirHit] = []
@@ -12,8 +17,11 @@ final class PrimDirModel: ObservableObject {
     @Published var inputErrorMessage: String?
     @Published private(set) var methodDescription: String = ""
     @Published private(set) var period: String = ""
+    @Published private(set) var eventTitle: String = ""
+    @Published private(set) var eventDateTxt: String = ""
 
     var hasResults: Bool { !hits.isEmpty }
+    var isEventMode: Bool { !eventTitle.isEmpty }
 
     func calculate(
         startDateText: String,
@@ -25,6 +33,8 @@ final class PrimDirModel: ObservableObject {
     ) {
         errorMessage = nil
         inputErrorMessage = nil
+        eventTitle = ""
+        eventDateTxt = ""
         let seWrapper = SEWrapper()
 
         guard let startJD = parseDate(startDateText, seWrapper: seWrapper) else {
@@ -62,12 +72,46 @@ final class PrimDirModel: ObservableObject {
         }
     }
 
+    func calculateForEvent(
+        event: EventModel,
+        chart: FullChart,
+        geoLat: Double,
+        natalJD: Double,
+        config: PrimaryDirectionsConfig
+    ) {
+        errorMessage = nil
+        inputErrorMessage = nil
+        period = ""
+
+        let seWrapper = SEWrapper()
+        let dt = seWrapper.dateFromJulianDay(event.julianDate)
+        eventTitle = event.title
+        eventDateTxt = String(format: "%04d/%02d/%02d", dt.Date.Year, dt.Date.Month, dt.Date.Day)
+
+        methodDescription = buildMethodDescription(config: config)
+
+        let orchestrator = PrimDirOrchestrator()
+        hits = orchestrator.calculateForEvent(
+            chart: chart,
+            geoLat: geoLat,
+            natalJD: natalJD,
+            eventJD: event.julianDate,
+            config: config
+        )
+
+        if hits.isEmpty {
+            errorMessage = NSLocalizedString(PrimDirKeys.noHitsEvent, tableName: "PrimDir", bundle: .main, comment: "")
+        }
+    }
+
     func clear() {
         hits = []
         errorMessage = nil
         inputErrorMessage = nil
         methodDescription = ""
         period = ""
+        eventTitle = ""
+        eventDateTxt = ""
     }
 
     // MARK: - Helpers
