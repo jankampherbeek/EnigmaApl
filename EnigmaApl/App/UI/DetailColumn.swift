@@ -140,6 +140,8 @@ struct DetailColumn: View {
                             SolarInputScreen()
                         case .primary:
                             PrimDirInputScreen()
+                        case .prenatal:
+                            PreNatalInputScreen()
                         default:
                             EmptyView()
                         }

@@ -32,6 +32,7 @@ final class AppComposition: ObservableObject {
     let vspModel: VspModel
     let solarReturnModel: SolarReturnModel
     let primDirModel: PrimDirModel
+    let preNatalModel: PreNatalModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -83,5 +84,6 @@ final class AppComposition: ObservableObject {
         self.vspModel = VspModel()
         self.solarReturnModel = SolarReturnModel()
         self.primDirModel = PrimDirModel()
+        self.preNatalModel = PreNatalModel()
     }
 }

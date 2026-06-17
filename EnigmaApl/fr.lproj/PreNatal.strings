@@ -1,0 +1,57 @@
+// PreNatal.strings - Français
+// EnigmaApl
+
+// Écran de saisie
+"view.prenatal.title"                   = "PréNatal";
+"view.prenatal.nochart"                 = "Calculez ou sélectionnez un thème pour calculer les moments prénataux.";
+"view.prenatal.types.header"            = "Types de moments";
+"view.prenatal.types.aspects"           = "Aspects mutuels";
+"view.prenatal.types.eclipses"          = "Éclipses";
+"view.prenatal.types.ingresses"         = "Ingresses de signes";
+"view.prenatal.types.retrodirect"       = "Rétrograde / Direct";
+"view.prenatal.conception.header"       = "Conception";
+"view.prenatal.conception.standard"     = "Date de conception standard";
+"view.prenatal.conception.actual"       = "Date de conception réelle";
+"view.prenatal.button.factors"          = "Changer les facteurs";
+"view.prenatal.button.aspects"          = "Changer les aspects";
+"view.prenatal.calculate"               = "Calculer";
+"view.prenatal.help"                    = "La technique PréNatale (développée par Eg Sneek) projette les événements astronomiques pendant la gestation sur la vie de l'individu.\n\nSélectionnez les types de moments : aspects mutuels, éclipses solaires et lunaires, ingresses de signes et stations.\n\nCliquez sur 'Changer les facteurs' pour choisir les planètes utilisées. Cliquez sur 'Changer les aspects' pour sélectionner les types d'aspects.\n\nAppuyez sur 'Calculer' pour calculer les moments prénataux. La date de conception standard est environ 273 jours avant la naissance.";
+
+// Écran de résultats
+"view.prenatal.results.title"           = "PréNatal";
+"view.prenatal.noresults"               = "Sélectionnez un thème, choisissez les types de moments et appuyez sur Calculer.";
+"view.prenatal.nohits"                  = "Aucun moment prénatal trouvé.";
+"view.prenatal.calculating"             = "Calcul des moments prénataux en cours…";
+"view.prenatal.col.actualdate"          = "Date réelle";
+"view.prenatal.col.type"                = "Type";
+"view.prenatal.col.prenataldate"        = "Date/heure prénatale";
+"view.prenatal.results.help"            = "Chaque ligne montre un événement astronomique prénatal et quand il devient effectif dans la vie de la personne.\n\n'Date réelle' : la date de vie projetée selon la formule de conversion.\n'Date prénatale' : quand l'événement s'est produit pendant la gestation.\n\nSélectionnez une ligne dans le tableau prénatal et une ligne dans la liste des Événements, puis cliquez sur 'Combiner' pour corriger la date de conception. Cliquez sur 'Réinitialiser' pour revenir à la date de conception standard.";
+
+// Indicateurs de type
+"view.prenatal.type.solareclipse"       = "Écl.Sol.";
+"view.prenatal.type.lunareclipse"       = "Écl.Lun.";
+"view.prenatal.type.ingress"            = "Ingr.";
+"view.prenatal.type.retrograde"         = "Rx";
+"view.prenatal.type.direct"             = "D";
+
+// Section événements
+"view.prenatal.events.header"           = "Événements";
+"view.prenatal.events.description"      = "Description";
+"view.prenatal.events.date"             = "Date";
+"view.prenatal.events.empty"            = "Aucun événement lié à ce thème.";
+"view.prenatal.events.nosave"           = "Sauvegardez ce thème pour lier des événements.";
+
+// Section correction de conception
+"view.prenatal.combine.header"          = "Correction de conception";
+"view.prenatal.combine.date"            = "Date (aaaa/mm/jj)";
+"view.prenatal.combine.time"            = "Heure (hh:mm:ss)";
+"view.prenatal.combine.button"          = "Combiner";
+"view.prenatal.reset.button"            = "Réinitialiser";
+"view.prenatal.newevent.button"         = "Nouvel événement";
+"view.prenatal.combine.nomoment"        = "Sélectionnez d'abord une ligne dans le tableau des moments prénataux.";
+"view.prenatal.combine.invaliddate"     = "Date ou heure invalide. Utilisez aaaa/mm/jj et hh:mm:ss.";
+
+// Feuilles de sélection
+"view.prenatal.factorsel.title"         = "Sélectionner les facteurs";
+"view.prenatal.aspectsel.title"         = "Sélectionner les aspects";
+"view.prenatal.selection.done"          = "Terminé";

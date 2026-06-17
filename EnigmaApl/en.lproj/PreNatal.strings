@@ -1,0 +1,57 @@
+// PreNatal.strings - English
+// EnigmaApl
+
+// Input screen
+"view.prenatal.title"                   = "PreNatal";
+"view.prenatal.nochart"                 = "Calculate or select a chart to compute prenatal moments.";
+"view.prenatal.types.header"            = "Moment types";
+"view.prenatal.types.aspects"           = "Mutual aspects";
+"view.prenatal.types.eclipses"          = "Eclipses";
+"view.prenatal.types.ingresses"         = "Sign ingresses";
+"view.prenatal.types.retrodirect"       = "Retrograde / Direct";
+"view.prenatal.conception.header"       = "Conception";
+"view.prenatal.conception.standard"     = "Standard conception date";
+"view.prenatal.conception.actual"       = "Actual conception date";
+"view.prenatal.button.factors"          = "Change factors";
+"view.prenatal.button.aspects"          = "Change aspects";
+"view.prenatal.calculate"               = "Calculate";
+"view.prenatal.help"                    = "The PreNatal technique (developed by Eg Sneek) projects astronomical events during the gestation period onto the life of the individual.\n\nSelect the types of moment to include: mutual aspects between the selected planets, solar and lunar eclipses, sign ingresses, and stations (retrograde or direct).\n\nClick 'Change factors' to choose which planets are used for aspects, ingresses, and stations. Click 'Change aspects' to choose which aspect types are considered.\n\nPress 'Calculate' to compute the prenatal moments. The standard conception date is approximately 273 days before birth.\n\nIn the results table the 'Actual date' column shows when the prenatal moment becomes effective in the person's life, according to the conversion formula. The 'Prenatal date' shows when it occurred during gestation.";
+
+// Results screen
+"view.prenatal.results.title"           = "PreNatal";
+"view.prenatal.noresults"               = "Select a chart, choose moment types and press Calculate.";
+"view.prenatal.nohits"                  = "No prenatal moments found.";
+"view.prenatal.calculating"             = "Calculating prenatal moments…";
+"view.prenatal.col.actualdate"          = "Actual date";
+"view.prenatal.col.type"                = "Type";
+"view.prenatal.col.prenataldate"        = "Prenatal date/time";
+"view.prenatal.results.help"            = "Each row shows a prenatal astronomical event and when it becomes effective in the person's life.\n\n'Actual date': the projected life date derived from the conversion formula.\n'Prenatal date': when the event occurred during gestation.\n\nFor aspects the two factors and the aspect glyph are shown with their positions.\nFor eclipses, ingresses, and stations only one factor is shown.\n\nSelect a row in the prenatal table and a row in the Events list, then click 'Combine' to correct the conception date. Click 'Reset' to return to the standard conception date.";
+
+// Type indicators
+"view.prenatal.type.solareclipse"       = "Sol.Ecl.";
+"view.prenatal.type.lunareclipse"       = "Lun.Ecl.";
+"view.prenatal.type.ingress"            = "Ingr.";
+"view.prenatal.type.retrograde"         = "Rx";
+"view.prenatal.type.direct"             = "D";
+
+// Events section
+"view.prenatal.events.header"           = "Events";
+"view.prenatal.events.description"      = "Description";
+"view.prenatal.events.date"             = "Date";
+"view.prenatal.events.empty"            = "No events linked to this chart.";
+"view.prenatal.events.nosave"           = "Save this chart to link events.";
+
+// Combine section
+"view.prenatal.combine.header"          = "Conception correction";
+"view.prenatal.combine.date"            = "Date (yyyy/mm/dd)";
+"view.prenatal.combine.time"            = "Time (hh:mm:ss)";
+"view.prenatal.combine.button"          = "Combine";
+"view.prenatal.reset.button"            = "Reset";
+"view.prenatal.newevent.button"         = "New Event";
+"view.prenatal.combine.nomoment"        = "Select a row in the prenatal moments table first.";
+"view.prenatal.combine.invaliddate"     = "Invalid date or time. Use yyyy/mm/dd and hh:mm:ss.";
+
+// Selection sheets
+"view.prenatal.factorsel.title"         = "Select factors";
+"view.prenatal.aspectsel.title"         = "Select aspects";
+"view.prenatal.selection.done"          = "Done";

@@ -1,0 +1,57 @@
+// PreNatal.strings - Deutsch
+// EnigmaApl
+
+// Eingabebildschirm
+"view.prenatal.title"                   = "Pränatal";
+"view.prenatal.nochart"                 = "Berechnen oder wählen Sie ein Horoskop, um pränatale Momente zu berechnen.";
+"view.prenatal.types.header"            = "Momenttypen";
+"view.prenatal.types.aspects"           = "Gegenseitige Aspekte";
+"view.prenatal.types.eclipses"          = "Finsternisse";
+"view.prenatal.types.ingresses"         = "Zeichen-Ingresse";
+"view.prenatal.types.retrodirect"       = "Retrograd / Direkt";
+"view.prenatal.conception.header"       = "Empfängnis";
+"view.prenatal.conception.standard"     = "Standardmäßiges Empfängnisdatum";
+"view.prenatal.conception.actual"       = "Tatsächliches Empfängnisdatum";
+"view.prenatal.button.factors"          = "Faktoren ändern";
+"view.prenatal.button.aspects"          = "Aspekte ändern";
+"view.prenatal.calculate"               = "Berechnen";
+"view.prenatal.help"                    = "Die Prä­nataltechnik (entwickelt von Eg Sneek) projiziert astronomische Ereignisse während der Schwangerschaft auf das Leben des Menschen.\n\nWählen Sie die Momenttypen: gegenseitige Aspekte, Sonnen- und Mondfinsternisse, Zeicheningresse und Stationen.\n\nKlicken Sie auf 'Faktoren ändern', um die Planeten für Aspekte, Ingresse und Stationen festzulegen. Klicken Sie auf 'Aspekte ändern', um die Aspekttypen auszuwählen.\n\nDrücken Sie 'Berechnen', um die pränatalen Momente zu berechnen. Das Standardempfängnisdatum liegt etwa 273 Tage vor der Geburt.";
+
+// Ergebnisbildschirm
+"view.prenatal.results.title"           = "Pränatal";
+"view.prenatal.noresults"               = "Wählen Sie ein Horoskop, wählen Sie Momenttypen und drücken Sie Berechnen.";
+"view.prenatal.nohits"                  = "Keine pränatalen Momente gefunden.";
+"view.prenatal.calculating"             = "Pränatale Momente werden berechnet…";
+"view.prenatal.col.actualdate"          = "Aktuelles Datum";
+"view.prenatal.col.type"                = "Typ";
+"view.prenatal.col.prenataldate"        = "Pränatales Datum/Uhrzeit";
+"view.prenatal.results.help"            = "Jede Zeile zeigt ein pränatales astronomisches Ereignis und wann es im Leben der Person wirksam wird.\n\n'Aktuelles Datum': das projizierte Lebensdatum nach der Umrechnungsformel.\n'Pränatales Datum': wann das Ereignis während der Schwangerschaft stattfand.\n\nWählen Sie eine Zeile in der pränatalen Tabelle und eine Zeile in der Ereignisliste aus und klicken Sie auf 'Kombinieren', um das Empfängnisdatum zu korrigieren. Klicken Sie auf 'Zurücksetzen', um zum Standardempfängnisdatum zurückzukehren.";
+
+// Typanzeigen
+"view.prenatal.type.solareclipse"       = "Son.Fin.";
+"view.prenatal.type.lunareclipse"       = "Mon.Fin.";
+"view.prenatal.type.ingress"            = "Ingr.";
+"view.prenatal.type.retrograde"         = "Rx";
+"view.prenatal.type.direct"             = "D";
+
+// Ereignisbereich
+"view.prenatal.events.header"           = "Ereignisse";
+"view.prenatal.events.description"      = "Beschreibung";
+"view.prenatal.events.date"             = "Datum";
+"view.prenatal.events.empty"            = "Keine Ereignisse mit diesem Horoskop verknüpft.";
+"view.prenatal.events.nosave"           = "Speichern Sie dieses Horoskop, um Ereignisse zu verknüpfen.";
+
+// Empfängniskorrektur
+"view.prenatal.combine.header"          = "Empfängniskorrektur";
+"view.prenatal.combine.date"            = "Datum (jjjj/mm/tt)";
+"view.prenatal.combine.time"            = "Zeit (hh:mm:ss)";
+"view.prenatal.combine.button"          = "Kombinieren";
+"view.prenatal.reset.button"            = "Zurücksetzen";
+"view.prenatal.newevent.button"         = "Neues Ereignis";
+"view.prenatal.combine.nomoment"        = "Wählen Sie zuerst eine Zeile in der Tabelle der pränatalen Momente.";
+"view.prenatal.combine.invaliddate"     = "Ungültiges Datum oder Uhrzeit. Verwenden Sie jjjj/mm/tt und hh:mm:ss.";
+
+// Auswahlblätter
+"view.prenatal.factorsel.title"         = "Faktoren auswählen";
+"view.prenatal.aspectsel.title"         = "Aspekte auswählen";
+"view.prenatal.selection.done"          = "Fertig";

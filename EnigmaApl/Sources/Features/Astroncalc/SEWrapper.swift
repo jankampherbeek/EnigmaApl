@@ -720,6 +720,50 @@ public class SEWrapper {
         )
     }
     
+    // MARK: - Eclipse Finding
+
+    /// Find the next solar eclipse (global maximum) after the given Julian Day.
+    /// - Parameter afterJD: Start search after this JD (UT)
+    /// - Returns: JD of the next solar eclipse maximum, or nil on error
+    public func nextSolarEclipse(afterJD: Double) -> Double? {
+        guard isInitialized else { return nil }
+        var tret = [Double](repeating: 0.0, count: 10)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+
+        tret.withUnsafeMutableBufferPointer { tretBuf in
+            error.withUnsafeMutableBufferPointer { errBuf in
+                guard let tretPtr = tretBuf.baseAddress,
+                      let errPtr  = errBuf.baseAddress else { return }
+                returnCode = swe_sol_eclipse_when_glob(afterJD, 2, 0, tretPtr, 0, errPtr)
+            }
+        }
+
+        guard returnCode >= 0 else { return nil }
+        return tret[0]
+    }
+
+    /// Find the next lunar eclipse maximum after the given Julian Day.
+    /// - Parameter afterJD: Start search after this JD (UT)
+    /// - Returns: JD of the next lunar eclipse maximum, or nil on error
+    public func nextLunarEclipse(afterJD: Double) -> Double? {
+        guard isInitialized else { return nil }
+        var tret = [Double](repeating: 0.0, count: 10)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+
+        tret.withUnsafeMutableBufferPointer { tretBuf in
+            error.withUnsafeMutableBufferPointer { errBuf in
+                guard let tretPtr = tretBuf.baseAddress,
+                      let errPtr  = errBuf.baseAddress else { return }
+                returnCode = swe_lun_eclipse_when(afterJD, 2, 0, tretPtr, 0, errPtr)
+            }
+        }
+
+        guard returnCode >= 0 else { return nil }
+        return tret[0]
+    }
+
     // MARK: - Apsides Calculation
     /// Calculate nodes and apsides (perihelion/aphelion for planets, perigee/apogee for Moon)
     /// - Parameters:
