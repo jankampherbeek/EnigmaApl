@@ -85,7 +85,7 @@ struct ContentColumn: View {
                 case .primary:
                     PrimDirResultsScreen()
                 case .prenatal:
-                    PreNatalResultsScreen()
+                    PreNatalInputScreen()
                 default:
                     EmptyView()
                 }

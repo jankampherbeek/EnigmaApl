@@ -7,7 +7,7 @@
 "view.prenatal.types.header"            = "Soorten momenten";
 "view.prenatal.types.aspects"           = "Onderlinge aspecten";
 "view.prenatal.types.eclipses"          = "Eclipsen";
-"view.prenatal.types.ingresses"         = "Tekensingressen";
+"view.prenatal.types.ingresses"         = "Ingressen";
 "view.prenatal.types.retrodirect"       = "Retrograde / Direct";
 "view.prenatal.conception.header"       = "Conceptie";
 "view.prenatal.conception.standard"     = "Standaard conceptiedatum";
@@ -15,7 +15,7 @@
 "view.prenatal.button.factors"          = "Factoren wijzigen";
 "view.prenatal.button.aspects"          = "Aspecten wijzigen";
 "view.prenatal.calculate"               = "Berekenen";
-"view.prenatal.help"                    = "De PreNatale techniek (ontwikkeld door Eg Sneek) projecteert astronomische gebeurtenissen tijdens de zwangerschap op het leven van het individu.\n\nSelecteer de soorten momenten: onderlinge aspecten, zon- en maanseclipsen, tekensingressen, en stationair worden.\n\nKlik op 'Factoren wijzigen' om te kiezen welke planeten gebruikt worden voor aspecten, ingressen en staties. Klik op 'Aspecten wijzigen' om de gewenste aspecttypen te kiezen.\n\nDruk op 'Berekenen' om de prenatale momenten te berekenen. De standaard conceptiedatum ligt ongeveer 273 dagen voor de geboorte.\n\nIn de resultatenlijst toont de kolom 'Werkelijke datum' wanneer het prenatale moment effectief wordt in het leven van de persoon.";
+"view.prenatal.help"                    = "Kies welke momenten, die zich voor kunnen doen in de prenatale periode, je wilt laten zien.\n\nEnigma selecteert standaard 'Onderlinge aspecten' en 'Eclipsen' maar je kunt ook ingressen en wisselingen tussen retrograde en direct selecteren.\n\nJe kunt ook de factoren wijzigen. In de standaard selectie is de Maan niet meegenomen maar dat kun je aanpassen. Dat geldt ook voor de aspecten, standaard kiest Enigma alleen de conjunctie maar dat pas je eenvoudig aan.\n\nHoud er rekening mee dat je, als je de Maan en/of meerdere aspecten toevoegt, erg veel resultaten krijgt.\n\nKlik op 'Berekenen' om de resultaten te zien.";
 
 // Resultatenscherm
 "view.prenatal.results.title"           = "PreNataal";
@@ -25,7 +25,7 @@
 "view.prenatal.col.actualdate"          = "Werkelijke datum";
 "view.prenatal.col.type"                = "Type";
 "view.prenatal.col.prenataldate"        = "Prenatale datum/tijd";
-"view.prenatal.results.help"            = "Elke rij toont een prenatale astronomische gebeurtenis en wanneer deze effectief wordt in het leven van de persoon.\n\n'Werkelijke datum': de geprojecteerde levensdatum via de omrekeningsformule.\n'Prenatale datum': wanneer de gebeurtenis plaatsvond tijdens de zwangerschap.\n\nVoor aspecten worden de twee factoren en het aspectglyph getoond met hun posities.\nVoor eclipsen, ingressen en staties wordt één factor getoond.\n\nSelecteer een rij in de prenatale tabel en een rij in de lijst met Gebeurtenissen, en klik op 'Combineren' om de conceptiedatum te corrigeren. Klik op 'Herstellen' om terug te keren naar de standaard conceptiedatum.";
+"view.prenatal.results.help"            = "Je krijgt een tabel met in de eerste kolom de datum waarop een stand uitwerkt. Daarna zie je het prenataal gevormde aspect, de eclips, ingres of wisseling tussen direct en retrograde. De daaropvolgende kolommen tonen de standen van de prenatale factor en die van de radix factor. In de laatste kolom zie je het prenatale moment.\n\nOm het prenatale moment te corrigeren kies je een gebeurtenis in het linkerscherm door erop te klikken. Je kunt gebeurtenissen toevoegen met de knop 'Nieuwe gebeurtenis' en je kunt ook rechtstreeks een datum en een tijd invullen. De ingevulde datum en tijd koppel je aan een prenataal moment dat je kiest door erop te klikken. Je ziet dan een knop 'Combineren' en als je daarop klikt koppelt Enigma het prenatale moment aan de gebeurtenis. Dat resulteert in een aangepaste conceptiedatum. Je ziet de standaard conceptiedatum (zonder correctie) en de werkelijke conceptiedatum (met correctie) in het linker scherm staan. Als je op 'Herstellen' klikt ga je terug naar de beginsituatie.";
 
 // Typeaanduidingen
 "view.prenatal.type.solareclipse"       = "Zon.Ecl.";

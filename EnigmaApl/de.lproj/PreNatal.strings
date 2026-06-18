@@ -7,7 +7,7 @@
 "view.prenatal.types.header"            = "Momenttypen";
 "view.prenatal.types.aspects"           = "Gegenseitige Aspekte";
 "view.prenatal.types.eclipses"          = "Finsternisse";
-"view.prenatal.types.ingresses"         = "Zeichen-Ingresse";
+"view.prenatal.types.ingresses"         = "Ingresse";
 "view.prenatal.types.retrodirect"       = "Retrograd / Direkt";
 "view.prenatal.conception.header"       = "Empfängnis";
 "view.prenatal.conception.standard"     = "Standardmäßiges Empfängnisdatum";
@@ -15,7 +15,7 @@
 "view.prenatal.button.factors"          = "Faktoren ändern";
 "view.prenatal.button.aspects"          = "Aspekte ändern";
 "view.prenatal.calculate"               = "Berechnen";
-"view.prenatal.help"                    = "Die Prä­nataltechnik (entwickelt von Eg Sneek) projiziert astronomische Ereignisse während der Schwangerschaft auf das Leben des Menschen.\n\nWählen Sie die Momenttypen: gegenseitige Aspekte, Sonnen- und Mondfinsternisse, Zeicheningresse und Stationen.\n\nKlicken Sie auf 'Faktoren ändern', um die Planeten für Aspekte, Ingresse und Stationen festzulegen. Klicken Sie auf 'Aspekte ändern', um die Aspekttypen auszuwählen.\n\nDrücken Sie 'Berechnen', um die pränatalen Momente zu berechnen. Das Standardempfängnisdatum liegt etwa 273 Tage vor der Geburt.";
+"view.prenatal.help"                    = "Wählen Sie, welche Ereignisse, die in der Pränatalphase auftreten können, Sie anzeigen möchten.\n\nEnigma wählt standardmäßig 'Gegenseitige Aspekte' und 'Finsternisse', aber Sie können auch Ingresse und Wechsel zwischen Retrograd und Direkt auswählen.\n\nSie können auch die Faktoren ändern. Der Mond ist in der Standardauswahl nicht enthalten, aber das können Sie anpassen. Das gilt auch für die Aspekte — standardmäßig wählt Enigma nur die Konjunktion, aber das lässt sich einfach ändern.\n\nBeachten Sie, dass Sie bei Hinzufügen des Mondes und/oder mehrerer Aspekte sehr viele Ergebnisse erhalten.\n\nKlicken Sie auf 'Berechnen', um die Ergebnisse anzuzeigen.";
 
 // Ergebnisbildschirm
 "view.prenatal.results.title"           = "Pränatal";
@@ -25,7 +25,7 @@
 "view.prenatal.col.actualdate"          = "Aktuelles Datum";
 "view.prenatal.col.type"                = "Typ";
 "view.prenatal.col.prenataldate"        = "Pränatales Datum/Uhrzeit";
-"view.prenatal.results.help"            = "Jede Zeile zeigt ein pränatales astronomisches Ereignis und wann es im Leben der Person wirksam wird.\n\n'Aktuelles Datum': das projizierte Lebensdatum nach der Umrechnungsformel.\n'Pränatales Datum': wann das Ereignis während der Schwangerschaft stattfand.\n\nWählen Sie eine Zeile in der pränatalen Tabelle und eine Zeile in der Ereignisliste aus und klicken Sie auf 'Kombinieren', um das Empfängnisdatum zu korrigieren. Klicken Sie auf 'Zurücksetzen', um zum Standardempfängnisdatum zurückzukehren.";
+"view.prenatal.results.help"            = "Sie erhalten eine Tabelle, in der die erste Spalte das Datum anzeigt, an dem eine Stellung wirksam wird. Danach sehen Sie den pränatal gebildeten Aspekt, die Finsternis, den Ingress oder den Wechsel zwischen Direkt und Retrograd. Die folgenden Spalten zeigen die Stellungen des Prenatalfaktors und des Radixfaktors. In der letzten Spalte sehen Sie den pränatalen Moment.\n\nUm den pränatalen Moment zu korrigieren, wählen Sie ein Ereignis im linken Panel durch Anklicken aus. Sie können Ereignisse über die Schaltfläche 'Neues Ereignis' hinzufügen oder direkt ein Datum und eine Uhrzeit eingeben. Datum und Uhrzeit verknüpfen Sie mit einem pränatalen Moment, indem Sie diesen anklicken. Daraufhin erscheint die Schaltfläche 'Kombinieren', und ein Klick darauf verknüpft den pränatalen Moment mit dem Ereignis. Dies ergibt ein angepasstes Empfängnisdatum. Das Standard-Empfängnisdatum (ohne Korrektur) und das tatsächliche Empfängnisdatum (mit Korrektur) werden im linken Panel angezeigt. Ein Klick auf 'Zurücksetzen' bringt Sie in die Ausgangssituation zurück.";
 
 // Typanzeigen
 "view.prenatal.type.solareclipse"       = "Son.Fin.";

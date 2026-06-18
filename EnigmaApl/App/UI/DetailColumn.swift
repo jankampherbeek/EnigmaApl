@@ -141,7 +141,7 @@ struct DetailColumn: View {
                         case .primary:
                             PrimDirInputScreen()
                         case .prenatal:
-                            PreNatalInputScreen()
+                            PreNatalResultsScreen()
                         default:
                             EmptyView()
                         }

@@ -7,7 +7,7 @@
 "view.prenatal.types.header"            = "Moment types";
 "view.prenatal.types.aspects"           = "Mutual aspects";
 "view.prenatal.types.eclipses"          = "Eclipses";
-"view.prenatal.types.ingresses"         = "Sign ingresses";
+"view.prenatal.types.ingresses"         = "Ingresses";
 "view.prenatal.types.retrodirect"       = "Retrograde / Direct";
 "view.prenatal.conception.header"       = "Conception";
 "view.prenatal.conception.standard"     = "Standard conception date";
@@ -15,7 +15,7 @@
 "view.prenatal.button.factors"          = "Change factors";
 "view.prenatal.button.aspects"          = "Change aspects";
 "view.prenatal.calculate"               = "Calculate";
-"view.prenatal.help"                    = "The PreNatal technique (developed by Eg Sneek) projects astronomical events during the gestation period onto the life of the individual.\n\nSelect the types of moment to include: mutual aspects between the selected planets, solar and lunar eclipses, sign ingresses, and stations (retrograde or direct).\n\nClick 'Change factors' to choose which planets are used for aspects, ingresses, and stations. Click 'Change aspects' to choose which aspect types are considered.\n\nPress 'Calculate' to compute the prenatal moments. The standard conception date is approximately 273 days before birth.\n\nIn the results table the 'Actual date' column shows when the prenatal moment becomes effective in the person's life, according to the conversion formula. The 'Prenatal date' shows when it occurred during gestation.";
+"view.prenatal.help"                    = "Choose which moments that can occur in the prenatal period you want to display.\n\nBy default, Enigma selects 'Mutual aspects' and 'Eclipses', but you can also select ingresses and changes between retrograde and direct.\n\nYou can also modify the factors. The Moon is not included in the default selection, but you can adjust this. The same applies to aspects — by default Enigma only uses the conjunction, but this is easy to change.\n\nBear in mind that if you add the Moon and/or multiple aspects, you will get a very large number of results.\n\nClick 'Calculate' to view the results.";
 
 // Results screen
 "view.prenatal.results.title"           = "PreNatal";
@@ -25,7 +25,7 @@
 "view.prenatal.col.actualdate"          = "Actual date";
 "view.prenatal.col.type"                = "Type";
 "view.prenatal.col.prenataldate"        = "Prenatal date/time";
-"view.prenatal.results.help"            = "Each row shows a prenatal astronomical event and when it becomes effective in the person's life.\n\n'Actual date': the projected life date derived from the conversion formula.\n'Prenatal date': when the event occurred during gestation.\n\nFor aspects the two factors and the aspect glyph are shown with their positions.\nFor eclipses, ingresses, and stations only one factor is shown.\n\nSelect a row in the prenatal table and a row in the Events list, then click 'Combine' to correct the conception date. Click 'Reset' to return to the standard conception date.";
+"view.prenatal.results.help"            = "You get a table with, in the first column, the date on which a position takes effect. Next you see the prenatally formed aspect, eclipse, ingress, or change between direct and retrograde. The following columns show the positions of the prenatal factor and those of the radix factor. In the last column you see the prenatal moment.\n\nTo correct the prenatal moment, select an event in the left panel by clicking on it. You can add events using the 'New Event' button, or you can directly enter a date and time. You link the entered date and time to a prenatal moment by clicking on it. A 'Combine' button then appears, and clicking it links the prenatal moment to the event. This results in an adjusted conception date. The standard conception date (without correction) and the actual conception date (with correction) are shown in the left panel. Clicking 'Reset' returns you to the initial situation.";
 
 // Type indicators
 "view.prenatal.type.solareclipse"       = "Sol.Ecl.";
