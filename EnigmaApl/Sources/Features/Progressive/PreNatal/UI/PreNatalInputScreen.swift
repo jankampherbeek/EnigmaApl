@@ -158,14 +158,14 @@ struct PreNatalInputScreen: View {
                 Button(t(PreNatalKeys.factorsButton)) { showFactorSheet = true }
                     .buttonStyle(.bordered)
                 Text(factorGlyphs)
-                    .font(.custom("EnigmaAstrology2", size: 18))
+                    .font(.custom("EnigmaAstrology3", size: 18))
                     .lineLimit(2)
             }
             VStack(alignment: .leading, spacing: 4) {
                 Button(t(PreNatalKeys.aspectsButton)) { showAspectSheet = true }
                     .buttonStyle(.bordered)
                 Text(aspectGlyphs)
-                    .font(.custom("EnigmaAstrology2", size: 18))
+                    .font(.custom("EnigmaAstrology3", size: 18))
                     .lineLimit(1)
             }
         }

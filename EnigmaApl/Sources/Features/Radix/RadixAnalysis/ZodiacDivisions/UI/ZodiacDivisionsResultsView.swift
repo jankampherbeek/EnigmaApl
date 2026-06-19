@@ -158,28 +158,28 @@ struct ZodiacDivisionsResultsView: View {
     private func positionRow(_ row: ZodiacDivisionRow, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(row.factorGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
             HStack(spacing: 2) {
                 Text(row.positionDms)
                 if let sign = row.positionSign {
                     Text(GlyphSelector.getGlyphForSign(sign))
-                        .font(.custom("EnigmaAstrology2", size: 14))
+                        .font(.custom("EnigmaAstrology3", size: 14))
                 }
             }
             .frame(width: posW, alignment: .leading)
             .lineLimit(1)
             Text(row.signGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: divW, alignment: .center)
             Text(row.decanGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: divW, alignment: .center)
             Text(row.dodecatGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: divW, alignment: .center)
             Text(row.boundGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: divW, alignment: .center)
         }
         .padding(.horizontal, 8)

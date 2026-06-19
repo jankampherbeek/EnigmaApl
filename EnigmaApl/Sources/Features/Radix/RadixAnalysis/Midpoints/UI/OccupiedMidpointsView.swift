@@ -137,12 +137,12 @@ struct OccupiedMidpointsView: View {
     private func matchRow(_ match: MidpointMatch, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(GlyphSelector.getGlyphForFactor(match.factor1))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(match.factor1.localizedName)
 
             Text(GlyphSelector.getGlyphForFactor(match.factor2))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(match.factor2.localizedName)
 
@@ -150,7 +150,7 @@ struct OccupiedMidpointsView: View {
                 .frame(width: posW, alignment: .trailing)
 
             Text(GlyphSelector.getGlyphForFactor(match.matchingFactor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(match.matchingFactor.localizedName)
 
@@ -183,7 +183,7 @@ struct OccupiedMidpointsView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 

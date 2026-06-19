@@ -144,12 +144,12 @@ struct HarmonicMatchesView: View {
     private func matchRow(_ match: HarmonicMatch, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(GlyphSelector.getGlyphForFactor(match.harmonicFactor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(match.harmonicFactor.localizedName)
 
             Text(GlyphSelector.getGlyphForFactor(match.radixFactor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(match.radixFactor.localizedName)
 

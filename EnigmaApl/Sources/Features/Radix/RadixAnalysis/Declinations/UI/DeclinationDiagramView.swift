@@ -203,7 +203,7 @@ struct DeclDiagramCanvas: View {
             }
 
             // ── Sign glyphs (top and bottom border) ───────────────────────────
-            let signFont = Font.custom("EnigmaAstrology2", size: max(10, min(20, w * 0.028)))
+            let signFont = Font.custom("EnigmaAstrology3", size: max(10, min(20, w * 0.028)))
             for i in 0..<6 {
                 let signCentreX = leftBorder + (Double(i) + 0.5) * signW
                 // Top row: Aries … Virgo
@@ -219,7 +219,7 @@ struct DeclDiagramCanvas: View {
             }
 
             // ── Celestial point glyphs + position lines ───────────────────────
-            let glyphFont  = Font.custom("EnigmaAstrology2", size: max(9, min(18, w * 0.025)))
+            let glyphFont  = Font.custom("EnigmaAstrology3", size: max(9, min(18, w * 0.025)))
             let glyphSize  = max(9.0, min(18.0, w * 0.025))
 
             // Sort into 72 columns of 2.5° longitude each to handle overlap.
@@ -495,7 +495,7 @@ struct DeclinationDiagramView: View {
     private func tableRow(_ item: DeclDiagramItem, index: Int) -> some View {
         HStack(spacing: 4) {
             Text(item.glyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: 28, alignment: .center)
                 .accessibilityLabel(item.factor.localizedName)
 
@@ -529,7 +529,7 @@ struct DeclinationDiagramView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 

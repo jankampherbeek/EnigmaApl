@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import CoreText
 
 @main
 struct EnigmaAplApp: App {
@@ -19,6 +20,10 @@ struct EnigmaAplApp: App {
     private let seWrapper: SEWrapper
 
     init() {
+        // Register custom font explicitly — UIAppFonts is iOS-only and ignored on macOS
+        if let fontURL = Bundle.main.url(forResource: "EnigmaAstrology3", withExtension: "ttf") {
+            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
+        }
         // Initialize logging
         Logger.configure()
         // Create SEWrapper in init to ensure it's initialized before body is accessed

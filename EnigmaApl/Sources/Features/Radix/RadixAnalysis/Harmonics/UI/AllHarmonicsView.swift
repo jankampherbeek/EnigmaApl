@@ -136,7 +136,7 @@ struct AllHarmonicsView: View {
     private func positionRow(_ item: HarmonicPosition, index: Int) -> some View {
         HStack(spacing: 4) {
             Text(GlyphSelector.getGlyphForFactor(item.factor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(item.factor.localizedName)
 
@@ -164,7 +164,7 @@ struct AllHarmonicsView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 }

@@ -136,12 +136,12 @@ struct AllMidpointsView: View {
     private func midpointRow(_ mp: BaseMidpoint, index: Int) -> some View {
         HStack(spacing: 4) {
             Text(GlyphSelector.getGlyphForFactor(mp.factor1))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(mp.factor1.localizedName)
 
             Text(GlyphSelector.getGlyphForFactor(mp.factor2))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(mp.factor2.localizedName)
 
@@ -167,7 +167,7 @@ struct AllMidpointsView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 }

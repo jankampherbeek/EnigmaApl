@@ -45,20 +45,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AF9201DD2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/Fonts/EnigmaAstrology2.ttf,
-			);
-			target = AF6EB8202EF019970070CE12 /* EnigmaAplTests */;
-		};
-		AF9201DE2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/Fonts/EnigmaAstrology2.ttf,
-			);
-			target = AF6EB82A2EF019970070CE12 /* EnigmaAplUITests */;
-		};
 		AF9201E02EF0955F00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaApl" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -85,8 +71,6 @@
 			exceptions = (
 				AF9201E02EF0955F00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaApl" target */,
 				AFB80F382F09AC3E00838C53 /* Exceptions for "EnigmaApl" folder in "Compile Sources" phase from "EnigmaApl" target */,
-				AF9201DD2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplTests" target */,
-				AF9201DE2EF08F0B00B1777A /* Exceptions for "EnigmaApl" folder in "EnigmaAplUITests" target */,
 			);
 			path = EnigmaApl;
 			sourceTree = "<group>";

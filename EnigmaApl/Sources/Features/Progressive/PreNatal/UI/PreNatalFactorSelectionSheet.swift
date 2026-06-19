@@ -33,7 +33,7 @@ struct PreNatalFactorSelectionSheet: View {
                 )) {
                     HStack(spacing: 8) {
                         Text(GlyphSelector.getGlyphForFactor(factor))
-                            .font(.custom("EnigmaAstrology2", size: 20))
+                            .font(.custom("EnigmaAstrology3", size: 20))
                             .frame(width: 28)
                         Text(NSLocalizedString(factor.localizedName, comment: ""))
                     }

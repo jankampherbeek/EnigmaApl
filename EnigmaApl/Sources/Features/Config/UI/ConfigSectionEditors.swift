@@ -24,7 +24,6 @@ struct CalculationConfigEditor: View {
     @State private var ayanamsha: Ayanamshas = .tropical
     @State private var observerPosition: ObserverPositions = .geoCentric
     @State private var projectionType: ProjectionTypes = .twoDimensional
-    @State private var blackMoonCorrectionType: BlackMoonCorrectionTypes = .duval
     @State private var lunarNodeType: LunarNodeTypes = .meanNode
     @State private var lotsType: LotsTypes = .sect
     @State private var stationaryPercentage: Int = 10
@@ -64,11 +63,6 @@ struct CalculationConfigEditor: View {
             }
 
             Section {
-                Picker(t(ConfigEditKeys.calcBlackMoon), selection: $blackMoonCorrectionType) {
-                    ForEach(BlackMoonCorrectionTypes.allCases, id: \.self) { bm in
-                        Text(le(bm.rbKey)).tag(bm)
-                    }
-                }
                 Picker(t(ConfigEditKeys.calcLunarNode), selection: $lunarNodeType) {
                     ForEach(LunarNodeTypes.allCases, id: \.self) { node in
                         Text(le(node.rbKey)).tag(node)
@@ -109,7 +103,6 @@ struct CalculationConfigEditor: View {
         .onChange(of: ayanamsha)              { isDirty = true }
         .onChange(of: observerPosition)       { isDirty = true }
         .onChange(of: projectionType)         { isDirty = true }
-        .onChange(of: blackMoonCorrectionType){ isDirty = true }
         .onChange(of: lunarNodeType)          { isDirty = true }
         .onChange(of: lotsType)               { isDirty = true }
         .onChange(of: stationaryPercentage)   { isDirty = true }
@@ -144,7 +137,6 @@ struct CalculationConfigEditor: View {
         ayanamsha               = c.ayanamsha
         observerPosition        = c.observerPosition
         projectionType          = c.projectionType
-        blackMoonCorrectionType = c.blackMoonCorrectionType
         lunarNodeType           = c.lunarNodeType
         lotsType                = c.lotsType
         stationaryPercentage    = c.stationaryPercentage
@@ -153,15 +145,14 @@ struct CalculationConfigEditor: View {
 
     private func save() {
         config.calculationConfig = CalculationConfig(
-            houseSystem:             houseSystem,
-            ayanamsha:               ayanamsha,
-            observerPosition:        observerPosition,
-            projectionType:          projectionType,
-            blackMoonCorrectionType: blackMoonCorrectionType,
-            lunarNodeType:           lunarNodeType,
-            lotsType:                lotsType,
-            stationaryPercentage:    stationaryPercentage,
-            slowPercentage:          slowPercentage
+            houseSystem:          houseSystem,
+            ayanamsha:            ayanamsha,
+            observerPosition:     observerPosition,
+            projectionType:       projectionType,
+            lunarNodeType:        lunarNodeType,
+            lotsType:             lotsType,
+            stationaryPercentage: stationaryPercentage,
+            slowPercentage:       slowPercentage
         )
         try? modelContext.save()
         isDirty = false
@@ -416,7 +407,7 @@ struct GlyphsConfigEditor: View {
                 ForEach(candidates, id: \.self) { glyph in
                     Button { onSelect(glyph) } label: {
                         Text(glyph)
-                            .font(.custom("EnigmaAstrology2", size: 20))
+                            .font(.custom("EnigmaAstrology3", size: 20))
                             .frame(width: 28, height: 28)
                             .background(current == glyph ? Color.accentColor.opacity(0.25) : Color.clear)
                             .cornerRadius(4)
@@ -577,7 +568,7 @@ struct FactorConfigEditor: View {
     private func factorRow(_ factor: Factors) -> some View {
         HStack {
             Text(GlyphSelector.getGlyphForFactor(factor))
-                .font(.custom("EnigmaAstrology2", size: 16))
+                .font(.custom("EnigmaAstrology3", size: 16))
                 .frame(width: 28)
             Text(le(factor.localizedName))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -765,7 +756,7 @@ struct AspectConfigEditor: View {
     private func aspectRow(_ aspect: Aspects) -> some View {
         HStack {
             Text(GlyphSelector.getGlyphForAspect(aspect))
-                .font(.custom("EnigmaAstrology2", size: 16))
+                .font(.custom("EnigmaAstrology3", size: 16))
                 .frame(width: 28)
             Text(le(aspect.rbKey))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -1107,7 +1098,7 @@ private struct ProgFactorRow: View {
     var body: some View {
         HStack {
             Text(GlyphSelector.getGlyphForFactor(factor))
-                .font(.custom("EnigmaAstrology2", size: 16))
+                .font(.custom("EnigmaAstrology3", size: 16))
                 .frame(width: 28)
             Text(le(factor.localizedName))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -1208,7 +1199,7 @@ struct PrimaryDirectionsEditor: View {
                 ForEach(Factors.allCases, id: \.self) { factor in
                     HStack {
                         Text(GlyphSelector.getGlyphForFactor(factor))
-                            .font(.custom("EnigmaAstrology2", size: 16))
+                            .font(.custom("EnigmaAstrology3", size: 16))
                             .frame(width: 28)
                         Text(le(factor.localizedName))
                             .frame(maxWidth: .infinity, alignment: .leading)

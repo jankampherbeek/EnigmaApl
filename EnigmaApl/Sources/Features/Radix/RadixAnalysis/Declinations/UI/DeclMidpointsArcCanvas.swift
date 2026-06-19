@@ -314,7 +314,7 @@ private func drawArcGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, R: Dou
     for item in items {
         let pt   = WheelGeometry.point(angleDeg: item.visualAngle, radius: r, center: center)
         let text = Text(item.glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.planetGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }

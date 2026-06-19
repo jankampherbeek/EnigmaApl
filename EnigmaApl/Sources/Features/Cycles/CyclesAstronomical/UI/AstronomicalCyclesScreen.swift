@@ -48,7 +48,7 @@ struct AstronomicalCyclesScreen: View {
     private let maxPairs = 6
 
     private static let helioExcluded: Set<Factors> = [
-        .sun, .moon, .northNode, .apogeeMean, .apogeeCorrected, .apogeeInterpolated,
+        .sun, .moon, .northNode, .apogeeMean, .apogeeKoch, .apogeeDuval, .apogeeInterpolated,
         .perigeeInterpolated, .priapus, .priapusCorrected, .dragon, .beast, .southNode,
         .blackSun, .diamond
     ]

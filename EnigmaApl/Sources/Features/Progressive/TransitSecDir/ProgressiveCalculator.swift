@@ -39,7 +39,6 @@ public struct ProgressiveCalculator {
             ayanamsha: calculationConfig.ayanamsha,
             observerPosition: effectiveObserverPosition,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: calculationConfig.blackMoonCorrectionType,
             lunarNodeType: calculationConfig.lunarNodeType,
             lotsType: calculationConfig.lotsType,
             stationaryPercentage: calculationConfig.stationaryPercentage,

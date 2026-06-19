@@ -96,7 +96,7 @@ private struct SingleMidpointTree: View {
 
     private func drawGlyph(_ ctx: inout GraphicsContext, text: String, cx: CGFloat, cy: CGFloat) {
         let resolved = ctx.resolve(
-            Text(text).font(.custom("EnigmaAstrology2", size: glyphSize))
+            Text(text).font(.custom("EnigmaAstrology3", size: glyphSize))
         )
         let sz = resolved.measure(in: CGSize(width: 100, height: 100))
         ctx.draw(resolved,

@@ -49,7 +49,7 @@ private struct AspectGridView: View {
                         }
                         // Column header for column i, inline at diagonal position
                         Text(GlyphSelector.getGlyphForFactor(factors[i]))
-                            .font(.custom("EnigmaAstrology2", size: 16))
+                            .font(.custom("EnigmaAstrology3", size: 16))
                             .frame(width: cellSize, height: cellSize)
                             .accessibilityHidden(true)
                     }
@@ -67,7 +67,7 @@ private struct AspectGridView: View {
         ZStack {
             if let (aspect, color) = entry {
                 Text(GlyphSelector.getGlyphForAspect(aspect))
-                    .font(.custom("EnigmaAstrology2", size: 14))
+                    .font(.custom("EnigmaAstrology3", size: 14))
                     .foregroundStyle(color)
             }
         }
@@ -224,19 +224,19 @@ struct AspectsScreen: View {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
                         HStack(spacing: 8) {
                             Text(row.factor1Glyph)
-                                .font(.custom("EnigmaAstrology2", size: 18))
+                                .font(.custom("EnigmaAstrology3", size: 18))
                                 .frame(width: glyphW, alignment: .leading)
                             Text(row.factor1Name)
                                 .frame(width: nameW, alignment: .leading)
                                 .lineLimit(1)
                             Text(row.aspectGlyph)
-                                .font(.custom("EnigmaAstrology2", size: 18))
+                                .font(.custom("EnigmaAstrology3", size: 18))
                                 .frame(width: glyphW, alignment: .leading)
                             Text(row.aspectName)
                                 .frame(width: nameW, alignment: .leading)
                                 .lineLimit(1)
                             Text(row.factor2Glyph)
-                                .font(.custom("EnigmaAstrology2", size: 18))
+                                .font(.custom("EnigmaAstrology3", size: 18))
                                 .frame(width: glyphW, alignment: .leading)
                             Text(row.factor2Name)
                                 .frame(width: nameW, alignment: .leading)

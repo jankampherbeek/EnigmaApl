@@ -130,7 +130,7 @@ private func drawFrenchSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint,
         guard let sign = Signs(rawValue: signIndex + 1) else { continue }
         let glyph = GlyphSelector.getGlyphForSign(sign)
         let text  = Text(glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.signGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
@@ -215,7 +215,7 @@ private func drawFrenchCardinalGlyphs(_ ctx: inout GraphicsContext, center: CGPo
         let pt    = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
         let glyph = GlyphSelector.getGlyphForFactor(factor)
         let text  = Text(glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.cardinalIndicator)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
@@ -267,7 +267,7 @@ private func drawFrenchPlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoin
     for item in data.planetItems {
         let pt   = WheelGeometry.point(angleDeg: item.plotAngle, radius: r, center: center)
         let text = Text(item.glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.planetGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }

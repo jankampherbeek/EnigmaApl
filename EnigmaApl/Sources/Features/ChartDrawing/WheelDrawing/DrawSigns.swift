@@ -57,7 +57,7 @@ func drawSignGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: 
         guard let sign = Signs(rawValue: signIndex + 1) else { continue }
         let glyph = GlyphSelector.getGlyphForSign(sign)
         let text = Text(glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.signGlyph)
         let resolved = ctx.resolve(text)
         ctx.draw(resolved, at: pt, anchor: .center)

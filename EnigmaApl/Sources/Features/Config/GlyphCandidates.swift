@@ -71,15 +71,16 @@ public struct GlyphCandidates {
         case .hygieia:              return ["\u{E415}", "\u{E457}"]
         case .astraea:              return ["\u{E416}"]
         case .apogeeMean:           return ["\u{E530}"]
-        case .apogeeCorrected:      return ["\u{E531}"]
-        case .apogeeInterpolated:   return ["\u{E531}"]
+        case .apogeeKoch:           return ["\u{E545}"]
+        case .apogeeDuval:          return ["\u{E544}"]
+        case .apogeeInterpolated:   return ["\u{E543}"]
         case .persephoneCarteret:   return ["\u{E612}"]
         case .vulcanusCarteret:     return ["\u{E613}"]
         case .perigeeInterpolated:  return ["\u{2609}"]   // TODO: add proper glyph
         case .priapus:              return ["\u{E535}"]
         case .priapusCorrected:     return ["\u{2609}"]   // TODO: add proper glyph
-        case .dragon:               return ["\u{2609}"]   // TODO: add proper glyph
-        case .beast:                return ["\u{2609}"]   // TODO: add proper glyph
+        case .dragon:               return ["\u{E538}", "\u{E537}"]
+        case .beast:                return ["\u{E540}", "\y{E439}"]
         case .southNode:            return ["\u{E521}"]
         case .blackSun:             return ["\u{E534}"]
         case .diamond:              return ["\u{E536}"]

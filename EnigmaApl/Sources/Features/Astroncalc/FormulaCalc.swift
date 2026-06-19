@@ -49,9 +49,9 @@ public struct FormulaCalc {
                 longitude = calcCarteretHypPlanet(julianDay: julianDay, startPoint: 15.7, yearlySpeed: 0.55)
                 longitudePrevious = calcCarteretHypPlanet(julianDay: julianDayPrevious, startPoint: 15.7, yearlySpeed: 0.55)
                 longitudeNext = calcCarteretHypPlanet(julianDay: julianDayNext, startPoint: 15.7, yearlySpeed: 0.55)
-            case .apogeeCorrected:
+            case .apogeeDuval:
                 if calcRequest.calculationConfig.observerPosition == .helioCentric {
-                    Logger.log.warning("FormulaCalc: heliocentric position requested for apogeeCorrected — not applicable, skipping")
+                    Logger.log.warning("FormulaCalc: heliocentric position requested for apogeeDuval — not applicable, skipping")
                     continue
                 }
                 let apogeeCalc = ApogeeDuvalCalc()

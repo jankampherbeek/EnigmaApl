@@ -150,14 +150,14 @@ struct TransitResults: View {
         let (dmsString, sign, valid) = PositionInDegreesConversion.DoubleToDmsSign(position.longitude)
         return HStack(spacing: 12) {
             Text(GlyphSelector.getGlyphForFactor(factor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
 
             HStack(spacing: 4) {
                 if valid, let sign {
                     Text(dmsString)
                     Text(GlyphSelector.getGlyphForSign(sign))
-                        .font(.custom("EnigmaAstrology2", size: 14))
+                        .font(.custom("EnigmaAstrology3", size: 14))
                 } else {
                     Text(String(format: "%.4f°", position.longitude))
                 }
@@ -214,13 +214,13 @@ struct TransitResults: View {
     private func matchRow(_ row: AspectMatchRow, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(row.transitGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
             Text(row.aspectGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
             Text(row.radixGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
             Text(row.orbText)
                 .frame(width: orbW, alignment: .trailing)

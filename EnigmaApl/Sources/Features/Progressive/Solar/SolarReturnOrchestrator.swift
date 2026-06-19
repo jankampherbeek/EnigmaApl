@@ -160,15 +160,14 @@ struct SolarReturnOrchestrator {
         let effectiveConfig: CalculationConfig
         if useSidereal {
             effectiveConfig = CalculationConfig(
-                houseSystem:             calculationConfig.houseSystem,
-                ayanamsha:               .fagan,
-                observerPosition:        calculationConfig.observerPosition,
-                projectionType:          calculationConfig.projectionType,
-                blackMoonCorrectionType: calculationConfig.blackMoonCorrectionType,
-                lunarNodeType:           calculationConfig.lunarNodeType,
-                lotsType:                calculationConfig.lotsType,
-                stationaryPercentage:    calculationConfig.stationaryPercentage,
-                slowPercentage:          calculationConfig.slowPercentage
+                houseSystem:          calculationConfig.houseSystem,
+                ayanamsha:            .fagan,
+                observerPosition:     calculationConfig.observerPosition,
+                projectionType:       calculationConfig.projectionType,
+                lunarNodeType:        calculationConfig.lunarNodeType,
+                lotsType:             calculationConfig.lotsType,
+                stationaryPercentage: calculationConfig.stationaryPercentage,
+                slowPercentage:       calculationConfig.slowPercentage
             )
         } else {
             effectiveConfig = calculationConfig

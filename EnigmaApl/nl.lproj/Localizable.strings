@@ -154,9 +154,11 @@
 "enum.factor.sedna" = "Sedna";
 "enum.factor.hygieia" = "Hygieia";
 "enum.factor.astraea" = "Astraea";
-"enum.factor.apogeemean" = "Apogeum (gemiddeld)";
+"enum.factor.apogeemean" = "Zwarte Maan (gemiddeld)";
+"enum.factor.apogeekoch" = "Zwarte Maan (corr. Koch)";
+"enum.factor.apogeeduval" = "Zwarte Maan (corr. Duval)";
 "enum.factor.apogeecorrected" = "Apogeum (gecorrigeerd)";
-"enum.factor.apogeeinterpolated" = "Apogeum (geinterpoleerd)";
+"enum.factor.apogeeinterpolated" = "Zwarte Maan (geïnterpoleerd)";
 "enum.factor.persephonecarteret" = "Persephone (Carteret)";
 "enum.factor.vulcanuscarteret" = "Vulcanus (Carteret)";
 "enum.factor.perigeeinterpolated" = "Perigeum (geinterpoleerd)";

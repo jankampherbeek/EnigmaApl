@@ -168,7 +168,7 @@ private func drawRingInterceptedSignGlyphs(_ ctx: inout GraphicsContext, center:
         guard let sign = Signs(rawValue: signIdx + 1) else { continue }
         let glyph    = GlyphSelector.getGlyphForSign(sign)
         let text     = Text(glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.cuspText)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
@@ -184,7 +184,7 @@ private func drawRingPlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint,
     for item in data.planetItems {
         let pt   = WheelGeometry.point(angleDeg: item.plotAngle, radius: r, center: center)
         let text = Text(item.glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(.black)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }
@@ -262,7 +262,7 @@ private func ringPositionLabel(longitude: Double, textSize: CGFloat, color: Colo
         .font(.system(size: textSize))
         .foregroundColor(color)
     + Text(glyph)
-        .font(.custom("EnigmaAstrology2", size: textSize * 1.4))
+        .font(.custom("EnigmaAstrology3", size: textSize * 1.4))
         .foregroundColor(color)
 }
 

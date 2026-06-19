@@ -353,7 +353,7 @@ struct DeclinationLongEquivalentsView: View {
         let originalLong = chartSession.selectedChart.flatMap { DeclMidpointsCalculator.longAndDeclination(for: result.factor, in: $0)?.0 }
         HStack(spacing: 4) {
             Text(GlyphSelector.getGlyphForFactor(result.factor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(result.factor.localizedName)
 
@@ -386,7 +386,7 @@ struct DeclinationLongEquivalentsView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 

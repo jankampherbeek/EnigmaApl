@@ -102,23 +102,13 @@ public struct FormulaFullCalc {
                 
             case .priapus, .priapusCorrected:
                 // Calculate Priapus from apogee (opposite of apogee)
-                let apogeeFactor: Factors
-                if factor == .priapus {
-                    apogeeFactor = .apogeeMean
-                } else {
-                    // Use apogee type from config
-                    switch configData.blackMoonCorrectionType {
-                    case .duval, .swisseph:
-                        apogeeFactor = .apogeeCorrected
-                    case .interpolated:
-                        apogeeFactor = .apogeeInterpolated
-                    }
-                }
-                
+                // priapus = opposite of mean apogee; priapusCorrected = opposite of Duval apogee
+                let apogeeFactor: Factors = factor == .priapus ? .apogeeMean : .apogeeDuval
+
                 var fullPointPosApogee: FullFactorPosition?
-                
-                // If using Duval correction, calculate via formula
-                if apogeeFactor == .apogeeCorrected && configData.blackMoonCorrectionType == .duval {
+
+                if factor == .priapusCorrected {
+                    // Duval apogee is a formula-based factor
                     let apogeeCalc = ApogeeDuvalCalc()
                     let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper, calculationConfig: configData)
                     let longitudePrevious = apogeeCalc.calcApogeeDuval(julianDay: julianDayPrevious, seWrapper: seWrapper, calculationConfig: configData)

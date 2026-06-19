@@ -121,16 +121,16 @@ struct PrimDirResultsScreen: View {
                 .font(.body.monospacedDigit())
 
             Text(GlyphSelector.getGlyphForFactor(hit.promissor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
                 .accessibilityLabel(hit.promissor.localizedName)
 
             Text(GlyphSelector.getGlyphForAspect(hit.aspect))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: aspectWidth, alignment: .center)
 
             Text(GlyphSelector.getGlyphForFactor(hit.significator))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphWidth, alignment: .center)
                 .accessibilityLabel(hit.significator.localizedName)
 

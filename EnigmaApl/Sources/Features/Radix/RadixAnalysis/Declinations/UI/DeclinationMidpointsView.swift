@@ -197,12 +197,12 @@ struct DeclinationMidpointsView: View {
     private func tableRow(_ item: DeclOccupiedMidpoint, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(GlyphSelector.getGlyphForFactor(item.midpoint.factor1))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: 28, alignment: .center)
                 .accessibilityLabel(item.midpoint.factor1.localizedName)
 
             Text(GlyphSelector.getGlyphForFactor(item.midpoint.factor2))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: 28, alignment: .center)
                 .accessibilityLabel(item.midpoint.factor2.localizedName)
 
@@ -212,7 +212,7 @@ struct DeclinationMidpointsView: View {
                 .foregroundStyle(.secondary)
 
             Text(GlyphSelector.getGlyphForFactor(item.occupyingFactor))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: 28, alignment: .center)
                 .accessibilityLabel(item.occupyingFactor.localizedName)
 

@@ -154,9 +154,11 @@
 "enum.factor.sedna" = "Sedna";
 "enum.factor.hygieia" = "Hygieia";
 "enum.factor.astraea" = "Astraea";
-"enum.factor.apogeemean" = "Apogee (mean)";
+"enum.factor.apogeemean" = "Black Moon (mean)";
+"enum.factor.apogeekoch" = "Black Moon (Koch corr.)";
+"enum.factor.apogeeduval" = "Black Moon (Duval corr.)";
 "enum.factor.apogeecorrected" = "Apogee (corrected)";
-"enum.factor.apogeeinterpolated" = "Apogee (interpolated)";
+"enum.factor.apogeeinterpolated" = "Black Moon (interpolated)";
 "enum.factor.persephonecarteret" = "Persephone (Carteret)";
 "enum.factor.vulcanuscarteret" = "Vulcanus (Carteret)";
 "enum.factor.perigeeinterpolated" = "Perigee (interpolated)";

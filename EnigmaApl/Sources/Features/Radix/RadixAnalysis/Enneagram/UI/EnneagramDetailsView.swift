@@ -109,7 +109,7 @@ struct EnneagramDetailsView: View {
     private func factorCell(_ line: EnneagramDetailLine) -> some View {
         if let factor = line.factor {
             Text(GlyphSelector.getGlyphForFactor(factor))
-                .font(.custom("EnigmaAstrology2", size: 16))
+                .font(.custom("EnigmaAstrology3", size: 16))
                 .accessibilityLabel(factor.localizedName)
         } else {
             Text(line.specialLabel)

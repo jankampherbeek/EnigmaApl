@@ -50,7 +50,7 @@ struct EnneagramOptionsView: View {
                             Toggle(isOn: toggleBinding(for: factor)) {
                                 HStack(spacing: 8) {
                                     Text(GlyphSelector.getGlyphForFactor(factor))
-                                        .font(.custom("EnigmaAstrology2", size: 18))
+                                        .font(.custom("EnigmaAstrology3", size: 18))
                                         .frame(width: 24, alignment: .center)
                                     Text(factorName(factor))
                                 }

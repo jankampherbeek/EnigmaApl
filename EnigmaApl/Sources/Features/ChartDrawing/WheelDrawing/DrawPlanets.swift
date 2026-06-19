@@ -28,7 +28,7 @@ func drawPlanetGlyphs(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius
     for item in data.planetItems {
         let pt   = WheelGeometry.point(angleDeg: item.plotAngle, radius: r, center: center)
         let text = Text(item.glyph)
-            .font(.custom("EnigmaAstrology2", size: fontSize))
+            .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.planetGlyph)
         ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
     }

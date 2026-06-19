@@ -101,7 +101,7 @@ struct DeclStripCanvas: View {
             ctx.stroke(oblPath, with: .color(blackWhite ? .black : .orange), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
 
             // --- Factor glyphs and position lines ---
-            let glyphFont = Font.custom("EnigmaAstrology2", size: max(10, min(24, w * 0.06)))
+            let glyphFont = Font.custom("EnigmaAstrology3", size: max(10, min(24, w * 0.06)))
             let northBaseX  = barX - w * glyphMarginFraction
             let southBaseX  = barX + barW + w * glyphMarginFraction
 

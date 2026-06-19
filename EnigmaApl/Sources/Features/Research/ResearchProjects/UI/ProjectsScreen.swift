@@ -1231,9 +1231,6 @@ struct ResearchProjectDetailScreen: View {
                 LabeledContent(t(ResearchProjectsKeys.detailLabelLunarNode)) {
                     Text(NSLocalizedString(calcConfig.lunarNodeType.rbKey, bundle: .main, comment: ""))
                 }
-                LabeledContent(t(ResearchProjectsKeys.detailLabelBlackMoon)) {
-                    Text(NSLocalizedString(calcConfig.blackMoonCorrectionType.rbKey, bundle: .main, comment: ""))
-                }
                 LabeledContent(t(ResearchProjectsKeys.detailLabelLotsType)) {
                     Text(NSLocalizedString(calcConfig.lotsType.rbKey, bundle: .main, comment: ""))
                 }

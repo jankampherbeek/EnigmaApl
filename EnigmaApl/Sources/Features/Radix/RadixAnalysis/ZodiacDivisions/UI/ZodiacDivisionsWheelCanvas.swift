@@ -131,7 +131,7 @@ private func drawDivisionGlyph(
 ) {
     let pt   = WheelGeometry.point(angleDeg: angle, radius: radius, center: center)
     let label = Text(glyph)
-        .font(.custom("EnigmaAstrology2", size: size))
+        .font(.custom("EnigmaAstrology3", size: size))
         .foregroundColor(Color(theme.planetGlyph))
 
     var labelCtx = ctx

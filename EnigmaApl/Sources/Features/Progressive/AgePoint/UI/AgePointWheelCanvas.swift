@@ -140,7 +140,7 @@ private func drawAgePointArrowLabel(
 
     let label = Text(dmsString + " ").font(.system(size: fontSize)).foregroundColor(Color(theme.planetGlyph))
               + Text(GlyphSelector.getGlyphForSign(sign))
-                    .font(.custom("EnigmaAstrology2", size: glyphSize))
+                    .font(.custom("EnigmaAstrology3", size: glyphSize))
                     .foregroundColor(Color(theme.planetGlyph))
 
     var labelCtx = ctx

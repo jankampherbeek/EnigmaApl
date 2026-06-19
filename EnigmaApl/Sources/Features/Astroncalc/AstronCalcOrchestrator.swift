@@ -402,7 +402,7 @@ public struct AstronCalcOrchestrator {
     /// Factors that have no meaningful heliocentric position. When observer position is heliocentric,
     /// calculations for these factors are skipped and zero positions are returned instead.
     private static let geocentricOnlyFactors: Set<Factors> = [
-        .sun, .moon, .northNode, .apogeeMean, .apogeeCorrected,
+        .sun, .moon, .northNode, .apogeeMean, .apogeeKoch, .apogeeDuval,
         .apogeeInterpolated, .perigeeInterpolated
     ]
 

@@ -48,7 +48,7 @@ struct PreNatalOrchestrator: Sendable {
     static let selectableFactors: [Factors] = [
         .sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
         .northNode, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
-        .apogeeMean, .apogeeCorrected,
+        .apogeeMean, .apogeeKoch, .apogeeDuval,
         .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
         .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna,
         .hygieia, .astraea

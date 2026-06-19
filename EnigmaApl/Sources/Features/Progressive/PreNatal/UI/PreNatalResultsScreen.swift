@@ -119,7 +119,7 @@ struct PreNatalResultsScreen: View {
 
             // Col 3: Factor 1 glyph
             Text(f1Glyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
 
             // Col 4: Longitude 1
@@ -129,12 +129,12 @@ struct PreNatalResultsScreen: View {
 
             // Col 5: Sign 1 glyph
             Text(sign1Glyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
 
             // Col 6: Factor 2 glyph
             if let g2 = f2Glyph {
-                Text(g2).font(.custom("EnigmaAstrology2", size: 18)).frame(width: glyphW, alignment: .center)
+                Text(g2).font(.custom("EnigmaAstrology3", size: 18)).frame(width: glyphW, alignment: .center)
             } else {
                 Spacer().frame(width: glyphW)
             }
@@ -148,7 +148,7 @@ struct PreNatalResultsScreen: View {
 
             // Col 8: Sign 2 glyph
             if let s2 = sign2Glyph {
-                Text(s2).font(.custom("EnigmaAstrology2", size: 18)).frame(width: glyphW, alignment: .center)
+                Text(s2).font(.custom("EnigmaAstrology3", size: 18)).frame(width: glyphW, alignment: .center)
             } else {
                 Spacer().frame(width: glyphW)
             }
@@ -177,30 +177,30 @@ struct PreNatalResultsScreen: View {
         switch moment.kind {
         case .solarEclipse:
             Text(GlyphSelector.getGlyphForFactor(.blackSun))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
         case .lunarEclipse:
             // apogeeMean is the classical Black Moon (Lilith) glyph
             Text(GlyphSelector.getGlyphForFactor(.apogeeMean))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
         case .aspect(let aspectKind, let f1, let f2):
             Text(GlyphSelector.getGlyphForFactor(f1)
                  + GlyphSelector.getGlyphForAspect(aspectKind)
                  + GlyphSelector.getGlyphForFactor(f2))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
         case .ingress(let factor, let sign):
             Text(GlyphSelector.getGlyphForFactor(factor)
                  + GlyphSelector.getGlyphForSign(sign))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
         case .retrograde(let factor):
             HStack(spacing: 1) {
                 Text(GlyphSelector.getGlyphForFactor(factor))
-                    .font(.custom("EnigmaAstrology2", size: 18))
+                    .font(.custom("EnigmaAstrology3", size: 18))
                 Text("Rx").font(.caption).foregroundStyle(.secondary)
             }
         case .direct(let factor):
             HStack(spacing: 1) {
                 Text(GlyphSelector.getGlyphForFactor(factor))
-                    .font(.custom("EnigmaAstrology2", size: 18))
+                    .font(.custom("EnigmaAstrology3", size: 18))
                 Text("D").font(.caption).foregroundStyle(.secondary)
             }
         }

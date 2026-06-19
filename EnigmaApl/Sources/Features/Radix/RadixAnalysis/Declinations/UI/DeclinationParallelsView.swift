@@ -136,7 +136,7 @@ struct DeclinationParallelsView: View {
         let decl2 = declination(for: parallel.factor2, in: chart)
         HStack(spacing: 8) {
             Text(GlyphSelector.getGlyphForFactor(parallel.factor1))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(parallel.factor1.localizedName)
 
@@ -145,11 +145,11 @@ struct DeclinationParallelsView: View {
                 .monospacedDigit()
 
             Text(parallel.isContraParallel ? "\u{F010}" : "\u{F000}")
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
 
             Text(GlyphSelector.getGlyphForFactor(parallel.factor2))
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
                 .accessibilityLabel(parallel.factor2.localizedName)
 

@@ -4,7 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>EnigmaAstrology2.ttf</string>
+		<string>EnigmaAstrology3.ttf</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Enigma uses your location to calculate a chart for the current moment.</string>

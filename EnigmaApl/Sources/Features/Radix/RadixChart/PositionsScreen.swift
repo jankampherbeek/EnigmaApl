@@ -54,7 +54,7 @@ struct PositionsScreen: View {
     @ViewBuilder
     private func glyphCell(_ factor: Factors, width: CGFloat) -> some View {
         Text(GlyphSelector.getGlyphForFactor(factor))
-            .font(.custom("EnigmaAstrology2", size: 18))
+            .font(.custom("EnigmaAstrology3", size: 18))
             .frame(width: width, alignment: .leading)
             .accessibilityLabel(factor.localizedName)
     }
@@ -63,7 +63,7 @@ struct PositionsScreen: View {
         var dmsAttr = AttributedString(dmsString + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 

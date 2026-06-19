@@ -154,9 +154,11 @@
 "enum.factor.sedna" = "Sedna";
 "enum.factor.hygieia" = "Hygie";
 "enum.factor.astraea" = "Astrea";
-"enum.factor.apogeemean" = "Apogée (moyen)";
+"enum.factor.apogeemean" = "Lune Noire (moyenne)";
+"enum.factor.apogeekoch" = "Lune Noire (corr. Koch)";
+"enum.factor.apogeeduval" = "Lune Noire (corr. Duval)";
 "enum.factor.apogeecorrected" = "Apogée (corrigé)";
-"enum.factor.apogeeinterpolated" = "Apogée (interpolé)";
+"enum.factor.apogeeinterpolated" = "Lune Noire (interpolée)";
 "enum.factor.persephonecarteret" = "Perséphone (Carteret)";
 "enum.factor.vulcanuscarteret" = "Vulcain (Carteret)";
 "enum.factor.perigeeinterpolated" = "Périgée (interpolé)";

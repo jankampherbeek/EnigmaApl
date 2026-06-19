@@ -129,7 +129,7 @@ struct VspScreen: View {
                 .frame(width: posW, alignment: .trailing)
                 .font(.system(.body, design: .monospaced))
             Text(glyphText)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: glyphW, alignment: .center)
         }
         .padding(.horizontal, 8)

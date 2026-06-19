@@ -166,7 +166,7 @@ struct AgePointResultsScreen: View {
                 if valid, let sign {
                     Text(dmsString)
                     Text(GlyphSelector.getGlyphForSign(sign))
-                        .font(.custom("EnigmaAstrology2", size: 14))
+                        .font(.custom("EnigmaAstrology3", size: 14))
                 } else {
                     Text(String(format: "%.4f°", longitude))
                 }
@@ -216,7 +216,7 @@ struct AgePointResultsScreen: View {
                 if valid, let sign {
                     Text(dmsString)
                     Text(GlyphSelector.getGlyphForSign(sign))
-                        .font(.custom("EnigmaAstrology2", size: 14))
+                        .font(.custom("EnigmaAstrology3", size: 14))
                 } else {
                     Text(String(format: "%.4f°", entry.longitude))
                 }
@@ -301,10 +301,10 @@ struct AgePointResultsScreen: View {
     private func aspectRow(_ row: AspectRow, index: Int) -> some View {
         HStack(spacing: 8) {
             Text(row.aspectGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: aspectW, alignment: .center)
             Text(row.radixGlyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: radixW, alignment: .center)
             Text(row.orbText)
                 .frame(width: orbW, alignment: .trailing)

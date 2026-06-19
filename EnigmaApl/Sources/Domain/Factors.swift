@@ -70,7 +70,7 @@ public enum Factors: Int, CaseIterable, Codable {
     case hygieia = 41
     case astraea = 42
     case apogeeMean = 43
-    case apogeeCorrected = 44
+    case apogeeKoch = 44
     case apogeeInterpolated = 45
     case persephoneCarteret = 47
     case vulcanusCarteret = 48
@@ -82,6 +82,7 @@ public enum Factors: Int, CaseIterable, Codable {
     case southNode = 54
     case blackSun = 56
     case diamond = 57
+    case apogeeDuval = 58
     case ascendant = 1001
     case mc = 1002
     case eastPoint = 1003
@@ -95,13 +96,13 @@ public enum Factors: Int, CaseIterable, Codable {
     var calculationType: CalculationTypes {
         switch self {
         case .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
-             .northNode, .apogeeMean, .apogeeCorrected, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
+                .northNode, .apogeeMean, .apogeeKoch, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
              .apogeeInterpolated, .perigeeInterpolated, .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
              .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea:
             return .CommonSe
         case .persephoneRam, .hermesRam, .demeterRam:
             return .CommonElements
-        case .persephoneCarteret, .vulcanusCarteret:
+        case .persephoneCarteret, .vulcanusCarteret, .apogeeDuval:
             return .CommonFormulaLongitude
         case .priapus, .priapusCorrected, .dragon, .beast, .southNode:
             return .CommonFormulaFull
@@ -135,7 +136,7 @@ public enum Factors: Int, CaseIterable, Codable {
         case .pluto: return 9
         case .northNode: return 10
         case .apogeeMean: return 12
-        case .apogeeCorrected: return 13
+        case .apogeeKoch: return 13
         case .earth: return 14
         case .chiron: return 15
         case .pholus: return 16
@@ -178,6 +179,7 @@ public enum Factors: Int, CaseIterable, Codable {
         case .southNode: return 505
         case .blackSun: return 601
         case .diamond: return 602
+        case .apogeeDuval: return 603
         case .mc: return 700
         case .ascendant: return 701
         case .eastPoint: return 702

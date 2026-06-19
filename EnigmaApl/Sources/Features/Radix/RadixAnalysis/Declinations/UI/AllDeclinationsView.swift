@@ -171,7 +171,7 @@ struct AllDeclinationsView: View {
     private func tableRow(_ item: DeclStripItem, index: Int) -> some View {
         HStack(spacing: 4) {
             Text(item.glyph)
-                .font(.custom("EnigmaAstrology2", size: 18))
+                .font(.custom("EnigmaAstrology3", size: 18))
                 .frame(width: 28, alignment: .center)
                 .accessibilityLabel(item.factor.localizedName)
 
@@ -205,7 +205,7 @@ struct AllDeclinationsView: View {
         var dmsAttr = AttributedString(dms + " ")
         dmsAttr.font = .body
         var glyphAttr = AttributedString(GlyphSelector.getGlyphForSign(sign))
-        glyphAttr.font = .custom("EnigmaAstrology2", size: 18)
+        glyphAttr.font = .custom("EnigmaAstrology3", size: 18)
         return dmsAttr + glyphAttr
     }
 
