@@ -163,7 +163,9 @@
 "enum.factor.vulcanuscarteret" = "Vulcanus (Carteret)";
 "enum.factor.perigeeinterpolated" = "Perigäum (Interpoliert)";
 "enum.factor.priapus" = "Priapus (Mittel)";
-"enum.factor.priapuscorrected" = "Priapus (Korrigiert)";
+"enum.factor.priapuskoch" = "Priapus (Koch)";
+"enum.factor.priapusduval" = "Priapus (Duval)";
+"enum.factor.priapusinterpolated" = "Priapus (Interpoliert)";
 "enum.factor.dragon" = "Drache";
 "enum.factor.beast" = "Biest";
 "enum.factor.southnode" = "Südknoten Mond";

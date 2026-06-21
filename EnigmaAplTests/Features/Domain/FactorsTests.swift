@@ -101,7 +101,9 @@ struct FactorsTests {
     @Test("Factors: calculationType - CommonFormulaFull for formula factors")
     func testCalculationTypeCommonFormulaFull() {
         #expect(Factors.priapus.calculationType == .CommonFormulaFull)
-        #expect(Factors.priapusCorrected.calculationType == .CommonFormulaFull)
+        #expect(Factors.priapusKoch.calculationType == .CommonFormulaFull)
+        #expect(Factors.priapusDuval.calculationType == .CommonFormulaFull)
+        #expect(Factors.priapusInterpolated.calculationType == .CommonFormulaFull)
         #expect(Factors.dragon.calculationType == .CommonFormulaFull)
         #expect(Factors.beast.calculationType == .CommonFormulaFull)
         #expect(Factors.southNode.calculationType == .CommonFormulaFull)
@@ -212,7 +214,9 @@ struct FactorsTests {
     @Test("Factors: seId - formula factors")
     func testSeIdFormula() {
         #expect(Factors.priapus.seId == 501)
-        #expect(Factors.priapusCorrected.seId == 502)
+        #expect(Factors.priapusKoch.seId == 604)
+        #expect(Factors.priapusDuval.seId == 605)
+        #expect(Factors.priapusInterpolated.seId == 606)
         #expect(Factors.dragon.seId == 503)
         #expect(Factors.beast.seId == 504)
         #expect(Factors.southNode.seId == 505)

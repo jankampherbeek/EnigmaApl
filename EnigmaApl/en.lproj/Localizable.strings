@@ -163,7 +163,9 @@
 "enum.factor.vulcanuscarteret" = "Vulcanus (Carteret)";
 "enum.factor.perigeeinterpolated" = "Perigee (interpolated)";
 "enum.factor.priapus" = "Priapus (mean)";
-"enum.factor.priapuscorrected" = "Priapus (corrected)";
+"enum.factor.priapuskoch" = "Priapus (Koch)";
+"enum.factor.priapusduval" = "Priapus (Duval)";
+"enum.factor.priapusinterpolated" = "Priapus (interpolated)";
 "enum.factor.dragon" = "Dragon";
 "enum.factor.beast" = "Beast";
 "enum.factor.southnode" = "South Lunar Node";

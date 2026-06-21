@@ -78,9 +78,11 @@ public struct GlyphCandidates {
         case .vulcanusCarteret:     return ["\u{E613}"]
         case .perigeeInterpolated:  return ["\u{2609}"]   // TODO: add proper glyph
         case .priapus:              return ["\u{E535}"]
-        case .priapusCorrected:     return ["\u{2609}"]   // TODO: add proper glyph
-        case .dragon:               return ["\u{E538}", "\u{E537}"]
-        case .beast:                return ["\u{E540}", "\y{E439}"]
+        case .priapusDuval:         return ["\u{E546}"]
+        case .priapusKoch:          return ["\u{E547}"]
+        case .priapusInterpolated:  return ["\u{E548}"]
+        case .dragon:               return ["\u{E537}", "\u{E538}"]
+        case .beast:                return ["\u{E539}", "\u{E540}"]
         case .southNode:            return ["\u{E521}"]
         case .blackSun:             return ["\u{E534}"]
         case .diamond:              return ["\u{E536}"]

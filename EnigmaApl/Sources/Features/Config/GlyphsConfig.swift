@@ -125,9 +125,11 @@ public struct GlyphsConfig: Codable, Sendable {
         case .vulcanusCarteret:     glyph = "\u{E613}"
         case .perigeeInterpolated:  glyph = "\u{2609}"    // TODO add glyph for perigee
         case .priapus:              glyph = "\u{E535}"
-        case .priapusCorrected:     glyph = "\u{2609}"    // TODO add glyph for Priapus corrected
-        case .dragon:               glyph = "\u{E538}"
-        case .beast:                glyph = "\u{E540}"
+        case .priapusDuval:         glyph = "\u{E546}"
+        case .priapusKoch:          glyph = "\u{E547}"
+        case .priapusInterpolated:  glyph = "\u{E548}"
+        case .dragon:               glyph = "\u{E537}"
+        case .beast:                glyph = "\u{E539}"
         case .southNode:            glyph = "\u{E521}"
         case .blackSun:             glyph = "\u{E534}"
         case .diamond:              glyph = "\u{E536}"

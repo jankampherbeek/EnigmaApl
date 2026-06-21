@@ -132,9 +132,19 @@ struct FactorCycleSpecTests {
         #expect(Factors.priapus.cycleSpec == nil)
     }
 
-    @Test("FactorCycleSpec: PriapusCorrected returns nil")
-    func testPriapusCorrected_isNil() {
-        #expect(Factors.priapusCorrected.cycleSpec == nil)
+    @Test("FactorCycleSpec: PriapusKoch returns nil")
+    func testPriapusKoch_isNil() {
+        #expect(Factors.priapusKoch.cycleSpec == nil)
+    }
+
+    @Test("FactorCycleSpec: PriapusDuval returns nil")
+    func testPriapusDuval_isNil() {
+        #expect(Factors.priapusDuval.cycleSpec == nil)
+    }
+
+    @Test("FactorCycleSpec: PriapusInterpolated returns nil")
+    func testPriapusInterpolated_isNil() {
+        #expect(Factors.priapusInterpolated.cycleSpec == nil)
     }
 
     @Test("FactorCycleSpec: Dragon returns nil")

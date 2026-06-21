@@ -24,7 +24,7 @@ extension Factors {
             return FactorCycleSpec(interval: 10, maxPeriod: 750_000)
         case .northNode, .southNode, .chiron, .pholus, .nessus, .huya:
             return FactorCycleSpec(interval: 10, maxPeriod: 200_000)
-        case .priapus, .priapusCorrected, .dragon, .beast, .diamond,
+        case .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated, .dragon, .beast, .diamond,
              .ascendant, .mc, .eastPoint, .vertex, .zeroAries, .parsfortuna:
             return nil
         default:

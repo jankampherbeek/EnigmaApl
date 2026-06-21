@@ -100,14 +100,12 @@ public struct FormulaFullCalc {
                 )
                 coordinates[factor] = southNodeFpPos
                 
-            case .priapus, .priapusCorrected:
-                // Calculate Priapus from apogee (opposite of apogee)
-                // priapus = opposite of mean apogee; priapusCorrected = opposite of Duval apogee
-                let apogeeFactor: Factors = factor == .priapus ? .apogeeMean : .apogeeDuval
-
+            case .priapus, .priapusDuval, .priapusInterpolated, .priapusKoch:
+                // Calculate Priapus from apogee (opposite of apogee):
+                // priapus = apogeeMean, priapusDuval = apogeeDuval (formula), priapusInterpolated = apogeeInterpolated, priapusKoch = apogeeKoch
                 var fullPointPosApogee: FullFactorPosition?
 
-                if factor == .priapusCorrected {
+                if factor == .priapusDuval {
                     // Duval apogee is a formula-based factor
                     let apogeeCalc = ApogeeDuvalCalc()
                     let longitude = apogeeCalc.calcApogeeDuval(julianDay: julianDay, seWrapper: seWrapper, calculationConfig: configData)
@@ -124,6 +122,12 @@ public struct FormulaFullCalc {
                         horizontal: [zeroHor]
                     )
                 } else {
+                    let apogeeFactor: Factors
+                    switch factor {
+                    case .priapusInterpolated: apogeeFactor = .apogeeInterpolated
+                    case .priapusKoch: apogeeFactor = .apogeeKoch
+                    default: apogeeFactor = .apogeeMean
+                    }
                     fullPointPosApogee = calculateFullPositionForSePoint(
                         seWrapper: seWrapper,
                         factor: apogeeFactor,

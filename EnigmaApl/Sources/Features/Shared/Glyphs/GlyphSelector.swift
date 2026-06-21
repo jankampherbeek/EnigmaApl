@@ -24,15 +24,21 @@ struct GlyphSelector {
     /// still have their default glyph available; user overrides take precedence.
     static func configure(with glyphsConfig: GlyphsConfig) {
         var fMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultFactorGlyphs.map { ($0.factor, $0.glyph) })
-        for s in glyphsConfig.factorGlyphs { fMap[s.factor] = s.glyph }
+        for s in glyphsConfig.factorGlyphs where GlyphCandidates.candidates(for: s.factor).count > 1 {
+            fMap[s.factor] = s.glyph
+        }
         factorMap = fMap
 
         var sMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultSignGlyphs.map { ($0.sign, $0.glyph) })
-        for s in glyphsConfig.signGlyphs { sMap[s.sign] = s.glyph }
+        for s in glyphsConfig.signGlyphs where GlyphCandidates.candidates(for: s.sign).count > 1 {
+            sMap[s.sign] = s.glyph
+        }
         signMap = sMap
 
         var aMap = Dictionary(uniqueKeysWithValues: GlyphsConfig.defaultAspectGlyphs.map { ($0.aspect, $0.glyph) })
-        for s in glyphsConfig.aspectGlyphs { aMap[s.aspect] = s.glyph }
+        for s in glyphsConfig.aspectGlyphs where GlyphCandidates.candidates(for: s.aspect).count > 1 {
+            aMap[s.aspect] = s.glyph
+        }
         aspectMap = aMap
     }
 

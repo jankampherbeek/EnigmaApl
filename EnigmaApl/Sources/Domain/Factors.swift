@@ -76,13 +76,15 @@ public enum Factors: Int, CaseIterable, Codable {
     case vulcanusCarteret = 48
     case perigeeInterpolated = 49
     case priapus = 50
-    case priapusCorrected = 51
+    case priapusKoch = 51
     case dragon = 52
     case beast = 53
     case southNode = 54
     case blackSun = 56
     case diamond = 57
     case apogeeDuval = 58
+    case priapusDuval = 59
+    case priapusInterpolated = 60
     case ascendant = 1001
     case mc = 1002
     case eastPoint = 1003
@@ -104,7 +106,7 @@ public enum Factors: Int, CaseIterable, Codable {
             return .CommonElements
         case .persephoneCarteret, .vulcanusCarteret, .apogeeDuval:
             return .CommonFormulaLongitude
-        case .priapus, .priapusCorrected, .dragon, .beast, .southNode:
+        case .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated, .dragon, .beast, .southNode:
             return .CommonFormulaFull
         case .mc, .ascendant, .eastPoint, .vertex:
             return .Mundane
@@ -173,7 +175,9 @@ public enum Factors: Int, CaseIterable, Codable {
         case .persephoneCarteret: return 400
         case .vulcanusCarteret: return 401
         case .priapus: return 501
-        case .priapusCorrected: return 502
+        case .priapusKoch: return 604
+        case .priapusDuval: return 605
+        case .priapusInterpolated: return 606
         case .dragon: return 503
         case .beast: return 504
         case .southNode: return 505

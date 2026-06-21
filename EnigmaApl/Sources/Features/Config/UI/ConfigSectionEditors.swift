@@ -444,9 +444,11 @@ struct GlyphsConfigEditor: View {
     }
 
     private func loadFromConfig() {
-        signGlyphs   = Dictionary(uniqueKeysWithValues: config.glyphsConfig.signGlyphs.map   { ($0.sign,   $0.glyph) })
-        factorGlyphs = Dictionary(uniqueKeysWithValues: config.glyphsConfig.factorGlyphs.map { ($0.factor, $0.glyph) })
-        aspectGlyphs = Dictionary(uniqueKeysWithValues: config.glyphsConfig.aspectGlyphs.map { ($0.aspect, $0.glyph) })
+        // Start from the live GlyphSelector state (which includes migration fixes applied at startup),
+        // then let stored user overrides take precedence.
+        signGlyphs   = Dictionary(uniqueKeysWithValues: Signs.allCases.map   { ($0, GlyphSelector.getGlyphForSign($0)) })
+        factorGlyphs = Dictionary(uniqueKeysWithValues: Factors.allCases.map { ($0, GlyphSelector.getGlyphForFactor($0)) })
+        aspectGlyphs = Dictionary(uniqueKeysWithValues: Aspects.allCases.map { ($0, GlyphSelector.getGlyphForAspect($0)) })
     }
 
     private func restoreDefaults() {

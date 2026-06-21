@@ -163,7 +163,9 @@
 "enum.factor.vulcanuscarteret" = "Vulcanus (Carteret)";
 "enum.factor.perigeeinterpolated" = "Perigeum (geinterpoleerd)";
 "enum.factor.priapus" = "Priapus (gemiddeld)";
-"enum.factor.priapuscorrected" = "Priapus (gecorrigeerd)";
+"enum.factor.priapuskoch" = "Priapus (Koch)";
+"enum.factor.priapusduval" = "Priapus (Duval)";
+"enum.factor.priapusinterpolated" = "Priapus (geïnterpoleerd)";
 "enum.factor.dragon" = "Draak";
 "enum.factor.beast" = "Beest";
 "enum.factor.southnode" = "Zuidelijke Maanknoop";
