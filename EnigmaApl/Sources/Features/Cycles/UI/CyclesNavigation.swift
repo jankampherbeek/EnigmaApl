@@ -14,6 +14,7 @@ enum CyclesSection: String, CaseIterable, Identifiable, Hashable {
     case astronomicalCycles = "Astronomical Cycles"
     case waves = "Waves"
     case tablesGraphs = "Tables/Graphs"
+    case ephemeris = "Ephemeris"
     var id: String { rawValue }
 }
 

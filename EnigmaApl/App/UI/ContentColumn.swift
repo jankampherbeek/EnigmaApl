@@ -99,6 +99,8 @@ struct ContentColumn: View {
                     WavesChartView()
                 case .tablesGraphs:
                     EmptyView()
+                case .ephemeris:
+                    EphemerisInputScreen()
                 }
             case .calculators:
                 CalculatorsScreen()

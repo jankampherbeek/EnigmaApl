@@ -1,0 +1,22 @@
+// Ephemeris.strings - German
+// EnigmaApl
+
+"view.ephemeris.title"             = "Ephemeride";
+"view.ephemeris.month"             = "Monat";
+"view.ephemeris.year"              = "Jahr";
+"view.ephemeris.observerposition"  = "Beobachterposition";
+"view.ephemeris.ayanamsha"         = "Ayanamsha";
+"view.ephemeris.coordinate"        = "Koordinate";
+"view.ephemeris.factors"           = "Faktoren";
+"view.ephemeris.tab.table"         = "Tabelle";
+"view.ephemeris.tab.graph"         = "Grafik";
+"view.ephemeris.noresults"         = "W\U00E4hlen Sie mindestens einen Faktor, um Ergebnisse zu sehen.";
+"view.ephemeris.date.header"       = "Tag";
+"view.ephemeris.coord.longitude"   = "L\U00E4nge";
+"view.ephemeris.coord.latitude"    = "Breite";
+"view.ephemeris.coord.ra"          = "Rektaszension";
+"view.ephemeris.coord.declination" = "Deklination";
+"view.ephemeris.coord.distance"    = "Entfernung";
+"view.ephemeris.coord.speedlon"    = "Geschwindigkeit L\U00E4nge";
+"view.ephemeris.coord.speeddec"    = "Geschwindigkeit Deklination";
+"view.ephemeris.help"              = "W\U00E4hlen Sie einen Monat und ein Jahr f\U00FCr die Ephemeride.\n\nW\U00E4hlen Sie zwischen geozentrischen und heliozentrischen Positionen. Bei heliozentrischen Positionen sind Mond, Knoten und einige andere Punkte nicht verf\U00FCgbar.\n\nW\U00E4hlen Sie die anzuzeigende Koordinate. L\U00E4nge zeigt die Position im Tierkreis. Breite, Rektaszension und Deklination sind in Grad. Entfernung ist in AE. Geschwindigkeiten sind in Grad pro Tag.\n\nMarkieren Sie die gew\U00FCnschten Faktoren. In der Konfiguration aktive Faktoren sind vorausgew\U00E4hlt. Die Ergebnisse werden bei jeder \U00C4nderung automatisch aktualisiert.";

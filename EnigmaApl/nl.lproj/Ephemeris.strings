@@ -1,0 +1,22 @@
+// Ephemeris.strings - Dutch
+// EnigmaApl
+
+"view.ephemeris.title"             = "Efemeride";
+"view.ephemeris.month"             = "Maand";
+"view.ephemeris.year"              = "Jaar";
+"view.ephemeris.observerposition"  = "Positie waarnemer";
+"view.ephemeris.ayanamsha"         = "Ayanamsha";
+"view.ephemeris.coordinate"        = "Co\U00F6rdinaat";
+"view.ephemeris.factors"           = "Factoren";
+"view.ephemeris.tab.table"         = "Tabel";
+"view.ephemeris.tab.graph"         = "Grafiek";
+"view.ephemeris.noresults"         = "Selecteer ten minste \U00E9\U00E9n factor om resultaten te zien.";
+"view.ephemeris.date.header"       = "Dag";
+"view.ephemeris.coord.longitude"   = "Lengte";
+"view.ephemeris.coord.latitude"    = "Breedte";
+"view.ephemeris.coord.ra"          = "Rechte Klimming";
+"view.ephemeris.coord.declination" = "Declinatie";
+"view.ephemeris.coord.distance"    = "Afstand";
+"view.ephemeris.coord.speedlon"    = "Snelheid lengte";
+"view.ephemeris.coord.speeddec"    = "Snelheid declinatie";
+"view.ephemeris.help"              = "Selecteer een maand en jaar voor de efemeride.\n\nKies tussen geocentrische en heliocentrische posities. Bij heliocentrische posities zijn de Maan, knopen en enkele andere punten niet beschikbaar.\n\nSelecteer de co\U00F6rdinaat die u wilt weergeven. Lengte toont de positie in de dierenriem (graden binnen teken). Breedte, rechte klimming en declinatie zijn in graden. Afstand is in AE. Snelheden zijn in graden per dag.\n\nVink de factoren aan die u wilt opnemen. Factoren die in de configuratie als actief zijn ingesteld, zijn vooraf geselecteerd. De resultaten worden automatisch bijgewerkt bij elke wijziging.";

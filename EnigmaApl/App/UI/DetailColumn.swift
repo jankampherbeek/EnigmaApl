@@ -155,6 +155,8 @@ struct DetailColumn: View {
                             WavesScreen()
                         case .tablesGraphs:
                             TablesGraphsScreen()
+                        case .ephemeris:
+                            EphemerisResultsView()
                         }
                     case .calculators:
                         switch app.nav.calculators.section {

@@ -1,0 +1,22 @@
+// Ephemeris.strings - French
+// EnigmaApl
+
+"view.ephemeris.title"             = "\U00C9ph\U00E9m\U00E9ride";
+"view.ephemeris.month"             = "Mois";
+"view.ephemeris.year"              = "Ann\U00E9e";
+"view.ephemeris.observerposition"  = "Position de l\U2019observateur";
+"view.ephemeris.ayanamsha"         = "Ayanamsha";
+"view.ephemeris.coordinate"        = "Coordonn\U00E9e";
+"view.ephemeris.factors"           = "Facteurs";
+"view.ephemeris.tab.table"         = "Tableau";
+"view.ephemeris.tab.graph"         = "Graphique";
+"view.ephemeris.noresults"         = "S\U00E9lectionnez au moins un facteur pour voir les r\U00E9sultats.";
+"view.ephemeris.date.header"       = "Jour";
+"view.ephemeris.coord.longitude"   = "Longitude";
+"view.ephemeris.coord.latitude"    = "Latitude";
+"view.ephemeris.coord.ra"          = "Ascension droite";
+"view.ephemeris.coord.declination" = "D\U00E9clinaison";
+"view.ephemeris.coord.distance"    = "Distance";
+"view.ephemeris.coord.speedlon"    = "Vitesse en longitude";
+"view.ephemeris.coord.speeddec"    = "Vitesse en d\U00E9clinaison";
+"view.ephemeris.help"              = "S\U00E9lectionnez un mois et une ann\U00E9e pour l\U2019\U00E9ph\U00E9m\U00E9ride.\n\nChoisissez entre les positions g\U00E9ocentriques et h\U00E9liocentriques. Pour les positions h\U00E9liocentriques, la Lune, les n\U0153uds et quelques autres points ne sont pas disponibles.\n\nS\U00E9lectionnez la coordonn\U00E9e \U00E0 afficher. La longitude indique la position dans le zodiaque (degr\U00E9s dans le signe). La latitude, l\U2019ascension droite et la d\U00E9clinaison sont en degr\U00E9s. La distance est en UA. Les vitesses sont en degr\U00E9s par jour.\n\nCochez les facteurs \U00E0 inclure. Les facteurs marqu\U00E9s comme actifs dans la configuration sont pr\U00E9s\U00E9lectionn\U00E9s. Les r\U00E9sultats se mettent \U00E0 jour automatiquement \U00E0 chaque modification.";

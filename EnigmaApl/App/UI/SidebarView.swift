@@ -72,6 +72,9 @@ struct SidebarView: View {
                     Button { cyclesNav.setSection(.tablesGraphs) } label: {
                         row(CyclesSection.tablesGraphs.rawValue, app.nav.cycles.section == .tablesGraphs)
                     }.buttonStyle(.plain)
+                    Button { cyclesNav.setSection(.ephemeris) } label: {
+                        row(CyclesSection.ephemeris.rawValue, app.nav.cycles.section == .ephemeris)
+                    }.buttonStyle(.plain)
                 }
             case .calculators:
                 Section("Calculators") {
