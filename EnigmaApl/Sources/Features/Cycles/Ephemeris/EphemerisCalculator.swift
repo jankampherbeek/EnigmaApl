@@ -41,8 +41,10 @@ struct EphemerisCalculator {
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(identifier: "UTC")!
 
+        // day: 1 is required — without it, Calendar may resolve to the last day
+        // of the previous month, giving that month's day-count instead of this one.
         guard let range = utcCalendar.range(of: .day, in: .month,
-                                             for: utcCalendar.date(from: DateComponents(year: year, month: month))!) else {
+                                             for: utcCalendar.date(from: DateComponents(year: year, month: month, day: 1))!) else {
             return []
         }
 
@@ -50,7 +52,11 @@ struct EphemerisCalculator {
         let config = CalculationConfig(houseSystem: .noHouses, ayanamsha: ayanamsha, observerPosition: observerPosition)
         var rows: [EphemerisRow] = []
 
-        for day in range {
+        for day in range.lowerBound...range.upperBound {
+            // range is half-open (e.g. 1..<31 for June), so range.upperBound
+            // is the first day of the next month (July 1 for June).
+            // swe_julday handles the month overflow naturally, so passing day 31
+            // for a 30-day month gives the correct Julian day for month+1 day 1.
             let astroDate = AstronomicalDate(Year: year, Month: month, Day: day, Gregorian: true)
             let jd = seWrapper.julianDay(date: astroDate, time: midnight)
             let request = CalcRequest(
