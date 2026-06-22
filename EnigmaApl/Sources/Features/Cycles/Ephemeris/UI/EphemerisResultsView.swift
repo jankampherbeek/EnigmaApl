@@ -714,6 +714,19 @@ private struct EphemerisGraphView: View {
                     AxisGridLine(); AxisTick(); AxisValueLabel()
                 }
             }
+            .chartOverlay { proxy in
+                GeometryReader { geo in
+                    let placements = glyphPlacements(proxy: proxy, geo: geo)
+                    ZStack {
+                        ForEach(placements, id: \.factor.rawValue) { pos in
+                            Text(GlyphSelector.getGlyphForFactor(pos.factor))
+                                .font(.custom("EnigmaAstrology3", size: 12))
+                                .foregroundStyle(pos.color)
+                                .position(x: pos.x, y: pos.y)
+                        }
+                    }
+                }
+            }
             .frame(height: 450)
 
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 4) {
