@@ -4,6 +4,7 @@
 
 import SwiftUI
 import Charts
+import UniformTypeIdentifiers
 #if os(macOS)
 import AppKit
 #endif
@@ -151,7 +152,37 @@ private struct EphemerisTableView: View {
 
     @State private var verticalScrollOffset: CGFloat = 0
 
+    private var monthYearString: String {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        guard let date = cal.date(from: DateComponents(year: model.year, month: model.month, day: 1)) else {
+            return "\(model.month) \(model.year)"
+        }
+        return formatter.string(from: date)
+    }
+
+    private var subtitleString: String {
+        [e(EphemerisKeys.coordinateKey(for: model.selectedCoordinate)),
+         NSLocalizedString(model.observerPosition.rbKey, comment: ""),
+         NSLocalizedString(model.ayanamsha.rbKey, comment: "")]
+            .joined(separator: " • ")
+    }
+
     var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Button(e(EphemerisKeys.exportPDF)) { exportTablePDF() }
+                    .buttonStyle(.bordered)
+                    .padding([.top, .trailing])
+            }
+            tableContent
+        }
+    }
+
+    private var tableContent: some View {
         // GeometryReader gives the real viewport size.  The HStack distributes
         // that width between the pinned day column and the biaxial scroll view,
         // so both scroll indicators sit at the viewport edges (horizontal bar
@@ -302,6 +333,25 @@ private struct EphemerisTableView: View {
                 .foregroundStyle(.secondary)
         }
     }
+
+    // MARK: - Export
+
+    @MainActor
+    private func exportTablePDF() {
+        let colW = valueColWidth + 2 * cellPadH
+        let contentWidth = 2 * 16 + dayColTotalWidth + CGFloat(model.selectedFactors.count) * colW
+        let printView = EphemerisTablePrintContent(
+            rows: displayRows,
+            factors: model.selectedFactors,
+            coordinate: model.selectedCoordinate,
+            title: monthYearString,
+            subtitle: subtitleString
+        )
+        .frame(width: contentWidth)
+        guard let data = ephemerisMakePDF(printView, width: contentWidth) else { return }
+        let filename = "Ephemeris_\(model.year)_\(String(format: "%02d", model.month)).pdf"
+        ephemerisSave(data: data, filename: filename, contentType: .pdf)
+    }
 }
 
 // MARK: - Graph
@@ -312,6 +362,24 @@ private struct EphemerisGraphView: View {
     @State private var chartHeight: CGFloat = 400
     @State private var dragStartHeight: CGFloat = 400
     @State private var xPrePad: Int = 1
+
+    private var monthYearString: String {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        guard let date = cal.date(from: DateComponents(year: model.year, month: model.month, day: 1)) else {
+            return "\(model.month) \(model.year)"
+        }
+        return formatter.string(from: date)
+    }
+
+    private var subtitleString: String {
+        [e(EphemerisKeys.coordinateKey(for: model.selectedCoordinate)),
+         NSLocalizedString(model.observerPosition.rbKey, comment: ""),
+         NSLocalizedString(model.ayanamsha.rbKey, comment: "")]
+            .joined(separator: " • ")
+    }
 
     private let chartColors: [Color] = [
         .blue, .red, .green, .orange, .purple, .pink, .teal, .cyan, .mint, .indigo, .brown, .yellow
@@ -465,6 +533,15 @@ private struct EphemerisGraphView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Spacer()
+                Button(e(EphemerisKeys.exportPDF)) { exportChartPDF() }
+                    .buttonStyle(.bordered)
+                Button(e(EphemerisKeys.exportPNG)) { exportChartPNG() }
+                    .buttonStyle(.bordered)
+            }
+            .padding([.top, .trailing])
+
             Chart {
                 ForEach(chartPoints, id: \.factor.rawValue) { item in
                     ForEach(item.points) { point in
@@ -571,7 +648,251 @@ private struct EphemerisGraphView: View {
         }
         #endif
     }
+
+    // MARK: - Export
+
+    @MainActor
+    private func exportChartPDF() {
+        let content = chartExportContent.frame(width: 900)
+        guard let data = ephemerisMakePDF(content, width: 900) else { return }
+        let filename = "Ephemeris_\(model.year)_\(String(format: "%02d", model.month))_chart.pdf"
+        ephemerisSave(data: data, filename: filename, contentType: .pdf)
+    }
+
+    @MainActor
+    private func exportChartPNG() {
+        let content = chartExportContent.frame(width: 900)
+        guard let data = ephemerisMakePNG(content, width: 900, height: 600) else { return }
+        let filename = "Ephemeris_\(model.year)_\(String(format: "%02d", model.month))_chart.png"
+        ephemerisSave(data: data, filename: filename, contentType: .png)
+    }
+
+    @ViewBuilder
+    private var chartExportContent: some View {
+        let pts    = chartPoints
+        let days   = daysInMonth
+        let xDom   = chartXDomain
+        let yDom   = chartYDomain
+        let stride = yAxisStride
+        let fc     = factorColors
+        let mTitle = monthYearString
+        let mSub   = subtitleString
+
+        VStack(alignment: .leading, spacing: 8) {
+            VStack(spacing: 2) {
+                Text(mTitle).font(.headline)
+                Text(mSub).font(.subheadline).foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+
+            Chart {
+                ForEach(pts, id: \.factor.rawValue) { item in
+                    ForEach(item.points) { point in
+                        LineMark(
+                            x: .value(e(EphemerisKeys.dateHeader), point.day),
+                            y: .value("", point.value),
+                            series: .value("", "\(item.factor.rawValue)-\(point.segment)")
+                        )
+                        .foregroundStyle(item.color)
+                    }
+                }
+            }
+            .chartLegend(.hidden)
+            .chartXScale(domain: xDom)
+            .chartXAxis {
+                AxisMarks(values: Array(1...days)) { value in
+                    if let day = value.as(Int.self) {
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel { Text("\(day)").font(.system(size: 9)) }
+                    }
+                }
+            }
+            .chartYScale(domain: yDom)
+            .chartYAxis {
+                AxisMarks(values: .stride(by: stride)) { _ in
+                    AxisGridLine(); AxisTick(); AxisValueLabel()
+                }
+            }
+            .frame(height: 450)
+
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 4) {
+                ForEach(fc, id: \.factor.rawValue) { item in
+                    HStack(spacing: 4) {
+                        Text(GlyphSelector.getGlyphForFactor(item.factor))
+                            .font(.custom("EnigmaAstrology3", size: 14))
+                            .foregroundStyle(item.color)
+                        Text(NSLocalizedString(item.factor.localizedName, comment: ""))
+                            .font(.caption)
+                            .foregroundStyle(item.color)
+                        Spacer()
+                    }
+                }
+            }
+        }
+        .padding()
+        .background {
+            #if os(macOS)
+            Color(NSColor.windowBackgroundColor)
+            #else
+            Color(UIColor.systemBackground)
+            #endif
+        }
+    }
 }
+
+// MARK: - Table print layout
+
+private struct EphemerisTablePrintContent: View {
+    let rows: [EphemerisRow]
+    let factors: [Factors]
+    let coordinate: EphemerisCoordinate
+    let title: String
+    let subtitle: String
+
+    private let dayW: CGFloat    = 44
+    private let valueW: CGFloat  = 130
+    private let padH: CGFloat    = 6
+    private let rowPadV: CGFloat = 3
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 2) {
+                Text(title).font(.headline)
+                Text(subtitle).font(.subheadline).foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.bottom, 12)
+
+            HStack(spacing: 0) {
+                Text("Day")
+                    .fontWeight(.semibold)
+                    .frame(width: dayW, alignment: .center)
+                    .padding(.horizontal, padH)
+                ForEach(factors, id: \.rawValue) { factor in
+                    Text(GlyphSelector.getGlyphForFactor(factor))
+                        .font(.custom("EnigmaAstrology3", size: 14))
+                        .fontWeight(.semibold)
+                        .frame(width: valueW, alignment: .trailing)
+                        .padding(.horizontal, padH)
+                }
+            }
+            .background(Color.primary.opacity(0.10))
+            Divider()
+
+            ForEach(rows) { row in
+                HStack(spacing: 0) {
+                    Text(String(format: "%02d", row.id))
+                        .frame(width: dayW, alignment: .center)
+                        .padding(.horizontal, padH)
+                        .padding(.vertical, rowPadV)
+                    ForEach(factors, id: \.rawValue) { factor in
+                        printCell(row: row, factor: factor)
+                            .frame(width: valueW, alignment: .trailing)
+                            .padding(.horizontal, padH)
+                            .padding(.vertical, rowPadV)
+                    }
+                }
+                .font(.system(.body, design: .monospaced))
+                .background(row.id % 2 == 0 ? Color.primary.opacity(0.06) : Color.clear)
+            }
+        }
+        .padding()
+        .background(Color.white)
+    }
+
+    @ViewBuilder
+    private func printCell(row: EphemerisRow, factor: Factors) -> some View {
+        if let value = row.value(for: factor, coordinate: coordinate) {
+            if coordinate == .longitude {
+                let (dms, sign, _) = PositionInDegreesConversion.DoubleToDmsSign(value)
+                if let sign = sign {
+                    Text(dms)
+                    + Text(" \(GlyphSelector.getGlyphForSign(sign))")
+                        .font(.custom("EnigmaAstrology3", size: 10))
+                } else {
+                    Text(dms)
+                }
+            } else if coordinate == .distance {
+                Text(String(format: "%.5f", value))
+            } else {
+                Text(PositionInDegreesConversion.DoubleToDms(value))
+            }
+        } else {
+            Text("—").foregroundStyle(.secondary)
+        }
+    }
+}
+
+// MARK: - Export helpers
+
+@MainActor
+private func ephemerisMakePDF<V: View>(_ view: V, width: CGFloat) -> Data? {
+    let renderer = ImageRenderer(content: view)
+    renderer.proposedSize = ProposedViewSize(width: width, height: nil)
+    renderer.scale = 2.0
+    guard let cgImage = renderer.cgImage else { return nil }
+    let size = CGSize(width: CGFloat(cgImage.width) / renderer.scale,
+                      height: CGFloat(cgImage.height) / renderer.scale)
+    let mutableData = NSMutableData()
+    guard let consumer = CGDataConsumer(data: mutableData as CFMutableData) else { return nil }
+    var box = CGRect(origin: .zero, size: size)
+    guard let ctx = CGContext(consumer: consumer, mediaBox: &box, nil) else { return nil }
+    ctx.beginPDFPage(nil)
+    ctx.draw(cgImage, in: box)
+    ctx.endPDFPage()
+    ctx.closePDF()
+    let data = mutableData as Data
+    return data.isEmpty ? nil : data
+}
+
+@MainActor
+private func ephemerisMakePNG<V: View>(_ view: V, width: CGFloat, height: CGFloat) -> Data? {
+    let renderer = ImageRenderer(content: view)
+    renderer.proposedSize = ProposedViewSize(width: width, height: height)
+    renderer.scale = 2.0
+    #if os(macOS)
+    guard let nsImage = renderer.nsImage,
+          let tiff = nsImage.tiffRepresentation,
+          let rep  = NSBitmapImageRep(data: tiff) else { return nil }
+    return rep.representation(using: .png, properties: [:])
+    #else
+    return renderer.uiImage?.pngData()
+    #endif
+}
+
+#if os(macOS)
+@MainActor
+private func ephemerisSave(data: Data, filename: String, contentType: UTType) {
+    let panel = NSSavePanel()
+    panel.allowedContentTypes  = [contentType]
+    panel.nameFieldStringValue = filename
+    panel.directoryURL = FileManager.default
+        .urls(for: .documentDirectory, in: .userDomainMask).first
+    panel.canCreateDirectories = true
+    if let window = NSApp.keyWindow {
+        panel.beginSheetModal(for: window) { response in
+            guard response == .OK, let url = panel.url else { return }
+            try? data.write(to: url)
+        }
+    } else {
+        panel.begin { response in
+            guard response == .OK, let url = panel.url else { return }
+            try? data.write(to: url)
+        }
+    }
+}
+#else
+@MainActor
+private func ephemerisSave(data: Data, filename: String, contentType: UTType) {
+    let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+    try? data.write(to: url)
+    guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+          let root  = scene.keyWindow?.rootViewController else { return }
+    let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+    root.present(activity, animated: true)
+}
+#endif
 
 // MARK: - Array helper
 

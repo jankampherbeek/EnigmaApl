@@ -26,6 +26,8 @@ struct EphemerisKeys {
     static let coordSpeedLon      = "view.ephemeris.coord.speedlon"
     static let coordSpeedDec      = "view.ephemeris.coord.speeddec"
     static let help               = "view.ephemeris.help"
+    static let exportPDF          = "view.ephemeris.export.pdf"
+    static let exportPNG          = "view.ephemeris.export.png"
 
     static func coordinateKey(for coord: EphemerisCoordinate) -> String {
         switch coord {
