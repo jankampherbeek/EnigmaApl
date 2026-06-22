@@ -87,17 +87,45 @@ private struct PermanentScrollView<Content: View>: NSViewRepresentable {
 struct EphemerisResultsView: View {
     @EnvironmentObject private var model: EphemerisModel
 
+    private var monthYearString: String {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "UTC")!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        guard let date = cal.date(from: DateComponents(year: model.year, month: model.month, day: 1)) else {
+            return "\(model.month) \(model.year)"
+        }
+        return formatter.string(from: date)
+    }
+
+    private var subtitleString: String {
+        [e(EphemerisKeys.coordinateKey(for: model.selectedCoordinate)),
+         NSLocalizedString(model.observerPosition.rbKey, comment: ""),
+         NSLocalizedString(model.ayanamsha.rbKey, comment: "")]
+            .joined(separator: " • ")
+    }
+
     var body: some View {
         if model.rows.isEmpty || model.selectedFactors.isEmpty {
             Text(e(EphemerisKeys.noResults))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
-            TabView {
-                EphemerisTableView()
-                    .tabItem { Text(e(EphemerisKeys.tabTable)) }
-                EphemerisGraphView()
-                    .tabItem { Text(e(EphemerisKeys.tabGraph)) }
+            VStack(spacing: 0) {
+                VStack(spacing: 2) {
+                    Text(monthYearString)
+                        .font(.headline)
+                    Text(subtitleString)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
+                TabView {
+                    EphemerisTableView()
+                        .tabItem { Text(e(EphemerisKeys.tabTable)) }
+                    EphemerisGraphView()
+                        .tabItem { Text(e(EphemerisKeys.tabGraph)) }
+                }
             }
         }
     }
