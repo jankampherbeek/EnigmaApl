@@ -19,8 +19,6 @@ enum ProgressiveSection: String, CaseIterable, Identifiable, Hashable {
     case prenatal             = "Prenatal"
     case logarithmicTimescale = "Logarithmic Timescale"
     case agePoint             = "Age Point"
-    case profections          = "Profections"
-    case firdaria             = "Firdaria"
     case progressiveCalendar  = "Progressive Calendar"
 
     var id: String { rawValue }
