@@ -33,6 +33,8 @@ int32_t swe_get_orbital_elements(double tjd_et, int32_t ipl, int32_t iflag, doub
 int32_t swe_nod_aps_ut(double tjd_ut, int32_t ipl, int32_t iflag, int32_t method, double *xnasc, double *xndsc, double *xperi, double *xaphe, char *serr);
 int32_t swe_sol_eclipse_when_glob(double tjd_start, int32_t ifl, int32_t ifltype, double *tret, int32_t backward, char *serr);
 int32_t swe_lun_eclipse_when(double tjd_start, int32_t ifl, int32_t ifltype, double *tret, int32_t backward, char *serr);
+int32_t swe_fixstar2_ut(char *star, double tjd_ut, int32_t iflag, double *xx, char *serr);
+int32_t swe_fixstar2_mag(char *star, double *mag, char *serr);
 
 // Planet constants
 #define SE_ECL_NUT      -1

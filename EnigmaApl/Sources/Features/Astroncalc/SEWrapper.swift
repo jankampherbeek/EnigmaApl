@@ -395,6 +395,123 @@ public class SEWrapper {
         )
     }
     
+    // MARK: - Fixed Star Position Calculation
+    /// Calculate the position of a fixed star.
+    /// - Parameters
+    ///     - jdUt: Julian day in Universal Time
+    ///     - starName: name of the fixed star to be searched
+    ///     - flags: combined value of flags for the SE
+    /// - Returns
+    ///     - Populated struct MainAstronomicalPosition, or nil on error
+    /// Docu from SE:
+    ///     int32 swe_fixstar2_ut(
+    ///         char* star,       /* name of fixed star to search; returns matched name */
+    ///         double tjd_ut,    /* Julian day, Universal Time */
+    ///         int32 iflag,      /* flags */
+    ///         double* xx,       /* array of 6 doubles: longitude, latitude, distance, speeds */
+    ///         char* serr);      /* error string, 256 chars */
+    public func calculateFixStar(jdUt: Double, starName: String, flags: Int) -> MainAstronomicalPosition? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var result = [Double](repeating: 0.0, count: 6)
+        var error = [CChar](repeating: 0, count: 256)
+        // SE_MAX_STNAME is 256; star is both input (search name) and output (matched name)
+        var starBuffer = [CChar](repeating: 0, count: 256)
+        let starNameBytes = Array(starName.utf8CString)
+        let copyCount = min(starNameBytes.count, 255)
+        for i in 0..<copyCount {
+            starBuffer[i] = starNameBytes[i]
+        }
+
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        starBuffer.withUnsafeMutableBufferPointer { starBuf in
+            result.withUnsafeMutableBufferPointer { resultBuffer in
+                error.withUnsafeMutableBufferPointer { errorBuffer in
+                    guard let starPtr = starBuf.baseAddress,
+                          let resultPtr = resultBuffer.baseAddress,
+                          let errorPtr = errorBuffer.baseAddress else {
+                        Logger.log.error("Failed to get valid pointers for fixed star calculation")
+                        return
+                    }
+                    returnCode = swe_fixstar2_ut(starPtr, jdUt, Int32(flags), resultPtr, errorPtr)
+                    if returnCode < 0 {
+                        errorMessage = String(cString: errorPtr)
+                    }
+                }
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating fixed star position: \(errorMessage)")
+            return nil
+        }
+
+        return MainAstronomicalPosition(
+            mainPos: result[0],
+            deviation: result[1],
+            distance: result[2],
+            mainPosSpeed: result[3],
+            deviationSpeed: result[4],
+            distanceSpeed: result[5]
+        )
+    }
+
+    // MARK: - Fixed Star Magnitude
+    /// Return the magnitude of a fixed star.
+    /// - Parameters
+    ///     - starName: name of the fixed star to be searched
+    /// - Returns
+    ///     - Magnitude as Double, or nil on error
+    /// Docu from SE:
+    ///     int32 swe_fixstar2_mag(
+    ///         char* star,   /* name of fixed star to search; returns matched name */
+    ///         double* mag,  /* returned magnitude */
+    ///         char* serr);  /* error string, 256 chars */
+    public func calculateFixStarMagnitude(starName: String) -> Double? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var starBuffer = [CChar](repeating: 0, count: 256)
+        let starNameBytes = Array(starName.utf8CString)
+        let copyCount = min(starNameBytes.count, 255)
+        for i in 0..<copyCount {
+            starBuffer[i] = starNameBytes[i]
+        }
+
+        var magnitude: Double = 0.0
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        starBuffer.withUnsafeMutableBufferPointer { starBuf in
+            error.withUnsafeMutableBufferPointer { errorBuffer in
+                guard let starPtr = starBuf.baseAddress,
+                      let errorPtr = errorBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for fixed star magnitude calculation")
+                    return
+                }
+                returnCode = swe_fixstar2_mag(starPtr, &magnitude, errorPtr)
+                if returnCode < 0 {
+                    errorMessage = String(cString: errorPtr)
+                }
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating fixed star magnitude: \(errorMessage)")
+            return nil
+        }
+
+        return magnitude
+    }
+
     // MARK: - House Calculation
     /// Calculate the position of house cusps
     /// - Parameters
