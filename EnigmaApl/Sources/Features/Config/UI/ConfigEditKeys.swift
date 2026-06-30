@@ -206,7 +206,21 @@ struct ConfigEditKeys {
     static let sectionDisplay         = "view.configedit.section.display"
     static let sectionGlyphs          = "view.configedit.section.glyphs"
     static let sectionFactors         = "view.configedit.section.factors"
+    static let sectionFixstars        = "view.configedit.section.fixstars"
     static let sectionAspects         = "view.configedit.section.aspects"
     static let sectionOrbs            = "view.configedit.section.orbs"
     static let sectionProgressions    = "view.configedit.section.progressions"
+
+    // MARK: - FixStars editor
+    static let fixstarIncludeGalCenter = "view.configedit.fixstar.includegalcenter"
+    static let fixstarOrbLabel         = "view.configedit.fixstar.orblabel"
+    static let fixstarParanTimeOrb     = "view.configedit.fixstar.parantimeorb"
+    static let fixstarSetLabel         = "view.configedit.fixstar.setlabel"
+    static let fixstarMagnitudeLabel   = "view.configedit.fixstar.magnitudelabel"
+    static let fixstarStarsSection     = "view.configedit.fixstar.starssection"
+    static let fixstarHelpTooltip      = "view.configedit.fixstar.help.tooltip"
+    static let fixstarHelpGroupBox     = "view.configedit.fixstar.help.groupbox"
+    static let fixstarHelpLine1        = "view.configedit.fixstar.help.line1"
+    static let fixstarHelpLine2        = "view.configedit.fixstar.help.line2"
+    static let fixstarHelpLine3        = "view.configedit.fixstar.help.line3"
 }

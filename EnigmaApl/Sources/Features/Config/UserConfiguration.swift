@@ -22,6 +22,7 @@ public class UserConfiguration {
     public var aspectConfigData: Data
     public var orbConfigData: Data
     public var progressionsConfigData: Data
+    public var fixStarConfigData: Data?
 
     // MARK: - Computed accessors (not persisted — Swift Data ignores computed properties)
 
@@ -53,6 +54,13 @@ public class UserConfiguration {
         get { Self.decode(ProgressionsConfig.self, from: progressionsConfigData) ?? ProgressionsConfig() }
         set { progressionsConfigData = Self.encode(newValue) }
     }
+    public var fixStarConfig: FixStarConfig {
+        get {
+            guard let data = fixStarConfigData else { return FixStarConfig() }
+            return Self.decode(FixStarConfig.self, from: data) ?? FixStarConfig()
+        }
+        set { fixStarConfigData = Self.encode(newValue) }
+    }
 
     // MARK: - Init
 
@@ -65,7 +73,8 @@ public class UserConfiguration {
         factorConfig: FactorConfig = FactorConfig(),
         aspectConfig: AspectConfig = AspectConfig(),
         orbConfig: OrbConfig = OrbConfig(),
-        progressionsConfig: ProgressionsConfig = ProgressionsConfig()
+        progressionsConfig: ProgressionsConfig = ProgressionsConfig(),
+        fixStarConfig: FixStarConfig = FixStarConfig()
     ) {
         self.name = name
         self.isActive = isActive
@@ -76,6 +85,7 @@ public class UserConfiguration {
         self.aspectConfigData = (try? JSONEncoder().encode(aspectConfig)) ?? Data()
         self.orbConfigData = (try? JSONEncoder().encode(orbConfig)) ?? Data()
         self.progressionsConfigData = (try? JSONEncoder().encode(progressionsConfig)) ?? Data()
+        self.fixStarConfigData = (try? JSONEncoder().encode(fixStarConfig)) ?? Data()
     }
 
     // MARK: - Private helpers

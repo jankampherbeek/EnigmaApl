@@ -332,3 +332,10 @@
 "enum.symbolicmethod.truesun"    = "True Sun Arc";
 "enum.symbolicmethod.meansun"    = "Mean Sun Arc";
 "enum.symbolicmethod.onedegree"  = "One Degree";
+
+// FixStarSelections
+"enum.fixstarselections.ptolemy"    = "Ptolemy";
+"enum.fixstarselections.robson"     = "Robson";
+"enum.fixstarselections.brady"      = "Brady";
+"enum.fixstarselections.magnitude"  = "Minimal magnitude";
+"enum.fixstarselections.selfdefined" = "Self defined";

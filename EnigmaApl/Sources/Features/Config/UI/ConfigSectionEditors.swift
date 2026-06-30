@@ -1808,6 +1808,248 @@ struct SolarReturnHelpView: View {
     }
 }
 
+// MARK: - FixStar config editor
+
+struct FixStarConfigEditor: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
+    let config: UserConfiguration
+
+    @State private var includeGalacticCenter = false
+    @State private var orbDeg = 1
+    @State private var orbMin = 0
+    @State private var orbSec = 0
+    @State private var paranMin = 10
+    @State private var paranSec = 0
+    @State private var activeSelection: FixStarSelections = .magnitude
+    @State private var magnitudeLimit = 4
+    @State private var isUsed: [StarDefinitions: Bool] = [:]
+    @State private var isDirty = false
+    @State private var showHelp = false
+
+    var body: some View {
+        List {
+            Section {
+                Toggle(t(ConfigEditKeys.fixstarIncludeGalCenter), isOn: $includeGalacticCenter)
+                    .onChange(of: includeGalacticCenter) {
+                        if !includeGalacticCenter { isUsed[.galCenter] = false }
+                        isDirty = true
+                    }
+                fixStarOrbRow
+                paranTimeOrbRow
+            }
+
+            Section(t(ConfigEditKeys.fixstarSetLabel)) {
+                Picker(t(ConfigEditKeys.fixstarSetLabel), selection: $activeSelection) {
+                    ForEach(FixStarSelections.allCases, id: \.self) { sel in
+                        Text(le(sel.rbKey)).tag(sel)
+                    }
+                }
+                .labelsHidden()
+                .onChange(of: activeSelection) {
+                    applyAutoSelection()
+                    isDirty = true
+                }
+
+                if activeSelection == .magnitude {
+                    Picker(t(ConfigEditKeys.fixstarMagnitudeLabel), selection: $magnitudeLimit) {
+                        ForEach(0...9, id: \.self) { mag in
+                            Text("\(mag)").tag(mag)
+                        }
+                    }
+                    .onChange(of: magnitudeLimit) {
+                        applyAutoSelection()
+                        isDirty = true
+                    }
+                }
+            }
+
+            Section(t(ConfigEditKeys.fixstarStarsSection)) {
+                ForEach(StarDefinitions.allCases.sorted { $0.name < $1.name }, id: \.self) { star in
+                    Toggle(starLabel(for: star), isOn: Binding(
+                        get: { isUsed[star] ?? false },
+                        set: { newVal in
+                            isUsed[star] = newVal
+                            isDirty = true
+                        }
+                    ))
+                    .disabled(star == .galCenter && !includeGalacticCenter)
+                }
+            }
+        }
+        .navigationTitle(sectionEditorTitle(.fixstars))
+        .toolbar { fixStarToolbar }
+        .sheet(isPresented: $showHelp) { FixStarConfigHelpView() }
+        .onAppear { loadFromConfig() }
+    }
+
+    // MARK: - Row helpers
+
+    private var fixStarOrbRow: some View {
+        LabeledContent(t(ConfigEditKeys.fixstarOrbLabel)) {
+            HStack(spacing: 4) {
+                Text("\(orbDeg)°")
+                    .frame(width: 30, alignment: .trailing).monospacedDigit()
+                Stepper("", value: $orbDeg, in: 0...10)
+                    .labelsHidden().fixedSize()
+                    .onChange(of: orbDeg) { isDirty = true }
+                Text("\(orbMin)'")
+                    .frame(width: 30, alignment: .trailing).monospacedDigit()
+                Stepper("", value: $orbMin, in: 0...59)
+                    .labelsHidden().fixedSize()
+                    .onChange(of: orbMin) { isDirty = true }
+                Text("\(orbSec)\"")
+                    .frame(width: 30, alignment: .trailing).monospacedDigit()
+                Stepper("", value: $orbSec, in: 0...59)
+                    .labelsHidden().fixedSize()
+                    .onChange(of: orbSec) { isDirty = true }
+            }
+        }
+    }
+
+    private var paranTimeOrbRow: some View {
+        LabeledContent(t(ConfigEditKeys.fixstarParanTimeOrb)) {
+            HStack(spacing: 4) {
+                Text("\(paranMin)'")
+                    .frame(width: 30, alignment: .trailing).monospacedDigit()
+                Stepper("", value: $paranMin, in: 0...59)
+                    .labelsHidden().fixedSize()
+                    .onChange(of: paranMin) { isDirty = true }
+                Text("\(paranSec)\"")
+                    .frame(width: 30, alignment: .trailing).monospacedDigit()
+                Stepper("", value: $paranSec, in: 0...59)
+                    .labelsHidden().fixedSize()
+                    .onChange(of: paranSec) { isDirty = true }
+            }
+        }
+    }
+
+    // MARK: - Toolbar
+
+    private var fixStarToolbar: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .navigation) {
+                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button { showHelp = true } label: {
+                    Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
+                }
+                .help(t(ConfigEditKeys.fixstarHelpTooltip))
+            }
+            if isDirty {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(t(ConfigEditKeys.editSave)) { save() }
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(t(ConfigEditKeys.cancel)) { loadFromConfig(); isDirty = false }
+                }
+            }
+        }
+    }
+
+    // MARK: - Logic
+
+    private func starLabel(for star: StarDefinitions) -> String {
+        let parts = ([star.name] + star.aliases).joined(separator: ", ")
+        return "\(parts) (\(star.astronomicalName))"
+    }
+
+    private func applyAutoSelection() {
+        switch activeSelection {
+        case .ptolemy, .robson, .brady:
+            let selected = Set(FixStarsOrchestrator.getSelection(selection: activeSelection))
+            for star in StarDefinitions.allCases {
+                isUsed[star] = selected.contains(star)
+            }
+        case .magnitude:
+            for star in StarDefinitions.allCases {
+                let mag = star.magnitude
+                isUsed[star] = mag < 900.0 && mag <= Double(magnitudeLimit)
+            }
+        case .selfDefined:
+            break
+        }
+        if !includeGalacticCenter {
+            isUsed[.galCenter] = false
+        }
+    }
+
+    private func loadFromConfig() {
+        let c = config.fixStarConfig
+        includeGalacticCenter = c.includeGalacticCenter
+        (orbDeg, orbMin, orbSec) = dmsFromDouble(c.fixStarOrb)
+        (paranMin, paranSec) = msFromDouble(c.paranTimeOrb)
+        activeSelection = c.activeSelection
+        magnitudeLimit = c.magnitudeLimit
+        isUsed = [:]
+        for s in c.fixStarSettings {
+            isUsed[s.fixStar] = s.isUsed
+        }
+    }
+
+    private func save() {
+        let settings = StarDefinitions.allCases.map { star in
+            FixStarSettings(fixStar: star, isUsed: isUsed[star] ?? false, selection: activeSelection)
+        }
+        config.fixStarConfig = FixStarConfig(
+            includeGalacticCenter: includeGalacticCenter,
+            fixStarOrb: doubleFromDms(orbDeg, orbMin, orbSec),
+            paranTimeOrb: Double(paranMin) + Double(paranSec) / 60.0,
+            activeSelection: activeSelection,
+            magnitudeLimit: magnitudeLimit,
+            fixStarSettings: settings
+        )
+        try? modelContext.save()
+        isDirty = false
+    }
+
+    private func dmsFromDouble(_ value: Double) -> (Int, Int, Int) {
+        let totalSec = Int((value * 3600.0).rounded())
+        return (totalSec / 3600, (totalSec % 3600) / 60, totalSec % 60)
+    }
+
+    private func doubleFromDms(_ deg: Int, _ min: Int, _ sec: Int) -> Double {
+        Double(deg) + Double(min) / 60.0 + Double(sec) / 3600.0
+    }
+
+    private func msFromDouble(_ value: Double) -> (Int, Int) {
+        let totalSec = Int((value * 60.0).rounded())
+        return (totalSec / 60, totalSec % 60)
+    }
+}
+
+// MARK: - FixStar help view
+
+struct FixStarConfigHelpView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    GroupBox(t(ConfigEditKeys.fixstarHelpGroupBox)) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(t(ConfigEditKeys.fixstarHelpLine1))
+                            Text(t(ConfigEditKeys.fixstarHelpLine2))
+                            Text(t(ConfigEditKeys.fixstarHelpLine3))
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle(t(ConfigEditKeys.helpTitle))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(t(ConfigEditKeys.helpClose)) { dismiss() }
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Sexagesimal helpers
 
 private func sexagesimalFromDouble(_ value: Double) -> (Int, Int) {

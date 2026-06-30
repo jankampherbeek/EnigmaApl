@@ -53,6 +53,21 @@ public struct FixStarsOrchestrator {
         return getFixStarSet(starNames: names, jdUt: jdUt, obsPos: obsPos, ayanamsha: ayanamsha, seWrapper: seWrapper)
     }
 
+    public static func getSelection(selection: FixStarSelections) -> [StarDefinitions] {
+        switch selection {
+        case .ptolemy:
+            return StarDefinitions.allCases.filter { $0.selectionMembership.inPtolemy }
+        case .robson:
+            return StarDefinitions.allCases.filter { $0.selectionMembership.inRobson }
+        case .brady:
+            return StarDefinitions.allCases.filter { $0.selectionMembership.inBrady }
+        case .magnitude:
+            return StarDefinitions.allCases
+        case .selfDefined:
+            return []
+        }
+    }
+
     // MARK: - Private helpers
 
     private static func prepareWrapper(seWrapper: SEWrapper, ayanamsha: Ayanamshas) {

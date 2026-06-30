@@ -10,7 +10,7 @@ struct StarSelectionMembership {
 }
 
 /// All named fixed stars available in sefstars.txt.
-enum StarDefinitions: CaseIterable {
+public enum StarDefinitions: Codable, CaseIterable {
 
     case aldebaran
     case algol
@@ -2887,4 +2887,5 @@ enum StarDefinitions: CaseIterable {
         case .anser: return StarSelectionMembership(inPtolemy: false, inRobson: false, inBrady: false)
         }
     }
+
 }

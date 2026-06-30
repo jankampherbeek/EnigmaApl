@@ -12,6 +12,7 @@ enum ConfigSection: String, CaseIterable, Identifiable, Hashable {
     case display
     case glyphs
     case factors
+    case fixstars
     case aspects
     case orbs
     case progressions
@@ -24,6 +25,7 @@ enum ConfigSection: String, CaseIterable, Identifiable, Hashable {
         case .display:      return ConfigEditKeys.sectionDisplay
         case .glyphs:       return ConfigEditKeys.sectionGlyphs
         case .factors:      return ConfigEditKeys.sectionFactors
+        case .fixstars:     return ConfigEditKeys.sectionFixstars
         case .aspects:      return ConfigEditKeys.sectionAspects
         case .orbs:         return ConfigEditKeys.sectionOrbs
         case .progressions: return ConfigEditKeys.sectionProgressions
@@ -40,6 +42,7 @@ enum ConfigSection: String, CaseIterable, Identifiable, Hashable {
         case .display:      return "paintpalette"
         case .glyphs:       return "character.textbox"
         case .factors:      return "sparkles"
+        case .fixstars:     return "star"
         case .aspects:      return "angle"
         case .orbs:         return "circle.dashed"
         case .progressions: return "arrow.forward.circle"

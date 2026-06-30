@@ -211,3 +211,17 @@
 "view.configedit.calc.help.line6" = "Met 'Stationair' en 'Langzaam' geef je aan bij welke percentage van de gemiddelde dagelijkse snelheid je een planeet als stationair of langzaam wilt zien.";
 "view.configedit.calc.help.line7" = "Klik op de knop 'Opslaan' in de taakbalk als je de wijzigingen vast wilt leggen.";
 "view.configedit.calc.help.line8" = "Als je klaar bent met je wijzigingen klik je op de knop 'Naar overzicht' in de taakbalk om terug te gaan naar het overzicht met configuratie onderdelen.";
+
+// FixStars editor
+"view.configedit.section.fixstars"            = "Vaste sterren & Parans";
+"view.configedit.fixstar.includegalcenter"    = "Galactisch centrum opnemen";
+"view.configedit.fixstar.orblabel"            = "Orb voor vaste sterren";
+"view.configedit.fixstar.parantimeorb"        = "Tijdorb voor parans";
+"view.configedit.fixstar.setlabel"            = "Set van vaste sterren";
+"view.configedit.fixstar.magnitudelabel"      = "Magnitude limiet";
+"view.configedit.fixstar.starssection"        = "Vaste sterren";
+"view.configedit.fixstar.help.tooltip"        = "Help voor vaste sterren";
+"view.configedit.fixstar.help.groupbox"       = "Vaste sterren & Parans";
+"view.configedit.fixstar.help.line1"          = "Selecteer welke vaste sterren je wilt gebruiken in je berekeningen.";
+"view.configedit.fixstar.help.line2"          = "De orb bepaalt hoe dicht een vaste ster bij een planeet moet zijn om relevant te zijn.";
+"view.configedit.fixstar.help.line3"          = "Voor parans definieert de tijdorb het venster in minuten rondom de exacte kruising.";

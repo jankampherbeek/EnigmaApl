@@ -332,3 +332,10 @@
 "enum.symbolicmethod.truesun"    = "Wahrer Sonnenbogen";
 "enum.symbolicmethod.meansun"    = "Mittlerer Sonnenbogen";
 "enum.symbolicmethod.onedegree"  = "Ein Grad";
+
+// FixStarSelections
+"enum.fixstarselections.ptolemy"    = "Ptolemäus";
+"enum.fixstarselections.robson"     = "Robson";
+"enum.fixstarselections.brady"      = "Brady";
+"enum.fixstarselections.magnitude"  = "Minimale Helligkeit";
+"enum.fixstarselections.selfdefined" = "Selbst definiert";

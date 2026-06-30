@@ -211,3 +211,17 @@
 "view.configedit.calc.help.line6" = "Mit 'Stationär' und 'Langsam' gibst du an, bei welchem Prozentsatz der durchschnittlichen Tagesgeschwindigkeit du einen Planeten als stationär oder langsam betrachtest.";
 "view.configedit.calc.help.line7" = "Klicke auf die Schaltfläche 'Speichern' in der Symbolleiste, um deine Änderungen zu speichern.";
 "view.configedit.calc.help.line8" = "Wenn du mit deinen Änderungen fertig bist, klicke auf die Schaltfläche 'Zur Übersicht' in der Symbolleiste, um zur Konfigurationsübersicht zurückzukehren.";
+
+// FixStars editor
+"view.configedit.section.fixstars"            = "Fixsterne & Parans";
+"view.configedit.fixstar.includegalcenter"    = "Galaktisches Zentrum einbeziehen";
+"view.configedit.fixstar.orblabel"            = "Orb für Fixsterne";
+"view.configedit.fixstar.parantimeorb"        = "Zeitorb für Parans";
+"view.configedit.fixstar.setlabel"            = "Set von Fixsternen";
+"view.configedit.fixstar.magnitudelabel"      = "Magnitudengrenze";
+"view.configedit.fixstar.starssection"        = "Fixsterne";
+"view.configedit.fixstar.help.tooltip"        = "Hilfe für Fixsterne";
+"view.configedit.fixstar.help.groupbox"       = "Fixsterne & Parans";
+"view.configedit.fixstar.help.line1"          = "Wähle aus, welche Fixsterne du in deinen Berechnungen verwenden möchtest.";
+"view.configedit.fixstar.help.line2"          = "Die Orb bestimmt, wie nah ein Fixstern einem Planeten sein muss, um relevant zu sein.";
+"view.configedit.fixstar.help.line3"          = "Für Parans definiert die Zeitorb das Zeitfenster in Minuten um die exakte Kreuzung.";

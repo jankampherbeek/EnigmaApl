@@ -19,13 +19,30 @@ public struct FixStarSettings: Codable, Equatable, Sendable {
 
 /// Configuration for which fixed stars are active and how they are selected.
 public struct FixStarConfig: Codable, Sendable {
+    public let includeGalacticCenter: Bool
+    public let fixStarOrb: Double
+    public let paranTimeOrb: Double
+    public let activeSelection: FixStarSelections
+    public let magnitudeLimit: Int
     public let fixStarSettings: [FixStarSettings]
 
-    public init(fixStarSettings: [FixStarSettings] = FixStarConfig.defaultSettings) {
+    public init(
+        includeGalacticCenter: Bool = false,
+        fixStarOrb: Double = 1.0,
+        paranTimeOrb: Double = 10.0,
+        activeSelection: FixStarSelections = .magnitude,
+        magnitudeLimit: Int = 4,
+        fixStarSettings: [FixStarSettings] = FixStarConfig.defaultSettings
+    ) {
+        self.includeGalacticCenter = includeGalacticCenter
+        self.fixStarOrb = fixStarOrb
+        self.paranTimeOrb = paranTimeOrb
+        self.activeSelection = activeSelection
+        self.magnitudeLimit = magnitudeLimit
         self.fixStarSettings = fixStarSettings
     }
 
-    /// Default configuration: no fixed stars active.
+    /// Default configuration: no fixed stars active, magnitude selection up to 4.
     public static let defaultSettings: [FixStarSettings] = StarDefinitions.allCases.map { star in
         FixStarSettings(fixStar: star, isUsed: false, selection: .magnitude)
     }

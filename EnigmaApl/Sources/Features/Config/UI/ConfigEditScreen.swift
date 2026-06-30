@@ -89,6 +89,7 @@ struct ConfigEditScreen: View {
         case .display:      DisplayConfigEditor(config: config)
         case .glyphs:       GlyphsConfigEditor(config: config)
         case .factors:      FactorConfigEditor(config: config)
+        case .fixstars:     FixStarConfigEditor(config: config)
         case .aspects:      AspectConfigEditor(config: config)
         case .orbs:         OrbConfigEditor(config: config)
         case .progressions: ProgressionsConfigEditor(config: config)

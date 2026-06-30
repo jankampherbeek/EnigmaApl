@@ -211,3 +211,17 @@
 "view.configedit.calc.help.line6" = "With 'Stationary' and 'Slow' you indicate at what percentage of the average daily speed you consider a planet stationary or slow.";
 "view.configedit.calc.help.line7" = "Click the 'Save' button in the toolbar to commit your changes.";
 "view.configedit.calc.help.line8" = "When you are done with your changes, click the 'Back to Overview' button in the toolbar to return to the configuration overview.";
+
+// FixStars editor
+"view.configedit.section.fixstars"            = "Fixed Stars & Parans";
+"view.configedit.fixstar.includegalcenter"    = "Include Galactic Center";
+"view.configedit.fixstar.orblabel"            = "Orb for fixed stars";
+"view.configedit.fixstar.parantimeorb"        = "Time orb for parans";
+"view.configedit.fixstar.setlabel"            = "Set of fixed stars";
+"view.configedit.fixstar.magnitudelabel"      = "Magnitude limit";
+"view.configedit.fixstar.starssection"        = "Fixed Stars";
+"view.configedit.fixstar.help.tooltip"        = "Help for fixed stars";
+"view.configedit.fixstar.help.groupbox"       = "Fixed Stars & Parans";
+"view.configedit.fixstar.help.line1"          = "Select which fixed stars you want to use in your calculations.";
+"view.configedit.fixstar.help.line2"          = "The orb determines how close a fixed star must be to a planet to be considered relevant.";
+"view.configedit.fixstar.help.line3"          = "For parans, the time orb defines the window in minutes around the exact crossing.";

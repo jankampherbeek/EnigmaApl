@@ -332,3 +332,10 @@
 "enum.symbolicmethod.truesun"    = "Arc du Soleil Vrai";
 "enum.symbolicmethod.meansun"    = "Arc du Soleil Moyen";
 "enum.symbolicmethod.onedegree"  = "Un Degré";
+
+// FixStarSelections
+"enum.fixstarselections.ptolemy"    = "Ptolémée";
+"enum.fixstarselections.robson"     = "Robson";
+"enum.fixstarselections.brady"      = "Brady";
+"enum.fixstarselections.magnitude"  = "Magnitude minimale";
+"enum.fixstarselections.selfdefined" = "Défini soi-même";

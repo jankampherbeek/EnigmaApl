@@ -211,3 +211,17 @@
 "view.configedit.calc.help.line6" = "Avec 'Stationnaire' et 'Lent', vous indiquez à quel pourcentage de la vitesse quotidienne moyenne vous considérez une planète comme stationnaire ou lente.";
 "view.configedit.calc.help.line7" = "Cliquez sur le bouton 'Enregistrer' dans la barre d'outils pour valider vos modifications.";
 "view.configedit.calc.help.line8" = "Lorsque vous avez terminé vos modifications, cliquez sur le bouton 'Retour à l'aperçu' dans la barre d'outils pour revenir à la vue d'ensemble de la configuration.";
+
+// FixStars editor
+"view.configedit.section.fixstars"            = "Étoiles fixes & Parans";
+"view.configedit.fixstar.includegalcenter"    = "Inclure le centre galactique";
+"view.configedit.fixstar.orblabel"            = "Orbe pour les étoiles fixes";
+"view.configedit.fixstar.parantimeorb"        = "Orbe temporel pour les parans";
+"view.configedit.fixstar.setlabel"            = "Ensemble d'étoiles fixes";
+"view.configedit.fixstar.magnitudelabel"      = "Limite de magnitude";
+"view.configedit.fixstar.starssection"        = "Étoiles fixes";
+"view.configedit.fixstar.help.tooltip"        = "Aide pour les étoiles fixes";
+"view.configedit.fixstar.help.groupbox"       = "Étoiles fixes & Parans";
+"view.configedit.fixstar.help.line1"          = "Sélectionnez les étoiles fixes que vous souhaitez utiliser dans vos calculs.";
+"view.configedit.fixstar.help.line2"          = "L'orbe détermine à quelle distance une étoile fixe doit être d'une planète pour être pertinente.";
+"view.configedit.fixstar.help.line3"          = "Pour les parans, l'orbe temporel définit la fenêtre en minutes autour du croisement exact.";

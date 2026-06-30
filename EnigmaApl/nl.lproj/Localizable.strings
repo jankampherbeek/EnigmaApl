@@ -332,3 +332,10 @@
 "enum.symbolicmethod.truesun"    = "Ware Zonneboog";
 "enum.symbolicmethod.meansun"    = "Gemiddelde Zonneboog";
 "enum.symbolicmethod.onedegree"  = "Één Graad";
+
+// FixStarSelections
+"enum.fixstarselections.ptolemy"    = "Ptolemaeus";
+"enum.fixstarselections.robson"     = "Robson";
+"enum.fixstarselections.brady"      = "Brady";
+"enum.fixstarselections.magnitude"  = "Minimale magnitude";
+"enum.fixstarselections.selfdefined" = "Zelf gedefinieerd";
