@@ -1,0 +1,21 @@
+// FixStar.strings - Nederlands
+// EnigmaApl
+
+"view.fixstar.title"            = "Vaste sterren";
+"view.fixstar.orbsection"       = "Orb";
+"view.fixstar.orblabel"         = "Orb voor vaste sterren";
+"view.fixstar.calculate"        = "Bereken";
+"view.fixstar.nochart"          = "Geen actieve horoscoop geselecteerd.";
+"view.fixstar.noresults"        = "Nog geen resultaten. Selecteer vaste sterren in de configuratie en klik op Bereken.";
+"view.fixstar.nostarsselected"  = "Geen vaste sterren geselecteerd in de configuratie.";
+"view.fixstar.tab.positions"    = "Posities";
+"view.fixstar.tab.matches"      = "Overeenkomsten";
+"view.fixstar.col.name"         = "Vaste ster";
+"view.fixstar.col.longitude"    = "Lengte";
+"view.fixstar.col.latitude"     = "Breedte";
+"view.fixstar.col.declination"  = "Declinatie";
+"view.fixstar.col.factor"       = "Factor";
+"view.fixstar.col.type"         = "Type";
+"view.fixstar.col.orb"          = "Orb";
+"view.fixstar.match.conjunction" = "Conjunctie";
+"view.fixstar.match.parallel"   = "Parallel";

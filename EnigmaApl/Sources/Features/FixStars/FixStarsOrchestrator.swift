@@ -22,9 +22,13 @@ public struct FixStarsOrchestrator {
         let eclFlags = buildFlags(obsPos: obsPos, ayanamsha: ayanamsha, equatorial: false)
         let eqFlags  = buildFlags(obsPos: obsPos, ayanamsha: ayanamsha, equatorial: true)
 
-        guard let eclResult   = seWrapper.calculateFixStar(jdUt: jdUt, starName: starName, flags: eclFlags),
-              let eqResult    = seWrapper.calculateFixStar(jdUt: jdUt, starName: starName, flags: eqFlags),
-              let magnitude   = seWrapper.calculateFixStarMagnitude(starName: starName) else {
+        // Comma prefix forces SE to look up by Bayer designation (column 2 of sefstars.txt)
+        // rather than by traditional name (column 1), which is required for all names in StarDefinitions.
+        let seName = "," + starName
+
+        guard let eclResult   = seWrapper.calculateFixStar(jdUt: jdUt, starName: seName, flags: eclFlags),
+              let eqResult    = seWrapper.calculateFixStar(jdUt: jdUt, starName: seName, flags: eqFlags),
+              let magnitude   = seWrapper.calculateFixStarMagnitude(starName: seName) else {
             Logger.log.error("FixStarsOrchestrator: failed to calculate star '\(starName)'")
             return nil
         }

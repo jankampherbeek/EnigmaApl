@@ -1,0 +1,21 @@
+// FixStar.strings - Deutsch
+// EnigmaApl
+
+"view.fixstar.title"            = "Fixsterne";
+"view.fixstar.orbsection"       = "Orb";
+"view.fixstar.orblabel"         = "Orb für Fixsterne";
+"view.fixstar.calculate"        = "Berechnen";
+"view.fixstar.nochart"          = "Kein aktives Horoskop ausgewählt.";
+"view.fixstar.noresults"        = "Noch keine Ergebnisse. Wähle Fixsterne in der Konfiguration aus und klicke auf Berechnen.";
+"view.fixstar.nostarsselected"  = "Keine Fixsterne in der Konfiguration ausgewählt.";
+"view.fixstar.tab.positions"    = "Positionen";
+"view.fixstar.tab.matches"      = "Übereinstimmungen";
+"view.fixstar.col.name"         = "Fixstern";
+"view.fixstar.col.longitude"    = "Länge";
+"view.fixstar.col.latitude"     = "Breite";
+"view.fixstar.col.declination"  = "Deklination";
+"view.fixstar.col.factor"       = "Faktor";
+"view.fixstar.col.type"         = "Typ";
+"view.fixstar.col.orb"          = "Orb";
+"view.fixstar.match.conjunction" = "Konjunktion";
+"view.fixstar.match.parallel"   = "Parallel";

@@ -22,7 +22,7 @@ struct SidebarView: View {
     var body: some View {
         List {
             Section("Werkmodi") {
-                ForEach(AppMode.allCases) { mode in
+                ForEach(AppMode.sidebarModes) { mode in
                     Button { app.setMode(mode) } label: {
                         row(mode.rawValue, app.nav.mode == mode, icon: mode.systemImage)
                     }
@@ -76,6 +76,8 @@ struct SidebarView: View {
                         row(CyclesSection.ephemeris.rawValue, app.nav.cycles.section == .ephemeris)
                     }.buttonStyle(.plain)
                 }
+            case .fixstars:
+                EmptyView()
             case .calculators:
                 Section("Calculators") {
                     ForEach(CalculatorsSection.allCases) { section in

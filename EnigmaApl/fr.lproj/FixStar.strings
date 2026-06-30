@@ -1,0 +1,21 @@
+// FixStar.strings - Français
+// EnigmaApl
+
+"view.fixstar.title"            = "Étoiles fixes";
+"view.fixstar.orbsection"       = "Orbe";
+"view.fixstar.orblabel"         = "Orbe pour les étoiles fixes";
+"view.fixstar.calculate"        = "Calculer";
+"view.fixstar.nochart"          = "Aucun thème actif sélectionné.";
+"view.fixstar.noresults"        = "Pas encore de résultats. Sélectionnez des étoiles fixes dans la configuration et cliquez sur Calculer.";
+"view.fixstar.nostarsselected"  = "Aucune étoile fixe sélectionnée dans la configuration.";
+"view.fixstar.tab.positions"    = "Positions";
+"view.fixstar.tab.matches"      = "Correspondances";
+"view.fixstar.col.name"         = "Étoile fixe";
+"view.fixstar.col.longitude"    = "Longitude";
+"view.fixstar.col.latitude"     = "Latitude";
+"view.fixstar.col.declination"  = "Déclinaison";
+"view.fixstar.col.factor"       = "Facteur";
+"view.fixstar.col.type"         = "Type";
+"view.fixstar.col.orb"          = "Orbe";
+"view.fixstar.match.conjunction" = "Conjonction";
+"view.fixstar.match.parallel"   = "Parallèle";

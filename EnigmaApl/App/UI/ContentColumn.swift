@@ -89,6 +89,8 @@ struct ContentColumn: View {
                 default:
                     EmptyView()
                 }
+            case .fixstars:
+                FixStarInputScreen()
             case .research:
                 ResearchProjectsScreen()
             case .cycles:

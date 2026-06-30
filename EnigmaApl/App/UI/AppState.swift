@@ -40,6 +40,8 @@ final class AppState: ObservableObject {
             if nav.research.selectedID == nil { nav.research.selectedID = projects.first?.id }
         case .cycles:
             if nav.cycles.selectedID == nil { nav.cycles.selectedID = profiles.first?.id }
+        case .fixstars:
+            break
         case .calculators:
             break
         case .config:
@@ -88,6 +90,7 @@ final class AppState: ObservableObject {
 enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case radix = "Radix"
     case progressive = "Progressive"
+    case fixstars = "Fixed Stars"
     case research = "Research"
     case cycles = "Cycles"
     case calculators = "Calculators"
@@ -95,10 +98,16 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
 
     var id: String { rawValue }
 
+    // Modes shown in the sidebar; fixstars is accessed via the Radix overview button instead.
+    static var sidebarModes: [AppMode] {
+        allCases.filter { $0 != .fixstars }
+    }
+
     var systemImage: String {
         switch self {
         case .radix:        return "circle.grid.cross"
         case .progressive:  return "arrow.forward.circle"
+        case .fixstars:     return "star.circle"
         case .research:     return "flask"
         case .cycles:       return "waveform.path.ecg"
         case .calculators:  return "function"

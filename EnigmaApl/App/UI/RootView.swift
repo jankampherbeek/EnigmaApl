@@ -72,6 +72,7 @@ struct RootView: View {
         .environmentObject(composition.primDirModel)
         .environmentObject(composition.preNatalModel)
         .environmentObject(composition.ephemerisModel)
+        .environmentObject(composition.fixStarModel)
         .environmentObject(composition.calculatorsNav)
         .environmentObject(composition.configNav)
         .onAppear {

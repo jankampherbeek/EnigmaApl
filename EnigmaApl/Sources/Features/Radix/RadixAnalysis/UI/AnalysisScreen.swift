@@ -4,6 +4,7 @@
 import SwiftUI
 
 struct AnalysisScreen: View {
+    @EnvironmentObject private var app: AppState
     @EnvironmentObject private var radixNav: RadixNavigator
     @State private var showHelp = false
 
@@ -44,6 +45,11 @@ struct AnalysisScreen: View {
 
             Button(t(RadixAnalysisKeys.btnVsp)) {
                 radixNav.setInspector(.analysisVsp)
+            }
+            .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnFixStars)) {
+                app.setMode(.fixstars)
             }
             .buttonStyle(.bordered)
         }

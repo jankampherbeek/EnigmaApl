@@ -34,6 +34,7 @@ final class AppComposition: ObservableObject {
     let primDirModel: PrimDirModel
     let preNatalModel: PreNatalModel
     let ephemerisModel: EphemerisModel
+    let fixStarModel: FixStarModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -87,5 +88,6 @@ final class AppComposition: ObservableObject {
         self.primDirModel = PrimDirModel()
         self.preNatalModel = PreNatalModel()
         self.ephemerisModel = EphemerisModel()
+        self.fixStarModel = FixStarModel()
     }
 }

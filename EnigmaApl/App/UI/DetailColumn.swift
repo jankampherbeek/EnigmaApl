@@ -60,6 +60,8 @@ struct DetailColumn: View {
             }
         case .progressive:
             return app.nav.progressive.section.rawValue
+        case .fixstars:
+            return "Fixed Stars"
         case .research:
             return ""
         case .cycles:
@@ -145,6 +147,8 @@ struct DetailColumn: View {
                         default:
                             EmptyView()
                         }
+                    case .fixstars:
+                        FixStarResultsScreen()
                     case .research:
                         EmptyView()
                     case .cycles:
