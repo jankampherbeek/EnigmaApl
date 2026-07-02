@@ -222,6 +222,7 @@
 "view.configedit.fixstar.starssection"        = "Fixed Stars";
 "view.configedit.fixstar.help.tooltip"        = "Help for fixed stars";
 "view.configedit.fixstar.help.groupbox"       = "Fixed Stars";
-"view.configedit.fixstar.help.line1"          = "Select which fixed stars you want to use in your calculations.";
-"view.configedit.fixstar.help.line2"          = "The orb determines how close a fixed star must be to a planet to be considered relevant.";
-"view.configedit.fixstar.help.line3"          = "For parans, the time orb defines the window in minutes around the exact crossing.";
+"view.configedit.fixstar.help.line1"          = "Indicate which fixed stars you want to use for the fixed star overview and for the calculation of parans. You see the name of the stars, possibly one or more aliases, and, in parentheses, the astronomical designation.";
+"view.configedit.fixstar.help.line2"          = "You can choose from sets as proposed by Bernadette Brady, Vivian Robson, or Claudius Ptolemaeus. You can also indicate that you want to include stars from a certain magnitude, or that you want to define the stars yourself.";
+"view.configedit.fixstar.help.line3"          = "If you choose magnitude, you will see an option to specify the minimum magnitude. Keep in mind that a magnitude with a low number is brighter than a magnitude with a high number.";
+"view.configedit.fixstar.help.line4"          = "You can adjust the orbs for fixed stars. For parans, you use orbs in time: minutes and seconds.";

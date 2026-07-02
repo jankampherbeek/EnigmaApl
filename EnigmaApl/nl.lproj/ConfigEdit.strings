@@ -222,6 +222,7 @@
 "view.configedit.fixstar.starssection"        = "Vaste sterren";
 "view.configedit.fixstar.help.tooltip"        = "Help voor vaste sterren";
 "view.configedit.fixstar.help.groupbox"       = "Vaste sterren";
-"view.configedit.fixstar.help.line1"          = "Selecteer welke vaste sterren je wilt gebruiken in je berekeningen.";
-"view.configedit.fixstar.help.line2"          = "De orb bepaalt hoe dicht een vaste ster bij een planeet moet zijn om relevant te zijn.";
-"view.configedit.fixstar.help.line3"          = "Voor parans definieert de tijdorb het venster in minuten rondom de exacte kruising.";
+"view.configedit.fixstar.help.line1"          = "Geef aan welke vaste sterren je wilt gebruiken voor het overzicht van vaste sterren en voor de berekening van paranen. Je ziet de naam van de sterren, eventueel één of meerdere aliassen en, tussen haakjes, de astronomische aanduiding.";
+"view.configedit.fixstar.help.line2"          = "Je kunt kiezen uit sets zoals voorgesteld door Bernadette Brady, Vivian Robson of Claudius Ptolemaeus. Je kunt ook aangeven dat je sterren wilt meenemen vanaf een bepaalde magnitude of dat je de sterren zelf wilt definiëren.";
+"view.configedit.fixstar.help.line3"          = "Als je kiest voor magnitude krijg je een optie te zien om de minimale magnitude op te geven. Houd er rekening mee dat een magnitude met een laag getal sterker is dan een magnitude met een hoog getal.";
+"view.configedit.fixstar.help.line4"          = "Je kunt de orbs voor vaste sterren aanpassen. Voor paranen gebruik je orbs in tijd: minuten en seconden.";

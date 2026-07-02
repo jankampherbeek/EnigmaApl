@@ -222,6 +222,7 @@
 "view.configedit.fixstar.starssection"        = "Étoiles fixes";
 "view.configedit.fixstar.help.tooltip"        = "Aide pour les étoiles fixes";
 "view.configedit.fixstar.help.groupbox"       = "Étoiles fixes";
-"view.configedit.fixstar.help.line1"          = "Sélectionnez les étoiles fixes que vous souhaitez utiliser dans vos calculs.";
-"view.configedit.fixstar.help.line2"          = "L'orbe détermine à quelle distance une étoile fixe doit être d'une planète pour être pertinente.";
-"view.configedit.fixstar.help.line3"          = "Pour les parans, l'orbe temporel définit la fenêtre en minutes autour du croisement exact.";
+"view.configedit.fixstar.help.line1"          = "Indiquez quelles étoiles fixes vous souhaitez utiliser pour l'aperçu des étoiles fixes et pour le calcul des parans. Vous voyez le nom des étoiles, éventuellement un ou plusieurs alias, et, entre parenthèses, la désignation astronomique.";
+"view.configedit.fixstar.help.line2"          = "Vous pouvez choisir parmi des ensembles proposés par Bernadette Brady, Vivian Robson ou Claudius Ptolémée. Vous pouvez également indiquer que vous souhaitez inclure des étoiles à partir d'une certaine magnitude, ou que vous souhaitez définir les étoiles vous-même.";
+"view.configedit.fixstar.help.line3"          = "Si vous choisissez la magnitude, vous verrez une option pour spécifier la magnitude minimale. Gardez à l'esprit qu'une magnitude avec un nombre faible est plus brillante qu'une magnitude avec un nombre élevé.";
+"view.configedit.fixstar.help.line4"          = "Vous pouvez ajuster les orbes pour les étoiles fixes. Pour les parans, vous utilisez des orbes en temps : minutes et secondes.";

@@ -19,3 +19,5 @@
 "view.fixstar.col.orb"          = "Orb";
 "view.fixstar.match.conjunction" = "Conjunction";
 "view.fixstar.match.parallel"   = "Parallel";
+"view.fixstar.help.input"       = "Adjust the orb if needed and click 'Calculate'.";
+"view.fixstar.help.results"     = "You see two tabs: Positions and Matches.\n\nIn the Positions tab you see the positions of the stars you selected in the configuration. You see the name of the stars, possibly one or more aliases, and, in parentheses, the astronomical designation.\n\nThe positions are in longitude, latitude, and declination.\n\nThe Matches tab shows which fixed stars form a conjunction or parallel with a point in the radix.";

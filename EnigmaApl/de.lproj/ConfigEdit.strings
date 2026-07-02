@@ -222,6 +222,7 @@
 "view.configedit.fixstar.starssection"        = "Fixsterne";
 "view.configedit.fixstar.help.tooltip"        = "Hilfe für Fixsterne";
 "view.configedit.fixstar.help.groupbox"       = "Fixsterne";
-"view.configedit.fixstar.help.line1"          = "Wähle aus, welche Fixsterne du in deinen Berechnungen verwenden möchtest.";
-"view.configedit.fixstar.help.line2"          = "Die Orb bestimmt, wie nah ein Fixstern einem Planeten sein muss, um relevant zu sein.";
-"view.configedit.fixstar.help.line3"          = "Für Parans definiert die Zeitorb das Zeitfenster in Minuten um die exakte Kreuzung.";
+"view.configedit.fixstar.help.line1"          = "Gib an, welche Fixsterne du für die Übersicht der Fixsterne und für die Berechnung von Parans verwenden möchtest. Du siehst den Namen der Sterne, ggf. einen oder mehrere Aliasnamen sowie, in Klammern, die astronomische Bezeichnung.";
+"view.configedit.fixstar.help.line2"          = "Du kannst aus Sets wählen, wie sie von Bernadette Brady, Vivian Robson oder Claudius Ptolemaeus vorgeschlagen wurden. Du kannst auch angeben, dass du Sterne ab einer bestimmten Magnitude einbeziehen möchtest, oder dass du die Sterne selbst definieren möchtest.";
+"view.configedit.fixstar.help.line3"          = "Wenn du Magnitude wählst, erscheint eine Option zur Angabe der Mindestmagnitude. Beachte, dass eine Magnitude mit einem niedrigen Wert heller ist als eine Magnitude mit einem hohen Wert.";
+"view.configedit.fixstar.help.line4"          = "Du kannst die Orben für Fixsterne anpassen. Für Parans verwendest du Zeitorben: Minuten und Sekunden.";

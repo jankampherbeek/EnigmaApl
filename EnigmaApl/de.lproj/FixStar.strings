@@ -19,3 +19,5 @@
 "view.fixstar.col.orb"          = "Orb";
 "view.fixstar.match.conjunction" = "Konjunktion";
 "view.fixstar.match.parallel"   = "Parallel";
+"view.fixstar.help.input"       = "Passe ggf. den Orb an und klicke auf 'Berechnen'.";
+"view.fixstar.help.results"     = "Du siehst zwei Reiter: Positionen und Übereinstimmungen.\n\nIm Reiter Positionen siehst du die Positionen der Sterne, die du in der Konfiguration ausgewählt hast. Du siehst den Namen der Sterne, ggf. einen oder mehrere Aliasnamen sowie, in Klammern, die astronomische Bezeichnung.\n\nDie Positionen sind in Länge, Breite und Deklination.\n\nDer Reiter Übereinstimmungen zeigt, welche Fixsterne eine Konjunktion oder einen Parallel mit einem Punkt im Radix bilden.";

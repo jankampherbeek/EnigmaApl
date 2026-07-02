@@ -10,19 +10,33 @@ private func t(_ key: String) -> String {
 
 struct FixStarResultsScreen: View {
     @EnvironmentObject private var fixStarModel: FixStarModel
+    @State private var showHelp = false
 
     var body: some View {
-        if let err = fixStarModel.errorMessage {
-            ContentUnavailableView(err, systemImage: "exclamationmark.triangle")
-        } else if fixStarModel.positionEntries.isEmpty {
-            ContentUnavailableView(t(FixStarKeys.noResults), systemImage: "star.slash")
-        } else {
-            TabView {
-                FixStarPositionsTab()
-                    .tabItem { Text(t(FixStarKeys.tabPositions)) }
-                FixStarMatchesTab()
-                    .tabItem { Text(t(FixStarKeys.tabMatches)) }
+        Group {
+            if let err = fixStarModel.errorMessage {
+                ContentUnavailableView(err, systemImage: "exclamationmark.triangle")
+            } else if fixStarModel.positionEntries.isEmpty {
+                ContentUnavailableView(t(FixStarKeys.noResults), systemImage: "star.slash")
+            } else {
+                TabView {
+                    FixStarPositionsTab()
+                        .tabItem { Text(t(FixStarKeys.tabPositions)) }
+                    FixStarMatchesTab()
+                        .tabItem { Text(t(FixStarKeys.tabMatches)) }
+                }
             }
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(FixStarKeys.helpResults))
         }
     }
 }

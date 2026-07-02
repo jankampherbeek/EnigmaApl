@@ -19,3 +19,5 @@
 "view.fixstar.col.orb"          = "Orbe";
 "view.fixstar.match.conjunction" = "Conjonction";
 "view.fixstar.match.parallel"   = "Parallèle";
+"view.fixstar.help.input"       = "Ajustez l'orbe si nécessaire et cliquez sur 'Calculer'.";
+"view.fixstar.help.results"     = "Vous voyez deux onglets : Positions et Correspondances.\n\nDans l'onglet Positions, vous voyez les positions des étoiles que vous avez sélectionnées dans la configuration. Vous voyez le nom des étoiles, éventuellement un ou plusieurs alias, et, entre parenthèses, la désignation astronomique.\n\nLes positions sont en longitude, latitude et déclinaison.\n\nL'onglet Correspondances montre quelles étoiles fixes forment une conjonction ou un parallèle avec un point du radix.";

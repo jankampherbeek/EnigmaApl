@@ -19,3 +19,5 @@
 "view.fixstar.col.orb"          = "Orb";
 "view.fixstar.match.conjunction" = "Conjunctie";
 "view.fixstar.match.parallel"   = "Parallel";
+"view.fixstar.help.input"       = "Pas eventueel de orb aan en klik op 'Bereken'.";
+"view.fixstar.help.results"     = "Je ziet twee tabs: Posities en Overeenkomsten.\n\nIn de tab Posities zie je de posities van de sterren die je in de configuratie hebt geselecteerd. Je ziet de naam van de sterren, eventueel één of meerdere aliassen en, tussen haakjes, de astronomische aanduiding.\n\nDe posities zijn in lengte, breedte en declinatie.\n\nDe tab Overeenkomsten laat zien welke vaste sterren een conjunctie of parallel vormen met een punt in de radix.";

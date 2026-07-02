@@ -2034,6 +2034,7 @@ struct FixStarConfigHelpView: View {
                             Text(t(ConfigEditKeys.fixstarHelpLine1))
                             Text(t(ConfigEditKeys.fixstarHelpLine2))
                             Text(t(ConfigEditKeys.fixstarHelpLine3))
+                            Text(t(ConfigEditKeys.fixstarHelpLine4))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }

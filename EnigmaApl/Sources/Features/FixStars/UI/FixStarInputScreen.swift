@@ -18,6 +18,7 @@ struct FixStarInputScreen: View {
     @State private var orbDeg: Int = 1
     @State private var orbMin: Int = 0
     @State private var orbSec: Int = 0
+    @State private var showHelp = false
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
     private var orb: Double { Double(orbDeg) + Double(orbMin) / 60.0 + Double(orbSec) / 3600.0 }
@@ -71,6 +72,17 @@ struct FixStarInputScreen: View {
             .frame(maxWidth: 700, alignment: .leading)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("Help")
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(FixStarKeys.helpInput))
         }
         .onAppear {
             loadOrbFromConfig()

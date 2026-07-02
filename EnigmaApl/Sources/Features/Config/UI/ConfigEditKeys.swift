@@ -223,4 +223,5 @@ struct ConfigEditKeys {
     static let fixstarHelpLine1        = "view.configedit.fixstar.help.line1"
     static let fixstarHelpLine2        = "view.configedit.fixstar.help.line2"
     static let fixstarHelpLine3        = "view.configedit.fixstar.help.line3"
+    static let fixstarHelpLine4        = "view.configedit.fixstar.help.line4"
 }

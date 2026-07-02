@@ -23,4 +23,6 @@ struct FixStarKeys {
     static let colOrb           = "view.fixstar.col.orb"
     static let matchConjunction = "view.fixstar.match.conjunction"
     static let matchParallel    = "view.fixstar.match.parallel"
+    static let helpInput        = "view.fixstar.help.input"
+    static let helpResults      = "view.fixstar.help.results"
 }
