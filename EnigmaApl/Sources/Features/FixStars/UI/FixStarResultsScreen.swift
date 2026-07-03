@@ -10,6 +10,7 @@ private func t(_ key: String) -> String {
 
 struct FixStarResultsScreen: View {
     @EnvironmentObject private var fixStarModel: FixStarModel
+    @State private var showFactsheet = false
     @State private var showHelp = false
 
     var body: some View {
@@ -29,11 +30,20 @@ struct FixStarResultsScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "fixstars")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(FixStarKeys.helpResults))
