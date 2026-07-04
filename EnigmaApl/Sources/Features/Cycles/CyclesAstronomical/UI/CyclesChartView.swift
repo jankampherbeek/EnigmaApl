@@ -15,6 +15,32 @@ struct CyclesChartView: View {
     @State private var showDms: Bool = true
     @State private var chartWidth: CGFloat = 0
     @State private var showHelp = false
+    @State private var xPrePadDays: Int = 7
+
+    private let chartColors: [Color] = [
+        .blue, .red, .green, .orange, .purple, .pink, .teal, .cyan, .mint, .indigo, .brown, .yellow
+    ]
+
+    private var factorColors: [(factor: Factors, color: Color)] {
+        model.singleResults.enumerated().map { i, result in
+            (factor: result.factor, color: chartColors[i % chartColors.count])
+        }
+    }
+
+    private var chartStartDate: Date? {
+        model.singleResults.compactMap { $0.series.first }.map { jdToDate($0.julianDay) }.min()
+    }
+
+    private var chartEndDate: Date? {
+        model.singleResults.compactMap { $0.series.last }.map { jdToDate($0.julianDay) }.max()
+    }
+
+    private struct GlyphPlacement {
+        let factor: Factors
+        let color: Color
+        let x: CGFloat
+        let y: CGFloat
+    }
 
     var body: some View {
         Group {
@@ -298,6 +324,73 @@ struct CyclesChartView: View {
         #endif
     }
 
+    // MARK: - Glyph placements for single-factor chart
+
+    private func singleGlyphPlacements(proxy: ChartProxy, geo: GeometryProxy) -> [GlyphPlacement] {
+        let size: CGFloat = 14
+        let glyphPx: CGFloat = 12
+        let plotFrame = geo[proxy.plotAreaFrame]
+
+        guard plotFrame.width > 0, let startDate = chartStartDate,
+              let startXPos = proxy.position(forX: startDate) else { return [] }
+
+        let startX = plotFrame.minX + startXPos
+
+        var items: [(factor: Factors, color: Color, y: CGFloat)] = []
+        for fc in factorColors {
+            guard let seriesData = model.singleResults.first(where: { $0.factor == fc.factor })?.series,
+                  let firstPoint = seriesData.first,
+                  let yPos = proxy.position(forY: firstPoint.position)
+            else { continue }
+            items.append((factor: fc.factor, color: fc.color, y: plotFrame.minY + yPos))
+        }
+        items.sort { $0.y < $1.y }
+
+        var result: [GlyphPlacement] = []
+        var maxCluster = 1
+        var i = 0
+        while i < items.count {
+            var end = i + 1
+            while end < items.count && (items[end].y - items[i].y) < size { end += 1 }
+            let group = Array(items[i..<end])
+            maxCluster = max(maxCluster, group.count)
+
+            let clusterY = group.count == 1 ? group[0].y
+                         : group.map(\.y).reduce(0, +) / CGFloat(group.count)
+
+            for (k, item) in group.enumerated() {
+                let x = startX - glyphPx / 2 - CGFloat(group.count - 1 - k) * glyphPx
+                result.append(GlyphPlacement(factor: item.factor, color: item.color, x: x, y: clusterY))
+            }
+            i = end
+        }
+
+        let dayWidthPx = periodDays > 0 ? plotFrame.width / CGFloat(periodDays) : 1.0
+        let neededDays = max(1, Int(ceil(CGFloat(maxCluster) * glyphPx / dayWidthPx)) + 3)
+        if neededDays != xPrePadDays {
+            DispatchQueue.main.async { xPrePadDays = neededDays }
+        }
+
+        return result
+    }
+
+    @AxisContentBuilder
+    private func filteredXAxisContent(stride: Int, startFrom: Date) -> some AxisContent {
+        AxisMarks(values: .stride(by: .day, count: stride)) { value in
+            if let date = value.as(Date.self), date >= startFrom {
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel {
+                    Text(Self.xAxisDateFormatter.string(from: date))
+                        .font(.caption2)
+                        .fixedSize()
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 1, height: 65)
+                }
+            }
+        }
+    }
+
     // MARK: - Single factors chart
 
     private var singleChart: some View { buildSingleChart() }
@@ -365,7 +458,12 @@ struct CyclesChartView: View {
     private typealias SegmentedResult = (factor: Factors, series: [(julianDay: Double, position: Double)], segments: [Int])
 
     private func singleChartMarks(_ segmented: [SegmentedResult]) -> some View {
-        Chart {
+        let fc = factorColors
+        let startDate = chartStartDate ?? Date()
+        let endDate = chartEndDate ?? Date()
+        let extendedStart = Calendar.current.date(byAdding: .day, value: -xPrePadDays, to: startDate) ?? startDate
+
+        return Chart {
             ForEach(segmented, id: \.factor.rawValue) { factorResult in
                 let name = NSLocalizedString(factorResult.factor.localizedName, comment: "")
                 ForEach(factorResult.series.indices, id: \.self) { i in
@@ -380,8 +478,26 @@ struct CyclesChartView: View {
                 }
             }
         }
-        .chartXAxis { xAxisContent(stride: xAxisStrideDays) }
+        .chartForegroundStyleScale(
+            domain: fc.map { NSLocalizedString($0.factor.localizedName, comment: "") },
+            range: fc.map { $0.color }
+        )
+        .chartXScale(domain: extendedStart...endDate)
+        .chartXAxis { filteredXAxisContent(stride: xAxisStrideDays, startFrom: startDate) }
         .chartPlotStyle { $0.padding(.bottom, 80) }
+        .chartOverlay { proxy in
+            GeometryReader { geo in
+                let placements = singleGlyphPlacements(proxy: proxy, geo: geo)
+                ZStack {
+                    ForEach(placements, id: \.factor.rawValue) { pos in
+                        Text(GlyphSelector.getGlyphForFactor(pos.factor))
+                            .font(.custom("EnigmaAstrology3", size: 12))
+                            .foregroundStyle(pos.color)
+                            .position(x: pos.x, y: pos.y)
+                    }
+                }
+            }
+        }
     }
 
     /// Assigns a segment index to each point, incrementing whenever consecutive positions
