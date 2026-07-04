@@ -14,6 +14,7 @@ struct ParansResultsScreen: View {
 
     @State private var selectedTab: ParansTab = .positions
     @State private var showHelp = false
+    @State private var showFactsheet = false
 
     var body: some View {
         Group {
@@ -51,11 +52,20 @@ struct ParansResultsScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .accessibilityLabel("Factsheet")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "parans")
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(ParansKeys.helpResults))
@@ -73,7 +83,7 @@ private struct ParansPositionsTab: View {
     let allTimes: [ParanTimesForBody]
 
     private let nameW: CGFloat = 160
-    private let timeW: CGFloat = 70
+    private let timeW: CGFloat = 82
 
     var body: some View {
         if allTimes.isEmpty {
@@ -165,11 +175,12 @@ private struct ParansPositionsTab: View {
 private struct ParansMatchesTab: View {
     let matches: [ParanMatch]
 
-    private let body1W: CGFloat = 130
-    private let type1W: CGFloat = 80
-    private let body2W: CGFloat = 120
-    private let type2W: CGFloat = 80
-    private let timeW:  CGFloat = 55
+    private let body1W: CGFloat = 120
+    private let type1W: CGFloat = 75
+    private let time1W: CGFloat = 65
+    private let body2W: CGFloat = 110
+    private let type2W: CGFloat = 75
+    private let time2W: CGFloat = 65
     private let orbW:   CGFloat = 60
 
     var body: some View {
@@ -196,12 +207,14 @@ private struct ParansMatchesTab: View {
                 .frame(width: body1W, alignment: .leading)
             Text(t(ParansKeys.colType1))
                 .frame(width: type1W, alignment: .leading)
+            Text(t(ParansKeys.colTime))
+                .frame(width: time1W, alignment: .trailing)
             Text(t(ParansKeys.colBody2))
                 .frame(width: body2W, alignment: .leading)
             Text(t(ParansKeys.colType2))
                 .frame(width: type2W, alignment: .leading)
             Text(t(ParansKeys.colTime))
-                .frame(width: timeW, alignment: .trailing)
+                .frame(width: time2W, alignment: .trailing)
             Text(t(ParansKeys.colOrb))
                 .frame(width: orbW, alignment: .trailing)
         }
@@ -219,14 +232,18 @@ private struct ParansMatchesTab: View {
                 .frame(width: type1W, alignment: .leading)
                 .lineLimit(1)
                 .font(.callout)
+            Text(formatTime(match.time1))
+                .frame(width: time1W, alignment: .trailing)
+                .monospacedDigit()
+                .font(.callout)
             bodyLabel(match.body2)
                 .frame(width: body2W, alignment: .leading)
             Text(typeLabel(match.type2))
                 .frame(width: type2W, alignment: .leading)
                 .lineLimit(1)
                 .font(.callout)
-            Text(formatTime(match.exactTime))
-                .frame(width: timeW, alignment: .trailing)
+            Text(formatTime(match.time2))
+                .frame(width: time2W, alignment: .trailing)
                 .monospacedDigit()
                 .font(.callout)
             Text(formatOrb(match.orbMinutes))
@@ -270,7 +287,7 @@ private struct ParansMatchesTab: View {
 
 private func formatTime(_ jd: Double) -> String {
     let dt = SEWrapper().dateFromJulianDay(jd)
-    return String(format: "%02d:%02d", dt.Time.Hour, dt.Time.Minute)
+    return String(format: "%02d:%02d:%02d", dt.Time.Hour, dt.Time.Minute, dt.Time.Second)
 }
 
 private func formatOrb(_ minutes: Double) -> String {

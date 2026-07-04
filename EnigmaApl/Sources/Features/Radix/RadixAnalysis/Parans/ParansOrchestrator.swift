@@ -164,9 +164,10 @@ public struct ParansOrchestrator {
                             matches.append(ParanMatch(
                                 body1: b1.body,
                                 type1: type1,
+                                time1: t1,
                                 body2: b2.body,
                                 type2: type2,
-                                exactTime: (t1 + t2) / 2.0,
+                                time2: t2,
                                 orbMinutes: diff * 1440.0
                             ))
                         }

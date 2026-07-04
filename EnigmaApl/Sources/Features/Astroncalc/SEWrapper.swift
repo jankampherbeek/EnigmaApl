@@ -904,7 +904,6 @@ public class SEWrapper {
         var tret: Double = 0.0
         var error = [CChar](repeating: 0, count: 256)
         var returnCode: Int32 = 0
-        var errorMessage: String = ""
 
         if starName.isEmpty {
             geoPos.withUnsafeMutableBufferPointer { geoBuf in
@@ -913,9 +912,6 @@ public class SEWrapper {
                           let errPtr = errBuf.baseAddress else { return }
                     returnCode = swe_rise_trans(jdUt, Int32(ipl), nil, SEFLG_SWIEPH,
                                                Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
-                    if returnCode < 0 {
-                        errorMessage = String(cString: errPtr)
-                    }
                 }
             }
         } else {
@@ -932,16 +928,12 @@ public class SEWrapper {
                               let errPtr  = errBuf.baseAddress else { return }
                         returnCode = swe_rise_trans(jdUt, 0, starPtr, SEFLG_SWIEPH,
                                                    Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
-                        if returnCode < 0 {
-                            errorMessage = String(cString: errPtr)
-                        }
                     }
                 }
             }
         }
 
         guard returnCode >= 0 else {
-            Logger.log.error("swe_rise_trans error (rsmi=\(rsmi)): \(errorMessage)")
             return nil
         }
         return tret

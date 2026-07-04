@@ -66,12 +66,14 @@ public struct ParanMatch {
     public let body1: ParanBody
     /// Event type for body1.
     public let type1: ParanType
+    /// Actual transit time of body1 (JD UT).
+    public let time1: Double
     /// The second body (always a factor).
     public let body2: ParanBody
     /// Event type for body2.
     public let type2: ParanType
-    /// Midpoint of the two transit times (JD UT).
-    public let exactTime: Double
+    /// Actual transit time of body2 (JD UT).
+    public let time2: Double
     /// Absolute difference between the two transit times, in minutes.
     public let orbMinutes: Double
 }
