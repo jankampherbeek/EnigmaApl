@@ -881,6 +881,72 @@ public class SEWrapper {
         return tret[0]
     }
 
+    // MARK: - Paran Transit Calculation
+    /// Calculate the next rise, set, or meridian transit of a planet or fixed star after a given Julian Day.
+    /// - Parameters:
+    ///   - jdUt: Search after this time (UT)
+    ///   - ipl: SE planet id (pass 0 when calculating for a fixed star)
+    ///   - starName: Bayer designation of the star with comma prefix (e.g. ",alTau"); pass empty string for a planet
+    ///   - rsmi: Transit type: 1=rise, 2=set, 4=upper meridian transit, 8=lower meridian transit
+    ///           Add 256 (disc centre) and/or 512 (no refraction) to rise/set as needed
+    ///   - geoLon: Geographic longitude of observer (east positive)
+    ///   - geoLat: Geographic latitude of observer (north positive)
+    ///   - height: Height above sea level in metres
+    /// - Returns: Julian Day (UT) of the transit event, or nil on error or circumpolar
+    public func calculateParanTimes(jdUt: Double, ipl: Int, starName: String, rsmi: Int,
+                                    geoLon: Double, geoLat: Double, height: Double) -> Double? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var geoPos: [Double] = [geoLon, geoLat, height]
+        var tret: Double = 0.0
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        if starName.isEmpty {
+            geoPos.withUnsafeMutableBufferPointer { geoBuf in
+                error.withUnsafeMutableBufferPointer { errBuf in
+                    guard let geoPtr = geoBuf.baseAddress,
+                          let errPtr = errBuf.baseAddress else { return }
+                    returnCode = swe_rise_trans(jdUt, Int32(ipl), nil, SEFLG_SWIEPH,
+                                               Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
+                    if returnCode < 0 {
+                        errorMessage = String(cString: errPtr)
+                    }
+                }
+            }
+        } else {
+            var starBuffer = [CChar](repeating: 0, count: 256)
+            let starBytes = Array(starName.utf8CString)
+            let copyCount = min(starBytes.count, 255)
+            for i in 0..<copyCount { starBuffer[i] = starBytes[i] }
+
+            starBuffer.withUnsafeMutableBufferPointer { starBuf in
+                geoPos.withUnsafeMutableBufferPointer { geoBuf in
+                    error.withUnsafeMutableBufferPointer { errBuf in
+                        guard let starPtr = starBuf.baseAddress,
+                              let geoPtr  = geoBuf.baseAddress,
+                              let errPtr  = errBuf.baseAddress else { return }
+                        returnCode = swe_rise_trans(jdUt, 0, starPtr, SEFLG_SWIEPH,
+                                                   Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
+                        if returnCode < 0 {
+                            errorMessage = String(cString: errPtr)
+                        }
+                    }
+                }
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("swe_rise_trans error (rsmi=\(rsmi)): \(errorMessage)")
+            return nil
+        }
+        return tret
+    }
+
     // MARK: - Apsides Calculation
     /// Calculate nodes and apsides (perihelion/aphelion for planets, perigee/apogee for Moon)
     /// - Parameters:

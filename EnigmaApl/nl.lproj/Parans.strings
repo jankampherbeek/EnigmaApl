@@ -1,0 +1,42 @@
+// Parans.strings - Nederlands
+// EnigmaApl
+
+// Input view
+"view.parans.title"             = "Paranen";
+"view.parans.back"              = "Analyse";
+"view.parans.orb.section"       = "Tijdorb";
+"view.parans.orb.label"         = "Orb (min / sec)";
+"view.parans.calculate"         = "Berekenen";
+"view.parans.nochart"           = "Bereken of selecteer een horoscoop om paranen te bekijken.";
+"view.parans.calculating"       = "Bezig met berekenen…";
+
+// Results view
+"view.parans.tab.positions"     = "Posities";
+"view.parans.tab.matches"       = "Treffers";
+"view.parans.noresults"         = "Geen paraan-posities gevonden. Selecteer vaste sterren in de configuratie.";
+"view.parans.nomatches"         = "Geen paraan-treffers gevonden binnen de huidige tijdorb.";
+
+// Positions tab columns
+"view.parans.col.name"          = "Ster of factor";
+"view.parans.col.rising"        = "Opkomst";
+"view.parans.col.setting"       = "Ondergang";
+"view.parans.col.culmination"   = "Culminatie";
+"view.parans.col.anticulm"      = "Anti-culm.";
+
+// Matches tab columns
+"view.parans.col.body1"         = "Ster/Factor 1";
+"view.parans.col.type1"         = "Aard";
+"view.parans.col.body2"         = "Factor 2";
+"view.parans.col.type2"         = "Aard";
+"view.parans.col.time"          = "Tijdstip (UT)";
+"view.parans.col.orb"           = "Orb";
+
+// Paran type labels
+"view.parans.type.rising"       = "Opkomst";
+"view.parans.type.setting"      = "Ondergang";
+"view.parans.type.culmination"  = "Culminatie";
+"view.parans.type.anticulm"     = "Anti-culm.";
+
+// Help
+"view.parans.help.input"        = "Paranen berekenen de tijdstippen waarop factoren en vaste sterren opkomen, ondergaan, culmineren of de lagere meridiaan bereiken op de geboortedag.\n\nDe tijdorb geeft het maximale verschil in minuten aan tussen twee transittijden voor een paraan-treffer. De standaardwaarde wordt overgenomen uit de configuratie.\n\nKlik op Berekenen om alle transittijden te berekenen en paraan-treffers te vinden.";
+"view.parans.help.results"      = "Het tabblad Posities toont alle geselecteerde factoren en vaste sterren met hun tijdstippen van opkomst, ondergang, culminatie en anti-culminatie (lagere meridiaan) voor de geboortedag. Alle tijden zijn in Universele Tijd (UT).\n\nHet tabblad Treffers toont paren van lichamen waarvan transitgebeurtenissen (van willekeurig welk type) binnen de ingestelde tijdorb van elkaar vallen. De orb-kolom toont het verschil in minuten en seconden.";

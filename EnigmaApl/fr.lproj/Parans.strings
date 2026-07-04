@@ -1,0 +1,42 @@
+// Parans.strings - Français
+// EnigmaApl
+
+// Input view
+"view.parans.title"             = "Parans";
+"view.parans.back"              = "Analyse";
+"view.parans.orb.section"       = "Orbe temporel";
+"view.parans.orb.label"         = "Orbe (min / sec)";
+"view.parans.calculate"         = "Calculer";
+"view.parans.nochart"           = "Calculez ou sélectionnez un horoscope pour afficher les parans.";
+"view.parans.calculating"       = "Calcul en cours…";
+
+// Results view
+"view.parans.tab.positions"     = "Positions";
+"view.parans.tab.matches"       = "Correspondances";
+"view.parans.noresults"         = "Aucune position de paran trouvée. Sélectionnez des étoiles fixes dans la configuration.";
+"view.parans.nomatches"         = "Aucune correspondance de paran trouvée dans l'orbe temporel actuel.";
+
+// Positions tab columns
+"view.parans.col.name"          = "Étoile ou facteur";
+"view.parans.col.rising"        = "Lever";
+"view.parans.col.setting"       = "Coucher";
+"view.parans.col.culmination"   = "Culmination";
+"view.parans.col.anticulm"      = "Anti-culm.";
+
+// Matches tab columns
+"view.parans.col.body1"         = "Étoile/Facteur 1";
+"view.parans.col.type1"         = "Évén.";
+"view.parans.col.body2"         = "Facteur 2";
+"view.parans.col.type2"         = "Évén.";
+"view.parans.col.time"          = "Heure (TU)";
+"view.parans.col.orb"           = "Orbe";
+
+// Paran type labels
+"view.parans.type.rising"       = "Lever";
+"view.parans.type.setting"      = "Coucher";
+"view.parans.type.culmination"  = "Culmination";
+"view.parans.type.anticulm"     = "Anti-culm.";
+
+// Help
+"view.parans.help.input"        = "Les parans calculent les heures auxquelles les facteurs et les étoiles fixes se lèvent, se couchent, culminent ou atteignent le transit méridien inférieur pour le jour de naissance.\n\nL'orbe temporel définit la différence maximale en minutes entre deux heures de transit pour qu'elles constituent une correspondance de paran. La valeur par défaut est tirée de la configuration.\n\nCliquez sur Calculer pour calculer toutes les heures de transit et trouver les correspondances de parans.";
+"view.parans.help.results"      = "L'onglet Positions liste tous les facteurs et étoiles fixes sélectionnés avec leurs heures de lever, coucher, culmination et anti-culmination (transit méridien inférieur) pour le jour de naissance. Toutes les heures sont en Temps Universel (TU).\n\nL'onglet Correspondances montre les paires de corps dont les événements de transit du même type se produisent dans l'orbe temporel configuré l'un de l'autre. La colonne orbe indique la différence en minutes et secondes.";

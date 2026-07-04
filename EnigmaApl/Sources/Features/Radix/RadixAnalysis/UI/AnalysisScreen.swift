@@ -52,6 +52,11 @@ struct AnalysisScreen: View {
                 app.setMode(.fixstars)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnParans)) {
+                radixNav.setInspector(.analysisParans)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

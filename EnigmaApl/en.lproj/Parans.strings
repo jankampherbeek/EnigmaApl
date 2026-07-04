@@ -1,0 +1,42 @@
+// Parans.strings - English
+// EnigmaApl
+
+// Input view
+"view.parans.title"             = "Parans";
+"view.parans.back"              = "Analysis";
+"view.parans.orb.section"       = "Time orb";
+"view.parans.orb.label"         = "Orb (min / sec)";
+"view.parans.calculate"         = "Calculate";
+"view.parans.nochart"           = "Calculate or select a horoscope to view parans.";
+"view.parans.calculating"       = "Calculating…";
+
+// Results view
+"view.parans.tab.positions"     = "Positions";
+"view.parans.tab.matches"       = "Matches";
+"view.parans.noresults"         = "No paran positions found. Select fixed stars in the configuration.";
+"view.parans.nomatches"         = "No paran matches found within the current time orb.";
+
+// Positions tab columns
+"view.parans.col.name"          = "Star or factor";
+"view.parans.col.rising"        = "Rising";
+"view.parans.col.setting"       = "Setting";
+"view.parans.col.culmination"   = "Culmination";
+"view.parans.col.anticulm"      = "Anti-Culm.";
+
+// Matches tab columns
+"view.parans.col.body1"         = "Star/Factor 1";
+"view.parans.col.type1"         = "Event";
+"view.parans.col.body2"         = "Factor 2";
+"view.parans.col.type2"         = "Event";
+"view.parans.col.time"          = "Time (UT)";
+"view.parans.col.orb"           = "Orb";
+
+// Paran type labels
+"view.parans.type.rising"       = "Rising";
+"view.parans.type.setting"      = "Setting";
+"view.parans.type.culmination"  = "Culmination";
+"view.parans.type.anticulm"     = "Anti-Culm.";
+
+// Help
+"view.parans.help.input"        = "Parans calculate the times at which factors and fixed stars rise, set, culminate, or reach the lower meridian transit for the birth day.\n\nThe time orb defines the maximum difference in minutes between two transit times for them to be considered a paran match. The default value is taken from the configuration.\n\nClick Calculate to compute all transit times and find paran matches.";
+"view.parans.help.results"      = "The Positions tab lists all selected factors and fixed stars together with their times of rising, setting, culmination, and anti-culmination (lower meridian transit) for the birth day. All times are in Universal Time (UT).\n\nThe Matches tab shows pairs of bodies whose same-type transit events occur within the configured time orb of each other. The orb column shows the difference in minutes and seconds.";

@@ -35,6 +35,7 @@ int32_t swe_sol_eclipse_when_glob(double tjd_start, int32_t ifl, int32_t ifltype
 int32_t swe_lun_eclipse_when(double tjd_start, int32_t ifl, int32_t ifltype, double *tret, int32_t backward, char *serr);
 int32_t swe_fixstar2_ut(char *star, double tjd_ut, int32_t iflag, double *xx, char *serr);
 int32_t swe_fixstar2_mag(char *star, double *mag, char *serr);
+int32_t swe_rise_trans(double tjd_ut, int32_t ipl, char *starname, int32_t epheflag, int32_t rsmi, double *geopos, double atpress, double attemp, double *tret, char *serr);
 
 // Planet constants
 #define SE_ECL_NUT      -1
@@ -53,6 +54,14 @@ int32_t swe_fixstar2_mag(char *star, double *mag, char *serr);
 // Calculation flags
 #define SEFLG_SWIEPH    2       /* use SWISSEPH ephemeris */
 #define SEFLG_SPEED     256     /* high precision speed */
+
+// Rise/set/transit type flags for swe_rise_trans
+#define SE_CALC_RISE         1   /* rising */
+#define SE_CALC_SET          2   /* setting */
+#define SE_CALC_MTRANSIT     4   /* upper meridian transit */
+#define SE_CALC_ITRANSIT     8   /* lower meridian transit */
+#define SE_BIT_DISC_CENTER   256 /* use disc centre instead of limb */
+#define SE_BIT_NO_REFRACTION 512 /* ignore atmospheric refraction */
 
 // House system constants
 #define SE_HSYS_PLACIDUS     'P'
