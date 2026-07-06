@@ -1,7 +1,7 @@
 // AstronomicalCycles.strings - Nederlands
 // EnigmaApl
 
-"view.astrocycles.title"                   = "Cycli";
+"view.astrocycles.title"                   = "Perioden";
 "view.astrocycles.startdate"               = "Begindatum";
 "view.astrocycles.enddate"                 = "Einddatum";
 "view.astrocycles.observerposition"        = "Waarnemeerspositie";

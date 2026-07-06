@@ -102,23 +102,23 @@ struct PreNatalOrchestrator: Sendable {
 
         var runJD = startJD
         while runJD < endJD {
-            guard let eclJD = se.nextSolarEclipse(afterJD: runJD) else { break }
-            if eclJD > endJD { break }
-            let lon = calcLon(.sun, eclJD, se)
-            result.append(make(prenatalJD: eclJD, conceptionJD: conceptionJD, natalJD: natalJD,
+            guard let ecl = se.nextSolarEclipse(afterJD: runJD) else { break }
+            if ecl.maxJD > endJD { break }
+            let lon = calcLon(.sun, ecl.maxJD, se)
+            result.append(make(prenatalJD: ecl.maxJD, conceptionJD: conceptionJD, natalJD: natalJD,
                                kind: .solarEclipse, lon1: lon, lon2: nil, se: se))
-            runJD = eclJD + 1.0
+            runJD = ecl.maxJD + 1.0
         }
 
         runJD = startJD
         while runJD < endJD {
-            guard let eclJD = se.nextLunarEclipse(afterJD: runJD) else { break }
-            if eclJD > endJD { break }
+            guard let ecl = se.nextLunarEclipse(afterJD: runJD) else { break }
+            if ecl.maxJD > endJD { break }
             // C# reference uses the Sun's longitude for both solar and lunar eclipses.
-            let lon = calcLon(.sun, eclJD, se)
-            result.append(make(prenatalJD: eclJD, conceptionJD: conceptionJD, natalJD: natalJD,
+            let lon = calcLon(.sun, ecl.maxJD, se)
+            result.append(make(prenatalJD: ecl.maxJD, conceptionJD: conceptionJD, natalJD: natalJD,
                                kind: .lunarEclipse, lon1: lon, lon2: nil, se: se))
-            runJD = eclJD + 1.0
+            runJD = ecl.maxJD + 1.0
         }
 
         return result

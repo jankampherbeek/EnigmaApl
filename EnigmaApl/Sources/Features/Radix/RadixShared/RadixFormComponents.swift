@@ -408,6 +408,7 @@ struct LocationSection: View {
     var initialCountry: String? = nil
     var initialCity: String? = nil
     var selectedCountryName: Binding<String>? = nil
+    var onCitySelected: ((LocationCity) -> Void)? = nil
 
     @StateObject private var searchModel = LocationSearchModel()
 
@@ -450,6 +451,7 @@ struct LocationSection: View {
                     searchModel.selectCity(city)
                     locationName = city.name
                     applyCity(city)
+                    onCitySelected?(city)
                 }
             }
 

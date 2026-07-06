@@ -92,7 +92,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case progressive = "Progressive"
     case fixstars = "Fixed Stars"
     case research = "Research"
-    case cycles = "Cycles"
+    case cycles = "Periods"
     case calculators = "Calculators"
     case config = "Configuratie"
 

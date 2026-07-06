@@ -1,0 +1,36 @@
+// Eclipses.strings - Deutsch
+// EnigmaApl
+
+"view.eclipses.title"                          = "Finsternisse";
+"view.eclipses.startdate"                      = "Startdatum";
+"view.eclipses.enddate"                        = "Enddatum";
+"view.eclipses.eclipsetype"                    = "Finsternistyp";
+"view.eclipses.solar"                          = "Sonnenfinsternisse";
+"view.eclipses.lunar"                          = "Mondfinsternisse";
+"view.eclipses.all"                            = "Alle Finsternisse";
+"view.eclipses.location"                       = "Ort (optional)";
+"view.eclipses.coordinates"                    = "Koordinaten";
+"view.eclipses.calculate"                      = "Berechnen";
+"view.eclipses.year"                           = "Jahr";
+"view.eclipses.month"                          = "Monat";
+"view.eclipses.day"                            = "Tag";
+"view.eclipses.calendar"                       = "Kalender";
+"view.eclipses.yearcount"                      = "Jahreszählung";
+"view.eclipses.validation.invalidyear"         = "Gib ein gültiges Jahr für die gewählte Jahreszählung ein";
+"view.eclipses.validation.enddateorder"        = "Das Enddatum muss nach dem Startdatum liegen";
+"view.eclipses.results.title"                  = "Ergebnisse";
+"view.eclipses.results.noresults"              = "Noch keine Ergebnisse. Start- und Enddatum eingeben und Berechnen klicken.";
+"view.eclipses.results.col.date"               = "Datum";
+"view.eclipses.results.col.kind"               = "Art";
+"view.eclipses.results.col.position"           = "Position";
+"view.eclipses.results.col.type"               = "Typ";
+"view.eclipses.results.col.saros"              = "Saros";
+"view.eclipses.results.col.visible"            = "Sichtbar";
+"view.eclipses.results.kind.solar"             = "Sonne";
+"view.eclipses.results.kind.lunar"             = "Mond";
+"view.eclipses.results.type.total"             = "Total";
+"view.eclipses.results.type.annular"           = "Ringförmig";
+"view.eclipses.results.type.partial"           = "Partiell";
+"view.eclipses.results.type.penumbral"         = "Halbschatten";
+"view.eclipses.help"                           = "Gib ein Startdatum und ein Enddatum ein. Enigma sucht dann alle Finsternisse in diesem Zeitraum.\n\nWähle zwischen Sonnenfinsternisse, Mondfinsternisse oder Alle Finsternisse.\n\nDer Ort ist optional. Wenn du einen Ort angibst, verwendet Enigma lokale Finsternis-Funktionen und zeigt auch an, ob die Finsternis an diesem Ort sichtbar ist. Ohne Ort werden globale Finsternisdaten verwendet.\n\nKlicke auf Berechnen, um die Suche zu starten.";
+"view.eclipses.exportpdf"                      = "PDF exportieren";

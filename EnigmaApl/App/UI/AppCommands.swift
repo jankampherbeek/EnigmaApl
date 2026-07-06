@@ -54,8 +54,8 @@ struct AppCommands: Commands {
                 .keyboardShortcut("5", modifiers: [.command, .option])
         }
 
-        CommandMenu("Cycles") {
-            Button("Activeer Cycles") { app.setMode(.cycles) }
+        CommandMenu("Periods") {
+            Button("Activeer Periods") { app.setMode(.cycles) }
                 .keyboardShortcut("3", modifiers: [.command, .shift])
             Divider()
             Button("Astronomical Cycles") { app.setMode(.cycles); cyclesNav.setSection(.astronomicalCycles) }
@@ -64,6 +64,7 @@ struct AppCommands: Commands {
                 .keyboardShortcut("8", modifiers: [.command, .option])
             Button("Tables/Graphs")        { app.setMode(.cycles); cyclesNav.setSection(.tablesGraphs) }
                 .keyboardShortcut("9", modifiers: [.command, .option])
+            Button("Eclipses")             { app.setMode(.cycles); cyclesNav.setSection(.eclipses) }
         }
 
         CommandMenu("Configuratie") {

@@ -1,0 +1,36 @@
+// Eclipses.strings - Français
+// EnigmaApl
+
+"view.eclipses.title"                          = "Éclipses";
+"view.eclipses.startdate"                      = "Date de début";
+"view.eclipses.enddate"                        = "Date de fin";
+"view.eclipses.eclipsetype"                    = "Type d'éclipse";
+"view.eclipses.solar"                          = "Éclipses solaires";
+"view.eclipses.lunar"                          = "Éclipses lunaires";
+"view.eclipses.all"                            = "Toutes les éclipses";
+"view.eclipses.location"                       = "Lieu (optionnel)";
+"view.eclipses.coordinates"                    = "Coordonnées";
+"view.eclipses.calculate"                      = "Calculer";
+"view.eclipses.year"                           = "Année";
+"view.eclipses.month"                          = "Mois";
+"view.eclipses.day"                            = "Jour";
+"view.eclipses.calendar"                       = "Calendrier";
+"view.eclipses.yearcount"                      = "Système d'années";
+"view.eclipses.validation.invalidyear"         = "Entrez une année valide pour le système d'années sélectionné";
+"view.eclipses.validation.enddateorder"        = "La date de fin doit être postérieure à la date de début";
+"view.eclipses.results.title"                  = "Résultats";
+"view.eclipses.results.noresults"              = "Pas encore de résultats. Entrez une date de début et de fin, puis cliquez sur Calculer.";
+"view.eclipses.results.col.date"               = "Date";
+"view.eclipses.results.col.kind"               = "Type";
+"view.eclipses.results.col.position"           = "Position";
+"view.eclipses.results.col.type"               = "Sous-type";
+"view.eclipses.results.col.saros"              = "Saros";
+"view.eclipses.results.col.visible"            = "Visible";
+"view.eclipses.results.kind.solar"             = "Solaire";
+"view.eclipses.results.kind.lunar"             = "Lunaire";
+"view.eclipses.results.type.total"             = "Totale";
+"view.eclipses.results.type.annular"           = "Annulaire";
+"view.eclipses.results.type.partial"           = "Partielle";
+"view.eclipses.results.type.penumbral"         = "Pénombrale";
+"view.eclipses.help"                           = "Entrez une date de début et une date de fin. Enigma recherchera alors toutes les éclipses dans cette période.\n\nChoisissez entre Éclipses solaires, Éclipses lunaires ou Toutes les éclipses.\n\nLe lieu est optionnel. Si vous entrez un lieu, Enigma utilise des fonctions d'éclipses locales et indique également si l'éclipse est visible à cet endroit. Sans lieu, les données d'éclipses globales sont utilisées.\n\nCliquez sur Calculer pour lancer la recherche.";
+"view.eclipses.exportpdf"                      = "Exporter en PDF";

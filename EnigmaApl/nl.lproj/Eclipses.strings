@@ -1,0 +1,36 @@
+// Eclipses.strings - Nederlands
+// EnigmaApl
+
+"view.eclipses.title"                          = "Eclipsen";
+"view.eclipses.startdate"                      = "Begindatum";
+"view.eclipses.enddate"                        = "Einddatum";
+"view.eclipses.eclipsetype"                    = "Type eclips";
+"view.eclipses.solar"                          = "Zonsverduisteringen";
+"view.eclipses.lunar"                          = "Maansverduisteringen";
+"view.eclipses.all"                            = "Alle eclipsen";
+"view.eclipses.location"                       = "Locatie (optioneel)";
+"view.eclipses.coordinates"                    = "Coördinaten";
+"view.eclipses.calculate"                      = "Bereken";
+"view.eclipses.year"                           = "Jaar";
+"view.eclipses.month"                          = "Maand";
+"view.eclipses.day"                            = "Dag";
+"view.eclipses.calendar"                       = "Kalender";
+"view.eclipses.yearcount"                      = "Jaartelling";
+"view.eclipses.validation.invalidyear"         = "Voer een geldig jaar in voor de gekozen jaartelling";
+"view.eclipses.validation.enddateorder"        = "De einddatum moet na de begindatum liggen";
+"view.eclipses.results.title"                  = "Resultaten";
+"view.eclipses.results.noresults"              = "Nog geen resultaten. Vul een begin- en einddatum in en klik op Bereken.";
+"view.eclipses.results.col.date"               = "Datum";
+"view.eclipses.results.col.kind"               = "Soort";
+"view.eclipses.results.col.position"           = "Positie";
+"view.eclipses.results.col.type"               = "Type";
+"view.eclipses.results.col.saros"              = "Saros";
+"view.eclipses.results.col.visible"            = "Zichtbaar";
+"view.eclipses.results.kind.solar"             = "Zon";
+"view.eclipses.results.kind.lunar"             = "Maan";
+"view.eclipses.results.type.total"             = "Totaal";
+"view.eclipses.results.type.annular"           = "Ringvormig";
+"view.eclipses.results.type.partial"           = "Partieel";
+"view.eclipses.results.type.penumbral"         = "Penumbraal";
+"view.eclipses.help"                           = "Voer een begindatum en een einddatum in. Enigma zoekt dan alle eclipsen in die periode.\n\nKies tussen Zonsverduisteringen, Maansverduisteringen of Alle eclipsen.\n\nDe locatie is optioneel. Als je een locatie invoert, gebruikt Enigma lokale eclipsfuncties en laat ook zien of de eclips op die locatie zichtbaar is. Zonder locatie worden globale eclipsgegevens gebruikt.\n\nKlik op Bereken om de zoekactie te starten.";
+"view.eclipses.exportpdf"                      = "Exporteer PDF";

@@ -166,6 +166,134 @@ public struct ApsidesResult {
 
 
 
+// MARK: - Solar Eclipse Local Result
+/// Result of a local solar eclipse search via swe_sol_eclipse_when_loc
+public struct SolarEclipseLocalResult {
+    /// True if the eclipse type is total (SE_ECL_TOTAL)
+    public let isTotal: Bool
+    /// True if the eclipse type is annular (SE_ECL_ANNULAR)
+    public let isAnnular: Bool
+    /// True if the eclipse type is partial (SE_ECL_PARTIAL)
+    public let isPartial: Bool
+    /// True if the eclipse is visible at the given location (SE_ECL_VISIBLE)
+    public let isVisible: Bool
+    /// Julian Day (UT) of maximum eclipse (tret[0])
+    public let maxEclipseJD: Double
+    /// Fraction of solar disc covered by the Moon (obscuration, attr[2])
+    public let obscuration: Double
+    /// Saros series number (attr[9]; -99999999 if not available)
+    public let sarosNumber: Double
+    /// Saros series member number (attr[10]; -99999999 if not available)
+    public let sarosMemberNumber: Double
+
+    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, isVisible: Bool,
+                maxEclipseJD: Double, obscuration: Double,
+                sarosNumber: Double, sarosMemberNumber: Double) {
+        self.isTotal = isTotal
+        self.isAnnular = isAnnular
+        self.isPartial = isPartial
+        self.isVisible = isVisible
+        self.maxEclipseJD = maxEclipseJD
+        self.obscuration = obscuration
+        self.sarosNumber = sarosNumber
+        self.sarosMemberNumber = sarosMemberNumber
+    }
+}
+
+// MARK: - Lunar Eclipse Local Result
+/// Result of a local lunar eclipse search via swe_lun_eclipse_when_loc
+public struct LunarEclipseLocalResult {
+    /// True if the eclipse type is total (SE_ECL_TOTAL)
+    public let isTotal: Bool
+    /// True if the eclipse type is penumbral (SE_ECL_PENUMBRAL)
+    public let isPenumbral: Bool
+    /// True if the eclipse type is partial (SE_ECL_PARTIAL)
+    public let isPartial: Bool
+    /// Julian Day (UT) of maximum eclipse (tret[0])
+    public let maxEclipseJD: Double
+    /// True altitude of the Moon above the horizon at maximum eclipse in degrees (attr[5])
+    public let trueAltitude: Double
+    /// Saros series number (attr[9]; -99999999 if not available)
+    public let sarosNumber: Double
+    /// Saros series member number (attr[10]; -99999999 if not available)
+    public let sarosMemberNumber: Double
+
+    public init(isTotal: Bool, isPenumbral: Bool, isPartial: Bool,
+                maxEclipseJD: Double, trueAltitude: Double,
+                sarosNumber: Double, sarosMemberNumber: Double) {
+        self.isTotal = isTotal
+        self.isPenumbral = isPenumbral
+        self.isPartial = isPartial
+        self.maxEclipseJD = maxEclipseJD
+        self.trueAltitude = trueAltitude
+        self.sarosNumber = sarosNumber
+        self.sarosMemberNumber = sarosMemberNumber
+    }
+}
+
+// MARK: - Solar Eclipse Global Result
+/// Result of a global solar eclipse search via swe_sol_eclipse_when_glob
+public struct SolarEclipseGlobalResult {
+    public let isTotal: Bool
+    public let isAnnular: Bool
+    public let isPartial: Bool
+    /// Julian Day (UT) of maximum eclipse (tret[0])
+    public let maxJD: Double
+
+    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, maxJD: Double) {
+        self.isTotal = isTotal
+        self.isAnnular = isAnnular
+        self.isPartial = isPartial
+        self.maxJD = maxJD
+    }
+}
+
+// MARK: - Lunar Eclipse Global Result
+/// Result of a global lunar eclipse search via swe_lun_eclipse_when
+public struct LunarEclipseGlobalResult {
+    public let isTotal: Bool
+    public let isPenumbral: Bool
+    public let isPartial: Bool
+    /// Julian Day (UT) of maximum eclipse (tret[0])
+    public let maxJD: Double
+
+    public init(isTotal: Bool, isPenumbral: Bool, isPartial: Bool, maxJD: Double) {
+        self.isTotal = isTotal
+        self.isPenumbral = isPenumbral
+        self.isPartial = isPartial
+        self.maxJD = maxJD
+    }
+}
+
+// MARK: - Next Solar / Lunar Eclipse Result (global + longitude)
+/// Combines a global eclipse search result with the ecliptic longitude of the Sun/Moon at maximum.
+
+public struct NextSolarEclipseResult {
+    public let isTotal: Bool
+    public let isAnnular: Bool
+    public let isPartial: Bool
+    public let maxJD: Double
+    public let longitude: Double
+
+    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, maxJD: Double, longitude: Double) {
+        self.isTotal = isTotal; self.isAnnular = isAnnular; self.isPartial = isPartial
+        self.maxJD = maxJD; self.longitude = longitude
+    }
+}
+
+public struct NextLunarEclipseResult {
+    public let isTotal: Bool
+    public let isPenumbral: Bool
+    public let isPartial: Bool
+    public let maxJD: Double
+    public let longitude: Double
+
+    public init(isTotal: Bool, isPenumbral: Bool, isPartial: Bool, maxJD: Double, longitude: Double) {
+        self.isTotal = isTotal; self.isPenumbral = isPenumbral; self.isPartial = isPartial
+        self.maxJD = maxJD; self.longitude = longitude
+    }
+}
+
 // MARK: - Named Ecliptic Coordinates
 
 /// Represents a named celestial point with its ecliptic coordinates

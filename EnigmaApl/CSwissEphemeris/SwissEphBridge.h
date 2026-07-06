@@ -32,7 +32,11 @@ double swe_deltat_ex(double tjd, int32_t iflag, char *serr);
 int32_t swe_get_orbital_elements(double tjd_et, int32_t ipl, int32_t iflag, double *dret, char *serr);
 int32_t swe_nod_aps_ut(double tjd_ut, int32_t ipl, int32_t iflag, int32_t method, double *xnasc, double *xndsc, double *xperi, double *xaphe, char *serr);
 int32_t swe_sol_eclipse_when_glob(double tjd_start, int32_t ifl, int32_t ifltype, double *tret, int32_t backward, char *serr);
+int32_t swe_sol_eclipse_when_loc(double tjd_start, int32_t ifl, double *geopos, double *tret, double *attr, int32_t backward, char *serr);
+int32_t swe_sol_eclipse_where(double tjd_ut, int32_t ifl, double *geopos_return, double *attr, char *serr);
 int32_t swe_lun_eclipse_when(double tjd_start, int32_t ifl, int32_t ifltype, double *tret, int32_t backward, char *serr);
+int32_t swe_lun_eclipse_when_loc(double tjd_start, int32_t ifl, double *geopos, double *tret, double *attr, int32_t backward, char *serr);
+int32_t swe_lun_eclipse_how(double tjd_ut, int32_t ifl, double *geopos, double *attr, char *serr);
 int32_t swe_fixstar2_ut(char *star, double tjd_ut, int32_t iflag, double *xx, char *serr);
 int32_t swe_fixstar2_mag(char *star, double *mag, char *serr);
 int32_t swe_rise_trans(double tjd_ut, int32_t ipl, char *starname, int32_t epheflag, int32_t rsmi, double *geopos, double atpress, double attemp, double *tret, char *serr);
@@ -54,6 +58,13 @@ int32_t swe_rise_trans(double tjd_ut, int32_t ipl, char *starname, int32_t ephef
 // Calculation flags
 #define SEFLG_SWIEPH    2       /* use SWISSEPH ephemeris */
 #define SEFLG_SPEED     256     /* high precision speed */
+
+// Eclipse type flags (return value of eclipse functions; values match swephexp.h)
+#define SE_ECL_TOTAL        4
+#define SE_ECL_ANNULAR      8
+#define SE_ECL_PARTIAL     16
+#define SE_ECL_PENUMBRAL   64
+#define SE_ECL_VISIBLE    128
 
 // Rise/set/transit type flags for swe_rise_trans
 #define SE_CALC_RISE         1   /* rising */

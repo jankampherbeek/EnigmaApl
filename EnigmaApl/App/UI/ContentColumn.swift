@@ -109,6 +109,8 @@ struct ContentColumn: View {
                     EmptyView()
                 case .ephemeris:
                     EphemerisInputScreen()
+                case .eclipses:
+                    EclipsesInputScreen()
                 }
             case .calculators:
                 CalculatorsScreen()

@@ -75,6 +75,9 @@ struct SidebarView: View {
                     Button { cyclesNav.setSection(.ephemeris) } label: {
                         row(CyclesSection.ephemeris.rawValue, app.nav.cycles.section == .ephemeris)
                     }.buttonStyle(.plain)
+                    Button { cyclesNav.setSection(.eclipses) } label: {
+                        row(CyclesSection.eclipses.rawValue, app.nav.cycles.section == .eclipses)
+                    }.buttonStyle(.plain)
                 }
             case .fixstars:
                 EmptyView()

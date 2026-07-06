@@ -839,31 +839,118 @@ public class SEWrapper {
     
     // MARK: - Eclipse Finding
 
-    /// Find the next solar eclipse (global maximum) after the given Julian Day.
+    /// Find the next global solar eclipse after the given Julian Day,
+    /// returning type flags and the Sun's ecliptic longitude at maximum eclipse.
     /// - Parameter afterJD: Start search after this JD (UT)
-    /// - Returns: JD of the next solar eclipse maximum, or nil on error
-    public func nextSolarEclipse(afterJD: Double) -> Double? {
-        guard isInitialized else { return nil }
-        var tret = [Double](repeating: 0.0, count: 10)
-        var error = [CChar](repeating: 0, count: 256)
-        var returnCode: Int32 = 0
-
-        tret.withUnsafeMutableBufferPointer { tretBuf in
-            error.withUnsafeMutableBufferPointer { errBuf in
-                guard let tretPtr = tretBuf.baseAddress,
-                      let errPtr  = errBuf.baseAddress else { return }
-                returnCode = swe_sol_eclipse_when_glob(afterJD, 2, 0, tretPtr, 0, errPtr)
-            }
-        }
-
-        guard returnCode >= 0 else { return nil }
-        return tret[0]
+    /// - Parameter backward: Pass true to search backward in time
+    /// - Returns: NextSolarEclipseResult, or nil on error
+    public func nextSolarEclipse(afterJD: Double, backward: Bool = false) -> NextSolarEclipseResult? {
+        guard let g = solEclipseGlobal(afterJD: afterJD, backward: backward) else { return nil }
+        let lon = calculateFactorPosition(julianDay: g.maxJD, factor: Int(SE_SUN),
+                                          flags: Int(SEFLG_SWIEPH))?.mainPos ?? 0
+        return NextSolarEclipseResult(isTotal: g.isTotal, isAnnular: g.isAnnular, isPartial: g.isPartial,
+                                      maxJD: g.maxJD, longitude: lon)
     }
 
-    /// Find the next lunar eclipse maximum after the given Julian Day.
+    /// Find the next local solar eclipse visible at a geographic location after the given Julian Day.
+    /// - Parameters:
+    ///   - afterJD: Start search after this JD (UT)
+    ///   - geoLon: Geographic longitude of observer (east positive)
+    ///   - geoLat: Geographic latitude of observer (north positive)
+    ///   - height: Height above sea level in metres
+    ///   - backward: Pass true to search backward in time
+    /// - Returns: SolarEclipseLocalResult, or nil on error
+    /// Docu from SE:
+    ///     int32 swe_sol_eclipse_when_loc(
+    ///         double tjd_start,   /* start date for search, Jul. day UT */
+    ///         int32 ifl,          /* ephemeris flag */
+    ///         double *geopos,     /* 3 doubles: geographic lon, lat, height */
+    ///         double *tret,       /* return array, 10 doubles */
+    ///         double *attr,       /* return array, 20 doubles */
+    ///         AS_BOOL backward,   /* TRUE, if backward search */
+    ///         char *serr);        /* return error string */
+    ///     tret[0]  = time of maximum eclipse
+    ///     attr[2]  = fraction of solar disc covered by moon (obscuration)
+    ///     attr[9]  = saros series number
+    ///     attr[10] = saros series member number
+    public func solEclipseLocal(afterJD: Double, geoLon: Double, geoLat: Double, height: Double,
+                                backward: Bool = false) -> SolarEclipseLocalResult? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var geoPos: [Double] = [geoLon, geoLat, height]
+        var tret = [Double](repeating: 0.0, count: 10)
+        var attr = [Double](repeating: 0.0, count: 20)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        geoPos.withUnsafeMutableBufferPointer { geoPosBuf in
+            tret.withUnsafeMutableBufferPointer { tretBuf in
+                attr.withUnsafeMutableBufferPointer { attrBuf in
+                    error.withUnsafeMutableBufferPointer { errBuf in
+                        guard let geoPosPtr = geoPosBuf.baseAddress,
+                              let tretPtr   = tretBuf.baseAddress,
+                              let attrPtr   = attrBuf.baseAddress,
+                              let errPtr    = errBuf.baseAddress else {
+                            Logger.log.error("Failed to get valid pointers for local solar eclipse calculation")
+                            return
+                        }
+                        returnCode = swe_sol_eclipse_when_loc(
+                            afterJD,
+                            SEFLG_SWIEPH,
+                            geoPosPtr,
+                            tretPtr,
+                            attrPtr,
+                            backward ? 1 : 0,
+                            errPtr
+                        )
+                        if returnCode < 0 {
+                            errorMessage = String(cString: errPtr)
+                        }
+                    }
+                }
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating local solar eclipse: \(errorMessage)")
+            return nil
+        }
+
+        return SolarEclipseLocalResult(
+            isTotal:          (returnCode & SE_ECL_TOTAL)   != 0,
+            isAnnular:        (returnCode & SE_ECL_ANNULAR) != 0,
+            isPartial:        (returnCode & SE_ECL_PARTIAL) != 0,
+            isVisible:        (returnCode & SE_ECL_VISIBLE) != 0,
+            maxEclipseJD:     tret[0],
+            obscuration:      attr[2],
+            sarosNumber:      attr[9],
+            sarosMemberNumber: attr[10]
+        )
+    }
+
+    /// Find the next global lunar eclipse after the given Julian Day,
+    /// returning type flags and the Moon's ecliptic longitude at maximum eclipse.
     /// - Parameter afterJD: Start search after this JD (UT)
-    /// - Returns: JD of the next lunar eclipse maximum, or nil on error
-    public func nextLunarEclipse(afterJD: Double) -> Double? {
+    /// - Parameter backward: Pass true to search backward in time
+    /// - Returns: NextLunarEclipseResult, or nil on error
+    public func nextLunarEclipse(afterJD: Double, backward: Bool = false) -> NextLunarEclipseResult? {
+        guard let g = lunEclipseGlobal(afterJD: afterJD, backward: backward) else { return nil }
+        let lon = calculateFactorPosition(julianDay: g.maxJD, factor: Int(SE_MOON),
+                                          flags: Int(SEFLG_SWIEPH))?.mainPos ?? 0
+        return NextLunarEclipseResult(isTotal: g.isTotal, isPenumbral: g.isPenumbral, isPartial: g.isPartial,
+                                       maxJD: g.maxJD, longitude: lon)
+    }
+
+    /// Find the next global solar eclipse after the given Julian Day, returning type info.
+    /// - Parameters:
+    ///   - afterJD: Start search after this JD (UT)
+    ///   - backward: Pass true to search backward in time
+    /// - Returns: SolarEclipseGlobalResult, or nil on error
+    public func solEclipseGlobal(afterJD: Double, backward: Bool = false) -> SolarEclipseGlobalResult? {
         guard isInitialized else { return nil }
         var tret = [Double](repeating: 0.0, count: 10)
         var error = [CChar](repeating: 0, count: 256)
@@ -873,12 +960,174 @@ public class SEWrapper {
             error.withUnsafeMutableBufferPointer { errBuf in
                 guard let tretPtr = tretBuf.baseAddress,
                       let errPtr  = errBuf.baseAddress else { return }
-                returnCode = swe_lun_eclipse_when(afterJD, 2, 0, tretPtr, 0, errPtr)
+                returnCode = swe_sol_eclipse_when_glob(afterJD, SEFLG_SWIEPH, 0, tretPtr,
+                                                       backward ? 1 : 0, errPtr)
+            }
+        }
+        guard returnCode >= 0 else { return nil }
+        return SolarEclipseGlobalResult(
+            isTotal:   (returnCode & SE_ECL_TOTAL)   != 0,
+            isAnnular: (returnCode & SE_ECL_ANNULAR) != 0,
+            isPartial: (returnCode & SE_ECL_PARTIAL) != 0,
+            maxJD:     tret[0]
+        )
+    }
+
+    /// Find the next global lunar eclipse after the given Julian Day, returning type info.
+    /// - Parameters:
+    ///   - afterJD: Start search after this JD (UT)
+    ///   - backward: Pass true to search backward in time
+    /// - Returns: LunarEclipseGlobalResult, or nil on error
+    public func lunEclipseGlobal(afterJD: Double, backward: Bool = false) -> LunarEclipseGlobalResult? {
+        guard isInitialized else { return nil }
+        var tret = [Double](repeating: 0.0, count: 10)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+
+        tret.withUnsafeMutableBufferPointer { tretBuf in
+            error.withUnsafeMutableBufferPointer { errBuf in
+                guard let tretPtr = tretBuf.baseAddress,
+                      let errPtr  = errBuf.baseAddress else { return }
+                returnCode = swe_lun_eclipse_when(afterJD, SEFLG_SWIEPH, 0, tretPtr,
+                                                  backward ? 1 : 0, errPtr)
+            }
+        }
+        guard returnCode >= 0 else { return nil }
+        return LunarEclipseGlobalResult(
+            isTotal:     (returnCode & SE_ECL_TOTAL)     != 0,
+            isPenumbral: (returnCode & SE_ECL_PENUMBRAL) != 0,
+            isPartial:   (returnCode & SE_ECL_PARTIAL)   != 0,
+            maxJD:       tret[0]
+        )
+    }
+
+    /// Returns Saros series and member numbers for a solar eclipse at the given JD by locating
+    /// the eclipse path's central point (swe_sol_eclipse_where). Works regardless of observer location.
+    public func solEclipseSaros(jd: Double) -> (sarosNumber: Double, sarosMemberNumber: Double)? {
+        guard isInitialized else { return nil }
+        var geopos = [Double](repeating: 0.0, count: 3)
+        var attr   = [Double](repeating: 0.0, count: 20)
+        var error  = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+
+        geopos.withUnsafeMutableBufferPointer { geoposBuf in
+            attr.withUnsafeMutableBufferPointer { attrBuf in
+                error.withUnsafeMutableBufferPointer { errBuf in
+                    guard let geoposPtr = geoposBuf.baseAddress,
+                          let attrPtr   = attrBuf.baseAddress,
+                          let errPtr    = errBuf.baseAddress else { return }
+                    returnCode = swe_sol_eclipse_where(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr)
+                }
+            }
+        }
+        guard returnCode > 0 else { return nil }
+        return (attr[9], attr[10])
+    }
+
+    /// Returns Saros series and member numbers for a lunar eclipse at the given JD.
+    /// swe_lun_eclipse_how returns 0 when the Moon is below the horizon at the given location,
+    /// so four equatorial longitudes 90° apart are tried in turn. Since the Moon is above the
+    /// horizon for roughly half of Earth at any time, at least one candidate always succeeds.
+    public func lunEclipseSaros(jd: Double) -> (sarosNumber: Double, sarosMemberNumber: Double)? {
+        guard isInitialized else { return nil }
+        for tryLon in [0.0, 90.0, 180.0, 270.0] {
+            var geopos = [tryLon, 0.0, 0.0]
+            var attr   = [Double](repeating: 0.0, count: 20)
+            var error  = [CChar](repeating: 0, count: 256)
+            var returnCode: Int32 = 0
+
+            geopos.withUnsafeMutableBufferPointer { geoposBuf in
+                attr.withUnsafeMutableBufferPointer { attrBuf in
+                    error.withUnsafeMutableBufferPointer { errBuf in
+                        guard let geoposPtr = geoposBuf.baseAddress,
+                              let attrPtr   = attrBuf.baseAddress,
+                              let errPtr    = errBuf.baseAddress else { return }
+                        returnCode = swe_lun_eclipse_how(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr)
+                    }
+                }
+            }
+            if returnCode > 0 { return (attr[9], attr[10]) }
+        }
+        return nil
+    }
+
+    /// Find the next local lunar eclipse visible at a geographic location after the given Julian Day.
+    /// - Parameters:
+    ///   - afterJD: Start search after this JD (UT)
+    ///   - geoLon: Geographic longitude of observer (east positive)
+    ///   - geoLat: Geographic latitude of observer (north positive)
+    ///   - height: Height above sea level in metres
+    ///   - backward: Pass true to search backward in time
+    /// - Returns: LunarEclipseLocalResult, or nil on error
+    /// Docu from SE:
+    ///     int32 swe_lun_eclipse_when_loc(
+    ///         double tjd_start,   /* start date for search, Jul. day UT */
+    ///         int32 ifl,          /* ephemeris flag */
+    ///         double *geopos,     /* 3 doubles: geographic lon, lat, height */
+    ///         double *tret,       /* return array, 10 doubles */
+    ///         double *attr,       /* return array, 20 doubles */
+    ///         AS_BOOL backward,   /* TRUE, if backward search */
+    ///         char *serr);        /* return error string */
+    ///     tret[0]  = time of maximum eclipse
+    ///     attr[5]  = true altitude of moon above horizon at tjd
+    ///     attr[9]  = saros series number
+    ///     attr[10] = saros series member number
+    public func lunEclipseLocal(afterJD: Double, geoLon: Double, geoLat: Double, height: Double,
+                                backward: Bool = false) -> LunarEclipseLocalResult? {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return nil
+        }
+
+        var geoPos: [Double] = [geoLon, geoLat, height]
+        var tret = [Double](repeating: 0.0, count: 10)
+        var attr = [Double](repeating: 0.0, count: 20)
+        var error = [CChar](repeating: 0, count: 256)
+        var returnCode: Int32 = 0
+        var errorMessage: String = ""
+
+        geoPos.withUnsafeMutableBufferPointer { geoPosBuf in
+            tret.withUnsafeMutableBufferPointer { tretBuf in
+                attr.withUnsafeMutableBufferPointer { attrBuf in
+                    error.withUnsafeMutableBufferPointer { errBuf in
+                        guard let geoPosPtr = geoPosBuf.baseAddress,
+                              let tretPtr   = tretBuf.baseAddress,
+                              let attrPtr   = attrBuf.baseAddress,
+                              let errPtr    = errBuf.baseAddress else {
+                            Logger.log.error("Failed to get valid pointers for local lunar eclipse calculation")
+                            return
+                        }
+                        returnCode = swe_lun_eclipse_when_loc(
+                            afterJD,
+                            SEFLG_SWIEPH,
+                            geoPosPtr,
+                            tretPtr,
+                            attrPtr,
+                            backward ? 1 : 0,
+                            errPtr
+                        )
+                        if returnCode < 0 {
+                            errorMessage = String(cString: errPtr)
+                        }
+                    }
+                }
             }
         }
 
-        guard returnCode >= 0 else { return nil }
-        return tret[0]
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating local lunar eclipse: \(errorMessage)")
+            return nil
+        }
+
+        return LunarEclipseLocalResult(
+            isTotal:           (returnCode & SE_ECL_TOTAL)     != 0,
+            isPenumbral:       (returnCode & SE_ECL_PENUMBRAL) != 0,
+            isPartial:         (returnCode & SE_ECL_PARTIAL)   != 0,
+            maxEclipseJD:      tret[0],
+            trueAltitude:      attr[5],
+            sarosNumber:       attr[9],
+            sarosMemberNumber: attr[10]
+        )
     }
 
     // MARK: - Paran Transit Calculation

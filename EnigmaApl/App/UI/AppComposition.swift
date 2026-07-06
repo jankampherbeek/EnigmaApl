@@ -33,6 +33,7 @@ final class AppComposition: ObservableObject {
     let solarReturnModel: SolarReturnModel
     let primDirModel: PrimDirModel
     let preNatalModel: PreNatalModel
+    let eclipsesModel: EclipsesModel
     let ephemerisModel: EphemerisModel
     let fixStarModel: FixStarModel
     let paranModel: ParansModel
@@ -88,6 +89,7 @@ final class AppComposition: ObservableObject {
         self.solarReturnModel = SolarReturnModel()
         self.primDirModel = PrimDirModel()
         self.preNatalModel = PreNatalModel()
+        self.eclipsesModel = EclipsesModel()
         self.ephemerisModel = EphemerisModel()
         self.fixStarModel = FixStarModel()
         self.paranModel = ParansModel()

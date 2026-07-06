@@ -1,7 +1,7 @@
 // AstronomicalCycles.strings - Deutsch
 // EnigmaApl
 
-"view.astrocycles.title"                   = "Zyklen";
+"view.astrocycles.title"                   = "Perioden";
 "view.astrocycles.startdate"               = "Startdatum";
 "view.astrocycles.enddate"                 = "Enddatum";
 "view.astrocycles.observerposition"        = "Beobachterposition";
