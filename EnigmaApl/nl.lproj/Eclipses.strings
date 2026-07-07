@@ -30,7 +30,9 @@
 "view.eclipses.results.kind.lunar"             = "Maan";
 "view.eclipses.results.type.total"             = "Totaal";
 "view.eclipses.results.type.annular"           = "Ringvormig";
+"view.eclipses.results.type.hybrid"            = "Hybride";
 "view.eclipses.results.type.partial"           = "Partieel";
 "view.eclipses.results.type.penumbral"         = "Penumbraal";
-"view.eclipses.help"                           = "Voer een begindatum en een einddatum in. Enigma zoekt dan alle eclipsen in die periode.\n\nKies tussen Zonsverduisteringen, Maansverduisteringen of Alle eclipsen.\n\nDe locatie is optioneel. Als je een locatie invoert, gebruikt Enigma lokale eclipsfuncties en laat ook zien of de eclips op die locatie zichtbaar is. Zonder locatie worden globale eclipsgegevens gebruikt.\n\nKlik op Bereken om de zoekactie te starten.";
+"view.eclipses.help"                           = "Geef een begindatum en een einddatum op van de periode waarvoor je eclipsen wilt berekenen. Je kunt kiezen tussen Zonsverduisteringen, Maansverduisteringen of Alle Eclipsen.\n\nJe kunt een locatie opgeven maar dat is optioneel. Zonder locatie berekent Enigma de datum, tijd en lengte van de eclipsen in de periode. Als je wel een locatie opgeeft zie je aanvullende informatie over de eclips.";
+"view.eclipses.help.results"                   = "De tabel met resultaten heeft twee varianten. Als je geen locatie opgeeft zie je de datum en tijd van de eclips en een symbool voor het soort eclips: Zonsverduistering of Maansverduistering.\n\nAls je wel een locatie opgeeft zie je bovendien het type van de eclips: Totaal, Partieel enz., een indicatie van de zichtbaarheid en het Saros nummer. Als de eclips zichtbaar is op de opgegeven locatie zie je een groen vinkje, als de eclips niet zichtbaar is een liggend streepje. Als de eclips voor een deel van de tijd zichtbaar is zie je een kruisje in een cirkel.";
 "view.eclipses.exportpdf"                      = "Exporteer PDF";

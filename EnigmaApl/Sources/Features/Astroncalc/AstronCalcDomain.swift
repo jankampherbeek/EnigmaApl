@@ -173,6 +173,8 @@ public struct SolarEclipseLocalResult {
     public let isTotal: Bool
     /// True if the eclipse type is annular (SE_ECL_ANNULAR)
     public let isAnnular: Bool
+    /// True if the eclipse type is hybrid / annular-total (SE_ECL_HYBRID)
+    public let isHybrid: Bool
     /// True if the eclipse type is partial (SE_ECL_PARTIAL)
     public let isPartial: Bool
     /// True if the eclipse is visible at the given location (SE_ECL_VISIBLE)
@@ -186,11 +188,12 @@ public struct SolarEclipseLocalResult {
     /// Saros series member number (attr[10]; -99999999 if not available)
     public let sarosMemberNumber: Double
 
-    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, isVisible: Bool,
+    public init(isTotal: Bool, isAnnular: Bool, isHybrid: Bool, isPartial: Bool, isVisible: Bool,
                 maxEclipseJD: Double, obscuration: Double,
                 sarosNumber: Double, sarosMemberNumber: Double) {
         self.isTotal = isTotal
         self.isAnnular = isAnnular
+        self.isHybrid = isHybrid
         self.isPartial = isPartial
         self.isVisible = isVisible
         self.maxEclipseJD = maxEclipseJD
@@ -236,13 +239,15 @@ public struct LunarEclipseLocalResult {
 public struct SolarEclipseGlobalResult {
     public let isTotal: Bool
     public let isAnnular: Bool
+    public let isHybrid: Bool
     public let isPartial: Bool
     /// Julian Day (UT) of maximum eclipse (tret[0])
     public let maxJD: Double
 
-    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, maxJD: Double) {
+    public init(isTotal: Bool, isAnnular: Bool, isHybrid: Bool, isPartial: Bool, maxJD: Double) {
         self.isTotal = isTotal
         self.isAnnular = isAnnular
+        self.isHybrid = isHybrid
         self.isPartial = isPartial
         self.maxJD = maxJD
     }
@@ -271,12 +276,13 @@ public struct LunarEclipseGlobalResult {
 public struct NextSolarEclipseResult {
     public let isTotal: Bool
     public let isAnnular: Bool
+    public let isHybrid: Bool
     public let isPartial: Bool
     public let maxJD: Double
     public let longitude: Double
 
-    public init(isTotal: Bool, isAnnular: Bool, isPartial: Bool, maxJD: Double, longitude: Double) {
-        self.isTotal = isTotal; self.isAnnular = isAnnular; self.isPartial = isPartial
+    public init(isTotal: Bool, isAnnular: Bool, isHybrid: Bool, isPartial: Bool, maxJD: Double, longitude: Double) {
+        self.isTotal = isTotal; self.isAnnular = isAnnular; self.isHybrid = isHybrid; self.isPartial = isPartial
         self.maxJD = maxJD; self.longitude = longitude
     }
 }

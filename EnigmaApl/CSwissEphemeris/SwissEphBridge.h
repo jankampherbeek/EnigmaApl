@@ -63,6 +63,7 @@ int32_t swe_rise_trans(double tjd_ut, int32_t ipl, char *starname, int32_t ephef
 #define SE_ECL_TOTAL        4
 #define SE_ECL_ANNULAR      8
 #define SE_ECL_PARTIAL     16
+#define SE_ECL_HYBRID      32  /* annular-total */
 #define SE_ECL_PENUMBRAL   64
 #define SE_ECL_VISIBLE    128
 

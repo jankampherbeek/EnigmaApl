@@ -30,7 +30,9 @@
 "view.eclipses.results.kind.lunar"             = "Mond";
 "view.eclipses.results.type.total"             = "Total";
 "view.eclipses.results.type.annular"           = "Ringförmig";
+"view.eclipses.results.type.hybrid"            = "Hybrid";
 "view.eclipses.results.type.partial"           = "Partiell";
 "view.eclipses.results.type.penumbral"         = "Halbschatten";
-"view.eclipses.help"                           = "Gib ein Startdatum und ein Enddatum ein. Enigma sucht dann alle Finsternisse in diesem Zeitraum.\n\nWähle zwischen Sonnenfinsternisse, Mondfinsternisse oder Alle Finsternisse.\n\nDer Ort ist optional. Wenn du einen Ort angibst, verwendet Enigma lokale Finsternis-Funktionen und zeigt auch an, ob die Finsternis an diesem Ort sichtbar ist. Ohne Ort werden globale Finsternisdaten verwendet.\n\nKlicke auf Berechnen, um die Suche zu starten.";
+"view.eclipses.help"                           = "Gib ein Startdatum und ein Enddatum für den Zeitraum ein, für den du Finsternisse berechnen möchtest. Du kannst zwischen Sonnenfinsternisse, Mondfinsternisse oder Alle Finsternisse wählen.\n\nDu kannst einen Ort angeben, aber das ist optional. Ohne Ort berechnet Enigma Datum, Uhrzeit und Länge der Finsternisse im Zeitraum. Wenn du einen Ort angibst, siehst du zusätzliche Informationen zur Finsternis.";
+"view.eclipses.help.results"                   = "Die Ergebnistabelle hat zwei Varianten. Wenn du keinen Ort angibst, siehst du Datum und Uhrzeit der Finsternis sowie ein Symbol für die Art der Finsternis: Sonnenfinsternis oder Mondfinsternis.\n\nWenn du einen Ort angibst, siehst du außerdem den Typ der Finsternis: Total, Partiell usw., eine Angabe zur Sichtbarkeit und die Saros-Nummer. Wenn die Finsternis am angegebenen Ort sichtbar ist, siehst du ein grünes Häkchen; wenn die Finsternis nicht sichtbar ist, einen Strich. Wenn die Finsternis für einen Teil der Zeit sichtbar ist, siehst du ein Kreuz in einem Kreis.";
 "view.eclipses.exportpdf"                      = "PDF exportieren";

@@ -30,7 +30,9 @@
 "view.eclipses.results.kind.lunar"             = "Lunaire";
 "view.eclipses.results.type.total"             = "Totale";
 "view.eclipses.results.type.annular"           = "Annulaire";
+"view.eclipses.results.type.hybrid"            = "Hybride";
 "view.eclipses.results.type.partial"           = "Partielle";
 "view.eclipses.results.type.penumbral"         = "Pénombrale";
-"view.eclipses.help"                           = "Entrez une date de début et une date de fin. Enigma recherchera alors toutes les éclipses dans cette période.\n\nChoisissez entre Éclipses solaires, Éclipses lunaires ou Toutes les éclipses.\n\nLe lieu est optionnel. Si vous entrez un lieu, Enigma utilise des fonctions d'éclipses locales et indique également si l'éclipse est visible à cet endroit. Sans lieu, les données d'éclipses globales sont utilisées.\n\nCliquez sur Calculer pour lancer la recherche.";
+"view.eclipses.help"                           = "Entrez une date de début et une date de fin pour la période pour laquelle vous souhaitez calculer les éclipses. Vous pouvez choisir entre Éclipses solaires, Éclipses lunaires ou Toutes les éclipses.\n\nVous pouvez entrer un lieu, mais c'est optionnel. Sans lieu, Enigma calcule la date, l'heure et la longitude des éclipses dans la période. Si vous entrez un lieu, vous verrez des informations supplémentaires sur l'éclipse.";
+"view.eclipses.help.results"                   = "Le tableau des résultats a deux variantes. Si vous n'entrez pas de lieu, vous voyez la date et l'heure de l'éclipse ainsi qu'un symbole pour le type d'éclipse : Éclipse solaire ou Éclipse lunaire.\n\nSi vous entrez un lieu, vous voyez également le type de l'éclipse : Totale, Partielle, etc., une indication de la visibilité et le numéro Saros. Si l'éclipse est visible à l'endroit indiqué, vous voyez une coche verte ; si l'éclipse n'est pas visible, un tiret. Si l'éclipse n'est visible qu'en partie, vous voyez une croix dans un cercle.";
 "view.eclipses.exportpdf"                      = "Exporter en PDF";

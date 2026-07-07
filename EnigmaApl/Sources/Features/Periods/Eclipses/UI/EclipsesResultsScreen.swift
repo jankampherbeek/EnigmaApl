@@ -13,6 +13,8 @@ struct EclipsesResultsScreen: View {
 
     private let seWrapper = SEWrapper()
 
+    @State private var showHelp = false
+
     var body: some View {
         Group {
             if eclipsesModel.hasResults {
@@ -34,6 +36,14 @@ struct EclipsesResultsScreen: View {
                     }
                 }
             }
+            ToolbarItem(placement: .primaryAction) {
+                Button { showHelp = true } label: {
+                    Label("Help", systemImage: "questionmark.circle")
+                }
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: ec(EclipsesKeys.helpResults))
         }
     }
 
@@ -174,6 +184,7 @@ struct EclipsesResultsScreen: View {
 
     private func typeLabel(_ event: EclipseEvent) -> String {
         if event.isTotal      { return ec(EclipsesKeys.typeTotal) }
+        if event.isHybrid     { return ec(EclipsesKeys.typeHybrid) }
         if event.isAnnular    { return ec(EclipsesKeys.typeAnnular) }
         if event.isPenumbral  { return ec(EclipsesKeys.typePenumbral) }
         if event.isPartial    { return ec(EclipsesKeys.typePartial) }

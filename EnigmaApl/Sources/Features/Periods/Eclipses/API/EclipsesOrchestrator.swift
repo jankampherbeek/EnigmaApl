@@ -26,6 +26,7 @@ struct EclipseEvent: Identifiable {
 
     let isTotal       : Bool
     let isAnnular     : Bool   // solar only
+    let isHybrid      : Bool   // solar only (annular-total)
     let isPartial     : Bool
     let isPenumbral   : Bool   // lunar only
 
@@ -123,6 +124,7 @@ final class EclipsesOrchestrator {
                     longitude: g.longitude,
                     isTotal:    sameEclipse ? local!.isTotal   : g.isTotal,
                     isAnnular:  sameEclipse ? local!.isAnnular : g.isAnnular,
+                    isHybrid:   sameEclipse ? local!.isHybrid  : g.isHybrid,
                     isPartial:  sameEclipse ? local!.isPartial : g.isPartial,
                     isPenumbral: false,
                     hasLocalData: sameEclipse,
@@ -134,7 +136,8 @@ final class EclipsesOrchestrator {
                     kind: .solar,
                     displayJD: g.maxJD,
                     longitude: g.longitude,
-                    isTotal: g.isTotal, isAnnular: g.isAnnular, isPartial: g.isPartial,
+                    isTotal: g.isTotal, isAnnular: g.isAnnular, isHybrid: g.isHybrid,
+                    isPartial: g.isPartial,
                     isPenumbral: false,
                     hasLocalData: false, isVisible: false,
                     sarosNumber: -99999999, sarosMemberNumber: -99999999
@@ -183,6 +186,7 @@ final class EclipsesOrchestrator {
                     longitude: g.longitude,
                     isTotal:     sameEclipse ? local!.isTotal     : g.isTotal,
                     isAnnular:   false,
+                    isHybrid:    false,
                     isPartial:   sameEclipse ? local!.isPartial   : g.isPartial,
                     isPenumbral: sameEclipse ? local!.isPenumbral : g.isPenumbral,
                     hasLocalData: sameEclipse,
@@ -194,7 +198,8 @@ final class EclipsesOrchestrator {
                     kind: .lunar,
                     displayJD: g.maxJD,
                     longitude: g.longitude,
-                    isTotal: g.isTotal, isAnnular: false, isPartial: g.isPartial,
+                    isTotal: g.isTotal, isAnnular: false, isHybrid: false,
+                    isPartial: g.isPartial,
                     isPenumbral: g.isPenumbral,
                     hasLocalData: false, isVisible: false,
                     sarosNumber: -99999999, sarosMemberNumber: -99999999

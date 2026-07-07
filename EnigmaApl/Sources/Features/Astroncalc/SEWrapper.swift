@@ -848,8 +848,8 @@ public class SEWrapper {
         guard let g = solEclipseGlobal(afterJD: afterJD, backward: backward) else { return nil }
         let lon = calculateFactorPosition(julianDay: g.maxJD, factor: Int(SE_SUN),
                                           flags: Int(SEFLG_SWIEPH))?.mainPos ?? 0
-        return NextSolarEclipseResult(isTotal: g.isTotal, isAnnular: g.isAnnular, isPartial: g.isPartial,
-                                      maxJD: g.maxJD, longitude: lon)
+        return NextSolarEclipseResult(isTotal: g.isTotal, isAnnular: g.isAnnular, isHybrid: g.isHybrid,
+                                      isPartial: g.isPartial, maxJD: g.maxJD, longitude: lon)
     }
 
     /// Find the next local solar eclipse visible at a geographic location after the given Julian Day.
@@ -923,6 +923,7 @@ public class SEWrapper {
         return SolarEclipseLocalResult(
             isTotal:          (returnCode & SE_ECL_TOTAL)   != 0,
             isAnnular:        (returnCode & SE_ECL_ANNULAR) != 0,
+            isHybrid:         (returnCode & SE_ECL_HYBRID)  != 0,
             isPartial:        (returnCode & SE_ECL_PARTIAL) != 0,
             isVisible:        (returnCode & SE_ECL_VISIBLE) != 0,
             maxEclipseJD:     tret[0],
@@ -968,6 +969,7 @@ public class SEWrapper {
         return SolarEclipseGlobalResult(
             isTotal:   (returnCode & SE_ECL_TOTAL)   != 0,
             isAnnular: (returnCode & SE_ECL_ANNULAR) != 0,
+            isHybrid:  (returnCode & SE_ECL_HYBRID)  != 0,
             isPartial: (returnCode & SE_ECL_PARTIAL) != 0,
             maxJD:     tret[0]
         )

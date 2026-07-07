@@ -260,12 +260,7 @@ struct EclipsesInputScreen: View {
             }
         }
         .sheet(isPresented: $showHelp) {
-            ScrollView {
-                Text(ec(EclipsesKeys.help))
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .frame(minWidth: 400, minHeight: 300)
+            WheelHelpSheet(helpText: ec(EclipsesKeys.help))
         }
     }
 

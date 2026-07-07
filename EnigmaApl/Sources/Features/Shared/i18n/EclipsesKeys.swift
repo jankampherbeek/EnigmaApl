@@ -34,8 +34,10 @@ struct EclipsesKeys {
     static let kindLunar        = "view.eclipses.results.kind.lunar"
     static let typeTotal        = "view.eclipses.results.type.total"
     static let typeAnnular      = "view.eclipses.results.type.annular"
+    static let typeHybrid       = "view.eclipses.results.type.hybrid"
     static let typePartial      = "view.eclipses.results.type.partial"
     static let typePenumbral    = "view.eclipses.results.type.penumbral"
     static let help             = "view.eclipses.help"
+    static let helpResults      = "view.eclipses.help.results"
     static let exportPDF       = "view.eclipses.exportpdf"
 }
