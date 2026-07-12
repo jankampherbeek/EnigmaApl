@@ -73,6 +73,7 @@ struct RootView: View {
         .environmentObject(composition.preNatalModel)
         .environmentObject(composition.eclipsesModel)
         .environmentObject(composition.ephemerisModel)
+        .environmentObject(composition.longTimeEphemerisModel)
         .environmentObject(composition.fixStarModel)
         .environmentObject(composition.paranModel)
         .environmentObject(composition.calculatorsNav)

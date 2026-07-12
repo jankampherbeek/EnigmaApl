@@ -1,7 +1,7 @@
 // Ephemeris.strings - French
 // EnigmaApl
 
-"view.ephemeris.title"             = "\U00C9ph\U00E9m\U00E9ride";
+"view.ephemeris.title"             = "\U00C9ph\U00E9m\U00E9ride mensuelle";
 "view.ephemeris.month"             = "Mois";
 "view.ephemeris.year"              = "Ann\U00E9e";
 "view.ephemeris.observerposition"  = "Position de l\U2019observateur";

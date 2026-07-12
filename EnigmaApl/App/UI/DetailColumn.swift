@@ -165,6 +165,8 @@ struct DetailColumn: View {
                             TablesGraphsScreen()
                         case .ephemeris:
                             EphemerisResultsView()
+                        case .longTimeEphemeris:
+                            LongTimeEphemerisResultsView()
                         case .eclipses:
                             EclipsesResultsScreen()
                         }

@@ -1,0 +1,31 @@
+// LongTimeEphemeris.strings - German
+// EnigmaApl
+
+"view.ltephemeris.title"                    = "Langzeit-Ephemeride";
+"view.ltephemeris.startdate"                = "Startdatum";
+"view.ltephemeris.enddate"                  = "Enddatum";
+"view.ltephemeris.interval"                 = "Intervall";
+"view.ltephemeris.interval.days"            = "Tage";
+"view.ltephemeris.interval.hours"           = "Stunden";
+"view.ltephemeris.observerposition"         = "Beobachterposition";
+"view.ltephemeris.ayanamsha"                = "Ayanamsha";
+"view.ltephemeris.coordinate"               = "Koordinate";
+"view.ltephemeris.format"                   = "Format";
+"view.ltephemeris.format.dms"               = "GMS";
+"view.ltephemeris.format.decimal"           = "Dezimal";
+"view.ltephemeris.factors"                  = "Faktoren";
+"view.ltephemeris.calculate"                = "Berechnen";
+"view.ltephemeris.cancel"                   = "Abbrechen";
+"view.ltephemeris.calculating"              = "Wird berechnet\U2026";
+"view.ltephemeris.noresults"                = "W\U00E4hlen Sie Faktoren und klicken Sie auf Berechnen, um Ergebnisse zu sehen.";
+"view.ltephemeris.date.header"              = "Datum / Uhrzeit";
+"view.ltephemeris.year"                     = "Jahr";
+"view.ltephemeris.month"                    = "Monat";
+"view.ltephemeris.day"                      = "Tag";
+"view.ltephemeris.calendar"                 = "Kalender";
+"view.ltephemeris.yearcount"                = "Jahresz\U00E4hlung";
+"view.ltephemeris.validation.invalidyear"   = "Geben Sie ein g\U00FCltiges Jahr f\U00FCr die ausgew\U00E4hlte Jahresz\U00E4hlung ein";
+"view.ltephemeris.validation.enddateorder"  = "Das Enddatum muss sp\U00E4ter als das Startdatum sein";
+"view.ltephemeris.validation.intervalzero"  = "Geben Sie ein positives Intervall ein: mindestens 1 Tag oder 1 Stunde";
+"view.ltephemeris.exportcsv"                = "Als CSV exportieren";
+"view.ltephemeris.help"                     = "Mit der Langzeit-Ephemeride k\U00F6nnen Sie Planetenpositionen \U00FCber einen beliebigen Zeitraum mit einem selbst gew\U00E4hlten Intervall berechnen.\n\nGeben Sie ein Startdatum und ein Enddatum ein. 'G' steht f\U00FCr den Gregorianischen Kalender und 'J' f\U00FCr den Julianischen Kalender.\n\nGeben Sie das Intervall zwischen den Zeilen in Tagen und Stunden an. Mindestens eines davon muss gr\U00F6\U00DFer als null sein.\n\nSie k\U00F6nnen angeben, ob Sie geozentrische oder heliozentrische Positionen m\U00F6chten und ob Sie den siderischen oder tropischen Tierkreis verwenden m\U00F6chten.\n\nW\U00E4hlen Sie eine der verf\U00FCgbaren Koordinaten. Bei heliozentrischen Positionen sind Rektaszension und Deklination nicht verf\U00FCgbar.\n\nW\U00E4hlen Sie das Anzeigeformat: GMS (Grad, Minuten, Sekunden) oder Dezimal (vier Dezimalstellen).\n\nW\U00E4hlen Sie einen oder mehrere Faktoren. Faktoren, die in Ihrer Konfiguration aktiv sind, sind bereits ausgew\U00E4hlt.\n\nKlicken Sie auf Berechnen, um zu starten. Bei langen Berechnungen wird ein Fortschrittsbalken angezeigt; Sie k\U00F6nnen jederzeit abbrechen.";

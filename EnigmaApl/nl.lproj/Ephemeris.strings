@@ -1,7 +1,7 @@
 // Ephemeris.strings - Dutch
 // EnigmaApl
 
-"view.ephemeris.title"             = "Efemeride";
+"view.ephemeris.title"             = "Maandelijkse ephemeride";
 "view.ephemeris.month"             = "Maand";
 "view.ephemeris.year"              = "Jaar";
 "view.ephemeris.observerposition"  = "Positie waarnemer";

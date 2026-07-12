@@ -64,6 +64,8 @@ struct AppCommands: Commands {
                 .keyboardShortcut("8", modifiers: [.command, .option])
             Button("Tables/Graphs")        { app.setMode(.cycles); cyclesNav.setSection(.tablesGraphs) }
                 .keyboardShortcut("9", modifiers: [.command, .option])
+            Button("Monthly Ephemeris")    { app.setMode(.cycles); cyclesNav.setSection(.ephemeris) }
+            Button("Long Time Ephemeris")  { app.setMode(.cycles); cyclesNav.setSection(.longTimeEphemeris) }
             Button("Eclipses")             { app.setMode(.cycles); cyclesNav.setSection(.eclipses) }
         }
 
