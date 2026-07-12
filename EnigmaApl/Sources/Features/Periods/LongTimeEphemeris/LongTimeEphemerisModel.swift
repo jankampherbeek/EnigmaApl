@@ -14,6 +14,8 @@ enum LongTimeEphemerisDisplayFormat: Int, CaseIterable, Identifiable {
 @MainActor
 final class LongTimeEphemerisModel: ObservableObject {
 
+    static let maxRows = 500_000
+
     // MARK: - Date inputs
     @Published var startYearText: String = "2000"
     @Published var startMonth: Int = 1

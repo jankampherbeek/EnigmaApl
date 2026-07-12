@@ -37,12 +37,18 @@ public struct AstronomicalTime {
     
     public init (HourDecimal: Double) {
         self.HourDecimal = HourDecimal
-        let hour = Int(HourDecimal)
-        let minute = Int((HourDecimal - Double(hour)) * 60.0)
-        let second = lround(((HourDecimal - Double(hour)) * 60.0 - Double(minute)) * 60.0)
-        self.Hour = hour
-        self.Minute = minute
-        self.Second = second
+        let rawHour   = Int(HourDecimal)
+        let rawMinute = Int((HourDecimal - Double(rawHour)) * 60.0)
+        // lround can produce 60 when the fractional part is ≥ 59.5 seconds;
+        // carry the overflow up through minutes and hours.
+        var sec = lround(((HourDecimal - Double(rawHour)) * 60.0 - Double(rawMinute)) * 60.0)
+        var min = rawMinute
+        var hr  = rawHour
+        if sec >= 60 { sec -= 60; min += 1 }
+        if min >= 60 { min -= 60; hr  += 1 }
+        self.Hour   = hr
+        self.Minute = min
+        self.Second = sec
     }
     
 }

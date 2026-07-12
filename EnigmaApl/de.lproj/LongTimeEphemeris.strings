@@ -28,4 +28,20 @@
 "view.ltephemeris.validation.enddateorder"  = "Das Enddatum muss sp\U00E4ter als das Startdatum sein";
 "view.ltephemeris.validation.intervalzero"  = "Geben Sie ein positives Intervall ein: mindestens 1 Tag oder 1 Stunde";
 "view.ltephemeris.exportcsv"                = "Als CSV exportieren";
-"view.ltephemeris.help"                     = "Mit der Langzeit-Ephemeride k\U00F6nnen Sie Planetenpositionen \U00FCber einen beliebigen Zeitraum mit einem selbst gew\U00E4hlten Intervall berechnen.\n\nGeben Sie ein Startdatum und ein Enddatum ein. 'G' steht f\U00FCr den Gregorianischen Kalender und 'J' f\U00FCr den Julianischen Kalender.\n\nGeben Sie das Intervall zwischen den Zeilen in Tagen und Stunden an. Mindestens eines davon muss gr\U00F6\U00DFer als null sein.\n\nSie k\U00F6nnen angeben, ob Sie geozentrische oder heliozentrische Positionen m\U00F6chten und ob Sie den siderischen oder tropischen Tierkreis verwenden m\U00F6chten.\n\nW\U00E4hlen Sie eine der verf\U00FCgbaren Koordinaten. Bei heliozentrischen Positionen sind Rektaszension und Deklination nicht verf\U00FCgbar.\n\nW\U00E4hlen Sie das Anzeigeformat: GMS (Grad, Minuten, Sekunden) oder Dezimal (vier Dezimalstellen).\n\nW\U00E4hlen Sie einen oder mehrere Faktoren. Faktoren, die in Ihrer Konfiguration aktiv sind, sind bereits ausgew\U00E4hlt.\n\nKlicken Sie auf Berechnen, um zu starten. Bei langen Berechnungen wird ein Fortschrittsbalken angezeigt; Sie k\U00F6nnen jederzeit abbrechen.";
+"view.ltephemeris.estimatedrows"            = "Gesch\U00e4tzte Zeilenanzahl:";
+"view.ltephemeris.toomanyrows"              = "Zeilenanzahl (%@) \U00fcberschreitet das Maximum von %@. Reduzieren Sie den Zeitraum oder vergr\U00f6\U00dfern Sie das Intervall.";
+"view.ltephemeris.help"                      = "Im linken Teil des Bildschirms geben Sie ein Startdatum und ein Enddatum für einen Zeitraum ein.
+
+Sie können über 'Intervall' angeben, wie viele Tage oder sogar Stunden pro Schritt berechnet werden sollen.
+
+Bitte beachten Sie, dass Enigma eine Grenze von 500.000 Zeilen hat, das bedeutet, dass Sie mit einem Intervall von einem Tag etwa 1.370 Jahre und mit einem Intervall von einer Stunde etwa 57 Jahre berechnen können.
+
+Wählen Sie, ob Sie geozentrische oder heliozentrische Positionen möchten und ob Sie den siderischen oder tropischen Tierkreis verwenden möchten, und wählen Sie die Koordinate oder Geschwindigkeit, die Sie verwenden möchten.
+
+Geben Sie auch das gewünschte Format an: Grad, Minuten und Sekunden oder Dezimal.
+
+Von den Planeten, die Enigma in der Ephemeride anzeigt, sind die Planeten, die Sie in der Konfiguration angegeben haben, bereits ausgewählt. Sie können diese Auswahl anpassen.
+
+Wenn Sie auf die Schaltfläche 'Berechnen' klicken, sehen Sie einen Fortschrittsbalken und - nach einiger Zeit bei langen Zeiträumen - die Ergebnisse im rechten Teil des Bildschirms. Die Zeiten sind in UT.
+
+Wenn Sie eine Kombination aus Zeitraum und Intervall wählen, die mehr als 500.000 Zeilen ergibt, erhalten Sie eine Warnung.";

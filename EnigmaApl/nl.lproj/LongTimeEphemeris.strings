@@ -28,4 +28,20 @@
 "view.ltephemeris.validation.enddateorder"  = "De einddatum moet later zijn dan de begindatum";
 "view.ltephemeris.validation.intervalzero"  = "Voer een positief interval in: minimaal 1 dag of 1 uur";
 "view.ltephemeris.exportcsv"                = "Exporteer naar CSV";
-"view.ltephemeris.help"                     = "Met de lange-termijn ephemeride bereken je planetaire standen over een willekeurige periode met een zelf gekozen interval.\n\nVoer een begindatum en een einddatum in. 'G' staat voor de Gregoriaanse kalender en 'J' voor de Juliaanse kalender.\n\nVoer het interval tussen de rijen in in dagen en uren. Minimaal \U00E9\U00E9n van beide moet groter zijn dan nul.\n\nJe kunt aangeven of je geocentrische of heliocentrische standen wilt en of je de siderische of tropische zodiak wilt gebruiken.\n\nKies een van de beschikbare co\U00F6rdinaten. Als je heliocentrische standen hebt geselecteerd, zijn rechte klimming en declinatie niet beschikbaar.\n\nKies het weergaveformaat: GMS (graden, minuten, seconden) of Decimaal (vier decimalen).\n\nSelecteer \U00E9\U00E9n of meer factoren. Factoren die actief zijn in je configuratie zijn al voorgeselecteerd.\n\nKlik op Bereken om te starten. Bij lange berekeningen wordt een voortgangsbalk getoond; je kunt op elk moment annuleren.";
+"view.ltephemeris.estimatedrows"            = "Geschat aantal rijen:";
+"view.ltephemeris.toomanyrows"              = "Aantal rijen (%@) overschrijdt het maximum van %@. Verklein de periode of vergroot het interval.";
+"view.ltephemeris.help"                      = "In het linker deel van het scherm geef je een begindatum en einddatum van een periode op.
+
+Je kunt aangeven per hoeveel dagen of zelfs uren je wilt berekenen via 'Interval'.
+
+Houd er rekening mee dat Enigma een limiet hanteert van 500.000 rijen, dat betekent dat je ongeveer 1370 jaren kunt berekenen met een interval van een dag en ongeveer 57 jaren met een interval van 1 uur.
+
+Selecteer geocentrische of heliocentrische standen en of je de siderische of tropische zodiak wilt gebruiken, en kies het coördinaat of de snelheid die je wilt gebruiken.
+
+Geef ook het gewenste formaat op: graden, minuten en seconden of decimaal.
+
+Van de planeten die Enigma toont in de ephemeris zijn de planeten die je in de configuratie hebt opgegeven al geselecteerd. Deze selectie kun je aanpassen.
+
+Als je op de knop 'Bereken' klikt zie je een voortgangsbalk en - bij lange perioden na enige tijd - de resultaten in het rechterdeel van het scherm. De tijden zijn in UT.
+
+Als je een combinatie van periode en interval kiest die meer dan 500.000 rijen oplevert krijg je een waarschuwing.";

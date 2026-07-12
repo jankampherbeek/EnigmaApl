@@ -28,4 +28,20 @@
 "view.ltephemeris.validation.enddateorder"  = "La date de fin doit \U00EAtre post\U00E9rieure \U00E0 la date de d\U00E9but";
 "view.ltephemeris.validation.intervalzero"  = "Entrez un intervalle positif\U00A0: au moins 1 jour ou 1 heure";
 "view.ltephemeris.exportcsv"                = "Exporter en CSV";
-"view.ltephemeris.help"                     = "L\U2019\U00E9ph\U00E9m\U00E9ride longue dur\U00E9e vous permet de calculer les positions plan\U00E9taires sur n\U2019importe quelle p\U00E9riode avec un intervalle personnalis\U00E9.\n\nSaisissez une date de d\U00E9but et une date de fin. 'G' repr\U00E9sente le calendrier gr\U00E9gorien et 'J' le calendrier julien.\n\nSaisissez l\U2019intervalle entre les lignes en jours et en heures. Au moins l\U2019un d\U2019eux doit \U00EAtre sup\U00E9rieur \U00E0 z\U00E9ro.\n\nVous pouvez indiquer si vous souhaitez des positions g\U00E9ocentriques ou h\U00E9liocentriques, et si vous souhaitez utiliser le zodiaque sid\U00E9ral ou tropical.\n\nChoisissez l\U2019une des coordonn\U00E9es disponibles. Si vous avez s\U00E9lectionn\U00E9 les positions h\U00E9liocentriques, l\U2019ascension droite et la d\U00E9clinaison ne sont pas disponibles.\n\nChoisissez le format d\U2019affichage\U00A0: DMS (degr\U00E9s, minutes, secondes) ou D\U00E9cimal (quatre d\U00E9cimales).\n\nS\U00E9lectionnez un ou plusieurs facteurs. Les facteurs actifs dans votre configuration sont pr\U00E9s\U00E9lectionn\U00E9s.\n\nCliquez sur Calculer pour d\U00E9marrer. Une barre de progression s\U2019affiche pour les calculs longs\U00A0; vous pouvez annuler \U00E0 tout moment.";
+"view.ltephemeris.estimatedrows"            = "Nombre de lignes estim\U00e9\U00a0:";
+"view.ltephemeris.toomanyrows"              = "Le nombre de lignes (%@) d\U00e9passe le maximum de %@. R\U00e9duisez la p\U00e9riode ou augmentez l’intervalle.";
+"view.ltephemeris.help"                      = "Dans la partie gauche de l'écran, vous saisissez une date de début et une date de fin pour une période.
+
+Vous pouvez indiquer le nombre de jours ou même d'heures par étape via 'Intervalle'.
+
+Veuillez noter qu'Enigma a une limite de 500 000 lignes, ce qui signifie que vous pouvez calculer environ 1 370 ans avec un intervalle d'un jour et environ 57 ans avec un intervalle d'une heure.
+
+Indiquez si vous souhaitez des positions géocentriques ou héliocentriques et si vous souhaitez utiliser le zodiaque sidéral ou tropical, et choisissez la coordonnée ou la vitesse que vous souhaitez utiliser.
+
+Spécifiez également le format souhaité : degrés, minutes et secondes ou décimal.
+
+Parmi les planètes qu'Enigma affiche dans l'éphéméride, les planètes que vous avez spécifiées dans votre configuration sont déjà sélectionnées. Vous pouvez ajuster cette sélection.
+
+Lorsque vous cliquez sur le bouton 'Calculer', vous verrez une barre de progression et - après un certain temps pour les longues périodes - les résultats dans la partie droite de l'écran. Les heures sont en TU.
+
+Si vous choisissez une combinaison de période et d'intervalle qui donne plus de 500 000 lignes, vous recevrez un avertissement.";

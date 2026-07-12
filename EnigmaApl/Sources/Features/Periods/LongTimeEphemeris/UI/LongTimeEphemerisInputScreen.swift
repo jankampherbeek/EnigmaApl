@@ -88,9 +88,33 @@ struct LongTimeEphemerisInputScreen: View {
         model.intervalDays > 0 || model.intervalHours > 0
     }
 
+    private var estimatedRowCount: Int? {
+        guard startDateValidation.isValid, endDateValidation.isValid,
+              endDateIsAfterStart, intervalIsPositive,
+              let startYear = startAstrYear, let endYear = endAstrYear else { return nil }
+        let midnight = AstronomicalTime(HourDecimal: 0.0)
+        let jdStart = seWrapper.julianDay(
+            date: AstronomicalDate(Year: startYear, Month: model.startMonth, Day: model.startDay,
+                                   Gregorian: model.startCalendarStyle == .gregorian),
+            time: midnight)
+        let jdEnd = seWrapper.julianDay(
+            date: AstronomicalDate(Year: endYear, Month: model.endMonth, Day: model.endDay,
+                                   Gregorian: model.endCalendarStyle == .gregorian),
+            time: midnight)
+        let intervalInDays = Double(model.intervalDays) + Double(model.intervalHours) / 24.0
+        guard intervalInDays > 0 else { return nil }
+        return Int((jdEnd - jdStart) / intervalInDays) + 1
+    }
+
+    private var rowCountExceedsLimit: Bool {
+        guard let count = estimatedRowCount else { return false }
+        return count > LongTimeEphemerisModel.maxRows
+    }
+
     private var canCalculate: Bool {
         startDateValidation.isValid && endDateValidation.isValid &&
-        endDateIsAfterStart && intervalIsPositive && !model.selectedFactors.isEmpty
+        endDateIsAfterStart && intervalIsPositive && !model.selectedFactors.isEmpty &&
+        !rowCountExceedsLimit
     }
 
     // MARK: - Body
@@ -225,6 +249,25 @@ struct LongTimeEphemerisInputScreen: View {
                     .background(Color.primary.opacity(0.04))
                     .cornerRadius(6)
                     .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary.opacity(0.15), lineWidth: 1))
+                }
+
+                if let count = estimatedRowCount {
+                    HStack(spacing: 6) {
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(.secondary)
+                        Text("\(lte(LongTimeEphemerisKeys.estimatedRows)) \(count.formatted())")
+                            .foregroundStyle(.secondary)
+                    }
+                    .font(.callout)
+
+                    if rowCountExceedsLimit {
+                        Text(String(format: lte(LongTimeEphemerisKeys.tooManyRows),
+                                    count.formatted(),
+                                    LongTimeEphemerisModel.maxRows.formatted()))
+                            .foregroundStyle(.red)
+                            .font(.caption)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
 
                 if model.isCalculating {

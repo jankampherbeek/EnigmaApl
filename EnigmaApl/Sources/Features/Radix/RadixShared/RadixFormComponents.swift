@@ -34,6 +34,10 @@ struct NumericPickerField: View {
                 .focused($isFocused)
                 .onAppear { text = format(selection) }
                 .onChange(of: selection) { _, newValue in text = format(newValue) }
+                .onChange(of: text) { _, newText in
+                    guard let value = Int(newText), range.contains(value), value != selection else { return }
+                    selection = value
+                }
                 .onChange(of: isFocused) { _, focused in
                     guard !focused else { return }
                     if isValid, let value = Int(text) {

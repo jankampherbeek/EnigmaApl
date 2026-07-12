@@ -28,4 +28,20 @@
 "view.ltephemeris.validation.enddateorder"  = "The end date must be later than the start date";
 "view.ltephemeris.validation.intervalzero"  = "Enter a positive interval: at least 1 day or 1 hour";
 "view.ltephemeris.exportcsv"                = "Export to CSV";
-"view.ltephemeris.help"                     = "In the Long Time Ephemeris you can calculate planetary positions over any period at a chosen interval.\n\nEnter a start date and an end date. 'G' stands for the Gregorian calendar and 'J' for the Julian calendar.\n\nEnter the interval between rows in days and hours. At least one of these must be greater than zero.\n\nYou can specify whether you want geocentric or heliocentric positions, and whether to use the sidereal or tropical zodiac.\n\nChoose one of the available coordinates. If you have selected heliocentric positions, right ascension and declination are not available.\n\nChoose the display format: DMS (degrees, minutes, seconds) or Decimal (four decimal places).\n\nSelect one or more factors to calculate. Factors already active in your configuration are pre-selected.\n\nClick Calculate to start. A progress bar is shown for long calculations; you can cancel at any time.";
+"view.ltephemeris.estimatedrows"            = "Estimated rows:";
+"view.ltephemeris.toomanyrows"              = "Row count (%@) exceeds the maximum of %@. Reduce the period or increase the interval.";
+"view.ltephemeris.help"                      = "In the left part of the screen you enter a start date and end date for a period.
+
+You can specify how many days or even hours to calculate per step via 'Interval'.
+
+Please note that Enigma has a limit of 500,000 rows, which means you can calculate approximately 1,370 years with an interval of one day, and approximately 57 years with an interval of one hour.
+
+Select whether you want geocentric or heliocentric positions and whether to use the sidereal or tropical zodiac, and choose the coordinate or speed you want to use.
+
+Also specify the desired format: degrees, minutes and seconds, or decimal.
+
+Of the planets that Enigma shows in the ephemeris, the planets you have specified in your configuration are already selected. You can adjust this selection.
+
+When you click the 'Calculate' button you will see a progress bar and - after some time for long periods - the results in the right part of the screen. Times are in UT.
+
+If you choose a combination of period and interval that results in more than 500,000 rows, you will receive a warning.";

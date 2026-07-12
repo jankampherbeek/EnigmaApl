@@ -35,4 +35,6 @@ struct LongTimeEphemerisKeys {
     static let intervalZero     = "view.ltephemeris.validation.intervalzero"
     static let help             = "view.ltephemeris.help"
     static let exportCsv        = "view.ltephemeris.exportcsv"
+    static let estimatedRows    = "view.ltephemeris.estimatedrows"
+    static let tooManyRows      = "view.ltephemeris.toomanyrows"
 }
