@@ -95,6 +95,8 @@ struct SidebarView: View {
                 }
             case .config:
                 EmptyView()
+            case .synastry:
+                EmptyView()
             }
         }
         .navigationTitle("Navigatie")

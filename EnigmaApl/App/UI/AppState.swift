@@ -46,6 +46,8 @@ final class AppState: ObservableObject {
             break
         case .config:
             break
+        case .synastry:
+            break
         }
     }
 
@@ -95,6 +97,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case cycles = "Periods"
     case calculators = "Calculators"
     case config = "Configuratie"
+    case synastry = "Synastry"
 
     var id: String { rawValue }
 
@@ -112,6 +115,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
         case .cycles:       return "waveform.path.ecg"
         case .calculators:  return "function"
         case .config:       return "gear"
+        case .synastry:     return "person.2.circle"
         }
     }
 }
@@ -125,6 +129,7 @@ struct NavigationState: Equatable {
     var research = ResearchNav()
     var cycles = CyclesNav()
     var calculators = CalculatorsNav()
+    var synastry = SynastryNav()
 }
 
 struct UIState: Equatable {

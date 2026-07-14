@@ -1,0 +1,28 @@
+// Synastry.strings - Nederlands
+// EnigmaApl
+
+"view.synastry.title" = "Synastrie";
+"view.synastry.selected.header" = "Geselecteerde horoscopen";
+"view.synastry.selected.empty" = "Nog geen horoscopen geselecteerd.";
+"view.synastry.selected.minhint" = "Selecteer minimaal twee horoscopen om een vergelijking te starten.";
+"view.synastry.selected.remove" = "Verwijder";
+"view.synastry.session.header" = "Beschikbare horoscopen in deze sessie";
+"view.synastry.session.empty" = "Geen horoscopen beschikbaar in deze sessie.";
+"view.synastry.search.header" = "Zoek horoscoop";
+"view.synastry.search.partofname" = "Deel van de naam";
+"view.synastry.search.button" = "Zoek";
+"view.synastry.search.noresults" = "Geen resultaten gevonden.";
+"view.synastry.button.compare" = "Vergelijk horoscopen";
+"view.synastry.button.composite" = "Composiet";
+"view.synastry.button.combine" = "Combineer (Davison)";
+"view.synastry.button.aspectcomparison" = "Aspectvergelijking";
+"view.synastry.button.midpointcomparison" = "Middelpuntvergelijking";
+"view.synastry.button.declinationcomparison" = "Declinatievergelijking";
+"view.synastry.results.title.compare" = "Vergelijking van horoscopen";
+"view.synastry.results.title.composite" = "Composietkaart";
+"view.synastry.results.title.combine" = "Davison-kaart";
+"view.synastry.results.title.aspectcomparison" = "Aspectvergelijking";
+"view.synastry.results.title.midpointcomparison" = "Middelpuntvergelijking";
+"view.synastry.results.title.declinationcomparison" = "Declinatievergelijking";
+"view.synastry.results.chartsheader" = "Betrokken horoscopen";
+"view.synastry.results.close" = "Sluiten";

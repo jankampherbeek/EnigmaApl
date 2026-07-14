@@ -77,6 +77,8 @@ struct RootView: View {
         .environmentObject(composition.fixStarModel)
         .environmentObject(composition.paranModel)
         .environmentObject(composition.calculatorsNav)
+        .environmentObject(composition.synastryNav)
+        .environmentObject(composition.synastryModel)
         .environmentObject(composition.configNav)
         .onAppear {
             DispatchQueue.main.async {

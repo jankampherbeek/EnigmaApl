@@ -72,6 +72,8 @@ struct DetailColumn: View {
             return app.nav.calculators.section.rawValue
         case .config:
             return configNav.selectedConfig?.name ?? "Configuratie"
+        case .synastry:
+            return "Synastry"
         }
     }
 
@@ -181,6 +183,12 @@ struct DetailColumn: View {
                         }
                     case .config:
                         EmptyView()
+                    case .synastry:
+                        if app.nav.synastry.resultType == nil {
+                            EmptyView()
+                        } else {
+                            SynastryResultsDetailScreen()
+                        }
                     }
                 }
                 .navigationTitle(detailTitle)

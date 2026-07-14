@@ -1,0 +1,28 @@
+// Synastry.strings - Français
+// EnigmaApl
+
+"view.synastry.title" = "Synastrie";
+"view.synastry.selected.header" = "Thèmes sélectionnés";
+"view.synastry.selected.empty" = "Aucun thème sélectionné pour l'instant.";
+"view.synastry.selected.minhint" = "Sélectionnez au moins deux thèmes pour lancer une comparaison.";
+"view.synastry.selected.remove" = "Supprimer";
+"view.synastry.session.header" = "Thèmes disponibles dans cette session";
+"view.synastry.session.empty" = "Aucun thème disponible dans cette session.";
+"view.synastry.search.header" = "Rechercher un thème";
+"view.synastry.search.partofname" = "Partie du nom";
+"view.synastry.search.button" = "Rechercher";
+"view.synastry.search.noresults" = "Aucun résultat trouvé.";
+"view.synastry.button.compare" = "Comparer les thèmes";
+"view.synastry.button.composite" = "Composite";
+"view.synastry.button.combine" = "Combiner (Davison)";
+"view.synastry.button.aspectcomparison" = "Comparaison d'aspects";
+"view.synastry.button.midpointcomparison" = "Comparaison de points médians";
+"view.synastry.button.declinationcomparison" = "Comparaison de déclinaisons";
+"view.synastry.results.title.compare" = "Comparaison de thèmes";
+"view.synastry.results.title.composite" = "Thème composite";
+"view.synastry.results.title.combine" = "Thème de Davison";
+"view.synastry.results.title.aspectcomparison" = "Comparaison d'aspects";
+"view.synastry.results.title.midpointcomparison" = "Comparaison de points médians";
+"view.synastry.results.title.declinationcomparison" = "Comparaison de déclinaisons";
+"view.synastry.results.chartsheader" = "Thèmes concernés";
+"view.synastry.results.close" = "Fermer";

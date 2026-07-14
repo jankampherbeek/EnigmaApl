@@ -1,0 +1,28 @@
+// Synastry.strings - English
+// EnigmaApl
+
+"view.synastry.title" = "Synastry";
+"view.synastry.selected.header" = "Selected charts";
+"view.synastry.selected.empty" = "No charts selected yet.";
+"view.synastry.selected.minhint" = "Select at least two charts to start a comparison.";
+"view.synastry.selected.remove" = "Remove";
+"view.synastry.session.header" = "Charts available in this session";
+"view.synastry.session.empty" = "No charts available in this session.";
+"view.synastry.search.header" = "Search chart";
+"view.synastry.search.partofname" = "Part of the name";
+"view.synastry.search.button" = "Search";
+"view.synastry.search.noresults" = "No results found.";
+"view.synastry.button.compare" = "Compare charts";
+"view.synastry.button.composite" = "Composite";
+"view.synastry.button.combine" = "Combine (Davison)";
+"view.synastry.button.aspectcomparison" = "Aspect Comparison";
+"view.synastry.button.midpointcomparison" = "Midpoint Comparison";
+"view.synastry.button.declinationcomparison" = "Declination Comparison";
+"view.synastry.results.title.compare" = "Chart comparison";
+"view.synastry.results.title.composite" = "Composite chart";
+"view.synastry.results.title.combine" = "Davison chart";
+"view.synastry.results.title.aspectcomparison" = "Aspect comparison";
+"view.synastry.results.title.midpointcomparison" = "Midpoint comparison";
+"view.synastry.results.title.declinationcomparison" = "Declination comparison";
+"view.synastry.results.chartsheader" = "Charts involved";
+"view.synastry.results.close" = "Close";

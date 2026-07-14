@@ -118,6 +118,8 @@ struct ContentColumn: View {
                 CalculatorsScreen()
             case .config:
                 ConfigListScreen()
+            case .synastry:
+                SynastryInputScreen()
             }
         }
         .navigationTitle(app.nav.mode.rawValue)

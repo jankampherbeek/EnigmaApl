@@ -19,6 +19,8 @@ final class AppComposition: ObservableObject {
     let researchNav: ResearchNavigator
     let cyclesNav: CyclesNavigator
     let calculatorsNav: CalculatorsNavigator
+    let synastryNav: SynastryNavigator
+    let synastryModel: SynastryModel
     let cyclesModel: AstronomicalCyclesModel
     let wavesModel: WavesModel
     let progressiveSession: ProgressiveSession
@@ -76,6 +78,11 @@ final class AppComposition: ObservableObject {
             get: { app.nav.calculators },
             set: { app.nav.calculators = $0 }
         ))
+        self.synastryNav = SynastryNavigator(nav: Binding(
+            get: { app.nav.synastry },
+            set: { app.nav.synastry = $0 }
+        ))
+        self.synastryModel = SynastryModel()
         self.cyclesModel = AstronomicalCyclesModel()
         self.wavesModel = WavesModel()
         self.progressiveSession = ProgressiveSession()

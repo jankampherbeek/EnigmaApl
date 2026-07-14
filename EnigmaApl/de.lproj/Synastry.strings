@@ -1,0 +1,28 @@
+// Synastry.strings - Deutsch
+// EnigmaApl
+
+"view.synastry.title" = "Synastrie";
+"view.synastry.selected.header" = "Ausgewählte Horoskope";
+"view.synastry.selected.empty" = "Noch keine Horoskope ausgewählt.";
+"view.synastry.selected.minhint" = "Wähle mindestens zwei Horoskope aus, um einen Vergleich zu starten.";
+"view.synastry.selected.remove" = "Entfernen";
+"view.synastry.session.header" = "Verfügbare Horoskope in dieser Sitzung";
+"view.synastry.session.empty" = "Keine Horoskope in dieser Sitzung verfügbar.";
+"view.synastry.search.header" = "Horoskop suchen";
+"view.synastry.search.partofname" = "Teil des Namens";
+"view.synastry.search.button" = "Suchen";
+"view.synastry.search.noresults" = "Keine Ergebnisse gefunden.";
+"view.synastry.button.compare" = "Horoskope vergleichen";
+"view.synastry.button.composite" = "Komposit";
+"view.synastry.button.combine" = "Kombinieren (Davison)";
+"view.synastry.button.aspectcomparison" = "Aspektvergleich";
+"view.synastry.button.midpointcomparison" = "Mittelpunktvergleich";
+"view.synastry.button.declinationcomparison" = "Deklinationsvergleich";
+"view.synastry.results.title.compare" = "Horoskopvergleich";
+"view.synastry.results.title.composite" = "Komposithoroskop";
+"view.synastry.results.title.combine" = "Davison-Horoskop";
+"view.synastry.results.title.aspectcomparison" = "Aspektvergleich";
+"view.synastry.results.title.midpointcomparison" = "Mittelpunktvergleich";
+"view.synastry.results.title.declinationcomparison" = "Deklinationsvergleich";
+"view.synastry.results.chartsheader" = "Beteiligte Horoskope";
+"view.synastry.results.close" = "Schließen";
