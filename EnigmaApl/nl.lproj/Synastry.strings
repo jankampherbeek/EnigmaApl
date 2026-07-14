@@ -26,3 +26,6 @@
 "view.synastry.results.title.declinationcomparison" = "Declinatievergelijking";
 "view.synastry.results.chartsheader" = "Betrokken horoscopen";
 "view.synastry.results.close" = "Sluiten";
+"view.synastry.compare.innerlabel" = "Binnenwiel";
+"view.synastry.compare.outerlabel" = "Buitenring";
+"view.synastry.compare.swap" = "Wissel binnen- en buitenhoroscoop";

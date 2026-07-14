@@ -14,6 +14,15 @@ struct DualWheelCanvas: View {
     let transitItems: [WheelPlotItem]
     let theme: WheelTheme
     let showAspects: Bool
+    /// Mundane angles (relative to the radix ascendant) of the transit/ring chart's own
+    /// house cusps. Empty by default — only synastry comparisons pass these, since transits
+    /// and progressions are read against the radix houses.
+    var transitCuspAngles: [Double] = []
+    /// Mundane angle (relative to the radix ascendant) of the ring chart's own Ascendant.
+    /// Nil by default — only synastry comparisons show ring cardinal labels.
+    var transitAscAngle: Double? = nil
+    /// Mundane angle (relative to the radix ascendant) of the ring chart's own Midheaven.
+    var transitMcAngle: Double? = nil
 
     private let radixScale: Double = 0.78
 
@@ -22,6 +31,7 @@ struct DualWheelCanvas: View {
     private let transitGlyphFraction:      Double = 0.76  // just above the zodiac sign ring
     private let transitTextFraction:       Double = 0.786 // ~1 char closer to glyph
     private let transitConnectStart:       Double = 0.73  // connect line start (just inside glyph, like radix pattern)
+    private let transitCardinalFraction:   Double = 0.92  // A/D/M/I labels, beyond the ring background edge
 
     var body: some View {
         Canvas { ctx, size in
@@ -54,7 +64,14 @@ struct DualWheelCanvas: View {
             drawPlanetGlyphs(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
             drawPlanetTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
 
-            // Transit ring: connect lines to zodiac sign circle, then glyphs and texts
+            // Transit ring: cusp lines (if any), connect lines to zodiac sign circle, then glyphs and texts
+            drawDualWheelCuspLines(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
+                                    outerFraction: transitBackgroundFraction, cuspAngles: transitCuspAngles, theme: theme)
+            if let ascAngle = transitAscAngle, let mcAngle = transitMcAngle {
+                drawDualWheelCardinalLabels(&ctx, center: center, fullRadius: fullRadius,
+                                             radiusFraction: transitCardinalFraction,
+                                             ascAngle: ascAngle, mcAngle: mcAngle, theme: theme)
+            }
             drawDualWheelConnectLines(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
                                       connectStart: transitConnectStart, items: transitItems, theme: theme)
             drawDualWheelGlyphs(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
@@ -79,6 +96,67 @@ private func drawTransitBackground(
     let r    = CGFloat(fullRadius * outerFraction)
     let rect = CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)
     ctx.fill(Path(ellipseIn: rect), with: .color(theme.outerCircleBackground))
+}
+
+/// Draws the ring chart's own house cusp lines, from the outer edge of the zodiac sign
+/// ring out to the ring's background edge. Angular cusps (1/4/7/10) are drawn thicker,
+/// matching the radix cusp line convention.
+private func drawDualWheelCuspLines(
+    _ ctx: inout GraphicsContext,
+    center: CGPoint,
+    fullRadius: Double,
+    innerRadius: Double,
+    outerFraction: Double,
+    cuspAngles: [Double],
+    theme: WheelTheme
+) {
+    guard !cuspAngles.isEmpty else { return }
+
+    let innerR = innerRadius * WheelMetrics.outerSign
+    let outerR = fullRadius * outerFraction
+    let thin   = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction,       outerRadius: fullRadius)
+    let thick  = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction * 2.0, outerRadius: fullRadius)
+
+    for (i, angle) in cuspAngles.enumerated() {
+        let lineWidth = (i % 3 == 0) ? thick : thin
+        let p1 = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
+        let p2 = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
+        var path = Path()
+        path.move(to: p1)
+        path.addLine(to: p2)
+        ctx.stroke(path, with: .color(theme.cuspLine.opacity(WheelMetrics.cuspLineOpacity)), lineWidth: lineWidth)
+    }
+}
+
+/// Draws the ring chart's own Ascendant/Descendant/Midheaven/Imum Coeli labels ("A", "D",
+/// "M", "I"), matching the inner chart's cardinal label style.
+private func drawDualWheelCardinalLabels(
+    _ ctx: inout GraphicsContext,
+    center: CGPoint,
+    fullRadius: Double,
+    radiusFraction: Double,
+    ascAngle: Double,
+    mcAngle: Double,
+    theme: WheelTheme
+) {
+    let r        = fullRadius * radiusFraction
+    let fontSize = WheelMetrics.fontSize(WheelMetrics.cardinalFontFraction, outerRadius: fullRadius)
+    let dscAngle = WheelGeometry.normalise(ascAngle + 180.0)
+    let icAngle  = WheelGeometry.normalise(mcAngle + 180.0)
+
+    let labels: [(String, Double)] = [
+        ("A", ascAngle),
+        ("D", dscAngle),
+        ("M", mcAngle),
+        ("I", icAngle),
+    ]
+    for (label, angle) in labels {
+        let pt = WheelGeometry.point(angleDeg: angle, radius: r, center: center)
+        let text = Text(label)
+            .font(.system(size: fontSize, weight: .bold))
+            .foregroundColor(theme.cardinalIndicator)
+        ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
+    }
 }
 
 /// Connect lines run from just inside the transit glyph (connectStart × fullRadius, plotAngle)

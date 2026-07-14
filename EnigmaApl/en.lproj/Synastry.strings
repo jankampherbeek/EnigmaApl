@@ -26,3 +26,6 @@
 "view.synastry.results.title.declinationcomparison" = "Declination comparison";
 "view.synastry.results.chartsheader" = "Charts involved";
 "view.synastry.results.close" = "Close";
+"view.synastry.compare.innerlabel" = "Inner wheel";
+"view.synastry.compare.outerlabel" = "Outer ring";
+"view.synastry.compare.swap" = "Swap inner and outer chart";

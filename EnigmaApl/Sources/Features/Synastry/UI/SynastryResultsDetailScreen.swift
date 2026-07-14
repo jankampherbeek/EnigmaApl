@@ -36,17 +36,24 @@ struct SynastryResultsDetailScreen: View {
                     Button(t(SynastryKeys.close)) { synastryNav.closeResult() }
                 }
 
-                Text(t(SynastryKeys.resultsChartsHeader))
-                    .font(.headline)
+                if resultType == .compare, synastryModel.selectedCharts.count == 2 {
+                    SynastryCompareWheelView(
+                        first: synastryModel.selectedCharts[0],
+                        second: synastryModel.selectedCharts[1]
+                    )
+                } else {
+                    Text(t(SynastryKeys.resultsChartsHeader))
+                        .font(.headline)
 
-                GroupBox {
-                    VStack(alignment: .leading, spacing: 4) {
-                        ForEach(synastryModel.selectedCharts) { named in
-                            Text(named.name)
+                    GroupBox {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(synastryModel.selectedCharts) { named in
+                                Text(named.name)
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(4)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(4)
                 }
             }
             .padding()

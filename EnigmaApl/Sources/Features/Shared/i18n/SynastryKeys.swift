@@ -39,4 +39,9 @@ struct SynastryKeys {
     static let resultsTitleDeclinationComparison = "view.synastry.results.title.declinationcomparison"
     static let resultsChartsHeader   = "view.synastry.results.chartsheader"
     static let close                 = "view.synastry.results.close"
+
+    // MARK: - Compare wheel (dual wheel view)
+    static let compareInnerLabel = "view.synastry.compare.innerlabel"
+    static let compareOuterLabel = "view.synastry.compare.outerlabel"
+    static let compareSwap       = "view.synastry.compare.swap"
 }

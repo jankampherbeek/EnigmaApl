@@ -26,3 +26,6 @@
 "view.synastry.results.title.declinationcomparison" = "Comparaison de déclinaisons";
 "view.synastry.results.chartsheader" = "Thèmes concernés";
 "view.synastry.results.close" = "Fermer";
+"view.synastry.compare.innerlabel" = "Roue intérieure";
+"view.synastry.compare.outerlabel" = "Anneau extérieur";
+"view.synastry.compare.swap" = "Permuter les thèmes intérieur et extérieur";

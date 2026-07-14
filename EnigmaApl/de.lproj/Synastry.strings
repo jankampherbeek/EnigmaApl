@@ -26,3 +26,6 @@
 "view.synastry.results.title.declinationcomparison" = "Deklinationsvergleich";
 "view.synastry.results.chartsheader" = "Beteiligte Horoskope";
 "view.synastry.results.close" = "Schließen";
+"view.synastry.compare.innerlabel" = "Innenrad";
+"view.synastry.compare.outerlabel" = "Außenring";
+"view.synastry.compare.swap" = "Innen- und Außenhoroskop tauschen";
