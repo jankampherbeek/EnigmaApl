@@ -36,28 +36,42 @@ struct SynastryResultsDetailScreen: View {
                     Button(t(SynastryKeys.close)) { synastryNav.closeResult() }
                 }
 
-                if resultType == .compare, synastryModel.selectedCharts.count == 2 {
-                    SynastryCompareWheelView(
-                        first: synastryModel.selectedCharts[0],
-                        second: synastryModel.selectedCharts[1]
-                    )
-                } else {
-                    Text(t(SynastryKeys.resultsChartsHeader))
-                        .font(.headline)
-
-                    GroupBox {
-                        VStack(alignment: .leading, spacing: 4) {
-                            ForEach(synastryModel.selectedCharts) { named in
-                                Text(named.name)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(4)
-                    }
-                }
+                content
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        let charts = synastryModel.selectedCharts
+        switch resultType {
+        case .compare where charts.count == 2:
+            SynastryCompareWheelView(first: charts[0], second: charts[1])
+        case .aspectComparison where charts.count == 2:
+            SynastryAspectComparisonView(first: charts[0], second: charts[1])
+        case .midpointComparison where charts.count == 2:
+            SynastryMidpointComparisonView(first: charts[0], second: charts[1])
+        default:
+            genericChartsList
+        }
+    }
+
+    private var genericChartsList: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(t(SynastryKeys.resultsChartsHeader))
+                .font(.headline)
+
+            GroupBox {
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(synastryModel.selectedCharts) { named in
+                        Text(named.name)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(4)
+            }
         }
     }
 }

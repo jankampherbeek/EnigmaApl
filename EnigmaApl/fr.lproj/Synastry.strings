@@ -29,3 +29,11 @@
 "view.synastry.compare.innerlabel" = "Roue intérieure";
 "view.synastry.compare.outerlabel" = "Anneau extérieur";
 "view.synastry.compare.swap" = "Permuter les thèmes intérieur et extérieur";
+"view.synastry.aspectcomparison.noaspects" = "Aucun aspect trouvé.";
+"view.synastry.aspectcomparison.colorb" = "Orbe";
+"view.synastry.aspectcomparison.col.radix" = "Radix";
+"view.synastry.aspectcomparison.col.partner" = "Partenaire";
+"view.synastry.midpointcomparison.nomatches" = "Aucun point médian trouvé.";
+"view.synastry.midpointcomparison.col.partner1" = "Partenaire 1";
+"view.synastry.midpointcomparison.col.partner2" = "Partenaire 2";
+"view.synastry.midpointcomparison.col.radix" = "Radix";

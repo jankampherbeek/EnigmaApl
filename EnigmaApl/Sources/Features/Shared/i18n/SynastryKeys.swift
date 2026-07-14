@@ -44,4 +44,16 @@ struct SynastryKeys {
     static let compareInnerLabel = "view.synastry.compare.innerlabel"
     static let compareOuterLabel = "view.synastry.compare.outerlabel"
     static let compareSwap       = "view.synastry.compare.swap"
+
+    // MARK: - Aspect comparison
+    static let aspectComparisonNoAspects  = "view.synastry.aspectcomparison.noaspects"
+    static let aspectComparisonColOrb     = "view.synastry.aspectcomparison.colorb"
+    static let aspectComparisonColRadix   = "view.synastry.aspectcomparison.col.radix"
+    static let aspectComparisonColPartner = "view.synastry.aspectcomparison.col.partner"
+
+    // MARK: - Midpoint comparison
+    static let midpointComparisonNoMatches = "view.synastry.midpointcomparison.nomatches"
+    static let midpointComparisonColPartner1 = "view.synastry.midpointcomparison.col.partner1"
+    static let midpointComparisonColPartner2 = "view.synastry.midpointcomparison.col.partner2"
+    static let midpointComparisonColRadix    = "view.synastry.midpointcomparison.col.radix"
 }

@@ -29,3 +29,11 @@
 "view.synastry.compare.innerlabel" = "Binnenwiel";
 "view.synastry.compare.outerlabel" = "Buitenring";
 "view.synastry.compare.swap" = "Wissel binnen- en buitenhoroscoop";
+"view.synastry.aspectcomparison.noaspects" = "Geen aspecten gevonden.";
+"view.synastry.aspectcomparison.colorb" = "Orb";
+"view.synastry.aspectcomparison.col.radix" = "Radix";
+"view.synastry.aspectcomparison.col.partner" = "Partner";
+"view.synastry.midpointcomparison.nomatches" = "Geen middelpunten gevonden.";
+"view.synastry.midpointcomparison.col.partner1" = "Partner 1";
+"view.synastry.midpointcomparison.col.partner2" = "Partner 2";
+"view.synastry.midpointcomparison.col.radix" = "Radix";
