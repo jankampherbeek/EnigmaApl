@@ -37,3 +37,7 @@
 "view.synastry.midpointcomparison.col.partner1" = "Partner 1";
 "view.synastry.midpointcomparison.col.partner2" = "Partner 2";
 "view.synastry.midpointcomparison.col.radix" = "Radix";
+"view.synastry.declinationcomparison.nomatches" = "No parallels found.";
+"view.synastry.declinationcomparison.colorb" = "Orb";
+"view.synastry.declinationcomparison.col.radix" = "Radix";
+"view.synastry.declinationcomparison.col.partner" = "Partner";

@@ -56,4 +56,10 @@ struct SynastryKeys {
     static let midpointComparisonColPartner1 = "view.synastry.midpointcomparison.col.partner1"
     static let midpointComparisonColPartner2 = "view.synastry.midpointcomparison.col.partner2"
     static let midpointComparisonColRadix    = "view.synastry.midpointcomparison.col.radix"
+
+    // MARK: - Declination comparison
+    static let declinationComparisonNoMatches = "view.synastry.declinationcomparison.nomatches"
+    static let declinationComparisonColOrb     = "view.synastry.declinationcomparison.colorb"
+    static let declinationComparisonColRadix   = "view.synastry.declinationcomparison.col.radix"
+    static let declinationComparisonColPartner = "view.synastry.declinationcomparison.col.partner"
 }

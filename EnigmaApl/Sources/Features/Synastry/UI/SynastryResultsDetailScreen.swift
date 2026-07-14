@@ -53,6 +53,8 @@ struct SynastryResultsDetailScreen: View {
             SynastryAspectComparisonView(first: charts[0], second: charts[1])
         case .midpointComparison where charts.count == 2:
             SynastryMidpointComparisonView(first: charts[0], second: charts[1])
+        case .declinationComparison where charts.count == 2:
+            SynastryDeclinationComparisonView(first: charts[0], second: charts[1])
         default:
             genericChartsList
         }
