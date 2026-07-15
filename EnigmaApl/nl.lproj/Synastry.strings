@@ -31,6 +31,13 @@
 "view.synastry.composite.method.referencelocation" = "Referentielocatie";
 "view.synastry.composite.showchart" = "Toon horoscoop";
 "view.synastry.composite.charttitle" = "Combinatie van %@ en %@";
+"view.synastry.combine.methodlabel" = "Methode";
+"view.synastry.combine.method.simplified" = "Versimpeld";
+"view.synastry.combine.method.original" = "Origineel";
+"view.synastry.combine.method.referencelocation" = "Referentielocatie";
+"view.synastry.combine.method.sphericalmidpoint" = "Sferisch middelpunt";
+"view.synastry.combine.showchart" = "Toon horoscoop";
+"view.synastry.combine.charttitle" = "Combinatie van %@ en %@";
 "view.synastry.compare.innerlabel" = "Binnenwiel";
 "view.synastry.compare.outerlabel" = "Buitenring";
 "view.synastry.compare.swap" = "Wissel binnen- en buitenhoroscoop";

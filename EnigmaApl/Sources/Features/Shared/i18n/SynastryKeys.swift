@@ -47,6 +47,15 @@ struct SynastryKeys {
     static let compositeShowChart               = "view.synastry.composite.showchart"
     static let compositeChartTitle              = "view.synastry.composite.charttitle"
 
+    // MARK: - Combine (Davison)
+    static let combineMethodLabel             = "view.synastry.combine.methodlabel"
+    static let combineMethodSimplified         = "view.synastry.combine.method.simplified"
+    static let combineMethodOriginal           = "view.synastry.combine.method.original"
+    static let combineMethodReferenceLocation  = "view.synastry.combine.method.referencelocation"
+    static let combineMethodSphericalMidpoint  = "view.synastry.combine.method.sphericalmidpoint"
+    static let combineShowChart                = "view.synastry.combine.showchart"
+    static let combineChartTitle               = "view.synastry.combine.charttitle"
+
     // MARK: - Compare wheel (dual wheel view)
     static let compareInnerLabel = "view.synastry.compare.innerlabel"
     static let compareOuterLabel = "view.synastry.compare.outerlabel"

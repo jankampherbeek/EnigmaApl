@@ -281,6 +281,23 @@ public class SEWrapper {
         return deltaT * 86400.0   // SE returns days; convert to seconds
     }
 
+    // MARK: - Sidereal Time
+    /// Calculate the apparent sidereal time at Greenwich.
+    /// - Parameters
+    ///     - jdUt: Julian day number in UT
+    /// - Returns
+    ///     - Sidereal time at Greenwich, in hours (0–24)
+    /// From docu SE:
+    ///     double swe_sidtime(
+    ///         double tjd_ut);     /* Julian day number, UT */
+    public func siderealTime(jdUt: Double) -> Double {
+        guard isInitialized else {
+            Logger.log.error("Swiss Ephemeris not initialized")
+            return 0.0
+        }
+        return swe_sidtime(jdUt)
+    }
+
     // MARK: - Obliquity and Nutation Calculation
     /// Calculate mean obliquity, true obliquity and nutation in longitude.
     /// - Parameters

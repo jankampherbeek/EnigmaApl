@@ -31,6 +31,13 @@
 "view.synastry.composite.method.referencelocation" = "Referenzort";
 "view.synastry.composite.showchart" = "Horoskop anzeigen";
 "view.synastry.composite.charttitle" = "Kombination von %@ und %@";
+"view.synastry.combine.methodlabel" = "Methode";
+"view.synastry.combine.method.simplified" = "Vereinfacht";
+"view.synastry.combine.method.original" = "Original";
+"view.synastry.combine.method.referencelocation" = "Referenzort";
+"view.synastry.combine.method.sphericalmidpoint" = "Sphärischer Mittelpunkt";
+"view.synastry.combine.showchart" = "Horoskop anzeigen";
+"view.synastry.combine.charttitle" = "Kombination von %@ und %@";
 "view.synastry.compare.innerlabel" = "Innenrad";
 "view.synastry.compare.outerlabel" = "Außenring";
 "view.synastry.compare.swap" = "Innen- und Außenhoroskop tauschen";

@@ -31,6 +31,13 @@
 "view.synastry.composite.method.referencelocation" = "Lieu de référence";
 "view.synastry.composite.showchart" = "Afficher le thème";
 "view.synastry.composite.charttitle" = "Combinaison de %@ et %@";
+"view.synastry.combine.methodlabel" = "Méthode";
+"view.synastry.combine.method.simplified" = "Simplifiée";
+"view.synastry.combine.method.original" = "Originale";
+"view.synastry.combine.method.referencelocation" = "Lieu de référence";
+"view.synastry.combine.method.sphericalmidpoint" = "Point médian sphérique";
+"view.synastry.combine.showchart" = "Afficher le thème";
+"view.synastry.combine.charttitle" = "Combinaison de %@ et %@";
 "view.synastry.compare.innerlabel" = "Roue intérieure";
 "view.synastry.compare.outerlabel" = "Anneau extérieur";
 "view.synastry.compare.swap" = "Permuter les thèmes intérieur et extérieur";
