@@ -26,6 +26,11 @@
 "view.synastry.results.title.declinationcomparison" = "Declinatievergelijking";
 "view.synastry.results.chartsheader" = "Betrokken horoscopen";
 "view.synastry.results.close" = "Sluiten";
+"view.synastry.composite.methodlabel" = "Methode";
+"view.synastry.composite.method.midpointsonly" = "Alleen middelpunten";
+"view.synastry.composite.method.referencelocation" = "Referentielocatie";
+"view.synastry.composite.showchart" = "Toon horoscoop";
+"view.synastry.composite.charttitle" = "Combinatie van %@ en %@";
 "view.synastry.compare.innerlabel" = "Binnenwiel";
 "view.synastry.compare.outerlabel" = "Buitenring";
 "view.synastry.compare.swap" = "Wissel binnen- en buitenhoroscoop";

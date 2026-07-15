@@ -26,11 +26,11 @@ struct MidpointsCalculator {
         return midpoints.sorted { $0.position < $1.position }
     }
 
-    // MARK: - Private helpers
+    // MARK: - Helpers
 
     /// Calculates the midpoint position along the shortest arc between two longitudes.
     /// - Returns: Midpoint longitude in 0–360°.
-    private static func midpointPosition(_ long1: Double, _ long2: Double) -> Double {
+    static func midpointPosition(_ long1: Double, _ long2: Double) -> Double {
         let small = min(long1, long2)
         let large = max(long1, long2)
         let diff = large - small

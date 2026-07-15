@@ -26,6 +26,11 @@
 "view.synastry.results.title.declinationcomparison" = "Comparaison de déclinaisons";
 "view.synastry.results.chartsheader" = "Thèmes concernés";
 "view.synastry.results.close" = "Fermer";
+"view.synastry.composite.methodlabel" = "Méthode";
+"view.synastry.composite.method.midpointsonly" = "Points médians uniquement";
+"view.synastry.composite.method.referencelocation" = "Lieu de référence";
+"view.synastry.composite.showchart" = "Afficher le thème";
+"view.synastry.composite.charttitle" = "Combinaison de %@ et %@";
 "view.synastry.compare.innerlabel" = "Roue intérieure";
 "view.synastry.compare.outerlabel" = "Anneau extérieur";
 "view.synastry.compare.swap" = "Permuter les thèmes intérieur et extérieur";

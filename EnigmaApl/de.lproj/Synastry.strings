@@ -26,6 +26,11 @@
 "view.synastry.results.title.declinationcomparison" = "Deklinationsvergleich";
 "view.synastry.results.chartsheader" = "Beteiligte Horoskope";
 "view.synastry.results.close" = "Schließen";
+"view.synastry.composite.methodlabel" = "Methode";
+"view.synastry.composite.method.midpointsonly" = "Nur Mittelpunkte";
+"view.synastry.composite.method.referencelocation" = "Referenzort";
+"view.synastry.composite.showchart" = "Horoskop anzeigen";
+"view.synastry.composite.charttitle" = "Kombination von %@ und %@";
 "view.synastry.compare.innerlabel" = "Innenrad";
 "view.synastry.compare.outerlabel" = "Außenring";
 "view.synastry.compare.swap" = "Innen- und Außenhoroskop tauschen";

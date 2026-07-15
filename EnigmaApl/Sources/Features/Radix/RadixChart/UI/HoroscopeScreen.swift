@@ -2,27 +2,24 @@
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 import SwiftUI
-import SwiftData
 
 struct HoroscopeScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
-    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
-    private var activeConfigs: [UserConfiguration]
 
     @Binding var blackWhite:  Bool
     @Binding var hideAspects: Bool
     @Binding var hideTime:    Bool
     @Binding var showExport:  Bool
 
-    private var drawingType: DrawingType {
-        activeConfigs.first?.displayConfig.drawingType ?? .signBased
-    }
-
     var body: some View {
         Group {
             if let named = chartSession.selected {
-                wheelView(for: named)
-                    .padding()
+                ChartWheelRouter(
+                    chart: named.chart, chartVersion: named.version,
+                    blackWhite: $blackWhite, hideAspects: $hideAspects,
+                    hideTime: $hideTime, showExport: $showExport
+                )
+                .padding()
             } else {
                 ContentUnavailableView(
                     t(RadixChartKeys.noChartTitle),
@@ -30,56 +27,6 @@ struct HoroscopeScreen: View {
                     description: Text(t(RadixChartKeys.noChartDescription))
                 )
             }
-        }
-    }
-
-    // MARK: - Wheel routing
-
-    @ViewBuilder
-    private func wheelView(for named: NamedChart) -> some View {
-        switch drawingType {
-        case .signBased:
-            ZodiacTypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideAspects: $hideAspects,
-                hideTime: $hideTime, showExport: $showExport
-            )
-        case .houseBased:
-            HouseTypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideTime: $hideTime,
-                showExport: $showExport
-            )
-        case .french:
-            FrenchTypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideAspects: $hideAspects,
-                hideTime: $hideTime, showExport: $showExport
-            )
-        case .ring:
-            RingTypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideAspects: $hideAspects,
-                hideTime: $hideTime, showExport: $showExport
-            )
-        case .dial360:
-            Dial360TypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideTime: $hideTime,
-                showExport: $showExport
-            )
-        case .dial90:
-            Dial90TypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideTime: $hideTime,
-                showExport: $showExport
-            )
-        case .dial45:
-            Dial45TypeWheel(
-                chart: named.chart, chartVersion: named.version,
-                blackWhite: $blackWhite, hideTime: $hideTime,
-                showExport: $showExport
-            )
         }
     }
 

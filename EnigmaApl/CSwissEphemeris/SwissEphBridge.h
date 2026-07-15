@@ -14,6 +14,7 @@
 // Function declarations for Swiss Ephemeris
 int32_t swe_calc_ut(double tjd_ut, int32_t ipl, int32_t iflag, double *xx, char *serr);
 int32_t swe_houses(double tjd_ut, double geolat, double geolon, int32_t hsys, double *cusps, double *ascmc);
+int32_t swe_houses_armc(double armc, double geolat, double eps, int32_t hsys, double *cusps, double *ascmc);
 double swe_julday(int32_t year, int32_t month, int32_t day, double hour, int32_t gregflag);
 void swe_revjul(double jd, int32_t gregflag, int32_t *jyear, int32_t *jmon, int32_t *jday, double *jut);
 double swe_sidtime(double tjd_ut);

@@ -40,6 +40,13 @@ struct SynastryKeys {
     static let resultsChartsHeader   = "view.synastry.results.chartsheader"
     static let close                 = "view.synastry.results.close"
 
+    // MARK: - Composite
+    static let compositeMethodLabel             = "view.synastry.composite.methodlabel"
+    static let compositeMethodMidpointsOnly     = "view.synastry.composite.method.midpointsonly"
+    static let compositeMethodReferenceLocation = "view.synastry.composite.method.referencelocation"
+    static let compositeShowChart               = "view.synastry.composite.showchart"
+    static let compositeChartTitle              = "view.synastry.composite.charttitle"
+
     // MARK: - Compare wheel (dual wheel view)
     static let compareInnerLabel = "view.synastry.compare.innerlabel"
     static let compareOuterLabel = "view.synastry.compare.outerlabel"

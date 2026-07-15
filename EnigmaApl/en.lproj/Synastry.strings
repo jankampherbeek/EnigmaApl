@@ -26,6 +26,11 @@
 "view.synastry.results.title.declinationcomparison" = "Declination comparison";
 "view.synastry.results.chartsheader" = "Charts involved";
 "view.synastry.results.close" = "Close";
+"view.synastry.composite.methodlabel" = "Method";
+"view.synastry.composite.method.midpointsonly" = "Midpoints only";
+"view.synastry.composite.method.referencelocation" = "Reference location";
+"view.synastry.composite.showchart" = "Show chart";
+"view.synastry.composite.charttitle" = "Combine for %@ and %@";
 "view.synastry.compare.innerlabel" = "Inner wheel";
 "view.synastry.compare.outerlabel" = "Outer ring";
 "view.synastry.compare.swap" = "Swap inner and outer chart";

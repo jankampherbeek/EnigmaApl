@@ -579,8 +579,75 @@ public class SEWrapper {
         }
         return (cusps, ascmc)
     }
-    
-       
+
+    // MARK: - House Calculation from ARMC
+    /// Calculate the position of house cusps from an already known ARMC.
+    /// Use this instead of `calculateHouses` when the ARMC has already been derived
+    /// (e.g. for a directed or progressed chart), so it does not need to be recomputed
+    /// from Julian day and geographic longitude.
+    /// - Parameters:
+    ///     - armc: ARMC (right ascension of the Midheaven), in degrees
+    ///     - latitude: geographic latitude
+    ///     - obliquity: obliquity of the ecliptic, in degrees
+    ///     - houseSystem; ascii code for abbrevation of the house system
+    /// - Returns
+    ///     - Tuple with arrays with cusps (using index 1 .. 13) and array with Ascendant, MC, ARMC etc (see below)
+    /// Docu SE:
+    ///     int swe_houses_armc(
+    ///         double armc,        /* ARMC */
+    ///         double geolat,      /* geographic latitude, in degrees */
+    ///         double eps,              /* ecliptic obliquity, in degrees */
+    ///         int hsys,                /* house method, ascii code of one of the letters documented below */
+    ///         double *cusps,      /* array for 13 (or 37 for hsys G) doubles, explained further below */
+    ///         double *ascmc);     /* array for 10 doubles, explained further below */
+    ///     Content of second array:
+    ///         ascmc[0] = Ascendant
+    ///         ascmc[1] = MC
+    ///         ascmc[2] = ARMC
+    ///         ascmc[3] = Vertex
+    ///         ascmc[4] = "equatorial ascendant"
+    ///         ascmc[5] = "co-ascendant" (Walter Koch)
+    ///         ascmc[6] = "co-ascendant" (Michael Munkasey)
+    ///         ascmc[7] = "polar ascendant" (M. Munkasey)
+    public func calculateHousesArmc(armc: Double, latitude: Double, obliquity: Double, houseSystem: Int) throws -> ([Double], [Double]) {
+
+        let gauquelinIndex = 71
+        let nrOfHouses = houseSystem == gauquelinIndex ? 36 : 12
+        var cusps = [Double](repeating: 0.0, count: nrOfHouses + 1) // 12 or 36 houses + 1 extra
+        var ascmc = [Double](repeating: 0.0, count: 10)
+
+        guard isInitialized else { return (cusps, ascmc) }
+
+        // Ensure maximum precision by storing in a local variable with explicit type
+        let preciseArmc: Double = armc
+        let preciseLatitude: Double = latitude
+        let preciseObliquity: Double = obliquity
+
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
+        var returnCode: Int32 = 0
+
+        cusps.withUnsafeMutableBufferPointer { cuspsBuffer in
+            ascmc.withUnsafeMutableBufferPointer { ascmcBuffer in
+                // Ensure all base addresses are non-nil before calling C function
+                guard let cuspsPtr = cuspsBuffer.baseAddress,
+                      let ascmcPtr = ascmcBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for house calculation from ARMC")
+                    return
+                }
+
+                returnCode = swe_houses_armc(preciseArmc, preciseLatitude, preciseObliquity, Int32(houseSystem), cuspsPtr, ascmcPtr)
+            }
+        }
+
+        guard returnCode >= 0 else {
+            Logger.log.error("Error calculating houses from ARMC (return code: \(returnCode))")
+            throw SEError.houseCalculationFailed(returnCode)
+        }
+        return (cusps, ascmc)
+    }
+
+
     // MARK: - Azimuth and altitude
     /// Calculate azimuth and altitude. Ignore atmospheric pressure and termperature.
     /// - Parameters
