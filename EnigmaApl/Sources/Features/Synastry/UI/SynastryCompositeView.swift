@@ -28,8 +28,7 @@ private enum CompositeHouseMethodOption: String, CaseIterable, Identifiable {
 /// method (composite MC fixed, houses derived from its ARMC), then shows the result as
 /// the usual chart figure (aspects, black/white, export).
 struct SynastryCompositeView: View {
-    let first: NamedChart
-    let second: NamedChart
+    let charts: [NamedChart]
 
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
@@ -109,7 +108,7 @@ struct SynastryCompositeView: View {
     @ViewBuilder
     private func resultSection(chart: FullChart) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(String(format: t(SynastryKeys.compositeChartTitle), first.name, second.name))
+            Text(String(format: t(SynastryKeys.compositeChartTitle), charts.map(\.name).joined(separator: ", ")))
                 .font(.title3.weight(.semibold))
 
             wheelControls
@@ -168,7 +167,7 @@ struct SynastryCompositeView: View {
             houseMethod = .referenceLocation(latitude: lat, longitude: lon)
         }
         compositeChart = CompositeOrchestrator.calculate(
-            chart1: first.chart, chart2: second.chart,
+            charts: charts.map { $0.chart },
             houseSystem: houseSystem, method: houseMethod, seWrapper: seWrapper
         )
     }

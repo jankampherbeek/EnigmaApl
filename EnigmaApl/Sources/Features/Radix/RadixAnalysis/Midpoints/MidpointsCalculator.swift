@@ -44,4 +44,17 @@ struct MidpointsCalculator {
         if midPos >= 360.0 { midPos -= 360.0 }
         return midPos
     }
+
+    /// Mean of two or more ecliptic longitudes along the circle (not a flat arithmetic mean),
+    /// via the standard unit-vector-average method. For two longitudes this matches
+    /// `midpointPosition` (the shortest-arc midpoint).
+    static func circularMean(_ longitudesDeg: [Double]) -> Double {
+        let toRad = Double.pi / 180.0
+        let toDeg = 180.0 / Double.pi
+        let sumSin = longitudesDeg.reduce(0.0) { $0 + sin($1 * toRad) }
+        let sumCos = longitudesDeg.reduce(0.0) { $0 + cos($1 * toRad) }
+        var mean = atan2(sumSin, sumCos) * toDeg
+        if mean < 0 { mean += 360.0 }
+        return mean
+    }
 }

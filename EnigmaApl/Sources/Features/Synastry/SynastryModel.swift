@@ -15,11 +15,12 @@ final class SynastryModel: ObservableObject {
 
     private let seWrapper = SEWrapper()
 
-    /// Compare, Composite, Aspect/Midpoint/Declination Comparison require exactly two charts.
+    /// Compare, Aspect/Midpoint/Declination Comparison require exactly two charts.
     var canCompare: Bool { selectedCharts.count == 2 }
 
-    /// Combine (Davison) also accepts more than two charts.
+    /// Combine (Davison) and Composite also accept more than two charts.
     var canCombine: Bool { selectedCharts.count >= 2 }
+    var canComposite: Bool { selectedCharts.count >= 2 }
 
     /// Fetches all horoscopes and filters in memory (case- and diacritic-insensitive contains).
     func search(query: String, context: ModelContext) {

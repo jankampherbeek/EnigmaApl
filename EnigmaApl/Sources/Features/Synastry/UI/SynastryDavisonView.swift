@@ -32,8 +32,7 @@ private enum DavisonLocationMethodOption: String, CaseIterable, Identifiable {
 /// chart: a method picker, an optional reference-location entry, then the usual chart
 /// figure (aspects, black/white, export).
 struct SynastryDavisonView: View {
-    let first: NamedChart
-    let second: NamedChart
+    let charts: [NamedChart]
 
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
@@ -59,7 +58,7 @@ struct SynastryDavisonView: View {
     @State private var dstOption: DSTOption = .noDST
     @State private var selectedCity: LocationCity? = nil
 
-    @State private var davisonChart: FullChart?
+    @State private var davisonResult: DavisonOrchestrator.Result?
     @State private var blackWhite = false
     @State private var hideAspects = false
     @State private var showExport = false
@@ -68,9 +67,9 @@ struct SynastryDavisonView: View {
         VStack(alignment: .leading, spacing: 16) {
             settingsSection
 
-            if let davisonChart {
+            if let davisonResult {
                 Divider()
-                resultSection(chart: davisonChart)
+                resultSection(result: davisonResult)
             }
         }
     }
@@ -111,10 +110,13 @@ struct SynastryDavisonView: View {
     // MARK: - Result
 
     @ViewBuilder
-    private func resultSection(chart: FullChart) -> some View {
+    private func resultSection(result: DavisonOrchestrator.Result) -> some View {
+        let chart = result.chart
         VStack(alignment: .leading, spacing: 12) {
-            Text(String(format: t(SynastryKeys.combineChartTitle), first.name, second.name))
+            Text(String(format: t(SynastryKeys.combineChartTitle), charts.map(\.name).joined(separator: ", ")))
                 .font(.title3.weight(.semibold))
+
+            resultSummary(result: result)
 
             wheelControls
 
@@ -133,6 +135,39 @@ struct SynastryDavisonView: View {
                 )
             )
         }
+    }
+
+    private func resultSummary(result: DavisonOrchestrator.Result) -> some View {
+        let dateTime = seWrapper.dateFromJulianDay(result.chart.JulianDay)
+        let dateText = String(format: "%04d-%02d-%02d", dateTime.Date.Year, dateTime.Date.Month, dateTime.Date.Day)
+        let timeText = String(format: "%02d:%02d:%02d", dateTime.Time.Hour, dateTime.Time.Minute, dateTime.Time.Second)
+        let locationText = coordText(result.latitude, isLat: true) + ", " + coordText(result.longitude, isLat: false)
+
+        return VStack(alignment: .leading, spacing: 4) {
+            LabeledContent(t(SynastryKeys.combineResultDate)) {
+                Text(dateText).monospacedDigit()
+            }
+            LabeledContent(t(SynastryKeys.combineResultTime)) {
+                Text(timeText).monospacedDigit()
+            }
+            LabeledContent(t(SynastryKeys.combineResultLocation)) {
+                Text(locationText).monospacedDigit()
+            }
+        }
+        .frame(maxWidth: 400, alignment: .leading)
+    }
+
+    /// Formats a plain geographic coordinate as DMS with a hemisphere letter.
+    private func coordText(_ value: Double, isLat: Bool) -> String {
+        let absValue = Swift.abs(value)
+        let deg = Int(absValue)
+        let minFrac = (absValue - Double(deg)) * 60.0
+        let min = Int(minFrac)
+        let sec = Int((minFrac - Double(min)) * 60.0)
+        let hemi: String
+        if isLat { hemi = value >= 0 ? "N" : "S" }
+        else      { hemi = value >= 0 ? "E" : "W" }
+        return String(format: "%d° %02d′ %02d″ %@", deg, min, sec, hemi)
     }
 
     private var wheelControls: some View {
@@ -185,8 +220,8 @@ struct SynastryDavisonView: View {
             locationMethod = .referenceLocation(latitude: lat, longitude: lon)
         }
 
-        davisonChart = DavisonOrchestrator.calculate(
-            first: first, second: second,
+        davisonResult = DavisonOrchestrator.calculate(
+            charts: charts,
             factorsToUse: factors, calculationConfig: calculationConfig,
             method: locationMethod, seWrapper: seWrapper
         )

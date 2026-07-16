@@ -55,6 +55,9 @@ struct SynastryKeys {
     static let combineMethodSphericalMidpoint  = "view.synastry.combine.method.sphericalmidpoint"
     static let combineShowChart                = "view.synastry.combine.showchart"
     static let combineChartTitle               = "view.synastry.combine.charttitle"
+    static let combineResultDate               = "view.synastry.combine.result.date"
+    static let combineResultTime               = "view.synastry.combine.result.time"
+    static let combineResultLocation           = "view.synastry.combine.result.location"
 
     // MARK: - Compare wheel (dual wheel view)
     static let compareInnerLabel = "view.synastry.compare.innerlabel"

@@ -49,10 +49,10 @@ struct SynastryResultsDetailScreen: View {
         switch resultType {
         case .compare where charts.count == 2:
             SynastryCompareWheelView(first: charts[0], second: charts[1])
-        case .composite where charts.count == 2:
-            SynastryCompositeView(first: charts[0], second: charts[1])
-        case .combine where charts.count == 2:
-            SynastryDavisonView(first: charts[0], second: charts[1])
+        case .composite where charts.count >= 2:
+            SynastryCompositeView(charts: charts)
+        case .combine where charts.count >= 2:
+            SynastryDavisonView(charts: charts)
         case .aspectComparison where charts.count == 2:
             SynastryAspectComparisonView(first: charts[0], second: charts[1])
         case .midpointComparison where charts.count == 2:

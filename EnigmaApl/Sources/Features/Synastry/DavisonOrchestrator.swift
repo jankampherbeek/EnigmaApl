@@ -12,34 +12,44 @@ struct DavisonOrchestrator {
 
     private init() {}
 
+    /// The calculated chart together with the julianDay/latitude/longitude used to build it,
+    /// so a results screen can display the computed date/time and location.
+    struct Result {
+        let chart: FullChart
+        let latitude: Double
+        let longitude: Double
+    }
+
     enum LocationMethod {
-        /// Arithmetic mean of the two latitudes and the two longitudes (flat-earth mean).
+        /// Arithmetic mean of the latitudes and the longitudes (flat-earth mean).
         case simplified
         /// Same flat-mean location as `.simplified`, but the moment in time is solved so
-        /// that the resulting chart's MC equals the midpoint of the two natal MCs — this
+        /// that the resulting chart's MC equals the (circular) mean of the natal MCs — this
         /// shifts both the houses and the planetary positions.
         case original
         /// A user-chosen location; only the time is the midpoint.
         case referenceLocation(latitude: Double, longitude: Double)
-        /// True geographic midpoint along the shortest (great-circle) arc between the two
+        /// True geographic midpoint along the shortest (great-circle) arc between the
         /// locations.
         case sphericalMidpoint
     }
 
+    /// Builds the Davison chart for two or more charts. Date/time and (for the flat methods)
+    /// location are the arithmetic mean across all charts; `.sphericalMidpoint` averages the
+    /// unit vectors of every location; `.original` uses the circular mean of every natal MC.
     static func calculate(
-        first: NamedChart,
-        second: NamedChart,
+        charts: [NamedChart],
         factorsToUse: [Factors],
         calculationConfig: CalculationConfig,
         method: LocationMethod,
         seWrapper: SEWrapper
-    ) -> FullChart {
-        let jd1 = first.baseRequest.JulianDay
-        let jd2 = second.baseRequest.JulianDay
-        let midJulianDay = (jd1 + jd2) / 2.0
+    ) -> Result {
+        precondition(charts.count >= 2, "Davison chart needs at least two charts")
+        let count = Double(charts.count)
+        let midJulianDay = charts.map { $0.baseRequest.JulianDay }.reduce(0, +) / count
 
-        let flatLatitude  = (first.baseRequest.Latitude + second.baseRequest.Latitude) / 2.0
-        let flatLongitude = (first.baseRequest.Longitude + second.baseRequest.Longitude) / 2.0
+        let flatLatitude  = charts.map { $0.baseRequest.Latitude }.reduce(0, +) / count
+        let flatLongitude = charts.map { $0.baseRequest.Longitude }.reduce(0, +) / count
 
         let julianDay: Double
         let latitude: Double
@@ -59,15 +69,13 @@ struct DavisonOrchestrator {
         case .sphericalMidpoint:
             julianDay = midJulianDay
             (latitude, longitude) = sphericalMidpoint(
-                lat1: first.baseRequest.Latitude, lon1: first.baseRequest.Longitude,
-                lat2: second.baseRequest.Latitude, lon2: second.baseRequest.Longitude
+                coordinates: charts.map { ($0.baseRequest.Latitude, $0.baseRequest.Longitude) }
             )
 
         case .original:
-            let obliquity = (first.chart.Obliquity + second.chart.Obliquity) / 2.0
-            let targetMcLongitude = MidpointsCalculator.midpointPosition(
-                first.chart.HousePositions.midheaven.longitude,
-                second.chart.HousePositions.midheaven.longitude
+            let obliquity = charts.map { $0.chart.Obliquity }.reduce(0, +) / count
+            let targetMcLongitude = MidpointsCalculator.circularMean(
+                charts.map { $0.chart.HousePositions.midheaven.longitude }
             )
             julianDay = solveJulianDay(
                 targetMcLongitude: targetMcLongitude, obliquity: obliquity,
@@ -86,22 +94,27 @@ struct DavisonOrchestrator {
             Height: 0.0,
             calculationConfig: calculationConfig
         )
-        return AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
+        let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
+        return Result(chart: chart, latitude: latitude, longitude: longitude)
     }
 
     // MARK: - Spherical midpoint
 
-    /// True midpoint along the shortest great-circle arc between two geographic locations,
-    /// via the standard unit-vector-average method.
-    private static func sphericalMidpoint(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> (latitude: Double, longitude: Double) {
+    /// True midpoint of two or more geographic locations, via the standard unit-vector-average
+    /// method (for two locations this is the shortest great-circle arc between them).
+    private static func sphericalMidpoint(coordinates: [(latitude: Double, longitude: Double)]) -> (latitude: Double, longitude: Double) {
         let toRad = Double.pi / 180.0
         let toDeg = 180.0 / Double.pi
-        let lat1r = lat1 * toRad, lon1r = lon1 * toRad
-        let lat2r = lat2 * toRad, lon2r = lon2 * toRad
 
-        let x1 = cos(lat1r) * cos(lon1r), y1 = cos(lat1r) * sin(lon1r), z1 = sin(lat1r)
-        let x2 = cos(lat2r) * cos(lon2r), y2 = cos(lat2r) * sin(lon2r), z2 = sin(lat2r)
-        let xm = (x1 + x2) / 2.0, ym = (y1 + y2) / 2.0, zm = (z1 + z2) / 2.0
+        var xs = 0.0, ys = 0.0, zs = 0.0
+        for (lat, lon) in coordinates {
+            let latR = lat * toRad, lonR = lon * toRad
+            xs += cos(latR) * cos(lonR)
+            ys += cos(latR) * sin(lonR)
+            zs += sin(latR)
+        }
+        let count = Double(coordinates.count)
+        let xm = xs / count, ym = ys / count, zm = zs / count
 
         let longitudeMid = atan2(ym, xm) * toDeg
         let hypotenuse = sqrt(xm * xm + ym * ym)

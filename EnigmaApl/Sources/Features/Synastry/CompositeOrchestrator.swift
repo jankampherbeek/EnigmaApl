@@ -4,32 +4,33 @@
 
 import Foundation
 
-/// Builds a composite chart: every factor sits on the midpoint between its two natal
-/// positions. Two conventions for the houses are supported (see `HouseMethod`).
+/// Builds a composite chart: every factor sits on the mean of its natal positions across
+/// two or more charts. Two conventions for the houses are supported (see `HouseMethod`).
 struct CompositeOrchestrator {
 
     private init() {}
 
     enum HouseMethod {
-        /// Every cusp/angle is also the midpoint of the two natal cusps/angles.
+        /// Every cusp/angle is also the (circular) mean of the natal cusps/angles.
         case midpointsOnly
-        /// The composite MC is the midpoint of the two natal MCs; ARMC is derived from it
+        /// The composite MC is the circular mean of the natal MCs; ARMC is derived from it
         /// and the houses are (re)computed at the given geographic latitude/longitude.
         case referenceLocation(latitude: Double, longitude: Double)
     }
 
     static func calculate(
-        chart1: FullChart,
-        chart2: FullChart,
+        charts: [FullChart],
         houseSystem: Int,
         method: HouseMethod,
         seWrapper: SEWrapper
     ) -> FullChart {
-        let obliquity = (chart1.Obliquity + chart2.Obliquity) / 2.0
-        let julianDay = (chart1.JulianDay + chart2.JulianDay) / 2.0
+        precondition(charts.count >= 2, "Composite chart needs at least two charts")
+        let count = Double(charts.count)
+        let obliquity = charts.map { $0.Obliquity }.reduce(0, +) / count
+        let julianDay = charts.map { $0.JulianDay }.reduce(0, +) / count
 
-        let (coordinates, omittedFactors) = compositeCoordinates(chart1: chart1, chart2: chart2, obliquity: obliquity, seWrapper: seWrapper)
-        let housePositions = compositeHousePositions(chart1: chart1, chart2: chart2, obliquity: obliquity, julianDay: julianDay, houseSystem: houseSystem, method: method, seWrapper: seWrapper)
+        let (coordinates, omittedFactors) = compositeCoordinates(charts: charts, obliquity: obliquity, seWrapper: seWrapper)
+        let housePositions = compositeHousePositions(charts: charts, obliquity: obliquity, julianDay: julianDay, houseSystem: houseSystem, method: method, seWrapper: seWrapper)
 
         return FullChart(
             Coordinates: coordinates,
@@ -44,30 +45,30 @@ struct CompositeOrchestrator {
     // MARK: - Coordinates (planets, nodes, lots, asteroids, …)
 
     private static func compositeCoordinates(
-        chart1: FullChart,
-        chart2: FullChart,
+        charts: [FullChart],
         obliquity: Double,
         seWrapper: SEWrapper
     ) -> (coordinates: [Factors: FullFactorPosition], omittedFactors: [Factors]) {
         var coordinates: [Factors: FullFactorPosition] = [:]
         var omitted: [Factors] = []
+        let count = Double(charts.count)
 
-        let commonFactors = Set(chart1.Coordinates.keys).intersection(chart2.Coordinates.keys)
+        let commonFactors = charts.dropFirst().reduce(Set(charts[0].Coordinates.keys)) { $0.intersection($1.Coordinates.keys) }
         for factor in commonFactors {
             guard factor.calculationType != .Mundane else { continue }
-            guard !chart1.omittedFactors.contains(factor), !chart2.omittedFactors.contains(factor) else {
+            guard !charts.contains(where: { $0.omittedFactors.contains(factor) }) else {
                 omitted.append(factor)
                 continue
             }
-            guard let pos1 = chart1.Coordinates[factor]?.ecliptical.first,
-                  let pos2 = chart2.Coordinates[factor]?.ecliptical.first else { continue }
+            let positions = charts.compactMap { $0.Coordinates[factor]?.ecliptical.first }
+            guard positions.count == charts.count else { continue }
 
-            let longitude = MidpointsCalculator.midpointPosition(pos1.mainPos, pos2.mainPos)
-            let latitude  = (pos1.deviation + pos2.deviation) / 2.0
-            let distance  = (pos1.distance + pos2.distance) / 2.0
-            let mainSpeed = (pos1.mainPosSpeed + pos2.mainPosSpeed) / 2.0
-            let devSpeed  = (pos1.deviationSpeed + pos2.deviationSpeed) / 2.0
-            let distSpeed = (pos1.distanceSpeed + pos2.distanceSpeed) / 2.0
+            let longitude = MidpointsCalculator.circularMean(positions.map { $0.mainPos })
+            let latitude  = positions.map { $0.deviation }.reduce(0, +) / count
+            let distance  = positions.map { $0.distance }.reduce(0, +) / count
+            let mainSpeed = positions.map { $0.mainPosSpeed }.reduce(0, +) / count
+            let devSpeed  = positions.map { $0.deviationSpeed }.reduce(0, +) / count
+            let distSpeed = positions.map { $0.distanceSpeed }.reduce(0, +) / count
 
             let ecliptical = MainAstronomicalPosition(
                 mainPos: longitude, deviation: latitude, distance: distance,
@@ -89,8 +90,7 @@ struct CompositeOrchestrator {
     // MARK: - House positions
 
     private static func compositeHousePositions(
-        chart1: FullChart,
-        chart2: FullChart,
+        charts: [FullChart],
         obliquity: Double,
         julianDay: Double,
         houseSystem: Int,
@@ -110,17 +110,21 @@ struct CompositeOrchestrator {
             return FullCuspPosition(longitude: longitude, rightAscension: ra, declination: dec, horizontal: HorizontalPosition(azimuth: azimuth, altitude: altitude))
         }
 
+        func meanCusp(_ longitudes: [Double]) -> FullCuspPosition {
+            cuspPosition(longitude: MidpointsCalculator.circularMean(longitudes), geo: nil)
+        }
+
         func midpointsOnlyHousePositions() -> HousePositions {
-            func midpointCusp(_ c1: FullCuspPosition, _ c2: FullCuspPosition) -> FullCuspPosition {
-                cuspPosition(longitude: MidpointsCalculator.midpointPosition(c1.longitude, c2.longitude), geo: nil)
+            let cuspCount = charts[0].HousePositions.cusps.count
+            let cusps = (0..<cuspCount).map { index in
+                meanCusp(charts.map { $0.HousePositions.cusps[index].longitude })
             }
-            let cusps = zip(chart1.HousePositions.cusps, chart2.HousePositions.cusps).map(midpointCusp)
             return HousePositions(
                 cusps: cusps,
-                ascendant: midpointCusp(chart1.HousePositions.ascendant, chart2.HousePositions.ascendant),
-                midheaven: midpointCusp(chart1.HousePositions.midheaven, chart2.HousePositions.midheaven),
-                eastpoint: midpointCusp(chart1.HousePositions.eastpoint, chart2.HousePositions.eastpoint),
-                vertex: midpointCusp(chart1.HousePositions.vertex, chart2.HousePositions.vertex)
+                ascendant: meanCusp(charts.map { $0.HousePositions.ascendant.longitude }),
+                midheaven: meanCusp(charts.map { $0.HousePositions.midheaven.longitude }),
+                eastpoint: meanCusp(charts.map { $0.HousePositions.eastpoint.longitude }),
+                vertex: meanCusp(charts.map { $0.HousePositions.vertex.longitude })
             )
         }
 
@@ -129,7 +133,7 @@ struct CompositeOrchestrator {
             return midpointsOnlyHousePositions()
 
         case .referenceLocation(let latitude, let longitude):
-            let mcLongitude = MidpointsCalculator.midpointPosition(chart1.HousePositions.midheaven.longitude, chart2.HousePositions.midheaven.longitude)
+            let mcLongitude = MidpointsCalculator.circularMean(charts.map { $0.HousePositions.midheaven.longitude })
             let armc = seWrapper.eclipticToEquatorial(eclipticCoordinates: [mcLongitude, 0.0], obliquity: obliquity).rightAscension
             let geo = (latitude: latitude, longitude: longitude)
 

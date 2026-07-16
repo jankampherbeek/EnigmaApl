@@ -188,7 +188,7 @@ struct SynastryInputScreen: View {
                     .disabled(!synastryModel.canCompare)
                 Button(t(SynastryKeys.buttonComposite)) { synastryNav.showResult(.composite) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(!synastryModel.canCompare)
+                    .disabled(!synastryModel.canComposite)
                 Button(t(SynastryKeys.buttonCombine)) { synastryNav.showResult(.combine) }
                     .buttonStyle(.borderedProminent)
                     .disabled(!synastryModel.canCombine)
