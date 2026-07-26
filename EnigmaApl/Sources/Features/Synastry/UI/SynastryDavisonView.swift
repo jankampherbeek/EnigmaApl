@@ -72,6 +72,10 @@ struct SynastryDavisonView: View {
                 resultSection(result: davisonResult)
             }
         }
+        .onChange(of: method) { _, _ in
+            guard davisonResult != nil else { return }
+            calculate()
+        }
     }
 
     // MARK: - Settings

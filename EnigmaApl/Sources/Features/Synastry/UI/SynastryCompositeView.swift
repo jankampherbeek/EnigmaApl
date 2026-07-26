@@ -68,6 +68,10 @@ struct SynastryCompositeView: View {
                 resultSection(chart: compositeChart)
             }
         }
+        .onChange(of: method) { _, _ in
+            guard compositeChart != nil else { return }
+            calculate()
+        }
     }
 
     // MARK: - Settings

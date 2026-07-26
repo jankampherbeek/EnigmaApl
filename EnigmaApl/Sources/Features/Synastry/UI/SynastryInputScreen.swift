@@ -35,6 +35,9 @@ struct SynastryInputScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(SynastryKeys.title))
+        .onChange(of: synastryModel.selectedCharts.map(\.id)) { _, _ in
+            synastryNav.closeResult()
+        }
     }
 
     // MARK: - Selected charts
