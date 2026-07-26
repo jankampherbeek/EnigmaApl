@@ -58,6 +58,7 @@ struct SynastryCompositeView: View {
     @State private var blackWhite = false
     @State private var hideAspects = false
     @State private var showExport = false
+    @State private var showHelp = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -71,6 +72,9 @@ struct SynastryCompositeView: View {
         .onChange(of: method) { _, _ in
             guard compositeChart != nil else { return }
             calculate()
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpComposite))
         }
     }
 
@@ -102,8 +106,16 @@ struct SynastryCompositeView: View {
                 .frame(maxWidth: 500, alignment: .leading)
             }
 
-            Button(t(SynastryKeys.compositeShowChart)) { calculate() }
-                .buttonStyle(.borderedProminent)
+            HStack(spacing: 12) {
+                Button(t(SynastryKeys.compositeShowChart)) { calculate() }
+                    .buttonStyle(.borderedProminent)
+
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .buttonStyle(.bordered)
+                .accessibilityLabel("Help")
+            }
         }
     }
 
@@ -112,10 +124,10 @@ struct SynastryCompositeView: View {
     @ViewBuilder
     private func resultSection(chart: FullChart) -> some View {
         VStack(alignment: .leading, spacing: 12) {
+            wheelControls
+
             Text(String(format: t(SynastryKeys.compositeChartTitle), charts.map(\.name).joined(separator: ", ")))
                 .font(.title3.weight(.semibold))
-
-            wheelControls
 
             ChartWheelRouter(
                 chart: chart, chartVersion: UUID(),

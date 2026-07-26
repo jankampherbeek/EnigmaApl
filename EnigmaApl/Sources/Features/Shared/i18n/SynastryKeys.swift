@@ -81,4 +81,13 @@ struct SynastryKeys {
     static let declinationComparisonColOrb     = "view.synastry.declinationcomparison.colorb"
     static let declinationComparisonColRadix   = "view.synastry.declinationcomparison.col.radix"
     static let declinationComparisonColPartner = "view.synastry.declinationcomparison.col.partner"
+
+    // MARK: - Help
+    static let helpInput                 = "view.synastry.help.input"
+    static let helpCompare                = "view.synastry.help.compare"
+    static let helpComposite              = "view.synastry.help.composite"
+    static let helpCombine                = "view.synastry.help.combine"
+    static let helpAspectComparison       = "view.synastry.help.aspectcomparison"
+    static let helpMidpointComparison     = "view.synastry.help.midpointcomparison"
+    static let helpDeclinationComparison  = "view.synastry.help.declinationcomparison"
 }

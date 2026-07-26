@@ -23,6 +23,7 @@ struct SynastryMidpointComparisonView: View {
     private var activeConfigs: [UserConfiguration]
 
     @State private var dialType: MidpointDialType = .dial360
+    @State private var showHelp = false
 
     private let glyphW: CGFloat = 28
     private let posW:   CGFloat = 140
@@ -45,11 +46,15 @@ struct SynastryMidpointComparisonView: View {
                 .frame(maxWidth: 300)
 
                 exportButton
+                helpButton
             }
 
             midpointSection(ownerName: first.name, matches: firstMatches)
             Divider()
             midpointSection(ownerName: second.name, matches: secondMatches)
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpMidpointComparison))
         }
     }
 
@@ -59,6 +64,14 @@ struct SynastryMidpointComparisonView: View {
         }
         .buttonStyle(.bordered)
         .accessibilityLabel("Export to PDF")
+    }
+
+    private var helpButton: some View {
+        Button { showHelp = true } label: {
+            Image(systemName: "questionmark.circle")
+        }
+        .buttonStyle(.bordered)
+        .accessibilityLabel("Help")
     }
 
     // MARK: - Section

@@ -62,6 +62,7 @@ struct SynastryDavisonView: View {
     @State private var blackWhite = false
     @State private var hideAspects = false
     @State private var showExport = false
+    @State private var showHelp = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -75,6 +76,9 @@ struct SynastryDavisonView: View {
         .onChange(of: method) { _, _ in
             guard davisonResult != nil else { return }
             calculate()
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpCombine))
         }
     }
 
@@ -106,8 +110,16 @@ struct SynastryDavisonView: View {
                 .frame(maxWidth: 500, alignment: .leading)
             }
 
-            Button(t(SynastryKeys.combineShowChart)) { calculate() }
-                .buttonStyle(.borderedProminent)
+            HStack(spacing: 12) {
+                Button(t(SynastryKeys.combineShowChart)) { calculate() }
+                    .buttonStyle(.borderedProminent)
+
+                Button { showHelp = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .buttonStyle(.bordered)
+                .accessibilityLabel("Help")
+            }
         }
     }
 
@@ -117,12 +129,12 @@ struct SynastryDavisonView: View {
     private func resultSection(result: DavisonOrchestrator.Result) -> some View {
         let chart = result.chart
         VStack(alignment: .leading, spacing: 12) {
+            wheelControls
+
             Text(String(format: t(SynastryKeys.combineChartTitle), charts.map(\.name).joined(separator: ", ")))
                 .font(.title3.weight(.semibold))
 
             resultSummary(result: result)
-
-            wheelControls
 
             ChartWheelRouter(
                 chart: chart, chartVersion: UUID(),

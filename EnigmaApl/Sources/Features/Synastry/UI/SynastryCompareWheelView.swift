@@ -23,18 +23,22 @@ struct SynastryCompareWheelView: View {
     @State private var blackWhite = false
     @State private var hideAspects = false
     @State private var showExport = false
+    @State private var showHelp = false
 
     private var inner: NamedChart { swapped ? second : first }
     private var outer: NamedChart { swapped ? first : second }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            namesRow
             wheelControls
+            namesRow
             dualWheelCanvas
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(wheelView: dualWheelCanvas)
+        }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpCompare))
         }
     }
 
@@ -60,6 +64,12 @@ struct SynastryCompareWheelView: View {
             }
             .buttonStyle(.bordered)
             .accessibilityLabel("Export")
+
+            Button { showHelp = true } label: {
+                Image(systemName: "questionmark.circle")
+            }
+            .buttonStyle(.bordered)
+            .accessibilityLabel("Help")
         }
     }
 

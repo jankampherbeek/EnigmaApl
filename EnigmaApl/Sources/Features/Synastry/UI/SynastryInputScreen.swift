@@ -18,12 +18,21 @@ struct SynastryInputScreen: View {
     private var activeConfigs: [UserConfiguration]
 
     @State private var query = ""
+    @State private var showHelp = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text(t(SynastryKeys.title))
-                    .font(.title2.weight(.semibold))
+                HStack {
+                    Text(t(SynastryKeys.title))
+                        .font(.title2.weight(.semibold))
+                    Spacer()
+                    Button { showHelp = true } label: {
+                        Image(systemName: "questionmark.circle")
+                    }
+                    .buttonStyle(.bordered)
+                    .accessibilityLabel("Help")
+                }
 
                 selectedSection
                 sessionSection
@@ -35,6 +44,9 @@ struct SynastryInputScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(SynastryKeys.title))
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpInput))
+        }
         .onChange(of: synastryModel.selectedCharts.map(\.id)) { _, _ in
             synastryNav.closeResult()
         }

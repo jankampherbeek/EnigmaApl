@@ -26,12 +26,13 @@ struct SynastryAspectComparisonView: View {
     private let sectionSpacing: CGFloat = 24
 
     @State private var availableWidth: CGFloat = 0
+    @State private var showHelp = false
 
     private var sideBySide: Bool { availableWidth >= minTableWidth * 2 + sectionSpacing }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            exportButton
+            toolbarRow
 
             if sideBySide {
                 HStack(alignment: .top, spacing: sectionSpacing) {
@@ -52,6 +53,16 @@ struct SynastryAspectComparisonView: View {
         .onGeometryChange(for: CGFloat.self, of: { $0.size.width }) { newWidth in
             availableWidth = newWidth
         }
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: t(SynastryKeys.helpAspectComparison))
+        }
+    }
+
+    private var toolbarRow: some View {
+        HStack(spacing: 8) {
+            exportButton
+            helpButton
+        }
     }
 
     private var exportButton: some View {
@@ -60,6 +71,14 @@ struct SynastryAspectComparisonView: View {
         }
         .buttonStyle(.bordered)
         .accessibilityLabel("Export to PDF")
+    }
+
+    private var helpButton: some View {
+        Button { showHelp = true } label: {
+            Image(systemName: "questionmark.circle")
+        }
+        .buttonStyle(.bordered)
+        .accessibilityLabel("Help")
     }
 
     // MARK: - Section
