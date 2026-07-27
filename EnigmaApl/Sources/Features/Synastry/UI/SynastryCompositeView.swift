@@ -59,6 +59,7 @@ struct SynastryCompositeView: View {
     @State private var hideAspects = false
     @State private var showExport = false
     @State private var showHelp = false
+    @State private var showFactsheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -75,6 +76,9 @@ struct SynastryCompositeView: View {
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(SynastryKeys.helpComposite))
+        }
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: "composite")
         }
     }
 
@@ -109,6 +113,12 @@ struct SynastryCompositeView: View {
             HStack(spacing: 12) {
                 Button(t(SynastryKeys.compositeShowChart)) { calculate() }
                     .buttonStyle(.borderedProminent)
+
+                Button { showFactsheet = true } label: {
+                    Image(systemName: "book.pages")
+                }
+                .buttonStyle(.bordered)
+                .accessibilityLabel("Factsheet")
 
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
