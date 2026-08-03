@@ -12,6 +12,7 @@
 "view.analysisscreen.btn.vsp"                  = "Point Étoile de Vénus";
 "view.analysisscreen.btn.fixstars"             = "Étoiles fixes";
 "view.analysisscreen.btn.parans"               = "Parans";
+"view.analysisscreen.btn.harmonicorbs"         = "Orbes harmoniques";
 "view.analysisscreen.help"                     = "L'écran d'analyse donne accès aux outils analytiques. Aspects montre les relations d'aspects entre facteurs. Mi-points montre les structures de mi-points et les mi-points occupés. Harmoniques montre les positions et résonances harmoniques.";
 
 // HarmonicsScreen — shared

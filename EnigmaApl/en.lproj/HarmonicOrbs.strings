@@ -1,0 +1,22 @@
+// HarmonicOrbs.strings - English
+// EnigmaApl
+
+// Navigation
+"view.harmonicorbs.navtitle"        = "Harmonic Orbs";
+"view.harmonicorbs.back"            = "Analysis";
+
+// Input view
+"view.harmonicorbs.title"           = "Harmonic orbs for %@";
+"view.harmonicorbs.orb.section"     = "Maximum orb";
+"view.harmonicorbs.orb.label"       = "Orb (degrees / minutes)";
+"view.harmonicorbs.aspects.section" = "Aspects";
+"view.harmonicorbs.col.aspect"       = "Aspect";
+"view.harmonicorbs.col.effectiveorb" = "Effective orb";
+"view.harmonicorbs.nochart"         = "Calculate or select a chart to view harmonic orbs.";
+
+// Drawing view
+"view.harmonicorbs.drawing.nochart" = "No chart selected.";
+
+// Help
+"view.harmonicorbs.help.input"      = "Enter a maximum orb in degrees and minutes. For each aspect, the actual orb is calculated by dividing this maximum orb by the aspect's harmonic number. Deselect an aspect to exclude it from the calculation and the drawing.";
+"view.harmonicorbs.help.drawing"    = "The chart is drawn with the aspects calculated using the harmonic orbs from the input screen. A change to the maximum orb or to the selected aspects is reflected in the drawing immediately.";

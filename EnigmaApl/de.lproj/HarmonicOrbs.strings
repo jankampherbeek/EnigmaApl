@@ -1,0 +1,22 @@
+// HarmonicOrbs.strings - Deutsch
+// EnigmaApl
+
+// Navigation
+"view.harmonicorbs.navtitle"        = "Harmonische Orbis";
+"view.harmonicorbs.back"            = "Analyse";
+
+// Input view
+"view.harmonicorbs.title"           = "Harmonische Orbis für %@";
+"view.harmonicorbs.orb.section"     = "Maximaler Orbis";
+"view.harmonicorbs.orb.label"       = "Orbis (Grad / Minuten)";
+"view.harmonicorbs.aspects.section" = "Aspekte";
+"view.harmonicorbs.col.aspect"       = "Aspekt";
+"view.harmonicorbs.col.effectiveorb" = "Effektiver Orbis";
+"view.harmonicorbs.nochart"         = "Berechnen oder wählen Sie ein Horoskop, um harmonische Orbis anzuzeigen.";
+
+// Drawing view
+"view.harmonicorbs.drawing.nochart" = "Kein Horoskop ausgewählt.";
+
+// Help
+"view.harmonicorbs.help.input"      = "Geben Sie einen maximalen Orbis in Grad und Minuten ein. Für jeden Aspekt wird der tatsächliche Orbis berechnet, indem dieser maximale Orbis durch die harmonische Zahl des Aspekts geteilt wird. Deaktivieren Sie einen Aspekt, um ihn von der Berechnung und der Zeichnung auszuschließen.";
+"view.harmonicorbs.help.drawing"    = "Das Horoskop wird mit den Aspekten gezeichnet, die anhand der harmonischen Orbis aus dem Eingabebildschirm berechnet wurden. Eine Änderung des maximalen Orbis oder der ausgewählten Aspekte wirkt sich sofort auf die Zeichnung aus.";

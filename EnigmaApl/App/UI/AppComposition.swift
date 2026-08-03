@@ -40,6 +40,7 @@ final class AppComposition: ObservableObject {
     let longTimeEphemerisModel: LongTimeEphemerisModel
     let fixStarModel: FixStarModel
     let paranModel: ParansModel
+    let harmonicOrbsModel: HarmonicOrbsModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -102,5 +103,6 @@ final class AppComposition: ObservableObject {
         self.longTimeEphemerisModel = LongTimeEphemerisModel()
         self.fixStarModel = FixStarModel()
         self.paranModel = ParansModel()
+        self.harmonicOrbsModel = HarmonicOrbsModel()
     }
 }

@@ -1,0 +1,22 @@
+// HarmonicOrbs.strings - Nederlands
+// EnigmaApl
+
+// Navigation
+"view.harmonicorbs.navtitle"        = "Harmonische orbs";
+"view.harmonicorbs.back"            = "Analyse";
+
+// Input view
+"view.harmonicorbs.title"           = "Harmonische orbs voor %@";
+"view.harmonicorbs.orb.section"     = "Maximale orb";
+"view.harmonicorbs.orb.label"       = "Orb (graden / minuten)";
+"view.harmonicorbs.aspects.section" = "Aspecten";
+"view.harmonicorbs.col.aspect"       = "Aspect";
+"view.harmonicorbs.col.effectiveorb" = "Effectieve orb";
+"view.harmonicorbs.nochart"         = "Bereken of selecteer een horoscoop om harmonische orbs te bekijken.";
+
+// Drawing view
+"view.harmonicorbs.drawing.nochart" = "Geen horoscoop geselecteerd.";
+
+// Help
+"view.harmonicorbs.help.input"      = "Geef een maximale orb op in graden en minuten. Voor elk aspect wordt de werkelijke orb berekend door deze maximale orb te delen door het harmonische getal van dat aspect. Vink een aspect uit om het niet mee te nemen in de berekening en de tekening.";
+"view.harmonicorbs.help.drawing"    = "De horoscoop wordt getekend met de aspecten die zijn berekend met de harmonische orbs uit het invoerscherm. Een wijziging van de maximale orb of van de geselecteerde aspecten werkt direct door in de tekening.";

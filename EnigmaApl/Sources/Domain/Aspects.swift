@@ -52,7 +52,7 @@ public enum Aspects: Int, CaseIterable, Codable {
         case .novile: return 40.0
         case .binovile: return 80.0
         case .quadranovile: return 160.0
-        case .undecile: return 33.0
+        case .undecile: return 32.72727273
         case .centile: return 100.0
         case .vigintile: return 18.0
         }

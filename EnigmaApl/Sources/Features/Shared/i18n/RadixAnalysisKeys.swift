@@ -17,6 +17,7 @@ struct RadixAnalysisKeys {
     static let btnVsp                = "view.analysisscreen.btn.vsp"
     static let btnFixStars           = "view.analysisscreen.btn.fixstars"
     static let btnParans             = "view.analysisscreen.btn.parans"
+    static let btnHarmonicOrbs        = "view.analysisscreen.btn.harmonicorbs"
     static let help                  = "view.analysisscreen.help"
 
     // HarmonicsScreen — shared

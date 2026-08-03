@@ -53,6 +53,8 @@ struct DetailColumn: View {
                 return "Venus Star Point"
             case .analysisParans:
                 return "Parans"
+            case .analysisHarmonicOrbs:
+                return NSLocalizedString(HarmonicOrbsKeys.navTitle, tableName: "HarmonicOrbs", bundle: .main, comment: "")
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -121,6 +123,8 @@ struct DetailColumn: View {
                             VspScreen()
                         case .analysisParans:
                             ParansResultsScreen()
+                        case .analysisHarmonicOrbs:
+                            HarmonicOrbsDrawingScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

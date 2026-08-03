@@ -1,0 +1,22 @@
+// HarmonicOrbs.strings - Français
+// EnigmaApl
+
+// Navigation
+"view.harmonicorbs.navtitle"        = "Orbes harmoniques";
+"view.harmonicorbs.back"            = "Analyse";
+
+// Input view
+"view.harmonicorbs.title"           = "Orbes harmoniques pour %@";
+"view.harmonicorbs.orb.section"     = "Orbe maximal";
+"view.harmonicorbs.orb.label"       = "Orbe (degrés / minutes)";
+"view.harmonicorbs.aspects.section" = "Aspects";
+"view.harmonicorbs.col.aspect"       = "Aspect";
+"view.harmonicorbs.col.effectiveorb" = "Orbe effectif";
+"view.harmonicorbs.nochart"         = "Calculez ou sélectionnez un thème pour voir les orbes harmoniques.";
+
+// Drawing view
+"view.harmonicorbs.drawing.nochart" = "Aucun thème sélectionné.";
+
+// Help
+"view.harmonicorbs.help.input"      = "Indiquez un orbe maximal en degrés et minutes. Pour chaque aspect, l'orbe réel est calculé en divisant cet orbe maximal par le nombre harmonique de l'aspect. Désélectionnez un aspect pour l'exclure du calcul et du dessin.";
+"view.harmonicorbs.help.drawing"    = "Le thème est dessiné avec les aspects calculés à partir des orbes harmoniques de l'écran de saisie. Toute modification de l'orbe maximal ou des aspects sélectionnés se répercute immédiatement sur le dessin.";

@@ -12,6 +12,7 @@
 "view.analysisscreen.btn.vsp"                  = "Venus Sterpunt";
 "view.analysisscreen.btn.fixstars"             = "Vaste sterren";
 "view.analysisscreen.btn.parans"               = "Paranen";
+"view.analysisscreen.btn.harmonicorbs"         = "Harmonische orbs";
 "view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Midpunten toont midpuntstructuren en bezette midpunten. Harmonischen toont harmonische posities en resonanties.";
 
 // HarmonicsScreen — shared

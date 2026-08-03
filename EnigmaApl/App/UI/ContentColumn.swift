@@ -51,6 +51,10 @@ struct ContentColumn: View {
         app.nav.radix.inspector == .analysisParans
     }
 
+    private var isHarmonicOrbs: Bool {
+        app.nav.radix.inspector == .analysisHarmonicOrbs
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -64,6 +68,8 @@ struct ContentColumn: View {
                     VspDiagramView()
                 case .analysisParans:
                     ParansInputView()
+                case .analysisHarmonicOrbs:
+                    HarmonicOrbsInputScreen()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
                      .newChart, .search, .editChart:
@@ -131,7 +137,7 @@ struct ContentColumn: View {
                     }
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans {
+            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs {
                 ToolbarItem(placement: .automatic) {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
@@ -172,7 +178,7 @@ struct ContentColumn: View {
                     .accessibilityLabel("Export")
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans {
+            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")

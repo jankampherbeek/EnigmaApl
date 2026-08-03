@@ -76,6 +76,7 @@ struct RootView: View {
         .environmentObject(composition.longTimeEphemerisModel)
         .environmentObject(composition.fixStarModel)
         .environmentObject(composition.paranModel)
+        .environmentObject(composition.harmonicOrbsModel)
         .environmentObject(composition.calculatorsNav)
         .environmentObject(composition.synastryNav)
         .environmentObject(composition.synastryModel)

@@ -40,7 +40,6 @@
 		AF6EB8402EF01B6C0070CE12 /* License */ = {isa = PBXFileReference; lastKnownFileType = text; path = License; sourceTree = "<group>"; };
 		AF6EB8422EF01BD30070CE12 /* se_license.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = se_license.html; sourceTree = "<group>"; };
 		AF6EB8452EF01BD50070CE12 /* EnigmaApl/CSwissEphemeris/se */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EnigmaApl/CSwissEphemeris/se; sourceTree = "<group>"; };
-		AF91B9F42F250FC600B321F3 /* SwissEphBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwissEphBridge.h; sourceTree = "<group>"; };
 		AFEBE2AD2EF741010036FB36 /* EnigmaApl.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EnigmaApl.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,7 +131,6 @@
 				AFD863E82EFEC5B3008A6DC3 /* Docs */,
 				AFEBE2AD2EF741010036FB36 /* EnigmaApl.xctestplan */,
 				AF6EB8422EF01BD30070CE12 /* se_license.html */,
-				AF91B9F42F250FC600B321F3 /* SwissEphBridge.h */,
 				AF6EB8402EF01B6C0070CE12 /* License */,
 				AF6EB83E2EF01A7C0070CE12 /* readme.md */,
 				AF6EB8142EF019960070CE12 /* EnigmaApl */,
