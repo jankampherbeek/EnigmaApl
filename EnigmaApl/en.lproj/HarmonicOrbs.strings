@@ -16,7 +16,17 @@
 
 // Drawing view
 "view.harmonicorbs.drawing.nochart" = "No chart selected.";
+"view.harmonicorbs.tab.chart"        = "Chart";
+"view.harmonicorbs.tab.aspects"      = "Aspects";
+
+// Aspects tab
+"view.harmonicorbs.grid.title"       = "Aspect grid";
+"view.harmonicorbs.list.title"       = "Aspect list";
+"view.harmonicorbs.col.factor1"      = "Factor 1";
+"view.harmonicorbs.col.factor2"      = "Factor 2";
+"view.harmonicorbs.col.orb"          = "Orb";
+"view.harmonicorbs.col.exactness"    = "Exactness";
+"view.harmonicorbs.noaspectsfound"   = "No aspects found for the current orb and selection.";
 
 // Help
-"view.harmonicorbs.help.input"      = "Enter a maximum orb in degrees and minutes. For each aspect, the actual orb is calculated by dividing this maximum orb by the aspect's harmonic number. Deselect an aspect to exclude it from the calculation and the drawing.";
-"view.harmonicorbs.help.drawing"    = "The chart is drawn with the aspects calculated using the harmonic orbs from the input screen. A change to the maximum orb or to the selected aspects is reflected in the drawing immediately.";
+"view.harmonicorbs.help.input"      = "Enter a maximum orb. Enigma automatically calculates the actual harmonic orb; you can see the result in the list of aspects.\n\nYou can (de)select aspects.\n\nIf you change the orb, or the selection of aspects, Enigma automatically recalculates the results.\n\nIn the right-hand screen, use the 'Chart' and 'Aspects' tabs to choose the result in the form of a chart drawing or as an aspect grid and a list of aspects.\n\nSee the factsheet if you want to know more about harmonic orbs.";

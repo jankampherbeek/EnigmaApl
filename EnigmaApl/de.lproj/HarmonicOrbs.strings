@@ -16,7 +16,17 @@
 
 // Drawing view
 "view.harmonicorbs.drawing.nochart" = "Kein Horoskop ausgewählt.";
+"view.harmonicorbs.tab.chart"        = "Horoskop";
+"view.harmonicorbs.tab.aspects"      = "Aspekte";
+
+// Aspects tab
+"view.harmonicorbs.grid.title"       = "Aspektraster";
+"view.harmonicorbs.list.title"       = "Aspektliste";
+"view.harmonicorbs.col.factor1"      = "Faktor 1";
+"view.harmonicorbs.col.factor2"      = "Faktor 2";
+"view.harmonicorbs.col.orb"          = "Orbis";
+"view.harmonicorbs.col.exactness"    = "Genauigkeit";
+"view.harmonicorbs.noaspectsfound"   = "Keine Aspekte gefunden für den aktuellen Orbis und die aktuelle Auswahl.";
 
 // Help
-"view.harmonicorbs.help.input"      = "Geben Sie einen maximalen Orbis in Grad und Minuten ein. Für jeden Aspekt wird der tatsächliche Orbis berechnet, indem dieser maximale Orbis durch die harmonische Zahl des Aspekts geteilt wird. Deaktivieren Sie einen Aspekt, um ihn von der Berechnung und der Zeichnung auszuschließen.";
-"view.harmonicorbs.help.drawing"    = "Das Horoskop wird mit den Aspekten gezeichnet, die anhand der harmonischen Orbis aus dem Eingabebildschirm berechnet wurden. Eine Änderung des maximalen Orbis oder der ausgewählten Aspekte wirkt sich sofort auf die Zeichnung aus.";
+"view.harmonicorbs.help.input"      = "Geben Sie einen maximalen Orbis ein. Enigma berechnet automatisch den tatsächlichen harmonischen Orbis; das Ergebnis sehen Sie in der Aspektliste.\n\nSie können Aspekte (ab)wählen.\n\nWenn Sie den Orbis oder die Auswahl der Aspekte ändern, berechnet Enigma die Ergebnisse automatisch neu.\n\nIm rechten Bildschirm können Sie über die Tabs 'Horoskop' und 'Aspekte' wählen, ob das Ergebnis als Horoskopzeichnung oder als Aspektraster und Aspektliste angezeigt wird.\n\nWeitere Informationen zu harmonischen Orbis finden Sie im Factsheet.";

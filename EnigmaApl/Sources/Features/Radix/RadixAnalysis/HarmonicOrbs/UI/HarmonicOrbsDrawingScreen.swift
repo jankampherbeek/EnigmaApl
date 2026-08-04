@@ -18,7 +18,7 @@ struct HarmonicOrbsDrawingScreen: View {
 
     @StateObject private var wheelModel = ZodiacTypeWheelModel()
     @State private var showExport = false
-    @State private var showHelp = false
+    @State private var selectedTab: HarmonicOrbsDrawingTab = .chart
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
     private var currentTheme: WheelTheme { app.ui.blackWhite ? .blackWhite : .color }
@@ -72,46 +72,57 @@ struct HarmonicOrbsDrawingScreen: View {
     }
 
     var body: some View {
-        Group {
-            if chartSession.selectedChart == nil {
-                ContentUnavailableView(
-                    t(HarmonicOrbsKeys.navTitle),
-                    systemImage: "circle.dashed",
-                    description: Text(t(HarmonicOrbsKeys.drawingNoChart))
-                )
-            } else {
-                ZodiacTypeWheelCanvas(plotData: plotData, theme: currentTheme, showAspects: true)
-                    .padding()
+        VStack(alignment: .leading, spacing: 0) {
+            Picker("", selection: $selectedTab) {
+                Text(t(HarmonicOrbsKeys.tabChart)).tag(HarmonicOrbsDrawingTab.chart)
+                Text(t(HarmonicOrbsKeys.tabAspects)).tag(HarmonicOrbsDrawingTab.aspects)
+            }
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 280)
+            .padding([.horizontal, .top])
+
+            Divider().padding(.top, 8)
+
+            switch selectedTab {
+            case .chart:
+                Group {
+                    if chartSession.selectedChart == nil {
+                        ContentUnavailableView(
+                            t(HarmonicOrbsKeys.navTitle),
+                            systemImage: "circle.dashed",
+                            description: Text(t(HarmonicOrbsKeys.drawingNoChart))
+                        )
+                    } else {
+                        ZodiacTypeWheelCanvas(plotData: plotData, theme: currentTheme, showAspects: true)
+                            .padding()
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            case .aspects:
+                HarmonicOrbsAspectsTab()
             }
         }
         .toolbar {
-            ToolbarItem(placement: .automatic) {
-                Button { app.ui.blackWhite.toggle() } label: {
-                    Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
+            if selectedTab == .chart {
+                ToolbarItem(placement: .automatic) {
+                    Button { app.ui.blackWhite.toggle() } label: {
+                        Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
+                    }
+                    .accessibilityLabel(app.ui.blackWhite ? "Switch to color" : "Switch to black and white")
                 }
-                .accessibilityLabel(app.ui.blackWhite ? "Switch to color" : "Switch to black and white")
-            }
-            ToolbarItem(placement: .automatic) {
-                Button { showExport = true } label: {
-                    Image(systemName: "square.and.arrow.up")
+                ToolbarItem(placement: .automatic) {
+                    Button { showExport = true } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .accessibilityLabel("Export")
+                    .disabled(chartSession.selectedChart == nil)
                 }
-                .accessibilityLabel("Export")
-                .disabled(chartSession.selectedChart == nil)
-            }
-            ToolbarItem(placement: .automatic) {
-                Button { showHelp = true } label: {
-                    Image(systemName: "questionmark.circle")
-                }
-                .accessibilityLabel("Help")
             }
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
                 wheelView: ZodiacTypeWheelCanvas(plotData: plotData, theme: currentTheme, showAspects: true)
             )
-        }
-        .sheet(isPresented: $showHelp) {
-            WheelHelpSheet(helpText: t(HarmonicOrbsKeys.helpDrawing))
         }
         .onAppear { refresh() }
         .onChange(of: chartSession.selected?.version) { refresh() }
@@ -128,3 +139,7 @@ struct HarmonicOrbsDrawingScreen: View {
         NSLocalizedString(key, tableName: "HarmonicOrbs", bundle: .main, comment: "")
     }
 }
+
+// MARK: - Tab enum
+
+private enum HarmonicOrbsDrawingTab { case chart, aspects }

@@ -16,7 +16,17 @@
 
 // Drawing view
 "view.harmonicorbs.drawing.nochart" = "Aucun thème sélectionné.";
+"view.harmonicorbs.tab.chart"        = "Thème";
+"view.harmonicorbs.tab.aspects"      = "Aspects";
+
+// Aspects tab
+"view.harmonicorbs.grid.title"       = "Grille des aspects";
+"view.harmonicorbs.list.title"       = "Liste des aspects";
+"view.harmonicorbs.col.factor1"      = "Facteur 1";
+"view.harmonicorbs.col.factor2"      = "Facteur 2";
+"view.harmonicorbs.col.orb"          = "Orbe";
+"view.harmonicorbs.col.exactness"    = "Précision";
+"view.harmonicorbs.noaspectsfound"   = "Aucun aspect trouvé pour l'orbe et la sélection actuels.";
 
 // Help
-"view.harmonicorbs.help.input"      = "Indiquez un orbe maximal en degrés et minutes. Pour chaque aspect, l'orbe réel est calculé en divisant cet orbe maximal par le nombre harmonique de l'aspect. Désélectionnez un aspect pour l'exclure du calcul et du dessin.";
-"view.harmonicorbs.help.drawing"    = "Le thème est dessiné avec les aspects calculés à partir des orbes harmoniques de l'écran de saisie. Toute modification de l'orbe maximal ou des aspects sélectionnés se répercute immédiatement sur le dessin.";
+"view.harmonicorbs.help.input"      = "Indiquez un orbe maximal. Enigma calcule automatiquement l'orbe harmonique réel ; le résultat s'affiche dans la liste des aspects.\n\nVous pouvez (dé)sélectionner des aspects.\n\nSi vous modifiez l'orbe ou la sélection des aspects, Enigma recalcule automatiquement les résultats.\n\nDans l'écran de droite, utilisez les onglets 'Thème' et 'Aspects' pour choisir le résultat sous la forme d'un dessin du thème ou d'une grille des aspects et d'une liste des aspects.\n\nConsultez le factsheet si vous souhaitez en savoir plus sur les orbes harmoniques.";

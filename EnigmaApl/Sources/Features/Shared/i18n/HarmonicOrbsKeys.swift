@@ -21,8 +21,18 @@ struct HarmonicOrbsKeys {
 
     // Drawing view
     static let drawingNoChart    = "view.harmonicorbs.drawing.nochart"
+    static let tabChart          = "view.harmonicorbs.tab.chart"
+    static let tabAspects        = "view.harmonicorbs.tab.aspects"
+
+    // Aspects tab
+    static let gridTitle         = "view.harmonicorbs.grid.title"
+    static let listTitle         = "view.harmonicorbs.list.title"
+    static let colFactor1        = "view.harmonicorbs.col.factor1"
+    static let colFactor2        = "view.harmonicorbs.col.factor2"
+    static let colOrb            = "view.harmonicorbs.col.orb"
+    static let colExactness      = "view.harmonicorbs.col.exactness"
+    static let noAspectsFound    = "view.harmonicorbs.noaspectsfound"
 
     // Help
     static let helpInput         = "view.harmonicorbs.help.input"
-    static let helpDrawing       = "view.harmonicorbs.help.drawing"
 }

@@ -16,7 +16,17 @@
 
 // Drawing view
 "view.harmonicorbs.drawing.nochart" = "Geen horoscoop geselecteerd.";
+"view.harmonicorbs.tab.chart"        = "Horoscoop";
+"view.harmonicorbs.tab.aspects"      = "Aspecten";
+
+// Aspects tab
+"view.harmonicorbs.grid.title"       = "Aspectentrap";
+"view.harmonicorbs.list.title"       = "Aspectenlijst";
+"view.harmonicorbs.col.factor1"      = "Factor 1";
+"view.harmonicorbs.col.factor2"      = "Factor 2";
+"view.harmonicorbs.col.orb"          = "Orb";
+"view.harmonicorbs.col.exactness"    = "Nauwkeurigheid";
+"view.harmonicorbs.noaspectsfound"   = "Geen aspecten gevonden voor de huidige orb en selectie.";
 
 // Help
-"view.harmonicorbs.help.input"      = "Geef een maximale orb op in graden en minuten. Voor elk aspect wordt de werkelijke orb berekend door deze maximale orb te delen door het harmonische getal van dat aspect. Vink een aspect uit om het niet mee te nemen in de berekening en de tekening.";
-"view.harmonicorbs.help.drawing"    = "De horoscoop wordt getekend met de aspecten die zijn berekend met de harmonische orbs uit het invoerscherm. Een wijziging van de maximale orb of van de geselecteerde aspecten werkt direct door in de tekening.";
+"view.harmonicorbs.help.input"      = "Geef een maximale orb op. Enigma berekent automatisch de werkelijke harmonische orb; het resultaat zie je in de lijst met aspecten.\n\nJe kunt aspecten (de)selecteren.\n\nAls je de orb, of de keuze voor aspecten, aanpast, berekent Enigma de resultaten automatisch opnieuw.\n\nIn het rechterscherm kun je, via de tabs 'Horoscoop' en 'Aspecten', kiezen voor het resultaat in de vorm van een horoscooptekening of als aspectentrap en een lijst met aspecten.\n\nRaadpleeg de factsheet als je meer wilt weten over harmonische orbs.";
