@@ -138,9 +138,9 @@
 "view.configedit.orb.section.values"  = "Orb-waarden";
 "view.configedit.orb.system"          = "Systeem";
 "view.configedit.orb.aspectbase"      = "Basis orb aspecten";
-"view.configedit.orb.midpoint360"     = "Orb midpunten 360°";
-"view.configedit.orb.midpoint90"      = "Orb midpunten 90°";
-"view.configedit.orb.midpoint45"      = "Orb midpunten 45°";
+"view.configedit.orb.midpoint360"     = "Orb middelpunten 360°";
+"view.configedit.orb.midpoint90"      = "Orb middelpunten 90°";
+"view.configedit.orb.midpoint45"      = "Orb middelpunten 45°";
 "view.configedit.orb.harmonic"        = "Orb harmonics";
 "view.configedit.orb.parallel"        = "Orb parallellen";
 "view.configedit.orb.declinationmidpoint" = "Orb declinatie-middelpunten";
@@ -150,7 +150,7 @@
 "view.configedit.orb.help.groupbox"   = "Orbs";
 "view.configedit.orb.help.line1"      = "Kies het orb-systeem dat je wilt gebruiken voor de berekening van effectieve orbs.";
 "view.configedit.orb.help.line2"      = "De basisorb voor aspecten is het uitgangspunt voor de berekening. De effectieve orb per aspect wordt bepaald door de basisorb te combineren met de orb-percentages uit de factor- en aspectinstellingen.";
-"view.configedit.orb.help.line3"      = "De orb-waarden voor midpunten, harmonics en parallellen gelden als vaste waarden.";
+"view.configedit.orb.help.line3"      = "De orb-waarden voor middelpunten, harmonics en parallellen gelden als vaste waarden.";
 
 // Aspect editor
 "view.configedit.aspect.col.used"        = "Berekenen";

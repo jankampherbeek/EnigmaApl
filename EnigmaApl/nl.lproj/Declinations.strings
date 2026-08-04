@@ -8,7 +8,7 @@
 "view.declinationsscreen.btn.parallels"              = "Parallellen";
 "view.declinationsscreen.btn.equivalents"            = "Equivalenten";
 "view.declinationsscreen.btn.diagram"                = "Diagram";
-"view.declinationsscreen.btn.midpoints"              = "Midpunten";
+"view.declinationsscreen.btn.midpoints"              = "Middelpunten";
 
 // AllDeclinationsView
 "view.alldeclinationsview.title"                     = "Alle declinaties";
@@ -49,9 +49,9 @@
 "view.declinationdiagramview.btn.positionlines"      = "Positielijnen";
 
 // DeclinationMidpointsView
-"view.declinationmidpointsview.title"                = "Declinatie-midpunten";
-"view.declinationmidpointsview.nodata"               = "Geen bezette declinatie-midpunten gevonden.";
-"view.declinationmidpointsview.help"                 = "In dit scherm zie je de midpunten in declinatie, zowel in een grafische weergave als in een tabel. In de figuur kun je met de muis over het symbool voor een factor bewegen om de gevormde midpunten te zien. Door te klikken zet je de lijnen vast, nog een keer klikken en ze verdwijnen.\n\nDe tabel toont twee factoren die een midpunt vormen, de lengte van het midpunt, de factor die op het midpunt staat en de lengte van die factor, de orb en ten slotte de exactheid van die orb.";
+"view.declinationmidpointsview.title"                = "Declinatie-middelpunten";
+"view.declinationmidpointsview.nodata"               = "Geen bezette declinatie-middelpunten gevonden.";
+"view.declinationmidpointsview.help"                 = "In dit scherm zie je de middelpunten in declinatie, zowel in een grafische weergave als in een tabel. In de figuur kun je met de muis over het symbool voor een factor bewegen om de gevormde middelpunten te zien. Door te klikken zet je de lijnen vast, nog een keer klikken en ze verdwijnen.\n\nDe tabel toont twee factoren die een middelpunt vormen, de lengte van het middelpunt, de factor die op het middelpunt staat en de lengte van die factor, de orb en ten slotte de exactheid van die orb.";
 "view.declinationmidpointsview.label.north"          = "N";
 "view.declinationmidpointsview.label.south"          = "Z";
 "view.declinationmidpointsview.col.factor1"          = "F1";

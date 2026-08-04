@@ -9,7 +9,7 @@ import Combine
 /// aspect selection; the drawing screen observes the same instance to redraw the chart.
 @MainActor
 final class HarmonicOrbsModel: ObservableObject {
-    @Published var orbDegrees: Int = 10
+    @Published var orbDegrees: Int = 15
     @Published var orbMinutes: Int = 0
     @Published var settings: [HarmonicOrbSetting] = HarmonicOrbSetting.defaults
 

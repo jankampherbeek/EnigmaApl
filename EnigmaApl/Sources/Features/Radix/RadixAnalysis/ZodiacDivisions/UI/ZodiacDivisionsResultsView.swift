@@ -264,9 +264,12 @@ struct ZodiacDivisionsResultsView: View {
     }
 
     private var wheelMarks: [ZodiacDivisionMark] {
-        computedRows.map { row in
+        let rows = computedRows
+        let plotAngles = GlyphOverlapResolver.resolvedPlotAngles(for: rows.map { $0.mundaneAngle })
+        return rows.enumerated().map { index, row in
             ZodiacDivisionMark(
                 mundaneAngle: row.mundaneAngle,
+                plotAngle:    plotAngles[index],
                 signGlyph:    row.signGlyph,
                 decanGlyph:   row.decanGlyph,
                 dodecatGlyph: row.dodecatGlyph,

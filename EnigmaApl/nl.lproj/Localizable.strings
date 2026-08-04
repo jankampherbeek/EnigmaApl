@@ -218,9 +218,9 @@
 "enum.drawingtype.housebased" = "Gebaseerd op huizen";
 "enum.drawingtype.french" = "Franse methode";
 "enum.drawingtype.ring" = "Stijl van Thomas Ring";
-"enum.drawingtype.dial360" = "Midpunten schijf 360°";
-"enum.drawingtype.dial90" = "Midpunten schijf 90°";
-"enum.drawingtype.dial45" = "Midpunten schijf 45°";
+"enum.drawingtype.dial360" = "Middelpunten schijf 360°";
+"enum.drawingtype.dial90" = "Middelpunten schijf 90°";
+"enum.drawingtype.dial45" = "Middelpunten schijf 45°";
 // Orb systems
 "enum.orbsystem.procentual" = "Procentueel";
 "enum.orbsystem.fixed" = "Vast";
@@ -303,14 +303,14 @@
 "enum.inquiries.aspects.description"        = "Tel de aspecten per factorpaar";
 "enum.inquiries.unaspect.name"              = "Ongeaspecteerde factoren";
 "enum.inquiries.unaspect.description"       = "Tel hoe vaak een factor ongeaspecteerd is";
-"enum.inquiries.midpoints.name"             = "Bezette midpunten";
-"enum.inquiries.midpoints.description"      = "Tel hoe vaak een midpunt bezet is";
+"enum.inquiries.midpoints.name"             = "Bezette middelpunten";
+"enum.inquiries.midpoints.description"      = "Tel hoe vaak een middelpunt bezet is";
 "enum.inquiries.harmonics.name"             = "Harmonische conjuncties";
 "enum.inquiries.harmonics.description"      = "Tel conjuncties tussen een radixfactor en een harmonische factor";
 "enum.inquiries.parallels.name"             = "Parallellen in declinatie";
 "enum.inquiries.parallels.description"      = "Tel parallellen en contraparallellen tussen factorparen";
-"enum.inquiries.declmidpoints.name"         = "Midpunten in declinatie";
-"enum.inquiries.declmidpoints.description"  = "Tel hoe vaak een midpunt in declinatie bezet is";
+"enum.inquiries.declmidpoints.name"         = "Middelpunten in declinatie";
+"enum.inquiries.declmidpoints.description"  = "Tel hoe vaak een middelpunt in declinatie bezet is";
 "enum.inquiries.oob.name"                   = "Buiten grenzen (OOB)";
 "enum.inquiries.oob.description"            = "Tel hoe vaak elke factor buiten grenzen is";
 

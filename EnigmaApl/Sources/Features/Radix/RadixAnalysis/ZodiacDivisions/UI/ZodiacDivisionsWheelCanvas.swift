@@ -4,9 +4,13 @@
 
 import SwiftUI
 
-/// One mark in the outer ring: the mundane angle and the four division glyphs for a single factor.
+/// One mark in the outer ring: the four division glyphs for a single factor.
+/// `mundaneAngle` is the factor's true position (drives the tick line); `plotAngle` is the
+/// anti-overlap-adjusted angle at which the glyph stack is drawn (equal to `mundaneAngle` unless
+/// the factor sits in a crowd, in which case the stack is fanned out and linked back by a connector).
 struct ZodiacDivisionMark {
     let mundaneAngle: Double
+    var plotAngle:    Double
     let signGlyph:    String
     let decanGlyph:   String
     let dodecatGlyph: String
@@ -86,16 +90,28 @@ private func drawDivisionMarks(
     let rSign    = innerRadius + ringWidth * 0.87
 
     for mark in marks {
-        let angle = mark.mundaneAngle
+        let angle  = mark.plotAngle
         let rotDeg = angle <= 180.0 ? (90.0 - angle) : (270.0 - angle)
 
-        // Tick mark from inner boundary outward
-        let tickInPt  = WheelGeometry.point(angleDeg: angle, radius: innerRadius * WheelMetrics.outerSign, center: center)
-        let tickOutPt = WheelGeometry.point(angleDeg: angle, radius: innerRadius, center: center)
+        // Tick mark at the factor's true position, from inner boundary outward.
+        let tickInPt  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius * WheelMetrics.outerSign, center: center)
+        let tickOutPt = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius, center: center)
         var tick = Path()
         tick.move(to: tickInPt)
         tick.addLine(to: tickOutPt)
         ctx.stroke(tick, with: .color(theme.planetGlyph), lineWidth: strokeW * 1.5)
+
+        // Connector from the true tick to the (possibly fanned-out) glyph stack.
+        if abs(mark.plotAngle - mark.mundaneAngle) > 0.01 {
+            let connectIn  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius, center: center)
+            let connectOut = WheelGeometry.point(angleDeg: mark.plotAngle,   radius: rBound - glyphSize * 0.6, center: center)
+            var connector = Path()
+            connector.move(to: connectIn)
+            connector.addLine(to: connectOut)
+            ctx.stroke(connector,
+                       with: .color(theme.planetConnectLine.opacity(WheelMetrics.connectLineOpacity)),
+                       lineWidth: strokeW)
+        }
 
         // Sign glyph (outermost)
         drawDivisionGlyph(&ctx, glyph: mark.signGlyph,
