@@ -19,9 +19,14 @@ struct PositionsScreen: View {
 
     private static let compactWidthThreshold: CGFloat = 700
 
-    private let planetOrder: [Factors] = [
-        .sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto
-    ]
+    private func orderedFactors(for chart: FullChart) -> [Factors] {
+        Factors.allCases.filter { factor in
+            factor.calculationType != .Mundane
+                && factor.calculationType != .Unknown
+                && !chart.omittedFactors.contains(factor)
+                && FactorDisplaySelector.shouldDraw(factor)
+        }
+    }
 
     // Full column widths (iPad / regular size class)
     private let planetColumnWidths: [CGFloat] = [50, 120, 40, 120, 140, 120, 120, 120, 120]
@@ -106,7 +111,7 @@ struct PositionsScreen: View {
 
                 Divider()
 
-                let planetRows = planetOrder.compactMap { factor -> (Factors, FullFactorPosition)? in
+                let planetRows = orderedFactors(for: chart).compactMap { factor -> (Factors, FullFactorPosition)? in
                     guard let position = chart.Coordinates[factor],
                           !position.ecliptical.isEmpty,
                           !position.equatorial.isEmpty,
@@ -231,7 +236,7 @@ struct PositionsScreen: View {
                 compactPlanetsHeader()
                 Divider()
 
-                let planetRows = planetOrder.compactMap { factor -> (Factors, FullFactorPosition)? in
+                let planetRows = orderedFactors(for: chart).compactMap { factor -> (Factors, FullFactorPosition)? in
                     guard let position = chart.Coordinates[factor],
                           !position.ecliptical.isEmpty,
                           !position.equatorial.isEmpty,
