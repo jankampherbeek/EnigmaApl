@@ -77,6 +77,7 @@ struct RootView: View {
         .environmentObject(composition.fixStarModel)
         .environmentObject(composition.paranModel)
         .environmentObject(composition.harmonicOrbsModel)
+        .environmentObject(composition.lotsModel)
         .environmentObject(composition.calculatorsNav)
         .environmentObject(composition.synastryNav)
         .environmentObject(composition.synastryModel)

@@ -41,6 +41,7 @@ final class AppComposition: ObservableObject {
     let fixStarModel: FixStarModel
     let paranModel: ParansModel
     let harmonicOrbsModel: HarmonicOrbsModel
+    let lotsModel: LotsModel
     let configNav: ConfigNavigator
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
@@ -104,5 +105,6 @@ final class AppComposition: ObservableObject {
         self.fixStarModel = FixStarModel()
         self.paranModel = ParansModel()
         self.harmonicOrbsModel = HarmonicOrbsModel()
+        self.lotsModel = LotsModel()
     }
 }

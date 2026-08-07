@@ -1,0 +1,25 @@
+// Lots.strings - Nederlands
+// EnigmaApl
+
+// LotsInputScreen
+"view.lots.navtitle"           = "Hellenistische loten";
+"view.lots.title.withname"     = "Hermetische loten voor %@";
+"view.lots.back"               = "Analyse";
+"view.lots.usesect"            = "Gebruik sect";
+"view.lots.nochart"            = "Bereken of selecteer een horoscoop om de loten te bekijken.";
+
+// Help
+"view.lots.help.input"         = "De Hellenistische loten gebruiken aparte formules voor dag en nacht. We spreken van nacht als de Zon onder de horizon staat. De term voor dat verschil is 'sect'. Als het om een nacht horoscoop gaat kun je aangeven of je sect wel of niet wilt toepassen. De oorspronkelijke toepassing is altijd met sect.\n\nVoor een daghoroscoop heeft sect geen effect en daarom is de optie dan uitgeschakeld.";
+
+// LotsResultsScreen
+"view.lots.col.name"           = "Lot";
+"view.lots.col.position"       = "Positie";
+
+// Lot names
+"view.lots.name.fortune"       = "Lot van Fortuna";
+"view.lots.name.spirit"        = "Lot van de Geest";
+"view.lots.name.eros"          = "Lot van Eros";
+"view.lots.name.victory"       = "Lot van de Overwinning";
+"view.lots.name.necessity"     = "Lot van de Noodzaak";
+"view.lots.name.courage"       = "Lot van de Moed";
+"view.lots.name.nemesis"       = "Lot van Nemesis";

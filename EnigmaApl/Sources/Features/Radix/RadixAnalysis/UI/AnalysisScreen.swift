@@ -62,6 +62,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisHarmonicOrbs)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnLots)) {
+                radixNav.setInspector(.analysisLots)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

@@ -1,0 +1,25 @@
+// Lots.strings - English
+// EnigmaApl
+
+// LotsInputScreen
+"view.lots.navtitle"           = "Hellenistic lots";
+"view.lots.title.withname"     = "Hermetic lots for %@";
+"view.lots.back"               = "Analysis";
+"view.lots.usesect"            = "Use sect";
+"view.lots.nochart"            = "Calculate or select a horoscope to view the lots.";
+
+// Help
+"view.lots.help.input"         = "The Hellenistic lots use separate formulas for day and night. We speak of night when the Sun is below the horizon. The term for that distinction is 'sect'. If it concerns a night chart, you can indicate whether or not you want to apply sect. The original application is always with sect.\n\nFor a day chart sect has no effect, and therefore the option is disabled in that case.";
+
+// LotsResultsScreen
+"view.lots.col.name"           = "Lot";
+"view.lots.col.position"       = "Position";
+
+// Lot names
+"view.lots.name.fortune"       = "Lot of Fortune";
+"view.lots.name.spirit"        = "Lot of Spirit";
+"view.lots.name.eros"          = "Lot of Eros";
+"view.lots.name.victory"       = "Lot of Victory";
+"view.lots.name.necessity"     = "Lot of Necessity";
+"view.lots.name.courage"       = "Lot of Courage";
+"view.lots.name.nemesis"       = "Lot of Nemesis";

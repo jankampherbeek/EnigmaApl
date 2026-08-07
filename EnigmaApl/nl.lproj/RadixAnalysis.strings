@@ -13,6 +13,7 @@
 "view.analysisscreen.btn.fixstars"             = "Vaste sterren";
 "view.analysisscreen.btn.parans"               = "Paranen";
 "view.analysisscreen.btn.harmonicorbs"         = "Harmonische orbs";
+"view.analysisscreen.btn.lots"                 = "Hellenistische loten";
 "view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Middelpunten toont middelpuntstructuren en bezette middelpunten. Harmonischen toont harmonische posities en resonanties.";
 
 // HarmonicsScreen — shared

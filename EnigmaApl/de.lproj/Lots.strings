@@ -1,0 +1,25 @@
+// Lots.strings - Deutsch
+// EnigmaApl
+
+// LotsInputScreen
+"view.lots.navtitle"           = "Hellenistische Lose";
+"view.lots.title.withname"     = "Hermetische Lose für %@";
+"view.lots.back"               = "Analyse";
+"view.lots.usesect"            = "Sect verwenden";
+"view.lots.nochart"            = "Berechnen oder wählen Sie ein Horoskop, um die Lose anzuzeigen.";
+
+// Help
+"view.lots.help.input"         = "Die hellenistischen Lose verwenden unterschiedliche Formeln für Tag und Nacht. Von Nacht spricht man, wenn die Sonne unter dem Horizont steht. Der Begriff für diesen Unterschied ist 'Sect'. Handelt es sich um ein Nachthoroskop, können Sie angeben, ob Sie Sect anwenden möchten oder nicht. Die ursprüngliche Anwendung erfolgt immer mit Sect.\n\nBei einem Taghoroskop hat Sect keine Wirkung, daher ist die Option in diesem Fall deaktiviert.";
+
+// LotsResultsScreen
+"view.lots.col.name"           = "Los";
+"view.lots.col.position"       = "Position";
+
+// Lot names
+"view.lots.name.fortune"       = "Los des Glücks";
+"view.lots.name.spirit"        = "Los des Geistes";
+"view.lots.name.eros"          = "Los des Eros";
+"view.lots.name.victory"       = "Los des Sieges";
+"view.lots.name.necessity"     = "Los der Notwendigkeit";
+"view.lots.name.courage"       = "Los des Mutes";
+"view.lots.name.nemesis"       = "Los der Nemesis";

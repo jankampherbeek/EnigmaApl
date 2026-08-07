@@ -55,6 +55,8 @@ struct DetailColumn: View {
                 return "Parans"
             case .analysisHarmonicOrbs:
                 return NSLocalizedString(HarmonicOrbsKeys.navTitle, tableName: "HarmonicOrbs", bundle: .main, comment: "")
+            case .analysisLots:
+                return NSLocalizedString(LotsKeys.navTitle, tableName: "Lots", bundle: .main, comment: "")
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -125,6 +127,8 @@ struct DetailColumn: View {
                             ParansResultsScreen()
                         case .analysisHarmonicOrbs:
                             HarmonicOrbsDrawingScreen()
+                        case .analysisLots:
+                            LotsResultsScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

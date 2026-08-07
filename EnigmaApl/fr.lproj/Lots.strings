@@ -1,0 +1,25 @@
+// Lots.strings - Français
+// EnigmaApl
+
+// LotsInputScreen
+"view.lots.navtitle"           = "Parts helléniques";
+"view.lots.title.withname"     = "Parts hermétiques pour %@";
+"view.lots.back"               = "Analyse";
+"view.lots.usesect"            = "Utiliser la secte";
+"view.lots.nochart"            = "Calculez ou sélectionnez un horoscope pour voir les parts.";
+
+// Help
+"view.lots.help.input"         = "Les parts helléniques utilisent des formules distinctes pour le jour et la nuit. On parle de nuit lorsque le Soleil se trouve sous l'horizon. Le terme pour cette distinction est la « secte ». S'il s'agit d'un thème de nuit, vous pouvez indiquer si vous souhaitez appliquer la secte ou non. L'application d'origine se fait toujours avec la secte.\n\nPour un thème de jour, la secte n'a aucun effet et l'option est donc désactivée.";
+
+// LotsResultsScreen
+"view.lots.col.name"           = "Part";
+"view.lots.col.position"       = "Position";
+
+// Lot names
+"view.lots.name.fortune"       = "Part de Fortune";
+"view.lots.name.spirit"        = "Part de l'Esprit";
+"view.lots.name.eros"          = "Part d'Éros";
+"view.lots.name.victory"       = "Part de la Victoire";
+"view.lots.name.necessity"     = "Part de la Nécessité";
+"view.lots.name.courage"       = "Part du Courage";
+"view.lots.name.nemesis"       = "Part de Némésis";
