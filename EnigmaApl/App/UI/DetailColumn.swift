@@ -186,8 +186,6 @@ struct DetailColumn: View {
                             JulianDayView()
                         case .obliquity:
                             ObliquityView()
-                        case .siderealTime:
-                            EmptyView()
                         }
                     case .config:
                         EmptyView()

@@ -12,7 +12,6 @@ struct CalculatorsNav: Equatable {
 enum CalculatorsSection: String, CaseIterable, Identifiable, Hashable {
     case julianDay    = "Julian Day"
     case obliquity    = "Obliquity"
-    case siderealTime = "Sidereal Time"
     var id: String { rawValue }
 }
 
