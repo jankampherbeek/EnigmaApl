@@ -41,7 +41,7 @@ struct FactorsTests {
     func testCalculationTypeCommonSeForNodes() {
         #expect(Factors.northNode.calculationType == .CommonSe)
         #expect(Factors.apogeeMean.calculationType == .CommonSe)
-        #expect(Factors.apogeeCorrected.calculationType == .CommonSe)
+        #expect(Factors.apogeeKoch.calculationType == .CommonSe)
         #expect(Factors.apogeeInterpolated.calculationType == .CommonSe)
         #expect(Factors.perigeeInterpolated.calculationType == .CommonSe)
     }
@@ -153,7 +153,7 @@ struct FactorsTests {
     func testSeIdNodesAndApogees() {
         #expect(Factors.northNode.seId == 10)
         #expect(Factors.apogeeMean.seId == 12)
-        #expect(Factors.apogeeCorrected.seId == 13)
+        #expect(Factors.apogeeKoch.seId == 13)
         #expect(Factors.earth.seId == 14)
         #expect(Factors.apogeeInterpolated.seId == 21)
         #expect(Factors.perigeeInterpolated.seId == 22)
@@ -399,7 +399,7 @@ struct FactorsTests {
     func testCommonSeFactorsHaveValidSeIds() {
         let commonSeFactors: [Factors] = [
             .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
-            .northNode, .apogeeMean, .apogeeCorrected, .chiron, .pholus,
+            .northNode, .apogeeMean, .apogeeKoch, .chiron, .pholus,
             .ceres, .pallas, .juno, .vesta, .apogeeInterpolated, .perigeeInterpolated,
             .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra,
             .vulcanusUra, .poseidonUra, .isis, .eris, .nessus, .huya, .varuna, .ixion,

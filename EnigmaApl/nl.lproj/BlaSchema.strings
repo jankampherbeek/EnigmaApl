@@ -1,0 +1,75 @@
+/* BlaSchema.strings (nl) */
+
+"view.blaschemascreen.title" = "BLA Schema";
+"view.blaschemascreen.nochart" = "Geen horoscoop geselecteerd.";
+"view.blaschemascreen.help" = "Dit scherm toont het BLA-schema (Onzichtbare Lichten Astrologie), verdeeld over meerdere onderdelen die u via de knoppen bovenaan kunt selecteren: instellingen en posities, tellingen, heersers, details en cycli, versterkingen en recepties. Pas het huizensysteem en de instellingen voor Chiron, Ceres en decanaten aan in het onderdeel 'Instellingen en posities'.";
+"view.blaschemascreen.explanation" = "Dit schema is oorspronkelijk ontwikkeld door de Nederlandse onderzoeker/astroloog Cees Jansen. Het is gebaseerd op de 'Onzichtbare Lichten Astrologie' zoals gedefinieerd door de Nederlandse astroloog George Bode. Voor het gebruik van dit schema is kennis van deze techniek noodzakelijk.";
+"view.blaschemascreen.headertitle.format" = "Zwarte Lichten Astrologie voor %@";
+
+"view.blaschemascreen.section.configpositions" = "Instellingen en posities";
+"view.blaschemascreen.section.counts" = "Tellingen";
+"view.blaschemascreen.section.dispositors" = "Heersers";
+"view.blaschemascreen.section.detailscycles" = "Details en cycli";
+"view.blaschemascreen.section.reinforcements" = "Versterkingen";
+"view.blaschemascreen.section.receptions" = "Recepties";
+
+"view.blaschemascreen.config.housesystem" = "Huizensysteem";
+"view.blaschemascreen.config.usechiron" = "Gebruik Chiron";
+"view.blaschemascreen.config.useceres" = "Gebruik Ceres";
+"view.blaschemascreen.config.usedecanates" = "Gebruik decanaten bij heersers";
+"view.blaschemascreen.config.blackmooncorrectiontype" = "Correctietype Zwarte Maan / Priapus";
+
+"view.blaschemascreen.positions.title" = "Posities";
+"view.blaschemascreen.positions.houses.title" = "Huizen";
+
+"view.blaschemascreen.col.position" = "Positie";
+"view.blaschemascreen.col.house" = "Huis";
+"view.blaschemascreen.col.cusp" = "Cusp";
+"view.blaschemascreen.col.name" = "";
+"view.blaschemascreen.col.sign" = "Teken";
+"view.blaschemascreen.col.sum" = "Som";
+"view.blaschemascreen.col.hcusp" = "Hcusp";
+"view.blaschemascreen.col.total" = "Totaal";
+"view.blaschemascreen.col.rulers" = "Heersers";
+"view.blaschemascreen.col.split" = "Verdeling";
+"view.blaschemascreen.col.indirect" = "Indirect";
+"view.blaschemascreen.col.decanate" = "Decanaat";
+
+"view.blaschemascreen.counts.elements.title" = "Elementen";
+"view.blaschemascreen.counts.crosses.title" = "Kruizen";
+"view.blaschemascreen.counts.quadrants.title" = "Kwadranten";
+"view.blaschemascreen.counts.elements.chart.title" = "Verdeling elementen";
+"view.blaschemascreen.counts.crosses.chart.title" = "Verdeling kruizen";
+"view.blaschemascreen.quadrant.label.format" = "Kwadrant %d";
+
+"view.blaschemascreen.group.cardinal" = "Kardinaal";
+"view.blaschemascreen.group.fixed" = "Vast";
+"view.blaschemascreen.group.mutable" = "Beweeglijk";
+"view.blaschemascreen.group.fire" = "Vuur";
+"view.blaschemascreen.group.earth" = "Aarde";
+"view.blaschemascreen.group.air" = "Lucht";
+"view.blaschemascreen.group.water" = "Water";
+
+"view.blaschemascreen.dispositors.title" = "Heersers";
+
+"view.blaschemascreen.details.title" = "Details";
+"view.blaschemascreen.detail.sistersignasc" = "Zustersteken Asc.";
+"view.blaschemascreen.detail.clampedhouses" = "Ingeklemde huizen";
+"view.blaschemascreen.detail.interceptedsigns" = "Ingesloten tekens";
+"view.blaschemascreen.detail.groundnote" = "Grondtoon";
+"view.blaschemascreen.detail.lordascinhouses" = "Heersers Asc. in huizen";
+"view.blaschemascreen.detail.mooninhouse" = "Maan in huis";
+
+"view.blaschemascreen.cycles.title" = "Cycli";
+"view.blaschemascreen.cycles.shortened.title" = "Verkorte cycli";
+
+"view.blaschemascreen.reinforcements.ownsign.title" = "In eigen teken";
+"view.blaschemascreen.reinforcements.ownhouse.title" = "In eigen huis";
+"view.blaschemascreen.reinforcements.ownmundanehouse.title" = "In eigen mundaan huis";
+"view.blaschemascreen.reinforcements.lordanalogsign.title" = "Heerser in analoog teken";
+"view.blaschemascreen.reinforcements.pairs.title" = "Paren: analoog teken/huis";
+"view.blaschemascreen.reinforcements.connector.in" = " in ";
+
+"view.blaschemascreen.receptions.insigns.title" = "In tekens";
+"view.blaschemascreen.receptions.inhouses.title" = "In huizen";
+"view.blaschemascreen.receptions.inmundanehouses.title" = "In mundane huizen";

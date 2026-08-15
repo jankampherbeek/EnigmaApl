@@ -25,7 +25,6 @@ struct LotsCalcTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -173,7 +172,6 @@ struct LotsCalcTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .noSect
         )

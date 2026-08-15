@@ -24,7 +24,6 @@ struct AstronCalcOrchestratorTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -304,7 +303,6 @@ struct AstronCalcOrchestratorTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )

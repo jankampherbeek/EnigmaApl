@@ -13,7 +13,7 @@ struct FormulaCalcTests {
     static func testCalculateFormulaFactors(seWrapper: SEWrapper) {
         // Test parameters
         let julianDay = 2455197.5
-        let factorsToUse: [Factors] = [.apogeeCorrected, .persephoneCarteret, .vulcanusCarteret]
+        let factorsToUse: [Factors] = [.apogeeDuval, .persephoneCarteret, .vulcanusCarteret]
         let houseSystem = 0
         let seFlags = 258
         let latitude = 52.2180555555556
@@ -25,7 +25,6 @@ struct FormulaCalcTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -58,7 +57,7 @@ struct FormulaCalcTests {
         
         // Expected values (converted from comma to period decimal separator)
         let expectedValues: [Factors: (longitude: Double, latitude: Double, rightAscension: Double, declination: Double, azimuth: Double, altitude: Double)] = [
-            .apogeeCorrected: (
+            .apogeeDuval: (
                 longitude: 302.3546189049214,
                 latitude: 0.0,
                 rightAscension: 0.0,

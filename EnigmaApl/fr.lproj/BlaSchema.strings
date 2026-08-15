@@ -1,0 +1,75 @@
+/* BlaSchema.strings (fr) */
+
+"view.blaschemascreen.title" = "Schéma BLA";
+"view.blaschemascreen.nochart" = "Aucun thème sélectionné.";
+"view.blaschemascreen.help" = "Cet écran affiche le schéma BLA (Astrologie des Lumières Invisibles), réparti en plusieurs sections que vous pouvez sélectionner à l'aide des commandes en haut : réglages et positions, comptages, maîtres, détails et cycles, renforcements et réceptions. Ajustez le système de maisons ainsi que les réglages pour Chiron, Cérès et les décans dans la section « Réglages et positions ».";
+"view.blaschemascreen.explanation" = "Ce schéma a été développé à l'origine par le chercheur et astrologue néerlandais Cees Jansen. Il repose sur l'« Astrologie des Lumières Invisibles » telle que définie par l'astrologue néerlandais George Bode. Une bonne connaissance de cette technique est nécessaire pour utiliser ce schéma.";
+"view.blaschemascreen.headertitle.format" = "Astrologie des Lumières Noires pour %@";
+
+"view.blaschemascreen.section.configpositions" = "Réglages & positions";
+"view.blaschemascreen.section.counts" = "Comptages";
+"view.blaschemascreen.section.dispositors" = "Maîtres";
+"view.blaschemascreen.section.detailscycles" = "Détails & cycles";
+"view.blaschemascreen.section.reinforcements" = "Renforcements";
+"view.blaschemascreen.section.receptions" = "Réceptions";
+
+"view.blaschemascreen.config.housesystem" = "Système de maisons";
+"view.blaschemascreen.config.usechiron" = "Utiliser Chiron";
+"view.blaschemascreen.config.useceres" = "Utiliser Cérès";
+"view.blaschemascreen.config.usedecanates" = "Utiliser les décans pour les maîtres";
+"view.blaschemascreen.config.blackmooncorrectiontype" = "Type de correction Lune Noire / Priape";
+
+"view.blaschemascreen.positions.title" = "Positions";
+"view.blaschemascreen.positions.houses.title" = "Maisons";
+
+"view.blaschemascreen.col.position" = "Position";
+"view.blaschemascreen.col.house" = "Maison";
+"view.blaschemascreen.col.cusp" = "Cuspide";
+"view.blaschemascreen.col.name" = "";
+"view.blaschemascreen.col.sign" = "Signe";
+"view.blaschemascreen.col.sum" = "Somme";
+"view.blaschemascreen.col.hcusp" = "Hcusp";
+"view.blaschemascreen.col.total" = "Total";
+"view.blaschemascreen.col.rulers" = "Maîtres";
+"view.blaschemascreen.col.split" = "Répartition";
+"view.blaschemascreen.col.indirect" = "Indirect";
+"view.blaschemascreen.col.decanate" = "Décan";
+
+"view.blaschemascreen.counts.elements.title" = "Éléments";
+"view.blaschemascreen.counts.crosses.title" = "Croix";
+"view.blaschemascreen.counts.quadrants.title" = "Quadrants";
+"view.blaschemascreen.counts.elements.chart.title" = "Répartition des éléments";
+"view.blaschemascreen.counts.crosses.chart.title" = "Répartition des croix";
+"view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
+
+"view.blaschemascreen.group.cardinal" = "Cardinal";
+"view.blaschemascreen.group.fixed" = "Fixe";
+"view.blaschemascreen.group.mutable" = "Mutable";
+"view.blaschemascreen.group.fire" = "Feu";
+"view.blaschemascreen.group.earth" = "Terre";
+"view.blaschemascreen.group.air" = "Air";
+"view.blaschemascreen.group.water" = "Eau";
+
+"view.blaschemascreen.dispositors.title" = "Maîtres";
+
+"view.blaschemascreen.details.title" = "Détails";
+"view.blaschemascreen.detail.sistersignasc" = "Signe sœur Asc.";
+"view.blaschemascreen.detail.clampedhouses" = "Maisons bloquées";
+"view.blaschemascreen.detail.interceptedsigns" = "Signes interceptés";
+"view.blaschemascreen.detail.groundnote" = "Note de fond";
+"view.blaschemascreen.detail.lordascinhouses" = "Maîtres Asc. dans les maisons";
+"view.blaschemascreen.detail.mooninhouse" = "Lune en maison";
+
+"view.blaschemascreen.cycles.title" = "Cycles";
+"view.blaschemascreen.cycles.shortened.title" = "Cycles raccourcis";
+
+"view.blaschemascreen.reinforcements.ownsign.title" = "Dans son propre signe";
+"view.blaschemascreen.reinforcements.ownhouse.title" = "Dans sa propre maison";
+"view.blaschemascreen.reinforcements.ownmundanehouse.title" = "Dans sa propre maison mondaine";
+"view.blaschemascreen.reinforcements.lordanalogsign.title" = "Maître dans le signe analogue";
+"view.blaschemascreen.reinforcements.pairs.title" = "Paires : signe/maison analogue";
+"view.blaschemascreen.reinforcements.connector.in" = " en ";
+
+"view.blaschemascreen.receptions.insigns.title" = "En signes";
+"view.blaschemascreen.receptions.inhouses.title" = "En maisons";
+"view.blaschemascreen.receptions.inmundanehouses.title" = "En maisons mondaines";

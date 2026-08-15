@@ -1,0 +1,75 @@
+/* BlaSchema.strings (de) */
+
+"view.blaschemascreen.title" = "BLA-Schema";
+"view.blaschemascreen.nochart" = "Kein Horoskop ausgewählt.";
+"view.blaschemascreen.help" = "Dieser Bildschirm zeigt das BLA-Schema (Astrologie der unsichtbaren Lichter), aufgeteilt in mehrere Abschnitte, die Sie über die Steuerelemente oben auswählen können: Einstellungen und Positionen, Zählungen, Herrscher, Details und Zyklen, Verstärkungen und Rezeptionen. Passen Sie das Häusersystem sowie die Einstellungen für Chiron, Ceres und Dekanate im Abschnitt 'Einstellungen und Positionen' an.";
+"view.blaschemascreen.explanation" = "Dieses Schema wurde ursprünglich von dem niederländischen Forscher und Astrologen Cees Jansen entwickelt. Es basiert auf der 'Astrologie der unsichtbaren Lichter', wie sie von dem niederländischen Astrologen George Bode definiert wurde. Für die Nutzung dieses Schemas sind Kenntnisse dieser Technik erforderlich.";
+"view.blaschemascreen.headertitle.format" = "Astrologie der schwarzen Lichter für %@";
+
+"view.blaschemascreen.section.configpositions" = "Einstellungen & Positionen";
+"view.blaschemascreen.section.counts" = "Zählungen";
+"view.blaschemascreen.section.dispositors" = "Herrscher";
+"view.blaschemascreen.section.detailscycles" = "Details & Zyklen";
+"view.blaschemascreen.section.reinforcements" = "Verstärkungen";
+"view.blaschemascreen.section.receptions" = "Rezeptionen";
+
+"view.blaschemascreen.config.housesystem" = "Häusersystem";
+"view.blaschemascreen.config.usechiron" = "Chiron verwenden";
+"view.blaschemascreen.config.useceres" = "Ceres verwenden";
+"view.blaschemascreen.config.usedecanates" = "Dekanate bei Herrschern verwenden";
+"view.blaschemascreen.config.blackmooncorrectiontype" = "Korrekturtyp Schwarzer Mond / Priapus";
+
+"view.blaschemascreen.positions.title" = "Positionen";
+"view.blaschemascreen.positions.houses.title" = "Häuser";
+
+"view.blaschemascreen.col.position" = "Position";
+"view.blaschemascreen.col.house" = "Haus";
+"view.blaschemascreen.col.cusp" = "Spitze";
+"view.blaschemascreen.col.name" = "";
+"view.blaschemascreen.col.sign" = "Zeichen";
+"view.blaschemascreen.col.sum" = "Summe";
+"view.blaschemascreen.col.hcusp" = "Hcusp";
+"view.blaschemascreen.col.total" = "Gesamt";
+"view.blaschemascreen.col.rulers" = "Herrscher";
+"view.blaschemascreen.col.split" = "Aufteilung";
+"view.blaschemascreen.col.indirect" = "Indirekt";
+"view.blaschemascreen.col.decanate" = "Dekanat";
+
+"view.blaschemascreen.counts.elements.title" = "Elemente";
+"view.blaschemascreen.counts.crosses.title" = "Kreuze";
+"view.blaschemascreen.counts.quadrants.title" = "Quadranten";
+"view.blaschemascreen.counts.elements.chart.title" = "Verteilung der Elemente";
+"view.blaschemascreen.counts.crosses.chart.title" = "Verteilung der Kreuze";
+"view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
+
+"view.blaschemascreen.group.cardinal" = "Kardinal";
+"view.blaschemascreen.group.fixed" = "Fest";
+"view.blaschemascreen.group.mutable" = "Veränderlich";
+"view.blaschemascreen.group.fire" = "Feuer";
+"view.blaschemascreen.group.earth" = "Erde";
+"view.blaschemascreen.group.air" = "Luft";
+"view.blaschemascreen.group.water" = "Wasser";
+
+"view.blaschemascreen.dispositors.title" = "Herrscher";
+
+"view.blaschemascreen.details.title" = "Details";
+"view.blaschemascreen.detail.sistersignasc" = "Schwesterzeichen Asc.";
+"view.blaschemascreen.detail.clampedhouses" = "Geklemmte Häuser";
+"view.blaschemascreen.detail.interceptedsigns" = "Eingeschlossene Zeichen";
+"view.blaschemascreen.detail.groundnote" = "Grundton";
+"view.blaschemascreen.detail.lordascinhouses" = "Herrscher Asc. in Häusern";
+"view.blaschemascreen.detail.mooninhouse" = "Mond im Haus";
+
+"view.blaschemascreen.cycles.title" = "Zyklen";
+"view.blaschemascreen.cycles.shortened.title" = "Verkürzte Zyklen";
+
+"view.blaschemascreen.reinforcements.ownsign.title" = "Im eigenen Zeichen";
+"view.blaschemascreen.reinforcements.ownhouse.title" = "Im eigenen Haus";
+"view.blaschemascreen.reinforcements.ownmundanehouse.title" = "Im eigenen mundanen Haus";
+"view.blaschemascreen.reinforcements.lordanalogsign.title" = "Herrscher im analogen Zeichen";
+"view.blaschemascreen.reinforcements.pairs.title" = "Paare: analoges Zeichen/Haus";
+"view.blaschemascreen.reinforcements.connector.in" = " in ";
+
+"view.blaschemascreen.receptions.insigns.title" = "In Zeichen";
+"view.blaschemascreen.receptions.inhouses.title" = "In Häusern";
+"view.blaschemascreen.receptions.inmundanehouses.title" = "In mundanen Häusern";

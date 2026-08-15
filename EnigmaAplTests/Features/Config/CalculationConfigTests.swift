@@ -17,7 +17,6 @@ struct CalculationConfigTests {
             ayanamsha: .lahiri,
             observerPosition: .topoCentric,
             projectionType: .obliqueLongitude,
-            blackMoonCorrectionType: .swisseph,
             lunarNodeType: .trueNode,
             lotsType: .noSect
         )
@@ -25,7 +24,6 @@ struct CalculationConfigTests {
         #expect(config.ayanamsha == .lahiri)
         #expect(config.observerPosition == .topoCentric)
         #expect(config.projectionType == .obliqueLongitude)
-        #expect(config.blackMoonCorrectionType == .swisseph)
         #expect(config.lunarNodeType == .trueNode)
         #expect(config.lotsType == .noSect)
     }
@@ -37,7 +35,6 @@ struct CalculationConfigTests {
         #expect(config.ayanamsha == .tropical)
         #expect(config.observerPosition == .geoCentric)
         #expect(config.projectionType == .twoDimensional)
-        #expect(config.blackMoonCorrectionType == .duval)
         #expect(config.lunarNodeType == .meanNode)
         #expect(config.lotsType == .sect)
         #expect(config.stationaryPercentage == 10)
@@ -78,14 +75,6 @@ struct CalculationConfigTests {
         }
     }
 
-    @Test("CalculationConfig: all black moon correction types are accepted")
-    func testAllBlackMoonCorrectionTypes() {
-        for correctionType in BlackMoonCorrectionTypes.allCases {
-            let config = CalculationConfig(blackMoonCorrectionType: correctionType)
-            #expect(config.blackMoonCorrectionType == correctionType)
-        }
-    }
-
     @Test("CalculationConfig: all lunar node types are accepted")
     func testAllLunarNodeTypes() {
         for lunarNodeType in LunarNodeTypes.allCases {
@@ -111,7 +100,6 @@ struct CalculationConfigTests {
             ayanamsha: .fagan,
             observerPosition: .helioCentric,
             projectionType: .obliqueLongitude,
-            blackMoonCorrectionType: .interpolated,
             lunarNodeType: .trueNode,
             lotsType: .noSect
         )
@@ -121,7 +109,6 @@ struct CalculationConfigTests {
         #expect(decoded.ayanamsha == original.ayanamsha)
         #expect(decoded.observerPosition == original.observerPosition)
         #expect(decoded.projectionType == original.projectionType)
-        #expect(decoded.blackMoonCorrectionType == original.blackMoonCorrectionType)
         #expect(decoded.lunarNodeType == original.lunarNodeType)
         #expect(decoded.lotsType == original.lotsType)
         #expect(decoded.stationaryPercentage == original.stationaryPercentage)
@@ -146,7 +133,6 @@ struct CalculationConfigTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -161,7 +147,6 @@ struct CalculationConfigTests {
             ayanamsha: .lahiri,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .swisseph,
             lunarNodeType: .trueNode,
             lotsType: .noSect
         )

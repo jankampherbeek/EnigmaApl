@@ -92,7 +92,7 @@
 "enum.ayanamsha.ushashashi" = "Usha Shashi";
 "enum.ayanamsha.yukteshwar" = "Yukteshwar";
 // Black Moon correction type
-"enum.blackmooncorrrectiontype.duval" = "Max Duval/Cees Jansen";
+"enum.blackmooncorrectiontype.duval" = "Max Duval/Cees Jansen";
 "enum.blackmooncorrectiontype.interpolated" = "Interpolated";
 "enum.blackmooncorrectiontype.swisseph" = "Swiss Ephemeris";
 // Calendar style

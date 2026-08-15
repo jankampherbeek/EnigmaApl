@@ -17,7 +17,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -36,7 +35,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -55,7 +53,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -76,7 +73,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -95,7 +91,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .helioCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -116,7 +111,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -135,7 +129,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -155,7 +148,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -177,7 +169,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -196,7 +187,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .helioCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -215,7 +205,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .topoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -234,7 +223,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .topoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -254,7 +242,6 @@ struct SEFlagsTests {
             ayanamsha: .fagan,
             observerPosition: .helioCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
@@ -273,7 +260,6 @@ struct SEFlagsTests {
             ayanamsha: .tropical,
             observerPosition: .topoCentric,
             projectionType: .twoDimensional,
-            blackMoonCorrectionType: .duval,
             lunarNodeType: .meanNode,
             lotsType: .sect
         )
