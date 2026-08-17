@@ -53,6 +53,7 @@ struct BlaSchemaKeys {
     static let elementsChartTitle = "view.blaschemascreen.counts.elements.chart.title"
     static let crossesChartTitle = "view.blaschemascreen.counts.crosses.chart.title"
     static let quadrantLabelFormat = "view.blaschemascreen.quadrant.label.format"
+    static let decanatesTitle = "view.blaschemascreen.counts.decanates.title"
 
     // Cross/element group names
     static let groupCardinal = "view.blaschemascreen.group.cardinal"

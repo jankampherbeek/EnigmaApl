@@ -31,6 +31,7 @@ final class BlaSchemaModel: ObservableObject {
     @Published private(set) var crossesCounts: [PresentableCrossElementsCount] = []
     @Published private(set) var elementsCounts: [PresentableCrossElementsCount] = []
     @Published private(set) var quadrantCounts: [PresentableQuadrantCount] = []
+    @Published private(set) var decanateCounts: [PresentableDecanateCount] = []
     @Published private(set) var dispositorCounts: [PresentableDispositorCounts] = []
     @Published private(set) var blaDetails: [PresentableBlaDetails] = []
     @Published private(set) var blaCycles: [PresentableBlaCycle] = []
@@ -105,6 +106,7 @@ final class BlaSchemaModel: ObservableObject {
             signCounts: signCounts, planetsInHouses: planetsInHouses, signOnCusps: signsOnCusps
         )
         quadrantCounts = BlaSchemaPresentables.quadrantCounts(from: orchestrator.getQuadrantCounts())
+        decanateCounts = BlaSchemaPresentables.decanateCounts(from: orchestrator.getDecanateCounts())
         dispositorCounts = BlaSchemaPresentables.dispositorCounts(from: orchestrator.getDispositors(useDecanates: useDecanates))
         blaDetails = BlaSchemaPresentables.blaDetails(from: orchestrator.getDetails())
         blaCycles = BlaSchemaPresentables.blaCycles(from: orchestrator.getCycles())

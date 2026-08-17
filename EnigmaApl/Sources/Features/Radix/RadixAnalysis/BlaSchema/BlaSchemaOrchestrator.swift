@@ -56,6 +56,10 @@ final class BlaSchemaOrchestrator {
         BlaSchemaPositions.defineQuadrants(houseDetails: houseDetails)
     }
 
+    func getDecanateCounts() -> [Factors: Int] {
+        BlaSchemaPositions.defineDecanateCounts(planetsInDecanates: planetsInDecanates)
+    }
+
     func getDispositors(useDecanates: Bool) -> [BlaDispositorLine] {
         BlaSchemaDispositors.createDispositors(
             signCounts: signCounts, houseCounts: houseCounts, signsOnHouseCusps: signsOnCusps,

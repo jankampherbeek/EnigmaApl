@@ -51,6 +51,19 @@ struct BlaCountsView: View {
                     [BlaCell(String(format: t(BlaSchemaKeys.quadrantLabelFormat), q.quadrant)), BlaCell("\(q.count)")]
                 }
             )
+
+            if model.useDecanates {
+                BlaTableBlock(
+                    title: t(BlaSchemaKeys.decanatesTitle),
+                    columns: [
+                        BlaTableColumn(t(BlaSchemaKeys.colName), width: 50),
+                        BlaTableColumn(t(BlaSchemaKeys.colTotal), width: 50, alignment: .trailing)
+                    ],
+                    rows: model.decanateCounts.map { d in
+                        [BlaCell(d.rulerGlyph, kind: .glyph), BlaCell("\(d.count)")]
+                    }
+                )
+            }
         }
     }
 

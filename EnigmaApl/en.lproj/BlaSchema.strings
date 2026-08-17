@@ -2,7 +2,7 @@
 
 "view.blaschemascreen.title" = "BLA Schema";
 "view.blaschemascreen.nochart" = "No chart selected.";
-"view.blaschemascreen.help" = "This screen shows the BLA schema (Invisible Luminaries Astrology), split across several sections you can pick using the controls at the top: settings and positions, counts, dispositors, details and cycles, reinforcements and receptions. Adjust the house system and the Chiron, Ceres and decanates settings in the 'Settings and positions' section.";
+"view.blaschemascreen.help" = "This screen shows the ILA schema (Invisible Luminaries Astrology), split across several sections you can pick using the controls at the top: settings and positions, counts, dispositors, details and cycles, reinforcements and receptions. Adjust the house system and the Chiron, Ceres and decanates settings in the 'Settings and positions' section.";
 "view.blaschemascreen.explanation" = "This schema was originally developed by the Dutch researcher/astrologer Cees Jansen. It is based on the 'Invisible Luminaries Astrology' as defined by the Dutch astrologer George Bode. Familiarity with this technique is required to use this schema.";
 "view.blaschemascreen.headertitle.format" = "Invisible Lights Astrology for %@";
 
@@ -41,6 +41,7 @@
 "view.blaschemascreen.counts.elements.chart.title" = "Elements distribution";
 "view.blaschemascreen.counts.crosses.chart.title" = "Modalities distribution";
 "view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
+"view.blaschemascreen.counts.decanates.title" = "Decanates";
 
 "view.blaschemascreen.group.cardinal" = "Cardinal";
 "view.blaschemascreen.group.fixed" = "Fixed";

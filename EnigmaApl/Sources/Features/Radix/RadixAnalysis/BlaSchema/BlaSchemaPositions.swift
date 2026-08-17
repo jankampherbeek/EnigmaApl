@@ -182,6 +182,19 @@ enum BlaSchemaPositions {
         return clamped
     }
 
+    // MARK: - Decanate counts
+
+    /// Count of points per decanate ruler (Mars, Sun, Venus, Mercury, Moon, Saturn, Jupiter),
+    /// keyed by the ruling factor. `planetsInDecanates` maps a point to its decan (1-7); this
+    /// inverts that into a count per decan, reported under the decan's Chaldean ruler.
+    static func defineDecanateCounts(planetsInDecanates: [Factors: Int]) -> [Factors: Int] {
+        var counts: [Factors: Int] = [:]
+        for decanateRuler in BlaSchemaDomain.decanateRulers() {
+            counts[decanateRuler.ruler] = planetsInDecanates.values.filter { $0 == decanateRuler.decan }.count
+        }
+        return counts
+    }
+
     // MARK: - Quadrants
 
     /// Points-per-quadrant: Q1={1,2,3}, Q2={4,5,6}, Q3={7,8,9}, Q4={10,11,12}.

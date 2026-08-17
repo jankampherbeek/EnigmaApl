@@ -41,6 +41,7 @@
 "view.blaschemascreen.counts.elements.chart.title" = "Répartition des éléments";
 "view.blaschemascreen.counts.crosses.chart.title" = "Répartition des croix";
 "view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
+"view.blaschemascreen.counts.decanates.title" = "Décans";
 
 "view.blaschemascreen.group.cardinal" = "Cardinal";
 "view.blaschemascreen.group.fixed" = "Fixe";
