@@ -9,9 +9,16 @@ struct BlaSchemaKeys {
     // Screen / navigation
     static let title = "view.blaschemascreen.title"
     static let noChart = "view.blaschemascreen.nochart"
-    static let help = "view.blaschemascreen.help"
     static let explanation = "view.blaschemascreen.explanation"
     static let headerTitleFormat = "view.blaschemascreen.headertitle.format"
+
+    // Per-tab help texts
+    static let helpConfigPositions = "view.blaschemascreen.help.configpositions"
+    static let helpCounts = "view.blaschemascreen.help.counts"
+    static let helpDispositors = "view.blaschemascreen.help.dispositors"
+    static let helpDetailsCycles = "view.blaschemascreen.help.detailscycles"
+    static let helpReinforcements = "view.blaschemascreen.help.reinforcements"
+    static let helpReceptions = "view.blaschemascreen.help.receptions"
 
     // Sections
     static let sectionConfigPositions = "view.blaschemascreen.section.configpositions"

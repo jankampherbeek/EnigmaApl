@@ -20,6 +20,17 @@ enum BlaSchemaSection: CaseIterable, Identifiable {
         case .receptions: return BlaSchemaKeys.sectionReceptions
         }
     }
+
+    var helpKey: String {
+        switch self {
+        case .configPositions: return BlaSchemaKeys.helpConfigPositions
+        case .counts: return BlaSchemaKeys.helpCounts
+        case .dispositors: return BlaSchemaKeys.helpDispositors
+        case .detailsCycles: return BlaSchemaKeys.helpDetailsCycles
+        case .reinforcements: return BlaSchemaKeys.helpReinforcements
+        case .receptions: return BlaSchemaKeys.helpReceptions
+        }
+    }
 }
 
 struct BlaSchemaScreen: View {
@@ -96,10 +107,10 @@ struct BlaSchemaScreen: View {
             .sheet(isPresented: $showHelp) {
                 NavigationStack {
                     ScrollView {
-                        Text(t(BlaSchemaKeys.help))
+                        Text(t(selectedSection.helpKey))
                             .padding()
                     }
-                    .navigationTitle(t(BlaSchemaKeys.title))
+                    .navigationTitle(t(selectedSection.titleKey))
                     #if os(iOS)
                     .navigationBarTitleDisplayMode(.inline)
                     #endif
