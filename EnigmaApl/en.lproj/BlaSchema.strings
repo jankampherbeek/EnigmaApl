@@ -54,6 +54,7 @@
 "view.blaschemascreen.group.water" = "Water";
 
 "view.blaschemascreen.dispositors.title" = "Dispositors";
+"view.blaschemascreen.dispositors.chart.title" = "Dispositors distribution";
 
 "view.blaschemascreen.details.title" = "Details";
 "view.blaschemascreen.detail.sistersignasc" = "Sister Sign Asc.";

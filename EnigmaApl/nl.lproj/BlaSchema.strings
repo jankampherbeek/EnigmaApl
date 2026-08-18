@@ -54,6 +54,7 @@
 "view.blaschemascreen.group.water" = "Water";
 
 "view.blaschemascreen.dispositors.title" = "Heersers";
+"view.blaschemascreen.dispositors.chart.title" = "Verdeling heersers";
 
 "view.blaschemascreen.details.title" = "Details";
 "view.blaschemascreen.detail.sistersignasc" = "Zustersteken Asc.";

@@ -54,6 +54,7 @@
 "view.blaschemascreen.group.water" = "Eau";
 
 "view.blaschemascreen.dispositors.title" = "Maîtres";
+"view.blaschemascreen.dispositors.chart.title" = "Répartition des maîtres";
 
 "view.blaschemascreen.details.title" = "Détails";
 "view.blaschemascreen.detail.sistersignasc" = "Signe sœur Asc.";

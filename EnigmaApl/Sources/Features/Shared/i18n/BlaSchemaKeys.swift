@@ -68,6 +68,7 @@ struct BlaSchemaKeys {
 
     // Dispositors
     static let dispositorsTitle = "view.blaschemascreen.dispositors.title"
+    static let dispositorsChartTitle = "view.blaschemascreen.dispositors.chart.title"
 
     // Details
     static let detailsTitle = "view.blaschemascreen.details.title"

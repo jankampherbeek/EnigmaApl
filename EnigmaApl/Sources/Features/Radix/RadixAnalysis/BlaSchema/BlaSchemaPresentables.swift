@@ -92,6 +92,8 @@ struct PresentableDecanateCount: Identifiable {
 
 struct PresentableDispositorCounts: Identifiable {
     let id = UUID()
+    let mainRuler: Factors
+    let subRuler: Factors
     let rulers: String
     let signSplitted: String
     let signMain: Int
@@ -274,6 +276,7 @@ enum BlaSchemaPresentables {
             let rulers = "\(BlaGlyphs.factorGlyph(line.mainRuler)) \(BlaGlyphs.factorGlyph(line.subRuler))"
             let signSplitted = "\(line.mainRulerSignCount)/\(line.subRulerSignCount)"
             return PresentableDispositorCounts(
+                mainRuler: line.mainRuler, subRuler: line.subRuler,
                 rulers: rulers, signSplitted: signSplitted,
                 signMain: line.sumRulerSignCount, signIndirect: line.indirectRulerSignCount, signSum: line.totalRulerSignCount,
                 houseMain: line.directRulerHouseCount, houseIndirect: line.indirectRulerHouseCount, houseSum: line.sumRulerHouseCount,

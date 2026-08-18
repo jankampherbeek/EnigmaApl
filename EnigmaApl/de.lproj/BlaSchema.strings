@@ -54,6 +54,7 @@
 "view.blaschemascreen.group.water" = "Wasser";
 
 "view.blaschemascreen.dispositors.title" = "Herrscher";
+"view.blaschemascreen.dispositors.chart.title" = "Verteilung der Herrscher";
 
 "view.blaschemascreen.details.title" = "Details";
 "view.blaschemascreen.detail.sistersignasc" = "Schwesterzeichen Asc.";
