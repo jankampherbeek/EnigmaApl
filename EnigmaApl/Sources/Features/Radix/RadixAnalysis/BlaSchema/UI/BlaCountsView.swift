@@ -51,6 +51,7 @@ struct BlaCountsView: View {
                     [BlaCell(String(format: t(BlaSchemaKeys.quadrantLabelFormat), q.quadrant)), BlaCell("\(q.count)")]
                 }
             )
+            quadrantsPieChartBlock
 
             if model.useDecanates {
                 BlaTableBlock(
@@ -63,6 +64,65 @@ struct BlaCountsView: View {
                         [BlaCell(d.rulerGlyph, kind: .glyph), BlaCell("\(d.count)")]
                     }
                 )
+                decanatesPieChartBlock
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var quadrantsPieChartBlock: some View {
+        let nonZero = model.quadrantCounts.filter { $0.count > 0 }
+        GroupBox {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(t(BlaSchemaKeys.quadrantsChartTitle)).font(.headline)
+                if nonZero.isEmpty {
+                    Text("—").foregroundStyle(.secondary)
+                } else {
+                    Chart(nonZero) { q in
+                        SectorMark(
+                            angle: .value(t(BlaSchemaKeys.colTotal), q.count),
+                            innerRadius: .ratio(0.55),
+                            angularInset: 1.5
+                        )
+                        .foregroundStyle(BlaSchemaLabels.quadrantColor(q.quadrant))
+                        .cornerRadius(3)
+                    }
+                    .chartLegend(position: .bottom, alignment: .leading, spacing: 8)
+                    .chartForegroundStyleScale(
+                        domain: nonZero.map { String(format: t(BlaSchemaKeys.quadrantLabelFormat), $0.quadrant) },
+                        range: nonZero.map { BlaSchemaLabels.quadrantColor($0.quadrant) }
+                    )
+                    .frame(height: 220)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var decanatesPieChartBlock: some View {
+        let nonZero = model.decanateCounts.filter { $0.count > 0 }
+        GroupBox {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(t(BlaSchemaKeys.decanatesChartTitle)).font(.headline)
+                if nonZero.isEmpty {
+                    Text("—").foregroundStyle(.secondary)
+                } else {
+                    Chart(nonZero) { d in
+                        SectorMark(
+                            angle: .value(t(BlaSchemaKeys.colTotal), d.count),
+                            innerRadius: .ratio(0.55),
+                            angularInset: 1.5
+                        )
+                        .foregroundStyle(BlaSchemaLabels.decanateRulerColor(d.ruler))
+                        .cornerRadius(3)
+                    }
+                    .chartLegend(position: .bottom, alignment: .leading, spacing: 8)
+                    .chartForegroundStyleScale(
+                        domain: nonZero.map { NSLocalizedString($0.ruler.localizedName, bundle: .main, comment: "") },
+                        range: nonZero.map { BlaSchemaLabels.decanateRulerColor($0.ruler) }
+                    )
+                    .frame(height: 220)
+                }
             }
         }
     }

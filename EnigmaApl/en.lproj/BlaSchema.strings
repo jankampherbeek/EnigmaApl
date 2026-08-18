@@ -42,6 +42,8 @@
 "view.blaschemascreen.counts.crosses.chart.title" = "Modalities distribution";
 "view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
 "view.blaschemascreen.counts.decanates.title" = "Decanates";
+"view.blaschemascreen.counts.quadrants.chart.title" = "Quadrants distribution";
+"view.blaschemascreen.counts.decanates.chart.title" = "Decanates distribution";
 
 "view.blaschemascreen.group.cardinal" = "Cardinal";
 "view.blaschemascreen.group.fixed" = "Fixed";

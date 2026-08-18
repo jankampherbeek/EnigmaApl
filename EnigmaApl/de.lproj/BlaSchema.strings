@@ -42,6 +42,8 @@
 "view.blaschemascreen.counts.crosses.chart.title" = "Verteilung der Kreuze";
 "view.blaschemascreen.quadrant.label.format" = "Quadrant %d";
 "view.blaschemascreen.counts.decanates.title" = "Dekanate";
+"view.blaschemascreen.counts.quadrants.chart.title" = "Verteilung der Quadranten";
+"view.blaschemascreen.counts.decanates.chart.title" = "Verteilung der Dekanate";
 
 "view.blaschemascreen.group.cardinal" = "Kardinal";
 "view.blaschemascreen.group.fixed" = "Fest";

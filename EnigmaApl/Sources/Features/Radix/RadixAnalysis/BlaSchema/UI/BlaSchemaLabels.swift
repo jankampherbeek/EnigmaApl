@@ -47,4 +47,28 @@ enum BlaSchemaLabels {
         case .water: return .blue
         }
     }
+
+    /// Fixed color per quadrant (1-4), distinct from the element/cross palette above.
+    static func quadrantColor(_ quadrant: Int) -> Color {
+        switch quadrant {
+        case 1: return .mint
+        case 2: return .purple
+        case 3: return .pink
+        default: return .cyan
+        }
+    }
+
+    /// Traditional planetary color per decanate ruler.
+    static func decanateRulerColor(_ ruler: Factors) -> Color {
+        switch ruler {
+        case .mars: return .red
+        case .sun: return .yellow
+        case .venus: return .green
+        case .mercury: return .orange
+        case .moon: return .gray
+        case .saturn: return .brown
+        case .jupiter: return .blue
+        default: return .secondary
+        }
+    }
 }

@@ -85,6 +85,7 @@ struct PresentableQuadrantCount: Identifiable {
 
 struct PresentableDecanateCount: Identifiable {
     let id = UUID()
+    let ruler: Factors
     let rulerGlyph: String
     let count: Int
 }
@@ -258,7 +259,11 @@ enum BlaSchemaPresentables {
 
     static func decanateCounts(from counts: [Factors: Int]) -> [PresentableDecanateCount] {
         BlaSchemaDomain.decanateRulers().map { decanateRuler in
-            PresentableDecanateCount(rulerGlyph: BlaGlyphs.factorGlyph(decanateRuler.ruler), count: counts[decanateRuler.ruler] ?? 0)
+            PresentableDecanateCount(
+                ruler: decanateRuler.ruler,
+                rulerGlyph: BlaGlyphs.factorGlyph(decanateRuler.ruler),
+                count: counts[decanateRuler.ruler] ?? 0
+            )
         }
     }
 
