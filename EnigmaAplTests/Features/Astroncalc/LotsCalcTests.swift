@@ -46,13 +46,13 @@ struct LotsCalcTests {
         let sunLongitude = 289.73837750962514
         let moonLongitude = 192.37808120651354
         let isDayChart = false
-        // Expected values (converted from comma to period decimal separator)
-        let expectedLongitude = 101.08149858531476
+        // Expected values: with sect on a night chart, formula is Ascendant + Sun - Moon
+        let expectedLongitude = 295.8020911915379
         let expectedLatitude = 0.0
-        let expectedRightAscension = 102.05008714763132
-        let expectedDeclination = 22.975873465253876
-        let expectedAzimuth = 26.147717238396183
-        let expectedAltitude = 58.748020154744104
+        let expectedRightAscension = 297.7866354563441
+        let expectedDeclination = -20.98381987512831
+        let expectedAzimuth = 177.55578671647282
+        let expectedAltitude = -58.74802015474409
         let expectedLongitudeSpeed = 0.0
         
         
@@ -194,22 +194,22 @@ struct LotsCalcTests {
         let moonLongitude = 192.37808120651354
         
         
-        // Expected values (converted from comma to period decimal separator)
-        let expectedLongitude = 295.8020911915379
+        // Expected values: without sect (regardless of day/night), formula is Ascendant + Moon - Sun
+        let expectedLongitude = 101.08149858531476
         let expectedLatitude = 0.0
-        let expectedRightAscension = 297.7866354563441
-        let expectedDeclination = -20.98381987512831
-        let expectedAzimuth = 177.55578671647282
-        let expectedAltitude = -58.74802015474409
+        let expectedRightAscension = 102.05008714763132
+        let expectedDeclination = 22.975873465253876
+        let expectedAzimuth = 26.147717238396183
+        let expectedAltitude = 58.748020154744104
         let expectedLongitudeSpeed = 0.0
-        
+
         // NOTE: This test should be run via AstronCalcTestCoordinator
         // Create SEWrapper instance (only for direct test execution, not recommended)
         let seWrapper = SEWrapper()
-        
+
         // Create LotsCalc instance
         let lotsCalc = LotsCalc()
-        
+
         // Perform calculation and store result to ensure it's fully evaluated
         let result = lotsCalc.calculateLotsFactors(
 

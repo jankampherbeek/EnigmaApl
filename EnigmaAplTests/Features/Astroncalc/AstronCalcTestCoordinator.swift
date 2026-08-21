@@ -19,8 +19,8 @@ struct AstronCalcTestCoordinator {
         // Each test receives the same SEWrapper instance to prevent conflicts
         
         // LotsCalc Tests
-        // LotsCalcTests.testCalculateLotsFactorsNoSect(seWrapper: seWrapper)  // test failed
-        // LotsCalcTests.testCalculateLotsFactorsSect(seWrapper: seWrapper)    // test succeeded
+        LotsCalcTests.testCalculateLotsFactorsNoSect(seWrapper: seWrapper)
+        LotsCalcTests.testCalculateLotsFactorsSect(seWrapper: seWrapper)
         
         // CommonElementsCalc Tests
         // CommonElementsCalcTests.testCalculateCommonElementsFactors(seWrapper: seWrapper)  // Test succeeded

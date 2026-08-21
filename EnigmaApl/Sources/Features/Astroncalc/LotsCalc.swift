@@ -42,16 +42,16 @@ public struct LotsCalc {
                 
                 let parsFortunaLongitude: Double
                 if configData.lotsType == .sect && !isDayChart {
-                    // With sect: Ascendant + Moon - Sun
+                    // With sect, night chart: Ascendant + Sun - Moon
                     parsFortunaLongitude = RangeUtil.valueToRange(
-                        ascendantLongitude + moonLongitude - sunLongitude,
+                        ascendantLongitude + sunLongitude - moonLongitude,
                         lowerLimit: 0.0,
                         upperLimit: 360.0
                     )
                 } else {
-                    // Without sect or any day chart: Ascendant + Sun - Moon
+                    // Without sect, or any day chart: Ascendant + Moon - Sun
                     parsFortunaLongitude = RangeUtil.valueToRange(
-                        ascendantLongitude + sunLongitude - moonLongitude,
+                        ascendantLongitude + moonLongitude - sunLongitude,
                         lowerLimit: 0.0,
                         upperLimit: 360.0
                     )
