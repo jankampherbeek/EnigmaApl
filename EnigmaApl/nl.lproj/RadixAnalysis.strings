@@ -15,6 +15,7 @@
 "view.analysisscreen.btn.harmonicorbs"         = "Harmonische orbs";
 "view.analysisscreen.btn.lots"                 = "Hellenistische loten";
 "view.analysisscreen.btn.blaschema"            = "BLA Schema";
+"view.analysisscreen.btn.countings"            = "Tellingen";
 "view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Middelpunten toont middelpuntstructuren en bezette middelpunten. Harmonischen toont harmonische posities en resonanties.";
 
 // HarmonicsScreen — shared

@@ -1,0 +1,22 @@
+/* Countings.strings (de) */
+
+"view.countingsscreen.title" = "Zählungen";
+"view.countingsscreen.nochart" = "Kein Horoskop ausgewählt.";
+"view.countingsscreen.headertitle.format" = "Zählungen für %@";
+"view.countingsscreen.help" = "Hier sehen Sie Summen sowie Tortendiagramme für Elemente und Kreuze, für die Faktoren, die Sie in der aktuellen Konfiguration aktiviert haben. Die Zählung gibt für jedes Element bzw. Kreuz die Anzahl der Himmelspunkte an, die in einem Zeichen dieses Elements bzw. Kreuzes stehen.";
+
+"view.countingsscreen.elements.title" = "Elemente";
+"view.countingsscreen.crosses.title" = "Kreuze";
+"view.countingsscreen.elements.chart.title" = "Verteilung der Elemente";
+"view.countingsscreen.crosses.chart.title" = "Verteilung der Kreuze";
+
+"view.countingsscreen.col.name" = "";
+"view.countingsscreen.col.count" = "Anzahl";
+
+"view.countingsscreen.group.cardinal" = "Kardinal";
+"view.countingsscreen.group.fixed" = "Fest";
+"view.countingsscreen.group.mutable" = "Veränderlich";
+"view.countingsscreen.group.fire" = "Feuer";
+"view.countingsscreen.group.earth" = "Erde";
+"view.countingsscreen.group.air" = "Luft";
+"view.countingsscreen.group.water" = "Wasser";

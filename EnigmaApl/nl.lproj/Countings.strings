@@ -1,0 +1,22 @@
+/* Countings.strings (nl) */
+
+"view.countingsscreen.title" = "Tellingen";
+"view.countingsscreen.nochart" = "Geen horoscoop geselecteerd.";
+"view.countingsscreen.headertitle.format" = "Tellingen voor %@";
+"view.countingsscreen.help" = "Hier zie je totalen, en taartdiagrammen, van elementen en kruizen, voor de factoren die je hebt geactiveerd in de huidige configuratie. De telling geeft voor elk element resp. kruis het aantal hemelpunten dat in een teken van dat element resp. kruis staat.";
+
+"view.countingsscreen.elements.title" = "Elementen";
+"view.countingsscreen.crosses.title" = "Kruizen";
+"view.countingsscreen.elements.chart.title" = "Verdeling elementen";
+"view.countingsscreen.crosses.chart.title" = "Verdeling kruizen";
+
+"view.countingsscreen.col.name" = "";
+"view.countingsscreen.col.count" = "Aantal";
+
+"view.countingsscreen.group.cardinal" = "Kardinaal";
+"view.countingsscreen.group.fixed" = "Vast";
+"view.countingsscreen.group.mutable" = "Beweeglijk";
+"view.countingsscreen.group.fire" = "Vuur";
+"view.countingsscreen.group.earth" = "Aarde";
+"view.countingsscreen.group.air" = "Lucht";
+"view.countingsscreen.group.water" = "Water";

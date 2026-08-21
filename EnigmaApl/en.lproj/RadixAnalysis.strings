@@ -15,6 +15,7 @@
 "view.analysisscreen.btn.harmonicorbs"         = "Harmonic orbs";
 "view.analysisscreen.btn.lots"                 = "Hellenistic lots";
 "view.analysisscreen.btn.blaschema"            = "BLA Schema";
+"view.analysisscreen.btn.countings"            = "Countings";
 "view.analysisscreen.help"                     = "The Analysis screen gives access to analytical tools. Aspects shows aspect relationships between chart factors. Midpoints shows midpoint structures and occupied midpoints. Harmonics shows harmonic positions and resonances.";
 
 // HarmonicsScreen — shared

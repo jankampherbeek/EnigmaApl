@@ -59,6 +59,8 @@ struct DetailColumn: View {
                 return NSLocalizedString(LotsKeys.navTitle, tableName: "Lots", bundle: .main, comment: "")
             case .analysisBlaSchema:
                 return NSLocalizedString(BlaSchemaKeys.title, tableName: "BlaSchema", bundle: .main, comment: "")
+            case .analysisCountings:
+                return NSLocalizedString(CountingsKeys.title, tableName: "Countings", bundle: .main, comment: "")
             case .horoscope:
                 return "Overzicht"
             case .search:
@@ -133,6 +135,8 @@ struct DetailColumn: View {
                             LotsResultsScreen()
                         case .analysisBlaSchema:
                             BlaSchemaScreen()
+                        case .analysisCountings:
+                            CountingsScreen()
                         case .search:
                             RadixSearchScreen()
                         case .editChart:

@@ -72,6 +72,11 @@ struct AnalysisScreen: View {
                 radixNav.setInspector(.analysisBlaSchema)
             }
             .buttonStyle(.bordered)
+
+            Button(t(RadixAnalysisKeys.btnCountings)) {
+                radixNav.setInspector(.analysisCountings)
+            }
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .padding()

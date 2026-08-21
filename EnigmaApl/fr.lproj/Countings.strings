@@ -1,0 +1,22 @@
+/* Countings.strings (fr) */
+
+"view.countingsscreen.title" = "Comptages";
+"view.countingsscreen.nochart" = "Aucune horoscope sélectionnée.";
+"view.countingsscreen.headertitle.format" = "Comptages pour %@";
+"view.countingsscreen.help" = "Vous voyez ici les totaux, ainsi que des diagrammes circulaires, des éléments et des croix, pour les facteurs que vous avez activés dans la configuration actuelle. Le comptage indique, pour chaque élément resp. croix, le nombre de points célestes situés dans un signe de cet élément resp. de cette croix.";
+
+"view.countingsscreen.elements.title" = "Éléments";
+"view.countingsscreen.crosses.title" = "Croix";
+"view.countingsscreen.elements.chart.title" = "Répartition des éléments";
+"view.countingsscreen.crosses.chart.title" = "Répartition des croix";
+
+"view.countingsscreen.col.name" = "";
+"view.countingsscreen.col.count" = "Nombre";
+
+"view.countingsscreen.group.cardinal" = "Cardinal";
+"view.countingsscreen.group.fixed" = "Fixe";
+"view.countingsscreen.group.mutable" = "Mutable";
+"view.countingsscreen.group.fire" = "Feu";
+"view.countingsscreen.group.earth" = "Terre";
+"view.countingsscreen.group.air" = "Air";
+"view.countingsscreen.group.water" = "Eau";

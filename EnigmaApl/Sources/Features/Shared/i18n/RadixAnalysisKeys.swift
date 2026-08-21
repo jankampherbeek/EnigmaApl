@@ -20,6 +20,7 @@ struct RadixAnalysisKeys {
     static let btnHarmonicOrbs        = "view.analysisscreen.btn.harmonicorbs"
     static let btnLots                = "view.analysisscreen.btn.lots"
     static let btnBlaSchema           = "view.analysisscreen.btn.blaschema"
+    static let btnCountings           = "view.analysisscreen.btn.countings"
     static let help                  = "view.analysisscreen.help"
 
     // HarmonicsScreen — shared

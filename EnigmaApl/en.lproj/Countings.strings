@@ -1,0 +1,22 @@
+/* Countings.strings (en) */
+
+"view.countingsscreen.title" = "Countings";
+"view.countingsscreen.nochart" = "No chart selected.";
+"view.countingsscreen.headertitle.format" = "Countings for %@";
+"view.countingsscreen.help" = "Here you see totals, and pie charts, for elements and modalities, for the factors you have activated in the current configuration. The count gives, for each element resp. modality, the number of celestial points located in a sign of that element resp. modality.";
+
+"view.countingsscreen.elements.title" = "Elements";
+"view.countingsscreen.crosses.title" = "Modalities";
+"view.countingsscreen.elements.chart.title" = "Elements distribution";
+"view.countingsscreen.crosses.chart.title" = "Modalities distribution";
+
+"view.countingsscreen.col.name" = "";
+"view.countingsscreen.col.count" = "Count";
+
+"view.countingsscreen.group.cardinal" = "Cardinal";
+"view.countingsscreen.group.fixed" = "Fixed";
+"view.countingsscreen.group.mutable" = "Mutable";
+"view.countingsscreen.group.fire" = "Fire";
+"view.countingsscreen.group.earth" = "Earth";
+"view.countingsscreen.group.air" = "Air";
+"view.countingsscreen.group.water" = "Water";

@@ -15,6 +15,7 @@
 "view.analysisscreen.btn.harmonicorbs"         = "Harmonische Orbis";
 "view.analysisscreen.btn.lots"                 = "Hellenistische Lose";
 "view.analysisscreen.btn.blaschema"            = "BLA-Schema";
+"view.analysisscreen.btn.countings"            = "Zählungen";
 "view.analysisscreen.help"                     = "Der Analyse-Bildschirm bietet Zugang zu analytischen Werkzeugen. Aspekte zeigt Aspektbeziehungen zwischen Faktoren. Halbsummen zeigt Halbsummenstrukturen und besetzte Halbsummen. Harmoniken zeigt harmonische Positionen und Resonanzen.";
 
 // HarmonicsScreen — shared

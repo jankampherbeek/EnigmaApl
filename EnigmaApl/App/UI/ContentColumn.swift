@@ -78,7 +78,7 @@ struct ContentColumn: View {
                     LotsInputScreen()
                 case .overview, .horoscope, .positions, .analysis, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
-                     .analysisBlaSchema,
+                     .analysisBlaSchema, .analysisCountings,
                      .newChart, .search, .editChart:
                     HoroscopeScreen(
                         blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
