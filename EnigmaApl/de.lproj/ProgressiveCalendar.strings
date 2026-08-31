@@ -1,0 +1,80 @@
+// ProgressiveCalendar.strings - Deutsch
+// EnigmaApl
+
+// Eingabebildschirm
+"view.progressivecalendar.title"                            = "Progressiver Kalender";
+"view.progressivecalendar.nochart"                           = "Wählen Sie ein Horoskop, um einen progressiven Kalender zu berechnen.";
+"view.progressivecalendar.techniques.header"                 = "Techniken";
+"view.progressivecalendar.techniques.transits"               = "Transite";
+"view.progressivecalendar.techniques.secondarydirections"    = "Sekundärdirektionen";
+"view.progressivecalendar.techniques.symbolicdirections"     = "Symbolische Direktionen";
+"view.progressivecalendar.symbolickey"                       = "Symbolischer Schlüssel";
+"view.progressivecalendar.button.transitfactors"             = "Transitfaktoren";
+"view.progressivecalendar.button.secondaryfactors"           = "Faktoren Sekundärdirektionen";
+"view.progressivecalendar.button.symbolicfactors"            = "Faktoren symbolische Direktionen";
+"view.progressivecalendar.button.radixfactors"               = "Radixfaktoren";
+"view.progressivecalendar.button.aspects"                    = "Aspekte";
+
+"view.progressivecalendar.eventkinds.header"                 = "Ereignisarten";
+"view.progressivecalendar.eventkinds.aspectstoradix"         = "Aspekte zum Radix";
+"view.progressivecalendar.eventkinds.parallelstoradix"       = "Parallelen zum Radix";
+"view.progressivecalendar.eventkinds.aspectsprogtoprog"      = "Aspekte zwischen progressiven Faktoren";
+"view.progressivecalendar.eventkinds.parallelsprogtoprog"    = "Parallelen zwischen progressiven Faktoren";
+"view.progressivecalendar.eventkinds.cuspconjunctions"       = "Konjunktionen mit Spitzen";
+"view.progressivecalendar.eventkinds.stations"                = "Rückläufig-/Direktstationen";
+"view.progressivecalendar.eventkinds.oob"                    = "Out of bounds";
+"view.progressivecalendar.eventkinds.declinationextremes"    = "Null- und maximale Deklination";
+
+"view.progressivecalendar.orbs.header"                       = "Orbis";
+"view.progressivecalendar.orbs.aspect"                       = "Orbis Aspekte";
+"view.progressivecalendar.orbs.parallel"                     = "Orbis Parallelen";
+"view.progressivecalendar.orbs.cusp"                         = "Orbis Spitzen";
+
+"view.progressivecalendar.daterange.header"                  = "Zeitraum";
+"view.progressivecalendar.daterange.start"                   = "Startdatum";
+"view.progressivecalendar.daterange.end"                     = "Enddatum";
+"view.progressivecalendar.daterange.placeholder"             = "jjjj/mm/tt";
+"view.progressivecalendar.daterange.maxnote"                 = "Maximaler Zeitraum für die aktuelle Auswahl: %d Tage.";
+
+"view.progressivecalendar.settings.reset"                    = "Auf gespeicherte Einstellungen zurücksetzen";
+"view.progressivecalendar.calculate"                         = "Berechnen";
+"view.progressivecalendar.help"                              = "Wählen Sie, welche progressiven Techniken einbezogen werden sollen — Transite, Sekundärdirektionen und/oder symbolische Direktionen — und wählen Sie die Faktoren für jede Technik. Wählen Sie die Radixfaktoren zum Vergleich sowie die Arten von Ereignissen, nach denen gesucht werden soll: Aspekte und Parallelen (zum Radix sowie zwischen den progressiven Faktoren selbst), Konjunktionen mit Spitzen, rückläufige/direkte Stationen, Out-of-bounds-Momente sowie Null-/Maximaldeklination.\n\nDer maximale Zeitraum hängt von Ihrer Auswahl ab: schnelle Faktoren wie ein transitierender Mond erlauben nur einen kurzen Zeitraum, während langsamere Techniken deutlich längere Zeiträume erlauben. Der Hinweis unter den Zeitraumfeldern zeigt das aktuelle Maximum.\n\nDie Einstellungen hier stammen aus Ihrer gespeicherten Konfiguration, gelten aber nur für diese Berechnung — sie werden nicht automatisch zurückgeschrieben. Verwenden Sie 'Auf gespeicherte Einstellungen zurücksetzen', um Ihre Änderungen zu verwerfen.\n\nKlicken Sie auf 'Berechnen', um die Ergebnisse zu sehen.";
+
+// Fehlermeldungen
+"view.progressivecalendar.error.invalidstart"                = "Ungültiges Startdatum. Verwenden Sie jjjj/mm/tt.";
+"view.progressivecalendar.error.invalidend"                  = "Ungültiges Enddatum. Verwenden Sie jjjj/mm/tt.";
+"view.progressivecalendar.error.endbeforestart"              = "Das Enddatum muss nach dem Startdatum liegen.";
+"view.progressivecalendar.error.notechnique"                 = "Wählen Sie mindestens eine Technik mit mindestens einem Faktor.";
+"view.progressivecalendar.error.rangetoolong"                = "Für die aktuelle Auswahl gilt ein maximaler Zeitraum von %d Tagen. Der angeforderte Zeitraum beträgt %d Tage.";
+
+// Ergebnisstatus
+"view.progressivecalendar.nohits"                            = "Keine progressiven Ereignisse gefunden.";
+"view.progressivecalendar.calculating"                       = "Progressiver Kalender wird berechnet…";
+"view.progressivecalendar.results.summary"                   = "%d Ereignisse, %d Aspekte/Parallelen gefunden.";
+
+// Auswahlfenster
+"view.progressivecalendar.aspectsel.title"                   = "Aspekte auswählen";
+"view.progressivecalendar.selection.done"                    = "Fertig";
+"view.progressivecalendar.selection.cancel"                  = "Abbrechen";
+
+// Ergebnisbildschirm
+"view.progressivecalendar.results.title"                     = "Progressiver Kalender";
+"view.progressivecalendar.results.noresults"                 = "Wählen Sie ein Horoskop, wählen Sie Einstellungen und klicken Sie auf Berechnen.";
+"view.progressivecalendar.results.help"                      = "Die Ergebnisse sind nach Technik gruppiert (Transit / Sekundärdirektionen / Symbolische Direktionen). Jede Technik hat ein Diagramm — eine Zeile pro Faktor, Zeit von links nach rechts — gefolgt von zwei Tabellen: 'Aspekte & Parallelen' zeigt, wann ein progressiver Aspekt oder eine Parallele in den Orb eintritt, ihren exakten Moment erreicht und den Orb wieder verlässt; 'Weitere Ereignisse' zeigt Stationen, Konjunktionen mit Spitzen, Out-of-bounds-Momente und Deklinationsextreme.\n\nIm Diagramm wird ein Aspekt oder eine Parallele als eine Form dargestellt, die von der Basislinie der Zeile aus wächst, während sie sich dem exakten Moment nähert, und wieder schrumpft, wenn sie den Orb verlässt — die Farbe entspricht dem Aspekt (bei Parallelen einer festen Farbe). Momentane Ereignisse werden als kleine Striche in derselben Zeile dargestellt.";
+"view.progressivecalendar.results.section.diagram"            = "Diagramm";
+"view.progressivecalendar.results.section.aspectsparallels"  = "Aspekte & Parallelen";
+"view.progressivecalendar.results.section.otherevents"       = "Weitere Ereignisse";
+"view.progressivecalendar.results.col.enter"                 = "Beginn";
+"view.progressivecalendar.results.col.exact"                 = "Exakt";
+"view.progressivecalendar.results.col.exit"                  = "Ende";
+"view.progressivecalendar.results.col.orb"                   = "Orbis";
+"view.progressivecalendar.results.col.date"                  = "Datum";
+"view.progressivecalendar.results.col.position"               = "Position";
+"view.progressivecalendar.results.target.radix"              = "Radix";
+"view.progressivecalendar.results.target.prog"               = "Progr.";
+"view.progressivecalendar.results.type.declnorth"            = "N";
+"view.progressivecalendar.results.type.declsouth"            = "S";
+"view.progressivecalendar.results.type.oob"                  = "OOB";
+
+// Zeitleistendiagramm
+"view.progressivecalendar.diagram.selecteddate"              = "Ausgewähltes Datum: %@";

@@ -11,18 +11,21 @@ public struct ProgressionsConfig: Codable, Sendable {
     public let secondaryDirections: SecondaryDirectionsConfig
     public let symbolicDirections: SymbolicDirectionsConfig
     public let solarReturn: SolarReturnConfig
+    public let progressiveCalendar: ProgressiveCalendarConfig
 
     public init(
         primaryDirections: PrimaryDirectionsConfig = PrimaryDirectionsConfig(),
         transits: TransitsConfig = TransitsConfig(),
         secondaryDirections: SecondaryDirectionsConfig = SecondaryDirectionsConfig(),
         symbolicDirections: SymbolicDirectionsConfig = SymbolicDirectionsConfig(),
-        solarReturn: SolarReturnConfig = SolarReturnConfig()
+        solarReturn: SolarReturnConfig = SolarReturnConfig(),
+        progressiveCalendar: ProgressiveCalendarConfig = ProgressiveCalendarConfig()
     ) {
         self.primaryDirections = primaryDirections
         self.transits = transits
         self.secondaryDirections = secondaryDirections
         self.symbolicDirections = symbolicDirections
         self.solarReturn = solarReturn
+        self.progressiveCalendar = progressiveCalendar
     }
 }

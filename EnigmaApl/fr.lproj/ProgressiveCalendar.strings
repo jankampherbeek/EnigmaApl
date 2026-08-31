@@ -1,0 +1,80 @@
+// ProgressiveCalendar.strings - Français
+// EnigmaApl
+
+// Écran de saisie
+"view.progressivecalendar.title"                            = "Calendrier progressif";
+"view.progressivecalendar.nochart"                           = "Sélectionnez un thème pour calculer un calendrier progressif.";
+"view.progressivecalendar.techniques.header"                 = "Techniques";
+"view.progressivecalendar.techniques.transits"               = "Transits";
+"view.progressivecalendar.techniques.secondarydirections"    = "Directions secondaires";
+"view.progressivecalendar.techniques.symbolicdirections"     = "Directions symboliques";
+"view.progressivecalendar.symbolickey"                       = "Clé symbolique";
+"view.progressivecalendar.button.transitfactors"             = "Facteurs de transit";
+"view.progressivecalendar.button.secondaryfactors"           = "Facteurs des directions secondaires";
+"view.progressivecalendar.button.symbolicfactors"            = "Facteurs des directions symboliques";
+"view.progressivecalendar.button.radixfactors"               = "Facteurs du radix";
+"view.progressivecalendar.button.aspects"                    = "Aspects";
+
+"view.progressivecalendar.eventkinds.header"                 = "Types d'événements";
+"view.progressivecalendar.eventkinds.aspectstoradix"         = "Aspects avec le radix";
+"view.progressivecalendar.eventkinds.parallelstoradix"       = "Parallèles avec le radix";
+"view.progressivecalendar.eventkinds.aspectsprogtoprog"      = "Aspects entre facteurs progressifs";
+"view.progressivecalendar.eventkinds.parallelsprogtoprog"    = "Parallèles entre facteurs progressifs";
+"view.progressivecalendar.eventkinds.cuspconjunctions"       = "Conjonctions avec les cuspides";
+"view.progressivecalendar.eventkinds.stations"                = "Stations rétrogrades / directes";
+"view.progressivecalendar.eventkinds.oob"                    = "Hors limites (OOB)";
+"view.progressivecalendar.eventkinds.declinationextremes"    = "Déclinaison nulle et maximale";
+
+"view.progressivecalendar.orbs.header"                       = "Orbes";
+"view.progressivecalendar.orbs.aspect"                       = "Orbe des aspects";
+"view.progressivecalendar.orbs.parallel"                     = "Orbe des parallèles";
+"view.progressivecalendar.orbs.cusp"                         = "Orbe des cuspides";
+
+"view.progressivecalendar.daterange.header"                  = "Période";
+"view.progressivecalendar.daterange.start"                   = "Date de début";
+"view.progressivecalendar.daterange.end"                     = "Date de fin";
+"view.progressivecalendar.daterange.placeholder"             = "aaaa/mm/jj";
+"view.progressivecalendar.daterange.maxnote"                 = "Période maximale pour la sélection actuelle : %d jours.";
+
+"view.progressivecalendar.settings.reset"                    = "Revenir aux réglages enregistrés";
+"view.progressivecalendar.calculate"                         = "Calculer";
+"view.progressivecalendar.help"                              = "Choisissez les techniques progressives à inclure — transits, directions secondaires et/ou directions symboliques — et sélectionnez les facteurs pour chacune. Sélectionnez les facteurs du radix à comparer, ainsi que les types d'événements à rechercher : aspects et parallèles (avec le radix, et entre les facteurs progressifs eux-mêmes), conjonctions avec les cuspides, stations rétrogrades/directes, moments hors limites et déclinaison nulle/maximale.\n\nLa période maximale dépend de votre sélection : les facteurs rapides comme une Lune en transit n'autorisent qu'une courte période, tandis que les techniques plus lentes autorisent des périodes beaucoup plus longues. La note sous les champs de période indique le maximum actuel.\n\nLes réglages ici proviennent de votre configuration enregistrée mais ne s'appliquent qu'à ce calcul — ils ne sont pas réécrits automatiquement. Utilisez 'Revenir aux réglages enregistrés' pour annuler vos modifications.\n\nCliquez sur 'Calculer' pour voir les résultats.";
+
+// Erreurs
+"view.progressivecalendar.error.invalidstart"                = "Date de début invalide. Utilisez aaaa/mm/jj.";
+"view.progressivecalendar.error.invalidend"                  = "Date de fin invalide. Utilisez aaaa/mm/jj.";
+"view.progressivecalendar.error.endbeforestart"              = "La date de fin doit être postérieure à la date de début.";
+"view.progressivecalendar.error.notechnique"                 = "Sélectionnez au moins une technique avec au moins un facteur.";
+"view.progressivecalendar.error.rangetoolong"                = "Pour la sélection actuelle, la période maximale est de %d jours. La période demandée est de %d jours.";
+
+// Statut des résultats
+"view.progressivecalendar.nohits"                            = "Aucun événement progressif trouvé.";
+"view.progressivecalendar.calculating"                       = "Calcul du calendrier progressif en cours…";
+"view.progressivecalendar.results.summary"                   = "%d événements, %d aspects/parallèles trouvés.";
+
+// Fenêtres de sélection
+"view.progressivecalendar.aspectsel.title"                   = "Sélectionner les aspects";
+"view.progressivecalendar.selection.done"                    = "Terminé";
+"view.progressivecalendar.selection.cancel"                  = "Annuler";
+
+// Écran des résultats
+"view.progressivecalendar.results.title"                     = "Calendrier progressif";
+"view.progressivecalendar.results.noresults"                 = "Sélectionnez un thème, choisissez les réglages et appuyez sur Calculer.";
+"view.progressivecalendar.results.help"                      = "Les résultats sont regroupés par technique (Transit / Directions secondaires / Directions symboliques). Chaque technique comporte un diagramme — une ligne par facteur, le temps s'écoulant de gauche à droite — suivi de deux tableaux : « Aspects et parallèles » indique quand un aspect ou un parallèle progressif entre dans l'orbe, atteint son moment exact, puis quitte l'orbe ; « Autres événements » indique les stations, les conjonctions avec les cuspides, les moments hors limites et les déclinaisons extrêmes.\n\nDans le diagramme, un aspect ou un parallèle est représenté par une forme qui s'agrandit depuis la ligne de base à mesure qu'elle approche de l'exactitude, puis se réduit en quittant l'orbe — sa couleur correspond à l'aspect (ou, pour les parallèles, une couleur fixe). Les événements instantanés sont représentés par de petits traits sur la même ligne.";
+"view.progressivecalendar.results.section.diagram"            = "Diagramme";
+"view.progressivecalendar.results.section.aspectsparallels"  = "Aspects et parallèles";
+"view.progressivecalendar.results.section.otherevents"       = "Autres événements";
+"view.progressivecalendar.results.col.enter"                 = "Entrée";
+"view.progressivecalendar.results.col.exact"                 = "Exact";
+"view.progressivecalendar.results.col.exit"                  = "Sortie";
+"view.progressivecalendar.results.col.orb"                   = "Orbe";
+"view.progressivecalendar.results.col.date"                  = "Date";
+"view.progressivecalendar.results.col.position"               = "Position";
+"view.progressivecalendar.results.target.radix"              = "Radix";
+"view.progressivecalendar.results.target.prog"               = "Prog.";
+"view.progressivecalendar.results.type.declnorth"            = "N";
+"view.progressivecalendar.results.type.declsouth"            = "S";
+"view.progressivecalendar.results.type.oob"                  = "OOB";
+
+// Diagramme chronologique
+"view.progressivecalendar.diagram.selecteddate"              = "Date sélectionnée : %@";

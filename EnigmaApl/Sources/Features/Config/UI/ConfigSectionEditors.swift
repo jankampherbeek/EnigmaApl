@@ -1289,7 +1289,8 @@ struct PrimaryDirectionsEditor: View {
             transits:            pd.transits,
             secondaryDirections: pd.secondaryDirections,
             symbolicDirections:  pd.symbolicDirections,
-            solarReturn:         pd.solarReturn
+            solarReturn:         pd.solarReturn,
+            progressiveCalendar: pd.progressiveCalendar
         )
         try? modelContext.save()
         isDirty = false
@@ -1408,7 +1409,8 @@ struct TransitsEditor: View {
             ),
             secondaryDirections: pd.secondaryDirections,
             symbolicDirections:  pd.symbolicDirections,
-            solarReturn:         pd.solarReturn
+            solarReturn:         pd.solarReturn,
+            progressiveCalendar: pd.progressiveCalendar
         )
         try? modelContext.save()
         isDirty = false
@@ -1526,7 +1528,8 @@ struct SecondaryDirectionsEditor: View {
                 orb:     doubleFromSexagesimal(orbDeg, orbMin)
             ),
             symbolicDirections:  pd.symbolicDirections,
-            solarReturn:         pd.solarReturn
+            solarReturn:         pd.solarReturn,
+            progressiveCalendar: pd.progressiveCalendar
         )
         try? modelContext.save()
         isDirty = false
@@ -1654,7 +1657,8 @@ struct SymbolicDirectionsEditor: View {
                 orb:     doubleFromSexagesimal(orbDeg, orbMin),
                 timeKey: timeKey
             ),
-            solarReturn: pd.solarReturn
+            solarReturn: pd.solarReturn,
+            progressiveCalendar: pd.progressiveCalendar
         )
         try? modelContext.save()
         isDirty = false
@@ -1775,7 +1779,8 @@ struct SolarReturnEditor: View {
                 orb:      doubleFromSexagesimal(orbDeg, orbMin),
                 method:   method,
                 location: location
-            )
+            ),
+            progressiveCalendar: pd.progressiveCalendar
         )
         try? modelContext.save()
         isDirty = false

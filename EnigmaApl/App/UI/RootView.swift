@@ -71,6 +71,7 @@ struct RootView: View {
         .environmentObject(composition.solarReturnModel)
         .environmentObject(composition.primDirModel)
         .environmentObject(composition.preNatalModel)
+        .environmentObject(composition.progressiveCalendarModel)
         .environmentObject(composition.eclipsesModel)
         .environmentObject(composition.ephemerisModel)
         .environmentObject(composition.longTimeEphemerisModel)

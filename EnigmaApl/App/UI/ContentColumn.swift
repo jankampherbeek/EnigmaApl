@@ -105,6 +105,8 @@ struct ContentColumn: View {
                     PrimDirResultsScreen()
                 case .prenatal:
                     PreNatalInputScreen()
+                case .progressiveCalendar:
+                    ProgressiveCalendarInputScreen()
                 default:
                     EmptyView()
                 }

@@ -1,0 +1,80 @@
+// ProgressiveCalendar.strings - Nederlands
+// EnigmaApl
+
+// Invoerscherm
+"view.progressivecalendar.title"                            = "Progressieve kalender";
+"view.progressivecalendar.nochart"                           = "Selecteer een horoscoop om een progressieve kalender te berekenen.";
+"view.progressivecalendar.techniques.header"                 = "Technieken";
+"view.progressivecalendar.techniques.transits"               = "Transits";
+"view.progressivecalendar.techniques.secondarydirections"    = "Secundaire directies";
+"view.progressivecalendar.techniques.symbolicdirections"     = "Symbolische directies";
+"view.progressivecalendar.symbolickey"                       = "Symbolische sleutel";
+"view.progressivecalendar.button.transitfactors"             = "Transitfactoren";
+"view.progressivecalendar.button.secondaryfactors"           = "Factoren secundaire directies";
+"view.progressivecalendar.button.symbolicfactors"            = "Factoren symbolische directies";
+"view.progressivecalendar.button.radixfactors"               = "Radixfactoren";
+"view.progressivecalendar.button.aspects"                    = "Aspecten";
+
+"view.progressivecalendar.eventkinds.header"                 = "Soorten gebeurtenissen";
+"view.progressivecalendar.eventkinds.aspectstoradix"         = "Aspecten met radix";
+"view.progressivecalendar.eventkinds.parallelstoradix"       = "Parallellen met radix";
+"view.progressivecalendar.eventkinds.aspectsprogtoprog"      = "Aspecten tussen progressieve factoren";
+"view.progressivecalendar.eventkinds.parallelsprogtoprog"    = "Parallellen tussen progressieve factoren";
+"view.progressivecalendar.eventkinds.cuspconjunctions"       = "Conjuncties met cuspen";
+"view.progressivecalendar.eventkinds.stations"                = "Retrograde / directe stations";
+"view.progressivecalendar.eventkinds.oob"                    = "Out of bounds";
+"view.progressivecalendar.eventkinds.declinationextremes"    = "Nul- en maximale declinatie";
+
+"view.progressivecalendar.orbs.header"                       = "Orbs";
+"view.progressivecalendar.orbs.aspect"                       = "Orb aspecten";
+"view.progressivecalendar.orbs.parallel"                     = "Orb parallellen";
+"view.progressivecalendar.orbs.cusp"                         = "Orb cuspen";
+
+"view.progressivecalendar.daterange.header"                  = "Periode";
+"view.progressivecalendar.daterange.start"                   = "Startdatum";
+"view.progressivecalendar.daterange.end"                     = "Einddatum";
+"view.progressivecalendar.daterange.placeholder"             = "jjjj/mm/dd";
+"view.progressivecalendar.daterange.maxnote"                 = "Maximale periode voor de huidige selectie: %d dagen.";
+
+"view.progressivecalendar.settings.reset"                    = "Terug naar opgeslagen instellingen";
+"view.progressivecalendar.calculate"                         = "Berekenen";
+"view.progressivecalendar.help"                              = "Kies welke progressieve technieken je wilt meenemen — transits, secundaire directies en/of symbolische directies — en kies de factoren voor elke techniek. Selecteer de radixfactoren om mee te vergelijken en welke soorten gebeurtenissen je wilt zien: aspecten en parallellen (met de radix, en tussen de progressieve factoren onderling), conjuncties met cuspen, retrograde/directe stations, out-of-bounds momenten en nul-/maximale declinatie.\n\nDe maximale periode hangt af van je selectie: snel bewegende factoren zoals een transiterende Maan staan slechts een korte periode toe, terwijl langzamere technieken veel langere periodes toestaan. De aanwijzing onder de periodevelden toont het huidige maximum.\n\nDe instellingen hier komen uit je opgeslagen configuratie maar gelden alleen voor deze berekening — ze worden niet automatisch teruggeschreven. Gebruik 'Terug naar opgeslagen instellingen' om je wijzigingen ongedaan te maken.\n\nKlik op 'Berekenen' om de resultaten te zien.";
+
+// Foutmeldingen
+"view.progressivecalendar.error.invalidstart"                = "Ongeldige startdatum. Gebruik jjjj/mm/dd.";
+"view.progressivecalendar.error.invalidend"                  = "Ongeldige einddatum. Gebruik jjjj/mm/dd.";
+"view.progressivecalendar.error.endbeforestart"              = "De einddatum moet na de startdatum liggen.";
+"view.progressivecalendar.error.notechnique"                 = "Selecteer minstens één techniek met minstens één factor.";
+"view.progressivecalendar.error.rangetoolong"                = "Voor de huidige selectie geldt een maximale periode van %d dagen. De gevraagde periode is %d dagen.";
+
+// Resultaatstatus
+"view.progressivecalendar.nohits"                            = "Geen progressieve gebeurtenissen gevonden.";
+"view.progressivecalendar.calculating"                       = "Bezig met berekenen van de progressieve kalender…";
+"view.progressivecalendar.results.summary"                   = "%d gebeurtenissen, %d aspecten/parallellen gevonden.";
+
+// Selectieschermen
+"view.progressivecalendar.aspectsel.title"                   = "Selecteer aspecten";
+"view.progressivecalendar.selection.done"                    = "Gereed";
+"view.progressivecalendar.selection.cancel"                  = "Annuleren";
+
+// Resultatenscherm
+"view.progressivecalendar.results.title"                     = "Progressieve kalender";
+"view.progressivecalendar.results.noresults"                 = "Selecteer een horoscoop, kies instellingen en druk op Berekenen.";
+"view.progressivecalendar.results.help"                      = "Resultaten zijn gegroepeerd per techniek (Transit / Secundaire directies / Symbolische directies). Elke techniek heeft een diagram — één rij per factor, tijd van links naar rechts — gevolgd door twee tabellen: 'Aspecten & Parallellen' toont wanneer een progressief aspect of parallel in orb komt, het exacte moment bereikt en weer uit orb gaat; 'Overige gebeurtenissen' toont stations, conjuncties met cuspen, out-of-bounds momenten en declinatie-extremen.\n\nIn het diagram wordt een aspect of parallel getekend als een vorm die vanaf de basislijn van de rij groeit naarmate deze exact nadert en weer krimpt als deze uit orb gaat — de kleur komt overeen met het aspect (of, voor parallellen, een vaste kleur). Momentane gebeurtenissen worden getoond als kleine streepjes op dezelfde rij.";
+"view.progressivecalendar.results.section.diagram"            = "Diagram";
+"view.progressivecalendar.results.section.aspectsparallels"  = "Aspecten & Parallellen";
+"view.progressivecalendar.results.section.otherevents"       = "Overige gebeurtenissen";
+"view.progressivecalendar.results.col.enter"                 = "Begin";
+"view.progressivecalendar.results.col.exact"                 = "Exact";
+"view.progressivecalendar.results.col.exit"                  = "Einde";
+"view.progressivecalendar.results.col.orb"                   = "Orb";
+"view.progressivecalendar.results.col.date"                  = "Datum";
+"view.progressivecalendar.results.col.position"               = "Stand";
+"view.progressivecalendar.results.target.radix"              = "Radix";
+"view.progressivecalendar.results.target.prog"               = "Progr.";
+"view.progressivecalendar.results.type.declnorth"            = "N";
+"view.progressivecalendar.results.type.declsouth"            = "Z";
+"view.progressivecalendar.results.type.oob"                  = "OOB";
+
+// Tijdlijndiagram
+"view.progressivecalendar.diagram.selecteddate"              = "Geselecteerde datum: %@";

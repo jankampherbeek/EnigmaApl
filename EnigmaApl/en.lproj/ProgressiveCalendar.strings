@@ -1,0 +1,80 @@
+// ProgressiveCalendar.strings - English
+// EnigmaApl
+
+// Input screen
+"view.progressivecalendar.title"                            = "Progressive Calendar";
+"view.progressivecalendar.nochart"                           = "Select a chart to compute a progressive calendar.";
+"view.progressivecalendar.techniques.header"                 = "Techniques";
+"view.progressivecalendar.techniques.transits"               = "Transits";
+"view.progressivecalendar.techniques.secondarydirections"    = "Secondary directions";
+"view.progressivecalendar.techniques.symbolicdirections"     = "Symbolic directions";
+"view.progressivecalendar.symbolickey"                       = "Symbolic key";
+"view.progressivecalendar.button.transitfactors"             = "Transit factors";
+"view.progressivecalendar.button.secondaryfactors"           = "Secondary direction factors";
+"view.progressivecalendar.button.symbolicfactors"            = "Symbolic direction factors";
+"view.progressivecalendar.button.radixfactors"               = "Radix factors";
+"view.progressivecalendar.button.aspects"                    = "Aspects";
+
+"view.progressivecalendar.eventkinds.header"                 = "Event kinds";
+"view.progressivecalendar.eventkinds.aspectstoradix"         = "Aspects to radix";
+"view.progressivecalendar.eventkinds.parallelstoradix"       = "Parallels to radix";
+"view.progressivecalendar.eventkinds.aspectsprogtoprog"      = "Aspects between progressive factors";
+"view.progressivecalendar.eventkinds.parallelsprogtoprog"    = "Parallels between progressive factors";
+"view.progressivecalendar.eventkinds.cuspconjunctions"       = "Conjunctions with cusps";
+"view.progressivecalendar.eventkinds.stations"                = "Retrograde / direct stations";
+"view.progressivecalendar.eventkinds.oob"                    = "Out of bounds";
+"view.progressivecalendar.eventkinds.declinationextremes"    = "Zero and maximum declination";
+
+"view.progressivecalendar.orbs.header"                       = "Orbs";
+"view.progressivecalendar.orbs.aspect"                       = "Aspect orb";
+"view.progressivecalendar.orbs.parallel"                     = "Parallel orb";
+"view.progressivecalendar.orbs.cusp"                         = "Cusp orb";
+
+"view.progressivecalendar.daterange.header"                  = "Date range";
+"view.progressivecalendar.daterange.start"                   = "Start date";
+"view.progressivecalendar.daterange.end"                     = "End date";
+"view.progressivecalendar.daterange.placeholder"             = "yyyy/mm/dd";
+"view.progressivecalendar.daterange.maxnote"                 = "Maximum range for the current selection: %d days.";
+
+"view.progressivecalendar.settings.reset"                    = "Reset to saved settings";
+"view.progressivecalendar.calculate"                         = "Calculate";
+"view.progressivecalendar.help"                              = "Choose which progressive techniques to include — transits, secondary directions and/or symbolic directions — and pick the factors for each. Select the radix factors to compare against, and which kinds of events to look for: aspects and parallels (to the radix chart, and between the progressive factors themselves), conjunctions with cusps, retrograde/direct stations, out-of-bounds moments, and zero/maximum declination.\n\nThe maximum date range depends on your selection: fast-moving factors such as a transiting Moon only allow a short range, while slower techniques allow much longer ones. The note under the date range fields shows the current maximum.\n\nSettings here are seeded from your saved configuration but apply only to this calculation — they are not written back automatically. Use 'Reset to saved settings' to discard your changes.\n\nClick 'Calculate' to see the results.";
+
+// Errors
+"view.progressivecalendar.error.invalidstart"                = "Invalid start date. Use yyyy/mm/dd.";
+"view.progressivecalendar.error.invalidend"                  = "Invalid end date. Use yyyy/mm/dd.";
+"view.progressivecalendar.error.endbeforestart"              = "The end date must be after the start date.";
+"view.progressivecalendar.error.notechnique"                 = "Select at least one technique with at least one factor.";
+"view.progressivecalendar.error.rangetoolong"                = "For the current selection, a maximum range of %d days is applicable. The requested range is %d days.";
+
+// Results status
+"view.progressivecalendar.nohits"                            = "No progressive events found.";
+"view.progressivecalendar.calculating"                       = "Calculating progressive calendar…";
+"view.progressivecalendar.results.summary"                   = "%d events, %d aspects/parallels found.";
+
+// Selection sheets
+"view.progressivecalendar.aspectsel.title"                   = "Select aspects";
+"view.progressivecalendar.selection.done"                    = "Done";
+"view.progressivecalendar.selection.cancel"                  = "Cancel";
+
+// Results screen
+"view.progressivecalendar.results.title"                     = "Progressive Calendar";
+"view.progressivecalendar.results.noresults"                 = "Select a chart, choose settings and press Calculate.";
+"view.progressivecalendar.results.help"                      = "Results are grouped by technique (Transit / Secondary directions / Symbolic directions). Each technique has a diagram — one row per factor, time running left to right — followed by two tables: 'Aspects & Parallels' shows when a progressive aspect or parallel enters orb, reaches its exact moment, and leaves orb again; 'Other events' shows stations, cusp conjunctions, out-of-bounds moments and declination extremes.\n\nIn the diagram, an aspect or parallel is drawn as a shape that grows from the row's baseline as it approaches exact and shrinks back as it leaves orb — its color matches the aspect (or, for parallels, a fixed color). Instantaneous events are shown as small ticks on the same row.";
+"view.progressivecalendar.results.section.diagram"            = "Diagram";
+"view.progressivecalendar.results.section.aspectsparallels"  = "Aspects & Parallels";
+"view.progressivecalendar.results.section.otherevents"       = "Other events";
+"view.progressivecalendar.results.col.enter"                 = "Enter";
+"view.progressivecalendar.results.col.exact"                 = "Exact";
+"view.progressivecalendar.results.col.exit"                  = "Exit";
+"view.progressivecalendar.results.col.orb"                   = "Orb";
+"view.progressivecalendar.results.col.date"                  = "Date";
+"view.progressivecalendar.results.col.position"               = "Position";
+"view.progressivecalendar.results.target.radix"              = "Radix";
+"view.progressivecalendar.results.target.prog"               = "Prog.";
+"view.progressivecalendar.results.type.declnorth"            = "N";
+"view.progressivecalendar.results.type.declsouth"            = "S";
+"view.progressivecalendar.results.type.oob"                  = "OOB";
+
+// Timeline diagram
+"view.progressivecalendar.diagram.selecteddate"              = "Selected date: %@";
