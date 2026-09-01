@@ -179,8 +179,7 @@ struct PreNatalResultsScreen: View {
             Text(GlyphSelector.getGlyphForFactor(.blackSun))
                 .font(.custom("EnigmaAstrology3", size: 18))
         case .lunarEclipse:
-            // apogeeMean is the classical Black Moon (Lilith) glyph
-            Text(GlyphSelector.getGlyphForFactor(.apogeeMean))
+            Text("\u{F361}")
                 .font(.custom("EnigmaAstrology3", size: 18))
         case .aspect(let aspectKind, let f1, let f2):
             Text(GlyphSelector.getGlyphForFactor(f1)
