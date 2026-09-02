@@ -388,7 +388,7 @@ struct ResearchProjectConfigScreen: View {
     private var factorsSection: some View {
         GroupBox(t(ResearchProjectsKeys.configSectionFactors)) {
             VStack(alignment: .leading, spacing: 4) {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     Toggle(NSLocalizedString(FactorKeys.key(for: factor), bundle: .main, comment: ""),
                            isOn: toggleBinding(for: factor))
                 }

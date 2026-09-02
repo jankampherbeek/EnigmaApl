@@ -74,7 +74,7 @@ public enum Factors: Int, CaseIterable, Codable {
     case apogeeInterpolated = 45
     case persephoneCarteret = 47
     case vulcanusCarteret = 48
-    case perigeeInterpolated = 49
+//    case perigeeInterpolated = 49
     case priapus = 50
     case priapusKoch = 51
     case dragon = 52
@@ -99,7 +99,7 @@ public enum Factors: Int, CaseIterable, Codable {
         switch self {
         case .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
                 .northNode, .apogeeMean, .apogeeKoch, .chiron, .pholus, .ceres, .pallas, .juno, .vesta,
-             .apogeeInterpolated, .perigeeInterpolated, .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
+             .apogeeInterpolated, .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra, .vulcanusUra, .poseidonUra,
              .isis, .eris, .nessus, .huya, .varuna, .ixion, .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea:
             return .CommonSe
         case .persephoneRam, .hermesRam, .demeterRam:
@@ -147,7 +147,7 @@ public enum Factors: Int, CaseIterable, Codable {
         case .juno: return 19
         case .vesta: return 20
         case .apogeeInterpolated: return 21
-        case .perigeeInterpolated: return 22
+  //      case .perigeeInterpolated: return 22
         case .cupidoUra: return 40
         case .hadesUra: return 41
         case .zeusUra: return 42
@@ -195,7 +195,11 @@ public enum Factors: Int, CaseIterable, Codable {
     }
     
     var localizedName: String { FactorKeys.key(for: self) }
-    
+
+    /// Factors that are internal to a specific Progressive feature (LogTimeScale, AgePoint)
+    /// and must not appear in general factor-selection UI (config screens, pickers, etc.).
+    static let selectableCases: [Factors] = allCases.filter { $0 != .logTimeScale && $0 != .agePoint }
+
     static func fromIndex(_ index: Int) -> Factors? {
         guard index >= 0 && index < Factors.allCases.count else {
             return nil

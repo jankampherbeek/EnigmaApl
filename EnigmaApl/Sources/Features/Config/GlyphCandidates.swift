@@ -76,7 +76,6 @@ public struct GlyphCandidates {
         case .apogeeInterpolated:   return ["\u{E543}"]
         case .persephoneCarteret:   return ["\u{E612}"]
         case .vulcanusCarteret:     return ["\u{E613}"]
-        case .perigeeInterpolated:  return ["\u{2609}"]   // TODO: add proper glyph
         case .priapus:              return ["\u{E535}"]
         case .priapusDuval:         return ["\u{E546}"]
         case .priapusKoch:          return ["\u{E547}"]

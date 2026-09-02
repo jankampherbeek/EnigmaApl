@@ -43,7 +43,6 @@ struct FactorsTests {
         #expect(Factors.apogeeMean.calculationType == .CommonSe)
         #expect(Factors.apogeeKoch.calculationType == .CommonSe)
         #expect(Factors.apogeeInterpolated.calculationType == .CommonSe)
-        #expect(Factors.perigeeInterpolated.calculationType == .CommonSe)
     }
     
     @Test("Factors: calculationType - CommonSe for asteroids")
@@ -156,7 +155,6 @@ struct FactorsTests {
         #expect(Factors.apogeeKoch.seId == 13)
         #expect(Factors.earth.seId == 14)
         #expect(Factors.apogeeInterpolated.seId == 21)
-        #expect(Factors.perigeeInterpolated.seId == 22)
     }
     
     @Test("Factors: seId - asteroids")
@@ -400,7 +398,7 @@ struct FactorsTests {
         let commonSeFactors: [Factors] = [
             .sun, .moon, .mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto,
             .northNode, .apogeeMean, .apogeeKoch, .chiron, .pholus,
-            .ceres, .pallas, .juno, .vesta, .apogeeInterpolated, .perigeeInterpolated,
+            .ceres, .pallas, .juno, .vesta, .apogeeInterpolated,
             .cupidoUra, .hadesUra, .zeusUra, .kronosUra, .apollonUra, .admetosUra,
             .vulcanusUra, .poseidonUra, .isis, .eris, .nessus, .huya, .varuna, .ixion,
             .quaoar, .haumea, .orcus, .makemake, .sedna, .hygieia, .astraea

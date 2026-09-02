@@ -49,7 +49,7 @@ struct AstronomicalCyclesScreen: View {
 
     private static let helioExcluded: Set<Factors> = [
         .sun, .moon, .northNode, .apogeeMean, .apogeeKoch, .apogeeDuval, .apogeeInterpolated,
-        .perigeeInterpolated, .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated, .dragon, .beast, .southNode,
+        .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated, .dragon, .beast, .southNode,
         .blackSun, .diamond
     ]
 
@@ -57,7 +57,7 @@ struct AstronomicalCyclesScreen: View {
         let positionExcluded: Set<Factors> = observerPosition == .helioCentric
             ? Self.helioExcluded
             : [.earth]
-        return Factors.allCases.filter {
+        return Factors.selectableCases.filter {
             let ct = $0.calculationType
             guard ct != .Mundane && ct != .Lots && ct != .ZodiacFixed && ct != .Unknown else { return false }
             return !positionExcluded.contains($0)

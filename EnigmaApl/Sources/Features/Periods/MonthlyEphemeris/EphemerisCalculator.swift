@@ -9,7 +9,7 @@ struct EphemerisCalculator {
 
     private static let helioExcluded: Set<Factors> = [
         .sun, .moon, .northNode, .apogeeMean, .apogeeKoch, .apogeeDuval, .apogeeInterpolated,
-        .perigeeInterpolated, .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated,
+        .priapus, .priapusKoch, .priapusDuval, .priapusInterpolated,
         .dragon, .beast, .southNode, .blackSun, .diamond
     ]
 

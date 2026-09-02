@@ -541,7 +541,7 @@ struct FactorConfigEditor: View {
                 .frame(height: 4)
                 .listRowBackground(Color.clear)
             Section {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     factorRow(factor)
                 }
             } header: {
@@ -1159,7 +1159,7 @@ struct PrimaryDirectionsEditor: View {
         let selSig  = Set(c.significators)
         var prom: [Factors: Bool] = [:]
         var sig:  [Factors: Bool] = [:]
-        for f in Factors.allCases {
+        for f in Factors.selectableCases {
             prom[f] = selProm.contains(f)
             sig[f]  = selSig.contains(f)
         }
@@ -1198,7 +1198,7 @@ struct PrimaryDirectionsEditor: View {
                 ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
             }
             Section {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     HStack {
                         Text(GlyphSelector.getGlyphForFactor(factor))
                             .font(.custom("EnigmaAstrology3", size: 16))
@@ -1265,7 +1265,7 @@ struct PrimaryDirectionsEditor: View {
         let c = config.progressionsConfig.primaryDirections
         let selProm = Set(c.promissors)
         let selSig  = Set(c.significators)
-        for f in Factors.allCases {
+        for f in Factors.selectableCases {
             promissors[f]    = selProm.contains(f)
             significators[f] = selSig.contains(f)
         }
@@ -1342,7 +1342,7 @@ struct TransitsEditor: View {
         let c = config.progressionsConfig.transits
         let selected = Set(c.factors)
         var f: [Factors: Bool] = [:]
-        for factor in Factors.allCases { f[factor] = selected.contains(factor) }
+        for factor in Factors.selectableCases { f[factor] = selected.contains(factor) }
         let (deg, min) = sexagesimalFromDouble(c.orb)
         _factors = State(initialValue: f)
         _orbDeg  = State(initialValue: deg)
@@ -1359,7 +1359,7 @@ struct TransitsEditor: View {
                 ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     ProgFactorRow(factor: factor, isSelected: Binding(
                         get: { factors[factor] ?? false },
                         set: { factors[factor] = $0; isDirty = true }
@@ -1395,7 +1395,7 @@ struct TransitsEditor: View {
     private func loadFromConfig() {
         let c = config.progressionsConfig.transits
         let selected = Set(c.factors)
-        for f in Factors.allCases { factors[f] = selected.contains(f) }
+        for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
     }
 
@@ -1461,7 +1461,7 @@ struct SecondaryDirectionsEditor: View {
         let c = config.progressionsConfig.secondaryDirections
         let selected = Set(c.factors)
         var f: [Factors: Bool] = [:]
-        for factor in Factors.allCases { f[factor] = selected.contains(factor) }
+        for factor in Factors.selectableCases { f[factor] = selected.contains(factor) }
         let (deg, min) = sexagesimalFromDouble(c.orb)
         _factors = State(initialValue: f)
         _orbDeg  = State(initialValue: deg)
@@ -1478,7 +1478,7 @@ struct SecondaryDirectionsEditor: View {
                 ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     ProgFactorRow(factor: factor, isSelected: Binding(
                         get: { factors[factor] ?? false },
                         set: { factors[factor] = $0; isDirty = true }
@@ -1514,7 +1514,7 @@ struct SecondaryDirectionsEditor: View {
     private func loadFromConfig() {
         let c = config.progressionsConfig.secondaryDirections
         let selected = Set(c.factors)
-        for f in Factors.allCases { factors[f] = selected.contains(f) }
+        for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
     }
 
@@ -1581,7 +1581,7 @@ struct SymbolicDirectionsEditor: View {
         let c = config.progressionsConfig.symbolicDirections
         let selected = Set(c.factors)
         var f: [Factors: Bool] = [:]
-        for factor in Factors.allCases { f[factor] = selected.contains(factor) }
+        for factor in Factors.selectableCases { f[factor] = selected.contains(factor) }
         let (deg, min) = sexagesimalFromDouble(c.orb)
         _factors = State(initialValue: f)
         _orbDeg  = State(initialValue: deg)
@@ -1604,7 +1604,7 @@ struct SymbolicDirectionsEditor: View {
                 ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
-                ForEach(Factors.allCases, id: \.self) { factor in
+                ForEach(Factors.selectableCases, id: \.self) { factor in
                     ProgFactorRow(factor: factor, isSelected: Binding(
                         get: { factors[factor] ?? false },
                         set: { factors[factor] = $0; isDirty = true }
@@ -1641,7 +1641,7 @@ struct SymbolicDirectionsEditor: View {
     private func loadFromConfig() {
         let c = config.progressionsConfig.symbolicDirections
         let selected = Set(c.factors)
-        for f in Factors.allCases { factors[f] = selected.contains(f) }
+        for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
         timeKey = c.timeKey
     }

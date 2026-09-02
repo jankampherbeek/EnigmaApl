@@ -55,7 +55,6 @@ struct FactorKeys {
         .apogeeInterpolated: "enum.factor.apogeeinterpolated",
         .persephoneCarteret: "enum.factor.persephonecarteret",
         .vulcanusCarteret:   "enum.factor.vulcanuscarteret",
-        .perigeeInterpolated:"enum.factor.perigeeinterpolated",
         .priapus:            "enum.factor.priapus",
         .priapusKoch:        "enum.factor.priapuskoch",
         .priapusDuval:       "enum.factor.priapusduval",
