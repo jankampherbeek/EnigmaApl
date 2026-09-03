@@ -20,7 +20,6 @@ struct ContentColumn: View {
     private var preferTwoColumns: Bool { hSizeClass == .compact }
     private var isRadix: Bool { app.nav.mode == .radix }
 
-    @State private var showExport  = false
     @State private var showHelp    = false
 
     private var drawingType: DrawingType {
@@ -65,9 +64,9 @@ struct ContentColumn: View {
             case .radix:
                 switch app.nav.radix.inspector {
                 case .analysisZodiacDivisions:
-                    ZodiacDivisionsResultsView()
+                    ZodiacDivisionsInputView()
                 case .analysisEnneagram:
-                    EnneagramResultsScreen()
+                    EnneagramOptionsView()
                 case .analysisVsp:
                     VspDiagramView()
                 case .analysisParans:
@@ -76,33 +75,39 @@ struct ContentColumn: View {
                     HarmonicOrbsInputScreen()
                 case .analysisLots:
                     LotsInputScreen()
-                case .overview, .horoscope, .positions, .analysis, .analysisAspects,
+                case .overview, .horoscope:
+                    RadixOverviewScreen()
+                case .analysis:
+                    AnalysisScreen()
+                case .search:
+                    RadixSearchScreen()
+                case .positions, .analysisAspects,
                      .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
                      .analysisBlaSchema, .analysisCountings,
-                     .newChart, .search, .editChart:
+                     .newChart, .editChart:
                     HoroscopeScreen(
                         blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
                         hideAspects: Binding(get: { app.ui.hideAspects }, set: { app.ui.hideAspects = $0 }),
                         hideTime:    Binding(get: { app.ui.hideTime },    set: { app.ui.hideTime = $0 }),
-                        showExport:  $showExport
+                        showExport:  Binding(get: { app.ui.showExport },  set: { app.ui.showExport = $0 })
                     )
                 }
             case .progressive:
                 switch app.nav.progressive.section {
                 case .transit:
-                    TransitResults()
+                    TransitScreen()
                 case .secondary:
-                    SecondaryResults()
+                    SecondaryScreen()
                 case .symbolic:
-                    SymbolicResults()
+                    SymbolicScreen()
                 case .logarithmicTimescale:
-                    LogTimeScaleResultsScreen()
+                    LogTimeScaleInputScreen()
                 case .agePoint:
-                    AgePointResultsScreen()
+                    AgePointInputScreen()
                 case .solar:
-                    SolarResultsScreen()
+                    SolarInputScreen()
                 case .primary:
-                    PrimDirResultsScreen()
+                    PrimDirInputScreen()
                 case .prenatal:
                     PreNatalInputScreen()
                 case .progressiveCalendar:
@@ -117,9 +122,9 @@ struct ContentColumn: View {
             case .cycles:
                 switch app.nav.cycles.section {
                 case .astronomicalCycles:
-                    CyclesChartView()
+                    AstronomicalCyclesScreen()
                 case .waves:
-                    WavesChartView()
+                    WavesScreen()
                 case .tablesGraphs:
                     EmptyView()
                 case .ephemeris:
@@ -181,7 +186,7 @@ struct ContentColumn: View {
                     }
                 }
                 ToolbarItem(placement: .automatic) {
-                    Button { showExport = true } label: {
+                    Button { app.ui.showExport = true } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
                     .accessibilityLabel("Export")

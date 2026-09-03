@@ -1,0 +1,8 @@
+// GlyphOverview.strings - English
+// EnigmaApl
+
+"view.glyphoverviewscreen.title"            = "Glyph Overview";
+"view.glyphoverviewscreen.menuitem"         = "Glyphs Overview";
+"view.glyphoverviewscreen.section.factors"  = "Factors";
+"view.glyphoverviewscreen.section.aspects"  = "Aspects";
+"view.glyphoverviewscreen.section.signs"    = "Signs";

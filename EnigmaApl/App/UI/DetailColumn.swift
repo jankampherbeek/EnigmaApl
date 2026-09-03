@@ -30,13 +30,13 @@ struct DetailColumn: View {
         case .radix:
             switch app.nav.radix.inspector {
             case .overview:
-                return "Overzicht"
+                return "Horoscoop"
             case .newChart:
                 return "Data for a new chart"
             case .positions:
                 return "Positions"
             case .analysis:
-                return "Analyse"
+                return "Horoscoop"
             case .analysisAspects:
                 return "Aspecten"
             case .analysisMidpoints:
@@ -62,9 +62,9 @@ struct DetailColumn: View {
             case .analysisCountings:
                 return NSLocalizedString(CountingsKeys.title, tableName: "Countings", bundle: .main, comment: "")
             case .horoscope:
-                return "Overzicht"
+                return "Horoscoop"
             case .search:
-                return "Zoek horoscoop"
+                return "Horoscoop"
             case .editChart:
                 return "Wijzig horoscoop"
             }
@@ -103,16 +103,17 @@ struct DetailColumn: View {
                     switch app.nav.mode {
                     case .radix:
                         switch app.nav.radix.inspector {
-                        case .overview:
-                            RadixOverviewScreen()
-                        case .horoscope:
-                            RadixOverviewScreen()
+                        case .overview, .horoscope, .analysis, .search:
+                            HoroscopeScreen(
+                                blackWhite:  Binding(get: { app.ui.blackWhite },  set: { app.ui.blackWhite = $0 }),
+                                hideAspects: Binding(get: { app.ui.hideAspects }, set: { app.ui.hideAspects = $0 }),
+                                hideTime:    Binding(get: { app.ui.hideTime },    set: { app.ui.hideTime = $0 }),
+                                showExport:  Binding(get: { app.ui.showExport },  set: { app.ui.showExport = $0 })
+                            )
                         case .newChart:
                             RadixInputScreen()
                         case .positions:
                             PositionsScreen()
-                        case .analysis:
-                            AnalysisScreen()
                         case .analysisAspects:
                             AspectsScreen()
                         case .analysisMidpoints:
@@ -122,9 +123,9 @@ struct DetailColumn: View {
                         case .analysisDeclinations:
                             DeclinationsScreen()
                         case .analysisZodiacDivisions:
-                            ZodiacDivisionsInputView()
+                            ZodiacDivisionsResultsView()
                         case .analysisEnneagram:
-                            EnneagramOptionsView()
+                            EnneagramResultsScreen()
                         case .analysisVsp:
                             VspScreen()
                         case .analysisParans:
@@ -137,8 +138,6 @@ struct DetailColumn: View {
                             BlaSchemaScreen()
                         case .analysisCountings:
                             CountingsScreen()
-                        case .search:
-                            RadixSearchScreen()
                         case .editChart:
                             if let horoscope = chartSession.editingHoroscope {
                                 RadixEditScreen(horoscope: horoscope)
@@ -151,19 +150,19 @@ struct DetailColumn: View {
                         case .events:
                             EventsOverviewScreen()
                         case .transit:
-                            TransitScreen()
+                            TransitResults()
                         case .secondary:
-                            SecondaryScreen()
+                            SecondaryResults()
                         case .symbolic:
-                            SymbolicScreen()
+                            SymbolicResults()
                         case .logarithmicTimescale:
-                            LogTimeScaleInputScreen()
+                            LogTimeScaleResultsScreen()
                         case .agePoint:
-                            AgePointInputScreen()
+                            AgePointResultsScreen()
                         case .solar:
-                            SolarInputScreen()
+                            SolarResultsScreen()
                         case .primary:
-                            PrimDirInputScreen()
+                            PrimDirResultsScreen()
                         case .prenatal:
                             PreNatalResultsScreen()
                         case .progressiveCalendar:
@@ -178,9 +177,9 @@ struct DetailColumn: View {
                     case .cycles:
                         switch app.nav.cycles.section {
                         case .astronomicalCycles:
-                            AstronomicalCyclesScreen()
+                            CyclesChartView()
                         case .waves:
-                            WavesScreen()
+                            WavesChartView()
                         case .tablesGraphs:
                             TablesGraphsScreen()
                         case .ephemeris:

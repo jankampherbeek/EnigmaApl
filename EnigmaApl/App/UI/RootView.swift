@@ -139,6 +139,12 @@ struct RootView: View {
             }
             .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: Binding(
+            get: { app.ui.showGlyphOverview },
+            set: { app.ui.showGlyphOverview = $0 }
+        )) {
+            GlyphOverviewScreen()
+        }
     }
 
     private func buildStartupChart(config: UserConfiguration?) async {

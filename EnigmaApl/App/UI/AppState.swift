@@ -139,6 +139,8 @@ struct UIState: Equatable {
     var blackWhite: Bool = false
     var hideAspects: Bool = false
     var hideTime: Bool = false
+    var showExport: Bool = false
+    var showGlyphOverview: Bool = false
 }
 
 

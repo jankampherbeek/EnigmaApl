@@ -18,6 +18,11 @@ struct AppCommands: Commands {
                 openWindow(id: "about")
             }
         }
+        CommandGroup(after: .help) {
+            Button(NSLocalizedString(GlyphOverviewKeys.menuItem, tableName: "GlyphOverview", bundle: .main, comment: "")) {
+                app.ui.showGlyphOverview = true
+            }
+        }
         CommandMenu("Radix") {
             Button("Activeer Radix") { app.setMode(.radix) }
                 .keyboardShortcut("1", modifiers: [.command, .shift])
