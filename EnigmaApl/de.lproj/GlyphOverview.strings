@@ -6,3 +6,4 @@
 "view.glyphoverviewscreen.section.factors"  = "Faktoren";
 "view.glyphoverviewscreen.section.aspects"  = "Aspekte";
 "view.glyphoverviewscreen.section.signs"    = "Zeichen";
+"view.glyphoverviewscreen.help"             = "Hier sehen Sie eine Übersicht aller Symbole, die Enigma verwendet. Einige Symbole können Sie in der Konfiguration anpassen. Eine eventuell neue Auswahl wird dann auch in dieser Übersicht angezeigt.";

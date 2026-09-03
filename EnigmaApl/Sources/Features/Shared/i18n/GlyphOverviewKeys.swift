@@ -11,4 +11,5 @@ struct GlyphOverviewKeys {
     static let sectionFactors  = "view.glyphoverviewscreen.section.factors"
     static let sectionAspects  = "view.glyphoverviewscreen.section.aspects"
     static let sectionSigns    = "view.glyphoverviewscreen.section.signs"
+    static let help            = "view.glyphoverviewscreen.help"
 }

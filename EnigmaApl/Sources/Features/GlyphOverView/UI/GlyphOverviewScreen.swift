@@ -14,21 +14,37 @@ private func sh(_ key: String) -> String {
 
 struct GlyphOverviewScreen: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showHelp = false
 
     private let model = GlyphOverviewModel()
     private let columns = [GridItem(.adaptive(minimum: 110, maximum: 160), spacing: 12)]
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    section(title: go(GlyphOverviewKeys.sectionFactors), entries: model.factorEntries)
-                    section(title: go(GlyphOverviewKeys.sectionAspects), entries: model.aspectEntries)
-                    section(title: go(GlyphOverviewKeys.sectionSigns), entries: model.otherEntries)
+            VStack(spacing: 0) {
+                HStack(spacing: 6) {
+                    Text(go(GlyphOverviewKeys.title))
+                        .font(.title2.weight(.semibold))
+                    Button { showHelp = true } label: {
+                        Image(systemName: "questionmark.circle")
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Help")
+                    Spacer()
                 }
                 .padding()
+
+                Divider()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        section(title: go(GlyphOverviewKeys.sectionFactors), entries: model.factorEntries)
+                        section(title: go(GlyphOverviewKeys.sectionAspects), entries: model.aspectEntries)
+                        section(title: go(GlyphOverviewKeys.sectionSigns), entries: model.otherEntries)
+                    }
+                    .padding()
+                }
             }
-            .navigationTitle(go(GlyphOverviewKeys.title))
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(sh(SharedKeys.close)) { dismiss() }
@@ -38,6 +54,9 @@ struct GlyphOverviewScreen: View {
         #if os(macOS)
         .frame(minWidth: 480, minHeight: 420)
         #endif
+        .sheet(isPresented: $showHelp) {
+            WheelHelpSheet(helpText: go(GlyphOverviewKeys.help))
+        }
     }
 
     // MARK: - Sections
