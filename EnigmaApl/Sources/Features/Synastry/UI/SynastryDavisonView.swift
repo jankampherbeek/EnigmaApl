@@ -63,7 +63,6 @@ struct SynastryDavisonView: View {
     @State private var hideAspects = false
     @State private var showExport = false
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -80,9 +79,6 @@ struct SynastryDavisonView: View {
         }
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(SynastryKeys.helpCombine))
-        }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "combine")
         }
     }
 
@@ -118,11 +114,8 @@ struct SynastryDavisonView: View {
                 Button(t(SynastryKeys.combineShowChart)) { calculate() }
                     .buttonStyle(.borderedProminent)
 
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .buttonStyle(.bordered)
-                .accessibilityLabel("Factsheet")
+                FactsheetButton(baseName: "combine")
+                    .buttonStyle(.bordered)
 
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")

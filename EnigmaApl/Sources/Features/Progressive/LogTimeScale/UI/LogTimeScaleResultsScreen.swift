@@ -24,7 +24,6 @@ struct LogTimeScaleResultsScreen: View {
     @State private var hideAspects: Bool = false
     @State private var showExport:  Bool = false
     @State private var showHelp:    Bool = false
-    @State private var showFactsheet: Bool = false
 
     private let labelWidth: CGFloat    = 160
     private let positionWidth: CGFloat = 130
@@ -72,21 +71,13 @@ struct LogTimeScaleResultsScreen: View {
         .navigationTitle(t(LogTimeScaleKeys.resultsTitle))
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "logtimescale")
-        }
+        .factsheetToolbarButton(baseName: "logtimescale")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(LogTimeScaleKeys.helpResults))
         }

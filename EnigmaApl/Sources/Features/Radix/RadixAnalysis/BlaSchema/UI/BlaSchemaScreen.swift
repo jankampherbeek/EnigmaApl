@@ -38,7 +38,6 @@ struct BlaSchemaScreen: View {
     @StateObject private var model = BlaSchemaModel()
     @State private var selectedSection: BlaSchemaSection = .configPositions
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     private static let compactWidthThreshold: CGFloat = 700
 
@@ -99,21 +98,13 @@ struct BlaSchemaScreen: View {
             }
             .toolbar {
                 ToolbarItem(placement: .automatic) {
-                    Button { showFactsheet = true } label: {
-                        Image(systemName: "book.pages")
-                    }
-                    .accessibilityLabel("Factsheet")
-                }
-                ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")
                     }
                     .accessibilityLabel("Help")
                 }
             }
-            .sheet(isPresented: $showFactsheet) {
-                FactsheetView(baseName: "bla")
-            }
+            .factsheetToolbarButton(baseName: "bla")
             .sheet(isPresented: $showHelp) {
                 NavigationStack {
                     ScrollView {

@@ -20,7 +20,6 @@ struct VspDiagramView: View {
     @StateObject private var wheelModel = ZodiacTypeWheelModel()
     @State private var showExport    = false
     @State private var showHelp      = false
-    @State private var showFactsheet = false
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
     private var currentTheme: WheelTheme { app.ui.blackWhite ? .blackWhite : .color }
@@ -110,11 +109,8 @@ struct VspDiagramView: View {
                 .disabled(vspModel.positions.isEmpty)
             }
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-                .disabled(chartSession.selectedChart == nil)
+                FactsheetButton(baseName: "vsp")
+                    .disabled(chartSession.selectedChart == nil)
             }
             ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
@@ -122,9 +118,6 @@ struct VspDiagramView: View {
                 }
                 .accessibilityLabel("Help")
             }
-        }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "vsp")
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(

@@ -7,4 +7,5 @@ struct SharedKeys {
     private init() {}
 
     static let close = "shared.btn.close"
+    static let factsheet = "shared.btn.factsheet"
 }

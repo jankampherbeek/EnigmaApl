@@ -13,7 +13,6 @@ struct PreNatalResultsScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
 
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     // Column widths
     private let dateW:     CGFloat = 110   // actual date yyyy/mm/dd
@@ -51,17 +50,11 @@ struct PreNatalResultsScreen: View {
         .navigationTitle(t(PreNatalKeys.resultsTitle))
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: { Image(systemName: "book.pages") }
-                    .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: { Image(systemName: "questionmark.circle") }
                     .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "prenatal")
-        }
+        .factsheetToolbarButton(baseName: "prenatal")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(PreNatalKeys.helpResults))
         }

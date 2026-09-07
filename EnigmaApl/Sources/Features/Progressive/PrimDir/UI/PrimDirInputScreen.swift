@@ -26,7 +26,6 @@ struct PrimDirInputScreen: View {
     @State private var events: [EventModel] = []
     @State private var selectedEventId: UUID?
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     private var hasChart: Bool { chartSession.selectedChart != nil }
     private var savedConfig: PrimaryDirectionsConfig {
@@ -53,21 +52,13 @@ struct PrimDirInputScreen: View {
         .navigationTitle(t(PrimDirKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "primdir")
-        }
+        .factsheetToolbarButton(baseName: "primdir")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(PrimDirKeys.help))
         }

@@ -13,7 +13,6 @@ struct DeclinationMidpointsView: View {
     private var activeConfigs: [UserConfiguration]
 
     @State private var blackWhite    = false
-    @State private var showFactsheet = false
     @State private var showHelp      = false
 
     private func t(_ key: String) -> String {
@@ -90,21 +89,13 @@ struct DeclinationMidpointsView: View {
                 .accessibilityLabel(blackWhite ? "Switch to color" : "Switch to black and white")
             }
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "declinations")
-        }
+        .factsheetToolbarButton(baseName: "declinations")
         .sheet(isPresented: $showHelp) {
             NavigationStack {
                 ScrollView {

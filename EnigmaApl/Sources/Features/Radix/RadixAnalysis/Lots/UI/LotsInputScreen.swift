@@ -9,7 +9,6 @@ struct LotsInputScreen: View {
     @EnvironmentObject private var lotsModel: LotsModel
     @EnvironmentObject private var radixNav: RadixNavigator
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     private var isNightChart: Bool {
         guard let chart = chartSession.selectedChart else { return false }
@@ -47,21 +46,13 @@ struct LotsInputScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "lots")
-        }
+        .factsheetToolbarButton(baseName: "lots")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(LotsKeys.helpInput))
         }

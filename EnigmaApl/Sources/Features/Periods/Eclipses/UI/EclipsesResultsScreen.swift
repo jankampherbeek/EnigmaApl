@@ -14,7 +14,6 @@ struct EclipsesResultsScreen: View {
     private let seWrapper = SEWrapper()
 
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     var body: some View {
         Group {
@@ -38,20 +37,12 @@ struct EclipsesResultsScreen: View {
                 }
             }
             ToolbarItem(placement: .primaryAction) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label("Help", systemImage: "questionmark.circle")
                 }
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "eclipses")
-        }
+        .factsheetToolbarButton(baseName: "eclipses", placement: .primaryAction)
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: ec(EclipsesKeys.helpResults))
         }

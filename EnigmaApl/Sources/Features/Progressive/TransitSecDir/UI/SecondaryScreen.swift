@@ -17,7 +17,6 @@ struct SecondaryScreen: View {
 
     @State private var selectedChartId: UUID?
     @State private var showCreateEvent = false
-    @State private var showFactsheet = false
     @State private var showHelp = false
 
     private let titleWidth: CGFloat    = 200
@@ -49,21 +48,13 @@ struct SecondaryScreen: View {
         .navigationTitle(t(SecondaryKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "secondary")
-        }
+        .factsheetToolbarButton(baseName: "secondary")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(SecondaryKeys.help))
         }

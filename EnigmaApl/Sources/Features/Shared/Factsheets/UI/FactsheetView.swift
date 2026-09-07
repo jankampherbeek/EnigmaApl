@@ -66,6 +66,42 @@ struct FactsheetView: View {
     }
 }
 
+// MARK: - Factsheet button
+
+/// A button that presents the factsheet PDF for `baseName` in a sheet.
+/// Usable inline or wrapped in a `ToolbarItem`; `.buttonStyle(...)` applied
+/// to this view propagates to the underlying button.
+struct FactsheetButton: View {
+    let baseName: String
+
+    @State private var showFactsheet = false
+
+    private func t(_ key: String) -> String {
+        NSLocalizedString(key, tableName: "Shared", bundle: .main, comment: "")
+    }
+
+    var body: some View {
+        Button { showFactsheet = true } label: {
+            Image(systemName: "book.pages")
+        }
+        .accessibilityLabel(t(SharedKeys.factsheet))
+        .sheet(isPresented: $showFactsheet) {
+            FactsheetView(baseName: baseName)
+        }
+    }
+}
+
+extension View {
+    /// Adds a toolbar item with a `FactsheetButton` for `baseName`.
+    func factsheetToolbarButton(baseName: String, placement: ToolbarItemPlacement = .automatic) -> some View {
+        toolbar {
+            ToolbarItem(placement: placement) {
+                FactsheetButton(baseName: baseName)
+            }
+        }
+    }
+}
+
 // MARK: - PDFKit wrapper
 
 #if os(macOS)

@@ -12,7 +12,6 @@ struct HarmonicOrbsInputScreen: View {
     @EnvironmentObject private var harmonicOrbsModel: HarmonicOrbsModel
     @EnvironmentObject private var radixNav: RadixNavigator
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     private var chartName: String { chartSession.selected?.name ?? "" }
 
@@ -67,21 +66,13 @@ struct HarmonicOrbsInputScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "harmonic-orbs")
-        }
+        .factsheetToolbarButton(baseName: "harmonic-orbs")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(HarmonicOrbsKeys.helpInput))
         }

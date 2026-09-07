@@ -14,7 +14,6 @@ struct ParansResultsScreen: View {
 
     @State private var selectedTab: ParansTab = .positions
     @State private var showHelp = false
-    @State private var showFactsheet = false
 
     var body: some View {
         Group {
@@ -52,21 +51,13 @@ struct ParansResultsScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "parans")
-        }
+        .factsheetToolbarButton(baseName: "parans")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(ParansKeys.helpResults))
         }

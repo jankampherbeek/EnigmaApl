@@ -14,7 +14,6 @@ struct AllDeclinationsView: View {
 
     @State private var blackWhite    = false
     @State private var showExport    = false
-    @State private var showFactsheet = false
     @State private var showHelp      = false
 
     private func t(_ key: String) -> String {
@@ -88,21 +87,13 @@ struct AllDeclinationsView: View {
                 .accessibilityLabel("Export")
             }
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "declinations")
-        }
+        .factsheetToolbarButton(baseName: "declinations")
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
                 wheelView: DeclStripCanvas(items: stripItems, obliquity: obliquity, blackWhite: blackWhite)

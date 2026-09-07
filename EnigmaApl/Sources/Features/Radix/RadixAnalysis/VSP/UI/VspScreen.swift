@@ -8,7 +8,6 @@ struct VspScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var vspModel:     VspModel
     @State private var showHelp      = false
-    @State private var showFactsheet = false
 
     private let seqW:    CGFloat = 36
     private let nameW:   CGFloat = 60
@@ -31,21 +30,13 @@ struct VspScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "vsp")
-        }
+        .factsheetToolbarButton(baseName: "vsp")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(VspKeys.help))
         }

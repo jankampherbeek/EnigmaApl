@@ -15,7 +15,6 @@ struct HarmonicDrawingView: View {
 
     @State private var blackWhite    = false
     @State private var showExport    = false
-    @State private var showFactsheet = false
     @State private var showHelp      = false
 
     private func t(_ key: String) -> String {
@@ -76,25 +75,17 @@ struct HarmonicDrawingView: View {
                 .accessibilityLabel("Export")
             }
             ToolbarItem(placement: .automatic) {
-                Button { showFactsheet = true } label: {
-                    Image(systemName: "book.pages")
-                }
-                .accessibilityLabel("Factsheet")
-            }
-            ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
                     Image(systemName: "questionmark.circle")
                 }
                 .accessibilityLabel("Help")
             }
         }
+        .factsheetToolbarButton(baseName: "harmonics")
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
                 wheelView: HarmonicWheelCanvas(plotData: plotData, theme: currentTheme)
             )
-        }
-        .sheet(isPresented: $showFactsheet) {
-            FactsheetView(baseName: "harmonics")
         }
         .sheet(isPresented: $showHelp) {
             NavigationStack {
