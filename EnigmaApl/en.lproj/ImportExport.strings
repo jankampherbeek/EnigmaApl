@@ -1,0 +1,17 @@
+// ImportExport.strings - English
+// EnigmaApl
+
+"view.importexport.title"  = "Import / Export";
+"view.importexport.select" = "Select a format from the list to import or export charts and events.";
+
+"view.importexport.detail.title" = "%@";
+"view.importexport.detail.body"  = "This is a placeholder screen. The import/export logic for this format still needs to be implemented.";
+"view.importexport.detail.capabilities.chartsonly" = "Supports: charts only";
+"view.importexport.detail.direction.both"       = "Import and export";
+"view.importexport.detail.direction.importonly" = "Import only";
+
+"view.importexport.enigma.body" = "Export all charts and events to a JSON file, or import charts and events from a previously exported file. Calculated positions are not included; they are recalculated from the imported data.";
+"view.importexport.enigma.export.button" = "Export…";
+"view.importexport.enigma.import.button" = "Import…";
+"view.importexport.enigma.export.success" = "Exported %d charts and %d events.";
+"view.importexport.enigma.import.success" = "Imported %d charts and %d events (skipped %d charts and %d events already present).";

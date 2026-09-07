@@ -1,0 +1,17 @@
+// ImportExport.strings - Français
+// EnigmaApl
+
+"view.importexport.title"  = "Import / Export";
+"view.importexport.select" = "Choisissez un format dans la liste pour importer ou exporter des thèmes et des événements.";
+
+"view.importexport.detail.title" = "%@";
+"view.importexport.detail.body"  = "Il s'agit d'un écran temporaire. La logique d'import/export pour ce format doit encore être implémentée.";
+"view.importexport.detail.capabilities.chartsonly" = "Prend en charge : thèmes uniquement";
+"view.importexport.detail.direction.both"       = "Import et export";
+"view.importexport.detail.direction.importonly" = "Import uniquement";
+
+"view.importexport.enigma.body" = "Exportez tous les thèmes et événements vers un fichier JSON, ou importez des thèmes et des événements à partir d'un fichier précédemment exporté. Les positions calculées ne sont pas incluses ; elles sont recalculées à partir des données importées.";
+"view.importexport.enigma.export.button" = "Exporter…";
+"view.importexport.enigma.import.button" = "Importer…";
+"view.importexport.enigma.export.success" = "%d thèmes et %d événements exportés.";
+"view.importexport.enigma.import.success" = "%d thèmes et %d événements importés (%d thèmes et %d événements ignorés, déjà présents).";

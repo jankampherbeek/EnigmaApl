@@ -1,0 +1,17 @@
+// ImportExport.strings - Nederlands
+// EnigmaApl
+
+"view.importexport.title"  = "Import / Export";
+"view.importexport.select" = "Kies een formaat uit de lijst om horoscopen en gebeurtenissen te importeren of te exporteren.";
+
+"view.importexport.detail.title" = "%@";
+"view.importexport.detail.body"  = "Dit is een tijdelijk scherm. De import/export-logica voor dit formaat moet nog worden geïmplementeerd.";
+"view.importexport.detail.capabilities.chartsonly" = "Ondersteunt: alleen horoscopen";
+"view.importexport.detail.direction.both"       = "Importeren en exporteren";
+"view.importexport.detail.direction.importonly" = "Alleen importeren";
+
+"view.importexport.enigma.body" = "Exporteer alle horoscopen en gebeurtenissen naar een JSON-bestand, of importeer horoscopen en gebeurtenissen uit een eerder geëxporteerd bestand. Berekende standen worden niet meegenomen; deze worden opnieuw berekend op basis van de geïmporteerde gegevens.";
+"view.importexport.enigma.export.button" = "Exporteren…";
+"view.importexport.enigma.import.button" = "Importeren…";
+"view.importexport.enigma.export.success" = "%d horoscopen en %d gebeurtenissen geëxporteerd.";
+"view.importexport.enigma.import.success" = "%d horoscopen en %d gebeurtenissen geïmporteerd (%d horoscopen en %d gebeurtenissen overgeslagen, want al aanwezig).";

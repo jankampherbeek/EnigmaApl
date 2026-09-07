@@ -18,6 +18,7 @@ struct SidebarView: View {
     @EnvironmentObject private var cyclesNav: CyclesNavigator
     @EnvironmentObject private var calculatorsNav: CalculatorsNavigator
     @EnvironmentObject private var configNav: ConfigNavigator
+    @EnvironmentObject private var importExportNav: ImportExportNavigator
 
     var body: some View {
         List {
@@ -97,6 +98,15 @@ struct SidebarView: View {
                 EmptyView()
             case .synastry:
                 EmptyView()
+            case .importExport:
+                Section("Import/Export") {
+                    ForEach(ImportExportSection.allCases) { section in
+                        Button { importExportNav.setSection(section) } label: {
+                            row(section.rawValue, app.nav.importExport.section == section)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             }
         }
         .navigationTitle("Navigatie")

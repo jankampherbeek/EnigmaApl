@@ -21,6 +21,7 @@ final class AppComposition: ObservableObject {
     let calculatorsNav: CalculatorsNavigator
     let synastryNav: SynastryNavigator
     let synastryModel: SynastryModel
+    let importExportNav: ImportExportNavigator
     let cyclesModel: AstronomicalCyclesModel
     let wavesModel: WavesModel
     let progressiveSession: ProgressiveSession
@@ -86,6 +87,10 @@ final class AppComposition: ObservableObject {
             set: { app.nav.synastry = $0 }
         ))
         self.synastryModel = SynastryModel()
+        self.importExportNav = ImportExportNavigator(nav: Binding(
+            get: { app.nav.importExport },
+            set: { app.nav.importExport = $0 }
+        ))
         self.cyclesModel = AstronomicalCyclesModel()
         self.wavesModel = WavesModel()
         self.progressiveSession = ProgressiveSession()

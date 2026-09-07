@@ -10,6 +10,7 @@ struct AppCommands: Commands {
     @ObservedObject var progressiveNav: ProgressiveNavigator
     @ObservedObject var researchNav: ResearchNavigator
     @ObservedObject var cyclesNav: CyclesNavigator
+    @ObservedObject var importExportNav: ImportExportNavigator
     @Environment(\.openWindow) private var openWindow
 
     var body: some Commands {
@@ -78,6 +79,13 @@ struct AppCommands: Commands {
         CommandMenu("Configuratie") {
             Button("Activeer Configuratie") { app.setMode(.config) }
                 .keyboardShortcut("4", modifiers: [.command, .shift])
+        }
+
+        CommandGroup(after: .importExport) {
+            Button("Activeer Import/Export") { app.setMode(.importExport) }
+            ForEach(ImportExportSection.allCases) { section in
+                Button(section.rawValue) { app.setMode(.importExport); importExportNav.setSection(section) }
+            }
         }
 
         CommandMenu("Weergave") {

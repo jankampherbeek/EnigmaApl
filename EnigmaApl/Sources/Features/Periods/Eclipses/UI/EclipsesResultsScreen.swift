@@ -15,6 +15,11 @@ struct EclipsesResultsScreen: View {
 
     @State private var showHelp = false
 
+    /// Fixed row height, forcing AppKit to skip its per-row automatic height
+    /// measurement pass (NSTableRowData._uncachedAutomaticRowHeight), which is
+    /// expensive and was implicated in a heap-corruption crash for large result sets.
+    private let rowHeight: CGFloat = 22
+
     var body: some View {
         Group {
             if eclipsesModel.hasResults {
@@ -78,17 +83,20 @@ struct EclipsesResultsScreen: View {
             TableColumn("") { event in
                 Text(eclipseGlyph(event))
                     .font(.custom("EnigmaAstrology3", size: 16))
+                    .frame(height: rowHeight)
             }
             .width(28)
 
             TableColumn(ec(EclipsesKeys.colDate)) { event in
                 Text(formatDateTime(event.displayJD))
                     .font(.system(.body, design: .monospaced))
+                    .frame(height: rowHeight)
             }
             .width(min: 130, ideal: 155)
 
             TableColumn(ec(EclipsesKeys.colPosition)) { event in
                 positionCell(event.longitude)
+                    .frame(height: rowHeight)
             }
             .width(min: 95, ideal: 110)
         }
@@ -101,42 +109,52 @@ struct EclipsesResultsScreen: View {
             TableColumn("") { event in
                 Text(eclipseGlyph(event))
                     .font(.custom("EnigmaAstrology3", size: 16))
+                    .frame(height: rowHeight)
             }
             .width(28)
 
             TableColumn(ec(EclipsesKeys.colDate)) { event in
                 Text(formatDateTime(event.displayJD))
                     .font(.system(.body, design: .monospaced))
+                    .frame(height: rowHeight)
             }
             .width(min: 130, ideal: 155)
 
             TableColumn(ec(EclipsesKeys.colPosition)) { event in
                 positionCell(event.longitude)
+                    .frame(height: rowHeight)
             }
             .width(min: 95, ideal: 110)
 
             TableColumn(ec(EclipsesKeys.colType)) { event in
                 Text(typeLabel(event))
+                    .frame(height: rowHeight)
             }
             .width(min: 80, ideal: 95)
 
             TableColumn(ec(EclipsesKeys.colVisible)) { event in
-                if event.hasLocalData {
-                    Image(systemName: event.isVisible ? "checkmark.circle.fill" : "xmark.circle")
-                        .foregroundStyle(event.isVisible ? .green : .secondary)
-                } else {
-                    Text("—").foregroundStyle(.secondary)
+                Group {
+                    if event.hasLocalData {
+                        Image(systemName: event.isVisible ? "checkmark.circle.fill" : "xmark.circle")
+                            .foregroundStyle(event.isVisible ? .green : .secondary)
+                    } else {
+                        Text("—").foregroundStyle(.secondary)
+                    }
                 }
+                .frame(height: rowHeight)
             }
             .width(55)
 
             TableColumn(ec(EclipsesKeys.colSaros)) { event in
-                if event.sarosNumber > -99999998 {
-                    Text("\(Int(event.sarosNumber))-\(Int(event.sarosMemberNumber))")
-                        .font(.system(.body, design: .monospaced))
-                } else {
-                    Text("—").foregroundStyle(.secondary)
+                Group {
+                    if event.sarosNumber > -99999998 {
+                        Text("\(Int(event.sarosNumber))-\(Int(event.sarosMemberNumber))")
+                            .font(.system(.body, design: .monospaced))
+                    } else {
+                        Text("—").foregroundStyle(.secondary)
+                    }
                 }
+                .frame(height: rowHeight)
             }
             .width(min: 65, ideal: 80)
         }

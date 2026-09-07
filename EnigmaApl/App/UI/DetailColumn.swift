@@ -82,6 +82,8 @@ struct DetailColumn: View {
             return configNav.selectedConfig?.name ?? "Configuratie"
         case .synastry:
             return "Synastry"
+        case .importExport:
+            return app.nav.importExport.section.rawValue
         }
     }
 
@@ -204,6 +206,8 @@ struct DetailColumn: View {
                         } else {
                             SynastryResultsDetailScreen()
                         }
+                    case .importExport:
+                        ImportExportDetailScreen(section: app.nav.importExport.section)
                     }
                 }
                 .navigationTitle(detailTitle)

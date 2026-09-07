@@ -47,7 +47,8 @@ struct EnigmaAplApp: App {
                 radixNav: composition.radixNav,
                 progressiveNav: composition.progressiveNav,
                 researchNav: composition.researchNav,
-                cyclesNav: composition.cyclesNav
+                cyclesNav: composition.cyclesNav,
+                importExportNav: composition.importExportNav
             )
         }
 

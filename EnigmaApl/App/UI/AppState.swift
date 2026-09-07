@@ -48,6 +48,8 @@ final class AppState: ObservableObject {
             break
         case .synastry:
             break
+        case .importExport:
+            break
         }
     }
 
@@ -98,6 +100,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case calculators = "Calculators"
     case config = "Configuratie"
     case synastry = "Synastry"
+    case importExport = "Import/Export"
 
     var id: String { rawValue }
 
@@ -116,6 +119,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
         case .calculators:  return "function"
         case .config:       return "gear"
         case .synastry:     return "person.2.circle"
+        case .importExport: return "arrow.up.arrow.down.square"
         }
     }
 }
@@ -130,6 +134,7 @@ struct NavigationState: Equatable {
     var cycles = CyclesNav()
     var calculators = CalculatorsNav()
     var synastry = SynastryNav()
+    var importExport = ImportExportNav()
 }
 
 struct UIState: Equatable {

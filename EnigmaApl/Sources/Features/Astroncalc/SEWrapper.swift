@@ -16,31 +16,18 @@ public enum SEError: Error {
 }
 
 public class SEWrapper {
-    
+
     private var isInitialized = false
-    
-    // Static reference counter to track active instances
-    // This ensures swe_close() is only called when the last instance is deallocated
-    private static var instanceCount = 0
-    private static let instanceCountLock = NSLock()
-    
+
     // Static flag to ensure path is only set once globally
     private static var pathSet = false
     private static let pathSetLock = NSLock()
-    
+
     // MARK: - Initialization
     public init() {
-        SEWrapper.instanceCountLock.lock()
-        SEWrapper.instanceCount += 1
-        SEWrapper.instanceCountLock.unlock()
-        
         initialize()
     }
-    
-    deinit {
-        close()
-    }
-    
+
     // MARK: - Setup Methods
     private func initialize() {
         guard !isInitialized else { return }
@@ -135,27 +122,6 @@ public class SEWrapper {
 
         isInitialized = true
         Logger.log.info("Swiss Ephemeris initialization completed successfully")
-    }
-    
-    private func close() {
-        guard isInitialized else { return }
-        
-        // Only call swe_close() when the last instance is being deallocated
-        SEWrapper.instanceCountLock.lock()
-        let currentCount = SEWrapper.instanceCount
-        SEWrapper.instanceCount -= 1
-        SEWrapper.instanceCountLock.unlock()
-        
-        // Only close if this is the last instance
-        if currentCount == 1 {
-            swe_close()
-            // Reset path flag so it can be set again if needed
-            SEWrapper.pathSetLock.lock()
-            SEWrapper.pathSet = false
-            SEWrapper.pathSetLock.unlock()
-        }
-        
-        isInitialized = false
     }
     
     // MARK: - Define topocentric
@@ -855,7 +821,10 @@ public class SEWrapper {
             return nil
         }
         Logger.log.info("Starting calculation of orbital elements")
-        var result = [Double](repeating: 0.0, count: 17)
+        // Swiss Ephemeris requires dret[] to be declared with 50 elements, even though
+        // only the first ~17 are documented/used here — swe_get_orbital_elements writes
+        // across the full 50-slot buffer internally.
+        var result = [Double](repeating: 0.0, count: 50)
         var error = [CChar](repeating: 0, count: 256)
         
         let preciseJD = julianDay

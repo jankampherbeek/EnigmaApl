@@ -140,6 +140,8 @@ struct ContentColumn: View {
                 ConfigListScreen()
             case .synastry:
                 SynastryInputScreen()
+            case .importExport:
+                ImportExportScreen()
             }
         }
         .navigationTitle(app.nav.mode.rawValue)
