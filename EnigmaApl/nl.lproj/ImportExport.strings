@@ -5,13 +5,30 @@
 "view.importexport.select" = "Kies een formaat uit de lijst om horoscopen en gebeurtenissen te importeren of te exporteren.";
 
 "view.importexport.detail.title" = "%@";
-"view.importexport.detail.body"  = "Dit is een tijdelijk scherm. De import/export-logica voor dit formaat moet nog worden geïmplementeerd.";
-"view.importexport.detail.capabilities.chartsonly" = "Ondersteunt: alleen horoscopen";
-"view.importexport.detail.direction.both"       = "Importeren en exporteren";
-"view.importexport.detail.direction.importonly" = "Alleen importeren";
 
 "view.importexport.enigma.body" = "Exporteer alle horoscopen en gebeurtenissen naar een JSON-bestand, of importeer horoscopen en gebeurtenissen uit een eerder geëxporteerd bestand. Berekende standen worden niet meegenomen; deze worden opnieuw berekend op basis van de geïmporteerde gegevens.";
 "view.importexport.enigma.export.button" = "Exporteren…";
 "view.importexport.enigma.import.button" = "Importeren…";
 "view.importexport.enigma.export.success" = "%d horoscopen en %d gebeurtenissen geëxporteerd.";
 "view.importexport.enigma.import.success" = "%d horoscopen en %d gebeurtenissen geïmporteerd (%d horoscopen en %d gebeurtenissen overgeslagen, want al aanwezig).";
+
+"view.importexport.warnings.header" = "Waarschuwingen";
+
+"view.importexport.qck.body" = "Exporteer alle horoscopen naar een Quick*Chart-bestand (.qck), of importeer horoscopen uit zo'n bestand. QCK is een verouderd formaat met vaste veldbreedtes: lange namen/plaatsen worden afgekapt en de oorspronkelijke tijdzone-identiteit gaat verloren, maar het weergegeven tijdstip zelf blijft altijd behouden. Zie de waarschuwingen hieronder voor wat er is beïnvloed.";
+"view.importexport.qck.export.button" = "Exporteren…";
+"view.importexport.qck.import.button" = "Importeren…";
+"view.importexport.qck.export.success" = "%d horoscopen geëxporteerd.";
+"view.importexport.qck.import.success" = "%d horoscopen geïmporteerd.";
+"view.importexport.qck.record.message" = "Record %d: %@";
+
+"view.importexport.aaf.body" = "Exporteer alle horoscopen naar een AAF'97-bestand (Astrological Exchange Format), of importeer horoscopen uit zo'n bestand. AAF-recordtypes event/land/organisatie worden bewaard als categorie van de horoscoop, omdat een Enigma-gebeurtenis altijd aan een bestaande horoscoop gekoppeld moet zijn. Standen, huizen en aspecten worden niet gelezen of geschreven; Enigma berekent deze opnieuw op basis van de geïmporteerde datum, tijd en plaats.";
+"view.importexport.aaf.export.button" = "Exporteren…";
+"view.importexport.aaf.import.button" = "Importeren…";
+"view.importexport.aaf.export.success" = "%d horoscopen geëxporteerd.";
+"view.importexport.aaf.import.success" = "%d horoscopen geïmporteerd.";
+"view.importexport.aaf.record.message" = "Record %d: %@";
+
+"view.importexport.adb.body" = "Importeer horoscopen uit een Astro.com / Astro-Databank XML-export (formaat 160715). Dit formaat is alleen-importeren; Enigma exporteert hier niet naartoe.";
+"view.importexport.adb.import.button" = "Importeren…";
+"view.importexport.adb.import.success" = "%d horoscopen geïmporteerd.";
+"view.importexport.adb.record.message" = "Item %d: %@";

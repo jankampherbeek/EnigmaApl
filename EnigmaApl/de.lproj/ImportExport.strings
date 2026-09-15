@@ -5,13 +5,30 @@
 "view.importexport.select" = "Wählen Sie ein Format aus der Liste, um Horoskope und Ereignisse zu importieren oder zu exportieren.";
 
 "view.importexport.detail.title" = "%@";
-"view.importexport.detail.body"  = "Dies ist ein Platzhalterbildschirm. Die Import-/Export-Logik für dieses Format muss noch implementiert werden.";
-"view.importexport.detail.capabilities.chartsonly" = "Unterstützt: nur Horoskope";
-"view.importexport.detail.direction.both"       = "Import und Export";
-"view.importexport.detail.direction.importonly" = "Nur Import";
 
 "view.importexport.enigma.body" = "Exportieren Sie alle Horoskope und Ereignisse in eine JSON-Datei, oder importieren Sie Horoskope und Ereignisse aus einer zuvor exportierten Datei. Berechnete Positionen sind nicht enthalten; sie werden aus den importierten Daten neu berechnet.";
 "view.importexport.enigma.export.button" = "Exportieren…";
 "view.importexport.enigma.import.button" = "Importieren…";
 "view.importexport.enigma.export.success" = "%d Horoskope und %d Ereignisse exportiert.";
 "view.importexport.enigma.import.success" = "%d Horoskope und %d Ereignisse importiert (%d Horoskope und %d Ereignisse übersprungen, bereits vorhanden).";
+
+"view.importexport.warnings.header" = "Warnungen";
+
+"view.importexport.qck.body" = "Exportieren Sie alle Horoskope in eine Quick*Chart-Datei (.qck), oder importieren Sie Horoskope aus einer solchen Datei. QCK ist ein veraltetes Format mit fester Feldbreite: lange Namen/Orte werden abgeschnitten, und die ursprüngliche Zeitzonen-Identität geht verloren, der dargestellte Zeitpunkt selbst bleibt jedoch stets erhalten. Siehe die Warnungen unten für Details.";
+"view.importexport.qck.export.button" = "Exportieren…";
+"view.importexport.qck.import.button" = "Importieren…";
+"view.importexport.qck.export.success" = "%d Horoskope exportiert.";
+"view.importexport.qck.import.success" = "%d Horoskope importiert.";
+"view.importexport.qck.record.message" = "Datensatz %d: %@";
+
+"view.importexport.aaf.body" = "Exportieren Sie alle Horoskope in eine AAF'97-Datei (Astrological Exchange Format), oder importieren Sie Horoskope aus einer solchen Datei. AAF-Datensatztypen Ereignis/Land/Organisation werden als Horoskop-Kategorie gespeichert, da ein Enigma-Ereignis stets mit einem bestehenden Horoskop verknüpft sein muss. Positionen, Häuser und Aspekte werden weder gelesen noch geschrieben; Enigma berechnet sie aus den importierten Daten neu.";
+"view.importexport.aaf.export.button" = "Exportieren…";
+"view.importexport.aaf.import.button" = "Importieren…";
+"view.importexport.aaf.export.success" = "%d Horoskope exportiert.";
+"view.importexport.aaf.import.success" = "%d Horoskope importiert.";
+"view.importexport.aaf.record.message" = "Datensatz %d: %@";
+
+"view.importexport.adb.body" = "Importieren Sie Horoskope aus einem Astro.com / Astro-Databank-XML-Export (Format 160715). Dieses Format ist nur für den Import; Enigma exportiert nicht dorthin.";
+"view.importexport.adb.import.button" = "Importieren…";
+"view.importexport.adb.import.success" = "%d Horoskope importiert.";
+"view.importexport.adb.record.message" = "Eintrag %d: %@";

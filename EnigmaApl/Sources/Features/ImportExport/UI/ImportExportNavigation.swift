@@ -9,11 +9,16 @@ struct ImportExportNav: Equatable {
     var section: ImportExportSection = .enigma
 }
 
-/// The supported import/export formats. Enigma supports charts and events, both import and
-/// export. QuickChart and AstroDienst are chart-only; AstroDienst is import-only.
+/// The supported import/export formats. Enigma supports charts and events,
+/// both import and export. QuickChart and AAF'97 are chart-only, both import
+/// and export (AAF's event/country/organisation record types are kept as a
+/// chart category, since an Enigma event must already be linked to an
+/// existing chart). AstroDienst (Astro.com / Astro-Databank XML) is
+/// chart-only and import-only.
 enum ImportExportSection: String, CaseIterable, Identifiable, Hashable {
     case enigma      = "Enigma"
     case quickChart  = "QuickChart"
+    case aaf97       = "AAF'97"
     case astroDienst = "AstroDienst"
 
     var id: String { rawValue }
