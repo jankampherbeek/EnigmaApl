@@ -11,6 +11,12 @@ import SwiftData
 /// whole file: it is reported as a warning or fatal message scoped to that
 /// record, and the remaining records are still processed.
 ///
+/// Enigma's own chart id round-trips via a custom "#ENID" chunk (see
+/// `AafRecord.enigmaId`), so import skips a record whose id already exists
+/// locally, mirroring `EnigmaImportExportOrchestrator`'s JSON format. A
+/// record with no id (from another AAF tool, or an older Enigma export) is
+/// always imported as a new chart.
+///
 /// All methods run on the main actor because ModelContext is not Sendable,
 /// matching `EnigmaImportExportOrchestrator`.
 @MainActor
@@ -34,11 +40,18 @@ struct AafImportExportOrchestrator {
         let parseResult = AafRecordParser.parse(content: decoded.content)
         result.messages.append(contentsOf: parseResult.messages)
 
+        var existingIds = Set(((try? context.fetch(FetchDescriptor<HoroscopeModel>())) ?? []).map(\.id))
+
         for (index, record) in parseResult.records.enumerated() {
             let recordNumber = index + 1
             let (mapped, messages) = AafMapper.toMappedChart(record: record, recordNumber: recordNumber, seWrapper: seWrapper)
             result.messages.append(contentsOf: messages)
             guard !messages.contains(where: { $0.severity == .fatal }) else { continue }
+
+            if let id = mapped.id, existingIds.contains(id) {
+                result.chartsSkipped += 1
+                continue
+            }
 
             let dateTime = HoroscopeDateTimeModel(
                 julianDate: mapped.julianDate,
@@ -56,8 +69,10 @@ struct AafImportExportOrchestrator {
                 latitude: mapped.latitude,
                 longitude: mapped.longitude
             )
+            if let id = mapped.id { chart.id = id }
             chart.dateTimes = [dateTime]
             context.insert(chart)
+            existingIds.insert(chart.id)
             result.chartsImported += 1
         }
 
@@ -91,6 +106,7 @@ struct AafImportExportOrchestrator {
             recordNumber += 1
 
             let (record, mapMessages) = AafMapper.toRecord(
+                id: chart.id,
                 name: chart.name,
                 category: chart.category,
                 source: chart.source,

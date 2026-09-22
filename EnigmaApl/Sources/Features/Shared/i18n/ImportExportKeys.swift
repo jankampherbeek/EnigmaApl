@@ -20,9 +20,6 @@ struct ImportExportKeys {
     static let enigmaExportSuccess = "view.importexport.enigma.export.success"
     static let enigmaImportSuccess = "view.importexport.enigma.import.success"
 
-    // MARK: - Shared warnings list (Qck/Aaf/Adb screens)
-    static let warningsHeader = "view.importexport.warnings.header"
-
     // MARK: - QckImportExportScreen
     static let qckBody          = "view.importexport.qck.body"
     static let qckExportButton  = "view.importexport.qck.export.button"
@@ -38,10 +35,4 @@ struct ImportExportKeys {
     static let aafExportSuccess = "view.importexport.aaf.export.success"
     static let aafImportSuccess = "view.importexport.aaf.import.success"
     static let aafRecordMessage = "view.importexport.aaf.record.message"
-
-    // MARK: - AdbXmlImportScreen
-    static let adbBody          = "view.importexport.adb.body"
-    static let adbImportButton  = "view.importexport.adb.import.button"
-    static let adbImportSuccess = "view.importexport.adb.import.success"
-    static let adbRecordMessage = "view.importexport.adb.record.message"
 }

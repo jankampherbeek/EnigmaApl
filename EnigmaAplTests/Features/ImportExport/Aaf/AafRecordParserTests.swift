@@ -114,4 +114,39 @@ struct AafRecordParserTests {
         #expect(result.records.isEmpty)
         #expect(result.fatalMessages.count == 1)
     }
+
+    @Test("AAF: #ENID is parsed as Enigma's own chart id")
+    func testEnidParsed() {
+        let id = UUID()
+        let content = """
+        #A93:Doe,Jane,*,1.1.2000,12:00,City,US
+        #B93:*,0n00,0e00,0he,0
+        #ENID:\(id.uuidString)
+        """
+        let record = AafRecordParser.parse(content: content).records.first!
+        #expect(record.enigmaId == id)
+    }
+
+    @Test("AAF: a record without #ENID has a nil id, not fatal")
+    func testEnidAbsent() {
+        let content = """
+        #A93:Doe,Jane,*,1.1.2000,12:00,City,US
+        #B93:*,0n00,0e00,0he,0
+        """
+        let result = AafRecordParser.parse(content: content)
+        #expect(result.fatalMessages.isEmpty)
+        #expect(result.records.first?.enigmaId == nil)
+    }
+
+    @Test("AAF: an invalid #ENID value is a warning, id stays nil")
+    func testEnidInvalid() {
+        let content = """
+        #A93:Doe,Jane,*,1.1.2000,12:00,City,US
+        #B93:*,0n00,0e00,0he,0
+        #ENID:not-a-uuid
+        """
+        let result = AafRecordParser.parse(content: content)
+        #expect(result.records.first?.enigmaId == nil)
+        #expect(result.warningMessages.contains { $0.field == "enid" })
+    }
 }

@@ -74,10 +74,26 @@ struct AafImportExportOrchestratorTests {
         let originalChart = try context.fetch(FetchDescriptor<HoroscopeModel>()).first
         let reimportedChart = try secondContext.fetch(FetchDescriptor<HoroscopeModel>()).first
         #expect(reimportedChart?.name == originalChart?.name)
+        #expect(reimportedChart?.id == originalChart?.id)
 
         let originalJd = originalChart?.dateTimes.first?.julianDate
         let reimportedJd = reimportedChart?.dateTimes.first?.julianDate
         #expect(abs((originalJd ?? 0) - (reimportedJd ?? 1)) < 0.0000001)
+    }
+
+    @Test("AafImportExportOrchestrator: re-importing an already-present chart (same #ENID) is skipped, not duplicated")
+    func testReimportSameChartIsSkipped() throws {
+        let context = try makeContext()
+        let orchestrator = AafImportExportOrchestrator(context: context)
+        _ = orchestrator.importFile(data: Data(basicRecord.utf8))
+
+        let (exportedData, _) = try orchestrator.exportData()
+        let reimportResult = orchestrator.importFile(data: exportedData)
+
+        #expect(reimportResult.chartsImported == 0)
+        #expect(reimportResult.chartsSkipped == 1)
+        let charts = try context.fetch(FetchDescriptor<HoroscopeModel>())
+        #expect(charts.count == 1)
     }
 
     @Test("AafImportExportOrchestrator: exported file is valid UTF-8")

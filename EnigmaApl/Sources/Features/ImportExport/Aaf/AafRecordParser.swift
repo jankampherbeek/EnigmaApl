@@ -17,6 +17,7 @@ enum AafRecordParser {
         var source: String?
         var via: String?
         var comment: String?
+        var enigmaId: String?
         var unknownChunkNames: [String] = []
     }
 
@@ -62,6 +63,9 @@ enum AafRecordParser {
             case "COM":
                 if builder != nil { builder?.comment = rest }
                 else { result.messages.append(.warning("'#COM' chunk found before any '#A93' record; ignored.")) }
+            case "ENID":
+                if builder != nil { builder?.enigmaId = rest }
+                else { result.messages.append(.warning("'#ENID' chunk found before any '#A93' record; ignored.")) }
             default:
                 if builder != nil {
                     builder?.unknownChunkNames.append(tag)
@@ -122,6 +126,15 @@ enum AafRecordParser {
             return (nil, messages)
         }
 
+        var enigmaId: UUID?
+        if let rawEnigmaId = builder.enigmaId {
+            let trimmed = rawEnigmaId.trimmingCharacters(in: .whitespaces)
+            enigmaId = UUID(uuidString: trimmed)
+            if enigmaId == nil {
+                messages.append(.warning("'#ENID' value '\(rawEnigmaId)' is not a valid id; a new id will be generated.", recordNumber: recordNumber, field: "enid"))
+            }
+        }
+
         let record = AafRecord(
             lastName: a93Fields[0],
             firstName: a93Fields[1],
@@ -139,7 +152,8 @@ enum AafRecordParser {
             source: builder.source,
             via: builder.via,
             comment: builder.comment,
-            unknownChunkNames: builder.unknownChunkNames
+            unknownChunkNames: builder.unknownChunkNames,
+            enigmaId: enigmaId
         )
         return (record, messages)
     }

@@ -12,7 +12,7 @@ private func makeRecord(
     hour: Int = 8, minute: Int = 37, second: Int = 30,
     place: String = "Enschede", country: String = "NL",
     julianDayRaw: String = "*", latitude: Double = 52.2166, longitude: Double = 6.9,
-    greenwichOffsetSeconds: Int? = 3600, timeType: String = "0"
+    greenwichOffsetSeconds: Int? = 3600, timeType: String = "0", enigmaId: UUID? = nil
 ) -> AafRecord {
     AafRecord(
         lastName: lastName, firstName: firstName, type: type,
@@ -20,7 +20,8 @@ private func makeRecord(
         hour: hour, minute: minute, second: second,
         place: place, country: country,
         julianDayRaw: julianDayRaw, latitude: latitude, longitude: longitude,
-        greenwichOffsetSeconds: greenwichOffsetSeconds, timeType: timeType
+        greenwichOffsetSeconds: greenwichOffsetSeconds, timeType: timeType,
+        enigmaId: enigmaId
     )
 }
 
@@ -53,6 +54,16 @@ struct AafWriterTests {
         #expect(!text.contains("#VIA:"))
     }
 
+    @Test("AafWriter: #ENID is written when the record has an id, omitted otherwise")
+    func testEnigmaIdChunk() {
+        let id = UUID()
+        let (withId, _) = AafWriter.write(record: makeRecord(enigmaId: id), recordNumber: 1)
+        #expect(withId.contains("#ENID:\(id.uuidString)"))
+
+        let (withoutId, _) = AafWriter.write(record: makeRecord(enigmaId: nil), recordNumber: 1)
+        #expect(!withoutId.contains("#ENID"))
+    }
+
     @Test("AafWriter: a stray comma in a field-based value is sanitized with a warning")
     func testCommaSanitizedInFieldValue() {
         let (text, messages) = AafWriter.write(record: makeRecord(place: "Staten Island, USA"), recordNumber: 1)
@@ -68,9 +79,9 @@ struct AafWriterTests {
         #expect(text.contains("Montréal"))
     }
 
-    @Test("AafWriter + AafRecordParser round trip preserves date, time, coordinates and place")
+    @Test("AafWriter + AafRecordParser round trip preserves date, time, coordinates, place and id")
     func testRoundTrip() {
-        let original = makeRecord()
+        let original = makeRecord(enigmaId: UUID())
         let (text, writeMessages) = AafWriter.write(record: original, recordNumber: 1)
         #expect(writeMessages.isEmpty)
 
@@ -86,5 +97,6 @@ struct AafWriterTests {
         #expect(abs(reparsed.longitude - original.longitude) < 0.001)
         #expect(reparsed.greenwichOffsetSeconds == original.greenwichOffsetSeconds)
         #expect(reparsed.place == original.place && reparsed.country == original.country)
+        #expect(reparsed.enigmaId == original.enigmaId)
     }
 }

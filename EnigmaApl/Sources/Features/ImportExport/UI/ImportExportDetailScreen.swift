@@ -17,8 +17,6 @@ struct ImportExportDetailScreen: View {
             QckImportExportScreen()
         case .aaf97:
             AafImportExportScreen()
-        case .astroDienst:
-            AdbXmlImportScreen()
         }
     }
 }

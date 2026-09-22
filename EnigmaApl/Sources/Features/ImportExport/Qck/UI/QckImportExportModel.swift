@@ -14,7 +14,6 @@ final class QckImportExportModel: ObservableObject {
 
     @Published var statusMessage: String?
     @Published var errorMessage: String?
-    @Published var warnings: [String] = []
 
     private var modelContext: ModelContext?
 
@@ -30,9 +29,9 @@ final class QckImportExportModel: ObservableObject {
         guard let context = modelContext else { return nil }
         do {
             let (data, messages) = try QckImportExportOrchestrator(context: context).exportData()
+            let fatalMessages = messages.filter { $0.severity == .fatal }
             statusMessage = String(format: t(ImportExportKeys.qckExportSuccess), countLines(in: data))
-            errorMessage = nil
-            warnings = messages.map(describe)
+            errorMessage = fatalMessages.isEmpty ? nil : fatalMessages.map(describe).joined(separator: "\n")
             return data
         } catch {
             errorMessage = error.localizedDescription
@@ -45,7 +44,6 @@ final class QckImportExportModel: ObservableObject {
         let result = QckImportExportOrchestrator(context: context).importFile(data: data)
         statusMessage = String(format: t(ImportExportKeys.qckImportSuccess), result.chartsImported)
         errorMessage = result.fatalMessages.isEmpty ? nil : result.fatalMessages.map(describe).joined(separator: "\n")
-        warnings = result.warningMessages.map(describe)
     }
 
     private func countLines(in data: Data) -> Int {

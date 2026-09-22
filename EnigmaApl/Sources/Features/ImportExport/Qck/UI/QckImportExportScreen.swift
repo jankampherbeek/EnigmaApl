@@ -34,8 +34,8 @@ private struct QckExportDocument: FileDocument {
 
 /// Quick*Chart / QCK import/export screen: exports all charts to a legacy
 /// fixed-width .qck file, or imports charts from one. Chart-only, lossy for
-/// long names/places and for original timezone identity; see the warnings
-/// list for what was affected.
+/// long names/places and for original timezone identity; only fatal errors
+/// (a record that could not be represented/imported at all) are shown here.
 struct QckImportExportScreen: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var model = QckImportExportModel()
@@ -76,17 +76,6 @@ struct QckImportExportScreen: View {
                 if let error = model.errorMessage {
                     Label(error, systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.red)
-                }
-                if !model.warnings.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(t(ImportExportKeys.warningsHeader))
-                            .font(.headline)
-                        ForEach(Array(model.warnings.enumerated()), id: \.offset) { _, warning in
-                            Label(warning, systemImage: "exclamationmark.triangle")
-                                .foregroundStyle(.orange)
-                                .font(.callout)
-                        }
-                    }
                 }
             }
             .frame(maxWidth: 900, alignment: .leading)

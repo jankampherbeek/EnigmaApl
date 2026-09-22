@@ -75,17 +75,6 @@ struct AafImportExportScreen: View {
                     Label(error, systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.red)
                 }
-                if !model.warnings.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(t(ImportExportKeys.warningsHeader))
-                            .font(.headline)
-                        ForEach(Array(model.warnings.enumerated()), id: \.offset) { _, warning in
-                            Label(warning, systemImage: "exclamationmark.triangle")
-                                .foregroundStyle(.orange)
-                                .font(.callout)
-                        }
-                    }
-                }
             }
             .frame(maxWidth: 900, alignment: .leading)
             .padding()

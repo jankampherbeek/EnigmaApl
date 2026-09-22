@@ -12,9 +12,8 @@
 "view.importexport.enigma.export.success" = "%d thèmes et %d événements exportés.";
 "view.importexport.enigma.import.success" = "%d thèmes et %d événements importés (%d thèmes et %d événements ignorés, déjà présents).";
 
-"view.importexport.warnings.header" = "Avertissements";
 
-"view.importexport.qck.body" = "Exportez tous les thèmes vers un fichier Quick*Chart (.qck), ou importez des thèmes depuis un tel fichier. QCK est un format hérité à largeur fixe : les noms/lieux longs sont tronqués et l'identité du fuseau horaire d'origine n'est pas conservée, mais l'instant représenté l'est toujours. Voir les avertissements ci-dessous.";
+"view.importexport.qck.body" = "Exportez tous les thèmes vers un fichier Quick*Chart (.qck), ou importez des thèmes depuis un tel fichier. QCK est un format hérité à largeur fixe : les noms/lieux longs sont tronqués et l'identité du fuseau horaire d'origine n'est pas conservée, mais l'instant représenté l'est toujours.";
 "view.importexport.qck.export.button" = "Exporter…";
 "view.importexport.qck.import.button" = "Importer…";
 "view.importexport.qck.export.success" = "%d thèmes exportés.";
@@ -25,10 +24,5 @@
 "view.importexport.aaf.export.button" = "Exporter…";
 "view.importexport.aaf.import.button" = "Importer…";
 "view.importexport.aaf.export.success" = "%d thèmes exportés.";
-"view.importexport.aaf.import.success" = "%d thèmes importés.";
+"view.importexport.aaf.import.success" = "%d thèmes importés (%d ignorés, déjà présents).";
 "view.importexport.aaf.record.message" = "Enregistrement %d : %@";
-
-"view.importexport.adb.body" = "Importez des thèmes depuis un export XML Astro.com / Astro-Databank (format 160715). Ce format est réservé à l'import ; Enigma n'exporte pas vers celui-ci.";
-"view.importexport.adb.import.button" = "Importer…";
-"view.importexport.adb.import.success" = "%d thèmes importés.";
-"view.importexport.adb.record.message" = "Entrée %d : %@";

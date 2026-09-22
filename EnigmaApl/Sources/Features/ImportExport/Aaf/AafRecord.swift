@@ -49,5 +49,13 @@ struct AafRecord {
     /// Names of unrecognized chunks encountered for this record (informational only).
     var unknownChunkNames: [String] = []
 
+    /// Enigma's own internal chart id, round-tripped via a custom "#ENID"
+    /// chunk. This is an Enigma-specific extension: AAF'97 has no id field of
+    /// its own, but the format explicitly tolerates unrecognized chunks (see
+    /// spec 3.10), so other AAF readers simply ignore it. Nil when the chunk
+    /// is absent (e.g. a file from another AAF tool), in which case a fresh
+    /// id is generated on import, matching a chart created directly in Enigma.
+    var enigmaId: UUID? = nil
+
     var isEvent: Bool { type == "e" }
 }

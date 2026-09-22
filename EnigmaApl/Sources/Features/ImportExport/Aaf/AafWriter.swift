@@ -31,6 +31,7 @@ enum AafWriter {
         let b93 = "#B93:\(record.julianDayRaw),\(latText),\(lonText),\(greenwichText),\(record.timeType)"
 
         var lines = [a93, b93]
+        if let enigmaId = record.enigmaId { lines.append("#ENID:\(enigmaId.uuidString)") }
         if let zoneName = record.zoneName, !zoneName.isEmpty { lines.append("#ZNAM:\(zoneName)") }
         if let source = record.source, !source.isEmpty { lines.append("#SRC:\(source)") }
         if let via = record.via, !via.isEmpty { lines.append("#VIA:\(via)") }

@@ -28,6 +28,10 @@ enum AafMapper {
         var longitude: Double
         var julianDate: Double
         var originalInput: String
+        /// Enigma's own chart id, from the "#ENID" extension chunk. Nil when
+        /// absent (a file from another AAF tool, or an older Enigma export),
+        /// in which case the orchestrator generates a fresh id.
+        var id: UUID?
     }
 
     // MARK: - Import
@@ -41,7 +45,7 @@ enum AafMapper {
             // Fatal already appended; the caller drops this record. A dummy
             // instant is still produced so the (chart, messages) tuple type stays simple;
             // callers must check for a fatal message before using `chart`.
-            return (MappedChart(name: "", category: "", placeName: nil, latitude: 0, longitude: 0, julianDate: 0, originalInput: ""), messages)
+            return (MappedChart(name: "", category: "", placeName: nil, latitude: 0, longitude: 0, julianDate: 0, originalInput: "", id: nil), messages)
         }
 
         let localDate = AstronomicalDate(Year: record.year, Month: record.month, Day: record.day, Gregorian: record.isGregorian)
@@ -93,7 +97,8 @@ enum AafMapper {
             latitude: record.latitude,
             longitude: record.longitude,
             julianDate: julianDate,
-            originalInput: originalInputText(for: record)
+            originalInput: originalInputText(for: record),
+            id: record.enigmaId
         )
         return (chart, messages)
     }
@@ -161,6 +166,7 @@ enum AafMapper {
     /// time); the represented astronomical instant is always preserved
     /// exactly, only the local display/timezone identity is not.
     static func toRecord(
+        id: UUID,
         name: String,
         category: String,
         source: String?,
@@ -219,7 +225,8 @@ enum AafMapper {
             zoneName: "UTC",
             source: (source?.isEmpty ?? true) ? nil : source,
             via: nil,
-            comment: (notes?.isEmpty ?? true) ? nil : notes
+            comment: (notes?.isEmpty ?? true) ? nil : notes,
+            enigmaId: id
         )
         return (record, messages)
     }

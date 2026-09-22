@@ -12,9 +12,8 @@
 "view.importexport.enigma.export.success" = "Exported %d charts and %d events.";
 "view.importexport.enigma.import.success" = "Imported %d charts and %d events (skipped %d charts and %d events already present).";
 
-"view.importexport.warnings.header" = "Warnings";
 
-"view.importexport.qck.body" = "Export all charts to a Quick*Chart (.qck) file, or import charts from one. QCK is a legacy fixed-width format: long names/places are truncated and the original timezone identity is not preserved, though the represented moment in time always is. See the warnings below for anything affected.";
+"view.importexport.qck.body" = "Export all charts to a Quick*Chart (.qck) file, or import charts from one. QCK is a legacy fixed-width format: long names/places are truncated and the original timezone identity is not preserved, though the represented moment in time always is.";
 "view.importexport.qck.export.button" = "Export…";
 "view.importexport.qck.import.button" = "Import…";
 "view.importexport.qck.export.success" = "Exported %d charts.";
@@ -25,10 +24,5 @@
 "view.importexport.aaf.export.button" = "Export…";
 "view.importexport.aaf.import.button" = "Import…";
 "view.importexport.aaf.export.success" = "Exported %d charts.";
-"view.importexport.aaf.import.success" = "Imported %d charts.";
+"view.importexport.aaf.import.success" = "Imported %d charts (skipped %d already present).";
 "view.importexport.aaf.record.message" = "Record %d: %@";
-
-"view.importexport.adb.body" = "Import charts from an Astro.com / Astro-Databank XML export (format 160715). This format is import-only; Enigma does not export to it.";
-"view.importexport.adb.import.button" = "Import…";
-"view.importexport.adb.import.success" = "Imported %d charts.";
-"view.importexport.adb.record.message" = "Entry %d: %@";

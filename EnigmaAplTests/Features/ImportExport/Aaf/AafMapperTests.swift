@@ -129,7 +129,7 @@ struct AafMapperTests {
     @Test("AafMapper: export warns when the chart's timezone identifier is not UTC")
     func testExportWarnsWhenNotUtc() {
         let (_, messages) = AafMapper.toRecord(
-            name: "Jan Kampherbeek", category: "", source: nil, notes: nil, placeName: nil,
+            id: UUID(), name: "Jan Kampherbeek", category: "", source: nil, notes: nil, placeName: nil,
             latitude: 0, longitude: 0, julianDate: 2451545.0, timeZoneIdentifier: "Europe/Amsterdam",
             recordNumber: 1, seWrapper: seWrapper
         )
@@ -139,7 +139,7 @@ struct AafMapperTests {
     @Test("AafMapper: export sanitizes a comma in the place name and warns")
     func testExportSanitizesPlaceComma() {
         let (record, messages) = AafMapper.toRecord(
-            name: "Jane Doe", category: "", source: nil, notes: nil, placeName: "Staten Island, New York",
+            id: UUID(), name: "Jane Doe", category: "", source: nil, notes: nil, placeName: "Staten Island, New York",
             latitude: 0, longitude: 0, julianDate: 2451545.0, timeZoneIdentifier: "UTC",
             recordNumber: 1, seWrapper: seWrapper
         )
@@ -151,11 +151,37 @@ struct AafMapperTests {
     @Test("AafMapper: export splits 'First Last' into last/first name")
     func testExportNameSplit() {
         let (record, _) = AafMapper.toRecord(
-            name: "Jan Kampherbeek", category: "", source: nil, notes: nil, placeName: nil,
+            id: UUID(), name: "Jan Kampherbeek", category: "", source: nil, notes: nil, placeName: nil,
             latitude: 0, longitude: 0, julianDate: 2451545.0, timeZoneIdentifier: "UTC",
             recordNumber: 1, seWrapper: seWrapper
         )
         #expect(record.lastName == "Kampherbeek")
         #expect(record.firstName == "Jan")
+    }
+
+    @Test("AafMapper: export sets #ENID from the chart's id")
+    func testExportSetsEnigmaId() {
+        let id = UUID()
+        let (record, _) = AafMapper.toRecord(
+            id: id, name: "Jan Kampherbeek", category: "", source: nil, notes: nil, placeName: nil,
+            latitude: 0, longitude: 0, julianDate: 2451545.0, timeZoneIdentifier: "UTC",
+            recordNumber: 1, seWrapper: seWrapper
+        )
+        #expect(record.enigmaId == id)
+    }
+
+    @Test("AafMapper: import carries the #ENID value through as the chart's id")
+    func testImportUsesEnigmaId() {
+        let id = UUID()
+        var record = makeRecord()
+        record.enigmaId = id
+        let (chart, _) = AafMapper.toMappedChart(record: record, recordNumber: 1, seWrapper: seWrapper)
+        #expect(chart.id == id)
+    }
+
+    @Test("AafMapper: import without #ENID leaves the id nil")
+    func testImportWithoutEnigmaId() {
+        let (chart, _) = AafMapper.toMappedChart(record: makeRecord(), recordNumber: 1, seWrapper: seWrapper)
+        #expect(chart.id == nil)
     }
 }

@@ -14,7 +14,6 @@ final class AafImportExportModel: ObservableObject {
 
     @Published var statusMessage: String?
     @Published var errorMessage: String?
-    @Published var warnings: [String] = []
 
     private var modelContext: ModelContext?
 
@@ -30,10 +29,10 @@ final class AafImportExportModel: ObservableObject {
         guard let context = modelContext else { return nil }
         do {
             let (data, messages) = try AafImportExportOrchestrator(context: context).exportData()
+            let fatalMessages = messages.filter { $0.severity == .fatal }
             let chartCount = (try? context.fetch(FetchDescriptor<HoroscopeModel>()))?.count ?? 0
             statusMessage = String(format: t(ImportExportKeys.aafExportSuccess), chartCount)
-            errorMessage = nil
-            warnings = messages.map(describe)
+            errorMessage = fatalMessages.isEmpty ? nil : fatalMessages.map(describe).joined(separator: "\n")
             return data
         } catch {
             errorMessage = error.localizedDescription
@@ -44,9 +43,8 @@ final class AafImportExportModel: ObservableObject {
     func importData(_ data: Data) {
         guard let context = modelContext else { return }
         let result = AafImportExportOrchestrator(context: context).importFile(data: data)
-        statusMessage = String(format: t(ImportExportKeys.aafImportSuccess), result.chartsImported)
+        statusMessage = String(format: t(ImportExportKeys.aafImportSuccess), result.chartsImported, result.chartsSkipped)
         errorMessage = result.fatalMessages.isEmpty ? nil : result.fatalMessages.map(describe).joined(separator: "\n")
-        warnings = result.warningMessages.map(describe)
     }
 
     private func describe(_ message: ExchangeMessage) -> String {
