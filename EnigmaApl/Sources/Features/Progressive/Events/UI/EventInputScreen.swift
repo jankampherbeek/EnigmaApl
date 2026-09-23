@@ -84,6 +84,11 @@ struct EventInputScreen: View {
         !titleIsEmpty && dateValidationResult.isValid && astronomicalYear != nil
     }
 
+    private var dstUncertain: Bool {
+        guard let year = astronomicalYear else { return false }
+        return DSTCertainty.isUncertain(countryCode: selectedCity?.countryCode, year: year)
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
@@ -186,6 +191,11 @@ struct EventInputScreen: View {
 
                 if let error = model.errorMessage {
                     Text(error).font(.caption).foregroundStyle(.red)
+                }
+                if dstUncertain {
+                    Label(t(EventInputKeys.warningDstUncertain), systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
                 }
             }
             .frame(maxWidth: 900, alignment: .leading)

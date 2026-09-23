@@ -18,4 +18,5 @@ struct EventInputKeys {
     static let helpClose              = "view.eventinputscreen.help.close"
     static let help                   = "view.eventinputscreen.help"
     static let errorCreateFailed      = "view.eventinputscreen.error.createfailed"
+    static let warningDstUncertain    = "view.eventinputscreen.warning.dstuncertain"
 }

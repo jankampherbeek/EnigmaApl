@@ -1,0 +1,23 @@
+// AltZodiacStart.strings - Français
+// EnigmaApl
+
+"view.altzodiacstart.navtitle"                      = "Départ alternatif du zodiaque";
+
+// AltZodiacStartInputView
+"view.altzodiacstartinput.backlabel"                = "Retour à Analyse";
+"view.altzodiacstartinput.title"                    = "Options";
+"view.altzodiacstartinput.factor.header"            = "Facteur de départ";
+"view.altzodiacstartinput.factor.nofactors"         = "Aucun facteur sélectionné dans la configuration.";
+"view.altzodiacstartinput.help"                      = "Choisissez le facteur dont la position marque le début (0°) d'un zodiaque alternatif.\n\nLes maisons, l'Ascendant, le MC et les positions des facteurs restent inchangés ; seule la répartition en signes se décale, en utilisant le facteur choisi comme nouveau début du premier signe.\n\nLe résultat s'affiche sur l'écran « Départ alternatif du zodiaque ».";
+
+// AltZodiacStartResultsView
+"view.altzodiacstartresults.title"                  = "Départ alternatif du zodiaque";
+"view.altzodiacstartresults.nochart"                = "Calculez ou sélectionnez un horoscope pour afficher un départ alternatif du zodiaque.";
+"view.altzodiacstartresults.noresults"              = "Aucun facteur disponible pour la configuration actuelle.";
+"view.altzodiacstartresults.tab.positions"          = "Positions";
+"view.altzodiacstartresults.tab.wheel"              = "Figure";
+"view.altzodiacstartresults.col.factor"             = "Facteur";
+"view.altzodiacstartresults.col.original"           = "Original";
+"view.altzodiacstartresults.col.shifted"            = "Nouveau";
+"view.altzodiacstartresults.startfactorlabel"       = "Facteur de départ :";
+"view.altzodiacstartresults.help"                   = "Cet écran affiche deux onglets. L'onglet « Positions » liste, pour chaque point de l'horoscope, sa position originale et sa position dans le zodiaque alternatif, qui débute au facteur choisi sur l'écran précédent.\n\nL'onglet « Figure » montre la figure d'horoscope avec l'anneau des signes décalé de sorte que le signe 1 (Bélier) commence au facteur choisi. Un trait supplémentaire marque la position exacte de ce facteur. Les maisons, l'Ascendant, le MC et les positions des facteurs restent inchangés.";

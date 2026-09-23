@@ -1,0 +1,23 @@
+// AltZodiacStart.strings - Nederlands
+// EnigmaApl
+
+"view.altzodiacstart.navtitle"                      = "Alternatief startpunt dierenriem";
+
+// AltZodiacStartInputView
+"view.altzodiacstartinput.backlabel"                = "Terug naar Analyse";
+"view.altzodiacstartinput.title"                    = "Opties";
+"view.altzodiacstartinput.factor.header"            = "Startpunt";
+"view.altzodiacstartinput.factor.nofactors"         = "Geen factoren geselecteerd in de configuratie.";
+"view.altzodiacstartinput.help"                      = "Kies de factor waarvan de positie het beginpunt (0°) van een alternatieve dierenriem vormt.\n\nDe huizen, de Ascendant, de MC en de standen van de factoren blijven ongewijzigd; alleen de indeling in tekens verschuift, uitgaande van de gekozen factor als nieuw beginpunt van het eerste teken.\n\nHet resultaat zie je in het scherm 'Alternatief startpunt dierenriem'.";
+
+// AltZodiacStartResultsView
+"view.altzodiacstartresults.title"                  = "Alternatief startpunt dierenriem";
+"view.altzodiacstartresults.nochart"                = "Bereken of selecteer een horoscoop om een alternatief startpunt te bekijken.";
+"view.altzodiacstartresults.noresults"              = "Geen factoren beschikbaar voor de huidige configuratie.";
+"view.altzodiacstartresults.tab.positions"          = "Standen";
+"view.altzodiacstartresults.tab.wheel"              = "Figuur";
+"view.altzodiacstartresults.col.factor"             = "Factor";
+"view.altzodiacstartresults.col.original"           = "Oorspronkelijk";
+"view.altzodiacstartresults.col.shifted"            = "Nieuw";
+"view.altzodiacstartresults.startfactorlabel"       = "Startpunt:";
+"view.altzodiacstartresults.help"                   = "In dit scherm zie je twee tabs. De tab 'Standen' geeft een tabel met voor elk punt in de horoscoop de oorspronkelijke stand en de stand in de alternatieve dierenriem, die begint bij de factor die je in het vorige scherm hebt gekozen.\n\nDe tab 'Figuur' laat de horoscooptekening zien met de tekenring verschoven zodat teken 1 (Ram) begint bij de gekozen factor. Een extra streep markeert de exacte positie van die factor. Huizen, Ascendant, MC en de standen van de factoren blijven ongewijzigd.";

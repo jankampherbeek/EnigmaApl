@@ -8,6 +8,7 @@
 "view.analysisscreen.btn.harmonics"            = "Harmonics";
 "view.analysisscreen.btn.declinations"         = "Declinations";
 "view.analysisscreen.btn.zodiacdivisions"      = "Zodiacal Divisions";
+"view.analysisscreen.btn.altzodiacstart"       = "Alternative Zodiac Start";
 "view.analysisscreen.btn.enneagram"            = "Enneagram";
 "view.analysisscreen.btn.vsp"                  = "Venus Star Point";
 "view.analysisscreen.btn.fixstars"             = "Fixed Stars";

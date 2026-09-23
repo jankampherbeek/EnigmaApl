@@ -8,6 +8,7 @@
 "view.analysisscreen.btn.harmonics"            = "Harmoniques";
 "view.analysisscreen.btn.declinations"         = "Déclinaisons";
 "view.analysisscreen.btn.zodiacdivisions"      = "Divisions zodiacales";
+"view.analysisscreen.btn.altzodiacstart"       = "Départ alternatif du zodiaque";
 "view.analysisscreen.btn.enneagram"            = "Ennéagramme";
 "view.analysisscreen.btn.vsp"                  = "Point Étoile de Vénus";
 "view.analysisscreen.btn.fixstars"             = "Étoiles fixes";

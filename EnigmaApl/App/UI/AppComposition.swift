@@ -31,6 +31,7 @@ final class AppComposition: ObservableObject {
     let logTimeScaleModel: LogTimeScaleModel
     let agePointModel: AgePointModel
     let zodiacDivisionsModel: ZodiacDivisionsModel
+    let altZodiacStartModel: AltZodiacStartModel
     let enneagramModel: EnneagramModel
     let vspModel: VspModel
     let solarReturnModel: SolarReturnModel
@@ -100,6 +101,7 @@ final class AppComposition: ObservableObject {
         self.logTimeScaleModel = LogTimeScaleModel()
         self.agePointModel = AgePointModel()
         self.zodiacDivisionsModel = ZodiacDivisionsModel()
+        self.altZodiacStartModel = AltZodiacStartModel()
         self.enneagramModel = EnneagramModel()
         self.vspModel = VspModel()
         self.solarReturnModel = SolarReturnModel()

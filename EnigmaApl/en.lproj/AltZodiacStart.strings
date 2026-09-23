@@ -1,0 +1,23 @@
+// AltZodiacStart.strings - English
+// EnigmaApl
+
+"view.altzodiacstart.navtitle"                      = "Alternative Zodiac Start";
+
+// AltZodiacStartInputView
+"view.altzodiacstartinput.backlabel"                = "Back to Analysis";
+"view.altzodiacstartinput.title"                    = "Options";
+"view.altzodiacstartinput.factor.header"            = "Start factor";
+"view.altzodiacstartinput.factor.nofactors"         = "No factors selected in the configuration.";
+"view.altzodiacstartinput.help"                      = "Choose the factor whose position marks the start (0°) of an alternative zodiac.\n\nThe houses, the Ascendant, the MC and the positions of the factors stay unchanged; only the division into signs shifts, using the chosen factor as the new start of the first sign.\n\nThe result is shown on the 'Alternative Zodiac Start' screen.";
+
+// AltZodiacStartResultsView
+"view.altzodiacstartresults.title"                  = "Alternative Zodiac Start";
+"view.altzodiacstartresults.nochart"                = "Calculate or select a horoscope to view an alternative zodiac start.";
+"view.altzodiacstartresults.noresults"              = "No factors available for the current configuration.";
+"view.altzodiacstartresults.tab.positions"          = "Positions";
+"view.altzodiacstartresults.tab.wheel"              = "Wheel";
+"view.altzodiacstartresults.col.factor"             = "Factor";
+"view.altzodiacstartresults.col.original"           = "Original";
+"view.altzodiacstartresults.col.shifted"            = "New";
+"view.altzodiacstartresults.startfactorlabel"       = "Start factor:";
+"view.altzodiacstartresults.help"                   = "This screen shows two tabs. The 'Positions' tab lists, for every point in the horoscope, its original position and its position in the alternative zodiac, which starts at the factor you chose on the previous screen.\n\nThe 'Wheel' tab shows the chart wheel with the sign ring shifted so sign 1 (Aries) starts at the chosen factor. An extra tick marks the exact position of that factor. Houses, Ascendant, MC and the positions of the factors stay unchanged.";

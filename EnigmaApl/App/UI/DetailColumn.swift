@@ -47,6 +47,8 @@ struct DetailColumn: View {
                 return "Declinaties"
             case .analysisZodiacDivisions:
                 return "Zodiacal Divisions"
+            case .analysisAltZodiacStart:
+                return NSLocalizedString(AltZodiacStartKeys.navTitle, tableName: "AltZodiacStart", bundle: .main, comment: "")
             case .analysisEnneagram:
                 return "Enneagram"
             case .analysisVsp:
@@ -126,6 +128,8 @@ struct DetailColumn: View {
                             DeclinationsScreen()
                         case .analysisZodiacDivisions:
                             ZodiacDivisionsResultsView()
+                        case .analysisAltZodiacStart:
+                            AltZodiacStartResultsView()
                         case .analysisEnneagram:
                             EnneagramResultsScreen()
                         case .analysisVsp:

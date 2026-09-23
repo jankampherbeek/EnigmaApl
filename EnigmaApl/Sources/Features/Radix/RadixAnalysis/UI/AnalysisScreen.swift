@@ -38,6 +38,11 @@ struct AnalysisScreen: View {
             }
             .buttonStyle(.bordered)
 
+            Button(t(RadixAnalysisKeys.btnAltZodiacStart)) {
+                radixNav.setInspector(.analysisAltZodiacStart)
+            }
+            .buttonStyle(.bordered)
+
             Button(t(RadixAnalysisKeys.btnEnneagram)) {
                 radixNav.setInspector(.analysisEnneagram)
             }

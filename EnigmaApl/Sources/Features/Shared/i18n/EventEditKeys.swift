@@ -18,4 +18,5 @@ struct EventEditKeys {
     static let helpClose             = "view.eventeditscreen.help.close"
     static let help                  = "view.eventeditscreen.help"
     static let errorSaveFailed       = "view.eventeditscreen.error.savefailed"
+    static let warningDstUncertain   = "view.eventeditscreen.warning.dstuncertain"
 }

@@ -13,6 +13,7 @@ struct RadixAnalysisKeys {
     static let btnHarmonics       = "view.analysisscreen.btn.harmonics"
     static let btnDeclinations       = "view.analysisscreen.btn.declinations"
     static let btnZodiacDivisions    = "view.analysisscreen.btn.zodiacdivisions"
+    static let btnAltZodiacStart     = "view.analysisscreen.btn.altzodiacstart"
     static let btnEnneagram          = "view.analysisscreen.btn.enneagram"
     static let btnVsp                = "view.analysisscreen.btn.vsp"
     static let btnFixStars           = "view.analysisscreen.btn.fixstars"

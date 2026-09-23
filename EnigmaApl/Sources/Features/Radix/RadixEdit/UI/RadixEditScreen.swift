@@ -102,6 +102,11 @@ struct RadixEditScreen: View {
     private var chartNameIsEmpty: Bool { chartName.trimmingCharacters(in: .whitespaces).isEmpty }
     private var canApply: Bool { !chartNameIsEmpty && dateValidationResult.isValid && astronomicalYearForValidation != nil }
 
+    private var dstUncertain: Bool {
+        guard let year = astronomicalYearForValidation else { return false }
+        return DSTCertainty.isUncertain(countryCode: selectedCity?.countryCode, year: year)
+    }
+
     private var configFactors: [Factors] {
         guard let config = activeConfigs.first else { return [] }
         return config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
@@ -266,6 +271,9 @@ struct RadixEditScreen: View {
                 }
                 if showSaveWarning {
                     Label(re("view.radixeditscreen.savefailed"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
+                }
+                if dstUncertain {
+                    Label(ri("view.radixinputscreen.warning.dstuncertain"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
                 }
             }
             .frame(maxWidth: 900, alignment: .leading).padding().frame(maxWidth: .infinity, alignment: .leading)

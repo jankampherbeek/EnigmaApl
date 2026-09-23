@@ -38,6 +38,10 @@ struct ContentColumn: View {
         app.nav.radix.inspector == .analysisZodiacDivisions
     }
 
+    private var isAltZodiacStart: Bool {
+        app.nav.radix.inspector == .analysisAltZodiacStart
+    }
+
     private var isEnneagram: Bool {
         app.nav.radix.inspector == .analysisEnneagram
     }
@@ -65,6 +69,8 @@ struct ContentColumn: View {
                 switch app.nav.radix.inspector {
                 case .analysisZodiacDivisions:
                     ZodiacDivisionsInputView()
+                case .analysisAltZodiacStart:
+                    AltZodiacStartInputView()
                 case .analysisEnneagram:
                     EnneagramOptionsView()
                 case .analysisVsp:
@@ -153,7 +159,7 @@ struct ContentColumn: View {
                     }
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
+            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
                 ToolbarItem(placement: .automatic) {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
@@ -194,7 +200,7 @@ struct ContentColumn: View {
                     .accessibilityLabel("Export")
                 }
             }
-            if isRadix && !isZodiacDivisions && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
+            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")

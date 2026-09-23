@@ -66,6 +66,7 @@ struct RootView: View {
         .environmentObject(composition.logTimeScaleModel)
         .environmentObject(composition.agePointModel)
         .environmentObject(composition.zodiacDivisionsModel)
+        .environmentObject(composition.altZodiacStartModel)
         .environmentObject(composition.enneagramModel)
         .environmentObject(composition.vspModel)
         .environmentObject(composition.solarReturnModel)
