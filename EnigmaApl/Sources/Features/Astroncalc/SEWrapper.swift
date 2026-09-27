@@ -1060,7 +1060,11 @@ public class SEWrapper {
     /// the eclipse path's central point (swe_sol_eclipse_where). Works regardless of observer location.
     public func solEclipseSaros(jd: Double) -> (sarosNumber: Double, sarosMemberNumber: Double)? {
         guard isInitialized else { return nil }
-        var geopos = [Double](repeating: 0.0, count: 3)
+        // geopos[] must hold 10 doubles: swe_sol_eclipse_where returns the central line in
+        // geopos[0..1] and then writes the northern/southern limits of umbra and penumbra into
+        // geopos[2..9]. A shorter buffer is written past its end and corrupts the heap, which
+        // later crashes inside Swiss Ephemeris' own file and segment buffers.
+        var geopos = [Double](repeating: 0.0, count: 10)
         var attr   = [Double](repeating: 0.0, count: 20)
         var error  = [CChar](repeating: 0, count: 256)
         var returnCode: Int32 = 0

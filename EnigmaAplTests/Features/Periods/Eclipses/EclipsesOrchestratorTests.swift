@@ -4,6 +4,7 @@
 
 import Testing
 import Foundation
+import SwissEphC
 
 @testable import EnigmaApl
 
@@ -52,6 +53,66 @@ struct EclipsesOrchestratorTests {
         _ = await churnTask.value
 
         #expect(!events.isEmpty, "Expected eclipses to be found over a 100-year range")
+    }
+
+    /// Regression test for a heap-corruption crash (SIGSEGV inside Swiss Ephemeris' own
+    /// `get_new_segment` / `read_const` / `do_fread`, or a libmalloc abort in `mfm_free`)
+    /// that appeared when searching a long period — around 150 years — with a location.
+    ///
+    /// Root cause: `SEWrapper.solEclipseSaros` passed a 3-element `geopos` array to
+    /// `swe_sol_eclipse_where`, which writes 10 doubles. The 7 doubles written past the end
+    /// of the Swift array corrupted the heap, and the process later died inside whatever
+    /// Swiss Ephemeris had allocated next. It only shows up with a location, because
+    /// `solEclipseSaros` is the fallback taken when an eclipse is not visible from there —
+    /// rare in a short period, frequent over 150 years.
+    @Test("findEclipses over 150 years with a location does not corrupt the heap")
+    func testFindEclipsesLongPeriodWithLocation() async throws {
+        let seWrapper = SEWrapper()
+        let orchestrator = EclipsesOrchestrator(seWrapper: seWrapper)
+
+        let jdStart = seWrapper.julianDay(
+            date: AstronomicalDate(Year: 2024, Month: 1, Day: 1, Gregorian: true),
+            time: AstronomicalTime(HourDecimal: 0.0))
+        let jdEnd = seWrapper.julianDay(
+            date: AstronomicalDate(Year: 2174, Month: 12, Day: 31, Gregorian: true),
+            time: AstronomicalTime(HourDecimal: 0.0))
+
+        let events = orchestrator.findEclipses(
+            startJD: jdStart, endJD: jdEnd,
+            type: .all,
+            geoLon: 4.9, geoLat: 52.4)
+
+        // ~4.6 eclipses per year over 151 years; the search loop caps each kind at 1000.
+        #expect(events.count > 600)
+        #expect(events.allSatisfy { $0.displayJD.isFinite && $0.longitude.isFinite })
+        #expect(events.allSatisfy { (0.0..<360.0).contains($0.longitude) })
+    }
+
+    /// Pins the output-buffer contract of `swe_sol_eclipse_where`, whose documented
+    /// "2 doubles" for `geopos` is wrong — it writes 10. If a Swiss Ephemeris upgrade widens
+    /// this further, this test fails instead of the heap silently corrupting again.
+    @Test("swe_sol_eclipse_where writes no more than 10 doubles into geopos")
+    func testSolEclipseWhereGeoposContract() async throws {
+        _ = SEWrapper()   // sets the ephemeris path
+
+        let capacity = 32
+        let sentinel = -12345.6789
+        let geopos = UnsafeMutablePointer<Double>.allocate(capacity: capacity)
+        defer { geopos.deallocate() }
+        for i in 0..<capacity { geopos[i] = sentinel }
+
+        var attr = [Double](repeating: 0.0, count: 20)
+        var serr = [CChar](repeating: 0, count: 256)
+        let jdTotalSolarEclipse2024 = 2460409.0
+
+        let returnCode = swe_sol_eclipse_where(jdTotalSolarEclipse2024, SEFLG_SWIEPH,
+                                               geopos, &attr, &serr)
+        #expect(returnCode >= 0)
+
+        var highestIndexWritten = -1
+        for i in 0..<capacity where geopos[i] != sentinel { highestIndexWritten = i }
+        #expect(highestIndexWritten <= 9,
+                "swe_sol_eclipse_where wrote geopos[\(highestIndexWritten)]; the buffer in solEclipseSaros holds 10 doubles")
     }
 }
 
