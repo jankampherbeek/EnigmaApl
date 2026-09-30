@@ -74,7 +74,7 @@ struct AltZodiacStartResultsView: View {
                 .accessibilityLabel("Help")
             }
         }
-        .factsheetToolbarButton(baseName: "alt-zodiac-start")
+        .factsheetToolbarButton(baseName: "altzodiacstart")
         .sheet(isPresented: $showHelp) {
             WheelHelpSheet(helpText: t(AltZodiacStartKeys.resultsHelp))
         }
