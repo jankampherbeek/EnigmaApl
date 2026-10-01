@@ -28,6 +28,20 @@ struct HarmonicsOrchestratorTests {
         #expect(abs(result[1].longitude - 200.0) < delta)
     }
 
+    @Test("HarmonicsOrchestrator.harmonicPositions: Ascendant and MC are included once")
+    func testAscMcIncludedOnce() {
+        // Ascendant and MC are present in Coordinates as well as in the house positions.
+        let chart = Self.makeChart([(.sun, 30.0), (.ascendant, 0.0), (.mc, 0.0)])
+        let result = HarmonicsOrchestrator.harmonicPositions(
+            chart: chart,
+            factorConfig: Self.factorConfig([.sun, .ascendant, .mc]),
+            harmonic: 1.0
+        )
+        #expect(result.count == 3)
+        #expect(result.filter { $0.factor == .ascendant }.count == 1)
+        #expect(result.filter { $0.factor == .mc }.count == 1)
+    }
+
     @Test("HarmonicsOrchestrator.harmonicPositions: result is sorted ascending by longitude")
     func testPositionsSortedAscending() {
         let chart = Self.makeChart([(.sun, 22.0), (.moon, 178.0), (.mars, 302.0)])

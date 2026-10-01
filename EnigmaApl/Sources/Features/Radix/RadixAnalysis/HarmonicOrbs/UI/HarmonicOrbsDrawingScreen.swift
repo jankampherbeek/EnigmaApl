@@ -16,16 +16,21 @@ struct HarmonicOrbsDrawingScreen: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
-    @StateObject private var wheelModel = ZodiacTypeWheelModel()
+    @State private var basePlotData: WheelPlotData = .empty
     @State private var showExport = false
     @State private var selectedTab: HarmonicOrbsDrawingTab = .chart
 
     private var activeConfig: UserConfiguration? { activeConfigs.first }
     private var currentTheme: WheelTheme { app.ui.blackWhite ? .blackWhite : .color }
 
+    /// Drawing type for the wheel: the configured type, limited to the types this wheel supports.
+    private var drawingType: DrawingType {
+        WheelAngleMapper.specialisedTypeWithHouses(activeConfig?.displayConfig.drawingType ?? .signBased)
+    }
+
     /// The base plot data, with its aspect items replaced by the harmonic-orb aspects.
     private var plotData: WheelPlotData {
-        let base = wheelModel.plotData
+        let base = basePlotData
         guard let chart = chartSession.selectedChart, let config = activeConfig else {
             return WheelPlotData(
                 ascendantLongitude: base.ascendantLongitude,
@@ -93,7 +98,7 @@ struct HarmonicOrbsDrawingScreen: View {
                             description: Text(t(HarmonicOrbsKeys.drawingNoChart))
                         )
                     } else {
-                        ZodiacTypeWheelCanvas(plotData: plotData, theme: currentTheme, showAspects: true)
+                        ChartWheelCanvas(plotData: plotData, drawingType: drawingType, theme: currentTheme, showAspects: true)
                             .padding()
                     }
                 }
@@ -121,18 +126,19 @@ struct HarmonicOrbsDrawingScreen: View {
         }
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
-                wheelView: ZodiacTypeWheelCanvas(plotData: plotData, theme: currentTheme, showAspects: true)
+                wheelView: ChartWheelCanvas(plotData: plotData, drawingType: drawingType, theme: currentTheme, showAspects: true)
             )
         }
         .onAppear { refresh() }
         .onChange(of: chartSession.selected?.version) { refresh() }
+        .onChange(of: drawingType) { refresh() }
     }
 
     // MARK: - Helpers
 
     private func refresh() {
         guard let chart = chartSession.selectedChart else { return }
-        wheelModel.update(from: chart, config: activeConfig)
+        basePlotData = ChartWheelPlotDataBuilder.build(from: chart, config: activeConfig, drawingType: drawingType)
     }
 
     private func t(_ key: String) -> String {

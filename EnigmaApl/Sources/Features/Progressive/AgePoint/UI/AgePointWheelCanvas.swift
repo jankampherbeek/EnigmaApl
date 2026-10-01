@@ -22,46 +22,47 @@ struct AgePointWheelCanvas: View {
     let overviewItems: [AgePointWheelMark]?
     let theme: WheelTheme
     let showAspects: Bool
+    /// Drawing type of the radix wheel; see `WheelAngleMapper.specialisedType`.
+    var drawingType: DrawingType = .signBased
 
-    private let radixScale: Double    = 0.78
+    /// Radix wheel radius as a fraction of the full radius; see `InnerWheelLayout`.
+    private var radixScale: Double { 0.78 * InnerWheelLayout.scaleFactor(drawingType) }
     private let outerFraction: Double = 0.864
+
+    /// Angle on this wheel for a sign-based (mundane) angle.
+    private func mapped(_ angle: Double) -> Double {
+        InnerWheelLayout.angle(fromMundane: angle, data: radixData, drawingType: drawingType)
+    }
+
+    private func mapped(_ mark: AgePointWheelMark) -> AgePointWheelMark {
+        AgePointWheelMark(label: mark.label, mundaneAngle: mapped(mark.mundaneAngle))
+    }
 
     var body: some View {
         Canvas { ctx, size in
             let fullRadius  = Double(min(size.width, size.height)) / 2.0
             let innerRadius = fullRadius * radixScale
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
-            let asc         = radixData.ascendantLongitude
 
-            // Outer transit-ring background
-            let bgR    = CGFloat(fullRadius * outerFraction)
-            let bgRect = CGRect(x: center.x - bgR, y: center.y - bgR, width: bgR * 2, height: bgR * 2)
-            ctx.fill(Path(ellipseIn: bgRect), with: .color(theme.outerCircleBackground))
+            let contentR    = innerRadius * InnerWheelLayout.contentFraction(drawingType)
+            let ringStartR  = innerRadius * InnerWheelLayout.ringStartFraction(drawingType)
 
-            drawCircles(&ctx, center: center, outerRadius: innerRadius, theme: theme)
-            drawElementSectors(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawSignSeparators(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawSignGlyphs(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawDegreeLines(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            if radixData.hasTime {
-                drawCuspLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCardinalLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCardinalLabels(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCuspTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            }
-            if showAspects {
-                drawAspectLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            }
-            drawPlanetConnectLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            drawPlanetGlyphs(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            drawPlanetTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
+            // Outer ring background, then the radix wheel on top of it
+            InnerWheelLayout.drawRingBackground(&ctx, drawingType: drawingType, center: center,
+                                                radius: fullRadius * outerFraction, theme: theme)
+            InnerWheelLayout.drawRadixWheel(&ctx, drawingType: drawingType, center: center,
+                                            outerRadius: innerRadius, data: radixData, theme: theme,
+                                            showAspects: showAspects)
+            InnerWheelLayout.drawBoundaryIfNeeded(&ctx, drawingType: drawingType, center: center,
+                                                  radius: contentR, fullRadius: fullRadius, theme: theme)
 
             if let items = overviewItems {
-                drawAgePointOverviewMarks(&ctx, center: center, fullRadius: fullRadius,
-                                          innerRadius: innerRadius, items: items, theme: theme)
+                drawAgePointOverviewMarks(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
+                    contentR: contentR, ringStartR: ringStartR,
+                    items: items.map(mapped), theme: theme)
             } else if let angle = apMundaneAngle, let longitude = apLongitude {
                 drawAgePointArrow(&ctx, center: center, fullRadius: fullRadius,
-                                  innerRadius: innerRadius, mundaneAngle: angle,
+                    innerRadius: innerRadius, contentR: contentR, mundaneAngle: mapped(angle),
                                   longitude: longitude, theme: theme)
             }
         }
@@ -77,6 +78,7 @@ private func drawAgePointArrow(
     center: CGPoint,
     fullRadius: Double,
     innerRadius: Double,
+    contentR: Double,
     mundaneAngle: Double,
     longitude: Double,
     theme: WheelTheme
@@ -85,7 +87,7 @@ private func drawAgePointArrow(
     let strokeW = WheelMetrics.strokeWidth(WheelMetrics.connectLineFraction * 3, outerRadius: fullRadius)
 
     let tailR = fullRadius * 0.86
-    let tipR  = innerRadius * WheelMetrics.outerSign
+    let tipR  = contentR   // outer edge of the radix content
     let tail  = WheelGeometry.point(angleDeg: mundaneAngle, radius: tailR, center: center)
     let tip   = WheelGeometry.point(angleDeg: mundaneAngle, radius: tipR,  center: center)
 
@@ -156,15 +158,18 @@ private func drawAgePointOverviewMarks(
     center: CGPoint,
     fullRadius: Double,
     innerRadius: Double,
+    contentR: Double,
+    ringStartR: Double,
     items: [AgePointWheelMark],
     theme: WheelTheme
 ) {
     let ringOuter  = fullRadius * 0.864
-    let ringWidth  = ringOuter - innerRadius
-    let zodiacOutR = innerRadius * WheelMetrics.outerSign
-    let degreeH    = innerRadius - zodiacOutR
+    let ringWidth  = ringOuter - ringStartR
+    let zodiacOutR = contentR
+    // Gap between the radix content and the ring; at least the sign-based gap so ticks stay visible.
+    let degreeH    = max(ringStartR - zodiacOutR, innerRadius * (1.0 - WheelMetrics.outerSign))
     let tickH      = degreeH * 0.5
-    let labelR     = innerRadius + ringWidth * 0.4
+    let labelR     = ringStartR + ringWidth * 0.4
     let fontSize   = WheelMetrics.fontSize(WheelMetrics.positionTextFraction * 0.85, outerRadius: innerRadius)
 
     for item in items {

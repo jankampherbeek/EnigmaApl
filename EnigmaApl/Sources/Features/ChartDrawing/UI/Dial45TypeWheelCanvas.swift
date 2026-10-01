@@ -48,22 +48,31 @@ struct Dial45TypeWheelCanvas: View {
 
     var body: some View {
         Canvas { ctx, size in
-            let R      = Double(min(size.width, size.height)) / 2.0 * dialOuterScale
-            let center = CGPoint(x: size.width / 2, y: size.height / 2)
-
-            drawDial45Background   (&ctx, center: center, R: R, theme: theme)
-            drawDial45RingStrokes  (&ctx, center: center, R: R, theme: theme)
-            drawDial451DegTicks    (&ctx, center: center, R: R, theme: theme)
-            drawDial45HalfDegTicks (&ctx, center: center, R: R, theme: theme)
-            drawDial45DegreeLabels (&ctx, center: center, R: R, theme: theme)
-            drawDial45CenterCross  (&ctx, center: center, R: R, theme: theme)
-            drawDial45ConnectLines (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDial45PlanetGlyphs (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDial45PlanetTexts  (&ctx, center: center, R: R, data: plotData, theme: theme)
+            let outerRadius = Double(min(size.width, size.height)) / 2.0
+            let center      = CGPoint(x: size.width / 2, y: size.height / 2)
+            drawDial45TypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                                plotData: plotData, theme: theme)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete 45° dial wheel within `outerRadius` around `center`.
+/// Used by `Dial45TypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+func drawDial45TypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         plotData: WheelPlotData, theme: WheelTheme) {
+    let R = outerRadius * dialOuterScale
+
+    drawDial45Background   (&ctx, center: center, R: R, theme: theme)
+    drawDial45RingStrokes  (&ctx, center: center, R: R, theme: theme)
+    drawDial451DegTicks    (&ctx, center: center, R: R, theme: theme)
+    drawDial45HalfDegTicks (&ctx, center: center, R: R, theme: theme)
+    drawDial45DegreeLabels (&ctx, center: center, R: R, theme: theme)
+    drawDial45CenterCross  (&ctx, center: center, R: R, theme: theme)
+    drawDial45ConnectLines (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDial45PlanetGlyphs (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDial45PlanetTexts  (&ctx, center: center, R: R, data: plotData, theme: theme)
 }
 
 // MARK: - Background (white)

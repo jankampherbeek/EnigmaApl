@@ -19,6 +19,11 @@ struct SynastryCompareWheelView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for chart wheels, from the active configuration.
+    private var drawingType: DrawingType {
+        activeConfigs.first?.displayConfig.drawingType ?? .signBased
+    }
+
     @State private var swapped = false
     @State private var blackWhite = false
     @State private var hideAspects = false
@@ -75,10 +80,11 @@ struct SynastryCompareWheelView: View {
 
     private var dualWheelCanvas: DualWheelCanvas {
         DualWheelCanvas(
-            radixData: WheelPlotDataBuilder.build(from: inner.chart, config: activeConfigs.first),
+            radixData: ChartWheelPlotDataBuilder.build(from: inner.chart, config: activeConfigs.first, drawingType: drawingType),
             transitItems: outerItems,
             theme: blackWhite ? .blackWhite : .color,
             showAspects: !hideAspects,
+            drawingType: drawingType,
             transitCuspAngles: outerCuspAngles,
             transitAscAngle: outerAscAngle,
             transitMcAngle: outerMcAngle

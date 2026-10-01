@@ -23,6 +23,11 @@ struct SymbolicResults: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for chart wheels, from the active configuration.
+    private var drawingType: DrawingType {
+        activeConfigs.first?.displayConfig.drawingType ?? .signBased
+    }
+
     @State private var selectedTab: SymbolicResultTab = .positions
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
@@ -81,10 +86,11 @@ struct SymbolicResults: View {
                let config = activeConfigs.first {
                 WheelExportSheet(
                     wheelView: DualWheelCanvas(
-                        radixData:    WheelPlotDataBuilder.build(from: chart, config: config),
+                        radixData:    ChartWheelPlotDataBuilder.build(from: chart, config: config, drawingType: drawingType),
                         transitItems: resolvedDirectedItems(ascLong: chart.HousePositions.ascendant.longitude),
                         theme:        blackWhite ? .blackWhite : .color,
-                        showAspects:  !hideAspects
+                        showAspects:  !hideAspects,
+                        drawingType:  drawingType
                     )
                 )
             }
@@ -258,10 +264,11 @@ struct SymbolicResults: View {
         if let chart = chartSession.selectedChart,
            let config = activeConfigs.first {
             DualWheelCanvas(
-                radixData:    WheelPlotDataBuilder.build(from: chart, config: config),
+                radixData:    ChartWheelPlotDataBuilder.build(from: chart, config: config, drawingType: drawingType),
                 transitItems: resolvedDirectedItems(ascLong: chart.HousePositions.ascendant.longitude),
                 theme:        blackWhite ? .blackWhite : .color,
-                showAspects:  !hideAspects
+                showAspects:  !hideAspects,
+                drawingType:  drawingType
             )
         }
     }

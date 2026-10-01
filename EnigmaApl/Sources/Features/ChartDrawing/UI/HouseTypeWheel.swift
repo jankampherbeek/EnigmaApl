@@ -54,39 +54,53 @@ struct HouseTypeWheel: View {
 struct HouseTypeWheelCanvas: View {
     let plotData: WheelPlotData
     let theme: WheelTheme
+    var showAspects = false
 
     var body: some View {
         Canvas { ctx, size in
             let outerRadius = Double(min(size.width, size.height)) / 2.0
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
-            let cusps       = plotData.cuspLongitudes
-
-            drawHouseCircles(&ctx, center: center, outerRadius: outerRadius, theme: theme)
-            if cusps.count >= 12 {
-                drawHouseSignSectors(&ctx, center: center, outerRadius: outerRadius,
-                                     cusps: cusps, theme: theme)
-                drawHouseSignSeparators(&ctx, center: center, outerRadius: outerRadius,
-                                        cusps: cusps, theme: theme)
-                drawHouseSignGlyphs(&ctx, center: center, outerRadius: outerRadius,
-                                    cusps: cusps, theme: theme)
-            }
-            if plotData.hasTime {
-                drawHouseCuspLines(&ctx, center: center, outerRadius: outerRadius, theme: theme)
-                drawHouseCuspPositionTexts(&ctx, center: center, outerRadius: outerRadius,
-                                           data: plotData, theme: theme)
-                drawHouseCardinalLabels(&ctx, center: center, outerRadius: outerRadius,
-                                        data: plotData, theme: theme)
-            }
-            drawHousePlanetConnectLines(&ctx, center: center, outerRadius: outerRadius,
-                                        data: plotData, theme: theme)
-            drawHousePlanetGlyphs(&ctx, center: center, outerRadius: outerRadius,
-                                  data: plotData, theme: theme)
-            drawHousePlanetTexts(&ctx, center: center, outerRadius: outerRadius,
-                                 data: plotData, theme: theme)
+            drawHouseTypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                               plotData: plotData, theme: theme, showAspects: showAspects)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete house-based wheel within `outerRadius` around `center`.
+/// Used by `HouseTypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+/// Aspect lines are off by default: the standard house-based wheel does not show them,
+/// but Harmonic Orbs draws its harmonic aspects on this wheel.
+func drawHouseTypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                        plotData: WheelPlotData, theme: WheelTheme, showAspects: Bool = false) {
+    let cusps       = plotData.cuspLongitudes
+
+    drawHouseCircles(&ctx, center: center, outerRadius: outerRadius, theme: theme)
+    if cusps.count >= 12 {
+        drawHouseSignSectors(&ctx, center: center, outerRadius: outerRadius,
+                             cusps: cusps, theme: theme)
+        drawHouseSignSeparators(&ctx, center: center, outerRadius: outerRadius,
+                                cusps: cusps, theme: theme)
+        drawHouseSignGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                            cusps: cusps, theme: theme)
+    }
+    if plotData.hasTime {
+        drawHouseCuspLines(&ctx, center: center, outerRadius: outerRadius, theme: theme)
+        drawHouseCuspPositionTexts(&ctx, center: center, outerRadius: outerRadius,
+                                   data: plotData, theme: theme)
+        drawHouseCardinalLabels(&ctx, center: center, outerRadius: outerRadius,
+                                data: plotData, theme: theme)
+    }
+    if showAspects {
+        drawAspectLines(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
+    }
+    drawHousePlanetConnectLines(&ctx, center: center, outerRadius: outerRadius,
+                                data: plotData, theme: theme)
+    drawHousePlanetGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                          data: plotData, theme: theme)
+    drawHousePlanetTexts(&ctx, center: center, outerRadius: outerRadius,
+                         data: plotData, theme: theme)
 }
 
 // MARK: - Circles

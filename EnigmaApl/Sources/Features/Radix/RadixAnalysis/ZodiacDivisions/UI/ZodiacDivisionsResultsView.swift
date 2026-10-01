@@ -29,6 +29,11 @@ struct ZodiacDivisionsResultsView: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for the wheel: the configured type, limited to the types this wheel supports.
+    private var drawingType: DrawingType {
+        WheelAngleMapper.specialisedTypeWithHouses(activeConfigs.first?.displayConfig.drawingType ?? .signBased)
+    }
+
     @State private var selectedTab:  ZodiacDivisionsTab = .positions
     @State private var blackWhite   = false
     @State private var hideAspects  = false
@@ -84,7 +89,8 @@ struct ZodiacDivisionsResultsView: View {
                         radixData:   plotData,
                         marks:       wheelMarks,
                         theme:       blackWhite ? .blackWhite : .color,
-                        showAspects: !hideAspects
+                        showAspects: !hideAspects,
+                        drawingType: drawingType
                     )
                 )
             }
@@ -189,7 +195,8 @@ struct ZodiacDivisionsResultsView: View {
                     radixData:   plotData,
                     marks:       wheelMarks,
                     theme:       blackWhite ? .blackWhite : .color,
-                    showAspects: !hideAspects
+                    showAspects: !hideAspects,
+                    drawingType: drawingType
                 )
             }
         }
@@ -272,6 +279,6 @@ struct ZodiacDivisionsResultsView: View {
     private var radixPlotData: WheelPlotData? {
         guard let chart = chartSession.selectedChart,
               let config = activeConfigs.first else { return nil }
-        return WheelPlotDataBuilder.build(from: chart, config: config)
+        return ChartWheelPlotDataBuilder.build(from: chart, config: config, drawingType: drawingType)
     }
 }

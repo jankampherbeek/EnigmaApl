@@ -47,28 +47,43 @@ private let fDegLabelOffset:  Double = 5.0     // degrees past sign boundary
 struct Dial360TypeWheelCanvas: View {
     let plotData: WheelPlotData
     let theme:    WheelTheme
+    var showAspects = false
 
     var body: some View {
         Canvas { ctx, size in
-            let R      = Double(min(size.width, size.height)) / 2.0 * dialOuterScale
-            let center = CGPoint(x: size.width / 2, y: size.height / 2)
-
-            drawDialBackground    (&ctx, center: center, R: R, theme: theme)
-            drawDialSignSectors   (&ctx, center: center, R: R, theme: theme)
-            drawDialSignGlyphs    (&ctx, center: center, R: R, theme: theme)
-            drawDialSignSeparators(&ctx, center: center, R: R, theme: theme)
-            drawDialDegreeBoundaryLabels(&ctx, center: center, R: R, theme: theme)
-            drawDial10DegTicks    (&ctx, center: center, R: R, theme: theme)
-            drawDialDegTicks      (&ctx, center: center, R: R, theme: theme)
-            drawDialRingStrokes   (&ctx, center: center, R: R, theme: theme)
-            drawDialCenterCross   (&ctx, center: center, R: R, theme: theme)
-            drawDialConnectLines  (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDialPlanetGlyphs  (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDialPlanetTexts   (&ctx, center: center, R: R, data: plotData, theme: theme)
+            let outerRadius = Double(min(size.width, size.height)) / 2.0
+            let center      = CGPoint(x: size.width / 2, y: size.height / 2)
+            drawDial360TypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                                 plotData: plotData, theme: theme, showAspects: showAspects)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete 360° dial wheel within `outerRadius` around `center`.
+/// Used by `Dial360TypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+/// Aspect lines are off by default: the standard dial does not show them,
+/// but Harmonic Orbs draws its harmonic aspects on this dial.
+func drawDial360TypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                          plotData: WheelPlotData, theme: WheelTheme, showAspects: Bool = false) {
+    let R = outerRadius * dialOuterScale
+
+    drawDialBackground    (&ctx, center: center, R: R, theme: theme)
+    drawDialSignSectors   (&ctx, center: center, R: R, theme: theme)
+    drawDialSignGlyphs    (&ctx, center: center, R: R, theme: theme)
+    drawDialSignSeparators(&ctx, center: center, R: R, theme: theme)
+    drawDialDegreeBoundaryLabels(&ctx, center: center, R: R, theme: theme)
+    drawDial10DegTicks    (&ctx, center: center, R: R, theme: theme)
+    drawDialDegTicks      (&ctx, center: center, R: R, theme: theme)
+    drawDialRingStrokes   (&ctx, center: center, R: R, theme: theme)
+    drawDialCenterCross   (&ctx, center: center, R: R, theme: theme)
+    if showAspects {
+        drawAspectLines(&ctx, center: center, outerRadius: R, data: plotData, theme: theme)
+    }
+    drawDialConnectLines  (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDialPlanetGlyphs  (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDialPlanetTexts   (&ctx, center: center, R: R, data: plotData, theme: theme)
 }
 
 // MARK: - Background

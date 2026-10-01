@@ -68,31 +68,35 @@ struct RingTypeWheelCanvas: View {
         Canvas { ctx, size in
             let outerRadius = Double(min(size.width, size.height)) / 2.0
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
-
-            // Altijd witte achtergrond, ook in dark mode.
-            ctx.fill(Path(CGRect(origin: .zero, size: size)), with: .color(.white))
-
-            drawRingCircle(&ctx, center: center, outerRadius: outerRadius, theme: theme)
-            if plotData.hasTime {
-                drawRingCuspLines(&ctx, center: center, outerRadius: outerRadius,
-                                  data: plotData, theme: theme)
-                drawRingCuspLabels(&ctx, center: center, outerRadius: outerRadius,
-                                   data: plotData, theme: theme)
-                drawRingInterceptedSignGlyphs(&ctx, center: center, outerRadius: outerRadius,
-                                              data: plotData, theme: theme)
-            }
-            if showAspects {
-                drawRingAspectLines(&ctx, center: center, outerRadius: outerRadius,
-                                    data: plotData, theme: theme)
-            }
-            drawRingPlanetGlyphs(&ctx, center: center, outerRadius: outerRadius,
-                                 data: plotData, theme: theme)
-            drawRingPlanetTexts(&ctx, center: center, outerRadius: outerRadius,
-                                data: plotData, theme: theme)
+            drawRingTypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                              plotData: plotData, theme: theme, showAspects: showAspects)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete ring-type wheel within `outerRadius` around `center`.
+/// Used by `RingTypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+func drawRingTypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                       plotData: WheelPlotData, theme: WheelTheme, showAspects: Bool) {
+    drawRingCircle(&ctx, center: center, outerRadius: outerRadius, theme: theme)
+    if plotData.hasTime {
+        drawRingCuspLines(&ctx, center: center, outerRadius: outerRadius,
+                          data: plotData, theme: theme)
+        drawRingCuspLabels(&ctx, center: center, outerRadius: outerRadius,
+                           data: plotData, theme: theme)
+        drawRingInterceptedSignGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                                      data: plotData, theme: theme)
+    }
+    if showAspects {
+        drawRingAspectLines(&ctx, center: center, outerRadius: outerRadius,
+                            data: plotData, theme: theme)
+    }
+    drawRingPlanetGlyphs(&ctx, center: center, outerRadius: outerRadius,
+                         data: plotData, theme: theme)
+    drawRingPlanetTexts(&ctx, center: center, outerRadius: outerRadius,
+                        data: plotData, theme: theme)
 }
 
 // MARK: - Circle

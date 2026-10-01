@@ -19,6 +19,11 @@ struct LogTimeScaleResultsScreen: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for the wheel: the configured type, limited to the types this wheel supports.
+    private var drawingType: DrawingType {
+        WheelAngleMapper.specialisedType(activeConfigs.first?.displayConfig.drawingType ?? .signBased)
+    }
+
     @State private var selectedTab: LogTimeScaleResultTab = .positions
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
@@ -91,12 +96,13 @@ struct LogTimeScaleResultsScreen: View {
                let config = activeConfigs.first {
                 WheelExportSheet(
                     wheelView: LogTimeScaleWheelCanvas(
-                        radixData:       WheelPlotDataBuilder.build(from: chart, config: config),
+                        radixData:       ChartWheelPlotDataBuilder.build(from: chart, config: config, drawingType: drawingType),
                         ltsMundaneAngle: ltsMundaneAngle,
                         ltsLongitude:    logTimeScaleModel.positionResult,
                         overviewItems:   overviewWheelItems,
                         theme:           blackWhite ? .blackWhite : .color,
-                        showAspects:     !hideAspects
+                        showAspects:     !hideAspects,
+                        drawingType:     drawingType
                     )
                 )
             }
@@ -325,12 +331,13 @@ struct LogTimeScaleResultsScreen: View {
             VStack(alignment: .leading, spacing: 8) {
                 wheelControls
                 LogTimeScaleWheelCanvas(
-                    radixData:       WheelPlotDataBuilder.build(from: chart, config: config),
+                    radixData:       ChartWheelPlotDataBuilder.build(from: chart, config: config, drawingType: drawingType),
                     ltsMundaneAngle: ltsMundaneAngle,
                     ltsLongitude:    logTimeScaleModel.positionResult,
                     overviewItems:   overviewWheelItems,
                     theme:           blackWhite ? .blackWhite : .color,
-                    showAspects:     !hideAspects
+                    showAspects:     !hideAspects,
+                    drawingType:     drawingType
                 )
             }
         }

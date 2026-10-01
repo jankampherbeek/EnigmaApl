@@ -58,8 +58,10 @@ struct HarmonicsOrchestrator {
         factorConfig: FactorConfig
     ) -> [(Factors, Double)] {
         let usedFactors = Set(factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor })
+        // Ascendant and MC are taken from the house positions below; skip any copy in Coordinates
+        // so they are not included twice.
         var positions = chart.Coordinates.compactMap { factor, position -> (Factors, Double)? in
-            guard usedFactors.contains(factor),
+            guard usedFactors.contains(factor), factor != .ascendant, factor != .mc,
                   let longitude = position.ecliptical.first?.mainPos else { return nil }
             return (factor, longitude)
         }

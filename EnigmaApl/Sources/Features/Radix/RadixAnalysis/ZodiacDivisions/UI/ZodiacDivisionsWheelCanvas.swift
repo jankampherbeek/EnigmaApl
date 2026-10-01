@@ -25,43 +25,44 @@ struct ZodiacDivisionsWheelCanvas: View {
     let marks:     [ZodiacDivisionMark]
     let theme:     WheelTheme
     let showAspects: Bool
+    /// Drawing type of the radix wheel; see `WheelAngleMapper.specialisedTypeWithHouses`.
+    var drawingType: DrawingType = .signBased
 
-    // Main wheel is slightly smaller to leave room for the division ring
-    private let radixScale:    Double = 0.70
+    // Main wheel is slightly smaller to leave room for the division ring; see `InnerWheelLayout`.
+    private var radixScale: Double { 0.70 * InnerWheelLayout.scaleFactor(drawingType) }
     private let outerFraction: Double = 0.96
+
+    /// Mark with its angles mapped to this wheel; the fan-out offset of the glyph stack is kept.
+    private func mapped(_ mark: ZodiacDivisionMark) -> ZodiacDivisionMark {
+        let angle = InnerWheelLayout.angle(fromMundane: mark.mundaneAngle, data: radixData, drawingType: drawingType)
+        var result = ZodiacDivisionMark(mundaneAngle: angle, plotAngle: angle,
+                                        signGlyph: mark.signGlyph, decanGlyph: mark.decanGlyph,
+                                        dodecatGlyph: mark.dodecatGlyph, boundGlyph: mark.boundGlyph)
+        result.plotAngle = WheelGeometry.normalise(angle + (mark.plotAngle - mark.mundaneAngle))
+        return result
+    }
 
     var body: some View {
         Canvas { ctx, size in
             let fullRadius  = Double(min(size.width, size.height)) / 2.0
             let innerRadius = fullRadius * radixScale
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
-            let asc         = radixData.ascendantLongitude
 
-            // Outer division-ring background
-            let bgR    = CGFloat(fullRadius * outerFraction)
-            let bgRect = CGRect(x: center.x - bgR, y: center.y - bgR, width: bgR * 2, height: bgR * 2)
-            ctx.fill(Path(ellipseIn: bgRect), with: .color(theme.outerCircleBackground))
+            let contentR    = innerRadius * InnerWheelLayout.contentFraction(drawingType)
+            let ringStartR  = innerRadius * InnerWheelLayout.ringStartFraction(drawingType)
 
-            drawCircles(&ctx, center: center, outerRadius: innerRadius, theme: theme)
-            drawElementSectors(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawSignSeparators(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawSignGlyphs(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            drawDegreeLines(&ctx, center: center, outerRadius: innerRadius, ascLong: asc, theme: theme)
-            if radixData.hasTime {
-                drawCuspLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCardinalLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCardinalLabels(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-                drawCuspTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            }
-            if showAspects {
-                drawAspectLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            }
-            drawPlanetConnectLines(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            drawPlanetGlyphs(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
-            drawPlanetTexts(&ctx, center: center, outerRadius: innerRadius, data: radixData, theme: theme)
+            // Outer division-ring background, then the radix wheel on top of it
+            InnerWheelLayout.drawRingBackground(&ctx, drawingType: drawingType, center: center,
+                                                radius: fullRadius * outerFraction, theme: theme)
+            InnerWheelLayout.drawRadixWheel(&ctx, drawingType: drawingType, center: center,
+                                            outerRadius: innerRadius, data: radixData, theme: theme,
+                                            showAspects: showAspects)
+            InnerWheelLayout.drawBoundaryIfNeeded(&ctx, drawingType: drawingType, center: center,
+                                                  radius: contentR, fullRadius: fullRadius, theme: theme)
 
             drawDivisionMarks(&ctx, center: center, fullRadius: fullRadius,
-                              innerRadius: innerRadius, marks: marks, theme: theme)
+                              contentR: contentR, ringStartR: ringStartR,
+                              marks: marks.map(mapped), theme: theme)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
@@ -74,28 +75,30 @@ private func drawDivisionMarks(
     _ ctx: inout GraphicsContext,
     center: CGPoint,
     fullRadius: Double,
-    innerRadius: Double,
+    contentR: Double,
+    ringStartR: Double,
     marks: [ZodiacDivisionMark],
     theme: WheelTheme
 ) {
     let ringOuter  = fullRadius * 0.96
-    let ringWidth  = ringOuter - innerRadius
+    let ringWidth  = ringOuter - ringStartR
     let glyphSize  = CGFloat(ringWidth * 0.16)          // each glyph gets ~16% of ring height
     let strokeW    = WheelMetrics.strokeWidth(WheelMetrics.connectLineFraction, outerRadius: fullRadius)
 
     // Radii at which the four glyphs are centred (inner → outer: bound, dodecat, decan, sign)
-    let rBound   = innerRadius + ringWidth * 0.12
-    let rDodecat = innerRadius + ringWidth * 0.37
-    let rDecan   = innerRadius + ringWidth * 0.62
-    let rSign    = innerRadius + ringWidth * 0.87
+    let rBound   = ringStartR + ringWidth * 0.12
+    let rDodecat = ringStartR + ringWidth * 0.37
+    let rDecan   = ringStartR + ringWidth * 0.62
+    let rSign    = ringStartR + ringWidth * 0.87
 
     for mark in marks {
         let angle  = mark.plotAngle
         let rotDeg = angle <= 180.0 ? (90.0 - angle) : (270.0 - angle)
 
-        // Tick mark at the factor's true position, from inner boundary outward.
-        let tickInPt  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius * WheelMetrics.outerSign, center: center)
-        let tickOutPt = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius, center: center)
+        // Tick mark at the factor's true position, from the radix content outward to the ring.
+        let tickOutR  = max(ringStartR, contentR + ringWidth * 0.05)
+        let tickInPt  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: contentR, center: center)
+        let tickOutPt = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: tickOutR, center: center)
         var tick = Path()
         tick.move(to: tickInPt)
         tick.addLine(to: tickOutPt)
@@ -103,7 +106,7 @@ private func drawDivisionMarks(
 
         // Connector from the true tick to the (possibly fanned-out) glyph stack.
         if abs(mark.plotAngle - mark.mundaneAngle) > 0.01 {
-            let connectIn  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: innerRadius, center: center)
+            let connectIn  = WheelGeometry.point(angleDeg: mark.mundaneAngle, radius: tickOutR, center: center)
             let connectOut = WheelGeometry.point(angleDeg: mark.plotAngle,   radius: rBound - glyphSize * 0.6, center: center)
             var connector = Path()
             connector.move(to: connectIn)

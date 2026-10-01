@@ -17,12 +17,26 @@ struct AltZodiacStartWheelCanvas: View {
     let zodiacStartLongitude: Double
     let theme: WheelTheme
     let showAspects: Bool
+    /// Drawing type of the wheel; see `WheelAngleMapper.specialisedType`.
+    var drawingType: DrawingType = .signBased
 
     var body: some View {
         Canvas { ctx, size in
             let outerRadius = Double(min(size.width, size.height)) / 2.0
             let center      = CGPoint(x: size.width / 2, y: size.height / 2)
             let asc         = radixData.ascendantLongitude
+
+            // Other drawing types: shift all longitudes so the start factor is at 0° Aries. Positions on
+            // the wheel stay where they are, and the wheel's own zodiac follows the alternative start.
+            guard drawingType == .signBased else {
+                let shifted = shiftedPlotData(radixData, by: zodiacStartLongitude, drawingType: drawingType)
+                InnerWheelLayout.drawRadixWheel(&ctx, drawingType: drawingType, center: center,
+                                                outerRadius: outerRadius, data: shifted, theme: theme,
+                                                showAspects: showAspects)
+                drawZodiacStartMarker(&ctx, center: center, outerRadius: outerRadius,
+                                      data: shifted, drawingType: drawingType, theme: theme)
+                return
+            }
 
             drawCircles(&ctx, center: center, outerRadius: outerRadius, theme: theme)
             drawAltZodiacSectors(&ctx, center: center, outerRadius: outerRadius,
@@ -142,6 +156,57 @@ private func drawZodiacStartMarker(_ ctx: inout GraphicsContext, center: CGPoint
 
     let p1 = WheelGeometry.point(angleDeg: angle, radius: innerR, center: center)
     let p2 = WheelGeometry.point(angleDeg: angle, radius: outerR, center: center)
+    var path = Path(); path.move(to: p1); path.addLine(to: p2)
+    ctx.stroke(path, with: .color(theme.cardinalIndicator), lineWidth: stroke)
+}
+
+// MARK: - Other drawing types
+
+/// Plot data with all longitudes reduced by `start`, with angles recalculated for the drawing type.
+/// Position texts are kept, so they still show the positions in the tropical/sidereal zodiac.
+private func shiftedPlotData(_ data: WheelPlotData, by start: Double, drawingType: DrawingType) -> WheelPlotData {
+    func shift(_ longitude: Double) -> Double { WheelGeometry.normalise(longitude - start) }
+    let asc   = shift(data.ascendantLongitude)
+    let cusps = data.cuspLongitudes.map(shift)
+    func angle(_ longitude: Double) -> Double {
+        WheelAngleMapper.angle(longitude: longitude, drawingType: drawingType,
+                               ascendantLongitude: asc, cuspLongitudes: cusps)
+    }
+    let items = data.planetItems.map { item -> WheelPlotItem in
+        let longitude = shift(item.eclipticLongitude)
+        let a = angle(longitude)
+        return WheelPlotItem(factor: item.factor, glyph: item.glyph, eclipticLongitude: longitude,
+                             mundaneAngle: a, plotAngle: a, positionText: item.positionText,
+                             speedType: item.speedType)
+    }
+    // Aspect items only hold angles: map them back to (shifted) longitudes via the sign-based convention.
+    let aspects = data.aspectItems.map { item -> WheelAspectItem in
+        func remap(_ a: Double) -> Double {
+            angle(shift(WheelAngleMapper.longitude(fromMundaneAngle: a, ascendantLongitude: data.ascendantLongitude)))
+        }
+        return WheelAspectItem(angle1: remap(item.angle1), angle2: remap(item.angle2),
+                               color: item.color, exactness: item.exactness, aspect: item.aspect)
+    }
+    return WheelPlotData(ascendantLongitude: asc, mcLongitude: shift(data.mcLongitude),
+                         cuspLongitudes: cusps, planetItems: GlyphOverlapResolver.resolve(items),
+                         hasTime: data.hasTime, aspectItems: aspects)
+}
+
+/// Radial tick at 0° of the alternative zodiac, across the zodiac part of the given wheel type.
+private func drawZodiacStartMarker(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                                   data: WheelPlotData, drawingType: DrawingType, theme: WheelTheme) {
+    let angle = WheelAngleMapper.angle(longitude: 0, drawingType: drawingType,
+                                       ascendantLongitude: data.ascendantLongitude,
+                                       cuspLongitudes: data.cuspLongitudes)
+    let (inner, outer): (Double, Double)
+    switch drawingType {
+    case .french: (inner, outer) = (0.36, 0.67)   // zodiac ring and degree ticks
+    case .ring:   (inner, outer) = (0.72, 0.78)   // just outside the ring circle
+    default:      (inner, outer) = (0.90, 0.99)   // sign ring of the dial
+    }
+    let stroke = WheelMetrics.strokeWidth(WheelMetrics.strokeFraction, outerRadius: outerRadius) * 1.5
+    let p1 = WheelGeometry.point(angleDeg: angle, radius: outerRadius * inner, center: center)
+    let p2 = WheelGeometry.point(angleDeg: angle, radius: outerRadius * outer, center: center)
     var path = Path(); path.move(to: p1); path.addLine(to: p2)
     ctx.stroke(path, with: .color(theme.cardinalIndicator), lineWidth: stroke)
 }

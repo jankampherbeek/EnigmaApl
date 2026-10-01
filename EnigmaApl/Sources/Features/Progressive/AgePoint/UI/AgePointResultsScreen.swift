@@ -19,6 +19,11 @@ struct AgePointResultsScreen: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for the wheel: the configured type, limited to the types this wheel supports.
+    private var drawingType: DrawingType {
+        WheelAngleMapper.specialisedType(activeConfigs.first?.displayConfig.drawingType ?? .signBased)
+    }
+
     @State private var selectedTab: AgePointResultTab = .positions
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
@@ -94,7 +99,8 @@ struct AgePointResultsScreen: View {
                         apLongitude:     agePointModel.positionResult,
                         overviewItems:   overviewWheelItems,
                         theme:           blackWhite ? .blackWhite : .color,
-                        showAspects:     !hideAspects
+                        showAspects:     !hideAspects,
+                        drawingType:     drawingType
                     )
                 )
             }
@@ -322,7 +328,8 @@ struct AgePointResultsScreen: View {
                     apLongitude:     agePointModel.positionResult,
                     overviewItems:   overviewWheelItems,
                     theme:           blackWhite ? .blackWhite : .color,
-                    showAspects:     !hideAspects
+                    showAspects:     !hideAspects,
+                    drawingType:     drawingType
                 )
             }
         }
@@ -367,6 +374,8 @@ struct AgePointResultsScreen: View {
         guard let chart = chartSession.selectedChart,
               let config = activeConfigs.first else { return nil }
         let cusps = chartSession.houseCuspLongitudes(for: agePointModel.selectedHouseSystem)
+        // The dial has no houses; other types use the cusps of the selected house system.
+        if drawingType == .dial360 { return DialPlotDataBuilder.build(from: chart, config: config) }
         return WheelPlotDataBuilder.build(from: chart, config: config, cuspLongitudes: cusps)
     }
 

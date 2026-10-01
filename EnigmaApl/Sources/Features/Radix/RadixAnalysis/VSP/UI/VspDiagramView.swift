@@ -24,6 +24,17 @@ struct VspDiagramView: View {
     private var activeConfig: UserConfiguration? { activeConfigs.first }
     private var currentTheme: WheelTheme { app.ui.blackWhite ? .blackWhite : .color }
 
+    /// Drawing type for the wheel: the configured type, limited to the types this wheel supports.
+    private var drawingType: DrawingType {
+        WheelAngleMapper.specialisedType(activeConfig?.displayConfig.drawingType ?? .signBased)
+    }
+
+    /// Unrotated plot data for drawing types other than sign-based.
+    private var typedPlotData: WheelPlotData {
+        guard let chart = chartSession.selectedChart else { return .empty }
+        return ChartWheelPlotDataBuilder.build(from: chart, config: activeConfig, drawingType: drawingType)
+    }
+
     // MARK: - Computed chart data
 
     /// The ecliptic longitude of the Head (seq 3) — used as the rotation anchor.
@@ -38,7 +49,8 @@ struct VspDiagramView: View {
     /// When hideTime is active, hasTime is forced to false so cusps, cardinal lines,
     /// and house numbers are all suppressed.
     private var chartPlotData: WheelPlotData {
-        let data = remapped(wheelModel.plotData, toAnchor: vspAnchor)
+        // Only the sign-based wheel is rotated so the Head is at the top.
+        let data = drawingType == .signBased ? remapped(wheelModel.plotData, toAnchor: vspAnchor) : typedPlotData
         guard !app.ui.hideTime else {
             return WheelPlotData(
                 ascendantLongitude: data.ascendantLongitude,
@@ -54,9 +66,13 @@ struct VspDiagramView: View {
 
     /// VSP positions projected onto the rotated wheel.
     private var vspWheelItems: [VspWheelItem] {
-        vspModel.positions.map { pos in
-            let angle = WheelGeometry.mundaneAngle(longitude: pos.longitude,
-                                                    ascendantLongitude: vspAnchor)
+        let plain = typedPlotData
+        return vspModel.positions.map { pos in
+            let angle = drawingType == .signBased
+                ? WheelGeometry.mundaneAngle(longitude: pos.longitude, ascendantLongitude: vspAnchor)
+                : WheelAngleMapper.angle(longitude: pos.longitude, drawingType: drawingType,
+                                         ascendantLongitude: plain.ascendantLongitude,
+                                         cuspLongitudes: plain.cuspLongitudes)
             return VspWheelItem(
                 sequenceId:   pos.sequenceId,
                 mundaneAngle: angle,
@@ -80,7 +96,8 @@ struct VspDiagramView: View {
                     plotData:             chartPlotData,
                     vspItems:             vspWheelItems,
                     theme:                currentTheme,
-                    originalAscLongitude: wheelModel.plotData.ascendantLongitude
+                    originalAscLongitude: wheelModel.plotData.ascendantLongitude,
+                    drawingType:          drawingType
                 )
                 .aspectRatio(1, contentMode: .fit)
             }
@@ -125,7 +142,8 @@ struct VspDiagramView: View {
                     plotData:             chartPlotData,
                     vspItems:             vspWheelItems,
                     theme:                currentTheme,
-                    originalAscLongitude: wheelModel.plotData.ascendantLongitude
+                    originalAscLongitude: wheelModel.plotData.ascendantLongitude,
+                    drawingType:          drawingType
                 )
             )
         }

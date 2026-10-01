@@ -26,12 +26,30 @@ struct VspWheelCanvas: View {
     let theme:                WheelTheme
     /// Ecliptic longitude of the real Ascendant, before the VSP rotation was applied.
     let originalAscLongitude: Double
+    /// Drawing type of the wheel; see `WheelAngleMapper.specialisedType`. Only the sign-based wheel
+    /// is rotated to the VSP Head; other types are drawn as usual, with `plotData` unrotated.
+    var drawingType: DrawingType = .signBased
 
     var body: some View {
         Canvas { ctx, size in
             let outerRadius = Double(min(size.width, size.height)) / 2.0
             let center = CGPoint(x: size.width / 2, y: size.height / 2)
             let asc = plotData.ascendantLongitude   // this is the VSP anchor
+
+            guard drawingType == .signBased else {
+                InnerWheelLayout.drawRadixWheel(&ctx, drawingType: drawingType, center: center,
+                                                outerRadius: outerRadius, data: plotData, theme: theme,
+                                                showAspects: false)
+                if vspItems.count >= 5 {
+                    // The French wheel has its zodiac ring at 0.36–0.60, so the pentagram goes inside it.
+                    let fraction = drawingType == .french ? 0.28 : WheelMetrics.vsp
+                    drawVspLines(&ctx, center: center, outerRadius: outerRadius, items: vspItems,
+                                 theme: theme, radiusFraction: fraction)
+                    drawVspPoints(&ctx, center: center, outerRadius: outerRadius, items: vspItems,
+                                  theme: theme, radiusFraction: fraction)
+                }
+                return
+            }
 
             // Standard wheel layers (no aspect lines)
             drawCircles(&ctx, center: center, outerRadius: outerRadius, theme: theme)
@@ -157,8 +175,9 @@ private func drawHouseNumbers(_ ctx: inout GraphicsContext,
 
 private func drawVspLines(_ ctx: inout GraphicsContext,
                            center: CGPoint, outerRadius: Double,
-                           items: [VspWheelItem], theme: WheelTheme) {
-    let r     = outerRadius * WheelMetrics.vsp
+                           items: [VspWheelItem], theme: WheelTheme,
+                           radiusFraction: Double = WheelMetrics.vsp) {
+    let r     = outerRadius * radiusFraction
     let lw    = CGFloat(outerRadius * 0.013)
     let color = theme.isBlackWhite
         ? Color.gray.opacity(0.6)
@@ -178,8 +197,9 @@ private func drawVspLines(_ ctx: inout GraphicsContext,
 
 private func drawVspPoints(_ ctx: inout GraphicsContext,
                             center: CGPoint, outerRadius: Double,
-                            items: [VspWheelItem], theme: WheelTheme) {
-    let r       = outerRadius * WheelMetrics.vsp
+                            items: [VspWheelItem], theme: WheelTheme,
+                            radiusFraction: Double = WheelMetrics.vsp) {
+    let r       = outerRadius * radiusFraction
     let circleR = outerRadius * 0.045
     let numFS   = CGFloat(outerRadius * 0.038)
     let bw      = theme.isBlackWhite

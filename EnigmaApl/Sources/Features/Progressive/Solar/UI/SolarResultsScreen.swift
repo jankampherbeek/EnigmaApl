@@ -19,6 +19,11 @@ struct SolarResultsScreen: View {
     @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
     private var activeConfigs: [UserConfiguration]
 
+    /// Drawing type for chart wheels, from the active configuration.
+    private var drawingType: DrawingType {
+        activeConfigs.first?.displayConfig.drawingType ?? .signBased
+    }
+
     @State private var selectedTab: SolarResultTab = .solarChart
     @State private var blackWhite:  Bool = false
     @State private var hideAspects: Bool = false
@@ -147,8 +152,9 @@ struct SolarResultsScreen: View {
     private var solarWheelView: some View {
         if let solarChart = solarReturnModel.solarFullChart,
            let config = activeConfigs.first {
-            ZodiacTypeWheelCanvas(
-                plotData:    WheelPlotDataBuilder.build(from: solarChart, config: config),
+            ChartWheelCanvas(
+                plotData:    ChartWheelPlotDataBuilder.build(from: solarChart, config: config, drawingType: drawingType),
+                drawingType: drawingType,
                 theme:       theme,
                 showAspects: !hideAspects
             )
@@ -162,10 +168,11 @@ struct SolarResultsScreen: View {
         if let radixChart = chartSession.selectedChart,
            let config = activeConfigs.first {
             DualWheelCanvas(
-                radixData:    WheelPlotDataBuilder.build(from: radixChart, config: config),
+                radixData:    ChartWheelPlotDataBuilder.build(from: radixChart, config: config, drawingType: drawingType),
                 transitItems: solarTransitItems(ascLong: radixChart.HousePositions.ascendant.longitude),
                 theme:        theme,
-                showAspects:  !hideAspects
+                showAspects:  !hideAspects,
+                drawingType:  drawingType
             )
         }
     }
@@ -179,8 +186,9 @@ struct SolarResultsScreen: View {
             case .solarChart:
                 if let solarChart = solarReturnModel.solarFullChart {
                     WheelExportSheet(
-                        wheelView: ZodiacTypeWheelCanvas(
-                            plotData:    WheelPlotDataBuilder.build(from: solarChart, config: config),
+                        wheelView: ChartWheelCanvas(
+                            plotData:    ChartWheelPlotDataBuilder.build(from: solarChart, config: config, drawingType: drawingType),
+                            drawingType: drawingType,
                             theme:       theme,
                             showAspects: !hideAspects
                         )
@@ -190,10 +198,11 @@ struct SolarResultsScreen: View {
                 if let radixChart = chartSession.selectedChart {
                     WheelExportSheet(
                         wheelView: DualWheelCanvas(
-                            radixData:    WheelPlotDataBuilder.build(from: radixChart, config: config),
+                            radixData:    ChartWheelPlotDataBuilder.build(from: radixChart, config: config, drawingType: drawingType),
                             transitItems: solarTransitItems(ascLong: radixChart.HousePositions.ascendant.longitude),
                             theme:        theme,
-                            showAspects:  !hideAspects
+                            showAspects:  !hideAspects,
+                            drawingType:  drawingType
                         )
                     )
                 }

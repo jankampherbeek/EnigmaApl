@@ -27,30 +27,39 @@ struct FrenchTypeWheelCanvas: View {
 
     var body: some View {
         Canvas { ctx, size in
-            let R      = Double(min(size.width, size.height)) / 2.0
-            let center = CGPoint(x: size.width / 2, y: size.height / 2)
-            let asc    = plotData.ascendantLongitude
-
-            drawFrenchCircles(&ctx, center: center, R: R, theme: theme)
-            drawFrenchElementSectors(&ctx, center: center, R: R, ascLong: asc, theme: theme)
-            drawFrenchSignSeparators(&ctx, center: center, R: R, ascLong: asc, theme: theme)
-            drawFrenchSignGlyphs(&ctx, center: center, R: R, ascLong: asc, theme: theme)
-            drawFrenchDegreeLines(&ctx, center: center, R: R, ascLong: asc, theme: theme)
-            if plotData.hasTime {
-                drawFrenchCuspLines(&ctx, center: center, R: R, data: plotData, theme: theme)
-                drawFrenchHouseNumbers(&ctx, center: center, R: R, data: plotData, theme: theme)
-                drawFrenchCardinalGlyphs(&ctx, center: center, R: R, data: plotData, theme: theme)
-            }
-            if showAspects {
-                drawFrenchAspectLines(&ctx, center: center, R: R, data: plotData, theme: theme)
-            }
-            drawFrenchConnectLines(&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawFrenchPlanetGlyphs(&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawFrenchPlanetTexts(&ctx, center: center, R: R, data: plotData, theme: theme)
+            let outerRadius = Double(min(size.width, size.height)) / 2.0
+            let center      = CGPoint(x: size.width / 2, y: size.height / 2)
+            drawFrenchTypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                                plotData: plotData, theme: theme, showAspects: showAspects)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete French-type wheel within `outerRadius` around `center`.
+/// Used by `FrenchTypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+func drawFrenchTypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         plotData: WheelPlotData, theme: WheelTheme, showAspects: Bool) {
+    let R = outerRadius
+    let asc    = plotData.ascendantLongitude
+
+    drawFrenchCircles(&ctx, center: center, R: R, theme: theme)
+    drawFrenchElementSectors(&ctx, center: center, R: R, ascLong: asc, theme: theme)
+    drawFrenchSignSeparators(&ctx, center: center, R: R, ascLong: asc, theme: theme)
+    drawFrenchSignGlyphs(&ctx, center: center, R: R, ascLong: asc, theme: theme)
+    drawFrenchDegreeLines(&ctx, center: center, R: R, ascLong: asc, theme: theme)
+    if plotData.hasTime {
+        drawFrenchCuspLines(&ctx, center: center, R: R, data: plotData, theme: theme)
+        drawFrenchHouseNumbers(&ctx, center: center, R: R, data: plotData, theme: theme)
+        drawFrenchCardinalGlyphs(&ctx, center: center, R: R, data: plotData, theme: theme)
+    }
+    if showAspects {
+        drawFrenchAspectLines(&ctx, center: center, R: R, data: plotData, theme: theme)
+    }
+    drawFrenchConnectLines(&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawFrenchPlanetGlyphs(&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawFrenchPlanetTexts(&ctx, center: center, R: R, data: plotData, theme: theme)
 }
 
 // MARK: - Circles

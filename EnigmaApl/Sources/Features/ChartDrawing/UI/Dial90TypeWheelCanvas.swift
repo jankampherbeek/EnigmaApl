@@ -48,22 +48,31 @@ struct Dial90TypeWheelCanvas: View {
 
     var body: some View {
         Canvas { ctx, size in
-            let R      = Double(min(size.width, size.height)) / 2.0 * dialOuterScale
-            let center = CGPoint(x: size.width / 2, y: size.height / 2)
-
-            drawDial90Background   (&ctx, center: center, R: R, theme: theme)
-            drawDial90RingStrokes  (&ctx, center: center, R: R, theme: theme)
-            drawDial901DegTicks    (&ctx, center: center, R: R, theme: theme)
-            drawDial90HalfDegTicks (&ctx, center: center, R: R, theme: theme)
-            drawDial90DegreeLabels (&ctx, center: center, R: R, theme: theme)
-            drawDial90CenterCross  (&ctx, center: center, R: R, theme: theme)
-            drawDial90ConnectLines (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDial90PlanetGlyphs (&ctx, center: center, R: R, data: plotData, theme: theme)
-            drawDial90PlanetTexts  (&ctx, center: center, R: R, data: plotData, theme: theme)
+            let outerRadius = Double(min(size.width, size.height)) / 2.0
+            let center      = CGPoint(x: size.width / 2, y: size.height / 2)
+            drawDial90TypeWheel(&ctx, center: center, outerRadius: outerRadius,
+                                plotData: plotData, theme: theme)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// Draws a complete 90° dial wheel within `outerRadius` around `center`.
+/// Used by `Dial90TypeWheelCanvas` and by `DualWheelCanvas` for the inner chart.
+func drawDial90TypeWheel(_ ctx: inout GraphicsContext, center: CGPoint, outerRadius: Double,
+                         plotData: WheelPlotData, theme: WheelTheme) {
+    let R = outerRadius * dialOuterScale
+
+    drawDial90Background   (&ctx, center: center, R: R, theme: theme)
+    drawDial90RingStrokes  (&ctx, center: center, R: R, theme: theme)
+    drawDial901DegTicks    (&ctx, center: center, R: R, theme: theme)
+    drawDial90HalfDegTicks (&ctx, center: center, R: R, theme: theme)
+    drawDial90DegreeLabels (&ctx, center: center, R: R, theme: theme)
+    drawDial90CenterCross  (&ctx, center: center, R: R, theme: theme)
+    drawDial90ConnectLines (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDial90PlanetGlyphs (&ctx, center: center, R: R, data: plotData, theme: theme)
+    drawDial90PlanetTexts  (&ctx, center: center, R: R, data: plotData, theme: theme)
 }
 
 // MARK: - Background (white, no element colours)
