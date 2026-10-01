@@ -11,10 +11,15 @@ import Combine
 struct TwoColumnDetailPlaceholder: View {
     var body: some View {
         ContentUnavailableView(
-            "Details in inspector",
+            nv(NavigationKeys.placeholderTitle),
             systemImage: "sidebar.right",
-            description: Text("Open Details via de knop rechtsboven.")
+            description: Text(nv(NavigationKeys.placeholderDescription))
         )
         .padding()
     }
 }
+
+private func nv(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+

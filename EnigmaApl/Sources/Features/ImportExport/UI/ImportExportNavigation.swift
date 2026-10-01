@@ -20,6 +20,7 @@ enum ImportExportSection: String, CaseIterable, Identifiable, Hashable {
     case aaf97       = "AAF'97"
 
     var id: String { rawValue }
+    var rbKey: String { ImportExportSectionKeys.key(for: self) }
 }
 
 @MainActor

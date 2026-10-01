@@ -150,12 +150,12 @@ struct ContentColumn: View {
                 ImportExportScreen()
             }
         }
-        .navigationTitle(app.nav.mode.rawValue)
+        .navigationTitle(le(app.nav.mode.rbKey))
         .toolbar {
             if preferTwoColumns {
                 ToolbarItem(placement: .automatic) {
                     Button { app.setInspectorSheet(true) } label: {
-                        Label("Details", systemImage: "sidebar.right")
+                        Label(nv(NavigationKeys.details), systemImage: "sidebar.right")
                     }
                 }
             }
@@ -164,7 +164,7 @@ struct ContentColumn: View {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
                     }
-                    .accessibilityLabel(app.ui.blackWhite ? "Switch to color" : "Switch to black and white")
+                    .accessibilityLabel(nv(app.ui.blackWhite ? NavigationKeys.menuSwitchToColor : NavigationKeys.menuSwitchToBlackWhite))
                 }
                 if hasAspects {
                     ToolbarItem(placement: .automatic) {
@@ -172,7 +172,7 @@ struct ContentColumn: View {
                             Image(systemName: "angle")
                                 .foregroundStyle(app.ui.hideAspects ? .secondary : .primary)
                         }
-                        .accessibilityLabel(app.ui.hideAspects ? "Show aspects" : "Hide aspects")
+                        .accessibilityLabel(nv(app.ui.hideAspects ? NavigationKeys.menuShowAspects : NavigationKeys.menuHideAspects))
                     }
                 }
                 ToolbarItem(placement: .automatic) {
@@ -180,7 +180,7 @@ struct ContentColumn: View {
                         Image(systemName: "clock")
                             .foregroundStyle(app.ui.hideTime ? .secondary : .primary)
                     }
-                    .accessibilityLabel(app.ui.hideTime ? "Show time" : "Hide time")
+                    .accessibilityLabel(nv(app.ui.hideTime ? NavigationKeys.menuShowTime : NavigationKeys.menuHideTime))
                 }
                 if isDial {
                     ToolbarItem(placement: .automatic) {
@@ -197,7 +197,7 @@ struct ContentColumn: View {
                     Button { app.ui.showExport = true } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
-                    .accessibilityLabel("Export")
+                    .accessibilityLabel(nv(NavigationKeys.export))
                 }
             }
             if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
@@ -205,7 +205,7 @@ struct ContentColumn: View {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")
                     }
-                    .accessibilityLabel("Help")
+                    .accessibilityLabel(nv(NavigationKeys.help))
                 }
             }
         }
@@ -244,4 +244,12 @@ struct ContentColumn: View {
     private func tw(_ key: String) -> String {
         NSLocalizedString(key, tableName: "ChartWheel", bundle: .main, comment: "")
     }
+}
+
+private func nv(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+
+private func le(_ key: String) -> String {
+    NSLocalizedString(key, bundle: .main, comment: "")
 }

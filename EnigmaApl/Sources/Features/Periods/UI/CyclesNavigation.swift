@@ -18,6 +18,7 @@ enum CyclesSection: String, CaseIterable, Identifiable, Hashable {
     case longTimeEphemeris = "Long Time Ephemeris"
     case eclipses = "Eclipses"
     var id: String { rawValue }
+    var rbKey: String { CyclesSectionKeys.key(for: self) }
 }
 
 @MainActor

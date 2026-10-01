@@ -30,31 +30,31 @@ struct DetailColumn: View {
         case .radix:
             switch app.nav.radix.inspector {
             case .overview:
-                return "Horoscoop"
+                return le(RadixInspector.horoscope.rbKey)
             case .newChart:
-                return "Data for a new chart"
+                return ri("view.radixinputscreen.title")
             case .positions:
-                return "Positions"
+                return le(RadixInspector.positions.rbKey)
             case .analysis:
-                return "Horoscoop"
+                return le(RadixInspector.horoscope.rbKey)
             case .analysisAspects:
-                return "Aspecten"
+                return le(RadixInspector.analysisAspects.rbKey)
             case .analysisMidpoints:
-                return "Midpunten"
+                return le(RadixInspector.analysisMidpoints.rbKey)
             case .analysisHarmonics:
-                return "Harmonischen"
+                return le(RadixInspector.analysisHarmonics.rbKey)
             case .analysisDeclinations:
-                return "Declinaties"
+                return le(RadixInspector.analysisDeclinations.rbKey)
             case .analysisZodiacDivisions:
-                return "Zodiacal Divisions"
+                return le(RadixInspector.analysisZodiacDivisions.rbKey)
             case .analysisAltZodiacStart:
                 return NSLocalizedString(AltZodiacStartKeys.navTitle, tableName: "AltZodiacStart", bundle: .main, comment: "")
             case .analysisEnneagram:
-                return "Enneagram"
+                return le(RadixInspector.analysisEnneagram.rbKey)
             case .analysisVsp:
-                return "Venus Star Point"
+                return le(RadixInspector.analysisVsp.rbKey)
             case .analysisParans:
-                return "Parans"
+                return le(RadixInspector.analysisParans.rbKey)
             case .analysisHarmonicOrbs:
                 return NSLocalizedString(HarmonicOrbsKeys.navTitle, tableName: "HarmonicOrbs", bundle: .main, comment: "")
             case .analysisLots:
@@ -64,28 +64,28 @@ struct DetailColumn: View {
             case .analysisCountings:
                 return NSLocalizedString(CountingsKeys.title, tableName: "Countings", bundle: .main, comment: "")
             case .horoscope:
-                return "Horoscoop"
+                return le(RadixInspector.horoscope.rbKey)
             case .search:
-                return "Horoscoop"
+                return le(RadixInspector.horoscope.rbKey)
             case .editChart:
-                return "Wijzig horoscoop"
+                return le(RadixInspector.editChart.rbKey)
             }
         case .progressive:
-            return app.nav.progressive.section.rawValue
+            return le(app.nav.progressive.section.rbKey)
         case .fixstars:
-            return "Fixed Stars"
+            return le(AppMode.fixstars.rbKey)
         case .research:
             return ""
         case .cycles:
-            return "Detail"
+            return nv(NavigationKeys.detail)
         case .calculators:
-            return app.nav.calculators.section.rawValue
+            return le(app.nav.calculators.section.rbKey)
         case .config:
-            return configNav.selectedConfig?.name ?? "Configuratie"
+            return configNav.selectedConfig?.name ?? le(AppMode.config.rbKey)
         case .synastry:
-            return "Synastry"
+            return le(AppMode.synastry.rbKey)
         case .importExport:
-            return app.nav.importExport.section.rawValue
+            return le(app.nav.importExport.section.rbKey)
         }
     }
 
@@ -226,4 +226,12 @@ struct DetailColumn: View {
             }
         }
     }
+}
+
+private func nv(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+
+private func le(_ key: String) -> String {
+    NSLocalizedString(key, bundle: .main, comment: "")
 }

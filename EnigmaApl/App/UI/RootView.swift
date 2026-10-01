@@ -132,10 +132,10 @@ struct RootView: View {
         )) {
             NavigationStack {
                 DetailColumn()
-                    .navigationTitle("Details")
+                    .navigationTitle(nv(NavigationKeys.details))
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button("Sluiten") { app.setInspectorSheet(false) }
+                            Button(nv(NavigationKeys.close)) { app.setInspectorSheet(false) }
                         }
                     }
             }
@@ -197,3 +197,8 @@ struct RootView: View {
         app.nav.radix.inspector = .positions
     }
 }
+
+private func nv(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+

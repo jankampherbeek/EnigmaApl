@@ -103,6 +103,7 @@ enum AppMode: String, CaseIterable, Identifiable, Hashable {
     case importExport = "Import/Export"
 
     var id: String { rawValue }
+    var rbKey: String { AppModeKeys.key(for: self) }
 
     // Modes shown in the sidebar; fixstars is accessed via the Radix overview button instead.
     static var sidebarModes: [AppMode] {

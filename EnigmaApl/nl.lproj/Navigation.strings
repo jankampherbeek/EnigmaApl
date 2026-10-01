@@ -1,0 +1,19 @@
+/* Menu, sidebar and column titles */
+
+"view.navigation.sidebar.title"            = "Navigatie";
+"view.navigation.sidebar.modes"            = "Werkmodi";
+"view.navigation.menu.activate"            = "Activeer %@";
+"view.navigation.menu.display"             = "Weergave";
+"view.navigation.menu.switchtocolor"       = "Naar kleur";
+"view.navigation.menu.switchtoblackwhite"  = "Naar zwart-wit";
+"view.navigation.menu.showaspects"         = "Toon aspecten";
+"view.navigation.menu.hideaspects"         = "Verberg aspecten";
+"view.navigation.menu.showtime"            = "Toon tijd";
+"view.navigation.menu.hidetime"            = "Verberg tijd";
+"view.navigation.details"                  = "Details";
+"view.navigation.detail"                   = "Detail";
+"view.navigation.close"                    = "Sluiten";
+"view.navigation.placeholder.title"        = "Details in inspector";
+"view.navigation.placeholder.description"  = "Open Details via de knop rechtsboven.";
+"view.navigation.export"                  = "Exporteer";
+"view.navigation.help"                    = "Help";

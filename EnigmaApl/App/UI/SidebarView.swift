@@ -22,10 +22,10 @@ struct SidebarView: View {
 
     var body: some View {
         List {
-            Section("Werkmodi") {
+            Section(nv(NavigationKeys.sidebarModes)) {
                 ForEach(AppMode.sidebarModes) { mode in
                     Button { app.setMode(mode) } label: {
-                        row(mode.rawValue, app.nav.mode == mode, icon: mode.systemImage)
+                        row(le(mode.rbKey), app.nav.mode == mode, icon: mode.systemImage)
                     }
                     .buttonStyle(.plain)
                 }
@@ -33,63 +33,63 @@ struct SidebarView: View {
 
             switch app.nav.mode {
             case .radix:
-                Section("Radix") {
+                Section(le(AppMode.radix.rbKey)) {
                     Button { radixNav.setInspector(.overview) } label: {
-                        row(RadixInspector.overview.rawValue, app.nav.radix.inspector == .overview)
+                        row(le(RadixInspector.overview.rbKey), app.nav.radix.inspector == .overview)
                     }.buttonStyle(.plain)
                     Button { radixNav.setInspector(.positions) } label: {
-                        row(RadixInspector.positions.rawValue, app.nav.radix.inspector == .positions)
+                        row(le(RadixInspector.positions.rbKey), app.nav.radix.inspector == .positions)
                     }.buttonStyle(.plain)
                     Button { radixNav.setInspector(.analysis) } label: {
-                        row(RadixInspector.analysis.rawValue, app.nav.radix.inspector == .analysis)
+                        row(le(RadixInspector.analysis.rbKey), app.nav.radix.inspector == .analysis)
                     }.buttonStyle(.plain)
                     Button { radixNav.setInspector(.search) } label: {
-                        row(RadixInspector.search.rawValue, app.nav.radix.inspector == .search)
+                        row(le(RadixInspector.search.rbKey), app.nav.radix.inspector == .search)
                     }.buttonStyle(.plain)
                 }
             case .progressive:
-                Section("Progressive") {
+                Section(le(AppMode.progressive.rbKey)) {
                     ForEach(ProgressiveSection.allCases) { section in
                         Button { progressiveNav.setSection(section) } label: {
-                            row(section.rawValue, app.nav.progressive.section == section)
+                            row(le(section.rbKey), app.nav.progressive.section == section)
                         }
                         .buttonStyle(.plain)
                     }
                 }
             case .research:
-                Section("Research") {
+                Section(le(AppMode.research.rbKey)) {
                     Button { researchNav.setSection(.projects) } label: {
-                        row(ResearchSection.projects.rawValue, app.nav.research.section == .projects)
+                        row(le(ResearchSection.projects.rbKey), app.nav.research.section == .projects)
                     }.buttonStyle(.plain)
                 }
             case .cycles:
-                Section("Cycli") {
+                Section(le(AppMode.cycles.rbKey)) {
                     Button { cyclesNav.setSection(.astronomicalCycles) } label: {
-                        row(CyclesSection.astronomicalCycles.rawValue, app.nav.cycles.section == .astronomicalCycles)
+                        row(le(CyclesSection.astronomicalCycles.rbKey), app.nav.cycles.section == .astronomicalCycles)
                     }.buttonStyle(.plain)
                     Button { cyclesNav.setSection(.waves) } label: {
-                        row(CyclesSection.waves.rawValue, app.nav.cycles.section == .waves)
+                        row(le(CyclesSection.waves.rbKey), app.nav.cycles.section == .waves)
                     }.buttonStyle(.plain)
                     Button { cyclesNav.setSection(.tablesGraphs) } label: {
-                        row(CyclesSection.tablesGraphs.rawValue, app.nav.cycles.section == .tablesGraphs)
+                        row(le(CyclesSection.tablesGraphs.rbKey), app.nav.cycles.section == .tablesGraphs)
                     }.buttonStyle(.plain)
                     Button { cyclesNav.setSection(.ephemeris) } label: {
-                        row(CyclesSection.ephemeris.rawValue, app.nav.cycles.section == .ephemeris)
+                        row(le(CyclesSection.ephemeris.rbKey), app.nav.cycles.section == .ephemeris)
                     }.buttonStyle(.plain)
                     Button { cyclesNav.setSection(.longTimeEphemeris) } label: {
-                        row(CyclesSection.longTimeEphemeris.rawValue, app.nav.cycles.section == .longTimeEphemeris)
+                        row(le(CyclesSection.longTimeEphemeris.rbKey), app.nav.cycles.section == .longTimeEphemeris)
                     }.buttonStyle(.plain)
                     Button { cyclesNav.setSection(.eclipses) } label: {
-                        row(CyclesSection.eclipses.rawValue, app.nav.cycles.section == .eclipses)
+                        row(le(CyclesSection.eclipses.rbKey), app.nav.cycles.section == .eclipses)
                     }.buttonStyle(.plain)
                 }
             case .fixstars:
                 EmptyView()
             case .calculators:
-                Section("Calculators") {
+                Section(le(AppMode.calculators.rbKey)) {
                     ForEach(CalculatorsSection.allCases) { section in
                         Button { calculatorsNav.setSection(section) } label: {
-                            row(section.rawValue, app.nav.calculators.section == section)
+                            row(le(section.rbKey), app.nav.calculators.section == section)
                         }
                         .buttonStyle(.plain)
                     }
@@ -99,17 +99,17 @@ struct SidebarView: View {
             case .synastry:
                 EmptyView()
             case .importExport:
-                Section("Import/Export") {
+                Section(le(AppMode.importExport.rbKey)) {
                     ForEach(ImportExportSection.allCases) { section in
                         Button { importExportNav.setSection(section) } label: {
-                            row(section.rawValue, app.nav.importExport.section == section)
+                            row(le(section.rbKey), app.nav.importExport.section == section)
                         }
                         .buttonStyle(.plain)
                     }
                 }
             }
         }
-        .navigationTitle("Navigatie")
+        .navigationTitle(nv(NavigationKeys.sidebarTitle))
     }
 
     private func row(_ title: String, _ selected: Bool) -> some View {
@@ -127,4 +127,12 @@ struct SidebarView: View {
             if selected { Image(systemName: "checkmark").foregroundStyle(.secondary) }
         }
     }
+}
+
+private func nv(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+
+private func le(_ key: String) -> String {
+    NSLocalizedString(key, bundle: .main, comment: "")
 }

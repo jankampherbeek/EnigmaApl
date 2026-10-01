@@ -34,6 +34,7 @@ enum RadixInspector: String, CaseIterable, Identifiable, Hashable {
     case search          = "Zoek"
     case editChart       = "Wijzig"
     var id: String { rawValue }
+    var rbKey: String { RadixInspectorKeys.key(for: self) }
 }
 
 

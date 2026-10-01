@@ -22,4 +22,11 @@ struct EnumKeySelector {
     static func key(for direction: UTOffsetDirection) -> String    { UTOffsetDirectionKeys.key(for: direction) }
     static func key(for count: YearCount) -> String          { YearCountKeys.key(for: count) }
     static func key(for type: ZodiacTypes) -> String         { ZodiacTypeKeys.key(for: type) }
+    static func key(for value: AppMode) -> String              { AppModeKeys.key(for: value) }
+    static func key(for value: RadixInspector) -> String       { RadixInspectorKeys.key(for: value) }
+    static func key(for value: ProgressiveSection) -> String   { ProgressiveSectionKeys.key(for: value) }
+    static func key(for value: ResearchSection) -> String      { ResearchSectionKeys.key(for: value) }
+    static func key(for value: CyclesSection) -> String        { CyclesSectionKeys.key(for: value) }
+    static func key(for value: CalculatorsSection) -> String   { CalculatorsSectionKeys.key(for: value) }
+    static func key(for value: ImportExportSection) -> String  { ImportExportSectionKeys.key(for: value) }
 }

@@ -1,0 +1,19 @@
+/* Menu, sidebar and column titles */
+
+"view.navigation.sidebar.title"            = "Navigation";
+"view.navigation.sidebar.modes"            = "Modes de travail";
+"view.navigation.menu.activate"            = "Activer %@";
+"view.navigation.menu.display"             = "Affichage";
+"view.navigation.menu.switchtocolor"       = "Passer en couleur";
+"view.navigation.menu.switchtoblackwhite"  = "Passer en noir et blanc";
+"view.navigation.menu.showaspects"         = "Afficher les aspects";
+"view.navigation.menu.hideaspects"         = "Masquer les aspects";
+"view.navigation.menu.showtime"            = "Afficher l'heure";
+"view.navigation.menu.hidetime"            = "Masquer l'heure";
+"view.navigation.details"                  = "Détails";
+"view.navigation.detail"                   = "Détail";
+"view.navigation.close"                    = "Fermer";
+"view.navigation.placeholder.title"        = "Détails dans l'inspecteur";
+"view.navigation.placeholder.description"  = "Ouvrez les détails avec le bouton en haut à droite.";
+"view.navigation.export"                  = "Exporter";
+"view.navigation.help"                    = "Aide";

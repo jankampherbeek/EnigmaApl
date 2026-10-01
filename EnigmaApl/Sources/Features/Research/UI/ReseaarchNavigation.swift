@@ -15,6 +15,7 @@ struct ResearchNav: Equatable {
 enum ResearchSection: String, CaseIterable, Identifiable, Hashable {
     case projects = "Projects"
     var id: String { rawValue }
+    var rbKey: String { ResearchSectionKeys.key(for: self) }
 }
 
 

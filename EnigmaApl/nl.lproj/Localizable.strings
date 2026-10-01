@@ -338,3 +338,70 @@
 "enum.fixstarselections.brady"      = "Brady";
 "enum.fixstarselections.magnitude"  = "Minimale magnitude";
 "enum.fixstarselections.selfdefined" = "Zelf gedefinieerd";
+
+// MARK: - Navigation
+
+// AppMode
+"enum.appmode.radix" = "Radix";
+"enum.appmode.progressive" = "Progressief";
+"enum.appmode.fixstars" = "Vaste sterren";
+"enum.appmode.research" = "Onderzoek";
+"enum.appmode.cycles" = "Perioden";
+"enum.appmode.calculators" = "Calculators";
+"enum.appmode.config" = "Configuratie";
+"enum.appmode.synastry" = "Synastrie";
+"enum.appmode.importexport" = "Import/Export";
+
+// RadixInspector
+"enum.radixinspector.overview" = "Overzicht";
+"enum.radixinspector.horoscope" = "Horoscoop";
+"enum.radixinspector.positions" = "Posities";
+"enum.radixinspector.analysis" = "Analyse";
+"enum.radixinspector.analysisaspects" = "Aspecten";
+"enum.radixinspector.analysismidpoints" = "Middelpunten";
+"enum.radixinspector.analysisharmonics" = "Harmonischen";
+"enum.radixinspector.analysisdeclinations" = "Declinaties";
+"enum.radixinspector.analysiszodiacdivisions" = "Zodiacale Verdelingen";
+"enum.radixinspector.analysisaltzodiacstart" = "Alternatief startpunt dierenriem";
+"enum.radixinspector.analysisenneagram" = "Enneagram";
+"enum.radixinspector.analysisvsp" = "Venus Sterpunt";
+"enum.radixinspector.analysisparans" = "Paranen";
+"enum.radixinspector.analysisharmonicorbs" = "Harmonische orbs";
+"enum.radixinspector.analysislots" = "Hellenistische loten";
+"enum.radixinspector.analysisblaschema" = "BLA Schema";
+"enum.radixinspector.analysiscountings" = "Tellingen";
+"enum.radixinspector.newchart" = "Nieuwe horoscoop";
+"enum.radixinspector.search" = "Zoek";
+"enum.radixinspector.editchart" = "Wijzig horoscoop";
+
+// ProgressiveSection
+"enum.progressivesection.events" = "Gebeurtenissen";
+"enum.progressivesection.primary" = "Primair";
+"enum.progressivesection.secondary" = "Secundair";
+"enum.progressivesection.transit" = "Transit";
+"enum.progressivesection.symbolic" = "Symbolisch";
+"enum.progressivesection.solar" = "Solaar";
+"enum.progressivesection.prenatal" = "PreNataal";
+"enum.progressivesection.logarithmictimescale" = "Logaritmische Tijdschaal";
+"enum.progressivesection.agepoint" = "Leeftijdspunt";
+"enum.progressivesection.progressivecalendar" = "Progressieve kalender";
+
+// ResearchSection
+"enum.researchsection.projects" = "Projecten";
+
+// CyclesSection
+"enum.cyclessection.astronomicalcycles" = "Astronomische cycli";
+"enum.cyclessection.waves" = "Golven";
+"enum.cyclessection.tablesgraphs" = "Tabellen/Grafieken";
+"enum.cyclessection.ephemeris" = "Maandelijkse ephemeride";
+"enum.cyclessection.longtimeephemeris" = "Lange-termijn ephemeride";
+"enum.cyclessection.eclipses" = "Eclipsen";
+
+// CalculatorsSection
+"enum.calculatorssection.julianday" = "Juliaanse Dag";
+"enum.calculatorssection.obliquity" = "Obliquiteit";
+
+// ImportExportSection
+"enum.importexportsection.enigma" = "Enigma";
+"enum.importexportsection.quickchart" = "QuickChart";
+"enum.importexportsection.aaf97" = "AAF'97";

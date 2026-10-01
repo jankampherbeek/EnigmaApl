@@ -13,6 +13,7 @@ enum CalculatorsSection: String, CaseIterable, Identifiable, Hashable {
     case julianDay    = "Julian Day"
     case obliquity    = "Obliquity"
     var id: String { rawValue }
+    var rbKey: String { CalculatorsSectionKeys.key(for: self) }
 }
 
 @MainActor

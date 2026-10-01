@@ -22,6 +22,7 @@ enum ProgressiveSection: String, CaseIterable, Identifiable, Hashable {
     case progressiveCalendar  = "Progressive Calendar"
 
     var id: String { rawValue }
+    var rbKey: String { ProgressiveSectionKeys.key(for: self) }
 }
 
 @MainActor

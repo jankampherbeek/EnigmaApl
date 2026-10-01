@@ -338,3 +338,70 @@
 "enum.fixstarselections.brady"      = "Brady";
 "enum.fixstarselections.magnitude"  = "Minimale Helligkeit";
 "enum.fixstarselections.selfdefined" = "Selbst definiert";
+
+// MARK: - Navigation
+
+// AppMode
+"enum.appmode.radix" = "Radix";
+"enum.appmode.progressive" = "Progressiv";
+"enum.appmode.fixstars" = "Fixsterne";
+"enum.appmode.research" = "Forschung";
+"enum.appmode.cycles" = "Perioden";
+"enum.appmode.calculators" = "Rechner";
+"enum.appmode.config" = "Konfiguration";
+"enum.appmode.synastry" = "Synastrie";
+"enum.appmode.importexport" = "Import/Export";
+
+// RadixInspector
+"enum.radixinspector.overview" = "Übersicht";
+"enum.radixinspector.horoscope" = "Horoskop";
+"enum.radixinspector.positions" = "Positionen";
+"enum.radixinspector.analysis" = "Analyse";
+"enum.radixinspector.analysisaspects" = "Aspekte";
+"enum.radixinspector.analysismidpoints" = "Mittelpunkte";
+"enum.radixinspector.analysisharmonics" = "Harmoniken";
+"enum.radixinspector.analysisdeclinations" = "Deklinationen";
+"enum.radixinspector.analysiszodiacdivisions" = "Zodiakale Einteilungen";
+"enum.radixinspector.analysisaltzodiacstart" = "Alternativer Tierkreisstart";
+"enum.radixinspector.analysisenneagram" = "Enneagramm";
+"enum.radixinspector.analysisvsp" = "Venus-Sternpunkt";
+"enum.radixinspector.analysisparans" = "Parans";
+"enum.radixinspector.analysisharmonicorbs" = "Harmonische Orbis";
+"enum.radixinspector.analysislots" = "Hellenistische Lose";
+"enum.radixinspector.analysisblaschema" = "BLA-Schema";
+"enum.radixinspector.analysiscountings" = "Zählungen";
+"enum.radixinspector.newchart" = "Neues Horoskop";
+"enum.radixinspector.search" = "Suchen";
+"enum.radixinspector.editchart" = "Horoskop bearbeiten";
+
+// ProgressiveSection
+"enum.progressivesection.events" = "Ereignisse";
+"enum.progressivesection.primary" = "Primär";
+"enum.progressivesection.secondary" = "Sekundär";
+"enum.progressivesection.transit" = "Transit";
+"enum.progressivesection.symbolic" = "Symbolisch";
+"enum.progressivesection.solar" = "Solar";
+"enum.progressivesection.prenatal" = "Pränatal";
+"enum.progressivesection.logarithmictimescale" = "Logarithmische Zeitskala";
+"enum.progressivesection.agepoint" = "Alterspunkt";
+"enum.progressivesection.progressivecalendar" = "Progressiver Kalender";
+
+// ResearchSection
+"enum.researchsection.projects" = "Projekte";
+
+// CyclesSection
+"enum.cyclessection.astronomicalcycles" = "Astronomische Zyklen";
+"enum.cyclessection.waves" = "Wellen";
+"enum.cyclessection.tablesgraphs" = "Tabellen/Diagramme";
+"enum.cyclessection.ephemeris" = "Monatliche Ephemeride";
+"enum.cyclessection.longtimeephemeris" = "Langzeit-Ephemeride";
+"enum.cyclessection.eclipses" = "Finsternisse";
+
+// CalculatorsSection
+"enum.calculatorssection.julianday" = "Julianischer Tag";
+"enum.calculatorssection.obliquity" = "Obliquität";
+
+// ImportExportSection
+"enum.importexportsection.enigma" = "Enigma";
+"enum.importexportsection.quickchart" = "QuickChart";
+"enum.importexportsection.aaf97" = "AAF'97";

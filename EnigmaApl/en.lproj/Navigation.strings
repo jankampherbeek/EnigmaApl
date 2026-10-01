@@ -1,0 +1,19 @@
+/* Menu, sidebar and column titles */
+
+"view.navigation.sidebar.title"            = "Navigation";
+"view.navigation.sidebar.modes"            = "Work Modes";
+"view.navigation.menu.activate"            = "Activate %@";
+"view.navigation.menu.display"             = "Display";
+"view.navigation.menu.switchtocolor"       = "Switch to Color";
+"view.navigation.menu.switchtoblackwhite"  = "Switch to Black & White";
+"view.navigation.menu.showaspects"         = "Show Aspects";
+"view.navigation.menu.hideaspects"         = "Hide Aspects";
+"view.navigation.menu.showtime"            = "Show Time";
+"view.navigation.menu.hidetime"            = "Hide Time";
+"view.navigation.details"                  = "Details";
+"view.navigation.detail"                   = "Detail";
+"view.navigation.close"                    = "Close";
+"view.navigation.placeholder.title"        = "Details in inspector";
+"view.navigation.placeholder.description"  = "Open Details with the button at the top right.";
+"view.navigation.export"                  = "Export";
+"view.navigation.help"                    = "Help";
