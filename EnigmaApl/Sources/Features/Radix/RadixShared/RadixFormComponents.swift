@@ -11,11 +11,12 @@ func ri(_ key: String) -> String {
 
 // Reusable numeric picker that combines a TextField (type directly) with a
 // chevron button that opens a popover list – HIG-compliant on macOS.
+// A nil selection is shown as an empty field; clearing the field sets the selection to nil.
 struct NumericPickerField: View {
     let range: ClosedRange<Int>
     let fieldWidth: CGFloat
     let format: (Int) -> String
-    @Binding var selection: Int
+    @Binding var selection: Int?
     @State private var text = ""
     @State private var showPopover = false
     @FocusState private var isFocused: Bool
@@ -25,6 +26,10 @@ struct NumericPickerField: View {
         return range.contains(value)
     }
 
+    private func display(_ value: Int?) -> String {
+        value.map(format) ?? ""
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             TextField("", text: $text)
@@ -32,9 +37,13 @@ struct NumericPickerField: View {
                 .frame(width: fieldWidth)
                 .multilineTextAlignment(.center)
                 .focused($isFocused)
-                .onAppear { text = format(selection) }
-                .onChange(of: selection) { _, newValue in text = format(newValue) }
+                .onAppear { text = display(selection) }
+                .onChange(of: selection) { _, newValue in text = display(newValue) }
                 .onChange(of: text) { _, newText in
+                    if newText.trimmingCharacters(in: .whitespaces).isEmpty {
+                        if selection != nil { selection = nil }
+                        return
+                    }
                     guard let value = Int(newText), range.contains(value), value != selection else { return }
                     selection = value
                 }
@@ -42,8 +51,10 @@ struct NumericPickerField: View {
                     guard !focused else { return }
                     if isValid, let value = Int(text) {
                         selection = value
+                    } else if text.trimmingCharacters(in: .whitespaces).isEmpty {
+                        selection = nil
                     } else {
-                        text = format(selection)
+                        text = display(selection)
                     }
                 }
             Button {
@@ -81,20 +92,29 @@ struct NumericPickerField: View {
                         }
                     }
                     .frame(height: min(200, CGFloat(range.count) * 24 + 8))
-                    .onAppear { proxy.scrollTo(selection, anchor: .center) }
+                    .onAppear { proxy.scrollTo(selection ?? range.lowerBound, anchor: .center) }
                 }
             }
         }
     }
 }
 
+extension NumericPickerField {
+    init(range: ClosedRange<Int>, fieldWidth: CGFloat, format: @escaping (Int) -> String, selection: Binding<Int>) {
+        self.init(range: range, fieldWidth: fieldWidth, format: format, selection: Binding<Int?>(selection))
+    }
+}
+
 // Reusable DMS part picker used to compose geo-coordinate input.
+// A nil selection is shown as an empty field; clearing the field sets the selection to nil.
 struct DMSComponentPicker: View {
     let symbol: String
     let range: ClosedRange<Int>
-    @Binding var selection: Int
+    @Binding var selection: Int?
     @State private var text = ""
     @FocusState private var isFocused: Bool
+
+    private var isEmpty: Bool { text.trimmingCharacters(in: .whitespaces).isEmpty }
 
     private var isValid: Bool {
         guard let value = Int(text) else { return false }
@@ -110,16 +130,18 @@ struct DMSComponentPicker: View {
                 .focused($isFocused)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(!isFocused && !isValid ? Color.red : Color.clear, lineWidth: 1.5)
+                        .stroke(!isFocused && !isEmpty && !isValid ? Color.red : Color.clear, lineWidth: 1.5)
                 )
-                .onAppear { text = String(selection) }
-                .onChange(of: selection) { _, newValue in text = String(newValue) }
+                .onAppear { text = selection.map(String.init) ?? "" }
+                .onChange(of: selection) { _, newValue in text = newValue.map(String.init) ?? "" }
                 .onChange(of: isFocused) { _, focused in
                     guard !focused else { return }
                     if isValid, let value = Int(text) {
                         selection = value
+                    } else if isEmpty {
+                        selection = nil
                     } else {
-                        text = String(selection)
+                        text = selection.map(String.init) ?? ""
                     }
                 }
                 .accessibilityLabel(symbol)
@@ -396,12 +418,12 @@ private final class LocationSearchModel: ObservableObject {
 
 struct LocationSection: View {
     @Binding var locationName: String
-    @Binding var latitudeDegrees: Int
-    @Binding var latitudeMinutes: Int
-    @Binding var latitudeSeconds: Int
-    @Binding var longitudeDegrees: Int
-    @Binding var longitudeMinutes: Int
-    @Binding var longitudeSeconds: Int
+    @Binding var latitudeDegrees: Int?
+    @Binding var latitudeMinutes: Int?
+    @Binding var latitudeSeconds: Int?
+    @Binding var longitudeDegrees: Int?
+    @Binding var longitudeMinutes: Int?
+    @Binding var longitudeSeconds: Int?
     @Binding var latHemi: LatitudeHemisphere
     @Binding var lonHemi: LongitudeHemisphere
     @Binding var offsetHour: Int
@@ -559,15 +581,40 @@ struct LocationSection: View {
     }
 }
 
+extension LocationSection {
+    // Variant for screens that always have coordinate values (no empty fields).
+    init(locationName: Binding<String>,
+         latitudeDegrees: Binding<Int>, latitudeMinutes: Binding<Int>, latitudeSeconds: Binding<Int>,
+         longitudeDegrees: Binding<Int>, longitudeMinutes: Binding<Int>, longitudeSeconds: Binding<Int>,
+         latHemi: Binding<LatitudeHemisphere>, lonHemi: Binding<LongitudeHemisphere>,
+         offsetHour: Binding<Int>, offsetMinute: Binding<Int>,
+         utOffsetDirection: Binding<UTOffsetDirection>, dstOption: Binding<DSTOption>,
+         selectedCity: Binding<LocationCity?>,
+         initialCountry: String? = nil, initialCity: String? = nil,
+         selectedCountryName: Binding<String>? = nil,
+         onCitySelected: ((LocationCity) -> Void)? = nil) {
+        self.init(locationName: locationName,
+                  latitudeDegrees: Binding<Int?>(latitudeDegrees), latitudeMinutes: Binding<Int?>(latitudeMinutes), latitudeSeconds: Binding<Int?>(latitudeSeconds),
+                  longitudeDegrees: Binding<Int?>(longitudeDegrees), longitudeMinutes: Binding<Int?>(longitudeMinutes), longitudeSeconds: Binding<Int?>(longitudeSeconds),
+                  latHemi: latHemi, lonHemi: lonHemi,
+                  offsetHour: offsetHour, offsetMinute: offsetMinute,
+                  utOffsetDirection: utOffsetDirection, dstOption: dstOption,
+                  selectedCity: selectedCity,
+                  initialCountry: initialCountry, initialCity: initialCity,
+                  selectedCountryName: selectedCountryName,
+                  onCitySelected: onCitySelected)
+    }
+}
+
 // MARK: - Section: Date & Time
 
 struct DateTimeSection: View {
     @Binding var yearText: String
-    @Binding var month: Int
-    @Binding var day: Int
-    @Binding var hour: Int
-    @Binding var minute: Int
-    @Binding var second: Int
+    @Binding var month: Int?
+    @Binding var day: Int?
+    @Binding var hour: Int?
+    @Binding var minute: Int?
+    @Binding var second: Int?
     @Binding var offsetHour: Int
     @Binding var offsetMinute: Int
     @Binding var offsetSecond: Int
@@ -677,5 +724,22 @@ struct DateTimeSection: View {
 
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+extension DateTimeSection {
+    // Variant for screens that always have date and time values (no empty fields).
+    init(yearText: Binding<String>, month: Binding<Int>, day: Binding<Int>,
+         hour: Binding<Int>, minute: Binding<Int>, second: Binding<Int>,
+         offsetHour: Binding<Int>, offsetMinute: Binding<Int>, offsetSecond: Binding<Int>,
+         calendarStyle: Binding<CalendarStyle>, yearCount: Binding<YearCount>,
+         utOffsetDirection: Binding<UTOffsetDirection>, dstOption: Binding<DSTOption>,
+         dateValidationResult: DateComponentsValidationResult) {
+        self.init(yearText: yearText, month: Binding<Int?>(month), day: Binding<Int?>(day),
+                  hour: Binding<Int?>(hour), minute: Binding<Int?>(minute), second: Binding<Int?>(second),
+                  offsetHour: offsetHour, offsetMinute: offsetMinute, offsetSecond: offsetSecond,
+                  calendarStyle: calendarStyle, yearCount: yearCount,
+                  utOffsetDirection: utOffsetDirection, dstOption: dstOption,
+                  dateValidationResult: dateValidationResult)
     }
 }

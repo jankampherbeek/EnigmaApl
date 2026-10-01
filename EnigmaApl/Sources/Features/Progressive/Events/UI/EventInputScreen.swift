@@ -25,25 +25,24 @@ struct EventInputScreen: View {
     // Location fields
     @State private var locationName = ""
     @State private var country = ""
-    @State private var latitudeDegrees = 0
-    @State private var latitudeMinutes = 0
-    @State private var latitudeSeconds = 0
-    @State private var longitudeDegrees = 0
-    @State private var longitudeMinutes = 0
-    @State private var longitudeSeconds = 0
+    // Coordinates start empty (nil); the location is optional, but if entered both latitude and longitude are required.
+    @State private var latitudeDegrees: Int? = nil
+    @State private var latitudeMinutes: Int? = nil
+    @State private var latitudeSeconds: Int? = nil
+    @State private var longitudeDegrees: Int? = nil
+    @State private var longitudeMinutes: Int? = nil
+    @State private var longitudeSeconds: Int? = nil
     @State private var latHemi: LatitudeHemisphere = .north
     @State private var lonHemi: LongitudeHemisphere = .east
     @State private var selectedCity: LocationCity? = nil
 
-    // Date/time fields — initialised to today so the user gets a sensible starting point
-    @State private var yearText: String = {
-        String(Calendar.current.component(.year, from: Date()))
-    }()
-    @State private var month = Calendar.current.component(.month, from: Date())
-    @State private var day   = Calendar.current.component(.day,   from: Date())
-    @State private var hour  = Calendar.current.component(.hour,  from: Date())
-    @State private var minute = Calendar.current.component(.minute, from: Date())
-    @State private var second = 0
+    // Date/time fields start empty (nil) so we can check that the user entered them
+    @State private var yearText = ""
+    @State private var month: Int? = nil
+    @State private var day: Int? = nil
+    @State private var hour: Int? = nil
+    @State private var minute: Int? = nil
+    @State private var second: Int? = nil
     @State private var offsetHour = 0
     @State private var offsetMinute = 0
     @State private var offsetSecond = 0
@@ -66,22 +65,35 @@ struct EventInputScreen: View {
         }
     }
 
+    private var yearIsEmpty: Bool { yearText.trimmingCharacters(in: .whitespaces).isEmpty }
+
     private var dateValidationResult: DateComponentsValidationResult {
+        // Missing fields are reported via dateTimeIsComplete, not as an invalid date.
+        if yearIsEmpty { return DateComponentsValidationResult(isValid: false) }
         guard let year = astronomicalYear else {
             return DateComponentsValidationResult(isValid: false,
                                                   message: t(EventInputKeys.validationInvalidYear))
         }
+        guard let month, let day else { return DateComponentsValidationResult(isValid: false) }
         return AstronomicalDateValidation.validateDateComponents(
             year: year, month: month, day: day, gregorian: calendarStyle == .gregorian
         )
     }
+
+    // Degrees are required for a coordinate; empty minutes and seconds count as zero.
+    private var hasCoordinates: Bool { latitudeDegrees != nil && longitudeDegrees != nil }
+    // The location is optional: either both coordinates are entered or neither.
+    private var locationIsComplete: Bool { hasCoordinates || (latitudeDegrees == nil && longitudeDegrees == nil) }
+    // Year, month, day and hour are required; empty minutes and seconds count as zero.
+    private var dateTimeIsComplete: Bool { !yearIsEmpty && month != nil && day != nil && hour != nil }
 
     private var titleIsEmpty: Bool {
         eventTitle.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
     private var canCreate: Bool {
-        !titleIsEmpty && dateValidationResult.isValid && astronomicalYear != nil
+        !titleIsEmpty && locationIsComplete && dateTimeIsComplete
+            && dateValidationResult.isValid && astronomicalYear != nil
     }
 
     private var dstUncertain: Bool {
@@ -189,6 +201,12 @@ struct EventInputScreen: View {
                 .controlSize(.regular)
                 .disabled(!canCreate)
 
+                if !locationIsComplete {
+                    Text(t(EventInputKeys.validationLocationIncomplete)).font(.caption).foregroundStyle(.secondary)
+                }
+                if !dateTimeIsComplete {
+                    Text(t(EventInputKeys.validationDateTimeMissing)).font(.caption).foregroundStyle(.secondary)
+                }
                 if let error = model.errorMessage {
                     Text(error).font(.caption).foregroundStyle(.red)
                 }
@@ -234,10 +252,11 @@ struct EventInputScreen: View {
 
     private func recalculateOffset() {
         guard let city = selectedCity,
-              let year = astronomicalYear else { return }
+              let year = astronomicalYear,
+              let month, let day else { return }
         let dateTime = AstronomicalDateTime(
             Date: AstronomicalDate(Year: year, Month: month, Day: day, Gregorian: calendarStyle == .gregorian),
-            Time: AstronomicalTime(Hour: hour, Minute: minute, Second: second)
+            Time: AstronomicalTime(Hour: hour ?? 12, Minute: minute ?? 0, Second: second ?? 0)
         )
         guard let orch = try? LocationOrchestrator(seWrapper: SEWrapper()),
               let zone = try? orch.timezoneInfo(tzName: city.timezoneName,
@@ -269,7 +288,7 @@ struct EventInputScreen: View {
         let offset = utOffsetIdentifier()
         let dst = dstOption == .dst ? " DST" : ""
         return String(format: "%@ %02d-%02d %02d:%02d:%02d (UT%@%@) %@",
-                      yearDisplay, month, day, hour, minute, second, offset, dst, cal)
+                      yearDisplay, month ?? 0, day ?? 0, hour ?? 0, minute ?? 0, second ?? 0, offset, dst, cal)
     }
 
     private func dmsToDecimal(deg: Int, min: Int, sec: Int, negative: Bool) -> Double {
@@ -278,18 +297,22 @@ struct EventInputScreen: View {
     }
 
     private func saveEvent() {
-        guard let year = astronomicalYear else { return }
+        guard let year = astronomicalYear, let month, let day, let hour else { return }
 
         let jd = model.computeJulianDay(
             astronomicalYear: year, month: month, day: day, gregorian: calendarStyle == .gregorian,
-            hour: hour, minute: minute, second: second,
+            hour: hour, minute: minute ?? 0, second: second ?? 0,
             offsetHour: offsetHour, offsetMinute: offsetMinute, offsetSecond: offsetSecond,
             utOffsetEarlier: utOffsetDirection == .earlier, dstActive: dstOption == .dst
         )
 
         let hasLocation = !locationName.trimmingCharacters(in: .whitespaces).isEmpty
-        let lat: Double? = hasLocation ? dmsToDecimal(deg: latitudeDegrees, min: latitudeMinutes, sec: latitudeSeconds, negative: latHemi == .south) : nil
-        let lon: Double? = hasLocation ? dmsToDecimal(deg: longitudeDegrees, min: longitudeMinutes, sec: longitudeSeconds, negative: lonHemi == .west) : nil
+        var lat: Double? = nil
+        var lon: Double? = nil
+        if let latitudeDegrees, let longitudeDegrees {
+            lat = dmsToDecimal(deg: latitudeDegrees, min: latitudeMinutes ?? 0, sec: latitudeSeconds ?? 0, negative: latHemi == .south)
+            lon = dmsToDecimal(deg: longitudeDegrees, min: longitudeMinutes ?? 0, sec: longitudeSeconds ?? 0, negative: lonHemi == .west)
+        }
 
         let success = model.createEvent(
             title: eventTitle,

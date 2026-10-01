@@ -35,6 +35,8 @@
 // MARK: - Validation
 "view.radixinputscreen.validation.nameempty" = "Le nom est obligatoire";
 "view.radixinputscreen.validation.invalidyear" = "Entrez une année valide pour le décompte des années sélectionné";
+"view.radixinputscreen.validation.locationmissing" = "Entrez la latitude et la longitude du lieu";
+"view.radixinputscreen.validation.datetimemissing" = "Entrez la date (année, mois, jour) et l'heure (minutes et secondes facultatives)";
 
 // MARK: - Accessibility
 "view.radixinputscreen.accessibility.requiresname" = "Entrez d'abord un nom de carte";

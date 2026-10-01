@@ -35,6 +35,8 @@
 // MARK: - Validation
 "view.radixinputscreen.validation.nameempty" = "Name is required";
 "view.radixinputscreen.validation.invalidyear" = "Enter a valid year for the selected year count";
+"view.radixinputscreen.validation.locationmissing" = "Enter the latitude and longitude of the location";
+"view.radixinputscreen.validation.datetimemissing" = "Enter the date (year, month, day) and time (at least the hour)";
 
 // MARK: - Accessibility
 "view.radixinputscreen.accessibility.requiresname" = "Enter a chart name first";

@@ -35,6 +35,8 @@
 // MARK: - Validation
 "view.radixinputscreen.validation.nameempty" = "Naam is verplicht";
 "view.radixinputscreen.validation.invalidyear" = "Voer een geldig jaar in voor de geselecteerde jaartelling";
+"view.radixinputscreen.validation.locationmissing" = "Voer de breedte en lengte van de locatie in";
+"view.radixinputscreen.validation.datetimemissing" = "Voer de datum (jaar, maand, dag) en tijd (minimaal het uur) in";
 
 // MARK: - Accessibility
 "view.radixinputscreen.accessibility.requiresname" = "Voer eerst een naam in";

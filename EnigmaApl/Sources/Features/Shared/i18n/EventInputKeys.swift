@@ -14,6 +14,8 @@ struct EventInputKeys {
     static let cancel                 = "view.eventinputscreen.cancel"
     static let validationTitleEmpty   = "view.eventinputscreen.validation.titleempty"
     static let validationInvalidYear  = "view.eventinputscreen.validation.invalidyear"
+    static let validationLocationIncomplete = "view.eventinputscreen.validation.locationincomplete"
+    static let validationDateTimeMissing    = "view.eventinputscreen.validation.datetimemissing"
     static let helpTitle              = "view.eventinputscreen.help.title"
     static let helpClose              = "view.eventinputscreen.help.close"
     static let help                   = "view.eventinputscreen.help"

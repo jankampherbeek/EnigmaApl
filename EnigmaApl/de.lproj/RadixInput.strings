@@ -35,6 +35,8 @@
 // MARK: - Validation
 "view.radixinputscreen.validation.nameempty" = "Name ist erforderlich";
 "view.radixinputscreen.validation.invalidyear" = "Geben Sie ein gültiges Jahr für die ausgewählte Jahreszählung ein";
+"view.radixinputscreen.validation.locationmissing" = "Geben Sie die Breite und Länge des Ortes ein";
+"view.radixinputscreen.validation.datetimemissing" = "Geben Sie das Datum (Jahr, Monat, Tag) und die Uhrzeit (mindestens die Stunde) ein";
 
 // MARK: - Accessibility
 "view.radixinputscreen.accessibility.requiresname" = "Zuerst einen Namen eingeben";
