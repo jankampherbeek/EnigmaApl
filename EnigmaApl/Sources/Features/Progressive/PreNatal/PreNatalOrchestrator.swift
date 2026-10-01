@@ -228,7 +228,7 @@ struct PreNatalOrchestrator: Sendable {
                               conceptionJD: Double, natalJD: Double, se: SEWrapper) -> [PreNatalMoment] {
         var result: [PreNatalMoment] = []
         for i in 0..<factors.count {
-            for j in (i + 1)..<factors.count {
+            for j in (i + 1)..<factors.count where !ImplicitAspects.isImplicit(factors[i], factors[j]) {
                 result += findAspectsForPair(f1: factors[i], f2: factors[j], aspects: aspects,
                                              startJD: startJD, endJD: endJD,
                                              conceptionJD: conceptionJD, natalJD: natalJD, se: se)

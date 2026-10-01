@@ -66,6 +66,7 @@ public struct AspectsWorker {
         var dataCounts    = [[[Int]]](repeating: [[Int]](repeating: [Int](repeating: 0, count: m), count: n), count: n)
         var controlCounts = [[[Int]]](repeating: [[Int]](repeating: [Int](repeating: 0, count: m), count: n), count: n)
         var skipped = 0
+        let implicit = (0..<n).map { i in (0..<n).map { j in ImplicitAspects.isImplicit(layouts[i].factor, layouts[j].factor) } }
 
         for position in 0..<recordCount {
             guard let (_, isData, regionData) = try? binaryFile.read(at: position) else {
@@ -85,7 +86,7 @@ public struct AspectsWorker {
             for i in 0..<n {
                 guard let lonI = longitudes[i] else { continue }
                 for j in (i + 1)..<n {
-                    guard let lonJ = longitudes[j] else { continue }
+                    guard !implicit[i][j], let lonJ = longitudes[j] else { continue }
                     let arc = shortestArc(lonI, lonJ)
                     for (k, angle) in aspectAngles.enumerated() {
                         if abs(arc - angle) <= orb {

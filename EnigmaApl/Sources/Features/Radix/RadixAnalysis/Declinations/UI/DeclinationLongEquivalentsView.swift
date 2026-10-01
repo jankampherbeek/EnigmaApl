@@ -122,6 +122,7 @@ struct DeclinationLongEquivalentsView: View {
             let (f1, long1) = positions[i]
             for j in (i + 1) ..< positions.count {
                 let (f2, long2) = positions[j]
+                if ImplicitAspects.isImplicit(f1, f2) { continue }
                 let distance = shortestDistance(long1, long2)
                 let orbFraction1 = Double(factorOrbPct[f1] ?? 100) / 100.0
                 let orbFraction2 = Double(factorOrbPct[f2] ?? 100) / 100.0

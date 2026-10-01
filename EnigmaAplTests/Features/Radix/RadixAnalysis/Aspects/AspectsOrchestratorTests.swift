@@ -298,6 +298,24 @@ struct AspectsOrchestratorTests {
         #expect(largeOrb.count == 1)
     }
 
+    // MARK: - Implicit aspects
+
+    @Test("AspectsOrchestrator: aspects between factors with a fixed distance are omitted")
+    func testImplicitAspectsOmitted() {
+        // North/South Node opposition and Black Moon/Priapus opposition are implicit; Sun–Moon is not.
+        let chart = Self.makeChart([(.northNode, 10.0), (.southNode, 190.0),
+                                    (.apogeeMean, 50.0), (.priapus, 230.0),
+                                    (.sun, 100.0), (.moon, 280.0)])
+        let result = AspectsOrchestrator.calculate(
+            chart: chart,
+            factorConfig: Self.factorConfig([.northNode, .southNode, .apogeeMean, .priapus, .sun, .moon]),
+            aspectConfig: Self.aspectConfig([.opposition]),
+            orbConfig: Self.orbConfig()
+        )
+        #expect(result.count == 1)
+        #expect(Set([result[0].factor1, result[0].factor2]) == [.sun, .moon])
+    }
+
     // MARK: - Helpers
 
     private static func makeChart(_ pairs: [(Factors, Double)]) -> FullChart {

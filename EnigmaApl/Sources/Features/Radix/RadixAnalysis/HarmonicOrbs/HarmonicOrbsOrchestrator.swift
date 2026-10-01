@@ -28,6 +28,7 @@ struct HarmonicOrbsOrchestrator {
             for j in (i + 1)..<positions.count {
                 let (f1, long1) = positions[i]
                 let (f2, long2) = positions[j]
+                if ImplicitAspects.isImplicit(f1, f2) { continue }
                 let distance = shortestDistance(long1, long2)
 
                 for setting in selected {

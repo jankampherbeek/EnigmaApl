@@ -58,6 +58,7 @@ public struct UnaspectWorker {
         var dataCounts    = [Int](repeating: 0, count: n)
         var controlCounts = [Int](repeating: 0, count: n)
         var skipped = 0
+        let implicit = (0..<n).map { i in (0..<n).map { j in ImplicitAspects.isImplicit(layouts[i].factor, layouts[j].factor) } }
 
         for position in 0..<recordCount {
             guard let (_, isData, regionData) = try? binaryFile.read(at: position) else {
@@ -75,7 +76,7 @@ public struct UnaspectWorker {
             for i in 0..<n {
                 guard let lonI = longitudes[i] else { continue }
                 let isUnaspected = !layouts.indices.contains { j in
-                    guard j != i, let lonJ = longitudes[j] else { return false }
+                    guard j != i, !implicit[i][j], let lonJ = longitudes[j] else { return false }
                     let arc = shortestArc(lonI, lonJ)
                     return aspectAngles.contains { abs(arc - $0) <= orb }
                 }
