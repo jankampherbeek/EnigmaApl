@@ -265,10 +265,10 @@ struct DisplayConfigEditor: View {
         }
     }
 
-    /// Returns a Binding<Color> for a sign, using the default sign color when absent.
+    /// Returns a Binding<Color> for a sign, using the default color for that sign when absent.
     private func colorBinding(for sign: Signs) -> Binding<Color> {
         Binding(
-            get: { signColors[sign] ?? Color(ColorConfig.defaultSignColor) },
+            get: { signColors[sign] ?? Color(ColorConfig.defaultSignColor(for: sign)) },
             set: { newColor in
                 signColors[sign] = newColor
                 isDirty = true
@@ -290,7 +290,7 @@ struct DisplayConfigEditor: View {
         let overrides = Signs.allCases.map { sign in
             SignColorOverride(
                 sign: sign,
-                color: (signColors[sign] ?? Color(ColorConfig.defaultSignColor)).colorConfig
+                color: (signColors[sign] ?? Color(ColorConfig.defaultSignColor(for: sign))).colorConfig
             )
         }
         config.displayConfig = DisplayConfig(

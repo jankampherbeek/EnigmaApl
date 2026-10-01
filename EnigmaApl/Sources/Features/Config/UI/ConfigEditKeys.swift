@@ -13,6 +13,7 @@ struct ConfigEditKeys {
     static let listAlertDeleteTitle   = "view.configedit.list.alert.deletetitle"
     static let listAlertDeleteButton  = "view.configedit.list.alert.deletebutton"
     static let listAlertDeleteMessage = "view.configedit.list.alert.deletemessage"
+    static let listStandardBadge      = "view.configedit.list.standardbadge"
 
     // MARK: - New configuration sheet
     static let newSheetTitle          = "view.configedit.new.sheettitle"
@@ -31,6 +32,12 @@ struct ConfigEditKeys {
     static let editActiveToggle       = "view.configedit.edit.activetoggle"
     static let editActiveFooter       = "view.configedit.edit.activefooter"
     static let editFallbackTitle      = "view.configedit.edit.fallbacktitle"
+    static let editRestoreDefaults    = "view.configedit.edit.restoredefaults"
+    static let editRestoreAlertTitle  = "view.configedit.edit.alert.restoretitle"
+    static let editRestoreAlertButton = "view.configedit.edit.alert.restorebutton"
+    static let editRestoreAlertMessage = "view.configedit.edit.alert.restoremessage"
+    static let editRemove             = "view.configedit.edit.remove"
+    static let editStandardFooter     = "view.configedit.edit.standardfooter"
 
     // MARK: - Shared
     static let cancel                 = "view.configedit.cancel"

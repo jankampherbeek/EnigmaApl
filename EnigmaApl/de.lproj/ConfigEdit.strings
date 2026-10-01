@@ -8,6 +8,7 @@
 "view.configedit.list.alert.deletetitle"   = "Konfiguration löschen";
 "view.configedit.list.alert.deletebutton"  = "Löschen";
 "view.configedit.list.alert.deletemessage" = "Soll '%@' wirklich gelöscht werden?";
+"view.configedit.list.standardbadge"       = "Standardkonfiguration";
 
 // Neue Konfiguration
 "view.configedit.new.sheettitle"           = "Neue Konfiguration";
@@ -25,6 +26,12 @@
 "view.configedit.edit.save"                = "Speichern";
 "view.configedit.edit.activetoggle"        = "Aktive Konfiguration";
 "view.configedit.edit.activefooter"        = "Die aktive Konfiguration wird für alle Berechnungen verwendet.";
+"view.configedit.edit.restoredefaults"     = "Standardwerte wiederherstellen";
+"view.configedit.edit.alert.restoretitle"  = "Standardwerte wiederherstellen?";
+"view.configedit.edit.alert.restorebutton" = "Wiederherstellen";
+"view.configedit.edit.alert.restoremessage" = "Alle Einstellungen von '%@' werden auf die Standardwerte zurückgesetzt. Der Name bleibt erhalten.";
+"view.configedit.edit.remove"              = "Konfiguration löschen";
+"view.configedit.edit.standardfooter"      = "Die Standardkonfiguration kann nicht gelöscht werden.";
 "view.configedit.edit.fallbacktitle"       = "Konfiguration";
 
 // Gemeinsam

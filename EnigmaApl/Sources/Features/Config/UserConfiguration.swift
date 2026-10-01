@@ -13,6 +13,9 @@ import SwiftData
 public class UserConfiguration {
     public var name: String
     public var isActive: Bool
+    /// True for the standard configuration, which cannot be deleted.
+    /// Optional so existing stores migrate without a schema change; nil means false.
+    public var isStandard: Bool?
 
     // MARK: - Backing Data stores (persisted by Swift Data)
     public var calculationConfigData: Data
@@ -67,6 +70,7 @@ public class UserConfiguration {
     public init(
         name: String,
         isActive: Bool = false,
+        isStandard: Bool = false,
         calculationConfig: CalculationConfig = CalculationConfig(),
         displayConfig: DisplayConfig = DisplayConfig(),
         glyphsConfig: GlyphsConfig = GlyphsConfig(),
@@ -78,6 +82,7 @@ public class UserConfiguration {
     ) {
         self.name = name
         self.isActive = isActive
+        self.isStandard = isStandard
         self.calculationConfigData = (try? JSONEncoder().encode(calculationConfig)) ?? Data()
         self.displayConfigData = (try? JSONEncoder().encode(displayConfig)) ?? Data()
         self.glyphsConfigData = (try? JSONEncoder().encode(glyphsConfig)) ?? Data()
@@ -86,6 +91,20 @@ public class UserConfiguration {
         self.orbConfigData = (try? JSONEncoder().encode(orbConfig)) ?? Data()
         self.progressionsConfigData = (try? JSONEncoder().encode(progressionsConfig)) ?? Data()
         self.fixStarConfigData = (try? JSONEncoder().encode(fixStarConfig)) ?? Data()
+    }
+
+    // MARK: - Defaults
+
+    /// Resets all settings to their default values. Name, active state and standard state are kept.
+    public func restoreDefaults() {
+        calculationConfig = CalculationConfig()
+        displayConfig = DisplayConfig()
+        glyphsConfig = GlyphsConfig()
+        factorConfig = FactorConfig()
+        aspectConfig = AspectConfig()
+        orbConfig = OrbConfig()
+        progressionsConfig = ProgressionsConfig()
+        fixStarConfig = FixStarConfig()
     }
 
     // MARK: - Private helpers

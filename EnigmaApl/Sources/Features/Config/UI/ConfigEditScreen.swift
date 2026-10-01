@@ -9,6 +9,7 @@ import SwiftData
 /// Lives in DetailColumn when mode == .config and a config is selected.
 /// Uses a NavigationStack to push into per-section editor screens.
 struct ConfigEditScreen: View {
+    @EnvironmentObject private var configNav: ConfigNavigator
     @Environment(\.modelContext) private var modelContext
 
     let config: UserConfiguration
@@ -16,12 +17,15 @@ struct ConfigEditScreen: View {
     @State private var name: String = ""
     @State private var isDirty = false
     @State private var showHelp = false
+    @State private var showRestoreAlert = false
+    @State private var showDeleteAlert = false
 
     var body: some View {
         List {
             nameSection
             sectionsSection
             activeSection
+            maintenanceSection
         }
         .navigationTitle(name.isEmpty ? t(ConfigEditKeys.editFallbackTitle) : name)
         .navigationDestination(for: ConfigSection.self) { section in
@@ -44,6 +48,18 @@ struct ConfigEditScreen: View {
             }
         }
         .sheet(isPresented: $showHelp) { ConfigEditHelpView() }
+        .alert(t(ConfigEditKeys.editRestoreAlertTitle), isPresented: $showRestoreAlert) {
+            Button(t(ConfigEditKeys.editRestoreAlertButton), role: .destructive) { restoreDefaults() }
+            Button(t(ConfigEditKeys.cancel), role: .cancel) {}
+        } message: {
+            Text(String(format: t(ConfigEditKeys.editRestoreAlertMessage), config.name))
+        }
+        .alert(t(ConfigEditKeys.listAlertDeleteTitle), isPresented: $showDeleteAlert) {
+            Button(t(ConfigEditKeys.listAlertDeleteButton), role: .destructive) { deleteConfig() }
+            Button(t(ConfigEditKeys.cancel), role: .cancel) {}
+        } message: {
+            Text(String(format: t(ConfigEditKeys.listAlertDeleteMessage), config.name))
+        }
         .onAppear { name = config.name }
     }
 
@@ -80,6 +96,19 @@ struct ConfigEditScreen: View {
         }
     }
 
+    private var maintenanceSection: some View {
+        Section {
+            Button(t(ConfigEditKeys.editRestoreDefaults)) { showRestoreAlert = true }
+            if config.isStandard != true {
+                Button(t(ConfigEditKeys.editRemove), role: .destructive) { showDeleteAlert = true }
+            }
+        } footer: {
+            if config.isStandard == true {
+                Text(t(ConfigEditKeys.editStandardFooter))
+            }
+        }
+    }
+
     // MARK: - Section editors router
 
     @ViewBuilder
@@ -107,6 +136,22 @@ struct ConfigEditScreen: View {
     private func revert() {
         name = config.name
         isDirty = false
+    }
+
+    private func restoreDefaults() {
+        try? UserConfigurationRepository(context: modelContext).restoreDefaults(config)
+        // Sign colors and factor display follow the active config automatically (RootView); glyphs do not.
+        if config.isActive { GlyphSelector.configure(with: config.glyphsConfig) }
+    }
+
+    private func deleteConfig() {
+        // Deselect first so this screen is gone before the model object is deleted.
+        configNav.select(nil)
+        let context = modelContext
+        let config = config
+        DispatchQueue.main.async {
+            try? UserConfigurationRepository(context: context).delete(config)
+        }
     }
 
     /// Activates this config and deactivates all others.

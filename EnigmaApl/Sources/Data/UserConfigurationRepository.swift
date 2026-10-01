@@ -12,6 +12,8 @@ enum UserConfigurationRepositoryError: Error {
     case cannotDeleteActiveConfiguration
     /// Thrown when trying to delete the only remaining configuration.
     case cannotDeleteOnlyConfiguration
+    /// Thrown when trying to delete the standard configuration.
+    case cannotDeleteStandardConfiguration
 }
 
 @MainActor
@@ -38,6 +40,15 @@ final class UserConfigurationRepository {
         return config
     }
 
+    /// Creates the standard configuration. It is active and cannot be deleted.
+    @discardableResult
+    func addStandard(name: String) throws -> UserConfiguration {
+        let config = UserConfiguration(name: name, isActive: true, isStandard: true)
+        context.insert(config)
+        try context.save()
+        return config
+    }
+
     // MARK: - Read
 
     func fetchAll() throws -> [UserConfiguration] {
@@ -54,7 +65,29 @@ final class UserConfigurationRepository {
         return try context.fetch(descriptor).first
     }
 
+    func fetchStandard() throws -> UserConfiguration? {
+        let descriptor = FetchDescriptor<UserConfiguration>(
+            predicate: #Predicate { $0.isStandard == true }
+        )
+        return try context.fetch(descriptor).first
+    }
+
     // MARK: - Update
+
+    /// Marks the standard configuration in stores created before the standard flag existed:
+    /// the configuration with one of the given names (the localized names of the standard configuration).
+    func markStandardIfNeeded(standardNames: Set<String>) throws {
+        guard try fetchStandard() == nil else { return }
+        guard let standard = try fetchAll().first(where: { standardNames.contains($0.name) }) else { return }
+        standard.isStandard = true
+        try context.save()
+    }
+
+    /// Resets all settings of a configuration to their default values.
+    func restoreDefaults(_ config: UserConfiguration) throws {
+        config.restoreDefaults()
+        try context.save()
+    }
 
     /// Saves any pending changes made to a configuration object.
     func update(_ config: UserConfiguration) throws {
@@ -73,14 +106,23 @@ final class UserConfigurationRepository {
     // MARK: - Delete
 
     /// Deletes a configuration.
-    /// Throws when the configuration is the only one or is currently active.
+    /// When the active configuration is deleted, the standard configuration becomes active.
+    /// Throws when the configuration is the standard one or the only one, or when it is active
+    /// and there is no standard configuration to take over.
     func delete(_ config: UserConfiguration) throws {
+        guard config.isStandard != true else {
+            throw UserConfigurationRepositoryError.cannotDeleteStandardConfiguration
+        }
         let all = try fetchAll()
         guard all.count > 1 else {
             throw UserConfigurationRepositoryError.cannotDeleteOnlyConfiguration
         }
-        guard !config.isActive else {
-            throw UserConfigurationRepositoryError.cannotDeleteActiveConfiguration
+        if config.isActive {
+            guard let standard = all.first(where: { $0.isStandard == true }) else {
+                throw UserConfigurationRepositoryError.cannotDeleteActiveConfiguration
+            }
+            config.isActive = false
+            standard.isActive = true
         }
         context.delete(config)
         try context.save()

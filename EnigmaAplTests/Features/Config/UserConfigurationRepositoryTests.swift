@@ -153,4 +153,61 @@ struct UserConfigurationRepositoryTests {
             try repo.delete(western)
         }
     }
+
+    // MARK: - standard configuration
+
+    @Test("delete: throws when deleting the standard configuration")
+    func testDeleteStandardThrows() throws {
+        let repo = try makeRepository()
+        let standard = try repo.addStandard(name: "Standard")
+        let western = try repo.add(name: "Western")
+        try repo.setActive(western)
+        #expect(throws: UserConfigurationRepositoryError.cannotDeleteStandardConfiguration) {
+            try repo.delete(standard)
+        }
+    }
+
+    @Test("delete: deleting the active configuration makes the standard configuration active")
+    func testDeleteActiveActivatesStandard() throws {
+        let repo = try makeRepository()
+        let standard = try repo.addStandard(name: "Standard")
+        let western = try repo.add(name: "Western")
+        try repo.setActive(western)
+        try repo.delete(western)
+        #expect(try repo.fetchAll().count == 1)
+        #expect(standard.isActive)
+        #expect(try repo.fetchActive() === standard)
+    }
+
+    @Test("markStandardIfNeeded: marks the configuration with a standard name")
+    func testMarkStandardIfNeeded() throws {
+        let repo = try makeRepository()
+        try repo.add(name: "Standaard")
+        try repo.add(name: "Western")
+        try repo.markStandardIfNeeded(standardNames: ["Default", "Standaard", "Standard"])
+        #expect(try repo.fetchStandard()?.name == "Standaard")
+    }
+
+    @Test("markStandardIfNeeded: leaves an existing standard configuration alone")
+    func testMarkStandardIfNeededKeepsExisting() throws {
+        let repo = try makeRepository()
+        try repo.addStandard(name: "Mine")
+        let other = try repo.add(name: "Standard")
+        try repo.markStandardIfNeeded(standardNames: ["Standard"])
+        #expect(try repo.fetchStandard()?.name == "Mine")
+        #expect(other.isStandard != true)
+    }
+
+    @Test("restoreDefaults: resets settings but keeps name and active state")
+    func testRestoreDefaults() throws {
+        let repo = try makeRepository()
+        let config = try repo.add(name: "Western")
+        config.orbConfig = OrbConfig(aspectBaseOrb: 3.0)
+        config.displayConfig = DisplayConfig(drawingType: .dial90)
+        try repo.restoreDefaults(config)
+        #expect(config.name == "Western")
+        #expect(config.isActive)
+        #expect(config.orbConfig.aspectBaseOrb == OrbConfig().aspectBaseOrb)
+        #expect(config.displayConfig.drawingType == DisplayConfig().drawingType)
+    }
 }

@@ -19,8 +19,20 @@ public struct ColorConfig: Codable, Equatable, Sendable {
         self.opacity = opacity
     }
 
-    /// Light blue — default background color for zodiac signs.
-    public static let defaultSignColor = ColorConfig(red: 0.678, green: 0.847, blue: 0.902)
+    /// Default background color for a zodiac sign, based on its element.
+    public static func defaultSignColor(for sign: Signs) -> ColorConfig {
+        switch sign {
+        case .Aries, .Leo, .Sagittarius:     return fireSignColor
+        case .Taurus, .Virgo, .Capricorn:    return earthSignColor
+        case .Gemini, .Libra, .Aquarius:     return airSignColor
+        case .Cancer, .Scorpio, .Pisces:     return waterSignColor
+        }
+    }
+
+    private static let fireSignColor  = ColorConfig(red: 1.0,   green: 0.149, blue: 0.0)
+    private static let earthSignColor = ColorConfig(red: 0.574, green: 0.566, blue: 0.0)
+    private static let airSignColor   = ColorConfig(red: 1.0,   green: 0.832, blue: 0.473)
+    private static let waterSignColor = ColorConfig(red: 0.0,   green: 0.590, blue: 1.0)
 }
 
 // MARK: - SwiftUI Color bridge

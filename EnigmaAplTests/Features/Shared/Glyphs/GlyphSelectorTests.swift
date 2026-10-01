@@ -5,7 +5,15 @@
 import Testing
 @testable import EnigmaApl
 
+// GlyphSelector keeps its glyphs in shared static state: the host app configures it with the
+// user's active configuration, and testConfigureUpdatesFactorGlyph changes it. So each test
+// starts from the default glyphs and the suite runs serially.
+@Suite(.serialized)
 struct GlyphSelectorTests {
+
+    init() {
+        GlyphSelector.configure(with: GlyphsConfig())
+    }
 
     // MARK: - Factor glyph tests
 

@@ -8,6 +8,7 @@
 "view.configedit.list.alert.deletetitle"   = "Verwijder configuratie";
 "view.configedit.list.alert.deletebutton"  = "Verwijder";
 "view.configedit.list.alert.deletemessage" = "Weet je zeker dat je '%@' wilt verwijderen?";
+"view.configedit.list.standardbadge"       = "Standaardconfiguratie";
 
 // Nieuw configuratie-sheet
 "view.configedit.new.sheettitle"           = "Nieuwe configuratie";
@@ -25,6 +26,12 @@
 "view.configedit.edit.save"                = "Opslaan";
 "view.configedit.edit.activetoggle"        = "Actieve configuratie";
 "view.configedit.edit.activefooter"        = "De actieve configuratie wordt gebruikt voor alle berekeningen.";
+"view.configedit.edit.restoredefaults"     = "Herstel standaardwaarden";
+"view.configedit.edit.alert.restoretitle"  = "Standaardwaarden herstellen?";
+"view.configedit.edit.alert.restorebutton" = "Herstel";
+"view.configedit.edit.alert.restoremessage" = "Alle instellingen van '%@' worden teruggezet naar de standaardwaarden. De naam blijft behouden.";
+"view.configedit.edit.remove"              = "Verwijder configuratie";
+"view.configedit.edit.standardfooter"      = "De standaardconfiguratie kan niet worden verwijderd.";
 "view.configedit.edit.fallbacktitle"       = "Configuratie";
 
 // Gedeeld

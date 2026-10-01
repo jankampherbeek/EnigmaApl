@@ -59,6 +59,11 @@ struct ConfigListScreen: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                if config.isStandard == true {
+                    Text(t(ConfigEditKeys.listStandardBadge))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
             Spacer()
             if config.isActive {
@@ -70,12 +75,19 @@ struct ConfigListScreen: View {
         .onTapGesture { configNav.select(config) }
         .background(configNav.selectedConfig === config ? Color.accentColor.opacity(0.08) : .clear)
         .swipeActions(edge: .trailing) {
-            Button(role: .destructive) {
-                configToDelete = config
-                showDeleteAlert = true
-            } label: {
-                Label(t(ConfigEditKeys.listAlertDeleteButton), systemImage: "trash")
-            }
+            if config.isStandard != true { deleteButton(config) }
+        }
+        .contextMenu {
+            if config.isStandard != true { deleteButton(config) }
+        }
+    }
+
+    private func deleteButton(_ config: UserConfiguration) -> some View {
+        Button(role: .destructive) {
+            configToDelete = config
+            showDeleteAlert = true
+        } label: {
+            Label(t(ConfigEditKeys.listAlertDeleteButton), systemImage: "trash")
         }
     }
 
@@ -118,15 +130,15 @@ struct ConfigListScreen: View {
     // MARK: - Actions
 
     /// Selects the active config (or the first one) when nothing is selected yet.
-    /// If the database is empty, a default configuration is created first.
+    /// If the database is empty, the standard configuration is created first.
     private func autoSelectIfNeeded() {
+        let repository = UserConfigurationRepository(context: modelContext)
         if configurations.isEmpty {
-            let standard = UserConfiguration(name: t(ConfigEditKeys.defaultConfigName), isActive: true)
-            modelContext.insert(standard)
-            try? modelContext.save()
+            try? repository.addStandard(name: t(ConfigEditKeys.defaultConfigName))
             // onChange(of: configurations) will fire after the insert and call this again
             return
         }
+        try? repository.markStandardIfNeeded(standardNames: Self.standardConfigNames)
         guard configNav.selectedConfig == nil else { return }
         let active = configurations.first(where: { $0.isActive }) ?? configurations.first
         configNav.select(active)
@@ -157,9 +169,17 @@ struct ConfigListScreen: View {
 
     private func delete(_ config: UserConfiguration) {
         if configNav.selectedConfig === config { configNav.select(nil) }
-        modelContext.delete(config)
-        try? modelContext.save()
+        try? UserConfigurationRepository(context: modelContext).delete(config)
     }
+
+    /// The name of the standard configuration in all supported languages.
+    private static let standardConfigNames: Set<String> = Set(
+        ["en", "nl", "de", "fr"].compactMap { language in
+            Bundle.main.path(forResource: language, ofType: "lproj")
+                .flatMap { Bundle(path: $0) }?
+                .localizedString(forKey: ConfigEditKeys.defaultConfigName, value: nil, table: "ConfigEdit")
+        }
+    )
 
     private func resetNewConfigForm() {
         newConfigName = ""
