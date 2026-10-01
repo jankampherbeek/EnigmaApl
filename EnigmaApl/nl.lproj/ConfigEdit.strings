@@ -32,6 +32,10 @@
 "view.configedit.edit.alert.restoremessage" = "Alle instellingen van '%@' worden teruggezet naar de standaardwaarden. De naam blijft behouden.";
 "view.configedit.edit.remove"              = "Verwijder configuratie";
 "view.configedit.edit.standardfooter"      = "De standaardconfiguratie kan niet worden verwijderd.";
+"view.configedit.edit.back"                = "Terug";
+"view.configedit.unsaved.title"            = "Niet-opgeslagen wijzigingen";
+"view.configedit.unsaved.message"          = "Je hebt de configuratie gewijzigd zonder op te slaan. Wil je de wijzigingen opslaan?";
+"view.configedit.unsaved.discard"          = "Niet opslaan";
 "view.configedit.edit.fallbacktitle"       = "Configuratie";
 
 // Gedeeld

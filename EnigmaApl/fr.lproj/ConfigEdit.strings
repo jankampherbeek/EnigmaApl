@@ -32,6 +32,10 @@
 "view.configedit.edit.alert.restoremessage" = "Tous les réglages de « %@ » seront remis à leurs valeurs par défaut. Le nom est conservé.";
 "view.configedit.edit.remove"              = "Supprimer la configuration";
 "view.configedit.edit.standardfooter"      = "La configuration standard ne peut pas être supprimée.";
+"view.configedit.edit.back"                = "Retour";
+"view.configedit.unsaved.title"            = "Modifications non enregistrées";
+"view.configedit.unsaved.message"          = "Vous avez modifié la configuration sans enregistrer. Voulez-vous enregistrer les modifications ?";
+"view.configedit.unsaved.discard"          = "Ignorer";
 "view.configedit.edit.fallbacktitle"       = "Configuration";
 
 // Commun

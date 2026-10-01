@@ -84,6 +84,8 @@ struct RootView: View {
         .environmentObject(composition.synastryNav)
         .environmentObject(composition.synastryModel)
         .environmentObject(composition.configNav)
+        .environmentObject(composition.unsavedChanges)
+        .unsavedChangesAlert(composition.unsavedChanges)
         .environmentObject(composition.importExportNav)
         .onAppear {
             DispatchQueue.main.async {

@@ -46,6 +46,7 @@ final class AppComposition: ObservableObject {
     let harmonicOrbsModel: HarmonicOrbsModel
     let lotsModel: LotsModel
     let configNav: ConfigNavigator
+    let unsavedChanges: UnsavedChangesGuard
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
     let locationService: LocationService
@@ -54,6 +55,7 @@ final class AppComposition: ObservableObject {
         self.app = app
         self.chartSession = ChartSession()
         self.configNav = ConfigNavigator()
+        self.unsavedChanges = UnsavedChangesGuard()
         let context = PersistenceController.shared.container.mainContext
         self.horoscopeRepository = HoroscopeRepository(context: context)
         self.eventRepository = EventRepository(context: context)

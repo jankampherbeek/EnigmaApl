@@ -9,6 +9,7 @@ import SwiftData
 /// Tapping a row selects it for editing in DetailColumn.
 struct ConfigListScreen: View {
     @EnvironmentObject private var configNav: ConfigNavigator
+    @EnvironmentObject private var unsavedChanges: UnsavedChangesGuard
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \UserConfiguration.name) private var configurations: [UserConfiguration]
 
@@ -72,7 +73,10 @@ struct ConfigListScreen: View {
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { configNav.select(config) }
+        .onTapGesture {
+            guard configNav.selectedConfig !== config else { return }
+            unsavedChanges.perform { configNav.select(config) }
+        }
         .background(configNav.selectedConfig === config ? Color.accentColor.opacity(0.08) : .clear)
         .swipeActions(edge: .trailing) {
             if config.isStandard != true { deleteButton(config) }

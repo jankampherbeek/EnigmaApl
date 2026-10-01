@@ -48,7 +48,8 @@ struct EnigmaAplApp: App {
                 progressiveNav: composition.progressiveNav,
                 researchNav: composition.researchNav,
                 cyclesNav: composition.cyclesNav,
-                importExportNav: composition.importExportNav
+                importExportNav: composition.importExportNav,
+                unsavedChanges: composition.unsavedChanges
             )
         }
 

@@ -19,12 +19,13 @@ struct SidebarView: View {
     @EnvironmentObject private var calculatorsNav: CalculatorsNavigator
     @EnvironmentObject private var configNav: ConfigNavigator
     @EnvironmentObject private var importExportNav: ImportExportNavigator
+    @EnvironmentObject private var unsavedChanges: UnsavedChangesGuard
 
     var body: some View {
         List {
             Section(nv(NavigationKeys.sidebarModes)) {
                 ForEach(AppMode.sidebarModes) { mode in
-                    Button { app.setMode(mode) } label: {
+                    Button { unsavedChanges.perform { app.setMode(mode) } } label: {
                         row(le(mode.rbKey), app.nav.mode == mode, icon: mode.systemImage)
                     }
                     .buttonStyle(.plain)

@@ -11,6 +11,7 @@ struct AppCommands: Commands {
     @ObservedObject var researchNav: ResearchNavigator
     @ObservedObject var cyclesNav: CyclesNavigator
     @ObservedObject var importExportNav: ImportExportNavigator
+    @ObservedObject var unsavedChanges: UnsavedChangesGuard
     @Environment(\.openWindow) private var openWindow
 
     var body: some Commands {
@@ -25,59 +26,59 @@ struct AppCommands: Commands {
             }
         }
         CommandMenu(le(AppMode.radix.rbKey)) {
-            Button(activate(.radix)) { app.setMode(.radix) }
+            Button(activate(.radix)) { unsavedChanges.perform { app.setMode(.radix) } }
                 .keyboardShortcut("1", modifiers: [.command, .shift])
             Divider()
-            Button(le(RadixInspector.overview.rbKey))  { app.setMode(.radix); radixNav.setInspector(.overview) }
+            Button(le(RadixInspector.overview.rbKey))  { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.overview) } }
                 .keyboardShortcut("1", modifiers: [.command, .option])
-            Button(le(RadixInspector.positions.rbKey)) { app.setMode(.radix); radixNav.setInspector(.positions) }
+            Button(le(RadixInspector.positions.rbKey)) { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.positions) } }
                 .keyboardShortcut("2", modifiers: [.command, .option])
-            Button(le(RadixInspector.analysis.rbKey))  { app.setMode(.radix); radixNav.setInspector(.analysis) }
+            Button(le(RadixInspector.analysis.rbKey))  { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysis) } }
                 .keyboardShortcut("3", modifiers: [.command, .option])
-            Button(le(RadixInspector.analysisDeclinations.rbKey)) { app.setMode(.radix); radixNav.setInspector(.analysisDeclinations) }
-            Button(le(RadixInspector.analysisLots.rbKey)) { app.setMode(.radix); radixNav.setInspector(.analysisLots) }
-            Button(le(RadixInspector.search.rbKey))    { app.setMode(.radix); radixNav.setInspector(.search) }
+            Button(le(RadixInspector.analysisDeclinations.rbKey)) { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysisDeclinations) } }
+            Button(le(RadixInspector.analysisLots.rbKey)) { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysisLots) } }
+            Button(le(RadixInspector.search.rbKey))    { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.search) } }
                 .keyboardShortcut("4", modifiers: [.command, .option])
         }
 
         CommandMenu(le(AppMode.progressive.rbKey)) {
-            Button(activate(.progressive)) { app.setMode(.progressive) }
+            Button(activate(.progressive)) { unsavedChanges.perform { app.setMode(.progressive) } }
                 .keyboardShortcut("2", modifiers: [.command, .shift])
             Divider()
             ForEach(ProgressiveSection.allCases) { section in
-                Button(le(section.rbKey)) { app.setMode(.progressive); progressiveNav.setSection(section) }
+                Button(le(section.rbKey)) { unsavedChanges.perform { app.setMode(.progressive); progressiveNav.setSection(section) } }
             }
         }
 
         CommandMenu(le(AppMode.research.rbKey)) {
-            Button(le(ResearchSection.projects.rbKey)) { app.setMode(.research); researchNav.setSection(.projects) }
+            Button(le(ResearchSection.projects.rbKey)) { unsavedChanges.perform { app.setMode(.research); researchNav.setSection(.projects) } }
                 .keyboardShortcut("5", modifiers: [.command, .option])
         }
 
         CommandMenu(le(AppMode.cycles.rbKey)) {
-            Button(activate(.cycles)) { app.setMode(.cycles) }
+            Button(activate(.cycles)) { unsavedChanges.perform { app.setMode(.cycles) } }
                 .keyboardShortcut("3", modifiers: [.command, .shift])
             Divider()
-            Button(le(CyclesSection.astronomicalCycles.rbKey)) { app.setMode(.cycles); cyclesNav.setSection(.astronomicalCycles) }
+            Button(le(CyclesSection.astronomicalCycles.rbKey)) { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.astronomicalCycles) } }
                 .keyboardShortcut("7", modifiers: [.command, .option])
-            Button(le(CyclesSection.waves.rbKey))              { app.setMode(.cycles); cyclesNav.setSection(.waves) }
+            Button(le(CyclesSection.waves.rbKey))              { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.waves) } }
                 .keyboardShortcut("8", modifiers: [.command, .option])
-            Button(le(CyclesSection.tablesGraphs.rbKey))       { app.setMode(.cycles); cyclesNav.setSection(.tablesGraphs) }
+            Button(le(CyclesSection.tablesGraphs.rbKey))       { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.tablesGraphs) } }
                 .keyboardShortcut("9", modifiers: [.command, .option])
-            Button(le(CyclesSection.ephemeris.rbKey))          { app.setMode(.cycles); cyclesNav.setSection(.ephemeris) }
-            Button(le(CyclesSection.longTimeEphemeris.rbKey))  { app.setMode(.cycles); cyclesNav.setSection(.longTimeEphemeris) }
-            Button(le(CyclesSection.eclipses.rbKey))           { app.setMode(.cycles); cyclesNav.setSection(.eclipses) }
+            Button(le(CyclesSection.ephemeris.rbKey))          { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.ephemeris) } }
+            Button(le(CyclesSection.longTimeEphemeris.rbKey))  { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.longTimeEphemeris) } }
+            Button(le(CyclesSection.eclipses.rbKey))           { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.eclipses) } }
         }
 
         CommandMenu(le(AppMode.config.rbKey)) {
-            Button(activate(.config)) { app.setMode(.config) }
+            Button(activate(.config)) { unsavedChanges.perform { app.setMode(.config) } }
                 .keyboardShortcut("4", modifiers: [.command, .shift])
         }
 
         CommandGroup(after: .importExport) {
-            Button(activate(.importExport)) { app.setMode(.importExport) }
+            Button(activate(.importExport)) { unsavedChanges.perform { app.setMode(.importExport) } }
             ForEach(ImportExportSection.allCases) { section in
-                Button(le(section.rbKey)) { app.setMode(.importExport); importExportNav.setSection(section) }
+                Button(le(section.rbKey)) { unsavedChanges.perform { app.setMode(.importExport); importExportNav.setSection(section) } }
             }
         }
 

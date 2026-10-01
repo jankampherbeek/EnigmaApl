@@ -38,6 +38,10 @@ struct ConfigEditKeys {
     static let editRestoreAlertMessage = "view.configedit.edit.alert.restoremessage"
     static let editRemove             = "view.configedit.edit.remove"
     static let editStandardFooter     = "view.configedit.edit.standardfooter"
+    static let editBack               = "view.configedit.edit.back"
+    static let unsavedTitle           = "view.configedit.unsaved.title"
+    static let unsavedMessage         = "view.configedit.unsaved.message"
+    static let unsavedDiscard         = "view.configedit.unsaved.discard"
 
     // MARK: - Shared
     static let cancel                 = "view.configedit.cancel"

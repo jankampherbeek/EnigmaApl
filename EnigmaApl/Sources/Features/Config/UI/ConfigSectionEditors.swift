@@ -29,6 +29,7 @@ struct CalculationConfigEditor: View {
     @State private var stationaryPercentage: Int = 10
     @State private var slowPercentage: Int = 20
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     var body: some View {
@@ -97,23 +98,23 @@ struct CalculationConfigEditor: View {
         }
         .navigationTitle(sectionEditorTitle(.calculation))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { CalculationConfigHelpView() }
         .onAppear { loadFromConfig() }
-        .onChange(of: houseSystem)            { isDirty = true }
-        .onChange(of: ayanamsha)              { isDirty = true }
-        .onChange(of: observerPosition)       { isDirty = true }
-        .onChange(of: projectionType)         { isDirty = true }
-        .onChange(of: lunarNodeType)          { isDirty = true }
-        .onChange(of: lotsType)               { isDirty = true }
-        .onChange(of: stationaryPercentage)   { isDirty = true }
-        .onChange(of: slowPercentage)         { isDirty = true }
+        .onChange(of: houseSystem)            { markDirtyIfChanged() }
+        .onChange(of: ayanamsha)              { markDirtyIfChanged() }
+        .onChange(of: observerPosition)       { markDirtyIfChanged() }
+        .onChange(of: projectionType)         { markDirtyIfChanged() }
+        .onChange(of: lunarNodeType)          { markDirtyIfChanged() }
+        .onChange(of: lotsType)               { markDirtyIfChanged() }
+        .onChange(of: stationaryPercentage)   { markDirtyIfChanged() }
+        .onChange(of: slowPercentage)         { markDirtyIfChanged() }
     }
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -141,10 +142,12 @@ struct CalculationConfigEditor: View {
         lotsType                = c.lotsType
         stationaryPercentage    = c.stationaryPercentage
         slowPercentage          = c.slowPercentage
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
-        config.calculationConfig = CalculationConfig(
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> CalculationConfig {
+        return CalculationConfig(
             houseSystem:          houseSystem,
             ayanamsha:            ayanamsha,
             observerPosition:     observerPosition,
@@ -154,8 +157,26 @@ struct CalculationConfigEditor: View {
             stationaryPercentage: stationaryPercentage,
             slowPercentage:       slowPercentage
         )
+    }
+
+    private func save() {
+        config.calculationConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -238,16 +259,17 @@ struct DisplayConfigEditor: View {
         }
         .navigationTitle(sectionEditorTitle(.display))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { DisplayConfigHelpView() }
         .onAppear { loadFromConfig() }
-        .onChange(of: drawingType) { isDirty = true }
+        // Loading or reverting sets the saved type, which does not count as a change.
+        .onChange(of: drawingType) { if drawingType != config.displayConfig.drawingType { isDirty = true } }
     }
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -396,6 +418,9 @@ struct GlyphsConfigEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(sectionEditorTitle(.glyphs))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { GlyphsConfigHelpView() }
         .onAppear { loadFromConfig() }
     }
@@ -420,9 +445,6 @@ struct GlyphsConfigEditor: View {
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -563,6 +585,9 @@ struct FactorConfigEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(sectionEditorTitle(.factors))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { FactorConfigHelpView() }
         .onAppear { loadFromConfig() }
     }
@@ -600,9 +625,6 @@ struct FactorConfigEditor: View {
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -751,6 +773,9 @@ struct AspectConfigEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(sectionEditorTitle(.aspects))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { AspectConfigHelpView() }
         .onAppear { loadFromConfig() }
     }
@@ -794,9 +819,6 @@ struct AspectConfigEditor: View {
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -907,6 +929,7 @@ struct OrbConfigEditor: View {
     @State private var declinationMidpointDeg: Int = 0
     @State private var declinationMidpointMin: Int = 45
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     var body: some View {
@@ -943,9 +966,12 @@ struct OrbConfigEditor: View {
         }
         .navigationTitle(sectionEditorTitle(.orbs))
         .toolbar { saveToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { OrbConfigHelpView() }
         .onAppear { loadFromConfig() }
-        .onChange(of: orbSystem) { isDirty = true }
+        .onChange(of: orbSystem) { markDirtyIfChanged() }
     }
 
     private func orbRow(label: String,
@@ -958,22 +984,19 @@ struct OrbConfigEditor: View {
                     .monospacedDigit()
                 Stepper("", value: deg, in: 0...maxDeg)
                     .labelsHidden().fixedSize()
-                    .onChange(of: deg.wrappedValue) { isDirty = true }
+                    .onChange(of: deg.wrappedValue) { markDirtyIfChanged() }
                 Text("\(min.wrappedValue)'")
                     .frame(width: 30, alignment: .trailing)
                     .monospacedDigit()
                 Stepper("", value: min, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: min.wrappedValue) { isDirty = true }
+                    .onChange(of: min.wrappedValue) { markDirtyIfChanged() }
             }
         }
     }
 
     private var saveToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -1001,10 +1024,12 @@ struct OrbConfigEditor: View {
         (harmonicDeg,   harmonicMin)   = sexagesimalFromDouble(c.harmonicOrb)
         (parallelDeg,   parallelMin)   = sexagesimalFromDouble(c.parallelOrb)
         (declinationMidpointDeg, declinationMidpointMin) = sexagesimalFromDouble(c.declinationMidpointOrb)
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
-        config.orbConfig = OrbConfig(
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> OrbConfig {
+        return OrbConfig(
             orbSystem:     orbSystem,
             aspectBaseOrb: doubleFromSexagesimal(aspectBaseDeg, aspectBaseMin),
             midpoint360DialOrb: doubleFromSexagesimal(midpoint360Deg, midpoint360Min),
@@ -1014,8 +1039,26 @@ struct OrbConfigEditor: View {
             parallelOrb:   doubleFromSexagesimal(parallelDeg,   parallelMin),
             declinationMidpointOrb: doubleFromSexagesimal(declinationMidpointDeg, declinationMidpointMin)
         )
+    }
+
+    private func save() {
+        config.orbConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 
 }
@@ -1113,7 +1156,7 @@ private struct ProgFactorRow: View {
 private struct ProgOrbRow: View {
     @Binding var deg: Int
     @Binding var min: Int
-    @Binding var isDirty: Bool
+    let onChange: () -> Void
 
     var body: some View {
         LabeledContent(t(ConfigEditKeys.progOrbLabel)) {
@@ -1123,13 +1166,13 @@ private struct ProgOrbRow: View {
                     .monospacedDigit()
                 Stepper("", value: $deg, in: 0...10)
                     .labelsHidden().fixedSize()
-                    .onChange(of: deg) { isDirty = true }
+                    .onChange(of: deg) { onChange() }
                 Text("\(min)'")
                     .frame(width: 30, alignment: .trailing)
                     .monospacedDigit()
                 Stepper("", value: $min, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: min) { isDirty = true }
+                    .onChange(of: min) { onChange() }
             }
         }
     }
@@ -1150,6 +1193,7 @@ struct PrimaryDirectionsEditor: View {
     @State private var approach: PrimaryApproach
     @State private var timeKey:  PrimaryTimeKey
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     init(config: UserConfiguration) {
@@ -1195,7 +1239,7 @@ struct PrimaryDirectionsEditor: View {
                         Text(le(tk.rbKey)).tag(tk)
                     }
                 }
-                ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
+                ProgOrbRow(deg: $orbDeg, min: $orbMin, onChange: markDirtyIfChanged)
             }
             Section {
                 ForEach(Factors.selectableCases, id: \.self) { factor in
@@ -1236,10 +1280,14 @@ struct PrimaryDirectionsEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(t(ConfigEditKeys.progNavPrimary))
         .toolbar { saveToolbar }
+        .onAppear { savedSnapshot = snapshot() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.editBack))
         .sheet(isPresented: $showHelp) { PrimaryDirectionsHelpView() }
-        .onChange(of: method)   { isDirty = true }
-        .onChange(of: approach) { isDirty = true }
-        .onChange(of: timeKey)  { isDirty = true }
+        .onChange(of: method)   { markDirtyIfChanged() }
+        .onChange(of: approach) { markDirtyIfChanged() }
+        .onChange(of: timeKey)  { markDirtyIfChanged() }
     }
 
     private var saveToolbar: some ToolbarContent {
@@ -1273,11 +1321,13 @@ struct PrimaryDirectionsEditor: View {
         method   = c.method
         approach = c.approach
         timeKey  = c.timeKey
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> ProgressionsConfig {
         let pd = config.progressionsConfig
-        config.progressionsConfig = ProgressionsConfig(
+        return ProgressionsConfig(
             primaryDirections: PrimaryDirectionsConfig(
                 promissors:    Factors.allCases.filter { promissors[$0] ?? false },
                 significators: Factors.allCases.filter { significators[$0] ?? false },
@@ -1292,8 +1342,26 @@ struct PrimaryDirectionsEditor: View {
             solarReturn:         pd.solarReturn,
             progressiveCalendar: pd.progressiveCalendar
         )
+    }
+
+    private func save() {
+        config.progressionsConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -1335,6 +1403,7 @@ struct TransitsEditor: View {
     @State private var orbDeg:  Int
     @State private var orbMin:  Int
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     init(config: UserConfiguration) {
@@ -1356,7 +1425,7 @@ struct TransitsEditor: View {
                 .listRowBackground(Color.clear)
             Spacer().frame(height: 4).listRowBackground(Color.clear)
             Section(t(ConfigEditKeys.progSectionOrb)) {
-                ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
+                ProgOrbRow(deg: $orbDeg, min: $orbMin, onChange: markDirtyIfChanged)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
                 ForEach(Factors.selectableCases, id: \.self) { factor in
@@ -1370,6 +1439,10 @@ struct TransitsEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(t(ConfigEditKeys.progNavTransits))
         .toolbar { saveToolbar }
+        .onAppear { savedSnapshot = snapshot() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.editBack))
         .sheet(isPresented: $showHelp) { TransitsHelpView() }
     }
 
@@ -1397,11 +1470,13 @@ struct TransitsEditor: View {
         let selected = Set(c.factors)
         for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> ProgressionsConfig {
         let pd = config.progressionsConfig
-        config.progressionsConfig = ProgressionsConfig(
+        return ProgressionsConfig(
             primaryDirections:   pd.primaryDirections,
             transits: TransitsConfig(
                 factors: Factors.allCases.filter { factors[$0] ?? false },
@@ -1412,8 +1487,26 @@ struct TransitsEditor: View {
             solarReturn:         pd.solarReturn,
             progressiveCalendar: pd.progressiveCalendar
         )
+    }
+
+    private func save() {
+        config.progressionsConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -1454,6 +1547,7 @@ struct SecondaryDirectionsEditor: View {
     @State private var orbDeg:  Int
     @State private var orbMin:  Int
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     init(config: UserConfiguration) {
@@ -1475,7 +1569,7 @@ struct SecondaryDirectionsEditor: View {
                 .listRowBackground(Color.clear)
             Spacer().frame(height: 4).listRowBackground(Color.clear)
             Section(t(ConfigEditKeys.progSectionOrb)) {
-                ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
+                ProgOrbRow(deg: $orbDeg, min: $orbMin, onChange: markDirtyIfChanged)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
                 ForEach(Factors.selectableCases, id: \.self) { factor in
@@ -1489,6 +1583,10 @@ struct SecondaryDirectionsEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(t(ConfigEditKeys.progNavSecondary))
         .toolbar { saveToolbar }
+        .onAppear { savedSnapshot = snapshot() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.editBack))
         .sheet(isPresented: $showHelp) { SecondaryDirectionsHelpView() }
     }
 
@@ -1516,11 +1614,13 @@ struct SecondaryDirectionsEditor: View {
         let selected = Set(c.factors)
         for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> ProgressionsConfig {
         let pd = config.progressionsConfig
-        config.progressionsConfig = ProgressionsConfig(
+        return ProgressionsConfig(
             primaryDirections:   pd.primaryDirections,
             transits:            pd.transits,
             secondaryDirections: SecondaryDirectionsConfig(
@@ -1531,8 +1631,26 @@ struct SecondaryDirectionsEditor: View {
             solarReturn:         pd.solarReturn,
             progressiveCalendar: pd.progressiveCalendar
         )
+    }
+
+    private func save() {
+        config.progressionsConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -1574,6 +1692,7 @@ struct SymbolicDirectionsEditor: View {
     @State private var orbMin:  Int
     @State private var timeKey: SymbolicTimeKey
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     init(config: UserConfiguration) {
@@ -1601,7 +1720,7 @@ struct SymbolicDirectionsEditor: View {
                         Text(le(tk.rbKey)).tag(tk)
                     }
                 }
-                ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
+                ProgOrbRow(deg: $orbDeg, min: $orbMin, onChange: markDirtyIfChanged)
             }
             Section(t(ConfigEditKeys.progSectionFactors)) {
                 ForEach(Factors.selectableCases, id: \.self) { factor in
@@ -1615,8 +1734,12 @@ struct SymbolicDirectionsEditor: View {
         .scrollIndicators(.visible)
         .navigationTitle(t(ConfigEditKeys.progNavSymbolic))
         .toolbar { saveToolbar }
+        .onAppear { savedSnapshot = snapshot() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.editBack))
         .sheet(isPresented: $showHelp) { SymbolicDirectionsHelpView() }
-        .onChange(of: timeKey) { isDirty = true }
+        .onChange(of: timeKey) { markDirtyIfChanged() }
     }
 
     private var saveToolbar: some ToolbarContent {
@@ -1644,11 +1767,13 @@ struct SymbolicDirectionsEditor: View {
         for f in Factors.selectableCases { factors[f] = selected.contains(f) }
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
         timeKey = c.timeKey
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> ProgressionsConfig {
         let pd = config.progressionsConfig
-        config.progressionsConfig = ProgressionsConfig(
+        return ProgressionsConfig(
             primaryDirections:   pd.primaryDirections,
             transits:            pd.transits,
             secondaryDirections: pd.secondaryDirections,
@@ -1660,8 +1785,26 @@ struct SymbolicDirectionsEditor: View {
             solarReturn: pd.solarReturn,
             progressiveCalendar: pd.progressiveCalendar
         )
+    }
+
+    private func save() {
+        config.progressionsConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -1703,6 +1846,7 @@ struct SolarReturnEditor: View {
     @State private var method:   SolarMethod
     @State private var location: SolarLocation
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     init(config: UserConfiguration) {
@@ -1732,14 +1876,18 @@ struct SolarReturnEditor: View {
                         Text(le(l.rbKey)).tag(l)
                     }
                 }
-                ProgOrbRow(deg: $orbDeg, min: $orbMin, isDirty: $isDirty)
+                ProgOrbRow(deg: $orbDeg, min: $orbMin, onChange: markDirtyIfChanged)
             }
         }
         .navigationTitle(t(ConfigEditKeys.progNavSolar))
         .toolbar { saveToolbar }
+        .onAppear { savedSnapshot = snapshot() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.editBack))
         .sheet(isPresented: $showHelp) { SolarReturnHelpView() }
-        .onChange(of: method)   { isDirty = true }
-        .onChange(of: location) { isDirty = true }
+        .onChange(of: method)   { markDirtyIfChanged() }
+        .onChange(of: location) { markDirtyIfChanged() }
     }
 
     private var saveToolbar: some ToolbarContent {
@@ -1766,11 +1914,13 @@ struct SolarReturnEditor: View {
         (orbDeg, orbMin) = sexagesimalFromDouble(c.orb)
         method   = c.method
         location = c.location
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> ProgressionsConfig {
         let pd = config.progressionsConfig
-        config.progressionsConfig = ProgressionsConfig(
+        return ProgressionsConfig(
             primaryDirections:   pd.primaryDirections,
             transits:            pd.transits,
             secondaryDirections: pd.secondaryDirections,
@@ -1782,8 +1932,26 @@ struct SolarReturnEditor: View {
             ),
             progressiveCalendar: pd.progressiveCalendar
         )
+    }
+
+    private func save() {
+        config.progressionsConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 }
 
@@ -1831,6 +1999,7 @@ struct FixStarConfigEditor: View {
     @State private var magnitudeLimit = 4
     @State private var isUsed: [StarDefinitions: Bool] = [:]
     @State private var isDirty = false
+    @State private var savedSnapshot: Data? = nil
     @State private var showHelp = false
 
     var body: some View {
@@ -1885,6 +2054,9 @@ struct FixStarConfigEditor: View {
         }
         .navigationTitle(sectionEditorTitle(.fixstars))
         .toolbar { fixStarToolbar }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save,
+                              discard: { loadFromConfig(); isDirty = false },
+                              backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { FixStarConfigHelpView() }
         .onAppear { loadFromConfig() }
     }
@@ -1898,17 +2070,17 @@ struct FixStarConfigEditor: View {
                     .frame(width: 30, alignment: .trailing).monospacedDigit()
                 Stepper("", value: $orbDeg, in: 0...10)
                     .labelsHidden().fixedSize()
-                    .onChange(of: orbDeg) { isDirty = true }
+                    .onChange(of: orbDeg) { markDirtyIfChanged() }
                 Text("\(orbMin)'")
                     .frame(width: 30, alignment: .trailing).monospacedDigit()
                 Stepper("", value: $orbMin, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: orbMin) { isDirty = true }
+                    .onChange(of: orbMin) { markDirtyIfChanged() }
                 Text("\(orbSec)\"")
                     .frame(width: 30, alignment: .trailing).monospacedDigit()
                 Stepper("", value: $orbSec, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: orbSec) { isDirty = true }
+                    .onChange(of: orbSec) { markDirtyIfChanged() }
             }
         }
     }
@@ -1920,12 +2092,12 @@ struct FixStarConfigEditor: View {
                     .frame(width: 30, alignment: .trailing).monospacedDigit()
                 Stepper("", value: $paranMin, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: paranMin) { isDirty = true }
+                    .onChange(of: paranMin) { markDirtyIfChanged() }
                 Text("\(paranSec)\"")
                     .frame(width: 30, alignment: .trailing).monospacedDigit()
                 Stepper("", value: $paranSec, in: 0...59)
                     .labelsHidden().fixedSize()
-                    .onChange(of: paranSec) { isDirty = true }
+                    .onChange(of: paranSec) { markDirtyIfChanged() }
             }
         }
     }
@@ -1934,9 +2106,6 @@ struct FixStarConfigEditor: View {
 
     private var fixStarToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigation) {
-                Button(t(ConfigEditKeys.backToOverview)) { dismiss() }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button { showHelp = true } label: {
                     Label(t(ConfigEditKeys.helpTitle), systemImage: "questionmark.circle")
@@ -1992,13 +2161,15 @@ struct FixStarConfigEditor: View {
         for s in c.fixStarSettings {
             isUsed[s.fixStar] = s.isUsed
         }
+        savedSnapshot = snapshot()
     }
 
-    private func save() {
+    /// The configuration as currently entered in this editor.
+    private func editedConfig() -> FixStarConfig {
         let settings = StarDefinitions.allCases.map { star in
             FixStarSettings(fixStar: star, isUsed: isUsed[star] ?? false, selection: activeSelection)
         }
-        config.fixStarConfig = FixStarConfig(
+        return FixStarConfig(
             includeGalacticCenter: includeGalacticCenter,
             fixStarOrb: doubleFromDms(orbDeg, orbMin, orbSec),
             paranTimeOrb: Double(paranMin) + Double(paranSec) / 60.0,
@@ -2006,8 +2177,26 @@ struct FixStarConfigEditor: View {
             magnitudeLimit: magnitudeLimit,
             fixStarSettings: settings
         )
+    }
+
+    private func save() {
+        config.fixStarConfig = editedConfig()
         try? modelContext.save()
+        savedSnapshot = snapshot()
         isDirty = false
+    }
+
+    /// Encoded entered values, used to detect changes against the values as loaded or saved.
+    private func snapshot() -> Data? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
+        return try? encoder.encode(editedConfig())
+    }
+
+    /// Marks the editor dirty only when the entered values differ from the loaded or saved values,
+    /// so loading or reverting the values does not count as a change.
+    private func markDirtyIfChanged() {
+        if snapshot() != savedSnapshot { isDirty = true }
     }
 
     private func dmsFromDouble(_ value: Double) -> (Int, Int, Int) {

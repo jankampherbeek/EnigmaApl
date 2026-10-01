@@ -48,6 +48,7 @@ struct ConfigEditScreen: View {
             }
         }
         .sheet(isPresented: $showHelp) { ConfigEditHelpView() }
+        .guardsUnsavedChanges(isDirty: isDirty, save: save, discard: revert)
         .alert(t(ConfigEditKeys.editRestoreAlertTitle), isPresented: $showRestoreAlert) {
             Button(t(ConfigEditKeys.editRestoreAlertButton), role: .destructive) { restoreDefaults() }
             Button(t(ConfigEditKeys.cancel), role: .cancel) {}
@@ -68,7 +69,7 @@ struct ConfigEditScreen: View {
     private var nameSection: some View {
         Section(t(ConfigEditKeys.editNameLabel)) {
             TextField(t(ConfigEditKeys.editNameLabel), text: $name)
-                .onChange(of: name) { isDirty = true }
+                .onChange(of: name) { isDirty = name != config.name }
         }
     }
 
@@ -87,8 +88,9 @@ struct ConfigEditScreen: View {
             Toggle(t(ConfigEditKeys.editActiveToggle), isOn: Binding(
                 get: { config.isActive },
                 set: { newValue in
+                    // Takes effect immediately, so it is saved right away.
                     setActive(newValue)
-                    isDirty = true
+                    try? modelContext.save()
                 }
             ))
         } footer: {
