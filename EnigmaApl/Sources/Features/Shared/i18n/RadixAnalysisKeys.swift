@@ -30,6 +30,7 @@ struct RadixAnalysisKeys {
     static let btnAllHarmonics    = "view.harmonicsscreen.btn.allharmonics"
     static let btnMatches         = "view.harmonicsscreen.btn.matches"
     static let btnDrawing         = "view.harmonicsscreen.btn.drawing"
+    static let btnHarmonicAspects = "view.harmonicsscreen.btn.aspects"
 
     // AllHarmonicsView
     static let allHarmonicsTitle  = "view.allharmonicsview.title"
@@ -45,6 +46,15 @@ struct RadixAnalysisKeys {
     static let colOrb             = "view.harmonicmatchesview.col.orb"
     static let colExactness       = "view.harmonicmatchesview.col.exactness"
 
+    // HarmonicAspectsView
+    static let aspectsTitle       = "view.harmonicaspectsview.title"
+    static let aspectsNoData      = "view.harmonicaspectsview.nodata"
+    static let colAspFactor1      = "view.harmonicaspectsview.col.factor1"
+    static let colAspAspect       = "view.harmonicaspectsview.col.aspect"
+    static let colAspFactor2      = "view.harmonicaspectsview.col.factor2"
+    static let colAspOrb          = "view.harmonicaspectsview.col.orb"
+    static let colAspExactness    = "view.harmonicaspectsview.col.exactness"
+
     // HarmonicDrawingView
     static let drawingTitle       = "view.harmonicdrawingview.title"
     static let drawingPlaceholder = "view.harmonicdrawingview.placeholder"
@@ -55,4 +65,5 @@ struct RadixAnalysisKeys {
     static let allHarmonicsHelp   = "view.allharmonicsview.help"
     static let matchesHelp        = "view.harmonicmatchesview.help"
     static let drawingHelp        = "view.harmonicdrawingview.help"
+    static let aspectsHelp        = "view.harmonicaspectsview.help"
 }

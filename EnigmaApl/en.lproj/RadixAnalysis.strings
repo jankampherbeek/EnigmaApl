@@ -25,6 +25,7 @@
 "view.harmonicsscreen.btn.allharmonics"        = "All harmonics";
 "view.harmonicsscreen.btn.matches"             = "Matches";
 "view.harmonicsscreen.btn.drawing"             = "Harmonic drawing";
+"view.harmonicsscreen.btn.aspects"             = "Aspects";
 
 // AllHarmonicsView
 "view.allharmonicsview.title"                  = "All harmonics";
@@ -39,6 +40,13 @@
 "view.harmonicmatchesview.col.radixfactor"     = "Radix";
 "view.harmonicmatchesview.col.orb"             = "Orb";
 "view.harmonicmatchesview.col.exactness"       = "Exactness";
+"view.harmonicaspectsview.title"               = "Harmonic aspects";
+"view.harmonicaspectsview.nodata"              = "No aspects found in the harmonic chart for the current configuration.";
+"view.harmonicaspectsview.col.factor1"         = "Factor 1";
+"view.harmonicaspectsview.col.aspect"          = "Aspect";
+"view.harmonicaspectsview.col.factor2"         = "Factor 2";
+"view.harmonicaspectsview.col.orb"             = "Orb";
+"view.harmonicaspectsview.col.exactness"       = "Exactness";
 
 // HarmonicDrawingView
 "view.harmonicdrawingview.title"               = "Harmonic drawing";
@@ -49,4 +57,5 @@
 // Help texts
 "view.allharmonicsview.help"      = "This screen shows the harmonic positions for all factors you have selected in the configuration.\nAt the top of the screen you can enter the harmonic number. That number must be greater than 1 and not greater than 100,000.\nBesides whole numbers you can also enter fractional numbers.\nIf you have not entered anything, you see the positions in the second harmonic. As soon as you change the number, Enigma recalculates the positions; this also applies to the other screens with harmonic data.\nYou can access those other screens via the buttons in the toolbar.";
 "view.harmonicmatchesview.help"   = "This screen shows the matches between the harmonic positions and the positions in the radix. Enigma looks for conjunctions and uses the orb you have specified in the configuration.\nAt the top of the screen you can enter the harmonic number. That number must be greater than 1 and not greater than 100,000.\nBesides whole numbers you can also enter fractional numbers.\nIf you have not entered anything, you see the positions in the second harmonic. As soon as you change the number, Enigma recalculates the positions; this also applies to the other screens with harmonic data.\nYou can access those other screens via the buttons in the toolbar.";
+"view.harmonicaspectsview.help"    = "This screen shows all aspects between the harmonic positions for the number you entered in the top field. The aspects and orbs are taken from your configuration, the same as for the aspect lines in the harmonic drawing.\nFor each aspect you see the two factors, the aspect, the orb and the exactness. The exactness is 100% for an exact aspect and decreases to 0% at the maximum orb.";
 "view.harmonicdrawingview.help"   = "Here you see a horoscope chart drawn with the harmonic positions for the number you entered in the top field (initially 2). You can change that number; it must be greater than 1 and not greater than 100,000.\nAs soon as you change the number, Enigma recalculates the positions; this also applies to the other screens with harmonic data.\nYou can access those other screens via the buttons in the toolbar.\nThe aspect lines connect the harmonic positions, using the aspects and orbs from your configuration. You can hide or show them with the aspect button in the toolbar. With the clock button you can include or exclude the Ascendant and MC; when excluded, they are also left out of the aspects.";

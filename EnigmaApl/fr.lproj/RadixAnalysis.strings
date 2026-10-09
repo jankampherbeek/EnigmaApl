@@ -25,6 +25,7 @@
 "view.harmonicsscreen.btn.allharmonics"        = "Toutes les harmoniques";
 "view.harmonicsscreen.btn.matches"             = "Correspondances";
 "view.harmonicsscreen.btn.drawing"             = "Dessin harmonique";
+"view.harmonicsscreen.btn.aspects"             = "Aspects";
 
 // AllHarmonicsView
 "view.allharmonicsview.title"                  = "Toutes les harmoniques";
@@ -39,6 +40,13 @@
 "view.harmonicmatchesview.col.radixfactor"     = "Radix";
 "view.harmonicmatchesview.col.orb"             = "Orbe";
 "view.harmonicmatchesview.col.exactness"       = "Exactitude";
+"view.harmonicaspectsview.title"               = "Aspects harmoniques";
+"view.harmonicaspectsview.nodata"              = "Aucun aspect trouvé dans le thème harmonique pour la configuration actuelle.";
+"view.harmonicaspectsview.col.factor1"         = "Facteur 1";
+"view.harmonicaspectsview.col.aspect"          = "Aspect";
+"view.harmonicaspectsview.col.factor2"         = "Facteur 2";
+"view.harmonicaspectsview.col.orb"             = "Orbe";
+"view.harmonicaspectsview.col.exactness"       = "Exactitude";
 
 // HarmonicDrawingView
 "view.harmonicdrawingview.title"               = "Dessin harmonique";
@@ -49,4 +57,5 @@
 // Help texts
 "view.allharmonicsview.help"      = "Cet écran affiche les positions harmoniques pour tous les facteurs que vous avez sélectionnés dans la configuration.\nEn haut de l'écran, vous pouvez saisir le numéro de l'harmonique. Ce numéro doit être supérieur à 1 et ne pas dépasser 100 000.\nEn plus des nombres entiers, vous pouvez également saisir des nombres fractionnaires.\nSi vous n'avez rien saisi, vous voyez les positions dans la deuxième harmonique. Dès que vous modifiez le nombre, Enigma recalcule les positions ; cela s'applique également aux autres écrans avec des données harmoniques.\nVous pouvez accéder à ces autres écrans via les boutons de la barre d'outils.";
 "view.harmonicmatchesview.help"   = "Cet écran affiche les correspondances entre les positions harmoniques et les positions dans le radix. Enigma recherche les conjonctions et utilise l'orbe que vous avez spécifié dans la configuration.\nEn haut de l'écran, vous pouvez saisir le numéro de l'harmonique. Ce numéro doit être supérieur à 1 et ne pas dépasser 100 000.\nEn plus des nombres entiers, vous pouvez également saisir des nombres fractionnaires.\nSi vous n'avez rien saisi, vous voyez les positions dans la deuxième harmonique. Dès que vous modifiez le nombre, Enigma recalcule les positions ; cela s'applique également aux autres écrans avec des données harmoniques.\nVous pouvez accéder à ces autres écrans via les boutons de la barre d'outils.";
+"view.harmonicaspectsview.help"    = "Cet écran affiche tous les aspects entre les positions harmoniques pour le numéro que vous avez saisi dans le champ supérieur. Les aspects et les orbes proviennent de votre configuration, comme pour les lignes d'aspect du dessin harmonique.\nPour chaque aspect vous voyez les deux facteurs, l'aspect, l'orbe et l'exactitude. L'exactitude est de 100% pour un aspect exact et diminue jusqu'à 0% à l'orbe maximal.";
 "view.harmonicdrawingview.help"   = "Ici vous voyez une figure d'horoscope dessinée avec les positions harmoniques pour le numéro que vous avez saisi dans le champ supérieur (initialement 2). Vous pouvez modifier ce numéro ; il doit être supérieur à 1 et ne pas dépasser 100 000.\nDès que vous modifiez le nombre, Enigma recalcule les positions ; cela s'applique également aux autres écrans avec des données harmoniques.\nVous pouvez accéder à ces autres écrans via les boutons de la barre d'outils.\nLes lignes d'aspect relient les positions harmoniques, selon les aspects et les orbes de votre configuration. Vous pouvez les masquer ou les afficher avec le bouton d'aspect de la barre d'outils. Avec le bouton horloge vous pouvez inclure ou exclure l'Ascendant et le MC ; lorsqu'ils sont exclus, ils ne sont pas non plus pris en compte pour les aspects.";

@@ -26,6 +26,30 @@ struct HarmonicsOrchestrator {
         return HarmonicsCalculator.calculate(positions: positions, harmonic: harmonic)
     }
 
+    /// Returns all aspects between the harmonic positions, sorted by orb (most exact first).
+    /// - Parameters:
+    ///   - chart: The full chart with all factor positions.
+    ///   - factorConfig: Determines which factors are included and their orb percentages.
+    ///   - aspectConfig: Determines which aspects are used and their orb percentages.
+    ///   - orbConfig: Provides the base orb for aspects.
+    ///   - harmonic: The harmonic number to apply.
+    /// - Returns: Sorted list of `FoundAspect`, or empty if fewer than two active factors are found.
+    static func aspects(
+        chart: FullChart,
+        factorConfig: FactorConfig,
+        aspectConfig: AspectConfig,
+        orbConfig: OrbConfig,
+        harmonic: Double
+    ) -> [FoundAspect] {
+        let positions = harmonicPositions(chart: chart, factorConfig: factorConfig, harmonic: harmonic)
+        return AspectsOrchestrator.calculate(
+            positions: positions.map { ($0.factor, $0.longitude) },
+            factorConfig: factorConfig,
+            aspectConfig: aspectConfig,
+            orbConfig: orbConfig
+        )
+    }
+
     /// Returns all matches between harmonic positions and radix positions, sorted by orb (most exact first).
     /// - Parameters:
     ///   - chart: The full chart with all factor positions.

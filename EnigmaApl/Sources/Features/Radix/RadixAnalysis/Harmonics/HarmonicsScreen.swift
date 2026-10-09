@@ -35,6 +35,7 @@ struct HarmonicsScreen: View {
                 Picker("", selection: $activeTab) {
                     Text(t(RadixAnalysisKeys.btnAllHarmonics)).tag(HarmonicsTab.all)
                     Text(t(RadixAnalysisKeys.btnMatches)).tag(HarmonicsTab.matches)
+                    Text(t(RadixAnalysisKeys.btnHarmonicAspects)).tag(HarmonicsTab.aspects)
                     Text(t(RadixAnalysisKeys.btnDrawing)).tag(HarmonicsTab.drawing)
                 }
                 .pickerStyle(.segmented)
@@ -57,6 +58,8 @@ struct HarmonicsScreen: View {
             AllHarmonicsView(harmonicNumber: harmonicNumber, harmonicText: $harmonicText)
         case .matches:
             HarmonicMatchesView(harmonicNumber: harmonicNumber, harmonicText: $harmonicText)
+        case .aspects:
+            HarmonicAspectsView(harmonicNumber: harmonicNumber, harmonicText: $harmonicText)
         case .drawing:
             HarmonicDrawingView(harmonicNumber: harmonicNumber, harmonicText: $harmonicText)
         }
@@ -66,5 +69,5 @@ struct HarmonicsScreen: View {
 // MARK: - Supporting enum
 
 private enum HarmonicsTab {
-    case all, matches, drawing
+    case all, matches, aspects, drawing
 }

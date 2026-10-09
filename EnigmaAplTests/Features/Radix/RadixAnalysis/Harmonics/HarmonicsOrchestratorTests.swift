@@ -257,6 +257,55 @@ struct HarmonicsOrchestratorTests {
         #expect(result.isEmpty)
     }
 
+    // MARK: - aspects
+
+    @Test("HarmonicsOrchestrator.aspects: aspect is found between harmonic positions")
+    func testAspectsBetweenHarmonicPositions() {
+        // Sun=10° → H2=20°, Moon=55° → H2=110°: square (90°) in H2, no aspect in the radix
+        let chart = Self.makeChart([(.sun, 10.0), (.moon, 55.0)])
+        let result = HarmonicsOrchestrator.aspects(
+            chart: chart,
+            factorConfig: Self.factorConfig([.sun, .moon]),
+            aspectConfig: Self.aspectConfig([.square, .conjunction]),
+            orbConfig: OrbConfig(aspectBaseOrb: 5.0),
+            harmonic: 2.0
+        )
+        #expect(result.count == 1)
+        #expect(result.first?.aspect == .square)
+        #expect(abs((result.first?.orb ?? -1) - 0.0) < delta)
+    }
+
+    @Test("HarmonicsOrchestrator.aspects: no aspect outside orb")
+    func testAspectsOutsideOrb() {
+        // Sun=10° → H2=20°, Moon=58° → H2=116°: 96° apart, deviation 6° > orb 5°
+        let chart = Self.makeChart([(.sun, 10.0), (.moon, 58.0)])
+        let result = HarmonicsOrchestrator.aspects(
+            chart: chart,
+            factorConfig: Self.factorConfig([.sun, .moon]),
+            aspectConfig: Self.aspectConfig([.square]),
+            orbConfig: OrbConfig(aspectBaseOrb: 5.0),
+            harmonic: 2.0
+        )
+        #expect(result.isEmpty)
+    }
+
+    @Test("HarmonicsOrchestrator.aspects: result sorted by orb ascending")
+    func testAspectsSortedByOrb() {
+        // H2: Sun=20°, Moon=111° (square, orb 1°), Mars=20.5° (conjunction with Sun, orb 0.5°)
+        let chart = Self.makeChart([(.sun, 10.0), (.moon, 55.5), (.mars, 10.25)])
+        let result = HarmonicsOrchestrator.aspects(
+            chart: chart,
+            factorConfig: Self.factorConfig([.sun, .moon, .mars]),
+            aspectConfig: Self.aspectConfig([.square, .conjunction]),
+            orbConfig: OrbConfig(aspectBaseOrb: 5.0),
+            harmonic: 2.0
+        )
+        #expect(result.count >= 2)
+        for i in 0..<(result.count - 1) {
+            #expect(result[i].orb <= result[i + 1].orb)
+        }
+    }
+
     // MARK: - Helpers
 
     private static func makeChart(_ pairs: [(Factors, Double)]) -> FullChart {
@@ -288,5 +337,11 @@ struct HarmonicsOrchestratorTests {
 
     private static func orbConfig(harmonicOrb: Double) -> OrbConfig {
         OrbConfig(harmonicOrb: harmonicOrb)
+    }
+
+    private static func aspectConfig(_ aspects: [Aspects]) -> AspectConfig {
+        AspectConfig(aspectSettings: aspects.map {
+            AspectSettings(aspect: $0, isUsed: true, isDrawn: false, orbPercentage: 100)
+        })
     }
 }
