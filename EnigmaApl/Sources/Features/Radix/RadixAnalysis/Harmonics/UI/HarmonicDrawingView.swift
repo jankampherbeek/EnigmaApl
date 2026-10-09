@@ -14,6 +14,8 @@ struct HarmonicDrawingView: View {
     private var activeConfigs: [UserConfiguration]
 
     @State private var blackWhite    = false
+    @State private var hideAspects   = false
+    @State private var hideAscMc     = false
     @State private var showExport    = false
     @State private var showHelp      = false
 
@@ -27,18 +29,22 @@ struct HarmonicDrawingView: View {
 
     // MARK: - Derived data
 
+    /// Harmonic positions to draw; ASC and MC are left out (also for the aspects) when hideAscMc is set.
     private var harmonicPositions: [HarmonicPosition] {
         guard let chart = chartSession.selectedChart,
               let config = activeConfigs.first else { return [] }
-        return HarmonicsOrchestrator.harmonicPositions(
+        let positions = HarmonicsOrchestrator.harmonicPositions(
             chart: chart,
             factorConfig: config.factorConfig,
             harmonic: harmonicNumber
         )
+        guard hideAscMc else { return positions }
+        return positions.filter { $0.factor != .ascendant && $0.factor != .mc }
     }
 
     private var plotData: WheelPlotData {
-        HarmonicWheelPlotDataBuilder.build(harmonicPositions: harmonicPositions)
+        HarmonicWheelPlotDataBuilder.build(harmonicPositions: harmonicPositions,
+                                           config: activeConfigs.first)
     }
 
     private var currentTheme: WheelTheme {
@@ -55,7 +61,8 @@ struct HarmonicDrawingView: View {
 
                 harmonicInput
 
-                HarmonicWheelCanvas(plotData: plotData, theme: currentTheme)
+                HarmonicWheelCanvas(plotData: plotData, theme: currentTheme,
+                                    showAspects: !hideAspects)
                     .frame(maxWidth: 600)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -67,6 +74,21 @@ struct HarmonicDrawingView: View {
                     Image(systemName: blackWhite ? "circle.lefthalf.filled" : "paintpalette")
                 }
                 .accessibilityLabel(blackWhite ? "Switch to color" : "Switch to black and white")
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { hideAspects.toggle() } label: {
+                    Image(systemName: "angle")
+                        .foregroundStyle(hideAspects ? .secondary : .primary)
+                }
+                .accessibilityLabel(hideAspects ? "Show aspects" : "Hide aspects")
+            }
+            ToolbarItem(placement: .automatic) {
+                Button { hideAscMc.toggle() } label: {
+                    Image(systemName: "clock")
+                        .foregroundStyle(hideAscMc ? .secondary : .primary)
+                }
+                .accessibilityLabel(hideAscMc ? t(RadixAnalysisKeys.drawingShowAscMc)
+                                              : t(RadixAnalysisKeys.drawingHideAscMc))
             }
             ToolbarItem(placement: .automatic) {
                 Button { showExport = true } label: {
@@ -84,7 +106,8 @@ struct HarmonicDrawingView: View {
         .factsheetToolbarButton(baseName: "harmonics")
         .sheet(isPresented: $showExport) {
             WheelExportSheet(
-                wheelView: HarmonicWheelCanvas(plotData: plotData, theme: currentTheme)
+                wheelView: HarmonicWheelCanvas(plotData: plotData, theme: currentTheme,
+                                               showAspects: !hideAspects)
             )
         }
         .sheet(isPresented: $showHelp) {

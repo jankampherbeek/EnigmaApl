@@ -48,6 +48,8 @@ struct RadixAnalysisKeys {
     // HarmonicDrawingView
     static let drawingTitle       = "view.harmonicdrawingview.title"
     static let drawingPlaceholder = "view.harmonicdrawingview.placeholder"
+    static let drawingShowAscMc   = "view.harmonicdrawingview.showascmc"
+    static let drawingHideAscMc   = "view.harmonicdrawingview.hideascmc"
 
     // Help texts
     static let allHarmonicsHelp   = "view.allharmonicsview.help"

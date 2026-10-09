@@ -9,10 +9,11 @@ import SwiftUI
 /// - ASC and MC indicator lines and labels are drawn at their harmonic ecliptic longitudes,
 ///   extracted from the plot data's planet items.
 /// - No house cusp lines, no cusp position texts.
-/// - No aspect lines.
+/// - Aspect lines between the harmonic positions, if showAspects is true.
 struct HarmonicWheelCanvas: View {
     let plotData: WheelPlotData
     let theme: WheelTheme
+    var showAspects = true
 
     var body: some View {
         Canvas { ctx, size in
@@ -37,6 +38,9 @@ struct HarmonicWheelCanvas: View {
                            ascLongitude: harmonicAscLong, mcLongitude: harmonicMcLong, theme: theme)
             drawAscMcLabels(&ctx, center: center, outerRadius: outerRadius,
                             ascLongitude: harmonicAscLong, mcLongitude: harmonicMcLong, theme: theme)
+            if showAspects {
+                drawAspectLines(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
+            }
             drawPlanetConnectLines(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
             drawPlanetGlyphs(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)
             drawPlanetTexts(&ctx, center: center, outerRadius: outerRadius, data: plotData, theme: theme)

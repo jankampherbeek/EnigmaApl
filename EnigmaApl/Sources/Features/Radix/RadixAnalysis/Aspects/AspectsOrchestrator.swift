@@ -15,7 +15,22 @@ struct AspectsOrchestrator {
         aspectConfig: AspectConfig,
         orbConfig: OrbConfig
     ) -> [FoundAspect] {
-        let positions = activePositions(chart: chart, factorConfig: factorConfig)
+        calculate(
+            positions: activePositions(chart: chart, factorConfig: factorConfig),
+            factorConfig: factorConfig,
+            aspectConfig: aspectConfig,
+            orbConfig: orbConfig
+        )
+    }
+
+    /// Returns all aspects between the given (factor, longitude) positions, sorted by orb (most exact first).
+    /// Used for positions that are not taken directly from the chart, e.g. harmonic positions.
+    static func calculate(
+        positions: [(Factors, Double)],
+        factorConfig: FactorConfig,
+        aspectConfig: AspectConfig,
+        orbConfig: OrbConfig
+    ) -> [FoundAspect] {
         guard positions.count >= 2 else { return [] }
 
         let usedAspects = aspectConfig.aspectSettings.filter { $0.isUsed }
