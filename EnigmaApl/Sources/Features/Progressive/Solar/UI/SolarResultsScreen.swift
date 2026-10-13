@@ -172,7 +172,8 @@ struct SolarResultsScreen: View {
                 transitItems: solarTransitItems(ascLong: radixChart.HousePositions.ascendant.longitude),
                 theme:        theme,
                 showAspects:  !hideAspects,
-                drawingType:  drawingType
+                drawingType:  drawingType,
+                ringCuspLongitudes: solarCuspLongitudes
             )
         }
     }
@@ -202,7 +203,8 @@ struct SolarResultsScreen: View {
                             transitItems: solarTransitItems(ascLong: radixChart.HousePositions.ascendant.longitude),
                             theme:        theme,
                             showAspects:  !hideAspects,
-                            drawingType:  drawingType
+                            drawingType:  drawingType,
+                            ringCuspLongitudes: solarCuspLongitudes
                         )
                     )
                 }
@@ -394,6 +396,11 @@ struct SolarResultsScreen: View {
     }
 
     /// Builds the solar WheelPlotItems positioned on the radix ascendant.
+    /// House cusps of the solar chart (index 0 = cusp 1), shown in the ring of the combined chart.
+    private var solarCuspLongitudes: [Double] {
+        solarReturnModel.solarFullChart?.HousePositions.cusps.map { $0.longitude } ?? []
+    }
+
     private func solarTransitItems(ascLong: Double) -> [WheelPlotItem] {
         let items = solarReturnModel.positions.map { factor, position -> WheelPlotItem in
             let mundane = WheelGeometry.mundaneAngle(longitude: position.longitude,

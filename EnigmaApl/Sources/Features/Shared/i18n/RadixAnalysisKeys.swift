@@ -11,6 +11,7 @@ struct RadixAnalysisKeys {
     static let btnAspects         = "view.analysisscreen.btn.aspects"
     static let btnMidpoints       = "view.analysisscreen.btn.midpoints"
     static let btnHarmonics       = "view.analysisscreen.btn.harmonics"
+    static let btnHarmonicExactAspects = "view.analysisscreen.btn.harmonicexactaspects"
     static let btnDeclinations       = "view.analysisscreen.btn.declinations"
     static let btnZodiacDivisions    = "view.analysisscreen.btn.zodiacdivisions"
     static let btnAltZodiacStart     = "view.analysisscreen.btn.altzodiacstart"

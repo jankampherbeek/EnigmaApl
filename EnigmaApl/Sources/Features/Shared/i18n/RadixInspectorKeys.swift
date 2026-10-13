@@ -14,6 +14,7 @@ struct RadixInspectorKeys {
         .analysisAspects:          "enum.radixinspector.analysisaspects",
         .analysisMidpoints:        "enum.radixinspector.analysismidpoints",
         .analysisHarmonics:        "enum.radixinspector.analysisharmonics",
+        .analysisHarmonicExactAspects: "enum.radixinspector.analysisharmonicexactaspects",
         .analysisDeclinations:     "enum.radixinspector.analysisdeclinations",
         .analysisZodiacDivisions:  "enum.radixinspector.analysiszodiacdivisions",
         .analysisAltZodiacStart:   "enum.radixinspector.analysisaltzodiacstart",

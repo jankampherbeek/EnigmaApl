@@ -88,7 +88,8 @@ struct ContentColumn: View {
                 case .search:
                     RadixSearchScreen()
                 case .positions, .analysisAspects,
-                     .analysisMidpoints, .analysisHarmonics, .analysisDeclinations,
+                     .analysisMidpoints, .analysisHarmonics, .analysisHarmonicExactAspects,
+                     .analysisDeclinations,
                      .analysisBlaSchema, .analysisCountings,
                      .newChart, .editChart:
                     HoroscopeScreen(

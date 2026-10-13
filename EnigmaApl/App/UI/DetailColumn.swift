@@ -43,6 +43,8 @@ struct DetailColumn: View {
                 return le(RadixInspector.analysisMidpoints.rbKey)
             case .analysisHarmonics:
                 return le(RadixInspector.analysisHarmonics.rbKey)
+            case .analysisHarmonicExactAspects:
+                return NSLocalizedString(HarmonicExactAspectsKeys.title, tableName: "HarmonicExactAspects", bundle: .main, comment: "")
             case .analysisDeclinations:
                 return le(RadixInspector.analysisDeclinations.rbKey)
             case .analysisZodiacDivisions:
@@ -124,6 +126,8 @@ struct DetailColumn: View {
                             MidpointsScreen()
                         case .analysisHarmonics:
                             HarmonicsScreen()
+                        case .analysisHarmonicExactAspects:
+                            HarmonicExactAspectsScreen()
                         case .analysisDeclinations:
                             DeclinationsScreen()
                         case .analysisZodiacDivisions:

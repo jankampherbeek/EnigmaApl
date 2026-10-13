@@ -28,6 +28,11 @@ struct AnalysisScreen: View {
             }
             .buttonStyle(.bordered)
 
+            Button(t(RadixAnalysisKeys.btnHarmonicExactAspects)) {
+                radixNav.setInspector(.analysisHarmonicExactAspects)
+            }
+            .buttonStyle(.bordered)
+
             Button(t(RadixAnalysisKeys.btnDeclinations)) {
                 radixNav.setInspector(.analysisDeclinations)
             }

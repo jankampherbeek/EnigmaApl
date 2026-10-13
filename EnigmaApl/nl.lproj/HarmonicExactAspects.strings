@@ -1,0 +1,18 @@
+/* HarmonicExactAspects.strings (nl) */
+
+"view.harmonicexactaspectsscreen.title" = "Exacte aspecten in harmonischen";
+"view.harmonicexactaspectsscreen.nochart" = "Geen horoscoop geselecteerd.";
+"view.harmonicexactaspectsscreen.nodata" = "Geen aspecten gevonden. Er zijn minstens twee factoren en één aspect nodig.";
+"view.harmonicexactaspectsscreen.help" = "Deze lijst toont per harmonic het aspect met de kleinste orb tussen de harmonische posities. De factoren komen uit je configuratie; de Ascendant en MC kun je apart opnemen of weglaten.\nKies 'Geconfigureerde aspecten' om de aspecten uit je configuratie te gebruiken, of 'Hoofdaspecten' voor conjunctie, oppositie, vierkant, driehoek en sextiel.\nStandaard worden de harmonischen 2 tot en met 12 getoond; je kunt een lagere of hogere hoogste harmonic kiezen (tot 1000). Er wordt geen maximale orb gebruikt: het meest exacte aspect wordt altijd getoond. Als meerdere aspecten precies dezelfde orb hebben, worden ze allemaal getoond.";
+
+"view.harmonicexactaspectsscreen.include.ascendant" = "Ascendant";
+"view.harmonicexactaspectsscreen.include.mc" = "MC";
+"view.harmonicexactaspectsscreen.aspects.configured" = "Geconfigureerde aspecten";
+"view.harmonicexactaspectsscreen.aspects.major" = "Hoofdaspecten";
+"view.harmonicexactaspectsscreen.maxharmonic" = "Hoogste harmonic";
+
+"view.harmonicexactaspectsscreen.col.harmonic" = "Harmonic";
+"view.harmonicexactaspectsscreen.col.factor1" = "Factor 1";
+"view.harmonicexactaspectsscreen.col.aspect" = "Aspect";
+"view.harmonicexactaspectsscreen.col.factor2" = "Factor 2";
+"view.harmonicexactaspectsscreen.col.orb" = "Orb";

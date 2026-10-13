@@ -370,6 +370,7 @@
 "enum.radixinspector.analysislots" = "Parts helléniques";
 "enum.radixinspector.analysisblaschema" = "Schéma BLA";
 "enum.radixinspector.analysiscountings" = "Comptages";
+"enum.radixinspector.analysisharmonicexactaspects" = "Aspects exacts dans les harmoniques";
 "enum.radixinspector.newchart" = "Nouvel horoscope";
 "enum.radixinspector.search" = "Chercher";
 "enum.radixinspector.editchart" = "Modifier l'horoscope";

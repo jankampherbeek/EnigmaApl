@@ -5,12 +5,14 @@
 import SwiftUI
 
 /// Builds a WheelPlotData from a list of harmonic positions.
-/// - 0° Aries is always placed at the left (ascendantLongitude = 0 for zodiac ring rotation).
+/// - If the harmonic ASC is present in harmonicPositions, it is placed at the left (as in the
+///   other charts) and 12 equal cusps are added, each a multiple of 30° from the harmonic ASC.
+///   The harmonic MC, if present, can fall anywhere.
+/// - Without a harmonic ASC, 0° Aries is placed at the left and no cusps are included.
 /// - ASC and MC, if present in harmonicPositions, are included as regular planet items so the
 ///   canvas can draw their indicator lines at the correct harmonic longitudes.
 /// - Aspect items are calculated between the harmonic positions, using the aspects and orbs
 ///   from the configuration. Without a configuration no aspect items are included.
-/// - No cusp longitudes are included.
 struct HarmonicWheelPlotDataBuilder {
 
     private init() {}
@@ -21,9 +23,14 @@ struct HarmonicWheelPlotDataBuilder {
     /// - Parameter config: Active configuration, provides the aspects and orbs for the aspect lines.
     static func build(harmonicPositions: [HarmonicPosition],
                       config: UserConfiguration? = nil) -> WheelPlotData {
+        let ascLong = harmonicPositions.first(where: { $0.factor == .ascendant })?.longitude
+        let mcLong  = harmonicPositions.first(where: { $0.factor == .mc })?.longitude
+        let wheelAscLong = ascLong ?? 0   // 0° Aries at the left when there is no harmonic ASC
+        let cusps   = ascLong.map { equalCusps(ascLong: $0) } ?? []
+
         var items: [WheelPlotItem] = []
         for hp in harmonicPositions {
-            let mundane = WheelGeometry.mundaneAngle(longitude: hp.longitude, ascendantLongitude: 0)
+            let mundane = WheelGeometry.mundaneAngle(longitude: hp.longitude, ascendantLongitude: wheelAscLong)
             let glyph   = GlyphSelector.getGlyphForFactor(hp.factor)
             let text    = positionText(longitude: hp.longitude)
             items.append(WheelPlotItem(
@@ -40,11 +47,11 @@ struct HarmonicWheelPlotDataBuilder {
         let aspectItems = buildAspectItems(harmonicPositions: harmonicPositions,
                                            planetItems: resolved, config: config)
         return WheelPlotData(
-            ascendantLongitude: 0,   // 0° Aries fixed at the left
-            mcLongitude:        0,   // not used; canvas extracts MC from planetItems
-            cuspLongitudes:     [],  // no house cusp lines
+            ascendantLongitude: wheelAscLong,
+            mcLongitude:        mcLong ?? 0,   // not used; canvas extracts MC from planetItems
+            cuspLongitudes:     cusps,
             planetItems:        resolved,
-            hasTime:            false,
+            hasTime:            ascLong != nil,
             aspectItems:        aspectItems
         )
     }
@@ -86,6 +93,11 @@ struct HarmonicWheelPlotDataBuilder {
     }
 
     // MARK: - Private helpers
+
+    /// Equal house cusps: cusp n (0-based) is at ascLong + n * 30°.
+    private static func equalCusps(ascLong: Double) -> [Double] {
+        (0..<12).map { WheelGeometry.normalise(ascLong + Double($0) * 30.0) }
+    }
 
     private static func positionText(longitude: Double) -> String {
         let inSign   = longitude.truncatingRemainder(dividingBy: 30.0)

@@ -370,6 +370,7 @@
 "enum.radixinspector.analysislots" = "Hellenistische loten";
 "enum.radixinspector.analysisblaschema" = "BLA Schema";
 "enum.radixinspector.analysiscountings" = "Tellingen";
+"enum.radixinspector.analysisharmonicexactaspects" = "Exacte aspecten in harmonischen";
 "enum.radixinspector.newchart" = "Nieuwe horoscoop";
 "enum.radixinspector.search" = "Zoek";
 "enum.radixinspector.editchart" = "Wijzig horoscoop";

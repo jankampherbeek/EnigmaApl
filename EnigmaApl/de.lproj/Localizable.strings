@@ -370,6 +370,7 @@
 "enum.radixinspector.analysislots" = "Hellenistische Lose";
 "enum.radixinspector.analysisblaschema" = "BLA-Schema";
 "enum.radixinspector.analysiscountings" = "Zählungen";
+"enum.radixinspector.analysisharmonicexactaspects" = "Exakte Aspekte in Harmoniken";
 "enum.radixinspector.newchart" = "Neues Horoskop";
 "enum.radixinspector.search" = "Suchen";
 "enum.radixinspector.editchart" = "Horoskop bearbeiten";

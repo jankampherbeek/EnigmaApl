@@ -1,0 +1,18 @@
+/* HarmonicExactAspects.strings (en) */
+
+"view.harmonicexactaspectsscreen.title" = "Harmonic exact aspects";
+"view.harmonicexactaspectsscreen.nochart" = "No chart selected.";
+"view.harmonicexactaspectsscreen.nodata" = "No aspects found. At least two factors and one aspect are needed.";
+"view.harmonicexactaspectsscreen.help" = "This list shows, for each harmonic, the aspect with the smallest orb between the harmonic positions. The factors are taken from your configuration; you can include or exclude the Ascendant and MC separately.\nChoose 'Configured aspects' to use the aspects from your configuration, or 'Major aspects' for conjunction, opposition, square, trine and sextile.\nBy default the harmonics 2 to 12 are shown; you can set a lower or higher maximum harmonic (up to 1000). No maximum orb is used: the closest aspect is always shown. If several aspects have exactly the same orb, all of them are shown.";
+
+"view.harmonicexactaspectsscreen.include.ascendant" = "Ascendant";
+"view.harmonicexactaspectsscreen.include.mc" = "MC";
+"view.harmonicexactaspectsscreen.aspects.configured" = "Configured aspects";
+"view.harmonicexactaspectsscreen.aspects.major" = "Major aspects";
+"view.harmonicexactaspectsscreen.maxharmonic" = "Maximum harmonic";
+
+"view.harmonicexactaspectsscreen.col.harmonic" = "Harmonic";
+"view.harmonicexactaspectsscreen.col.factor1" = "Factor 1";
+"view.harmonicexactaspectsscreen.col.aspect" = "Aspect";
+"view.harmonicexactaspectsscreen.col.factor2" = "Factor 2";
+"view.harmonicexactaspectsscreen.col.orb" = "Orb";

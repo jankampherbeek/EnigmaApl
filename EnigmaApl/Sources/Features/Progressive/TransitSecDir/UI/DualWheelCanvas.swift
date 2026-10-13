@@ -26,6 +26,11 @@ struct DualWheelCanvas: View {
     var transitAscAngle: Double? = nil
     /// Mundane angle (relative to the radix ascendant) of the ring chart's own Midheaven.
     var transitMcAngle: Double? = nil
+    /// Ecliptic longitudes of the ring chart's own house cusps (index 0 = cusp 1). Each cusp is
+    /// drawn in the ring like a factor: a connect line with the cusp number. A cusp that coincides
+    /// with a ring Ascendant or MC is skipped, as that point is already shown.
+    /// Empty by default — only the solar return passes these.
+    var ringCuspLongitudes: [Double] = []
 
     // Transit ring fractions of full outerRadius
     private let transitBackgroundFraction: Double = 0.864 // outer edge of yellow fill (~1 char wider than before)
@@ -50,20 +55,49 @@ struct DualWheelCanvas: View {
                                cuspLongitudes: radixData.cuspLongitudes)
     }
 
-    /// Ring items with angles for this drawing type, with glyph overlap resolved again.
-    private var ringItems: [WheelPlotItem] {
-        let items = transitItems.map { item in
+    /// Ring items and ring cusps with angles for this drawing type. Glyph overlap is resolved
+    /// for both together, so cusp numbers and factor glyphs do not overlap.
+    private var ringLayout: (items: [WheelPlotItem], cusps: [DualWheelRingCusp]) {
+        var items = transitItems.map { item in
             let angle = mapped(item.eclipticLongitude)
             return WheelPlotItem(factor: item.factor, glyph: item.glyph,
                                  eclipticLongitude: item.eclipticLongitude,
                                  mundaneAngle: angle, plotAngle: angle,
                                  positionText: item.positionText, speedType: item.speedType)
         }
-        return GlyphOverlapResolver.resolve(items)
+        var cusps = ringCusps
+        let plotAngles = GlyphOverlapResolver.resolvedPlotAngles(
+            for: items.map { $0.mundaneAngle } + cusps.map { $0.mundaneAngle })
+        for i in items.indices { items[i].plotAngle = plotAngles[i] }
+        for i in cusps.indices { cusps[i].plotAngle = plotAngles[items.count + i] }
+        return (items, cusps)
     }
 
+    /// Ring cusps that are not already shown as the ring Ascendant or MC. Dials have no houses.
+    private var ringCusps: [DualWheelRingCusp] {
+        guard !isDial else { return [] }
+        let shownAngles = transitItems
+            .filter { $0.factor == .ascendant || $0.factor == .mc }
+            .map { $0.eclipticLongitude }
+        return ringCuspLongitudes.enumerated().compactMap { index, longitude in
+            let coincides = shownAngles.contains { shown in
+                let diff = abs(WheelGeometry.normalise(longitude - shown))
+                return min(diff, 360.0 - diff) < cuspCoincidenceTolerance
+            }
+            guard !coincides else { return nil }
+            let angle = mapped(longitude)
+            return DualWheelRingCusp(number: index + 1, positionText: cuspPositionText(longitude: longitude),
+                                     mundaneAngle: angle, plotAngle: angle)
+        }
+    }
+
+    /// Maximum distance in degrees for a cusp to count as coinciding with the Ascendant or MC.
+    private let cuspCoincidenceTolerance: Double = 0.001
+
     var body: some View {
-        let items      = ringItems
+        let layout     = ringLayout
+        let items      = layout.items
+        let ringCusps  = layout.cusps
         // Dials have no houses, and the ring chart's opposite angles coincide on the 90° and 45° dials.
         let cuspAngles = isDial ? [] : transitCuspAngles.map { ringAngle(fromMundane: $0) }
         let ascAngle   = isDial ? nil : transitAscAngle.map { ringAngle(fromMundane: $0) }
@@ -96,15 +130,35 @@ struct DualWheelCanvas: View {
                                              ascAngle: ascAngle, mcAngle: mcAngle, theme: theme)
             }
             drawDualWheelConnectLines(&ctx, center: center, fullRadius: fullRadius, endR: anchorR,
-                                      connectStart: transitConnectStart, items: items, theme: theme)
+                                      connectStart: transitConnectStart,
+                                      angles: items.map { ($0.plotAngle, $0.mundaneAngle) }
+                                            + ringCusps.map { ($0.plotAngle, $0.mundaneAngle) },
+                                      theme: theme)
             drawDualWheelGlyphs(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
                                  glyphFraction: transitGlyphFraction, items: items, theme: theme)
+            drawDualWheelCuspNumbers(&ctx, center: center, innerRadius: innerRadius,
+                                      radius: fullRadius * transitGlyphFraction, cusps: ringCusps, theme: theme)
             drawDualWheelTexts(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
-                                textFraction: transitTextFraction, items: items, theme: theme)
+                                textFraction: transitTextFraction,
+                                texts: items.map { ($0.plotAngle, $0.positionText) }, color: theme.planetText)
+            drawDualWheelTexts(&ctx, center: center, fullRadius: fullRadius, innerRadius: innerRadius,
+                                textFraction: transitTextFraction,
+                                texts: ringCusps.map { ($0.plotAngle, $0.positionText) }, color: theme.cuspText)
         }
         .background(Color.white)
         .aspectRatio(1, contentMode: .fit)
     }
+}
+
+/// A house cusp of the ring chart, drawn in the ring as a numbered position.
+private struct DualWheelRingCusp {
+    let number: Int
+    /// "deg°min'" within the sign (e.g. "15°23'").
+    let positionText: String
+    /// Angle on the wheel of the exact cusp position; the end point of the connect line.
+    let mundaneAngle: Double
+    /// Angle of the cusp number after anti-overlap adjustment.
+    var plotAngle: Double
 }
 
 // MARK: - Transit ring free functions
@@ -177,15 +231,15 @@ private func drawDualWheelConnectLines(
     fullRadius: Double,
     endR: Double,
     connectStart: Double,
-    items: [WheelPlotItem],
+    angles: [(plotAngle: Double, mundaneAngle: Double)],
     theme: WheelTheme
 ) {
     let startR       = fullRadius * connectStart
     let stroke       = WheelMetrics.strokeWidth(WheelMetrics.connectLineFraction, outerRadius: fullRadius)
 
-    for item in items {
-        let p1 = WheelGeometry.point(angleDeg: item.plotAngle,    radius: startR,       center: center)
-        let p2 = WheelGeometry.point(angleDeg: item.mundaneAngle, radius: endR,         center: center)
+    for angle in angles {
+        let p1 = WheelGeometry.point(angleDeg: angle.plotAngle,    radius: startR,       center: center)
+        let p2 = WheelGeometry.point(angleDeg: angle.mundaneAngle, radius: endR,         center: center)
         var path = Path()
         path.move(to: p1)
         path.addLine(to: p2)
@@ -217,26 +271,46 @@ private func drawDualWheelGlyphs(
     }
 }
 
-/// Transit position texts rotated tangentially, sized to match radix planet texts.
+/// Ring cusp numbers at the glyph radius, in the cusp text colour.
+private func drawDualWheelCuspNumbers(
+    _ ctx: inout GraphicsContext,
+    center: CGPoint,
+    innerRadius: Double,
+    radius: Double,
+    cusps: [DualWheelRingCusp],
+    theme: WheelTheme
+) {
+    let fontSize = WheelMetrics.fontSize(WheelMetrics.cardinalFontFraction, outerRadius: innerRadius)
+
+    for cusp in cusps {
+        let pt   = WheelGeometry.point(angleDeg: cusp.plotAngle, radius: radius, center: center)
+        let text = Text(String(cusp.number))
+            .font(.system(size: fontSize, weight: .semibold))
+            .foregroundColor(theme.cuspText)
+        ctx.draw(ctx.resolve(text), at: pt, anchor: .center)
+    }
+}
+
+/// Ring position texts (factors and cusps) rotated tangentially, sized to match radix planet texts.
 private func drawDualWheelTexts(
     _ ctx: inout GraphicsContext,
     center: CGPoint,
     fullRadius: Double,
     innerRadius: Double,
     textFraction: Double,
-    items: [WheelPlotItem],
-    theme: WheelTheme
+    texts: [(plotAngle: Double, positionText: String)],
+    color: Color
 ) {
     let r        = fullRadius * textFraction
     let fontSize = WheelMetrics.fontSize(WheelMetrics.positionTextFraction, outerRadius: innerRadius)
 
-    for item in items {
+    for item in texts {
         guard !item.positionText.isEmpty else { continue }
         let pa   = item.plotAngle
         let pt   = WheelGeometry.point(angleDeg: pa, radius: r, center: center)
         let text = Text(item.positionText)
             .font(.system(size: fontSize))
-            .foregroundColor(theme.planetText)
+            .foregroundColor(color)
 
         let rotDeg: Double
         let anchor: UnitPoint

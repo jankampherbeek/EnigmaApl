@@ -370,6 +370,7 @@
 "enum.radixinspector.analysislots" = "Hellenistic lots";
 "enum.radixinspector.analysisblaschema" = "BLA Schema";
 "enum.radixinspector.analysiscountings" = "Countings";
+"enum.radixinspector.analysisharmonicexactaspects" = "Harmonic exact aspects";
 "enum.radixinspector.newchart" = "New Chart";
 "enum.radixinspector.search" = "Search";
 "enum.radixinspector.editchart" = "Edit Chart";

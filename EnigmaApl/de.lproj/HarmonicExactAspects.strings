@@ -1,0 +1,18 @@
+/* HarmonicExactAspects.strings (de) */
+
+"view.harmonicexactaspectsscreen.title" = "Exakte Aspekte in Harmoniken";
+"view.harmonicexactaspectsscreen.nochart" = "Kein Horoskop ausgewählt.";
+"view.harmonicexactaspectsscreen.nodata" = "Keine Aspekte gefunden. Mindestens zwei Faktoren und ein Aspekt sind erforderlich.";
+"view.harmonicexactaspectsscreen.help" = "Diese Liste zeigt für jede Harmonik den Aspekt mit dem kleinsten Orb zwischen den harmonischen Positionen. Die Faktoren stammen aus Ihrer Konfiguration; Aszendent und MC können Sie getrennt ein- oder ausschließen.\nWählen Sie 'Konfigurierte Aspekte', um die Aspekte aus Ihrer Konfiguration zu verwenden, oder 'Hauptaspekte' für Konjunktion, Opposition, Quadrat, Trigon und Sextil.\nStandardmäßig werden die Harmoniken 2 bis 12 angezeigt; Sie können eine niedrigere oder höhere höchste Harmonik wählen (bis 1000). Es wird kein maximaler Orb verwendet: Der exakteste Aspekt wird immer angezeigt. Haben mehrere Aspekte genau denselben Orb, werden alle angezeigt.";
+
+"view.harmonicexactaspectsscreen.include.ascendant" = "Aszendent";
+"view.harmonicexactaspectsscreen.include.mc" = "MC";
+"view.harmonicexactaspectsscreen.aspects.configured" = "Konfigurierte Aspekte";
+"view.harmonicexactaspectsscreen.aspects.major" = "Hauptaspekte";
+"view.harmonicexactaspectsscreen.maxharmonic" = "Höchste Harmonik";
+
+"view.harmonicexactaspectsscreen.col.harmonic" = "Harmonik";
+"view.harmonicexactaspectsscreen.col.factor1" = "Faktor 1";
+"view.harmonicexactaspectsscreen.col.aspect" = "Aspekt";
+"view.harmonicexactaspectsscreen.col.factor2" = "Faktor 2";
+"view.harmonicexactaspectsscreen.col.orb" = "Orb";
