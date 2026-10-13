@@ -25,12 +25,14 @@ public struct Logger {
         let file = FileDestination()
         file.format = "$DHH:mm:ss.SSS$d $L $N.$F:$l - $M"
         file.minLevel = .warning
-        
+        // Rotate at 5 MB, keeping the current file and two older ones (EnigmaApl.1.log, EnigmaApl.2.log).
+        file.logFileMaxSize = 5 * 1024 * 1024
+        file.logFileAmount = 3
+
         // Set log file path to Documents directory
-        if let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let logFileURL = documentsPath.appendingPathComponent("EnigmaApl.log")
+        if let logFileURL {
             file.logFileURL = logFileURL
-            
+
             // Log the file location
             print("📝 Log file location: \(logFileURL.path)")
         }
@@ -42,12 +44,15 @@ public struct Logger {
         swiftyBeaver.info("Logger initialized")
     }
     
+    /// URL of the log file, in the Documents directory of the app container.
+    public static var logFileURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?
+            .appendingPathComponent("EnigmaApl.log")
+    }
+
     /// Get the path to the log file
     public static var logFilePath: String? {
-        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        return documentsPath.appendingPathComponent("EnigmaApl.log").path
+        logFileURL?.path
     }
     
     /// Logging interface that wraps SwiftyBeaver

@@ -1,0 +1,13 @@
+/* Settings.strings - nl */
+
+"view.settingsscreen.title"                = "Instellingen";
+"view.settingsscreen.section.files"        = "Bestanden";
+"view.settingsscreen.researchfolder.label" = "Standaardmap voor onderzoek";
+"view.settingsscreen.researchfolder.help"  = "Nieuwe onderzoeksprojecten worden standaard in deze map aangemaakt. Per project kun je een andere map kiezen.";
+"view.settingsscreen.logfile.label"        = "Logbestand";
+"view.settingsscreen.logfile.help"         = "Het logbestand bevat waarschuwingen en fouten. Het wordt bij 5 MB vervangen; de twee vorige versies blijven bewaard.";
+"view.settingsscreen.notset"               = "Niet ingesteld";
+"view.settingsscreen.button.choose"        = "Kies…";
+"view.settingsscreen.button.clear"         = "Wissen";
+"view.settingsscreen.button.showinfinder"  = "Toon in Finder";
+"view.settingsscreen.error.researchfolder" = "De map kon niet worden opgeslagen. Kies de map opnieuw.";

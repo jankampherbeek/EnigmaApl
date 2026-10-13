@@ -53,6 +53,10 @@ struct EnigmaAplApp: App {
             )
         }
 
+        Settings {
+            SettingsScreen()
+        }
+
         Window("Over Enigma", id: "about") {
             AboutView()
         }

@@ -30,7 +30,8 @@ struct ProjectDraft {
     let inquiry: Inquiries
     let cgMultiplication: Int
     let baseFolder: String
-    /// The URL returned by NSOpenPanel; used to create a security-scoped bookmark.
+    /// The URL returned by NSOpenPanel, or the default research folder from the settings.
+    /// Access to it is started while the project folder and its bookmark are created.
     let selectedURL: URL?
 }
 
@@ -191,6 +192,13 @@ struct ResearchProjectInputScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .navigationTitle(t(ResearchProjectsKeys.newTitle))
+        .onAppear {
+            // Start with the default research folder from the settings, if there is one.
+            if selectedURL == nil, let folder = FileLocations.defaultResearchFolder {
+                selectedURL = folder
+                selectedPath = folder.path
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {
@@ -211,6 +219,7 @@ struct ResearchProjectInputScreen: View {
         panel.canCreateDirectories = true
         panel.allowsMultipleSelection = false
         panel.prompt = t(ResearchProjectsKeys.buttonSelectPath)
+        panel.directoryURL = selectedURL ?? FileLocations.defaultResearchFolder
         if panel.runModal() == .OK, let url = panel.url {
             selectedURL = url
             selectedPath = url.path
@@ -818,6 +827,12 @@ struct ResearchProjectConfigScreen: View {
             enabledDialSizes: enabledDialSizes,
             harmonicNumber: resolvedHarmonicNumber
         )
+
+        // A folder from the settings comes from a resolved bookmark: the sandbox only grants
+        // access while it is explicitly accessed. For a folder just picked in the open panel
+        // this returns false and access is already granted.
+        let accessingBaseFolder = draft.selectedURL?.startAccessingSecurityScopedResource() ?? false
+        defer { if accessingBaseFolder { draft.selectedURL?.stopAccessingSecurityScopedResource() } }
 
         let service = ResearchProjectService(context: modelContext,
                                              pipelineOrchestrator: ResearchPipelineOrchestrator())

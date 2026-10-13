@@ -1,0 +1,13 @@
+/* Settings.strings - en */
+
+"view.settingsscreen.title"                = "Settings";
+"view.settingsscreen.section.files"        = "Files";
+"view.settingsscreen.researchfolder.label" = "Default research folder";
+"view.settingsscreen.researchfolder.help"  = "New research projects are created in this folder by default. You can choose a different folder for each project.";
+"view.settingsscreen.logfile.label"        = "Log file";
+"view.settingsscreen.logfile.help"         = "The log file contains warnings and errors. It is replaced at 5 MB; the two previous versions are kept.";
+"view.settingsscreen.notset"               = "Not set";
+"view.settingsscreen.button.choose"        = "Choose…";
+"view.settingsscreen.button.clear"         = "Clear";
+"view.settingsscreen.button.showinfinder"  = "Show in Finder";
+"view.settingsscreen.error.researchfolder" = "The folder could not be saved. Please choose it again.";

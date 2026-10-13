@@ -880,8 +880,6 @@ private func ephemerisSave(data: Data, filename: String, contentType: UTType) {
     let panel = NSSavePanel()
     panel.allowedContentTypes  = [contentType]
     panel.nameFieldStringValue = filename
-    panel.directoryURL = FileManager.default
-        .urls(for: .documentDirectory, in: .userDomainMask).first
     panel.canCreateDirectories = true
     if let window = NSApp.keyWindow {
         panel.beginSheetModal(for: window) { response in

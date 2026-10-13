@@ -122,8 +122,6 @@ struct WheelExportSheet<Content: View>: View {
         let panel = NSSavePanel()
         panel.allowedContentTypes  = [contentType]
         panel.nameFieldStringValue = filename
-        panel.directoryURL = FileManager.default
-            .urls(for: .documentDirectory, in: .userDomainMask).first
         panel.canCreateDirectories = true
 
         if let window = NSApp.keyWindow {

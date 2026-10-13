@@ -230,8 +230,6 @@ struct SynastryAspectComparisonView: View {
         let panel = NSSavePanel()
         panel.allowedContentTypes  = [.pdf]
         panel.nameFieldStringValue = "Synastry aspects.pdf"
-        panel.directoryURL = FileManager.default
-            .urls(for: .documentDirectory, in: .userDomainMask).first
         panel.canCreateDirectories = true
 
         if let window = NSApp.keyWindow {
