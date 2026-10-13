@@ -40,8 +40,17 @@ public struct AstronCalcOrchestrator {
         let housePositions = SECalculation.CalculateHouses(request, obliquity: obliquity, seWrapper: seWrapper)
         let siderealTime = housePositions.midheaven.rightAscension / 15.0
         
+        // Skip factors that have no meaningful position for the observer position
+        let isHelio = request.calculationConfig.observerPosition == .helioCentric
+        let notApplicable = isHelio ? Self.geocentricOnlyFactors : Self.heliocentricOnlyFactors
+        let skippedFactors = request.FactorsToUse.filter { notApplicable.contains($0) }
+        if !skippedFactors.isEmpty {
+            let observer = isHelio ? "heliocentric" : "geocentric/topocentric"
+            Logger.log.warning("AstronCalcOrchestrator: \(observer) position requested for \(skippedFactors) — not applicable, skipping")
+        }
+
         // Group factors by calculation type
-        let factorsByType = Dictionary(grouping: request.FactorsToUse) { $0.calculationType }
+        let factorsByType = Dictionary(grouping: request.FactorsToUse.filter { !notApplicable.contains($0) }) { $0.calculationType }
 
         // Calculate factors for each calculation type
         var allCoordinates: [Factors: FullFactorPosition] = [:]
@@ -51,36 +60,20 @@ public struct AstronCalcOrchestrator {
 
         // Handle CommonSe factors
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
-            let isHelio = request.calculationConfig.observerPosition == .helioCentric
-            let geoOnlyRequested = isHelio ? commonSeFactors.filter { Self.geocentricOnlyFactors.contains($0) } : []
-            let helioOnlyRequested = !isHelio ? commonSeFactors.filter { Self.heliocentricOnlyFactors.contains($0) } : []
-            let helioCompatible = isHelio
-                ? commonSeFactors.filter { !Self.geocentricOnlyFactors.contains($0) }
-                : commonSeFactors.filter { !Self.heliocentricOnlyFactors.contains($0) }
-
-            if !geoOnlyRequested.isEmpty {
-                Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(geoOnlyRequested) — not applicable, skipping")
-            }
-            if !helioOnlyRequested.isEmpty {
-                Logger.log.warning("AstronCalcOrchestrator: geocentric/topocentric position requested for \(helioOnlyRequested) — not applicable, skipping")
-            }
-
-            if !helioCompatible.isEmpty {
-                let commonRequest = CalcRequest(
-                    JulianDay: request.JulianDay,
-                    FactorsToUse: helioCompatible,
-                    HouseSystem: request.HouseSystem,
-                    Latitude: request.Latitude,
-                    Longitude: request.Longitude,
-                    Height: request.Height,
-                    calculationConfig: request.calculationConfig
-                )
-                let (commonSeCoordinates, seOmitted) = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
-                allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
-                omittedFactors.append(contentsOf: seOmitted)
-                longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
-                longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
-            }
+            let commonRequest = CalcRequest(
+                JulianDay: request.JulianDay,
+                FactorsToUse: commonSeFactors,
+                HouseSystem: request.HouseSystem,
+                Latitude: request.Latitude,
+                Longitude: request.Longitude,
+                Height: request.Height,
+                calculationConfig: request.calculationConfig
+            )
+            let (commonSeCoordinates, seOmitted) = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
+            allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
+            omittedFactors.append(contentsOf: seOmitted)
+            longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
+            longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
             let commonElementsRequest = CalcRequest(
@@ -329,17 +322,18 @@ public struct AstronCalcOrchestrator {
             ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
         }
 
+        if request.calculationConfig.observerPosition == .helioCentric && Self.geocentricOnlyFactors.contains(factor) {
+            Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(factor) — not applicable, returning 0.0")
+            return (julianDay, 0.0)
+        }
+        if request.calculationConfig.observerPosition != .helioCentric && Self.heliocentricOnlyFactors.contains(factor) {
+            Logger.log.warning("AstronCalcOrchestrator: geocentric/topocentric position requested for \(factor) — not applicable, returning 0.0")
+            return (julianDay, 0.0)
+        }
+
         switch factor.calculationType {
 
         case .CommonSe:
-            if request.calculationConfig.observerPosition == .helioCentric && Self.geocentricOnlyFactors.contains(factor) {
-                Logger.log.warning("AstronCalcOrchestrator: heliocentric position requested for \(factor) — not applicable, returning 0.0")
-                return (julianDay, 0.0)
-            }
-            if request.calculationConfig.observerPosition != .helioCentric && Self.heliocentricOnlyFactors.contains(factor) {
-                Logger.log.warning("AstronCalcOrchestrator: geocentric/topocentric position requested for \(factor) — not applicable, returning 0.0")
-                return (julianDay, 0.0)
-            }
             let coordSystem: CoordinateSystems = (coordinate == .rightAscension || coordinate == .declination)
                 ? .equatorial : .ecliptical
             let flags = SEFlags.defineFlags(calculationConfig: request.calculationConfig, coordSystem: coordSystem)
@@ -402,8 +396,10 @@ public struct AstronCalcOrchestrator {
     /// Factors that have no meaningful heliocentric position. When observer position is heliocentric,
     /// calculations for these factors are skipped and zero positions are returned instead.
     private static let geocentricOnlyFactors: Set<Factors> = [
-        .sun, .moon, .northNode, .apogeeMean, .apogeeKoch, .apogeeDuval,
-        .apogeeInterpolated
+        .sun, .moon, .northNode, .southNode, .apogeeMean, .apogeeKoch, .apogeeDuval,
+        .apogeeInterpolated, .persephoneCarteret, .vulcanusCarteret, .priapus, .priapusKoch,
+        .priapusDuval, .priapusInterpolated, .dragon, .beast, .blackSun, .diamond,
+        .eastPoint, .vertex, .parsfortuna
     ]
 
     /// Factors that only have a meaningful heliocentric position. When observer position is geocentric
