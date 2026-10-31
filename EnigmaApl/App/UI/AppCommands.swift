@@ -35,10 +35,19 @@ struct AppCommands: Commands {
                 .keyboardShortcut("2", modifiers: [.command, .option])
             Button(le(RadixInspector.analysis.rbKey))  { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysis) } }
                 .keyboardShortcut("3", modifiers: [.command, .option])
-            Button(le(RadixInspector.analysisDeclinations.rbKey)) { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysisDeclinations) } }
-            Button(le(RadixInspector.analysisLots.rbKey)) { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.analysisLots) } }
             Button(le(RadixInspector.search.rbKey))    { unsavedChanges.perform { app.setMode(.radix); radixNav.setInspector(.search) } }
                 .keyboardShortcut("4", modifiers: [.command, .option])
+        }
+
+        // All analyses, grouped as defined in AnalysisGroup (same grouping as AnalysisScreen)
+        CommandMenu(le(RadixInspector.analysis.rbKey)) {
+            ForEach(AnalysisGroup.allCases) { group in
+                Section(ra(group.rbKey)) {
+                    ForEach(group.items) { item in
+                        Button(ra(item.analysisRbKey)) { unsavedChanges.perform { app.openAnalysis(item) } }
+                    }
+                }
+            }
         }
 
         CommandMenu(le(AppMode.progressive.rbKey)) {
@@ -50,11 +59,6 @@ struct AppCommands: Commands {
             }
         }
 
-        CommandMenu(le(AppMode.research.rbKey)) {
-            Button(le(ResearchSection.projects.rbKey)) { unsavedChanges.perform { app.setMode(.research); researchNav.setSection(.projects) } }
-                .keyboardShortcut("5", modifiers: [.command, .option])
-        }
-
         CommandMenu(le(AppMode.cycles.rbKey)) {
             Button(activate(.cycles)) { unsavedChanges.perform { app.setMode(.cycles) } }
                 .keyboardShortcut("3", modifiers: [.command, .shift])
@@ -63,11 +67,14 @@ struct AppCommands: Commands {
                 .keyboardShortcut("7", modifiers: [.command, .option])
             Button(le(CyclesSection.waves.rbKey))              { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.waves) } }
                 .keyboardShortcut("8", modifiers: [.command, .option])
-            Button(le(CyclesSection.tablesGraphs.rbKey))       { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.tablesGraphs) } }
-                .keyboardShortcut("9", modifiers: [.command, .option])
             Button(le(CyclesSection.ephemeris.rbKey))          { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.ephemeris) } }
             Button(le(CyclesSection.longTimeEphemeris.rbKey))  { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.longTimeEphemeris) } }
             Button(le(CyclesSection.eclipses.rbKey))           { unsavedChanges.perform { app.setMode(.cycles); cyclesNav.setSection(.eclipses) } }
+        }
+
+        CommandMenu(le(AppMode.research.rbKey)) {
+            Button(le(ResearchSection.projects.rbKey)) { unsavedChanges.perform { app.setMode(.research); researchNav.setSection(.projects) } }
+                .keyboardShortcut("5", modifiers: [.command, .option])
         }
 
         CommandMenu(le(AppMode.config.rbKey)) {
@@ -108,6 +115,10 @@ struct AppCommands: Commands {
 
 private func nv(_ key: String) -> String {
     NSLocalizedString(key, tableName: "Navigation", bundle: .main, comment: "")
+}
+
+private func ra(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "RadixAnalysis", bundle: .main, comment: "")
 }
 
 private func le(_ key: String) -> String {

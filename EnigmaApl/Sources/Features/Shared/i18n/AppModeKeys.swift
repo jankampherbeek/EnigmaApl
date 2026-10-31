@@ -9,7 +9,6 @@ struct AppModeKeys {
     static let keys: [AppMode: String] = [
         .radix:         "enum.appmode.radix",
         .progressive:   "enum.appmode.progressive",
-        .fixstars:      "enum.appmode.fixstars",
         .research:      "enum.appmode.research",
         .cycles:        "enum.appmode.cycles",
         .calculators:   "enum.appmode.calculators",

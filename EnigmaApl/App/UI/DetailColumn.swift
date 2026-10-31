@@ -65,6 +65,8 @@ struct DetailColumn: View {
                 return NSLocalizedString(BlaSchemaKeys.title, tableName: "BlaSchema", bundle: .main, comment: "")
             case .analysisCountings:
                 return NSLocalizedString(CountingsKeys.title, tableName: "Countings", bundle: .main, comment: "")
+            case .analysisFixStars:
+                return le(RadixInspector.analysisFixStars.rbKey)
             case .horoscope:
                 return le(RadixInspector.horoscope.rbKey)
             case .search:
@@ -74,8 +76,6 @@ struct DetailColumn: View {
             }
         case .progressive:
             return le(app.nav.progressive.section.rbKey)
-        case .fixstars:
-            return le(AppMode.fixstars.rbKey)
         case .research:
             return ""
         case .cycles:
@@ -148,6 +148,8 @@ struct DetailColumn: View {
                             BlaSchemaScreen()
                         case .analysisCountings:
                             CountingsScreen()
+                        case .analysisFixStars:
+                            FixStarResultsScreen()
                         case .editChart:
                             if let horoscope = chartSession.editingHoroscope {
                                 RadixEditScreen(horoscope: horoscope)
@@ -180,8 +182,6 @@ struct DetailColumn: View {
                         default:
                             EmptyView()
                         }
-                    case .fixstars:
-                        FixStarResultsScreen()
                     case .research:
                         EmptyView()
                     case .cycles:
@@ -190,8 +190,6 @@ struct DetailColumn: View {
                             CyclesChartView()
                         case .waves:
                             WavesChartView()
-                        case .tablesGraphs:
-                            TablesGraphsScreen()
                         case .ephemeris:
                             EphemerisResultsView()
                         case .longTimeEphemeris:
@@ -218,6 +216,7 @@ struct DetailColumn: View {
                         ImportExportDetailScreen(section: app.nav.importExport.section)
                     }
                 }
+                .fitsInputRows()
                 .navigationTitle(detailTitle)
             }
         }

@@ -276,7 +276,7 @@ struct AstronomicalCyclesScreen: View {
                 Text(ac(AstroCyclesKeys.day)).foregroundStyle(.secondary)
                 NumericPickerField(range: 1...31, fieldWidth: 35, format: { String($0) }, selection: day)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
             HStack(spacing: 8) {
                 Picker(ac(AstroCyclesKeys.calendar), selection: calendar) {
                     ForEach(CalendarStyle.allCases) { style in
@@ -296,7 +296,7 @@ struct AstronomicalCyclesScreen: View {
                 .labelsHidden()
                 .focusable(true)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
             if let msg = validation.message {
                 Text(msg).font(.caption).foregroundStyle(.red)
             }

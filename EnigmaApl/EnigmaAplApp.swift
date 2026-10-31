@@ -42,6 +42,8 @@ struct EnigmaAplApp: App {
                 .modelContainer(PersistenceController.shared.container)
         }
         .commands {
+            // Show/Hide Sidebar in the View menu (HIG)
+            SidebarCommands()
             AppCommands(
                 app: composition.app,
                 radixNav: composition.radixNav,

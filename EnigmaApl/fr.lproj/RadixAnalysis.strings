@@ -19,6 +19,11 @@
 "view.analysisscreen.btn.blaschema"            = "Schéma BLA";
 "view.analysisscreen.btn.countings"            = "Comptages";
 "view.analysisscreen.help"                     = "L'écran d'analyse donne accès aux outils analytiques. Aspects montre les relations d'aspects entre facteurs. Mi-points montre les structures de mi-points et les mi-points occupés. Harmoniques montre les positions et résonances harmoniques.";
+"view.analysisscreen.group.general"            = "Général";
+"view.analysisscreen.group.harmonics"          = "Harmoniques";
+"view.analysisscreen.group.zodiac"             = "Zodiaque";
+"view.analysisscreen.group.schemas"            = "Schémas";
+"view.analysisscreen.group.stars"              = "Étoiles";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Calculez ou sélectionnez un horoscope pour voir les harmoniques.";

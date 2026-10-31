@@ -25,6 +25,7 @@ struct RadixInspectorKeys {
         .analysisLots:             "enum.radixinspector.analysislots",
         .analysisBlaSchema:        "enum.radixinspector.analysisblaschema",
         .analysisCountings:        "enum.radixinspector.analysiscountings",
+        .analysisFixStars:         "enum.radixinspector.analysisfixstars",
         .newChart:                 "enum.radixinspector.newchart",
         .search:                   "enum.radixinspector.search",
         .editChart:                "enum.radixinspector.editchart",

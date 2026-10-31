@@ -518,7 +518,8 @@ struct LocationSection: View {
                     .focusable(true)
                 }
             }
-            .fixedSize()
+            .fixedSize(horizontal: false, vertical: true)
+            .inputRowWidth()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .onChange(of: searchModel.selectedCity) { _, city in
@@ -647,7 +648,7 @@ struct DateTimeSection: View {
                             NumericPickerField(range: 1...31, fieldWidth: 35,
                                               format: { String($0) }, selection: $day)
                         }
-                        .fixedSize(horizontal: true, vertical: false)
+                        .inputRowWidth()
 
                         if let message = dateValidationResult.message {
                             Text(message)
@@ -677,7 +678,7 @@ struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
-                    .fixedSize(horizontal: true, vertical: false)
+                    .inputRowWidth()
                 }
                 FieldBlock(ri("view.radixinputscreen.timedst")) {
                     HStack(spacing: 8) {
@@ -698,7 +699,7 @@ struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
-                    .fixedSize(horizontal: true, vertical: false)
+                    .inputRowWidth()
                 }
                 FieldBlock(ri("view.radixinputscreen.offsetut")) {
                     HStack(spacing: 8) {
@@ -719,7 +720,7 @@ struct DateTimeSection: View {
                         .labelsHidden()
                         .focusable(true)
                     }
-                    .fixedSize(horizontal: true, vertical: false)
+                    .inputRowWidth()
                 }
 
             }

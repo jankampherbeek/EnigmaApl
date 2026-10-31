@@ -3,93 +3,31 @@
 // Created by Jan Kampherbeek 2026
 import SwiftUI
 
+// Grouped overview of all analyses, shown in the content column. Grouping is defined in AnalysisGroup.
+
 struct AnalysisScreen: View {
     @EnvironmentObject private var app: AppState
-    @EnvironmentObject private var radixNav: RadixNavigator
     @State private var showHelp = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(t(RadixAnalysisKeys.title))
-                .font(.title2.weight(.semibold))
-
-            Button(t(RadixAnalysisKeys.btnAspects)) {
-                radixNav.setInspector(.analysisAspects)
+        List {
+            ForEach(AnalysisGroup.allCases) { group in
+                Section(t(group.rbKey)) {
+                    ForEach(group.items) { item in
+                        Button { app.openAnalysis(item) } label: {
+                            HStack {
+                                Text(t(item.analysisRbKey))
+                                Spacer()
+                                Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnMidpoints)) {
-                radixNav.setInspector(.analysisMidpoints)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnHarmonics)) {
-                radixNav.setInspector(.analysisHarmonics)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnHarmonicExactAspects)) {
-                radixNav.setInspector(.analysisHarmonicExactAspects)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnDeclinations)) {
-                radixNav.setInspector(.analysisDeclinations)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnZodiacDivisions)) {
-                radixNav.setInspector(.analysisZodiacDivisions)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnAltZodiacStart)) {
-                radixNav.setInspector(.analysisAltZodiacStart)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnEnneagram)) {
-                radixNav.setInspector(.analysisEnneagram)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnVsp)) {
-                radixNav.setInspector(.analysisVsp)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnFixStars)) {
-                app.setMode(.fixstars)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnParans)) {
-                radixNav.setInspector(.analysisParans)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnHarmonicOrbs)) {
-                radixNav.setInspector(.analysisHarmonicOrbs)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnLots)) {
-                radixNav.setInspector(.analysisLots)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnBlaSchema)) {
-                radixNav.setInspector(.analysisBlaSchema)
-            }
-            .buttonStyle(.bordered)
-
-            Button(t(RadixAnalysisKeys.btnCountings)) {
-                radixNav.setInspector(.analysisCountings)
-            }
-            .buttonStyle(.bordered)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding()
+        .navigationTitle(t(RadixAnalysisKeys.title))
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button { showHelp = true } label: {

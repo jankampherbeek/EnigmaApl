@@ -62,6 +62,10 @@ struct ContentColumn: View {
         app.nav.radix.inspector == .analysisLots
     }
 
+    private var isFixStars: Bool {
+        app.nav.radix.inspector == .analysisFixStars
+    }
+
     var body: some View {
         Group {
             switch app.nav.mode {
@@ -81,6 +85,8 @@ struct ContentColumn: View {
                     HarmonicOrbsInputScreen()
                 case .analysisLots:
                     LotsInputScreen()
+                case .analysisFixStars:
+                    FixStarInputScreen()
                 case .overview, .horoscope:
                     RadixOverviewScreen()
                 case .analysis:
@@ -122,8 +128,6 @@ struct ContentColumn: View {
                 default:
                     EmptyView()
                 }
-            case .fixstars:
-                FixStarInputScreen()
             case .research:
                 ResearchProjectsScreen()
             case .cycles:
@@ -132,8 +136,6 @@ struct ContentColumn: View {
                     AstronomicalCyclesScreen()
                 case .waves:
                     WavesScreen()
-                case .tablesGraphs:
-                    EmptyView()
                 case .ephemeris:
                     EphemerisInputScreen()
                 case .longTimeEphemeris:
@@ -151,8 +153,18 @@ struct ContentColumn: View {
                 ImportExportScreen()
             }
         }
+        .fitsInputRows()
         .navigationTitle(le(app.nav.mode.rbKey))
         .toolbar {
+            // Drill-down from the analysis overview: back to the grouped list
+            if isRadix && app.nav.radix.inspector.isAnalysisItem {
+                ToolbarItem(placement: .navigation) {
+                    Button { app.nav.radix.inspector = .analysis } label: {
+                        Label(le(RadixInspector.analysis.rbKey), systemImage: "chevron.left")
+                            .labelStyle(.titleAndIcon)
+                    }
+                }
+            }
             if preferTwoColumns {
                 ToolbarItem(placement: .automatic) {
                     Button { app.setInspectorSheet(true) } label: {
@@ -160,7 +172,7 @@ struct ContentColumn: View {
                     }
                 }
             }
-            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
+            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots && !isFixStars {
                 ToolbarItem(placement: .automatic) {
                     Button { app.ui.blackWhite.toggle() } label: {
                         Image(systemName: app.ui.blackWhite ? "circle.lefthalf.filled" : "paintpalette")
@@ -201,7 +213,7 @@ struct ContentColumn: View {
                     .accessibilityLabel(nv(NavigationKeys.export))
                 }
             }
-            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots {
+            if isRadix && !isZodiacDivisions && !isAltZodiacStart && !isEnneagram && !isVsp && !isParans && !isHarmonicOrbs && !isLots && !isFixStars {
                 ToolbarItem(placement: .automatic) {
                     Button { showHelp = true } label: {
                         Image(systemName: "questionmark.circle")

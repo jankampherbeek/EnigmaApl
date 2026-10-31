@@ -19,6 +19,11 @@
 "view.analysisscreen.btn.blaschema"            = "BLA Schema";
 "view.analysisscreen.btn.countings"            = "Tellingen";
 "view.analysisscreen.help"                     = "Het analyse-scherm geeft toegang tot analytische hulpmiddelen. Aspecten toont aspectrelaties tussen factoren. Middelpunten toont middelpuntstructuren en bezette middelpunten. Harmonischen toont harmonische posities en resonanties.";
+"view.analysisscreen.group.general"            = "Algemeen";
+"view.analysisscreen.group.harmonics"          = "Harmonischen";
+"view.analysisscreen.group.zodiac"             = "Dierenriem";
+"view.analysisscreen.group.schemas"            = "Schema's";
+"view.analysisscreen.group.stars"              = "Sterren";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Bereken of selecteer een horoscoop om harmonics te bekijken.";

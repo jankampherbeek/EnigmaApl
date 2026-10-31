@@ -176,7 +176,7 @@ struct JulianDayView: View {
                     NumericPickerField(range: 1...31, fieldWidth: 35,
                                       format: { String($0) }, selection: $day)
                 }
-                .fixedSize(horizontal: true, vertical: false)
+                .inputRowWidth()
                 if let msg = dateValidation.message {
                     Text(msg).font(.caption).foregroundStyle(.red)
                 }
@@ -202,7 +202,7 @@ struct JulianDayView: View {
                 .pickerStyle(.menu)
                 .labelsHidden()
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
         }
 
         FieldBlock(ca(CalculatorsKeys.time)) {
@@ -214,7 +214,7 @@ struct JulianDayView: View {
                 NumericPickerField(range: 0...59, fieldWidth: 35,
                                   format: { String(format: "%02d", $0) }, selection: $second)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
         }
 
         FieldBlock(ca(CalculatorsKeys.offsetUT)) {
@@ -232,7 +232,7 @@ struct JulianDayView: View {
                 .frame(maxWidth: 160)
                 .labelsHidden()
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
         }
     }
 }

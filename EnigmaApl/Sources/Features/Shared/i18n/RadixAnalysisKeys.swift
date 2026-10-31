@@ -24,6 +24,11 @@ struct RadixAnalysisKeys {
     static let btnBlaSchema           = "view.analysisscreen.btn.blaschema"
     static let btnCountings           = "view.analysisscreen.btn.countings"
     static let help                  = "view.analysisscreen.help"
+    static let groupGeneral          = "view.analysisscreen.group.general"
+    static let groupHarmonics        = "view.analysisscreen.group.harmonics"
+    static let groupZodiac           = "view.analysisscreen.group.zodiac"
+    static let groupSchemas          = "view.analysisscreen.group.schemas"
+    static let groupStars            = "view.analysisscreen.group.stars"
 
     // HarmonicsScreen — shared
     static let noChart            = "view.harmonicsscreen.nochart"

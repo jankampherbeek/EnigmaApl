@@ -344,7 +344,7 @@
 // AppMode
 "enum.appmode.radix" = "Radix";
 "enum.appmode.progressive" = "Progressief";
-"enum.appmode.fixstars" = "Vaste sterren";
+"enum.radixinspector.analysisfixstars" = "Vaste sterren";
 "enum.appmode.research" = "Onderzoek";
 "enum.appmode.cycles" = "Perioden";
 "enum.appmode.calculators" = "Calculators";
@@ -393,7 +393,6 @@
 // CyclesSection
 "enum.cyclessection.astronomicalcycles" = "Astronomische cycli";
 "enum.cyclessection.waves" = "Golven";
-"enum.cyclessection.tablesgraphs" = "Tabellen/Grafieken";
 "enum.cyclessection.ephemeris" = "Maandelijkse ephemeride";
 "enum.cyclessection.longtimeephemeris" = "Lange-termijn ephemeride";
 "enum.cyclessection.eclipses" = "Eclipsen";

@@ -9,7 +9,6 @@ struct CyclesSectionKeys {
     static let keys: [CyclesSection: String] = [
         .astronomicalCycles:  "enum.cyclessection.astronomicalcycles",
         .waves:               "enum.cyclessection.waves",
-        .tablesGraphs:        "enum.cyclessection.tablesgraphs",
         .ephemeris:           "enum.cyclessection.ephemeris",
         .longTimeEphemeris:   "enum.cyclessection.longtimeephemeris",
         .eclipses:            "enum.cyclessection.eclipses",

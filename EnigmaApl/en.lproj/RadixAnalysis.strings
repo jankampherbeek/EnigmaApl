@@ -19,6 +19,11 @@
 "view.analysisscreen.btn.blaschema"            = "BLA Schema";
 "view.analysisscreen.btn.countings"            = "Countings";
 "view.analysisscreen.help"                     = "The Analysis screen gives access to analytical tools. Aspects shows aspect relationships between chart factors. Midpoints shows midpoint structures and occupied midpoints. Harmonics shows harmonic positions and resonances.";
+"view.analysisscreen.group.general"            = "General";
+"view.analysisscreen.group.harmonics"          = "Harmonics";
+"view.analysisscreen.group.zodiac"             = "Zodiac";
+"view.analysisscreen.group.schemas"            = "Schemas";
+"view.analysisscreen.group.stars"              = "Stars";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Calculate or select a horoscope to view harmonics.";

@@ -22,77 +22,43 @@ struct SidebarView: View {
     @EnvironmentObject private var unsavedChanges: UnsavedChangesGuard
 
     var body: some View {
-        List {
+        List(selection: selection) {
             Section(nv(NavigationKeys.sidebarModes)) {
                 ForEach(AppMode.sidebarModes) { mode in
-                    Button { unsavedChanges.perform { app.setMode(mode) } } label: {
-                        row(le(mode.rbKey), app.nav.mode == mode, icon: mode.systemImage)
-                    }
-                    .buttonStyle(.plain)
+                    Label(le(mode.rbKey), systemImage: mode.systemImage)
+                        .tag(SidebarItem.mode(mode))
                 }
             }
 
             switch app.nav.mode {
             case .radix:
                 Section(le(AppMode.radix.rbKey)) {
-                    Button { radixNav.setInspector(.overview) } label: {
-                        row(le(RadixInspector.overview.rbKey), app.nav.radix.inspector == .overview)
-                    }.buttonStyle(.plain)
-                    Button { radixNav.setInspector(.positions) } label: {
-                        row(le(RadixInspector.positions.rbKey), app.nav.radix.inspector == .positions)
-                    }.buttonStyle(.plain)
-                    Button { radixNav.setInspector(.analysis) } label: {
-                        row(le(RadixInspector.analysis.rbKey), app.nav.radix.inspector == .analysis)
-                    }.buttonStyle(.plain)
-                    Button { radixNav.setInspector(.search) } label: {
-                        row(le(RadixInspector.search.rbKey), app.nav.radix.inspector == .search)
-                    }.buttonStyle(.plain)
+                    ForEach(Self.radixItems) { inspector in
+                        Text(le(inspector.rbKey)).tag(SidebarItem.radix(inspector))
+                    }
                 }
             case .progressive:
                 Section(le(AppMode.progressive.rbKey)) {
                     ForEach(ProgressiveSection.allCases) { section in
-                        Button { progressiveNav.setSection(section) } label: {
-                            row(le(section.rbKey), app.nav.progressive.section == section)
-                        }
-                        .buttonStyle(.plain)
+                        Text(le(section.rbKey)).tag(SidebarItem.progressive(section))
                     }
                 }
             case .research:
                 Section(le(AppMode.research.rbKey)) {
-                    Button { researchNav.setSection(.projects) } label: {
-                        row(le(ResearchSection.projects.rbKey), app.nav.research.section == .projects)
-                    }.buttonStyle(.plain)
+                    ForEach(ResearchSection.allCases) { section in
+                        Text(le(section.rbKey)).tag(SidebarItem.research(section))
+                    }
                 }
             case .cycles:
                 Section(le(AppMode.cycles.rbKey)) {
-                    Button { cyclesNav.setSection(.astronomicalCycles) } label: {
-                        row(le(CyclesSection.astronomicalCycles.rbKey), app.nav.cycles.section == .astronomicalCycles)
-                    }.buttonStyle(.plain)
-                    Button { cyclesNav.setSection(.waves) } label: {
-                        row(le(CyclesSection.waves.rbKey), app.nav.cycles.section == .waves)
-                    }.buttonStyle(.plain)
-                    Button { cyclesNav.setSection(.tablesGraphs) } label: {
-                        row(le(CyclesSection.tablesGraphs.rbKey), app.nav.cycles.section == .tablesGraphs)
-                    }.buttonStyle(.plain)
-                    Button { cyclesNav.setSection(.ephemeris) } label: {
-                        row(le(CyclesSection.ephemeris.rbKey), app.nav.cycles.section == .ephemeris)
-                    }.buttonStyle(.plain)
-                    Button { cyclesNav.setSection(.longTimeEphemeris) } label: {
-                        row(le(CyclesSection.longTimeEphemeris.rbKey), app.nav.cycles.section == .longTimeEphemeris)
-                    }.buttonStyle(.plain)
-                    Button { cyclesNav.setSection(.eclipses) } label: {
-                        row(le(CyclesSection.eclipses.rbKey), app.nav.cycles.section == .eclipses)
-                    }.buttonStyle(.plain)
+                    ForEach(CyclesSection.allCases) { section in
+                        Text(le(section.rbKey)).tag(SidebarItem.cycles(section))
+                    }
                 }
-            case .fixstars:
-                EmptyView()
             case .calculators:
                 Section(le(AppMode.calculators.rbKey)) {
                     ForEach(CalculatorsSection.allCases) { section in
-                        Button { calculatorsNav.setSection(section) } label: {
-                            row(le(section.rbKey), app.nav.calculators.section == section)
-                        }
-                        .buttonStyle(.plain)
+                        Text(le(section.rbKey)).tag(SidebarItem.calculators(section))
                     }
                 }
             case .config:
@@ -102,10 +68,7 @@ struct SidebarView: View {
             case .importExport:
                 Section(le(AppMode.importExport.rbKey)) {
                     ForEach(ImportExportSection.allCases) { section in
-                        Button { importExportNav.setSection(section) } label: {
-                            row(le(section.rbKey), app.nav.importExport.section == section)
-                        }
-                        .buttonStyle(.plain)
+                        Text(le(section.rbKey)).tag(SidebarItem.importExport(section))
                     }
                 }
             }
@@ -113,21 +76,57 @@ struct SidebarView: View {
         .navigationTitle(nv(NavigationKeys.sidebarTitle))
     }
 
-    private func row(_ title: String, _ selected: Bool) -> some View {
-        HStack {
-            Text(title)
-            Spacer()
-            if selected { Image(systemName: "checkmark").foregroundStyle(.secondary) }
+    private static let radixItems: [RadixInspector] = [.overview, .positions, .analysis, .search]
+
+    // The selected row shows the current location: the sub-item of the active mode,
+    // or the mode itself when that mode has no sub-items.
+    private var selection: Binding<SidebarItem?> {
+        Binding(
+            get: { currentItem },
+            set: { item in
+                guard let item, item != currentItem else { return }
+                select(item)
+            }
+        )
+    }
+
+    private var currentItem: SidebarItem {
+        switch app.nav.mode {
+        case .radix:
+            let inspector = app.nav.radix.inspector
+            if inspector.isAnalysisItem { return .radix(.analysis) }
+            return .radix(Self.radixItems.contains(inspector) ? inspector : .overview)
+        case .progressive:  return .progressive(app.nav.progressive.section)
+        case .research:     return .research(app.nav.research.section)
+        case .cycles:       return .cycles(app.nav.cycles.section)
+        case .calculators:  return .calculators(app.nav.calculators.section)
+        case .importExport: return .importExport(app.nav.importExport.section)
+        case .config, .synastry: return .mode(app.nav.mode)
         }
     }
 
-    private func row(_ title: String, _ selected: Bool, icon: String) -> some View {
-        HStack {
-            Label(title, systemImage: icon)
-            Spacer()
-            if selected { Image(systemName: "checkmark").foregroundStyle(.secondary) }
+    private func select(_ item: SidebarItem) {
+        switch item {
+        case .mode(let mode):              unsavedChanges.perform { app.setMode(mode) }
+        case .radix(let inspector):        radixNav.setInspector(inspector)
+        case .progressive(let section):    progressiveNav.setSection(section)
+        case .research(let section):       researchNav.setSection(section)
+        case .cycles(let section):         cyclesNav.setSection(section)
+        case .calculators(let section):    calculatorsNav.setSection(section)
+        case .importExport(let section):   importExportNav.setSection(section)
         }
     }
+}
+
+/// A selectable row in the sidebar.
+private enum SidebarItem: Hashable {
+    case mode(AppMode)
+    case radix(RadixInspector)
+    case progressive(ProgressiveSection)
+    case research(ResearchSection)
+    case cycles(CyclesSection)
+    case calculators(CalculatorsSection)
+    case importExport(ImportExportSection)
 }
 
 private func nv(_ key: String) -> String {

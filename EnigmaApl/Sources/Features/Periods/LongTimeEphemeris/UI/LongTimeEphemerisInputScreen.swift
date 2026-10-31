@@ -172,7 +172,7 @@ struct LongTimeEphemerisInputScreen: View {
                                 selection: $model.intervalHours
                             )
                         }
-                        .fixedSize(horizontal: true, vertical: false)
+                        .inputRowWidth()
                         if !intervalIsPositive {
                             Text(lte(LongTimeEphemerisKeys.intervalZero))
                                 .font(.caption)
@@ -341,7 +341,7 @@ struct LongTimeEphemerisInputScreen: View {
                 Text(lte(LongTimeEphemerisKeys.day)).foregroundStyle(.secondary)
                 NumericPickerField(range: 1...31, fieldWidth: 35, format: { String($0) }, selection: day)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
             HStack(spacing: 8) {
                 Picker(lte(LongTimeEphemerisKeys.calendar), selection: calendar) {
                     ForEach(CalendarStyle.allCases) { style in
@@ -361,7 +361,7 @@ struct LongTimeEphemerisInputScreen: View {
                 .labelsHidden()
                 .focusable(true)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
             if let msg = validation.message {
                 Text(msg).font(.caption).foregroundStyle(.red)
             }

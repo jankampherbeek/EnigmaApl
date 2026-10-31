@@ -40,8 +40,6 @@ final class AppState: ObservableObject {
             if nav.research.selectedID == nil { nav.research.selectedID = projects.first?.id }
         case .cycles:
             if nav.cycles.selectedID == nil { nav.cycles.selectedID = profiles.first?.id }
-        case .fixstars:
-            break
         case .calculators:
             break
         case .config:
@@ -58,6 +56,11 @@ final class AppState: ObservableObject {
         nav.mode = mode
         if mode == .radix { nav.radix.inspector = .overview }
         ensureDefaultSelection()
+    }
+
+    func openAnalysis(_ inspector: RadixInspector) {
+        setMode(.radix)
+        nav.radix.inspector = inspector
     }
 
     func openNewChartInDetail(isCompact: Bool) {
@@ -92,29 +95,28 @@ final class AppState: ObservableObject {
 
 
 enum AppMode: String, CaseIterable, Identifiable, Hashable {
+    // The order of the cases defines the order in the sidebar.
     case radix = "Radix"
+    case synastry = "Synastry"
     case progressive = "Progressive"
-    case fixstars = "Fixed Stars"
-    case research = "Research"
     case cycles = "Periods"
+    case research = "Research"
     case calculators = "Calculators"
     case config = "Configuratie"
-    case synastry = "Synastry"
     case importExport = "Import/Export"
 
     var id: String { rawValue }
     var rbKey: String { AppModeKeys.key(for: self) }
 
-    // Modes shown in the sidebar; fixstars is accessed via the Radix overview button instead.
+    // Modes shown in the sidebar.
     static var sidebarModes: [AppMode] {
-        allCases.filter { $0 != .fixstars }
+        allCases
     }
 
     var systemImage: String {
         switch self {
         case .radix:        return "circle.grid.cross"
         case .progressive:  return "arrow.forward.circle"
-        case .fixstars:     return "star.circle"
         case .research:     return "flask"
         case .cycles:       return "waveform.path.ecg"
         case .calculators:  return "function"

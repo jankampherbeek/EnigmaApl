@@ -19,6 +19,11 @@
 "view.analysisscreen.btn.blaschema"            = "BLA-Schema";
 "view.analysisscreen.btn.countings"            = "Zählungen";
 "view.analysisscreen.help"                     = "Der Analyse-Bildschirm bietet Zugang zu analytischen Werkzeugen. Aspekte zeigt Aspektbeziehungen zwischen Faktoren. Halbsummen zeigt Halbsummenstrukturen und besetzte Halbsummen. Harmoniken zeigt harmonische Positionen und Resonanzen.";
+"view.analysisscreen.group.general"            = "Allgemein";
+"view.analysisscreen.group.harmonics"          = "Harmoniken";
+"view.analysisscreen.group.zodiac"             = "Tierkreis";
+"view.analysisscreen.group.schemas"            = "Schemata";
+"view.analysisscreen.group.stars"              = "Sterne";
 
 // HarmonicsScreen — shared
 "view.harmonicsscreen.nochart"                 = "Berechnen oder wählen Sie ein Horoskop, um Harmoniken anzuzeigen.";

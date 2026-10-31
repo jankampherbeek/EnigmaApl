@@ -314,7 +314,7 @@ struct EclipsesInputScreen: View {
                 NumericPickerField(range: 1...31, fieldWidth: 35,
                                    format: { String($0) }, selection: day)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
 
             HStack(spacing: 8) {
                 Picker(ec(EclipsesKeys.calendar), selection: calendar) {
@@ -336,7 +336,7 @@ struct EclipsesInputScreen: View {
                 .labelsHidden()
                 .focusable(true)
             }
-            .fixedSize(horizontal: true, vertical: false)
+            .inputRowWidth()
 
             if let msg = validation.message {
                 Text(msg).font(.caption).foregroundStyle(.red)
