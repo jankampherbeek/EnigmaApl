@@ -154,11 +154,33 @@ struct RootView: View {
     private func buildStartupChart(config: UserConfiguration?) async {
         guard composition.chartSession.charts.isEmpty else { return }
 
-        let coord = await composition.locationService.fetchCurrentLocation()
+        let current = await composition.locationService.fetchCurrentLocation()
+        // onAppear can fire more than once; re-check after the await so only one startup chart is added.
+        guard composition.chartSession.charts.isEmpty else { return }
+
+        // Prefer the current location, then the default location from Settings, then 0° / 0°.
+        let latitude: Double
+        let longitude: Double
+        if let current {
+            latitude = current.latitude
+            longitude = current.longitude
+        } else if let fallback = DefaultLocation.stored {
+            Logger.log.info("Startup chart: no current location available, using the default location '\(fallback.name)'")
+            latitude = fallback.latitude
+            longitude = fallback.longitude
+        } else {
+            Logger.log.warning("Startup chart: no current location and no default location available, using 0° latitude / 0° longitude")
+            latitude = 0.0
+            longitude = 0.0
+        }
+
+        // Take the moment of calculation once, so the UT time and the local offset belong to the same instant.
+        let now = Date()
+        let timeZoneOffsetHours = Double(TimeZone.current.secondsFromGMT(for: now)) / 3600.0
 
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(identifier: "UTC")!
-        let comps = utcCalendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: Date())
+        let comps = utcCalendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
 
         let astroDate = AstronomicalDate(
             Year: comps.year ?? 2000,
@@ -187,15 +209,15 @@ struct RootView: View {
             JulianDay: jd,
             FactorsToUse: factors,
             HouseSystem: Int(calcConfig.houseSystem.seId.asciiValue ?? 80),
-            Latitude: coord?.latitude ?? 0.0,
-            Longitude: coord?.longitude ?? 0.0,
+            Latitude: latitude,
+            Longitude: longitude,
             Height: 0.0,
             calculationConfig: calcConfig
         )
 
         let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
         let chartName = NSLocalizedString(StartupChartKeys.chartName, tableName: "StartupChart", bundle: .main, comment: "")
-        composition.chartSession.add(name: chartName, chart: chart, baseRequest: request)
+        composition.chartSession.add(name: chartName, chart: chart, baseRequest: request, timeZoneOffsetHours: timeZoneOffsetHours)
         app.nav.radix.inspector = .positions
     }
 }

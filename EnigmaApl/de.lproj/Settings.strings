@@ -11,3 +11,13 @@
 "view.settingsscreen.button.clear"         = "Löschen";
 "view.settingsscreen.button.showinfinder"  = "Im Finder zeigen";
 "view.settingsscreen.error.researchfolder" = "Der Ordner konnte nicht gespeichert werden. Bitte wählen Sie ihn erneut.";
+
+"view.settingsscreen.section.location"                = "Standardort";
+"view.settingsscreen.location.name"                   = "Name des Ortes";
+"view.settingsscreen.location.longitude"              = "Länge";
+"view.settingsscreen.location.latitude"               = "Breite";
+"view.settingsscreen.location.longitudehemisphere"    = "Ost oder West";
+"view.settingsscreen.location.latitudehemisphere"     = "Nord oder Süd";
+"view.settingsscreen.location.help"                   = "Beim Start berechnet Enigma ein Horoskop für den aktuellen Moment an Ihrem aktuellen Ort. Dieser Ort wird verwendet, wenn Ihr aktueller Ort nicht verfügbar ist, z. B. weil kein Zugriff auf die Ortungsdienste gewährt wurde.";
+"view.settingsscreen.error.location.incomplete"       = "Geben Sie sowohl Länge als auch Breite ein; der Ort wurde nicht gespeichert.";
+"view.settingsscreen.error.location.invalid"          = "Die Länge darf höchstens 180° betragen und die Breite muss kleiner als 90° sein; der Ort wurde nicht gespeichert.";

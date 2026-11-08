@@ -11,3 +11,13 @@
 "view.settingsscreen.button.clear"         = "Clear";
 "view.settingsscreen.button.showinfinder"  = "Show in Finder";
 "view.settingsscreen.error.researchfolder" = "The folder could not be saved. Please choose it again.";
+
+"view.settingsscreen.section.location"                = "Default location";
+"view.settingsscreen.location.name"                   = "Name of location";
+"view.settingsscreen.location.longitude"              = "Longitude";
+"view.settingsscreen.location.latitude"               = "Latitude";
+"view.settingsscreen.location.longitudehemisphere"    = "East or west";
+"view.settingsscreen.location.latitudehemisphere"     = "North or south";
+"view.settingsscreen.location.help"                   = "At startup Enigma calculates a chart for the current moment at your current location. This location is used when your current location is not available, e.g. because access to Location Services was not granted.";
+"view.settingsscreen.error.location.incomplete"       = "Enter both longitude and latitude; the location has not been saved.";
+"view.settingsscreen.error.location.invalid"          = "Longitude must be at most 180° and latitude less than 90°; the location has not been saved.";

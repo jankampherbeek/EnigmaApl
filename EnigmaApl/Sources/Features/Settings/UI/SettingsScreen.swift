@@ -47,6 +47,54 @@ struct SettingsScreen: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
+            Section(t(SettingsKeys.sectionLocation)) {
+                TextField(t(SettingsKeys.locationNameLabel), text: $model.locationName)
+                LabeledContent(t(SettingsKeys.longitudeLabel)) {
+                    HStack(spacing: 6) {
+                        DMSComponentPicker(symbol: "°", range: 0...180, selection: $model.longitudeDegrees)
+                        DMSComponentPicker(symbol: "′", range: 0...59, selection: $model.longitudeMinutes)
+                        DMSComponentPicker(symbol: "″", range: 0...59, selection: $model.longitudeSeconds)
+                        Picker(t(SettingsKeys.longitudeHemisphere), selection: $model.lonHemi) {
+                            ForEach(LongitudeHemisphere.allCases) { hemisphere in
+                                Text(LocalizedStringKey(hemisphere.rbKey)).tag(hemisphere)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                        .fixedSize()
+                    }
+                }
+                LabeledContent(t(SettingsKeys.latitudeLabel)) {
+                    HStack(spacing: 6) {
+                        DMSComponentPicker(symbol: "°", range: 0...90, selection: $model.latitudeDegrees)
+                        DMSComponentPicker(symbol: "′", range: 0...59, selection: $model.latitudeMinutes)
+                        DMSComponentPicker(symbol: "″", range: 0...59, selection: $model.latitudeSeconds)
+                        Picker(t(SettingsKeys.latitudeHemisphere), selection: $model.latHemi) {
+                            ForEach(LatitudeHemisphere.allCases) { hemisphere in
+                                Text(LocalizedStringKey(hemisphere.rbKey)).tag(hemisphere)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                        .fixedSize()
+                    }
+                }
+                if model.hasDefaultLocation {
+                    HStack {
+                        Spacer()
+                        Button(t(SettingsKeys.buttonClear)) { model.clearDefaultLocation() }
+                    }
+                }
+                Text(t(SettingsKeys.locationHelp))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if let errorKey = model.locationErrorKey {
+                    Text(t(errorKey))
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+            }
         }
         .formStyle(.grouped)
         .frame(width: 560)

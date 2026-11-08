@@ -11,3 +11,13 @@
 "view.settingsscreen.button.clear"         = "Wissen";
 "view.settingsscreen.button.showinfinder"  = "Toon in Finder";
 "view.settingsscreen.error.researchfolder" = "De map kon niet worden opgeslagen. Kies de map opnieuw.";
+
+"view.settingsscreen.section.location"                = "Standaardlocatie";
+"view.settingsscreen.location.name"                   = "Naam van de locatie";
+"view.settingsscreen.location.longitude"              = "Lengte";
+"view.settingsscreen.location.latitude"               = "Breedte";
+"view.settingsscreen.location.longitudehemisphere"    = "Oost of west";
+"view.settingsscreen.location.latitudehemisphere"     = "Noord of zuid";
+"view.settingsscreen.location.help"                   = "Bij het opstarten berekent Enigma een horoscoop voor het huidige moment op je huidige locatie. Deze locatie wordt gebruikt als je huidige locatie niet beschikbaar is, bijvoorbeeld omdat er geen toegang tot Locatievoorzieningen is gegeven.";
+"view.settingsscreen.error.location.incomplete"       = "Vul zowel lengte als breedte in; de locatie is niet opgeslagen.";
+"view.settingsscreen.error.location.invalid"          = "De lengte mag hoogstens 180° zijn en de breedte moet kleiner zijn dan 90°; de locatie is niet opgeslagen.";

@@ -11,3 +11,13 @@
 "view.settingsscreen.button.clear"         = "Effacer";
 "view.settingsscreen.button.showinfinder"  = "Afficher dans le Finder";
 "view.settingsscreen.error.researchfolder" = "Le dossier n'a pas pu être enregistré. Veuillez le choisir à nouveau.";
+
+"view.settingsscreen.section.location"                = "Lieu par défaut";
+"view.settingsscreen.location.name"                   = "Nom du lieu";
+"view.settingsscreen.location.longitude"              = "Longitude";
+"view.settingsscreen.location.latitude"               = "Latitude";
+"view.settingsscreen.location.longitudehemisphere"    = "Est ou ouest";
+"view.settingsscreen.location.latitudehemisphere"     = "Nord ou sud";
+"view.settingsscreen.location.help"                   = "Au démarrage, Enigma calcule un thème pour le moment présent à votre position actuelle. Ce lieu est utilisé lorsque votre position actuelle n'est pas disponible, par exemple parce que l'accès au Service de localisation n'a pas été autorisé.";
+"view.settingsscreen.error.location.incomplete"       = "Saisissez la longitude et la latitude ; le lieu n'a pas été enregistré.";
+"view.settingsscreen.error.location.invalid"          = "La longitude doit être au plus 180° et la latitude inférieure à 90° ; le lieu n'a pas été enregistré.";

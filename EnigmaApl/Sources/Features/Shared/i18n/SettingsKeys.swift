@@ -17,4 +17,14 @@ struct SettingsKeys {
     static let buttonClear         = "view.settingsscreen.button.clear"
     static let buttonShowInFinder  = "view.settingsscreen.button.showinfinder"
     static let errorResearchFolder = "view.settingsscreen.error.researchfolder"
+
+    static let sectionLocation         = "view.settingsscreen.section.location"
+    static let locationNameLabel       = "view.settingsscreen.location.name"
+    static let longitudeLabel          = "view.settingsscreen.location.longitude"
+    static let latitudeLabel           = "view.settingsscreen.location.latitude"
+    static let longitudeHemisphere     = "view.settingsscreen.location.longitudehemisphere"
+    static let latitudeHemisphere      = "view.settingsscreen.location.latitudehemisphere"
+    static let locationHelp            = "view.settingsscreen.location.help"
+    static let errorLocationIncomplete = "view.settingsscreen.error.location.incomplete"
+    static let errorLocationInvalid    = "view.settingsscreen.error.location.invalid"
 }
