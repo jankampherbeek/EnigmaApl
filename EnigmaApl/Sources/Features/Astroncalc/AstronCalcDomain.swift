@@ -74,13 +74,18 @@ public struct HousePositions {
     public let midheaven: FullCuspPosition
     public let eastpoint: FullCuspPosition
     public let vertex: FullCuspPosition
-    
-    public init(cusps: [FullCuspPosition], ascendant: FullCuspPosition, midheaven: FullCuspPosition, eastpoint: FullCuspPosition, vertex: FullCuspPosition) {
+    /// True when the requested house system cannot be calculated for this latitude (polar regions)
+    /// and the cusps were calculated with Porphyry instead.
+    public let porphyryFallback: Bool
+
+    public init(cusps: [FullCuspPosition], ascendant: FullCuspPosition, midheaven: FullCuspPosition, eastpoint: FullCuspPosition, vertex: FullCuspPosition,
+                porphyryFallback: Bool = false) {
         self.cusps = cusps
         self.ascendant = ascendant
         self.midheaven = midheaven
         self.eastpoint = eastpoint
         self.vertex = vertex
+        self.porphyryFallback = porphyryFallback
     }
 }
 

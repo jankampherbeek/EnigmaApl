@@ -62,4 +62,6 @@
 "view.radixinputscreen.warning.omittedfactors.title" = "Waarschuwing";
 "view.radixinputscreen.warning.omittedfactors.confirm" = "Doorgaan";
 "view.radixinputscreen.warning.omittedfactors.cancel" = "Annuleren";
+"view.radixinputscreen.warning.skippedfactors.helio" = "De volgende factoren hebben geen betekenis in een heliocentrische horoscoop en zijn overgeslagen: %@";
+"view.radixinputscreen.warning.porphyryfallback" = "Het gekozen huizensysteem kan op deze breedte (binnen de poolcirkel) niet worden berekend. De huizen zijn in plaats daarvan berekend met Porphyrius.";
 "view.radixinputscreen.warning.dstuncertain" = "Waarschuwing: vóór 1967 was zomertijd in de VS niet landelijk verplicht. Controleer uw bron en schakel zomertijd uit als de geregistreerde tijd standaardtijd is.";

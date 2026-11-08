@@ -304,8 +304,11 @@ private enum PipelineRunner {
                     case 703: ascmcIndex = 3   // Vertex
                     default:  ascmcIndex = nil
                     }
-                    // Resolve ecliptic longitude once — reused by both coordinate blocks.
+                    // Resolve longitudes once — reused by both coordinate blocks.
+                    // The ecliptic block uses the zodiac of the configuration (sidereal or tropical);
+                    // the equatorial block is always converted from the tropical longitude.
                     var mundaneLong: Double? = nil
+                    var mundaneTropicalLong: Double? = nil
                     if layout.hasEcliptical || layout.hasEquatorial,
                        let idx = ascmcIndex,
                        let (_, ascmc) = try? seWrapper.calculateHouses(
@@ -314,7 +317,21 @@ private enum PipelineRunner {
                            longitude: record.geoLon,
                            houseSystem: houseSystemInt),
                        ascmc.count > idx {
+                        mundaneTropicalLong = ascmc[idx]
                         mundaneLong = ascmc[idx]
+                        if isSidereal {
+                            if let (_, siderealAscmc) = try? seWrapper.calculateHouses(
+                                   julianDay: julDay,
+                                   latitude: record.geoLat,
+                                   longitude: record.geoLon,
+                                   houseSystem: houseSystemInt,
+                                   sidereal: true),
+                               siderealAscmc.count > idx {
+                                mundaneLong = siderealAscmc[idx]
+                            } else {
+                                mundaneLong = nil
+                            }
+                        }
                     }
                     if layout.hasEcliptical {
                         if let lon = mundaneLong {
@@ -323,7 +340,7 @@ private enum PipelineRunner {
                         } else { byteOffset += kBytesPerCoord }
                     }
                     if layout.hasEquatorial {
-                        if let lon = mundaneLong {
+                        if let lon = mundaneTropicalLong {
                             // Convert ecliptic longitude (latitude = 0) to equatorial
                             // using the true obliquity for this Julian day.
                             let obl = seWrapper.calculateFactorPosition(

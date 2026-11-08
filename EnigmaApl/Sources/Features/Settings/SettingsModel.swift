@@ -56,7 +56,7 @@ final class SettingsModel: ObservableObject {
     private func loadDefaultLocation() {
         isLoadingLocation = true
         defer { isLoadingLocation = false }
-        guard let location = DefaultLocation.stored else { return }
+        guard let location = DefaultLocation.stored() else { return }
         locationName = location.name
         let (latDeg, latMin, latSec, latNeg) = Self.decimalToDms(location.latitude)
         latitudeDegrees = latDeg

@@ -271,7 +271,10 @@ public struct AstronCalcOrchestrator {
             SiderealTime: siderealTime,
             JulianDay: julianDay,
             Obliquity: obliquity,
-            omittedFactors: omittedFactors
+            omittedFactors: omittedFactors,
+            // Reported to the user for heliocentric charts only: Earth is skipped in every geocentric chart
+            // where it is selected, which is expected and needs no message.
+            skippedFactors: isHelio ? skippedFactors : []
         )
     }
     

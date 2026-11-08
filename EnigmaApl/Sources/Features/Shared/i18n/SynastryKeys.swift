@@ -46,6 +46,7 @@ struct SynastryKeys {
     static let compositeMethodReferenceLocation = "view.synastry.composite.method.referencelocation"
     static let compositeShowChart               = "view.synastry.composite.showchart"
     static let compositeChartTitle              = "view.synastry.composite.charttitle"
+    static let compositePorphyryFallback        = "view.synastry.composite.porphyryfallback"
 
     // MARK: - Combine (Davison)
     static let combineMethodLabel             = "view.synastry.combine.methodlabel"

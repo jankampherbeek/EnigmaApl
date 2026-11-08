@@ -1,0 +1,831 @@
+{
+  "cases": [
+    {
+      "id": "enschede-2010-placidus",
+      "description": "Northern hemisphere, tropical, geocentric, Placidus. Same moment and place as AstronCalcOrchestratorTests.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Planet longitudes agree with AstronCalcOrchestratorTests.",
+      "verified": false,
+      "input": {
+        "date": "2010-01-01",
+        "timeUT": "00:00:00",
+        "calendar": "gregorian",
+        "latitude": 52.21805555555556,
+        "longitude": 6.895555555555555,
+        "height": 0,
+        "houseSystem": "placidus",
+        "ayanamsha": "tropical",
+        "observerPosition": "geoCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "meanNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": -8.164029082282363,
+            "latitude": 5.970938940213881,
+            "longitude": 323.1153218114565,
+            "longitudeSpeed": 0.056718357573238655,
+            "rightAscension": 323.4801166430204
+          },
+          "jupiter": {
+            "declination": -13.609055620924874,
+            "latitude": -0.9346106850260946,
+            "longitude": 326.35886284795265,
+            "longitudeSpeed": 0.20229638350702972,
+            "rightAscension": 328.92129894079653
+          },
+          "mars": {
+            "declination": 18.75230395909556,
+            "latitude": 3.757478836447907,
+            "longitude": 138.81750051282248,
+            "longitudeSpeed": -0.1543597448844517,
+            "rightAscension": 142.47598270164832
+          },
+          "mercury": {
+            "declination": -20.47337086984299,
+            "latitude": 1.6352411248024878,
+            "longitude": 288.99588889960705,
+            "longitudeSpeed": -1.0158569527681185,
+            "rightAscension": 290.3225862463011
+          },
+          "moon": {
+            "declination": 23.499331892692187,
+            "latitude": 0.723205602805521,
+            "longitude": 103.24438532687066,
+            "longitudeSpeed": 15.034606444194356,
+            "rightAscension": 104.46593468074725
+          },
+          "neptune": {
+            "declination": -13.722099053863916,
+            "latitude": -0.41827022082400106,
+            "longitude": 324.5820935220113,
+            "longitudeSpeed": 0.029314841709978424,
+            "rightAscension": 327.0207996819579
+          },
+          "northNode": {
+            "declination": -21.699907157547504,
+            "latitude": 0,
+            "longitude": 291.6354727816748,
+            "longitudeSpeed": -0.052900302082614065,
+            "rightAscension": 293.3796318517468
+          },
+          "pluto": {
+            "declination": -18.29979102997206,
+            "latitude": 5.0991086412154525,
+            "longitude": 273.30882107169646,
+            "longitudeSpeed": 0.036150401602348226,
+            "rightAscension": 273.4714750360126
+          },
+          "saturn": {
+            "declination": 0.3091932697910999,
+            "latitude": 2.2878293497696514,
+            "longitude": 184.5065798899442,
+            "longitudeSpeed": 0.022994733211510944,
+            "rightAscension": 185.0435377067322
+          },
+          "sun": {
+            "declination": -23.027292543865254,
+            "latitude": 6.421319499568274e-06,
+            "longitude": 280.45116309895,
+            "longitudeSpeed": 1.0188336730238543,
+            "rightAscension": 281.36758889805407
+          },
+          "uranus": {
+            "declination": -3.428279885691119,
+            "latitude": -0.7461682826584866,
+            "longitude": 353.090090761465,
+            "longitudeSpeed": 0.0252596538228839,
+            "rightAscension": 353.9509075831898
+          },
+          "venus": {
+            "declination": -23.64201187601717,
+            "latitude": -0.4365852570550631,
+            "longitude": 277.8499668251785,
+            "longitudeSpeed": 1.258280297872455,
+            "rightAscension": 278.5741220590759
+          }
+        },
+        "houses": {
+          "ascendant": 192.1790303177795,
+          "cusps": [
+            192.1790303177795,
+            217.32185318249674,
+            248.81591320634476,
+            286.0759197086289,
+            321.47905046456185,
+            350.03419612043774,
+            12.179030317779507,
+            37.32185318249674,
+            68.81591320634476,
+            106.07591970862887,
+            141.47905046456185,
+            170.03419612043777
+          ],
+          "midheaven": 106.07591970862887
+        },
+        "julianDay": 2455197.5,
+        "obliquity": 23.438762698578238,
+        "omittedFactors": [],
+        "skippedFactors": []
+      }
+    },
+    {
+      "id": "buenos-aires-1986-regiomontanus",
+      "description": "Southern and western hemisphere, Regiomontanus, true node.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Sun at 1°01′ Cancer, one day after the June solstice.",
+      "verified": false,
+      "input": {
+        "date": "1986-06-22",
+        "timeUT": "18:00:00",
+        "calendar": "gregorian",
+        "latitude": -34.603333,
+        "longitude": -58.381667,
+        "height": 0,
+        "houseSystem": "regiomontanus",
+        "ayanamsha": "tropical",
+        "observerPosition": "geoCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "trueNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": 18.09799288288551,
+            "latitude": -4.685663500262028,
+            "longitude": 76.5223155564714,
+            "longitudeSpeed": 0.08107561263067269,
+            "rightAscension": 75.85492820435753
+          },
+          "jupiter": {
+            "declination": -4.18609085065068,
+            "latitude": -1.1948617446475456,
+            "longitude": 352.21694177907597,
+            "longitudeSpeed": 0.06315584801788267,
+            "rightAscension": 353.32535316676257
+          },
+          "mars": {
+            "declination": -26.04000407777395,
+            "latitude": -4.443606720759956,
+            "longitude": 291.9399547785872,
+            "longitudeSpeed": -0.16682700059984762,
+            "rightAscension": 294.4940288866581
+          },
+          "mercury": {
+            "declination": 21.900192238123093,
+            "latitude": 0.9818794648687863,
+            "longitude": 116.08304728704597,
+            "longitudeSpeed": 1.1202034936107317,
+            "rightAscension": 118.28129300036169
+          },
+          "moon": {
+            "declination": -27.89220051760124,
+            "latitude": -4.8024736606015885,
+            "longitude": 279.50476208988863,
+            "longitudeSpeed": 15.15737038641136,
+            "rightAscension": 280.7298382631244
+          },
+          "neptune": {
+            "declination": -22.25729321311929,
+            "latitude": 1.108912697307325,
+            "longitude": 274.52901241419954,
+            "longitudeSpeed": -0.02686065873500211,
+            "rightAscension": 274.8935623877628
+          },
+          "northNode": {
+            "declination": 10.287877739951648,
+            "latitude": 0,
+            "longitude": 26.673834701426205,
+            "longitudeSpeed": -0.05289188955645566,
+            "rightAscension": 24.745316368169732
+          },
+          "pluto": {
+            "declination": 2.794890127266282,
+            "latitude": 16.816618402065565,
+            "longitude": 214.6765606677014,
+            "longitudeSpeed": -0.012120351650362368,
+            "rightAscension": 217.98741768168486
+          },
+          "saturn": {
+            "declination": -19.113923979699972,
+            "latitude": 1.9818771697190802,
+            "longitude": 244.6032617609619,
+            "longitudeSpeed": -0.06226963080962165,
+            "rightAscension": 243.02276662805914
+          },
+          "sun": {
+            "declination": 23.439120027451168,
+            "latitude": -0.00011289793914735759,
+            "longitude": 91.01339887270368,
+            "longitudeSpeed": 0.9537026212076813,
+            "rightAscension": 91.1045529235291
+          },
+          "uranus": {
+            "declination": -23.153091972159974,
+            "latitude": -0.09268494089174895,
+            "longitude": 259.9266806809413,
+            "longitudeSpeed": -0.03992009818784207,
+            "rightAscension": 259.03381715492895
+          },
+          "venus": {
+            "declination": 20.09657897780931,
+            "latitude": 1.9353235008825191,
+            "longitude": 128.16406267031127,
+            "longitudeSpeed": 1.1676141243275062,
+            "rightAscension": 131.11717394933927
+          }
+        },
+        "houses": {
+          "ascendant": 226.76790427807637,
+          "cusps": [
+            226.76790427807637,
+            257.9058011798435,
+            279.82791009233654,
+            300.0555876410119,
+            325.3779948736634,
+            3.2940920363922714,
+            46.767904278076344,
+            77.90580117984348,
+            99.82791009233654,
+            120.05558764101193,
+            145.37799487366337,
+            183.29409203639227
+          ],
+          "midheaven": 120.05558764101193
+        },
+        "julianDay": 2446604.25,
+        "obliquity": 23.443119006679602,
+        "omittedFactors": [],
+        "skippedFactors": []
+      }
+    },
+    {
+      "id": "tromso-1999-placidus-polar",
+      "description": "Above the polar circle: Placidus cannot be calculated, Porphyry is used instead.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Cusps 1 and 4 coincide with Ascendant and IC, as expected for Porphyry.",
+      "verified": false,
+      "input": {
+        "date": "1999-12-21",
+        "timeUT": "12:00:00",
+        "calendar": "gregorian",
+        "latitude": 69.649167,
+        "longitude": 18.955278,
+        "height": 0,
+        "houseSystem": "placidus",
+        "ayanamsha": "tropical",
+        "observerPosition": "geoCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "meanNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": -18.026480584922847,
+            "latitude": 4.009725249393817,
+            "longitude": 250.3254300289955,
+            "longitudeSpeed": 0.12027141870513648,
+            "rightAscension": 249.31744098875865
+          },
+          "jupiter": {
+            "declination": 8.452640490196776,
+            "latitude": -1.319622751828492,
+            "longitude": 25.01104740878921,
+            "longitudeSpeed": 0.003085105102970025,
+            "rightAscension": 23.661126094449376
+          },
+          "mars": {
+            "declination": -16.13214026454783,
+            "latitude": -1.2020064671534263,
+            "longitude": 319.43449927057486,
+            "longitudeSpeed": 0.7748762942504144,
+            "rightAscension": 322.244243930007
+          },
+          "mercury": {
+            "declination": -22.369080618583848,
+            "latitude": 0.23493609115138944,
+            "longitude": 255.07773897587862,
+            "longitudeSpeed": 1.4987628190559323,
+            "rightAscension": 253.8317013672121
+          },
+          "moon": {
+            "declination": 18.086516395824006,
+            "latitude": -4.124996594025312,
+            "longitude": 71.60563285791676,
+            "longitudeSpeed": 15.24804334567098,
+            "rightAscension": 70.66455120447466
+          },
+          "neptune": {
+            "declination": -19.29715147245687,
+            "latitude": 0.2376250761886015,
+            "longitude": 302.8160091457835,
+            "longitudeSpeed": 0.03284022484062942,
+            "rightAscension": 305.04351215883895
+          },
+          "northNode": {
+            "declination": 18.8637139118152,
+            "latitude": 0,
+            "longitude": 125.6230000777091,
+            "longitudeSpeed": -0.05291324428509428,
+            "rightAscension": 127.98884696993534
+          },
+          "pluto": {
+            "declination": -11.353373808488511,
+            "latitude": 10.844738291854327,
+            "longitude": 251.05437835136104,
+            "longitudeSpeed": 0.03749329797353742,
+            "rightAscension": 251.02009307937777
+          },
+          "saturn": {
+            "declination": 12.667963200392926,
+            "latitude": -2.4950125001313967,
+            "longitude": 40.721855675129156,
+            "longitudeSpeed": -0.039024547629268,
+            "rightAscension": 39.098909104289866
+          },
+          "sun": {
+            "declination": -23.4350175380024,
+            "latitude": -4.6479573687203814e-05,
+            "longitude": 269.1631056408431,
+            "longitudeSpeed": 1.017960942768795,
+            "rightAscension": 269.0878591250575
+          },
+          "uranus": {
+            "declination": -17.176622456194092,
+            "latitude": -0.6615019903340341,
+            "longitude": 314.28399791051675,
+            "longitudeSpeed": 0.04496435013419651,
+            "rightAscension": 316.9502782925906
+          },
+          "venus": {
+            "declination": -15.086154736313846,
+            "latitude": 2.2910241681428705,
+            "longitude": 228.3455275853967,
+            "longitudeSpeed": 1.1937307157907235,
+            "rightAscension": 226.54295144193242
+          }
+        },
+        "houses": {
+          "ascendant": 302.4648933521349,
+          "cusps": [
+            302.4648933521349,
+            357.35368855948616,
+            52.242483766837495,
+            107.13127897418877,
+            112.2424837668375,
+            117.35368855948616,
+            122.46489335213488,
+            177.35368855948616,
+            232.2424837668375,
+            287.1312789741888,
+            292.2424837668375,
+            297.35368855948616
+          ],
+          "midheaven": 287.1312789741888
+        },
+        "julianDay": 2451534,
+        "obliquity": 23.437620682696306,
+        "omittedFactors": [],
+        "skippedFactors": []
+      }
+    },
+    {
+      "id": "new-delhi-1947-lahiri-wholesign",
+      "description": "Sidereal zodiac (Lahiri) with whole sign houses.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Sun 27°59′ Cancer, Moon 3°59′ Cancer and Ascendant 7°44′ Taurus agree with the well-known chart of Indian independence (Ascendant 7°46′ Taurus).",
+      "verified": false,
+      "input": {
+        "date": "1947-08-14",
+        "timeUT": "18:30:00",
+        "calendar": "gregorian",
+        "latitude": 28.613889,
+        "longitude": 77.209,
+        "height": 0,
+        "houseSystem": "wholeSign",
+        "ayanamsha": "lahiri",
+        "observerPosition": "geoCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "meanNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": -11.577071605164438,
+            "latitude": 1.360595041010955,
+            "longitude": 190.8825590398312,
+            "longitudeSpeed": 0.0746653289516762,
+            "rightAscension": 212.22378889269257
+          },
+          "jupiter": {
+            "declination": -16.657170953808144,
+            "latitude": 0.8509618326659141,
+            "longitude": 205.87768511101694,
+            "longitudeSpeed": 0.08535030557415126,
+            "rightAscension": 226.7859123973407
+          },
+          "mars": {
+            "declination": 23.694348755304187,
+            "latitude": 0.24815116476869123,
+            "longitude": 67.45623770035655,
+            "longitudeSpeed": 0.6577317396935003,
+            "rightAscension": 90.63127026181004
+          },
+          "mercury": {
+            "declination": 19.328725638854902,
+            "latitude": 0.773369110930219,
+            "longitude": 103.67427725281394,
+            "longitudeSpeed": 1.8047723786987624,
+            "rightAscension": 129.3968965763789
+          },
+          "moon": {
+            "declination": 24.928583649051692,
+            "latitude": 4.267247373177137,
+            "longitude": 93.98356844148695,
+            "longitudeSpeed": 15.08660397191241,
+            "rightAscension": 120.06923374909056
+          },
+          "neptune": {
+            "declination": -2.132569982286606,
+            "latitude": 1.4891613179065255,
+            "longitude": 165.707323011002,
+            "longitudeSpeed": 0.02711216156985267,
+            "rightAscension": 188.6971801879695
+          },
+          "northNode": {
+            "declination": 19.764091960079337,
+            "latitude": -1.4737133645013782e-15,
+            "longitude": 35.06972472598885,
+            "longitudeSpeed": -0.052992088223688234,
+            "rightAscension": 55.9391184605712
+          },
+          "pluto": {
+            "declination": 23.363457503239452,
+            "latitude": 6.803549343275162,
+            "longitude": 110.10796678042757,
+            "longitudeSpeed": 0.029726676510225345,
+            "rightAscension": 137.80357968009338
+          },
+          "saturn": {
+            "declination": 17.46867417644986,
+            "latitude": 0.7513748532539123,
+            "longitude": 110.47305059342082,
+            "longitudeSpeed": 0.1278086637086241,
+            "rightAscension": 136.28875576149693
+          },
+          "sun": {
+            "declination": 14.466469099454134,
+            "latitude": 2.590387116572811e-05,
+            "longitude": 117.98901720558105,
+            "longitudeSpeed": 0.9608982659420144,
+            "rightAscension": 143.4992189743476
+          },
+          "uranus": {
+            "declination": 23.475526869221856,
+            "latitude": 0.116165514581667,
+            "longitude": 62.05340957630884,
+            "longitudeSpeed": 0.03887052408588744,
+            "rightAscension": 84.73868423562786
+          },
+          "venus": {
+            "declination": 17.204446334671935,
+            "latitude": 1.1145606742543859,
+            "longitude": 112.56119550866673,
+            "longitudeSpeed": 1.23503931130567,
+            "rightAscension": 138.4915200472556
+          }
+        },
+        "houses": {
+          "ascendant": 37.73226410340526,
+          "cusps": [
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            210,
+            240,
+            270,
+            300,
+            330,
+            0
+          ],
+          "midheaven": 291.45325988519284
+        },
+        "julianDay": 2432412.2708333335,
+        "obliquity": 23.447464701581854,
+        "omittedFactors": [],
+        "skippedFactors": []
+      }
+    },
+    {
+      "id": "london-1600-julian-koch-topocentric",
+      "description": "Julian calendar date, topocentric observer at 20 m height, Koch houses.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Sun at 0°08′ Aries agrees with the equinox: 10 March 1600 Julian is 20 March Gregorian.",
+      "verified": false,
+      "input": {
+        "date": "1600-03-10",
+        "timeUT": "12:00:00",
+        "calendar": "julian",
+        "latitude": 51.507222,
+        "longitude": -0.1275,
+        "height": 20,
+        "houseSystem": "koch",
+        "ayanamsha": "tropical",
+        "observerPosition": "topoCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "meanNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": 13.286940685513091,
+            "latitude": -7.2908928052628506,
+            "longitude": 118.88473371390364,
+            "longitudeSpeed": -0.01584823401401536,
+            "rightAscension": 119.49333462698043
+          },
+          "jupiter": {
+            "declination": 18.169349537168497,
+            "latitude": 1.059850045958985,
+            "longitude": 132.28414300441594,
+            "longitudeSpeed": -0.05399157686269973,
+            "rightAscension": 135.071932975756
+          },
+          "mars": {
+            "declination": 23.39146449368918,
+            "latitude": 3.211014641972416,
+            "longitude": 119.72280203963103,
+            "longitudeSpeed": 0.13197196608416562,
+            "rightAscension": 122.63962769609294
+          },
+          "mercury": {
+            "declination": -10.895988008645626,
+            "latitude": -2.253019804886899,
+            "longitude": 337.41566298515454,
+            "longitudeSpeed": 1.5015666616591261,
+            "rightAscension": 339.97437275433214
+          },
+          "moon": {
+            "declination": 25.441660526931,
+            "latitude": 2.8737956262187407,
+            "longitude": 74.47971979704292,
+            "longitudeSpeed": 13.120705073106365,
+            "rightAscension": 72.78593774483774
+          },
+          "neptune": {
+            "declination": 13.54747112990846,
+            "latitude": 0.6181107450026536,
+            "longitude": 145.74664523455183,
+            "longitudeSpeed": -0.021533921739091966,
+            "rightAscension": 148.2294570752955
+          },
+          "northNode": {
+            "declination": -20.74921678717592,
+            "latitude": 0,
+            "longitude": 297.2847539794711,
+            "longitudeSpeed": -0.05292969518677637,
+            "rightAscension": 299.3542500910917
+          },
+          "pluto": {
+            "declination": -6.84828993725531,
+            "latitude": -16.704299737797246,
+            "longitude": 22.216867571578955,
+            "longitudeSpeed": 0.021767148989937368,
+            "rightAscension": 26.73906620306234
+          },
+          "saturn": {
+            "declination": -7.881757271708444,
+            "latitude": 2.7509456638981074,
+            "longitude": 207.06136213742025,
+            "longitudeSpeed": -0.06266270972332677,
+            "rightAscension": 206.10663932217793
+          },
+          "sun": {
+            "declination": 0.052397797040298406,
+            "latitude": -0.0016851181116655913,
+            "longitude": 0.13532163108062187,
+            "longitudeSpeed": 0.9809086192569261,
+            "rightAscension": 0.12477683543748311
+          },
+          "uranus": {
+            "declination": 10.837121377105532,
+            "latitude": -0.4853363400611295,
+            "longitude": 29.417188986327783,
+            "longitudeSpeed": 0.05175123542144888,
+            "rightAscension": 27.519742102612593
+          },
+          "venus": {
+            "declination": -15.64901421073996,
+            "latitude": 0.7796390628373537,
+            "longitude": 314.9237809480874,
+            "longitudeSpeed": 1.0943720056388884,
+            "rightAscension": 317.1621858062527
+          }
+        },
+        "houses": {
+          "ascendant": 115.21663371402306,
+          "cusps": [
+            115.21663371402306,
+            136.35991921799828,
+            157.06772767144577,
+            177.9139025253627,
+            237.85972367886612,
+            271.4255096093373,
+            295.21663371402303,
+            316.35991921799825,
+            337.06772767144577,
+            357.9139025253627,
+            57.85972367886612,
+            91.42550960933731
+          ],
+          "midheaven": 357.9139025253627
+        },
+        "julianDay": 2305527,
+        "obliquity": 23.492570189602876,
+        "omittedFactors": [],
+        "skippedFactors": []
+      }
+    },
+    {
+      "id": "enschede-2026-heliocentric",
+      "description": "Heliocentric: factors that have no meaning for a heliocentric chart are skipped and listed in skippedFactors.",
+      "source": "Baseline recorded from EnigmaApl on 2026-11-08 (Swiss Ephemeris via AstronCalcOrchestrator); not yet checked against an independent source. Sun, Moon and North Node are skipped for a heliocentric chart.",
+      "verified": false,
+      "input": {
+        "date": "2026-01-01",
+        "timeUT": "00:00:00",
+        "calendar": "gregorian",
+        "latitude": 52.21805555555556,
+        "longitude": 6.895555555555555,
+        "height": 0,
+        "houseSystem": "noHouses",
+        "ayanamsha": "tropical",
+        "observerPosition": "helioCentric",
+        "projectionType": "twoDimensional",
+        "lunarNodeType": "meanNode",
+        "factors": [
+          "sun",
+          "moon",
+          "mercury",
+          "venus",
+          "mars",
+          "jupiter",
+          "saturn",
+          "uranus",
+          "neptune",
+          "pluto",
+          "earth",
+          "northNode",
+          "chiron"
+        ]
+      },
+      "expected": {
+        "factors": {
+          "chiron": {
+            "declination": 10.35554383693784,
+            "latitude": 0.4956556732912188,
+            "longitude": 25.593540813929494,
+            "longitudeSpeed": 0.009975604250203753,
+            "rightAscension": 23.54010997222889
+          },
+          "earth": {
+            "declination": 23.017248251398293,
+            "latitude": -0.0001811778133235872,
+            "longitude": 100.56858701453032,
+            "longitudeSpeed": 1.018868473163309,
+            "rightAscension": 101.49470992754362
+          },
+          "jupiter": {
+            "declination": 22.237794313642286,
+            "latitude": 0.1946231400879019,
+            "longitude": 109.32959162051189,
+            "longitudeSpeed": 0.08277342677294247,
+            "rightAscension": 110.95272849911544
+          },
+          "mars": {
+            "declination": -24.181324377342737,
+            "latitude": -1.5038728190707549,
+            "longitude": 284.1563827058631,
+            "longitudeSpeed": 0.59361228054742,
+            "rightAscension": 285.5453603081707
+          },
+          "mercury": {
+            "declination": -22.350077385552968,
+            "latitude": -1.700178620951097,
+            "longitude": 242.61958067474714,
+            "longitudeSpeed": 2.7865501525151206,
+            "rightAscension": 240.19616294641702
+          },
+          "neptune": {
+            "declination": -0.6889888258238541,
+            "latitude": -1.3400057370853682,
+            "longitude": 1.3590053402290925,
+            "longitudeSpeed": 0.006147302282057076,
+            "rightAscension": 1.7797812286733716
+          },
+          "pluto": {
+            "declination": -23.171056963844585,
+            "latitude": -3.867262646140819,
+            "longitude": 303.32508005931015,
+            "longitudeSpeed": 0.004672906820305937,
+            "rightAscension": 306.6005994214722
+          },
+          "saturn": {
+            "declination": -1.353275398223637,
+            "latitude": -2.3052366924505643,
+            "longitude": 1.9159110635884102,
+            "longitudeSpeed": 0.033677012612540976,
+            "rightAscension": 2.674476846643516
+          },
+          "uranus": {
+            "declination": 19.943028728093207,
+            "latitude": -0.19013943595739574,
+            "longitude": 59.903089164550806,
+            "longitudeSpeed": 0.011471668915498421,
+            "rightAscension": 57.76106328503485
+          },
+          "venus": {
+            "declination": -24.418860759624838,
+            "latitude": -1.18814860221639,
+            "longitude": 277.37931707736317,
+            "longitudeSpeed": 1.582352752708608,
+            "rightAscension": 278.10716392937525
+          }
+        },
+        "julianDay": 2461041.5,
+        "obliquity": 23.438137073294033,
+        "omittedFactors": [],
+        "skippedFactors": ["moon", "northNode", "sun"]
+      }
+    }
+  ]
+}

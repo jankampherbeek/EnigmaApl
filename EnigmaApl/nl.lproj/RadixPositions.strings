@@ -22,3 +22,6 @@
 
 // Helptekst
 "positions.help"                  = "Deze tabellen tonen de standen in lengte en declinatie. Als er voldoende ruimte is zie je ook de breedte, rechte klimming, declinatie, afstand, azimuth en altitude. Alle waarden zijn in graden, minuten en seconden, alleen de afstand is gegeven in AE (Astronomische Eenheden, de gemiddelde afstand tussen Zon en Aarde).";
+
+// Warnings
+"positions.warning.porphyryfallback" = "Het gekozen huizensysteem kan op deze breedte (binnen de poolcirkel) niet worden berekend. De huizen zijn in plaats daarvan berekend met Porphyrius.";

@@ -62,4 +62,6 @@
 "view.radixinputscreen.warning.omittedfactors.title" = "Avertissement";
 "view.radixinputscreen.warning.omittedfactors.confirm" = "Continuer";
 "view.radixinputscreen.warning.omittedfactors.cancel" = "Annuler";
+"view.radixinputscreen.warning.skippedfactors.helio" = "Les facteurs suivants n'ont pas de sens dans un horoscope héliocentrique et sont ignorés: %@";
+"view.radixinputscreen.warning.porphyryfallback" = "Le système de maisons choisi ne peut pas être calculé à cette latitude (à l'intérieur du cercle polaire). Les maisons ont été calculées avec Porphyre à la place.";
 "view.radixinputscreen.warning.dstuncertain" = "Avertissement : avant 1967, l'heure d'été n'était pas obligatoire au niveau fédéral aux États-Unis. Vérifiez votre source et décochez l'heure d'été si l'heure enregistrée est l'heure standard.";

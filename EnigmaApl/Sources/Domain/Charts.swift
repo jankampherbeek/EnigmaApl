@@ -10,7 +10,11 @@ public struct FullChart {
     public let SiderealTime: Double
     public let JulianDay: Double
     public let Obliquity: Double
+    /// Factors that could not be calculated, e.g. because the date is outside the range of the ephemeris.
     public let omittedFactors: [Factors]
+    /// Factors that were requested but have no meaning for the observer position,
+    /// e.g. Sun, Moon and lunar nodes in a heliocentric chart. They are not calculated.
+    public let skippedFactors: [Factors]
 
     public init(
         Coordinates: [Factors: FullFactorPosition],
@@ -18,7 +22,8 @@ public struct FullChart {
         SiderealTime: Double,
         JulianDay: Double,
         Obliquity: Double,
-        omittedFactors: [Factors] = []
+        omittedFactors: [Factors] = [],
+        skippedFactors: [Factors] = []
     ) {
         self.Coordinates = Coordinates
         self.HousePositions = HousePositions
@@ -26,5 +31,6 @@ public struct FullChart {
         self.JulianDay = JulianDay
         self.Obliquity = Obliquity
         self.omittedFactors = omittedFactors
+        self.skippedFactors = skippedFactors
     }
 }

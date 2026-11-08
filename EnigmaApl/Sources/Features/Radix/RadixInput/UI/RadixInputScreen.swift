@@ -130,19 +130,38 @@ struct RadixInputScreen: View {
         dstOption = zone.dstUsed ? .dst : .noDST
     }
 
-    private var omittedFactorsMessage: String {
-        guard let chart = inputModel.lastChart, !chart.omittedFactors.isEmpty else { return "" }
-        let names = chart.omittedFactors
+    private func factorNames(_ factors: [Factors]) -> String {
+        factors
             .map { NSLocalizedString($0.localizedName, bundle: .main, comment: "") }
             .joined(separator: ", ")
-        return String(format: ri("view.radixinputscreen.warning.omittedfactors"), names)
+    }
+
+    /// Warnings about the calculated chart: omitted factors, factors skipped for a heliocentric chart
+    /// and houses calculated with Porphyry because the house system fails in the polar regions.
+    private func chartWarnings(for chart: FullChart) -> [String] {
+        var warnings: [String] = []
+        if !chart.omittedFactors.isEmpty {
+            warnings.append(String(format: ri(RadixInputKeys.warningOmittedFactors), factorNames(chart.omittedFactors)))
+        }
+        if !chart.skippedFactors.isEmpty {
+            warnings.append(String(format: ri(RadixInputKeys.warningSkippedFactorsHelio), factorNames(chart.skippedFactors)))
+        }
+        if chart.HousePositions.porphyryFallback {
+            warnings.append(ri(RadixInputKeys.warningPorphyryFallback))
+        }
+        return warnings
+    }
+
+    private var chartWarningsMessage: String {
+        guard let chart = inputModel.lastChart else { return "" }
+        return chartWarnings(for: chart).joined(separator: "\n\n")
     }
 
     private func calculate() {
         guard let modelInput else { return }
         inputModel.calculate(from: modelInput)
         guard let chart = inputModel.lastChart else { return }
-        if !chart.omittedFactors.isEmpty {
+        if !chartWarnings(for: chart).isEmpty {
             showOmittedWarning = true
         } else {
             navigateToResult()
@@ -259,13 +278,12 @@ struct RadixInputScreen: View {
                 if showSaveWarning {
                     Label(ri("view.radixinputscreen.warning.savefailed"), systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange)
                 }
-                if let chart = inputModel.lastChart, !chart.omittedFactors.isEmpty {
-                    let names = chart.omittedFactors
-                        .map { NSLocalizedString($0.localizedName, bundle: .main, comment: "") }
-                        .joined(separator: ", ")
-                    Label(String(format: ri("view.radixinputscreen.warning.omittedfactors"), names), systemImage: "exclamationmark.triangle")
-                        .font(.caption)
-                        .foregroundStyle(.orange)
+                if let chart = inputModel.lastChart {
+                    ForEach(chartWarnings(for: chart), id: \.self) { warning in
+                        Label(warning, systemImage: "exclamationmark.triangle")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
                 }
                 if dstUncertain {
                     Label(ri("view.radixinputscreen.warning.dstuncertain"), systemImage: "exclamationmark.triangle")
@@ -298,11 +316,11 @@ struct RadixInputScreen: View {
             }
         }
         .sheet(isPresented: $showHelp) { RadixChartHelpView() }
-        .alert(ri("view.radixinputscreen.warning.omittedfactors.title"), isPresented: $showOmittedWarning) {
-            Button(ri("view.radixinputscreen.warning.omittedfactors.confirm")) { navigateToResult() }
-            Button(ri("view.radixinputscreen.warning.omittedfactors.cancel"), role: .cancel) { }
+        .alert(ri(RadixInputKeys.warningTitle), isPresented: $showOmittedWarning) {
+            Button(ri(RadixInputKeys.warningConfirm)) { navigateToResult() }
+            Button(ri(RadixInputKeys.warningCancel), role: .cancel) { }
         } message: {
-            Text(omittedFactorsMessage)
+            Text(chartWarningsMessage)
         }
     }
 }

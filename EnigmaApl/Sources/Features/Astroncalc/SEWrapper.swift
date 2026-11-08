@@ -9,6 +9,18 @@ import SwissEphC
 
 // MARK: - Errors
 /// TODO: Implement specific error handling and remove this enum.
+/// Result of a house calculation.
+public struct HouseCalculationResult {
+    /// Cusps, using index 1...12 (1...36 for Gauquelin); index 0 is not used.
+    public let cusps: [Double]
+    /// Ascendant, MC, ARMC, Vertex, equatorial ascendant etc., see `calculateHouses`.
+    public let ascmc: [Double]
+    /// Ascii code of the house system that was actually used.
+    public let houseSystemUsed: Int
+    /// True when the requested house system could not be calculated (polar regions) and Porphyry was used.
+    public let porphyryFallback: Bool
+}
+
 public enum SEError: Error {
     case initializationFailed(String)
     case calculationFailed(String)
@@ -525,42 +537,71 @@ public class SEWrapper {
     ///         ascmc[5] = "co-ascendant" (Walter Koch)
     ///         ascmc[6] = "co-ascendant" (Michael Munkasey)
     ///         ascmc[7] = "polar ascendant" (M. Munkasey)
-    public func calculateHouses(julianDay: Double, latitude: Double, longitude: Double, houseSystem: Int) throws -> ([Double], [Double]) {
+    /// Convenience variant that returns only the cusps and the ascmc array; see `calculateHouseResult`.
+    public func calculateHouses(julianDay: Double, latitude: Double, longitude: Double, houseSystem: Int,
+                                sidereal: Bool = false) throws -> ([Double], [Double]) {
+        let result = try calculateHouseResult(julianDay: julianDay, latitude: latitude, longitude: longitude,
+                                              houseSystem: houseSystem, sidereal: sidereal)
+        return (result.cusps, result.ascmc)
+    }
 
-        let gauquelinIndex = 71
-        let nrOfHouses = houseSystem == gauquelinIndex ? 36 : 12
-        var cusps = [Double](repeating: 0.0, count: nrOfHouses + 1) // 12 or 36 houses + 1 extra
-        var ascmc = [Double](repeating: 0.0, count: 10)
-        
-        guard isInitialized else { return (cusps, ascmc) }
-        
-        // Ensure maximum precision by storing in a local variable with explicit type
-        let preciseJulianDay: Double = julianDay
-        let preciseLatitude: Double = latitude
-        let preciseLongitude: Double = longitude
-        
-        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
-        // This prevents EXC_BAD_ACCESS errors from invalid pointer access
-        var returnCode: Int32 = 0
-        
-        cusps.withUnsafeMutableBufferPointer { cuspsBuffer in
-            ascmc.withUnsafeMutableBufferPointer { ascmcBuffer in
-                // Ensure all base addresses are non-nil before calling C function
-                guard let cuspsPtr = cuspsBuffer.baseAddress,
-                      let ascmcPtr = ascmcBuffer.baseAddress else {
-                    Logger.log.error("Failed to get valid pointers for house calculation")
-                    return
-                }
-                
-                returnCode = swe_houses(preciseJulianDay, preciseLatitude, preciseLongitude, Int32(houseSystem), cuspsPtr, ascmcPtr)
-            }
+    /// Calculates house cusps, Ascendant, MC etc.
+    /// - Parameters:
+    ///     - sidereal: true for sidereal longitudes; the ayanamsha must have been set with `setAyanamsha` before.
+    ///       All longitudes, including Ascendant and MC, are then sidereal; ARMC is not affected.
+    /// - Returns: the result. Some house systems (e.g. Placidus and Koch) cannot be calculated within the polar
+    ///   circles; Porphyry is then used and `porphyryFallback` is true. Ascendant and MC are always calculated.
+    /// - Throws: `SEError.houseCalculationFailed` when even Porphyry cannot be calculated.
+    public func calculateHouseResult(julianDay: Double, latitude: Double, longitude: Double, houseSystem: Int,
+                                     sidereal: Bool = false) throws -> HouseCalculationResult {
+        let flags: Int32 = sidereal ? SEWrapper.seFlagSidereal : 0
+        let (returnCode, cusps, ascmc) = housesEx(julianDay: julianDay, flags: flags, latitude: latitude,
+                                                  longitude: longitude, houseSystem: houseSystem)
+        if returnCode >= 0 {
+            return HouseCalculationResult(cusps: cusps, ascmc: ascmc, houseSystemUsed: houseSystem, porphyryFallback: false)
         }
-            
-        guard returnCode >= 0 else {
+        guard houseSystem != SEWrapper.porphyryId else {
             Logger.log.error("Error calculating houses (return code: \(returnCode))")
             throw SEError.houseCalculationFailed(returnCode)
         }
-        return (cusps, ascmc)
+        Logger.log.info("House system '\(Character(UnicodeScalar(UInt8(clamping: houseSystem))))' cannot be calculated for latitude \(latitude), using Porphyry")
+        let (fallbackCode, fallbackCusps, fallbackAscmc) = housesEx(julianDay: julianDay, flags: flags, latitude: latitude,
+                                                                    longitude: longitude, houseSystem: SEWrapper.porphyryId)
+        guard fallbackCode >= 0 else {
+            Logger.log.error("Error calculating houses with Porphyry fallback (return code: \(fallbackCode))")
+            throw SEError.houseCalculationFailed(fallbackCode)
+        }
+        return HouseCalculationResult(cusps: fallbackCusps, ascmc: fallbackAscmc, houseSystemUsed: SEWrapper.porphyryId, porphyryFallback: true)
+    }
+
+    /// SEFLG_SIDEREAL
+    static let seFlagSidereal: Int32 = 64 * 1024
+    /// Ascii code of 'O' (Porphyry).
+    static let porphyryId = 79
+    private static let gauquelinId = 71
+
+    /// Calls swe_houses_ex; cusps uses index 1...12 (1...36 for Gauquelin).
+    private func housesEx(julianDay: Double, flags: Int32, latitude: Double, longitude: Double,
+                          houseSystem: Int) -> (Int32, [Double], [Double]) {
+        let nrOfHouses = houseSystem == SEWrapper.gauquelinId ? 36 : 12
+        var cusps = [Double](repeating: 0.0, count: nrOfHouses + 1) // 12 or 36 houses + 1 extra
+        var ascmc = [Double](repeating: 0.0, count: 10)
+        guard isInitialized else { return (0, cusps, ascmc) }
+
+        var returnCode: Int32 = 0
+        // Use withUnsafeMutableBufferPointer to ensure proper memory handling when passing arrays to C function
+        cusps.withUnsafeMutableBufferPointer { cuspsBuffer in
+            ascmc.withUnsafeMutableBufferPointer { ascmcBuffer in
+                guard let cuspsPtr = cuspsBuffer.baseAddress,
+                      let ascmcPtr = ascmcBuffer.baseAddress else {
+                    Logger.log.error("Failed to get valid pointers for house calculation")
+                    returnCode = -1
+                    return
+                }
+                returnCode = swe_houses_ex(julianDay, flags, latitude, longitude, Int32(houseSystem), cuspsPtr, ascmcPtr)
+            }
+        }
+        return (returnCode, cusps, ascmc)
     }
 
     // MARK: - House Calculation from ARMC
@@ -593,13 +634,22 @@ public class SEWrapper {
     ///         ascmc[6] = "co-ascendant" (Michael Munkasey)
     ///         ascmc[7] = "polar ascendant" (M. Munkasey)
     public func calculateHousesArmc(armc: Double, latitude: Double, obliquity: Double, houseSystem: Int) throws -> ([Double], [Double]) {
+        let result = try calculateHouseResultArmc(armc: armc, latitude: latitude, obliquity: obliquity, houseSystem: houseSystem)
+        return (result.cusps, result.ascmc)
+    }
+
+    /// Same as `calculateHousesArmc`, but also tells whether Porphyry was used because the requested
+    /// house system cannot be calculated for this latitude (polar regions).
+    public func calculateHouseResultArmc(armc: Double, latitude: Double, obliquity: Double, houseSystem: Int) throws -> HouseCalculationResult {
 
         let gauquelinIndex = 71
         let nrOfHouses = houseSystem == gauquelinIndex ? 36 : 12
         var cusps = [Double](repeating: 0.0, count: nrOfHouses + 1) // 12 or 36 houses + 1 extra
         var ascmc = [Double](repeating: 0.0, count: 10)
 
-        guard isInitialized else { return (cusps, ascmc) }
+        guard isInitialized else {
+            return HouseCalculationResult(cusps: cusps, ascmc: ascmc, houseSystemUsed: houseSystem, porphyryFallback: false)
+        }
 
         // Ensure maximum precision by storing in a local variable with explicit type
         let preciseArmc: Double = armc
@@ -624,10 +674,16 @@ public class SEWrapper {
         }
 
         guard returnCode >= 0 else {
+            // Some house systems (e.g. Placidus and Koch) cannot be calculated within the polar circles: use Porphyry.
+            if houseSystem != SEWrapper.porphyryId {
+                Logger.log.info("House system '\(Character(UnicodeScalar(UInt8(clamping: houseSystem))))' cannot be calculated from ARMC for latitude \(latitude), using Porphyry")
+                let fallback = try calculateHouseResultArmc(armc: armc, latitude: latitude, obliquity: obliquity, houseSystem: SEWrapper.porphyryId)
+                return HouseCalculationResult(cusps: fallback.cusps, ascmc: fallback.ascmc, houseSystemUsed: SEWrapper.porphyryId, porphyryFallback: true)
+            }
             Logger.log.error("Error calculating houses from ARMC (return code: \(returnCode))")
             throw SEError.houseCalculationFailed(returnCode)
         }
-        return (cusps, ascmc)
+        return HouseCalculationResult(cusps: cusps, ascmc: ascmc, houseSystemUsed: houseSystem, porphyryFallback: false)
     }
 
 

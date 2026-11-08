@@ -13,24 +13,31 @@ final class PersistenceController {
     let container: ModelContainer
 
     private init() {
+        // Tests (unit, integration and UI) never open the database of the user.
+        do {
+            container = try Self.makeContainer(inMemory: AppEnvironment.usesInMemoryStore)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }
+
+    /// Creates a container with the complete schema and migration plan of the app.
+    /// Integration tests use `inMemory: true` to get a fresh, empty database.
+    static func makeContainer(inMemory: Bool) throws -> ModelContainer {
         let schema = Schema(versionedSchema: SchemaV1.self)
 
         // Switch to cloudKitDatabase: .automatic once the iCloud capability is configured in Xcode.
         let configuration = ModelConfiguration(
             schema: schema,
-            isStoredInMemoryOnly: false,
+            isStoredInMemoryOnly: inMemory,
             cloudKitDatabase: .none
         )
 
-        do {
-            container = try ModelContainer(
-                for: schema,
-                migrationPlan: AppMigrationPlan.self,
-                configurations: configuration
-            )
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
+        return try ModelContainer(
+            for: schema,
+            migrationPlan: AppMigrationPlan.self,
+            configurations: configuration
+        )
     }
 
     /// In-memory container for use in SwiftUI previews and unit tests.

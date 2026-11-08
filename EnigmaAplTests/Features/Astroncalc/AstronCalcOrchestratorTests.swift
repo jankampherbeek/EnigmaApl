@@ -16,11 +16,12 @@ struct AstronCalcOrchestratorTests {
     private let julianDay    = 2455197.5
     private let geoLat       = 52.21805555555556
     private let geoLon       = 6.895555555555555
-    private let houseSystemId = 82      // Regiomontanus
+    private let houseSystem   = HouseSystems.regiomontanus
+    private var houseSystemId: Int { Int(houseSystem.seId.asciiValue ?? 82) }   // 82 = 'R'
 
     private func makeConfig() -> CalculationConfig {
         CalculationConfig(
-            houseSystem: HouseSystems(rawValue: houseSystemId) ?? .noHouses,
+            houseSystem: houseSystem,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
@@ -239,7 +240,8 @@ struct AstronCalcOrchestratorTests {
         let julianDay = 2455197.5
         let latitude = 52.21805555555556
         let longitude = 6.895555555555555
-        let houseSystem = 82  // ASCII for 'R' (Regiomontanus)
+        let houseSystem = HouseSystems.regiomontanus
+        let houseSystemId = Int(houseSystem.seId.asciiValue ?? 82)  // 82 = 'R'
         let seFlags = 258
         
         // Expected longitudes (converted from comma to period decimal separator)
@@ -299,7 +301,7 @@ struct AstronCalcOrchestratorTests {
         
         // Create CalculationConfig with default values
         let configData = CalculationConfig(
-            houseSystem: HouseSystems(rawValue: houseSystem) ?? .noHouses,
+            houseSystem: houseSystem,
             ayanamsha: .tropical,
             observerPosition: .geoCentric,
             projectionType: .twoDimensional,
@@ -311,7 +313,7 @@ struct AstronCalcOrchestratorTests {
         let request = CalcRequest(
             JulianDay: julianDay,
             FactorsToUse: factorsToUse,
-            HouseSystem: houseSystem,
+            HouseSystem: houseSystemId,
             Latitude: latitude,
             Longitude: longitude,
             Height: 0.0,

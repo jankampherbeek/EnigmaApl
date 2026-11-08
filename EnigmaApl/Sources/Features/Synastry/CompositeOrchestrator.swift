@@ -18,10 +18,13 @@ struct CompositeOrchestrator {
         case referenceLocation(latitude: Double, longitude: Double)
     }
 
+    /// - Parameter ayanamsha: the zodiac of the charts. For a sidereal zodiac the longitudes are
+    ///   converted back to tropical before deriving right ascension, declination and ARMC.
     static func calculate(
         charts: [FullChart],
         houseSystem: Int,
         method: HouseMethod,
+        ayanamsha: Ayanamshas = .tropical,
         seWrapper: SEWrapper
     ) -> FullChart {
         precondition(charts.count >= 2, "Composite chart needs at least two charts")
@@ -29,8 +32,20 @@ struct CompositeOrchestrator {
         let obliquity = charts.map { $0.Obliquity }.reduce(0, +) / count
         let julianDay = charts.map { $0.JulianDay }.reduce(0, +) / count
 
-        let (coordinates, omittedFactors) = compositeCoordinates(charts: charts, obliquity: obliquity, seWrapper: seWrapper)
-        let housePositions = compositeHousePositions(charts: charts, obliquity: obliquity, julianDay: julianDay, houseSystem: houseSystem, method: method, seWrapper: seWrapper)
+        // tropical longitude = sidereal longitude + ayanamshaOffset. The ayanamsha changes almost linearly
+        // with time, so its value at the mean Julian day equals the mean of the values for the charts.
+        var ayanamshaOffset = 0.0
+        if ayanamsha != .tropical {
+            seWrapper.setAyanamsha(idAyanamsha: ayanamsha.seId)
+            ayanamshaOffset = seWrapper.getAyanamshaOffset(jdUt: julianDay)
+        }
+
+        let (coordinates, omittedFactors) = compositeCoordinates(charts: charts, obliquity: obliquity, ayanamshaOffset: ayanamshaOffset, seWrapper: seWrapper)
+        let housePositions = compositeHousePositions(charts: charts, obliquity: obliquity, julianDay: julianDay, houseSystem: houseSystem, method: method, ayanamshaOffset: ayanamshaOffset, seWrapper: seWrapper)
+        var skippedFactors: [Factors] = []
+        for factor in charts.flatMap(\.skippedFactors) where !skippedFactors.contains(factor) {
+            skippedFactors.append(factor)
+        }
 
         return FullChart(
             Coordinates: coordinates,
@@ -38,7 +53,8 @@ struct CompositeOrchestrator {
             SiderealTime: housePositions.midheaven.rightAscension / 15.0,
             JulianDay: julianDay,
             Obliquity: obliquity,
-            omittedFactors: omittedFactors
+            omittedFactors: omittedFactors,
+            skippedFactors: skippedFactors
         )
     }
 
@@ -47,6 +63,7 @@ struct CompositeOrchestrator {
     private static func compositeCoordinates(
         charts: [FullChart],
         obliquity: Double,
+        ayanamshaOffset: Double,
         seWrapper: SEWrapper
     ) -> (coordinates: [Factors: FullFactorPosition], omittedFactors: [Factors]) {
         var coordinates: [Factors: FullFactorPosition] = [:]
@@ -74,7 +91,8 @@ struct CompositeOrchestrator {
                 mainPos: longitude, deviation: latitude, distance: distance,
                 mainPosSpeed: mainSpeed, deviationSpeed: devSpeed, distanceSpeed: distSpeed
             )
-            let (ra, dec) = seWrapper.eclipticToEquatorial(eclipticCoordinates: [longitude, latitude], obliquity: obliquity)
+            let tropicalLongitude = tropical(longitude, ayanamshaOffset)
+            let (ra, dec) = seWrapper.eclipticToEquatorial(eclipticCoordinates: [tropicalLongitude, latitude], obliquity: obliquity)
             let equatorial = MainAstronomicalPosition(mainPos: ra, deviation: dec, distance: distance)
 
             coordinates[factor] = FullFactorPosition(
@@ -95,11 +113,13 @@ struct CompositeOrchestrator {
         julianDay: Double,
         houseSystem: Int,
         method: HouseMethod,
+        ayanamshaOffset: Double,
         seWrapper: SEWrapper
     ) -> HousePositions {
 
+        /// - Parameter longitude: longitude in the zodiac of the charts (tropical or sidereal).
         func cuspPosition(longitude: Double, geo: (latitude: Double, longitude: Double)?) -> FullCuspPosition {
-            let (ra, dec) = seWrapper.eclipticToEquatorial(eclipticCoordinates: [longitude, 0.0], obliquity: obliquity)
+            let (ra, dec) = seWrapper.eclipticToEquatorial(eclipticCoordinates: [tropical(longitude, ayanamshaOffset), 0.0], obliquity: obliquity)
             guard let geo else {
                 return FullCuspPosition(longitude: longitude, rightAscension: ra, declination: dec, horizontal: HorizontalPosition(azimuth: 0.0, altitude: 0.0))
             }
@@ -124,7 +144,8 @@ struct CompositeOrchestrator {
                 ascendant: meanCusp(charts.map { $0.HousePositions.ascendant.longitude }),
                 midheaven: meanCusp(charts.map { $0.HousePositions.midheaven.longitude }),
                 eastpoint: meanCusp(charts.map { $0.HousePositions.eastpoint.longitude }),
-                vertex: meanCusp(charts.map { $0.HousePositions.vertex.longitude })
+                vertex: meanCusp(charts.map { $0.HousePositions.vertex.longitude }),
+                porphyryFallback: charts.contains { $0.HousePositions.porphyryFallback }
             )
         }
 
@@ -134,23 +155,38 @@ struct CompositeOrchestrator {
 
         case .referenceLocation(let latitude, let longitude):
             let mcLongitude = MidpointsCalculator.circularMean(charts.map { $0.HousePositions.midheaven.longitude })
-            let armc = seWrapper.eclipticToEquatorial(eclipticCoordinates: [mcLongitude, 0.0], obliquity: obliquity).rightAscension
+            let armc = seWrapper.eclipticToEquatorial(eclipticCoordinates: [tropical(mcLongitude, ayanamshaOffset), 0.0], obliquity: obliquity).rightAscension
             let geo = (latitude: latitude, longitude: longitude)
 
-            guard let (rawCusps, ascmc) = try? seWrapper.calculateHousesArmc(armc: armc, latitude: latitude, obliquity: obliquity, houseSystem: houseSystem),
-                  rawCusps.count >= 13, ascmc.count >= 5 else {
+            guard let result = try? seWrapper.calculateHouseResultArmc(armc: armc, latitude: latitude, obliquity: obliquity, houseSystem: houseSystem),
+                  result.cusps.count >= 13, result.ascmc.count >= 5 else {
                 // Fall back to the plain midpoint houses if the SE call fails.
                 return midpointsOnlyHousePositions()
             }
+            // swe_houses_armc returns tropical longitudes; convert them to the zodiac of the charts.
+            func position(_ tropicalLongitude: Double) -> FullCuspPosition {
+                cuspPosition(longitude: zodiacal(tropicalLongitude, ayanamshaOffset), geo: geo)
+            }
 
-            let cusps = (1...12).map { cuspPosition(longitude: rawCusps[$0], geo: geo) }
+            let cuspCount = result.cusps.count - 1
             return HousePositions(
-                cusps: cusps,
-                ascendant: cuspPosition(longitude: ascmc[0], geo: geo),
-                midheaven: cuspPosition(longitude: ascmc[1], geo: geo),
-                eastpoint: cuspPosition(longitude: ascmc[4], geo: geo),
-                vertex: cuspPosition(longitude: ascmc[3], geo: geo)
+                cusps: (1...cuspCount).map { position(result.cusps[$0]) },
+                ascendant: position(result.ascmc[0]),
+                midheaven: position(result.ascmc[1]),
+                eastpoint: position(result.ascmc[4]),
+                vertex: position(result.ascmc[3]),
+                porphyryFallback: result.porphyryFallback
             )
         }
+    }
+
+    // MARK: - Zodiac conversion
+
+    private static func tropical(_ longitude: Double, _ ayanamshaOffset: Double) -> Double {
+        RangeUtil.valueToRange(longitude + ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0)
+    }
+
+    private static func zodiacal(_ tropicalLongitude: Double, _ ayanamshaOffset: Double) -> Double {
+        RangeUtil.valueToRange(tropicalLongitude - ayanamshaOffset, lowerLimit: 0.0, upperLimit: 360.0)
     }
 }

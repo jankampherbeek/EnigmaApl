@@ -11,7 +11,6 @@
 import SwiftUI
 import SwiftData
 import Combine
-import CoreLocation
 
 
 struct RootView: View {
@@ -152,73 +151,10 @@ struct RootView: View {
     }
 
     private func buildStartupChart(config: UserConfiguration?) async {
-        guard composition.chartSession.charts.isEmpty else { return }
-
-        let current = await composition.locationService.fetchCurrentLocation()
-        // onAppear can fire more than once; re-check after the await so only one startup chart is added.
-        guard composition.chartSession.charts.isEmpty else { return }
-
-        // Prefer the current location, then the default location from Settings, then 0° / 0°.
-        let latitude: Double
-        let longitude: Double
-        if let current {
-            latitude = current.latitude
-            longitude = current.longitude
-        } else if let fallback = DefaultLocation.stored {
-            Logger.log.info("Startup chart: no current location available, using the default location '\(fallback.name)'")
-            latitude = fallback.latitude
-            longitude = fallback.longitude
-        } else {
-            Logger.log.warning("Startup chart: no current location and no default location available, using 0° latitude / 0° longitude")
-            latitude = 0.0
-            longitude = 0.0
+        guard !AppEnvironment.skipsStartupChart else { return }
+        if await composition.startupChartModel.addIfNeeded(to: composition.chartSession, config: config) {
+            app.nav.radix.inspector = .positions
         }
-
-        // Take the moment of calculation once, so the UT time and the local offset belong to the same instant.
-        let now = Date()
-        let timeZoneOffsetHours = Double(TimeZone.current.secondsFromGMT(for: now)) / 3600.0
-
-        var utcCalendar = Calendar(identifier: .gregorian)
-        utcCalendar.timeZone = TimeZone(identifier: "UTC")!
-        let comps = utcCalendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
-
-        let astroDate = AstronomicalDate(
-            Year: comps.year ?? 2000,
-            Month: comps.month ?? 1,
-            Day: comps.day ?? 1,
-            Gregorian: true
-        )
-        let astroTime = AstronomicalTime(
-            Hour: comps.hour ?? 0,
-            Minute: comps.minute ?? 0,
-            Second: comps.second ?? 0
-        )
-
-        let calcConfig = config?.calculationConfig ?? CalculationConfig()
-        let factors: [Factors]
-        if let config {
-            factors = config.factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor }
-        } else {
-            factors = [.sun, .moon, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto]
-        }
-
-        let seWrapper = SEWrapper()
-        let jd = seWrapper.julianDay(date: astroDate, time: astroTime)
-
-        let request = CalcRequest(
-            JulianDay: jd,
-            FactorsToUse: factors,
-            HouseSystem: Int(calcConfig.houseSystem.seId.asciiValue ?? 80),
-            Latitude: latitude,
-            Longitude: longitude,
-            Height: 0.0,
-            calculationConfig: calcConfig
-        )
-
-        let chart = AstronCalcOrchestrator.PerformCalculation(request, seWrapper: seWrapper)
-        let chartName = NSLocalizedString(StartupChartKeys.chartName, tableName: "StartupChart", bundle: .main, comment: "")
-        composition.chartSession.add(name: chartName, chart: chart, baseRequest: request, timeZoneOffsetHours: timeZoneOffsetHours)
-        app.nav.radix.inspector = .positions
     }
 }
 

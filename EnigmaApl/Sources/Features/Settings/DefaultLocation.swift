@@ -14,8 +14,9 @@ struct DefaultLocation: Codable, Equatable {
     private static let storageKey = "settings.location.defaultLocation"
 
     /// Stored in UserDefaults rather than in the (syncable) configuration, because it belongs to this Mac.
-    static var stored: DefaultLocation? {
-        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return nil }
+    /// Tests pass their own `UserDefaults(suiteName:)`.
+    static func stored(in defaults: UserDefaults = .standard) -> DefaultLocation? {
+        guard let data = defaults.data(forKey: storageKey) else { return nil }
         guard let location = try? JSONDecoder().decode(DefaultLocation.self, from: data) else {
             Logger.log.warning("DefaultLocation: could not decode the stored default location")
             return nil
@@ -24,15 +25,15 @@ struct DefaultLocation: Codable, Equatable {
     }
 
     /// Stores `location` as the default location; nil removes the setting.
-    static func store(_ location: DefaultLocation?) {
+    static func store(_ location: DefaultLocation?, in defaults: UserDefaults = .standard) {
         guard let location else {
-            UserDefaults.standard.removeObject(forKey: storageKey)
+            defaults.removeObject(forKey: storageKey)
             return
         }
         guard let data = try? JSONEncoder().encode(location) else {
             Logger.log.error("DefaultLocation: could not encode the default location")
             return
         }
-        UserDefaults.standard.set(data, forKey: storageKey)
+        defaults.set(data, forKey: storageKey)
     }
 }

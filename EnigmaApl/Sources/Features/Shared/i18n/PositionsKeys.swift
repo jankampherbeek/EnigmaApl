@@ -21,4 +21,5 @@ struct PositionsKeys {
     static let cuspNumber      = "positions.header.cuspnumber"
     static let empty           = "positions.empty"
     static let help            = "positions.help"
+    static let porphyryFallback = "positions.warning.porphyryfallback"
 }

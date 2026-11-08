@@ -22,3 +22,6 @@
 
 // Hilfetext
 "positions.help"                  = "Diese Tabellen zeigen die Positionen in Länge und Deklination. Bei ausreichendem Platz werden auch Breite, Rektaszension, Deklination, Distanz, Azimut und Höhe angezeigt. Alle Werte sind in Grad, Minuten und Sekunden; nur die Distanz wird in AE (Astronomische Einheiten, der mittlere Abstand zwischen Sonne und Erde) angegeben.";
+
+// Warnings
+"positions.warning.porphyryfallback" = "Das gewählte Häusersystem kann auf dieser Breite (innerhalb des Polarkreises) nicht berechnet werden. Die Häuser wurden stattdessen nach Porphyrius berechnet.";

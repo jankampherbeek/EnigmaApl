@@ -50,6 +50,7 @@ final class AppComposition: ObservableObject {
     let horoscopeRepository: HoroscopeRepository
     let eventRepository: EventRepository
     let locationService: LocationService
+    let startupChartModel: StartupChartModel
 
     init(app: AppState) {
         self.app = app
@@ -60,6 +61,7 @@ final class AppComposition: ObservableObject {
         self.horoscopeRepository = HoroscopeRepository(context: context)
         self.eventRepository = EventRepository(context: context)
         self.locationService = LocationService()
+        self.startupChartModel = StartupChartModel(locationProvider: locationService)
 
         self.radixNav = RadixNavigator(nav: Binding(
             get: { app.nav.radix },

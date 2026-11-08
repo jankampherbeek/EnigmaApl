@@ -95,26 +95,41 @@ public struct SECalculation {
         var ascendant = 0.0
         var vertex = 0.0
         var eastpoint = 0.0
-        
+        var porphyryFallback = false
+        // Difference tropical - sidereal for this calculation, used to convert sidereal longitudes back to
+        // tropical before calculating equatorial and horizontal positions. Taken from the house calculation
+        // itself, because Swiss Ephemeris excludes nutation for sidereal houses.
+        var siderealToTropical = 0.0
+
+        let sidereal = request.calculationConfig.ayanamsha != .tropical
         do {
-            let (houseCusps, ascmc) = try seWrapper.calculateHouses(
+            let tropical = try seWrapper.calculateHouseResult(
                 julianDay: julianDay,
                 latitude: request.Latitude,
                 longitude: request.Longitude,
                 houseSystem: request.HouseSystem
             )
-            
-            // Determine number of houses (cusps array includes index 0, so actual houses start at index 1)
-            let gauquelinIndex = 71
-            let nrOfHouses = request.HouseSystem == gauquelinIndex ? 36 : 12
-            
-            // Convert cusps array to dictionary with cusp numbers as keys (indices 1-12 or 1-36)
-            for index in 1...nrOfHouses {
-                if index < houseCusps.count {
-                    cusps[index] = houseCusps[index]
-                }
+            var result = tropical
+            if sidereal {
+                seWrapper.setAyanamsha(idAyanamsha: request.calculationConfig.ayanamsha.seId)
+                result = try seWrapper.calculateHouseResult(
+                    julianDay: julianDay,
+                    latitude: request.Latitude,
+                    longitude: request.Longitude,
+                    houseSystem: request.HouseSystem,
+                    sidereal: true
+                )
+                siderealToTropical = RangeUtil.valueToRange(tropical.ascmc[0] - result.ascmc[0], lowerLimit: 0.0, upperLimit: 360.0)
             }
-            
+            porphyryFallback = result.porphyryFallback
+            let (houseCusps, ascmc) = (result.cusps, result.ascmc)
+
+            // Cusps array includes index 0, so actual houses start at index 1 (12 cusps, or 36 for Gauquelin;
+            // after a Porphyry fallback always 12).
+            for index in 1..<houseCusps.count {
+                cusps[index] = houseCusps[index]
+            }
+
             // Extract ascendant, midheaven, vertex, and eastpoint from ascmc array
             if ascmc.count > 0 { ascendant = ascmc[0] }
             if ascmc.count > 1 { mc = ascmc[1] }
@@ -124,11 +139,12 @@ public struct SECalculation {
             // If house calculation fails, use default values (already set above)
             Logger.log.warning("House calculation failed: \(error)")
         }
-        
+
         // Convert longitude of houses to full housepositions
         func createFullCuspPosition(eclipticLongitude: Double) -> FullCuspPosition {
-            // Latitude for houses is always zero
-            let eclipticCoords = [eclipticLongitude, 0.0]
+            // Latitude for houses is always zero; equatorial coordinates are based on the tropical longitude.
+            let tropicalLongitude = RangeUtil.valueToRange(eclipticLongitude + siderealToTropical, lowerLimit: 0.0, upperLimit: 360.0)
+            let eclipticCoords = [tropicalLongitude, 0.0]
             let (ra, dec) = seWrapper.eclipticToEquatorial(eclipticCoordinates: eclipticCoords, obliquity: obliquity)
             
             // Calculate horizontal position using equatorial coordinates
@@ -170,7 +186,8 @@ public struct SECalculation {
             ascendant: fullAscendant,
             midheaven: fullMidheaven,
             eastpoint: fullEastpoint,
-            vertex: fullVertex
+            vertex: fullVertex,
+            porphyryFallback: porphyryFallback
         )
     }
     

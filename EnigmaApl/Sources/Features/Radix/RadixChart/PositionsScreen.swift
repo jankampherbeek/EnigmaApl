@@ -57,6 +57,16 @@ struct PositionsScreen: View {
     }
 
     @ViewBuilder
+    private func porphyryFallbackWarning(for chart: FullChart) -> some View {
+        if chart.HousePositions.porphyryFallback {
+            Label(t(PositionsKeys.porphyryFallback), systemImage: "exclamationmark.triangle")
+                .font(.caption)
+                .foregroundStyle(.orange)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    @ViewBuilder
     private func glyphCell(_ factor: Factors, width: CGFloat) -> some View {
         Text(GlyphSelector.getGlyphForFactor(factor))
             .font(.custom("EnigmaAstrology3", size: 18))
@@ -327,6 +337,7 @@ struct PositionsScreen: View {
                             ScrollView(.vertical) {
                                 VStack(alignment: .leading, spacing: 12) {
                                     planetsTableCompact(for: chart)
+                                    porphyryFallbackWarning(for: chart)
                                     cuspsTableCompact(for: chart)
                                 }
                                 .padding()
@@ -336,6 +347,8 @@ struct PositionsScreen: View {
                         ScrollView([.horizontal, .vertical]) {
                             VStack(alignment: .leading, spacing: 12) {
                                 planetsTable(for: chart)
+                                porphyryFallbackWarning(for: chart)
+                                    .frame(width: cuspColumnWidths.reduce(0, +), alignment: .leading)
                                 cuspsTable(for: chart)
                             }
                             .frame(maxWidth: .infinity, alignment: .topLeading)

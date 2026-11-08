@@ -132,6 +132,12 @@ struct SynastryCompositeView: View {
             Text(String(format: t(SynastryKeys.compositeChartTitle), charts.map(\.name).joined(separator: ", ")))
                 .font(.title3.weight(.semibold))
 
+            if chart.HousePositions.porphyryFallback {
+                Label(t(SynastryKeys.compositePorphyryFallback), systemImage: "exclamationmark.triangle")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+
             ChartWheelRouter(
                 chart: chart, chartVersion: UUID(),
                 blackWhite: $blackWhite, hideAspects: $hideAspects,
@@ -175,7 +181,8 @@ struct SynastryCompositeView: View {
     // MARK: - Calculation
 
     private func calculate() {
-        let houseSystem = Int(activeConfigs.first?.calculationConfig.houseSystem.seId.asciiValue ?? 80)
+        let calculationConfig = activeConfigs.first?.calculationConfig ?? CalculationConfig()
+        let houseSystem = Int(calculationConfig.houseSystem.seId.asciiValue ?? 80)
         let houseMethod: CompositeOrchestrator.HouseMethod
         switch method {
         case .midpointsOnly:
@@ -187,7 +194,8 @@ struct SynastryCompositeView: View {
         }
         compositeChart = CompositeOrchestrator.calculate(
             charts: charts.map { $0.chart },
-            houseSystem: houseSystem, method: houseMethod, seWrapper: seWrapper
+            houseSystem: houseSystem, method: houseMethod,
+            ayanamsha: calculationConfig.ayanamsha, seWrapper: seWrapper
         )
     }
 

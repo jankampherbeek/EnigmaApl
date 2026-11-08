@@ -54,11 +54,16 @@ final class ChartSession: ObservableObject {
     func houseCuspLongitudes(for houseSystem: HouseSystems) -> [Double]? {
         guard let named = selected else { return nil }
         let hsInt = Int(houseSystem.seId.asciiValue ?? 75)
+        let ayanamsha = named.baseRequest.calculationConfig.ayanamsha
+        if ayanamsha != .tropical {
+            seWrapper.setAyanamsha(idAyanamsha: ayanamsha.seId)
+        }
         guard let (raw, _) = try? seWrapper.calculateHouses(
             julianDay:   named.chart.JulianDay,
             latitude:    named.baseRequest.Latitude,
             longitude:   named.baseRequest.Longitude,
-            houseSystem: hsInt
+            houseSystem: hsInt,
+            sidereal:    ayanamsha != .tropical
         ), raw.count >= 13 else { return nil }
         return Array(raw[1...12])
     }
