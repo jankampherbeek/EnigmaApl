@@ -37,6 +37,9 @@ struct PreNatalOrchestrator: Sendable {
     // 390.31 prenatal days ≈ 100 years of actual life; end of search window matches C# reference
     private static let MAX_LIFETIME_IN_PRENATAL_DAYS = 390.31
 
+    /// Lunar node type from the calculation configuration; determines mean or true North Node.
+    var lunarNodeType: LunarNodeTypes = .meanNode
+
     static let defaultFactors: [Factors] = [
         .sun, .mercury, .venus, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto
     ]
@@ -298,11 +301,11 @@ struct PreNatalOrchestrator: Sendable {
     // MARK: - Low-level helpers
 
     private func calcLon(_ factor: Factors, _ jd: Double, _ se: SEWrapper) -> Double {
-        se.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2)?.mainPos ?? 0
+        se.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2)?.mainPos ?? 0
     }
 
     private func calcSpeed(_ factor: Factors, _ jd: Double, _ se: SEWrapper) -> Double {
-        se.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2 + 256)?.mainPosSpeed ?? 0
+        se.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2 + 256)?.mainPosSpeed ?? 0
     }
 
     // Returns a signed value that changes sign exactly when the aspect is exact.

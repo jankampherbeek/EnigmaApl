@@ -59,7 +59,7 @@ public struct ParansOrchestrator {
 
         // Calculate transit times for factors.
         let factorTimes: [ParanTimesForBody] = activeFactors.map { factor in
-            paranTimes(body: .factor(factor), ipl: factor.seId, starName: "",
+            paranTimes(body: .factor(factor), ipl: factor.seId(lunarNodeType: calculationConfig.lunarNodeType), starName: "",
                        searchFrom: searchFrom, geoLon: geoLon, geoLat: geoLat,
                        height: height, seWrapper: seWrapper)
         }

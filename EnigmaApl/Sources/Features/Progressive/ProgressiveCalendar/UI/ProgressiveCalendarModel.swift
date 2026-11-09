@@ -155,7 +155,8 @@ final class ProgressiveCalendarModel: ObservableObject {
 
     // MARK: - Calculate
 
-    func calculate(startDateText: String, endDateText: String, natalJD: Double, radixChart: FullChart) {
+    func calculate(startDateText: String, endDateText: String, natalJD: Double, radixChart: FullChart,
+                   lunarNodeType: LunarNodeTypes) {
         guard !isCalculating else { return }
         errorMessage = nil
         inputErrorMessage = nil
@@ -211,9 +212,10 @@ final class ProgressiveCalendarModel: ObservableObject {
 
         Task.detached(priority: .userInitiated) { [natalJD, radixChart, startJD, endJD, selections,
                                                      radixFactorsCopy, aspectsCopy, aspectOrbCopy,
-                                                     parallelOrbCopy, cuspOrbCopy, toggles] in
+                                                     parallelOrbCopy, cuspOrbCopy, toggles, lunarNodeType] in
             let seWrapper = SEWrapper()
-            let orchestrator = ProgressiveCalendarOrchestrator(natalJD: natalJD, radixChart: radixChart, seWrapper: seWrapper)
+            let orchestrator = ProgressiveCalendarOrchestrator(natalJD: natalJD, radixChart: radixChart, seWrapper: seWrapper,
+                                                               lunarNodeType: lunarNodeType)
             let result = orchestrator.findEvents(
                 startJD: startJD, endJD: endJD,
                 selections: selections,

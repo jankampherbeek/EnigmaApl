@@ -340,7 +340,7 @@ public struct AstronCalcOrchestrator {
             let coordSystem: CoordinateSystems = (coordinate == .rightAscension || coordinate == .declination)
                 ? .equatorial : .ecliptical
             let flags = SEFlags.defineFlags(calculationConfig: request.calculationConfig, coordSystem: coordSystem)
-            guard let pos = seWrapper.calculateFactorPosition(julianDay: julianDay, factor: factor.seId, flags: flags) else {
+            guard let pos = seWrapper.calculateFactorPosition(julianDay: julianDay, factor: factor.seId(lunarNodeType: request.calculationConfig.lunarNodeType), flags: flags) else {
                 return (julianDay, 0.0)
             }
             return (julianDay, extractCoordinate(coordinate, from: pos))

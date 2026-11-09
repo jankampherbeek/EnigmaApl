@@ -20,7 +20,7 @@ public struct SECalculation {
         var omittedFactors: [Factors] = []
 
         for factor in request.FactorsToUse {
-            let factorId = factor.seId
+            let factorId = factor.seId(lunarNodeType: request.calculationConfig.lunarNodeType)
 
             // Calculate ecliptical position
             let eclipticalPos = seWrapper.calculateFactorPosition(

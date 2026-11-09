@@ -123,6 +123,13 @@ public enum Factors: Int, CaseIterable, Codable {
         }
     }
     
+    /// Swiss Ephemeris index for this point, honouring the configured lunar node type:
+    /// for the North Node this returns 11 (true node) or 10 (mean node).
+    func seId(lunarNodeType: LunarNodeTypes) -> Int {
+        if self == .northNode { return lunarNodeType == .trueNode ? 11 : 10 }
+        return seId
+    }
+
     /// Swiss Ephemeris index for this point
     var seId: Int {
         switch self {

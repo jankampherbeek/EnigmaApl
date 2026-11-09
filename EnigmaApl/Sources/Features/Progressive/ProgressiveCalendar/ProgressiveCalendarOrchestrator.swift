@@ -23,6 +23,8 @@ struct ProgressiveCalendarOrchestrator {
     private let natalJD: Double
     private let radixChart: FullChart
     private let seWrapper: SEWrapper
+    /// Lunar node type from the calculation configuration; determines mean or true North Node.
+    private let lunarNodeType: LunarNodeTypes
 
     private static let TROPICAL_YEAR_IN_DAYS = 365.242199074
     private static let ZERO_CROSSING_TOLERANCE = 1e-6
@@ -33,10 +35,11 @@ struct ProgressiveCalendarOrchestrator {
     /// angular deviation jumping from +179° to −179°), mirroring `PreNatalOrchestrator`.
     private static let WRAPAROUND_GUARD_SUM = 90.0
 
-    init(natalJD: Double, radixChart: FullChart, seWrapper: SEWrapper) {
+    init(natalJD: Double, radixChart: FullChart, seWrapper: SEWrapper, lunarNodeType: LunarNodeTypes = .meanNode) {
         self.natalJD = natalJD
         self.radixChart = radixChart
         self.seWrapper = seWrapper
+        self.lunarNodeType = lunarNodeType
     }
 
     // MARK: - Public API
@@ -593,19 +596,19 @@ struct ProgressiveCalendarOrchestrator {
     // MARK: - Low-level ephemeris helpers
 
     private func calcLongitude(_ factor: Factors, _ jd: Double) -> Double {
-        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2)?.mainPos ?? 0.0
+        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2)?.mainPos ?? 0.0
     }
 
     private func calcLongitudeSpeed(_ factor: Factors, _ jd: Double) -> Double {
-        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2 + 256)?.mainPosSpeed ?? 0.0
+        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2 + 256)?.mainPosSpeed ?? 0.0
     }
 
     private func calcDeclination(_ factor: Factors, _ jd: Double) -> Double {
-        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2 + 2048)?.deviation ?? 0.0
+        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2 + 2048)?.deviation ?? 0.0
     }
 
     private func calcDeclinationSpeed(_ factor: Factors, _ jd: Double) -> Double {
-        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId, flags: 2 + 256 + 2048)?.deviationSpeed ?? 0.0
+        seWrapper.calculateFactorPosition(julianDay: jd, factor: factor.seId(lunarNodeType: lunarNodeType), flags: 2 + 256 + 2048)?.deviationSpeed ?? 0.0
     }
 
     private func obliquity(at jd: Double) -> Double {

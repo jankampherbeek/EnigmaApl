@@ -28,11 +28,14 @@ final class PreNatalModel: ObservableObject {
 
     private(set) var baseConceptionJD: Double = 0
     private var actualConceptionJD: Double = 0
+    /// Lunar node type from the active calculation configuration, kept for recalculations.
+    private var lunarNodeType: LunarNodeTypes = .meanNode
 
     var hasResults: Bool { !moments.isEmpty }
 
-    func calculate(natalJD: Double) {
+    func calculate(natalJD: Double, lunarNodeType: LunarNodeTypes) {
         guard !isCalculating else { return }
+        self.lunarNodeType = lunarNodeType
 
         let se = SEWrapper()
         baseConceptionJD = natalJD - 273.217
@@ -99,8 +102,10 @@ final class PreNatalModel: ObservableObject {
         let useRD  = self.useRetroDirect
         let conJD  = self.actualConceptionJD
 
-        Task.detached(priority: .userInitiated) { [natalJD, conJD, factors, aspects, useAsp, useEcl, useIng, useRD] in
-            let (resultMoments, _) = PreNatalOrchestrator().calculate(
+        let nodeType = self.lunarNodeType
+
+        Task.detached(priority: .userInitiated) { [natalJD, conJD, factors, aspects, useAsp, useEcl, useIng, useRD, nodeType] in
+            let (resultMoments, _) = PreNatalOrchestrator(lunarNodeType: nodeType).calculate(
                 natalJD: natalJD,
                 conceptionJD: conJD,
                 selectedFactors: factors,

@@ -13,6 +13,8 @@ struct PreNatalInputScreen: View {
     @EnvironmentObject private var chartSession: ChartSession
     @EnvironmentObject private var model: PreNatalModel
     @Environment(\.modelContext) private var modelContext
+    @Query(filter: #Predicate<UserConfiguration> { $0.isActive == true })
+    private var activeConfigs: [UserConfiguration]
 
     @State private var showFactorSheet = false
     @State private var showAspectSheet = false
@@ -176,7 +178,8 @@ struct PreNatalInputScreen: View {
     private var calculateButton: some View {
         Button(t(PreNatalKeys.calculate)) {
             guard let namedChart = chartSession.selected else { return }
-            model.calculate(natalJD: namedChart.baseRequest.JulianDay)
+            let lunarNodeType = activeConfigs.first?.calculationConfig.lunarNodeType ?? .meanNode
+            model.calculate(natalJD: namedChart.baseRequest.JulianDay, lunarNodeType: lunarNodeType)
         }
         .buttonStyle(.borderedProminent)
         .disabled(model.isCalculating || !hasChart)

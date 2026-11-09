@@ -275,7 +275,8 @@ struct ProgressiveCalendarInputScreen: View {
                 startDateText: startDateText,
                 endDateText: endDateText,
                 natalJD: namedChart.baseRequest.JulianDay,
-                radixChart: namedChart.chart
+                radixChart: namedChart.chart,
+                lunarNodeType: activeConfigs.first?.calculationConfig.lunarNodeType ?? .meanNode
             )
         }
         .buttonStyle(.borderedProminent)
