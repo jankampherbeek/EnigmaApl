@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for ZodiacTypes enum values.
-struct ZodiacTypeKeys {
+nonisolated struct ZodiacTypeKeys {
     private init() {}
 
     static let keys: [ZodiacTypes: String] = [

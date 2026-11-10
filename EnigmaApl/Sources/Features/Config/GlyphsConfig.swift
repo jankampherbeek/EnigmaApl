@@ -5,7 +5,7 @@
 import Foundation
 
 /// Glyph selection for a single zodiac sign.
-public struct SignGlyphSetting: Codable, Equatable, Sendable {
+public nonisolated struct SignGlyphSetting: Codable, Equatable, Sendable {
     public let sign: Signs
     public let glyph: String
 
@@ -16,7 +16,7 @@ public struct SignGlyphSetting: Codable, Equatable, Sendable {
 }
 
 /// Glyph selection for a single celestial factor.
-public struct FactorGlyphSetting: Codable, Equatable, Sendable {
+public nonisolated struct FactorGlyphSetting: Codable, Equatable, Sendable {
     public let factor: Factors
     public let glyph: String
 
@@ -27,7 +27,7 @@ public struct FactorGlyphSetting: Codable, Equatable, Sendable {
 }
 
 /// Glyph selection for a single aspect.
-public struct AspectGlyphSetting: Codable, Equatable, Sendable {
+public nonisolated struct AspectGlyphSetting: Codable, Equatable, Sendable {
     public let aspect: Aspects
     public let glyph: String
 
@@ -38,7 +38,7 @@ public struct AspectGlyphSetting: Codable, Equatable, Sendable {
 }
 
 /// Configuration for glyph selections for all signs, factors and aspects.
-public struct GlyphsConfig: Codable, Sendable {
+public nonisolated struct GlyphsConfig: Codable, Sendable {
     public let signGlyphs: [SignGlyphSetting]
     public let factorGlyphs: [FactorGlyphSetting]
     public let aspectGlyphs: [AspectGlyphSetting]
@@ -140,7 +140,6 @@ public struct GlyphsConfig: Codable, Sendable {
         case .parsfortuna:          glyph = "\u{F400}"
         case .logTimeScale:         glyph = "*"
         case .agePoint:             glyph = "*"
-        default:                    glyph = "?"
         }
         return FactorGlyphSetting(factor: factor, glyph: glyph)
     }

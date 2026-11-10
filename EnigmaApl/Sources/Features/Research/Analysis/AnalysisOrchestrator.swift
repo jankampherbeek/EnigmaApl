@@ -5,7 +5,7 @@
 import Foundation
 
 /// Errors thrown by AnalysisOrchestrator.
-enum AnalysisOrchestratorError: Error {
+nonisolated enum AnalysisOrchestratorError: Error {
     case missingResultsFile(String)
     case configDecodingFailed
     case inquiryNotSupported(Inquiries)
@@ -15,7 +15,7 @@ enum AnalysisOrchestratorError: Error {
 }
 
 /// Typed union of all possible analysis results.
-enum AnalysisResult: Sendable {
+nonisolated enum AnalysisResult: Sendable {
     case factorsInSigns(FactorsInSignsResult)
     case factorsInHouses(FactorsInHousesResult)
     case aspects(AspectsResult)
@@ -31,7 +31,7 @@ enum AnalysisResult: Sendable {
 /// Opens `results.bin` (memory-mapped), runs the worker synchronously, and returns the result.
 ///
 /// Call from a background `Task` — the work is synchronous and potentially large.
-struct AnalysisOrchestrator {
+nonisolated struct AnalysisOrchestrator {
 
     init() {}
 

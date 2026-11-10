@@ -219,12 +219,13 @@ private func drawDial45PlanetTexts(_ ctx: inout GraphicsContext, center: CGPoint
 
     for item in data.planetItems {
         let pt   = WheelGeometry.point(angleDeg: item.plotAngle, radius: r, center: center)
-        let text = Text(item.positionText)
+        let positionText = Text(item.positionText)
             .font(.system(size: fontSize))
             .foregroundColor(theme.planetText)
-                 + Text(" " + signGlyph45(for: item.eclipticLongitude))
+        let signText = Text(" " + signGlyph45(for: item.eclipticLongitude))
             .font(.custom("EnigmaAstrology3", size: fontSize))
             .foregroundColor(theme.planetText)
+        let text = Text("\(positionText)\(signText)")
         drawDial45RotatedText(&ctx, text: text, at: pt, angle: item.plotAngle)
     }
 }

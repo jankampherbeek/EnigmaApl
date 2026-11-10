@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for CalculatorsSection enum values.
-struct CalculatorsSectionKeys {
+nonisolated struct CalculatorsSectionKeys {
     private init() {}
 
     static let keys: [CalculatorsSection: String] = [

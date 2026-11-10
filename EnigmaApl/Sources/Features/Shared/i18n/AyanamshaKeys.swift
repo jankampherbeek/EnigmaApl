@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Ayanamshas enum values.
-struct AyanamshaKeys {
+nonisolated struct AyanamshaKeys {
     private init() {}
 
     static let keys: [Ayanamshas: String] = [

@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct CalcRequest {
+public nonisolated struct CalcRequest {
     public let JulianDay: Double
     public let FactorsToUse: [Factors]
     public let HouseSystem: Int

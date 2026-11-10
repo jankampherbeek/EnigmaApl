@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for RadixOverviewScreen, resolved from RadixOverview.strings.
-struct RadixOverviewKeys {
+nonisolated struct RadixOverviewKeys {
     private init() {}
 
     static let title          = "view.radixoverviewscreen.title"

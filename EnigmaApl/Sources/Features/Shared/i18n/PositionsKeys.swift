@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for PositionsScreen, resolved from RadixPositions.strings.
-struct PositionsKeys {
+nonisolated struct PositionsKeys {
     private init() {}
 
     static let length          = "positions.header.length"

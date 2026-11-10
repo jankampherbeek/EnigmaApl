@@ -101,7 +101,7 @@ struct CyclesChartView: View {
                 GeometryReader { geo in
                     Color.clear
                         .onAppear { chartWidth = geo.size.width }
-                        .onChange(of: geo.size.width) { chartWidth = $0 }
+                        .onChange(of: geo.size.width) { _, newWidth in chartWidth = newWidth }
                 }
             )
             .padding([.horizontal, .top])
@@ -329,7 +329,8 @@ struct CyclesChartView: View {
     private func singleGlyphPlacements(proxy: ChartProxy, geo: GeometryProxy) -> [GlyphPlacement] {
         let size: CGFloat = 14
         let glyphPx: CGFloat = 12
-        let plotFrame = geo[proxy.plotAreaFrame]
+        guard let plotAnchor = proxy.plotFrame else { return [] }
+        let plotFrame = geo[plotAnchor]
 
         guard plotFrame.width > 0, let startDate = chartStartDate,
               let startXPos = proxy.position(forX: startDate) else { return [] }

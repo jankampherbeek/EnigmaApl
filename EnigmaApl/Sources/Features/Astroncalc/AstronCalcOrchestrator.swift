@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct AstronCalcOrchestrator {
+public nonisolated struct AstronCalcOrchestrator {
     
     /// Performs a full chart calculation based on the provided request
     /// - Parameters:
@@ -55,8 +55,6 @@ public struct AstronCalcOrchestrator {
         // Calculate factors for each calculation type
         var allCoordinates: [Factors: FullFactorPosition] = [:]
         var omittedFactors: [Factors] = []
-        var longitudeSun = -1.0
-        var longitudeMoon = -1.0
 
         // Handle CommonSe factors
         if let commonSeFactors = factorsByType[.CommonSe], !commonSeFactors.isEmpty {
@@ -72,8 +70,6 @@ public struct AstronCalcOrchestrator {
             let (commonSeCoordinates, seOmitted) = SECalculation.CalculateFactors(commonRequest, flagsEcliptical: seFlagsEcliptical, flagsEquatorial: seFlagsEquatorial, seWrapper: seWrapper)
             allCoordinates.merge(commonSeCoordinates) { (_, new) in new }
             omittedFactors.append(contentsOf: seOmitted)
-            longitudeSun = commonSeCoordinates[Factors.sun]?.ecliptical.first?.mainPos ?? -1.0
-            longitudeMoon = commonSeCoordinates[Factors.moon]?.ecliptical.first?.mainPos ?? -1.0
         }
         if let commonElementsFactors = factorsByType[.CommonElements], !commonElementsFactors.isEmpty {
             let commonElementsRequest = CalcRequest(
@@ -228,7 +224,7 @@ public struct AstronCalcOrchestrator {
             var updatedCoordinates: [Factors: FullFactorPosition] = [:]
             for (factor, position) in allCoordinates {
                 if let obliqueLongitude = obliqueLongitudeMap[factor],
-                   let originalEcliptical = position.ecliptical.first {
+                   !position.ecliptical.isEmpty {
                     // Create new ecliptical positions array, updating the first position with oblique longitude
                     var updatedEclipticalPositions: [MainAstronomicalPosition] = []
                     for (index, eclipticalPos) in position.ecliptical.enumerated() {

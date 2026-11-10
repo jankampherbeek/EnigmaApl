@@ -4,7 +4,7 @@
 
 /// Central access point for enum localization keys.
 /// Use this selector to retrieve a localization key for any supported enum value.
-struct EnumKeySelector {
+nonisolated struct EnumKeySelector {
     private init() {}
 
     static func key(for aspect: Aspects) -> String           { AspectKeys.key(for: aspect) }

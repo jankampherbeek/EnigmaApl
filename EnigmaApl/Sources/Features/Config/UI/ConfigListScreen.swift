@@ -138,7 +138,7 @@ struct ConfigListScreen: View {
     private func autoSelectIfNeeded() {
         let repository = UserConfigurationRepository(context: modelContext)
         if configurations.isEmpty {
-            try? repository.addStandard(name: t(ConfigEditKeys.defaultConfigName))
+            _ = try? repository.addStandard(name: t(ConfigEditKeys.defaultConfigName))
             // onChange(of: configurations) will fire after the insert and call this again
             return
         }

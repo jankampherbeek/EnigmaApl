@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of a parallel or contra-parallel between two factors.
-public struct ParallelCount: Sendable {
+public nonisolated struct ParallelCount: Sendable {
     public let factor1: Factors
     public let factor2: Factors
     public let isContraParallel: Bool  // false = parallel, true = contra-parallel
@@ -16,14 +16,14 @@ public struct ParallelCount: Sendable {
 }
 
 /// Full result of a `ParallelsWorker` run.
-public struct ParallelsResult: Sendable {
+public nonisolated struct ParallelsResult: Sendable {
     public let counts: [ParallelCount]
     public let skippedRecords: Int
 }
 
 // MARK: - Errors
 
-public enum ParallelsWorkerError: Error {
+public nonisolated enum ParallelsWorkerError: Error {
     case equatorialNotEnabled
     case fileNotMapped
 }
@@ -40,7 +40,7 @@ public enum ParallelsWorkerError: Error {
 /// `byteOffset` (which is the beginning of its entire data region block).
 /// Within that block the layout is: mainPos (lon, 8B), deviation (decl, 8B),
 /// distance (8B), speedMain (8B), speedDeviation (8B).
-public struct ParallelsWorker {
+public nonisolated struct ParallelsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

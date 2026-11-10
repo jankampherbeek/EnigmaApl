@@ -2,7 +2,7 @@
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 /// Localization keys for ZodiacTypeWheel and HouseTypeWheel, resolved from ChartWheel.strings.
-struct ChartWheelKeys {
+nonisolated struct ChartWheelKeys {
     private init() {}
 
     // MARK: - Wheel toggle buttons

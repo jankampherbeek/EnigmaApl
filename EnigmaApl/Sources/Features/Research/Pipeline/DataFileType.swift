@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Supported formats for research input data files.
-public enum DataFileType: Int, CaseIterable {
+public nonisolated enum DataFileType: Int, CaseIterable {
     case standardEnigma = 0
     case gauquelin      = 1
     case quickChart     = 2

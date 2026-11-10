@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of an occupied declination midpoint.
-public struct DeclMidpointCount: Sendable {
+public nonisolated struct DeclMidpointCount: Sendable {
     public let factorA: Factors
     public let factorB: Factors
     public let occupant: Factors
@@ -16,14 +16,14 @@ public struct DeclMidpointCount: Sendable {
 }
 
 /// Full result of a `DeclMidpointsWorker` run.
-public struct DeclMidpointsResult: Sendable {
+public nonisolated struct DeclMidpointsResult: Sendable {
     public let counts: [DeclMidpointCount]
     public let skippedRecords: Int
 }
 
 // MARK: - Errors
 
-public enum DeclMidpointsWorkerError: Error {
+public nonisolated enum DeclMidpointsWorkerError: Error {
     case equatorialNotEnabled
     case fileNotMapped
 }
@@ -36,7 +36,7 @@ public enum DeclMidpointsWorkerError: Error {
 /// C occupies the midpoint when |decl_C − midpoint| ≤ orb.
 ///
 /// Unlike ecliptical midpoints there is no dial wrapping; declination is linear (−90…+90°).
-public struct DeclMidpointsWorker {
+public nonisolated struct DeclMidpointsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig
@@ -115,7 +115,7 @@ public struct DeclMidpointsWorker {
     }
 }
 
-private struct TriKey: Hashable {
+private nonisolated struct TriKey: Hashable {
     let a, b, c: Int
     init(_ a: Int, _ b: Int, _ c: Int) { self.a = a; self.b = b; self.c = c }
 }

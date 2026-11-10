@@ -9,7 +9,7 @@ import Foundation
 /// into a local UInt64 so no alignment requirement is imposed on the source.
 /// Returns `nil` if there are fewer than 8 bytes available.
 @inline(__always)
-func readDouble(from data: Data, at offset: Int) -> Double? {
+nonisolated func readDouble(from data: Data, at offset: Int) -> Double? {
     guard offset >= 0, offset + 8 <= data.count else { return nil }
     var raw: UInt64 = 0
     for i in 0..<8 {

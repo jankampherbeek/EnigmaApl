@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the Harmonic Orbs feature, resolved from HarmonicOrbs.strings.
-struct HarmonicOrbsKeys {
+nonisolated struct HarmonicOrbsKeys {
     private init() {}
 
     // Navigation

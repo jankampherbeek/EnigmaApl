@@ -5,7 +5,7 @@
 import Foundation
 
 /// Supported ayanamshas for sidereal calculations
-public enum Ayanamshas: Int, CaseIterable, Codable {
+public nonisolated enum Ayanamshas: Int, CaseIterable, Codable, Sendable {
     case tropical = 0
     case fagan = 1
     case lahiri = 2

@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for DSTOption enum values.
-struct DSTOptionKeys {
+nonisolated struct DSTOptionKeys {
     private init() {}
 
     static let keys: [DSTOption: String] = [

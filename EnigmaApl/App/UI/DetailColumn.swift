@@ -179,8 +179,6 @@ struct DetailColumn: View {
                             PreNatalResultsScreen()
                         case .progressiveCalendar:
                             ProgressiveCalendarResultsScreen()
-                        default:
-                            EmptyView()
                         }
                     case .research:
                         EmptyView()

@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct ParansOrchestrator {
+public nonisolated struct ParansOrchestrator {
 
     private init() {}
 

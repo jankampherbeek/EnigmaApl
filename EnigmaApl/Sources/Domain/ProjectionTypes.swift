@@ -7,7 +7,7 @@ import Foundation
 /// Projection of the positions of celestial bodies
 /// - TwoDimensional: the default type of projection to a 2-dimensional chart
 /// - ObliqueLongitude: a correction for the mundane position, also called 'true location', as used by the School of Ram
-public enum ProjectionTypes: Int, CaseIterable, Codable {
+public nonisolated enum ProjectionTypes: Int, CaseIterable, Codable, Sendable {
     case twoDimensional = 0
     case obliqueLongitude = 1
     

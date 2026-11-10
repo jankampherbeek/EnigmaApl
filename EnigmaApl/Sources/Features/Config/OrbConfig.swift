@@ -4,27 +4,10 @@
 
 import Foundation
 
-/// The method used to calculate effective orbs.
-public enum OrbSystem: Int, CaseIterable, Codable {
-    case procentual = 0
-    case fixed = 1
-    case harmonicBased = 2
-
-    var rbKey: String {
-        switch self {
-        case .procentual:    return "enum.orbsystem.procentual"
-        case .fixed:         return "enum.orbsystem.fixed"
-        case .harmonicBased: return "enum.orbsystem.harmonicbased"
-        }
-    }
-}
-
 /// Configuration for global orb values used in different calculation types.
 /// The effective orb for an aspect is derived by combining the base orb with
 /// the orb percentages from FactorConfig and AspectConfig.
-public struct OrbConfig: Codable, Sendable {
-    /// The method used to calculate effective orbs.
-    public let orbSystem: OrbSystem
+public nonisolated struct OrbConfig: Codable, Sendable {
     /// Base orb in degrees for aspect calculations, before factor and aspect percentages are applied.
     public let aspectBaseOrb: Double
     /// Orb in degrees for midpoint calculations in the 360° dial.
@@ -41,7 +24,6 @@ public struct OrbConfig: Codable, Sendable {
     public let declinationMidpointOrb: Double
 
     public init(
-        orbSystem: OrbSystem = .procentual,
         aspectBaseOrb: Double = 10.0,
         midpoint360DialOrb: Double = 1.5,
         midpoint90DialOrb: Double = 1.0,
@@ -50,7 +32,6 @@ public struct OrbConfig: Codable, Sendable {
         parallelOrb: Double = 1.0,
         declinationMidpointOrb: Double = 0.75
     ) {
-        self.orbSystem = orbSystem
         self.aspectBaseOrb = aspectBaseOrb
         self.midpoint360DialOrb = midpoint360DialOrb
         self.midpoint90DialOrb = midpoint90DialOrb

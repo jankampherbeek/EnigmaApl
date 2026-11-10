@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct LongTimeEphemerisKeys {
+nonisolated struct LongTimeEphemerisKeys {
     private init() {}
 
     static let title            = "view.ltephemeris.title"

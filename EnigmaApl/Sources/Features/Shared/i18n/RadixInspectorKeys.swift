@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for RadixInspector enum values.
-struct RadixInspectorKeys {
+nonisolated struct RadixInspectorKeys {
     private init() {}
 
     static let keys: [RadixInspector: String] = [

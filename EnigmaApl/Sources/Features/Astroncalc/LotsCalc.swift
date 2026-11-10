@@ -9,7 +9,7 @@ import Foundation
 /// Calculate Hellenistic lots (e.g., Pars Fortuna)
 /// For now only the calculation of Pars Fortunae (with and without sect).
 /// Should augment this to include the standard Greek lots
-public struct LotsCalc {
+public nonisolated struct LotsCalc {
 
     
     /// Calculate lots factors

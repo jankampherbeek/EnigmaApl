@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Progressive feature views, resolved from Progressive.strings.
-struct ProgressiveKeys {
+nonisolated struct ProgressiveKeys {
     private init() {}
 
     // RectificationScreen

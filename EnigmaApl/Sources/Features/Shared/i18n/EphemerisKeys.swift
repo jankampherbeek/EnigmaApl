@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct EphemerisKeys {
+nonisolated struct EphemerisKeys {
     private init() {}
 
     static let title              = "view.ephemeris.title"

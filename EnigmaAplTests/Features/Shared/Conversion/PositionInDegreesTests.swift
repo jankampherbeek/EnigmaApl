@@ -169,7 +169,7 @@ struct PositionInDegreesTests {
     
     @Test("DoubleToDmsSign: boundary just before 30 (Aries)")
     func testDoubleToDmsSignJustBeforeThirty() {
-        let (dms, sign, success) = PositionInDegreesConversion.DoubleToDmsSign(29.9999)
+        let (_, sign, success) = PositionInDegreesConversion.DoubleToDmsSign(29.9999)
         #expect(success == true)
         #expect(sign == .Aries)
     }

@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for RoddenRating enum values.
-struct RoddenRatingKeys {
+nonisolated struct RoddenRatingKeys {
     private init() {}
 
     static let keys: [RoddenRating: String] = [

@@ -145,9 +145,7 @@
 "view.configedit.prog.solar.help.line2"    = "Stel de orb in voor de solaar berekening.";
 
 // Orb editor
-"view.configedit.orb.section.system"  = "Orb-systeem";
 "view.configedit.orb.section.values"  = "Orb-waarden";
-"view.configedit.orb.system"          = "Systeem";
 "view.configedit.orb.aspectbase"      = "Basis orb aspecten";
 "view.configedit.orb.midpoint360"     = "Orb middelpunten 360°";
 "view.configedit.orb.midpoint90"      = "Orb middelpunten 90°";
@@ -159,7 +157,6 @@
 // Help orb editor
 "view.configedit.orb.help.tooltip"    = "Help bij orbs";
 "view.configedit.orb.help.groupbox"   = "Orbs";
-"view.configedit.orb.help.line1"      = "Kies het orb-systeem dat je wilt gebruiken voor de berekening van effectieve orbs.";
 "view.configedit.orb.help.line2"      = "De basisorb voor aspecten is het uitgangspunt voor de berekening. De effectieve orb per aspect wordt bepaald door de basisorb te combineren met de orb-percentages uit de factor- en aspectinstellingen.";
 "view.configedit.orb.help.line3"      = "De orb-waarden voor middelpunten, harmonics en parallellen gelden als vaste waarden.";
 

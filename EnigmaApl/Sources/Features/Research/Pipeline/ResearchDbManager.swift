@@ -6,7 +6,7 @@ import Foundation
 import SQLite3
 
 /// Errors thrown by ResearchDbManager.
-public enum ResearchDbError: Error {
+public nonisolated enum ResearchDbError: Error {
     case cannotOpenDatabase(String)
     case prepareFailed(String)
     case stepFailed(String)
@@ -16,7 +16,7 @@ public enum ResearchDbError: Error {
 /// Opens and manages `horoscope_data.db` in the project folder.
 /// Provides CRUD for the `horoscope_data` table (input records only).
 /// All methods are synchronous; call from a background context as needed.
-public final class ResearchDbManager {
+public final nonisolated class ResearchDbManager {
 
     private var db: OpaquePointer?
 

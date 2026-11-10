@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum PrimaryMethod: Int, CaseIterable, Codable {
+public nonisolated enum PrimaryMethod: Int, CaseIterable, Codable, Sendable {
     case placidus = 0
     case regiomontanus = 1
 
@@ -16,7 +16,7 @@ public enum PrimaryMethod: Int, CaseIterable, Codable {
     }
 }
 
-public enum PrimaryApproach: Int, CaseIterable, Codable {
+public nonisolated enum PrimaryApproach: Int, CaseIterable, Codable, Sendable {
     case mundane = 0
     case ecliptical = 1
 
@@ -28,7 +28,7 @@ public enum PrimaryApproach: Int, CaseIterable, Codable {
     }
 }
 
-public enum PrimaryTimeKey: Int, CaseIterable, Codable {
+public nonisolated enum PrimaryTimeKey: Int, CaseIterable, Codable, Sendable {
     case placidus = 0
     case naibod = 1
     case brahe = 2
@@ -47,7 +47,7 @@ public enum PrimaryTimeKey: Int, CaseIterable, Codable {
 }
 
 /// Configuration for primary directions.
-public struct PrimaryDirectionsConfig: Codable, Sendable {
+public nonisolated struct PrimaryDirectionsConfig: Codable, Sendable {
     public let promissors: [Factors]
     public let significators: [Factors]
     public let orb: Double

@@ -5,7 +5,7 @@
 import Foundation
 
 /// Describes the layout of one factor's block inside a results.bin record.
-public struct FactorLayout: Sendable {
+public nonisolated struct FactorLayout: Sendable {
     /// The factor this layout entry belongs to.
     public let factor: Factors
     /// Byte offset of this factor's block from the start of the record's data region.
@@ -30,7 +30,7 @@ public struct FactorLayout: Sendable {
 
 /// Decoded form of the JSON config stored in `ResearchProjectModel.config`.
 /// Computes the binary record layout for `results.bin`.
-public struct ResearchConfig: Codable, Sendable {
+public nonisolated struct ResearchConfig: Codable, Sendable {
 
     // MARK: - Stored properties (from JSON)
 
@@ -176,7 +176,7 @@ public struct ResearchConfig: Codable, Sendable {
     }
 }
 
-public enum ResearchConfigError: Error {
+public nonisolated enum ResearchConfigError: Error {
     case invalidJson
     case encodingFailed
 }

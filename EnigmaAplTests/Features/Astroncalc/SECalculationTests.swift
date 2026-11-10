@@ -18,7 +18,6 @@ struct SECalculationTests {
             .jupiter, .saturn, .uranus, .neptune, .pluto, .chiron
         ]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         

@@ -9,7 +9,7 @@ import Foundation
 /// Calculate oblique longitudes for celestial points
 /// Oblique longitude is a correction for the mundane position, also called 'true location',
 /// as used by the School of Ram
-public struct ObliqueLongitudeCalc {
+public nonisolated struct ObliqueLongitudeCalc {
     
     /// Calculate oblique longitudes for factors
     /// - Parameters:

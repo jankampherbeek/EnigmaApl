@@ -12,7 +12,7 @@ import Foundation
 /// When more than one rule matches the current selection, the shortest limit always wins.
 /// This does not enforce the limit — callers (the input screen / model) are responsible for
 /// clamping the requested end date against `maxRangeInDays(selections:)`.
-struct ProgressiveCalendarRangeLimiter {
+nonisolated struct ProgressiveCalendarRangeLimiter {
 
     private init() {}
 

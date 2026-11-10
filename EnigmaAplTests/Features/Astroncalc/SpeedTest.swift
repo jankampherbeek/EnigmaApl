@@ -19,7 +19,6 @@ struct SpeedTest {
             .persephoneCarteret, .vulcanusCarteret, .priapus, .dragon, .beast
         ]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
@@ -268,7 +267,7 @@ struct SpeedTest {
             
             // Verify horizontal speeds (azimuth and altitude)
             // Note: Horizontal positions typically don't have speeds, so these should be 0
-            guard let horizontalPosition = factorPosition.horizontal.first else {
+            guard factorPosition.horizontal.first != nil else {
                 Issue.record("Horizontal position not found for factor \(factor)")
                 continue
             }

@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for UTOffsetDirection enum values.
-struct UTOffsetDirectionKeys {
+nonisolated struct UTOffsetDirectionKeys {
     private init() {}
 
     static let keys: [UTOffsetDirection: String] = [

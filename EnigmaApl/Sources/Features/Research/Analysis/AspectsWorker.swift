@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of a specific aspect between two factors, split by data group.
-public struct AspectCount: Sendable {
+public nonisolated struct AspectCount: Sendable {
     public let factor1: Factors
     public let factor2: Factors
     public let aspectAngle: Double    // e.g. 0, 60, 90, 120, 180
@@ -16,14 +16,14 @@ public struct AspectCount: Sendable {
 }
 
 /// Full result of an `AspectsWorker` run.
-public struct AspectsResult: Sendable {
+public nonisolated struct AspectsResult: Sendable {
     public let counts: [AspectCount]
     public let skippedRecords: Int
 }
 
 // MARK: - Errors
 
-public enum AspectsWorkerError: Error {
+public nonisolated enum AspectsWorkerError: Error {
     case eclipticalNotEnabled
     case fileNotMapped
     case noAspectsConfigured
@@ -36,7 +36,7 @@ public enum AspectsWorkerError: Error {
 ///
 /// An aspect is detected when the shortest arc between two longitudes differs from
 /// the aspect angle by no more than `orb` degrees.
-public struct AspectsWorker {
+public nonisolated struct AspectsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

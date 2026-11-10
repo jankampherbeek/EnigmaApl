@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for YearCount enum values.
-struct YearCountKeys {
+nonisolated struct YearCountKeys {
     private init() {}
 
     static let keys: [YearCount: String] = [

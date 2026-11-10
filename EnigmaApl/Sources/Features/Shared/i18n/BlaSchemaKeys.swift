@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the BLA schema ("Invisible Luminaries Astrology") screens, resolved from BlaSchema.strings.
-struct BlaSchemaKeys {
+nonisolated struct BlaSchemaKeys {
     private init() {}
 
     // Screen / navigation

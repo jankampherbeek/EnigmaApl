@@ -9,7 +9,7 @@ import Security
 
 /// Fisher-Yates shuffle backed by `SecRandomCopyBytes` — cryptographically strong,
 /// not pseudo-random. Equivalent to the C# `RandomNumberGenerator`-based shuffle.
-private func secureShuffle<T>(_ array: inout [T]) {
+private nonisolated func secureShuffle<T>(_ array: inout [T]) {
     var n = array.count
     while n > 1 {
         n -= 1
@@ -21,7 +21,7 @@ private func secureShuffle<T>(_ array: inout [T]) {
 
 /// Returns a cryptographically random Int in `0 ..< upperBoundExclusive`.
 /// Uses rejection sampling to eliminate modulo bias.
-private func secureRandomInt(upperBoundExclusive bound: Int) -> Int {
+private nonisolated func secureRandomInt(upperBoundExclusive bound: Int) -> Int {
     guard bound > 1 else { return 0 }
     // Largest multiple of `bound` that fits in UInt32
     let maxUnbiased = UInt32.max - (UInt32.max % UInt32(bound))
@@ -38,7 +38,7 @@ private func secureRandomInt(upperBoundExclusive bound: Int) -> Int {
 // MARK: - Calendar helper
 
 /// Returns true if `day` is a valid day-of-month for the given `month` and `year`.
-private func dayFitsInMonth(_ day: Int, month: Int, year: Int) -> Bool {
+private nonisolated func dayFitsInMonth(_ day: Int, month: Int, year: Int) -> Bool {
     guard day >= 1 else { return false }
     switch month {
     case 2:
@@ -61,7 +61,7 @@ private func dayFitsInMonth(_ day: Int, month: Int, year: Int) -> Bool {
 /// ensuring no record is a copy of any real input.
 ///
 /// True randomness is provided by `SecRandomCopyBytes` — not `arc4random` or `Double.random`.
-public struct ControlGroupGenerator {
+public nonisolated struct ControlGroupGenerator {
 
     public init() {}
 

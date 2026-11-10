@@ -7,7 +7,7 @@ import Foundation
 /// Static lookup of available glyph candidates per sign, factor and aspect.
 /// Items with one candidate have no alternative. Items with multiple candidates
 /// allow the user to choose in the configuration UI.
-public struct GlyphCandidates {
+public nonisolated struct GlyphCandidates {
 
     public static func candidates(for sign: Signs) -> [String] {
         switch sign {

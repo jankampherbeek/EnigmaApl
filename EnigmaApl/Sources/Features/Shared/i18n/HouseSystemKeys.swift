@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for HouseSystems enum values.
-struct HouseSystemKeys {
+nonisolated struct HouseSystemKeys {
     private init() {}
 
     static let keys: [HouseSystems: String] = [

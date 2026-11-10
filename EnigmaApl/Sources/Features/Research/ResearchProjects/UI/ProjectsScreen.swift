@@ -11,6 +11,11 @@ private func t(_ key: String) -> String {
     NSLocalizedString(key, tableName: "ResearchProjects", bundle: .main, comment: "")
 }
 
+/// Translated name of a factor, for the result tables.
+private func factorName(_ factor: Factors) -> String {
+    NSLocalizedString(factor.localizedName, bundle: .main, comment: "")
+}
+
 // MARK: - Subscreen routing
 
 enum ResearchProjectSubscreen {
@@ -231,7 +236,7 @@ struct ResearchProjectInputScreen: View {
         guard !pathIsEmpty else { errorMessage = t(ResearchProjectsKeys.errorPathEmpty); return }
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
         let dao = ResearchProjectDao(context: modelContext)
-        if let found = try? dao.fetch(byName: trimmedName), found != nil {
+        if (try? dao.fetch(byName: trimmedName)) != nil {
             errorMessage = t(ResearchProjectsKeys.errorDuplicateName)
             return
         }
@@ -767,7 +772,6 @@ struct ResearchProjectConfigScreen: View {
         if var orb = activeConfig?.orbConfig {
             if draft.inquiry == .midpoints {
                 orb = OrbConfig(
-                    orbSystem: orb.orbSystem,
                     aspectBaseOrb: orb.aspectBaseOrb,
                     midpoint360DialOrb: researchDoubleFromSexagesimal(orbMidpoint360Deg, orbMidpoint360Min),
                     midpoint90DialOrb:  researchDoubleFromSexagesimal(orbMidpoint90Deg,  orbMidpoint90Min),
@@ -1853,7 +1857,7 @@ private struct FactorsInSignsResultView: View {
                         Text(t(ResearchProjectsKeys.resultColumnFactor))
                             .frame(width: factorWidth, alignment: .leading)
                         ForEach(Signs.allCases, id: \.self) { sign in
-                            Text("\(sign)").frame(width: countWidth, alignment: .trailing)
+                            Text(GlyphSelector.getGlyphForSign(sign)).font(.custom("EnigmaAstrology3", size: 14)).frame(width: countWidth, alignment: .trailing)
                         }
                         Text("∑").frame(width: totalWidth, alignment: .trailing)
                     }
@@ -1863,7 +1867,7 @@ private struct FactorsInSignsResultView: View {
                     Divider()
                     ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
                         HStack(spacing: 4) {
-                            Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(dist.factor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             ForEach(dist.signCounts, id: \.sign) { sc in
                                 Text(isData ? "\(sc.dataCount)" : controlText(sc.controlCount, divisor: divisor))
                                     .frame(width: countWidth, alignment: .trailing)
@@ -1938,7 +1942,7 @@ private struct FactorsInHousesResultView: View {
                     Divider()
                     ForEach(Array(result.distributions.enumerated()), id: \.offset) { idx, dist in
                         HStack(spacing: 4) {
-                            Text("\(dist.factor)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(dist.factor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             ForEach(dist.houseCounts, id: \.houseNr) { hc in
                                 Text(isData ? "\(hc.dataCount)" : controlText(hc.controlCount, divisor: divisor))
                                     .frame(width: countWidth, alignment: .trailing)
@@ -2042,8 +2046,8 @@ private struct AspectsResultView: View {
                             $0 + count(f1: pair.0, f2: pair.1, angle: $1, isData: isData)
                         }
                         HStack(spacing: 4) {
-                            Text("\(pair.0)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(pair.1)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(pair.0)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(pair.1)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             ForEach(angles, id: \.self) { angle in
                                 let c = count(f1: pair.0, f2: pair.1, angle: angle, isData: isData)
                                 Text(isData ? "\(c)" : controlText(c, divisor: divisor))
@@ -2108,7 +2112,7 @@ private struct UnaspectResultView: View {
                 Divider()
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
-                        Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
+                        Text(factorName(c.factor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                         Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
@@ -2160,9 +2164,9 @@ private struct MidpointsResultView: View {
                     Divider()
                     ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                         HStack(spacing: 4) {
-                            Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.factorA)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.factorB)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.occupant)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             Text("\(c.dialSize)").frame(width: dialWidth, alignment: .trailing)
                             Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
@@ -2213,8 +2217,8 @@ private struct HarmonicsResultView: View {
                 Divider()
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
-                        Text("\(c.harmonicFactor)").frame(width: factorWidth, alignment: .leading)
-                        Text("\(c.radixFactor)").frame(width: factorWidth, alignment: .leading)
+                        Text(factorName(c.harmonicFactor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                        Text(factorName(c.radixFactor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                         Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }
@@ -2292,8 +2296,8 @@ private struct ParallelsResultView: View {
                         let p = count(f1: pair.0, f2: pair.1, isContra: false, isData: isData)
                         let c = count(f1: pair.0, f2: pair.1, isContra: true,  isData: isData)
                         HStack(spacing: 4) {
-                            Text("\(pair.0)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(pair.1)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(pair.0)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(pair.1)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             Text(isData ? "\(p)" : controlText(p, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
                             Text(isData ? "\(c)" : controlText(c, divisor: divisor))
@@ -2362,9 +2366,9 @@ private struct DeclMidpointsResultView: View {
                     Divider()
                     ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                         HStack(spacing: 4) {
-                            Text("\(c.factorA)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.factorB)").frame(width: factorWidth, alignment: .leading)
-                            Text("\(c.occupant)").frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.factorA)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.factorB)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
+                            Text(factorName(c.occupant)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                             Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                                 .frame(width: countWidth, alignment: .trailing)
                         }
@@ -2412,7 +2416,7 @@ private struct OobResultView: View {
                 Divider()
                 ForEach(Array(result.counts.enumerated()), id: \.offset) { idx, c in
                     HStack(spacing: 4) {
-                        Text("\(c.factor)").frame(width: factorWidth, alignment: .leading)
+                        Text(factorName(c.factor)).lineLimit(1).frame(width: factorWidth, alignment: .leading)
                         Text(isData ? "\(c.dataCount)" : controlText(c.controlCount, divisor: divisor))
                             .frame(width: countWidth, alignment: .trailing)
                     }

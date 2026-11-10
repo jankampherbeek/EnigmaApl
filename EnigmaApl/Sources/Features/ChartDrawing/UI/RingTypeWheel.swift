@@ -262,12 +262,13 @@ private func ringPositionLabel(longitude: Double, textSize: CGFloat, color: Colo
     let sign    = Signs(rawValue: signIdx + 1) ?? .Aries
     let glyph   = GlyphSelector.getGlyphForSign(sign)
 
-    return Text(posText)
+    let positionPart = Text(posText)
         .font(.system(size: textSize))
         .foregroundColor(color)
-    + Text(glyph)
+    let glyphPart = Text(glyph)
         .font(.custom("EnigmaAstrology3", size: textSize * 1.4))
         .foregroundColor(color)
+    return Text("\(positionPart)\(glyphPart)")
 }
 
 // MARK: - Ring metrics

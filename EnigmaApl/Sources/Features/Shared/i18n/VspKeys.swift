@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for VspScreen, resolved from Vsp.strings.
-struct VspKeys {
+nonisolated struct VspKeys {
     private init() {}
 
     // VspScreen

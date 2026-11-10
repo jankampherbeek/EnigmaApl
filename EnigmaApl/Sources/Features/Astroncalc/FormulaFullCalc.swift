@@ -8,7 +8,7 @@ import Foundation
 
 /// Calculate full positions for factors that require full coordinate system calculations
 /// (South Node, Priapus, Dragon, Beast)
-public struct FormulaFullCalc {
+public nonisolated struct FormulaFullCalc {
 
     
     /// Calculate full positions for factors that require full coordinate system calculations

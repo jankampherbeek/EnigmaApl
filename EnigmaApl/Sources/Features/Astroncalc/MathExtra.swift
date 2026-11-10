@@ -5,7 +5,7 @@
 import Foundation
 
 /// Several mathematical functions that are not covered by the standard Math library
-struct MathExtra {
+nonisolated struct MathExtra {
     /// Convert radians to degrees
     static func radToDeg(_ radians: Double) -> Double {
         return 180.0 / .pi * radians

@@ -4,7 +4,7 @@
 
 /// Localization keys for AltZodiacStartInputView and AltZodiacStartResultsView,
 /// resolved from AltZodiacStart.strings.
-struct AltZodiacStartKeys {
+nonisolated struct AltZodiacStartKeys {
     private init() {}
 
     // Navigation

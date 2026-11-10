@@ -18,7 +18,7 @@ import Foundation
 /// symbolic factors, and cusp conjunctions. Declination-based event kinds (zero/max
 /// declination, OOB enter/exit) and parallels never fire for symbolic directions, and
 /// symbolic directions never produce retrograde/direct stations.
-struct ProgressiveCalendarOrchestrator {
+nonisolated struct ProgressiveCalendarOrchestrator {
 
     private let natalJD: Double
     private let radixChart: FullChart

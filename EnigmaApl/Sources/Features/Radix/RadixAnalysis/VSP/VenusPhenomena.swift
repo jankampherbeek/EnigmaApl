@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum VenusPhenomena {
+nonisolated enum VenusPhenomena {
     case inferiorConjunction
     case superiorConjunction
 }

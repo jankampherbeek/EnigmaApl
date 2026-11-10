@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for ProjectionTypes enum values.
-struct ProjectionTypeKeys {
+nonisolated struct ProjectionTypeKeys {
     private init() {}
 
     static let keys: [ProjectionTypes: String] = [

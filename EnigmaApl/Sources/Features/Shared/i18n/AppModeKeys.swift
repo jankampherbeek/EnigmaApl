@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for AppMode enum values.
-struct AppModeKeys {
+nonisolated struct AppModeKeys {
     private init() {}
 
     static let keys: [AppMode: String] = [

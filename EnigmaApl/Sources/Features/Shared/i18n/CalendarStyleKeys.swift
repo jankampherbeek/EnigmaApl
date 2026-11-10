@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for CalendarStyle enum values.
-struct CalendarStyleKeys {
+nonisolated struct CalendarStyleKeys {
     private init() {}
 
     static let keys: [CalendarStyle: String] = [

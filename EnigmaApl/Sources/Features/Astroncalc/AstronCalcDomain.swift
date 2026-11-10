@@ -8,7 +8,7 @@
 /// deviation is the deviation from the main plane: lartitude or declination
 /// distance is the distance in Astronomical Units (AU)
 /// the postfix 'Speed' gives the speed for the item with the same name
-public struct MainAstronomicalPosition {
+public nonisolated struct MainAstronomicalPosition {
     public let mainPos: Double
     public let deviation: Double
     public let distance: Double
@@ -31,7 +31,7 @@ public struct MainAstronomicalPosition {
 /// The position at the horizontal plane
 /// Azimuth: the position at the horizon, it  starts at the South and runs through west, north and east, in that sequence
 /// Altitude: the height above or under the horizon
-public struct HorizontalPosition {
+public nonisolated struct HorizontalPosition {
     public let azimuth: Double
     public let altitude: Double
     
@@ -43,7 +43,7 @@ public struct HorizontalPosition {
 
 // MARK: Full cusp position
 /// The position of a cusp
-public struct FullCuspPosition {
+public nonisolated struct FullCuspPosition {
     public let longitude: Double
     public let rightAscension: Double
     public let declination: Double
@@ -52,7 +52,7 @@ public struct FullCuspPosition {
 
 // MARK: - Position result for all coordinates
 /// Combined positions for all coordinates
-public struct FullFactorPosition {
+public nonisolated struct FullFactorPosition {
     public let ecliptical: [MainAstronomicalPosition]
     public let equatorial: [MainAstronomicalPosition]
     public let horizontal: [HorizontalPosition]
@@ -68,7 +68,7 @@ public struct FullFactorPosition {
 
 // MARK: - House positions
 /// Combined positions for all mundane points
-public struct HousePositions {
+public nonisolated struct HousePositions {
     public let cusps: [FullCuspPosition]
     public let ascendant: FullCuspPosition
     public let midheaven: FullCuspPosition
@@ -92,7 +92,7 @@ public struct HousePositions {
 // MARK: - Orbital Elements
 /// Orbital elements of a celestial body
 /// All angles are in degrees, distances in AU
-public struct OrbitalElements {
+public nonisolated struct OrbitalElements {
     /// Semi-major axis (a) in AU
     public let semiMajorAxis: Double
     /// Eccentricity (e)
@@ -150,7 +150,7 @@ public struct OrbitalElements {
 // MARK: - Apsides Result
 /// Result of apsides calculation containing nodes and apsides positions
 /// Each position contains [longitude, latitude, distance]
-public struct ApsidesResult {
+public nonisolated struct ApsidesResult {
     /// Ascending node position [longitude, latitude, distance]
     public let ascendingNode: [Double]
     /// Descending node position [longitude, latitude, distance]
@@ -173,7 +173,7 @@ public struct ApsidesResult {
 
 // MARK: - Solar Eclipse Local Result
 /// Result of a local solar eclipse search via swe_sol_eclipse_when_loc
-public struct SolarEclipseLocalResult {
+public nonisolated struct SolarEclipseLocalResult {
     /// True if the eclipse type is total (SE_ECL_TOTAL)
     public let isTotal: Bool
     /// True if the eclipse type is annular (SE_ECL_ANNULAR)
@@ -210,7 +210,7 @@ public struct SolarEclipseLocalResult {
 
 // MARK: - Lunar Eclipse Local Result
 /// Result of a local lunar eclipse search via swe_lun_eclipse_when_loc
-public struct LunarEclipseLocalResult {
+public nonisolated struct LunarEclipseLocalResult {
     /// True if the eclipse type is total (SE_ECL_TOTAL)
     public let isTotal: Bool
     /// True if the eclipse type is penumbral (SE_ECL_PENUMBRAL)
@@ -241,7 +241,7 @@ public struct LunarEclipseLocalResult {
 
 // MARK: - Solar Eclipse Global Result
 /// Result of a global solar eclipse search via swe_sol_eclipse_when_glob
-public struct SolarEclipseGlobalResult {
+public nonisolated struct SolarEclipseGlobalResult {
     public let isTotal: Bool
     public let isAnnular: Bool
     public let isHybrid: Bool
@@ -260,7 +260,7 @@ public struct SolarEclipseGlobalResult {
 
 // MARK: - Lunar Eclipse Global Result
 /// Result of a global lunar eclipse search via swe_lun_eclipse_when
-public struct LunarEclipseGlobalResult {
+public nonisolated struct LunarEclipseGlobalResult {
     public let isTotal: Bool
     public let isPenumbral: Bool
     public let isPartial: Bool
@@ -278,7 +278,7 @@ public struct LunarEclipseGlobalResult {
 // MARK: - Next Solar / Lunar Eclipse Result (global + longitude)
 /// Combines a global eclipse search result with the ecliptic longitude of the Sun/Moon at maximum.
 
-public struct NextSolarEclipseResult {
+public nonisolated struct NextSolarEclipseResult {
     public let isTotal: Bool
     public let isAnnular: Bool
     public let isHybrid: Bool
@@ -292,7 +292,7 @@ public struct NextSolarEclipseResult {
     }
 }
 
-public struct NextLunarEclipseResult {
+public nonisolated struct NextLunarEclipseResult {
     public let isTotal: Bool
     public let isPenumbral: Bool
     public let isPartial: Bool
@@ -308,7 +308,7 @@ public struct NextLunarEclipseResult {
 // MARK: - Named Ecliptic Coordinates
 
 /// Represents a named celestial point with its ecliptic coordinates
-public struct NamedEclipticCoordinates {
+public nonisolated struct NamedEclipticCoordinates {
     public let factor: Factors
     public let longitude: Double
     public let latitude: Double
@@ -324,7 +324,7 @@ public struct NamedEclipticCoordinates {
 // MARK: - Named Ecliptic Longitude
 
 /// Represents a named celestial point with its oblique longitude
-public struct NamedEclipticLongitude {
+public nonisolated struct NamedEclipticLongitude {
     public let factor: Factors
     public let obliqueLongitude: Double
     

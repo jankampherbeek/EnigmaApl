@@ -7,14 +7,14 @@ import Foundation
 // MARK: - Result types
 
 /// Count of occurrences for one house, split by data group.
-public struct HouseCount: Sendable {
+public nonisolated struct HouseCount: Sendable {
     public let houseNr: Int          // 1-based
     public let dataCount: Int
     public let controlCount: Int
 }
 
 /// Analysis result for one factor: how many times it falls in each house.
-public struct FactorHouseDistribution: Sendable {
+public nonisolated struct FactorHouseDistribution: Sendable {
     public let factor: Factors
     /// One entry per house, always `nrOfHouses` elements.
     public let houseCounts: [HouseCount]
@@ -23,7 +23,7 @@ public struct FactorHouseDistribution: Sendable {
 }
 
 /// Full result of a `FactorsInHousesWorker` run.
-public struct FactorsInHousesResult: Sendable {
+public nonisolated struct FactorsInHousesResult: Sendable {
     public let distributions: [FactorHouseDistribution]
     public let nrOfHouses: Int
     public let skippedRecords: Int
@@ -31,7 +31,7 @@ public struct FactorsInHousesResult: Sendable {
 
 // MARK: - Errors
 
-public enum FactorsInHousesError: Error {
+public nonisolated enum FactorsInHousesError: Error {
     case eclipticalNotEnabled
     case fileNotMapped
     case noCuspData
@@ -48,7 +48,7 @@ public enum FactorsInHousesError: Error {
 /// that the orchestrator must supply (derived from the calculation pipeline).
 ///
 /// Requires ecliptical coordinates to be present in the binary file.
-public struct FactorsInHousesWorker {
+public nonisolated struct FactorsInHousesWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

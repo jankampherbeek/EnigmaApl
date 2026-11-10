@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Apsides Calculator
 
 /// Calculate apsides (perihelion/aphelion for planets, perigee/apogee for Moon) using Swiss Ephemeris
-public struct ApsidesCalc {
+public nonisolated struct ApsidesCalc {
     
     /// Calculate apsides factors
     /// - Parameters:

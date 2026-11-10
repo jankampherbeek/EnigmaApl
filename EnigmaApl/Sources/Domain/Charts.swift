@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct FullChart {
+public nonisolated struct FullChart {
     public let Coordinates: [Factors: FullFactorPosition]
     public let HousePositions: HousePositions
     public let SiderealTime: Double

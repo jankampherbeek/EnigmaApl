@@ -5,7 +5,7 @@
 import Foundation
 
 /// Coordinate types used for positional data
-public enum Coordinates: Int, CaseIterable {
+public nonisolated enum Coordinates: Int, CaseIterable, Sendable {
     case longitude = 0
     case latitude = 1
     case rightAscension = 2

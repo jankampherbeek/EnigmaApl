@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Constants
 
 /// Astronomical constants
-private enum AstronomicalConstants {
+private nonisolated enum AstronomicalConstants {
     /// Julian day for 1900/1/1 0:00:00 UT
     static let JD1900 = 2415020.5
     
@@ -19,7 +19,7 @@ private enum AstronomicalConstants {
 
 /// Calculate geocentric ecliptical position for celestial points that are not supported by the SE,
 /// using specific formulas.
-public struct FormulaCalc {
+public nonisolated struct FormulaCalc {
     
     /// Calculate the position for a factor using a formula
     /// Latitude is unknown so we use zero for latitude, ra, declination, azimuth and altitude
@@ -31,7 +31,6 @@ public struct FormulaCalc {
         let julianDayNext = julianDay + 0.5
         let distance = 0.0          // distance is unknown or irrelevant
         let latitude = 0.0          // latitude is unknown
-        let height = 0.0            // height of the observer is unknnown
         
         let zeroEqCoordinate = MainAstronomicalPosition(mainPos: 0.0, deviation: 0.0, distance: 0.0, mainPosSpeed: 0.0, deviationSpeed: 0.0, distanceSpeed: 0.0)
         let zeroHorizontalCoordinate = HorizontalPosition(azimuth: 0.0, altitude: 0.0)

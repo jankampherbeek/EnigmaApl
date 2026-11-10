@@ -5,7 +5,7 @@
 import Foundation
 
 /// Type of movement speed for a celestial factor
-public enum SpeedType: Int, CaseIterable {
+public nonisolated enum SpeedType: Int, CaseIterable, Sendable {
     case direct = 0
     case retrograde = 1
     case slow = 2

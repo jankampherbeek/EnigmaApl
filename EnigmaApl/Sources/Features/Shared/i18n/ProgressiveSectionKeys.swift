@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for ProgressiveSection enum values.
-struct ProgressiveSectionKeys {
+nonisolated struct ProgressiveSectionKeys {
     private init() {}
 
     static let keys: [ProgressiveSection: String] = [

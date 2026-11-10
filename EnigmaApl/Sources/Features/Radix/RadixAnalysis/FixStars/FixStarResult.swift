@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// The result of a fixed star calculation.
-public struct FixStarResult {
+public nonisolated struct FixStarResult {
     public let starName: String
     public let magnitude: Double
     public let longitude: Double

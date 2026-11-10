@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for DeclinationsScreen and sub-views, resolved from Declinations.strings.
-struct DeclinationsKeys {
+nonisolated struct DeclinationsKeys {
     private init() {}
 
     // DeclinationsScreen — shared

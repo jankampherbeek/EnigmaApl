@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for MidpointsScreen and related views, resolved from Midpoints.strings.
-struct MidpointsKeys {
+nonisolated struct MidpointsKeys {
     private init() {}
 
     static let title                    = "view.midpointsscreen.title"

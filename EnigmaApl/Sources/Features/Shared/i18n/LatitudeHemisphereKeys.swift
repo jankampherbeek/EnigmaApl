@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for LatitudeHemisphere enum values.
-struct LatitudeHemisphereKeys {
+nonisolated struct LatitudeHemisphereKeys {
     private init() {}
 
     static let keys: [LatitudeHemisphere: String] = [

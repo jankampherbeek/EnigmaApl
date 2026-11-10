@@ -221,9 +221,6 @@
 "enum.drawingtype.dial90" = "Midpoints dial 90°";
 "enum.drawingtype.dial45" = "Midpoints dial 45°";
 // Orb systems
-"enum.orbsystem.procentual" = "Percentual";
-"enum.orbsystem.fixed" = "Fixed";
-"enum.orbsystem.harmonicbased" = "Harmonic based";
 // Primary directions
 "enum.primarymethod.placidus" = "Placidus";
 "enum.primarymethod.regiomontanus" = "Regiomontanus";

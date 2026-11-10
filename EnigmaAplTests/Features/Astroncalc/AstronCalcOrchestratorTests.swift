@@ -242,7 +242,6 @@ struct AstronCalcOrchestratorTests {
         let longitude = 6.895555555555555
         let houseSystem = HouseSystems.regiomontanus
         let houseSystemId = Int(houseSystem.seId.asciiValue ?? 82)  // 82 = 'R'
-        let seFlags = 258
         
         // Expected longitudes (converted from comma to period decimal separator)
         let expectedLongitudes: [Factors: Double] = [

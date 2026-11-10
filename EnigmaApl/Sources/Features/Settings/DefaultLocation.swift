@@ -6,7 +6,7 @@ import Foundation
 
 /// A location that is used for the chart of the current moment when the actual location
 /// of the device is not available. Coordinates in decimal degrees: north and east are positive.
-struct DefaultLocation: Codable, Equatable {
+nonisolated struct DefaultLocation: Codable, Equatable {
     var name: String
     var latitude: Double
     var longitude: Double

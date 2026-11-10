@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum SolarMethod: Int, CaseIterable, Codable {
+public nonisolated enum SolarMethod: Int, CaseIterable, Codable, Sendable {
     case tropicalParallax = 0
     case tropicalNoParallax = 1
     case siderealParallax = 2
@@ -20,7 +20,7 @@ public enum SolarMethod: Int, CaseIterable, Codable {
     }
 }
 
-public enum SolarLocation: Int, CaseIterable, Codable {
+public nonisolated enum SolarLocation: Int, CaseIterable, Codable, Sendable {
     case birth = 0
     case relocateBirthDay = 1
     case relocateResidence = 2
@@ -35,7 +35,7 @@ public enum SolarLocation: Int, CaseIterable, Codable {
 }
 
 /// Configuration for solar returns.
-public struct SolarReturnConfig: Codable, Sendable {
+public nonisolated struct SolarReturnConfig: Codable, Sendable {
     public let orb: Double
     public let method: SolarMethod
     public let location: SolarLocation

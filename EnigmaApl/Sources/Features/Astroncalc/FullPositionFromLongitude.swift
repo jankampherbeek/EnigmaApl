@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Full Position From Longitude Calculator
 
 /// Utility struct for creating full factor positions from ecliptical longitude
-public struct FullPositionFromLongitude {
+public nonisolated struct FullPositionFromLongitude {
     
     /// Create full position from ecliptical longitude
     /// - Parameters:

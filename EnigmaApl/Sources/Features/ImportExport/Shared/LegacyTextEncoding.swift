@@ -18,7 +18,7 @@ import Foundation
 /// Export helpers here write one explicit legacy single-byte encoding
 /// (Windows-1252) for formats that need it (QCK); AAF'97 always exports
 /// as UTF-8 and does not use the `encode(_:)` helper below.
-enum LegacyTextEncoding {
+nonisolated enum LegacyTextEncoding {
 
     static let defaultLegacyEncoding: String.Encoding = .windowsCP1252
 

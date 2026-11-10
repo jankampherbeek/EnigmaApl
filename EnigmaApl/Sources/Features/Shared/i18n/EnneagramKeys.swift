@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for EnneagramScreen and sub-views, resolved from Enneagram.strings.
-struct EnneagramKeys {
+nonisolated struct EnneagramKeys {
     private init() {}
 
     static let title            = "view.enneagramscreen.title"

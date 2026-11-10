@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Coordinates enum values.
-struct CoordinatesKeys {
+nonisolated struct CoordinatesKeys {
     private init() {}
 
     static let keys: [Coordinates: String] = [

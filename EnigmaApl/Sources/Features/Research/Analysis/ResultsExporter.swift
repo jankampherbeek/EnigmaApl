@@ -5,7 +5,7 @@
 import Foundation
 
 /// Errors thrown by ResultsExporter.
-enum ResultsExporterError: Error {
+nonisolated enum ResultsExporterError: Error {
     case writeFailed(String)
     case unsupportedResult
 }
@@ -18,7 +18,7 @@ enum ResultsExporterError: Error {
 /// Output order: data section first, control-group section second.
 /// When `divisor` > 1, control-group counts are divided by `divisor` and
 /// formatted to one decimal place (matching the "Proportional" view in the UI).
-struct ResultsExporter {
+nonisolated struct ResultsExporter {
 
     init() {}
 

@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct SECalculation {
+public nonisolated struct SECalculation {
     
     /// Calculates the positions for all factors in the request
     /// - Parameters:

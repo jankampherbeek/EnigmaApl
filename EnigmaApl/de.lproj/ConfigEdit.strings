@@ -150,9 +150,7 @@
 "view.configedit.prog.solar.help.line2"    = "Stelle den Orb für die Berechnung ein.";
 
 // Orb-Editor
-"view.configedit.orb.section.system"  = "Orb-System";
 "view.configedit.orb.section.values"  = "Orb-Werte";
-"view.configedit.orb.system"          = "System";
 "view.configedit.orb.aspectbase"      = "Basis-Orb Aspekte";
 "view.configedit.orb.midpoint360"     = "Orb Midpunkte 360°";
 "view.configedit.orb.midpoint90"      = "Orb Midpunkte 90°";
@@ -164,7 +162,6 @@
 // Hilfe Orb-Editor
 "view.configedit.orb.help.tooltip"    = "Hilfe zu Orben";
 "view.configedit.orb.help.groupbox"   = "Orben";
-"view.configedit.orb.help.line1"      = "Wähle das Orb-System, das du für die Berechnung effektiver Orben verwenden möchtest.";
 "view.configedit.orb.help.line2"      = "Der Basis-Orb für Aspekte ist der Ausgangspunkt für die Berechnung. Der effektive Orb pro Aspekt wird ermittelt, indem der Basis-Orb mit den Orb-Prozentsätzen aus den Faktor- und Aspekteinstellungen kombiniert wird.";
 "view.configedit.orb.help.line3"      = "Die Orb-Werte für Midpunkte, Harmoniken und Parallelen gelten als feste Werte.";
 

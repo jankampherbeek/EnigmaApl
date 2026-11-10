@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: - Errors
 
-public enum DataImportError: Error {
+public nonisolated enum DataImportError: Error {
     /// A line could not be parsed; includes 1-based line number and the offending text.
     case parseError(line: Int, text: String)
     /// A required field contains an out-of-range value.
@@ -23,7 +23,7 @@ public enum DataImportError: Error {
 /// Implementations decide the format (CSV, JSON, …).
 /// `isData` is set by the caller — the same protocol is used for both
 /// real-data imports and control-group imports.
-public protocol DataImporter: Sendable {
+public nonisolated protocol DataImporter: Sendable {
     /// Parses the source and returns validated records.
     /// `startId` is the id assigned to the first record; subsequent records increment by 1.
     /// - Parameters:
@@ -54,7 +54,7 @@ public protocol DataImporter: Sendable {
 /// - `offset`  — UTC offset in decimal hours, e.g. 1.0 for CET, −5.0 for EST
 ///
 /// Blank lines and lines starting with `#` are silently skipped.
-public struct CsvDataImporter: DataImporter, Sendable {
+public nonisolated struct CsvDataImporter: DataImporter, Sendable {
 
     private let separator: Character
 

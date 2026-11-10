@@ -5,7 +5,7 @@
 import Foundation
 
 /// Settings for a single celestial factor.
-public struct FactorSettings: Codable, Equatable, Sendable {
+public nonisolated struct FactorSettings: Codable, Equatable, Sendable {
     public let factor: Factors
     /// Whether this factor is included in calculations.
     public let isUsed: Bool
@@ -23,7 +23,7 @@ public struct FactorSettings: Codable, Equatable, Sendable {
 }
 
 /// Configuration for which celestial factors are active and how they participate in orb calculations.
-public struct FactorConfig: Codable, Sendable {
+public nonisolated struct FactorConfig: Codable, Sendable {
     public let factorSettings: [FactorSettings]
 
     public init(factorSettings: [FactorSettings] = FactorConfig.defaultSettings) {

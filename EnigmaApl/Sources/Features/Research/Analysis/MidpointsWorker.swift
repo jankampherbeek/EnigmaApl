@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of an occupied midpoint (factorA/factorB midpoint occupied by factorC).
-public struct MidpointCount: Sendable {
+public nonisolated struct MidpointCount: Sendable {
     public let factorA: Factors
     public let factorB: Factors
     public let occupant: Factors
@@ -17,14 +17,14 @@ public struct MidpointCount: Sendable {
 }
 
 /// Full result of a `MidpointsWorker` run.
-public struct MidpointsResult: Sendable {
+public nonisolated struct MidpointsResult: Sendable {
     public let counts: [MidpointCount]
     public let skippedRecords: Int
 }
 
 // MARK: - Errors
 
-public enum MidpointsWorkerError: Error {
+public nonisolated enum MidpointsWorkerError: Error {
     case eclipticalNotEnabled
     case fileNotMapped
     case noDialSizesConfigured
@@ -37,7 +37,7 @@ public enum MidpointsWorkerError: Error {
 /// For a given dial `d` (360, 90, or 45): reduce all longitudes modulo `d`,
 /// compute midpoint of factorA and factorB as `(lonA + lonB) / 2 mod d`,
 /// then check if factorC's reduced longitude is within `orb` of that midpoint.
-public struct MidpointsWorker {
+public nonisolated struct MidpointsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig
@@ -136,7 +136,7 @@ public struct MidpointsWorker {
     }
 }
 
-private struct FourKey: Hashable {
+private nonisolated struct FourKey: Hashable {
     let a, b, c, d: Int
     init(_ a: Int, _ b: Int, _ c: Int, _ d: Int) {
         self.a = a; self.b = b; self.c = c; self.d = d

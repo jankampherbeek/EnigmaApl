@@ -14,7 +14,7 @@ import Foundation
 /// declination extreme (`f` = declination speed, since an extreme is where the derivative
 /// crosses zero) — only `f` changes between use cases. This generalizes the coarse-step +
 /// bisection pattern used by `PreNatalOrchestrator`.
-struct ZeroCrossingScanner {
+nonisolated struct ZeroCrossingScanner {
 
     private init() {}
 

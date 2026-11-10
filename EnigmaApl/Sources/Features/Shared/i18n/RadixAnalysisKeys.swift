@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for AnalysisScreen, HarmonicsScreen and related views, resolved from RadixAnalysis.strings.
-struct RadixAnalysisKeys {
+nonisolated struct RadixAnalysisKeys {
     private init() {}
 
     // AnalysisScreen

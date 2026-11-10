@@ -6,7 +6,7 @@ import Foundation
 import SwiftyBeaver
 
 /// Centralized logging configuration using SwiftyBeaver
-public struct Logger {
+public nonisolated struct Logger {
     /// Shared SwiftyBeaver logger instance
     private static let swiftyBeaver = SwiftyBeaver.self
     

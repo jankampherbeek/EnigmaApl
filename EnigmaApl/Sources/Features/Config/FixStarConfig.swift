@@ -5,7 +5,7 @@
 import Foundation
 
 /// Settings for a single fixed star.
-public struct FixStarSettings: Codable, Equatable, Sendable {
+public nonisolated struct FixStarSettings: Codable, Equatable, Sendable {
     public let fixStar: StarDefinitions
     public let isUsed: Bool
     public let selection: FixStarSelections
@@ -18,7 +18,7 @@ public struct FixStarSettings: Codable, Equatable, Sendable {
 }
 
 /// Configuration for which fixed stars are active and how they are selected.
-public struct FixStarConfig: Codable, Sendable {
+public nonisolated struct FixStarConfig: Codable, Sendable {
     public let includeGalacticCenter: Bool
     public let fixStarOrb: Double
     public let paranTimeOrb: Double

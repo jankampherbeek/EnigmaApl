@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Inquiries enum values.
-struct InquiriesKeys {
+nonisolated struct InquiriesKeys {
     private init() {}
 
     static let nameKeys: [Inquiries: String] = [

@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the warnings on RadixInputScreen, resolved from RadixInput.strings.
-struct RadixInputKeys {
+nonisolated struct RadixInputKeys {
     private init() {}
 
     static let warningTitle               = "view.radixinputscreen.warning.omittedfactors.title"

@@ -7,21 +7,21 @@ import Foundation
 // MARK: - Result types
 
 /// Count of unaspected occurrences for one factor, split by data group.
-public struct UnaspectCount: Sendable {
+public nonisolated struct UnaspectCount: Sendable {
     public let factor: Factors
     public let dataCount: Int
     public let controlCount: Int
 }
 
 /// Full result of an `UnaspectWorker` run.
-public struct UnaspectResult: Sendable {
+public nonisolated struct UnaspectResult: Sendable {
     public let counts: [UnaspectCount]
     public let skippedRecords: Int
 }
 
 // MARK: - Errors
 
-public enum UnaspectWorkerError: Error {
+public nonisolated enum UnaspectWorkerError: Error {
     case eclipticalNotEnabled
     case fileNotMapped
     case noAspectsConfigured
@@ -32,7 +32,7 @@ public enum UnaspectWorkerError: Error {
 /// Reads `results.bin` and counts how many times each enabled factor is unaspected —
 /// i.e. forms no aspect (within orb) with any other enabled factor — separately for
 /// real-data and control-group records.
-public struct UnaspectWorker {
+public nonisolated struct UnaspectWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

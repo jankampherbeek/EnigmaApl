@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for SpeedType enum values.
-struct SpeedKeys {
+nonisolated struct SpeedKeys {
     private init() {}
 
     static let keys: [SpeedType: String] = [

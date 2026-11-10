@@ -6,7 +6,7 @@ import Foundation
 
 /// The progressive technique that produced a Progressive Calendar event or episode.
 /// Primary directions are intentionally excluded from the Progressive Calendar.
-enum ProgressiveCalendarTechnique: Sendable {
+nonisolated enum ProgressiveCalendarTechnique: Sendable {
     case transit
     case secondaryDirection
     case symbolicDirection
@@ -14,7 +14,7 @@ enum ProgressiveCalendarTechnique: Sendable {
 
 /// Identifies a house cusp or angle in the radix chart as the target of a
 /// "conjunction with cusp" event.
-enum ProgressiveCuspTarget: Sendable, Equatable {
+nonisolated enum ProgressiveCuspTarget: Sendable, Equatable {
     case house(Int)   // 1...12
     case ascendant
     case midheaven
@@ -25,7 +25,7 @@ enum ProgressiveCuspTarget: Sendable, Equatable {
 /// A single, instantaneous Progressive Calendar event: something that happens at one
 /// specific moment. Aspects and parallels are not modeled here — they span a range of
 /// time and are represented by `ProgressiveOrbEpisode` instead.
-enum ProgressiveCalendarEventKind: Sendable {
+nonisolated enum ProgressiveCalendarEventKind: Sendable {
     case cuspConjunction(factor: Factors, cusp: ProgressiveCuspTarget)
     case retrogradeStation(factor: Factors)
     case directStation(factor: Factors)
@@ -36,7 +36,7 @@ enum ProgressiveCalendarEventKind: Sendable {
 }
 
 /// An instantaneous Progressive Calendar event, for a given technique.
-struct ProgressiveCalendarEvent: Identifiable, Sendable {
+nonisolated struct ProgressiveCalendarEvent: Identifiable, Sendable {
     let id = UUID()
     let technique: ProgressiveCalendarTechnique
     let jd: Double
@@ -59,7 +59,7 @@ struct ProgressiveCalendarEvent: Identifiable, Sendable {
 /// The relationship type for an orb-based episode. Prog-to-prog cases are scoped to a
 /// single technique — cross-technique combinations (e.g. transit-to-secondary-direction)
 /// are out of scope for the Progressive Calendar.
-enum ProgressiveOrbEpisodeKind: Sendable, Equatable {
+nonisolated enum ProgressiveOrbEpisodeKind: Sendable, Equatable {
     case aspectToRadix(Aspects)
     case aspectProgToProg(Aspects)
     case parallelToRadix
@@ -82,7 +82,7 @@ enum ProgressiveOrbEpisodeKind: Sendable, Equatable {
 /// `exactJD`/`minOrb` still describe the closest approach found within the episode in that
 /// case, but callers showing an "Exact" date to the user should treat it as not truly exact
 /// (e.g. by hiding the date) rather than implying the aspect completed.
-struct ProgressiveOrbEpisode: Identifiable, Sendable {
+nonisolated struct ProgressiveOrbEpisode: Identifiable, Sendable {
     let id = UUID()
     let technique: ProgressiveCalendarTechnique
     /// The progressive factor.

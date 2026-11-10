@@ -7,7 +7,7 @@ import Foundation
 /// Date for astronomical calculations.
 /// Assumes the astronomical calendar, so there is a year zero and years BCE should subtract 1 to get the astronomicall date.
 /// Gregorian indicates the calender: true (default) is Gregorian calendar, toherwise the Julian calendar is used.
-public struct AstronomicalDate {
+public nonisolated struct AstronomicalDate {
     public let Year: Int
     public let Month: Int
     public let Day: Int
@@ -22,7 +22,7 @@ public struct AstronomicalDate {
 }
 
 /// Time for all purposes, including astronomical. No timezone is supplied, for astronomical calculations always use UT.
-public struct AstronomicalTime {
+public nonisolated struct AstronomicalTime {
     public let Hour: Int
     public let Minute: Int
     public let Second: Int
@@ -54,7 +54,7 @@ public struct AstronomicalTime {
 }
 
 /// Astronomical date and timne
-public struct AstronomicalDateTime {
+public nonisolated struct AstronomicalDateTime {
     public let Date: AstronomicalDate
     public let Time: AstronomicalTime
     

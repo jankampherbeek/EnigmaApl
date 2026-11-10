@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for DataFileType enum values.
-struct DataFileTypeKeys {
+nonisolated struct DataFileTypeKeys {
     private init() {}
 
     static let nameKeys: [DataFileType: String] = [

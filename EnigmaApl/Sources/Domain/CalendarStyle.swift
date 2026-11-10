@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 // Gregorian or Julian calendar
-enum CalendarStyle: CaseIterable, Identifiable, Hashable {
+nonisolated enum CalendarStyle: CaseIterable, Identifiable, Hashable {
     case gregorian
     case julian
 

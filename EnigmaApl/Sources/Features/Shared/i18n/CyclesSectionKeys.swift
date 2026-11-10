@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for CyclesSection enum values.
-struct CyclesSectionKeys {
+nonisolated struct CyclesSectionKeys {
     private init() {}
 
     static let keys: [CyclesSection: String] = [

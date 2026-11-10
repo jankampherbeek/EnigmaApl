@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of occurrences for one sign, split by data group.
-public struct SignCount: Sendable {
+public nonisolated struct SignCount: Sendable {
     public let sign: Signs
     /// Count in the real-data group.
     public let dataCount: Int
@@ -17,7 +17,7 @@ public struct SignCount: Sendable {
 
 /// Analysis result for one factor: how many times it falls in each sign,
 /// separately for real data and control group.
-public struct FactorSignDistribution: Sendable {
+public nonisolated struct FactorSignDistribution: Sendable {
     public let factor: Factors
     /// One entry per sign (Aries … Pisces), always 12 elements.
     public let signCounts: [SignCount]
@@ -29,7 +29,7 @@ public struct FactorSignDistribution: Sendable {
 }
 
 /// Full result of a `FactorsInSignsWorker` run.
-public struct FactorsInSignsResult: Sendable {
+public nonisolated struct FactorsInSignsResult: Sendable {
     /// One distribution per factor in the order they appear in the config.
     public let distributions: [FactorSignDistribution]
     /// Number of records that were skipped (e.g. ecliptical data absent).
@@ -38,7 +38,7 @@ public struct FactorsInSignsResult: Sendable {
 
 // MARK: - Errors
 
-public enum FactorsInSignsError: Error {
+public nonisolated enum FactorsInSignsError: Error {
     /// The config does not include ecliptical coordinates, which are required for sign positions.
     case eclipticalNotEnabled
     /// The binary file has not been memory-mapped yet.
@@ -58,7 +58,7 @@ public enum FactorsInSignsError: Error {
 /// let worker = FactorsInSignsWorker(binaryFile: file, config: config)
 /// let result = try worker.run()
 /// ```
-public struct FactorsInSignsWorker {
+public nonisolated struct FactorsInSignsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

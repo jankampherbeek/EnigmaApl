@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the Import/Export feature, resolved from ImportExport.strings.
-struct ImportExportKeys {
+nonisolated struct ImportExportKeys {
     private init() {}
 
     // MARK: - ImportExportScreen

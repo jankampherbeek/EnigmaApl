@@ -1,7 +1,7 @@
 // ZodiacFixedCalc.swift
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
-public struct ZodiacFixedCalc {
+public nonisolated struct ZodiacFixedCalc {
     
     
     
@@ -10,8 +10,6 @@ public struct ZodiacFixedCalc {
             
         var coordinates: [Factors: FullFactorPosition] = [:]
         let julianDay = calcRequest.JulianDay
-        let distance = 0.0          // distance is unknown or irrelevant
-        let latitude = 0.0          // latitude is zero by definition
         let observerLat = calcRequest.Latitude
         let observerLong = calcRequest.Longitude
         

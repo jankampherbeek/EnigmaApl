@@ -5,7 +5,7 @@
 import Foundation
 
 /// Coordinate systems, used to define a position
-public enum CoordinateSystems: Int, CaseIterable {
+public nonisolated enum CoordinateSystems: Int, CaseIterable, Sendable {
     case ecliptical = 0
     case equatorial = 1
     case horizontal = 3

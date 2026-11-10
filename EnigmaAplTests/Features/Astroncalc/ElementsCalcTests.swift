@@ -16,7 +16,6 @@ struct CommonElementsCalcTests {
         // Test parameters
         let factorsToUse: [Factors] = [.persephoneRam, .hermesRam, .demeterRam]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         

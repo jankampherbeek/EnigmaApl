@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum SymbolicTimeKey: Int, CaseIterable, Codable {
+public nonisolated enum SymbolicTimeKey: Int, CaseIterable, Codable, Sendable {
     case oneDegree = 0
     case trueSun = 1
     case meanSun = 2
@@ -19,7 +19,7 @@ public enum SymbolicTimeKey: Int, CaseIterable, Codable {
 }
 
 /// Configuration for symbolic directions.
-public struct SymbolicDirectionsConfig: Codable, Sendable {
+public nonisolated struct SymbolicDirectionsConfig: Codable, Sendable {
     public let factors: [Factors]
     public let orb: Double
     public let timeKey: SymbolicTimeKey

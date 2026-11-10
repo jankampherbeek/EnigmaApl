@@ -7,7 +7,7 @@ import Foundation
 /// Severity of a single message produced while importing or exporting a
 /// record in an exchange format. A warning never aborts the surrounding
 /// record or file; a fatal error aborts only the record it belongs to.
-enum ExchangeSeverity {
+nonisolated enum ExchangeSeverity {
     case warning
     case fatal
 }
@@ -16,7 +16,7 @@ enum ExchangeSeverity {
 /// exporting one record of an exchange format (QCK, AAF'97, Astro-Databank XML).
 /// `recordNumber` is 1-based and refers to the record/line within the source
 /// file; it is nil for messages that apply to the file as a whole.
-struct ExchangeMessage {
+nonisolated struct ExchangeMessage {
     let severity: ExchangeSeverity
     let recordNumber: Int?
     let field: String?

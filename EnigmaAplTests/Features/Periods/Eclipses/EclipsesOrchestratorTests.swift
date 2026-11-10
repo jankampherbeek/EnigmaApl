@@ -105,9 +105,11 @@ struct EclipsesOrchestratorTests {
         var serr = [CChar](repeating: 0, count: 256)
         let jdTotalSolarEclipse2024 = 2460409.0
 
-        let returnCode = swe_sol_eclipse_where(jdTotalSolarEclipse2024, SEFLG_SWIEPH,
-                                               geopos, &attr, &serr)
-        #expect(returnCode >= 0)
+        // Swiss Ephemeris is not thread-safe and other tests run in parallel: use the same lock as SEWrapper.
+        let returnCode = SEWrapper.locked {
+            swe_sol_eclipse_where(jdTotalSolarEclipse2024, SEFLG_SWIEPH, geopos, &attr, &serr)
+        }
+        #expect(returnCode >= 0, "swe_sol_eclipse_where failed: \(String(cString: serr))")
 
         var highestIndexWritten = -1
         for i in 0..<capacity where geopos[i] != sentinel { highestIndexWritten = i }

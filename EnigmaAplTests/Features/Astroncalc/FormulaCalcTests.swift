@@ -15,7 +15,6 @@ struct FormulaCalcTests {
         let julianDay = 2455197.5
         let factorsToUse: [Factors] = [.apogeeDuval, .persephoneCarteret, .vulcanusCarteret]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         

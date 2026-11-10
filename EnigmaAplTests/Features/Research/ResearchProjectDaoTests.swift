@@ -19,6 +19,7 @@ struct ResearchProjectDaoTests {
         return ResearchProjectDao(context: ModelContext(container))
     }
 
+    @discardableResult
     private func addSample(
         to dao: ResearchProjectDao,
         id: Int = 1,

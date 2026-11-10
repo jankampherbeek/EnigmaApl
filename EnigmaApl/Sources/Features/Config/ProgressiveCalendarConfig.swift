@@ -11,7 +11,7 @@ import Foundation
 /// edited directly in the Progressive Calendar feature's own input screen, not only through
 /// the generic Config editor — this struct only supplies the persisted defaults that screen
 /// seeds its local editable state from.
-public struct ProgressiveCalendarConfig: Codable, Sendable {
+public nonisolated struct ProgressiveCalendarConfig: Codable, Sendable {
     public let useTransits: Bool
     public let useSecondaryDirections: Bool
     public let useSymbolicDirections: Bool

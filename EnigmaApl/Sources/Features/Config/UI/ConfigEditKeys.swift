@@ -179,9 +179,7 @@ struct ConfigEditKeys {
     static let progSolarHelpLine2       = "view.configedit.prog.solar.help.line2"
 
     // MARK: - Orb editor fields
-    static let orbSectionSystem        = "view.configedit.orb.section.system"
     static let orbSectionValues        = "view.configedit.orb.section.values"
-    static let orbSystem               = "view.configedit.orb.system"
     static let orbAspectBase           = "view.configedit.orb.aspectbase"
     static let orbMidpoint360          = "view.configedit.orb.midpoint360"
     static let orbMidpoint90           = "view.configedit.orb.midpoint90"
@@ -193,7 +191,6 @@ struct ConfigEditKeys {
     // MARK: - Orb editor help
     static let orbHelpTooltip          = "view.configedit.orb.help.tooltip"
     static let orbHelpGroupBox         = "view.configedit.orb.help.groupbox"
-    static let orbHelpLine1            = "view.configedit.orb.help.line1"
     static let orbHelpLine2            = "view.configedit.orb.help.line2"
     static let orbHelpLine3            = "view.configedit.orb.help.line3"
 

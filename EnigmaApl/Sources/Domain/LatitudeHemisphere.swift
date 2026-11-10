@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 // Directions in latitude: north and south
-enum LatitudeHemisphere: CaseIterable, Identifiable, Hashable {
+nonisolated enum LatitudeHemisphere: CaseIterable, Identifiable, Hashable {
     case north
     case south
 

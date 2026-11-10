@@ -5,7 +5,7 @@
 import Foundation
 
 /// Errors thrown by ImportOrchestrator.
-enum ImportOrchestratorError: Error {
+nonisolated enum ImportOrchestratorError: Error {
     case parseFailed(Error)
     case databaseFailed(Error)
     case noRecordsAfterImport
@@ -18,7 +18,7 @@ enum ImportOrchestratorError: Error {
 /// 4. Persist control-group records into the same database
 ///
 /// All work is synchronous — call from a background `Task`.
-struct ImportOrchestrator {
+nonisolated struct ImportOrchestrator {
 
     private let generator: ControlGroupGenerator
 

@@ -5,7 +5,7 @@
 import Foundation
 
 /// Utility that handles conformance of a value to a given range
-public struct RangeUtil {
+public nonisolated struct RangeUtil {
     /// Forces a value to be within a given range.
     /// Adds or subtracts the size of the range until the value falls within the limits of the range.
     /// - Parameters:

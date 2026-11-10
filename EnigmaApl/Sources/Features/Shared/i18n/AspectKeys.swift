@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Aspects enum values.
-struct AspectKeys {
+nonisolated struct AspectKeys {
     private init() {}
 
     static let keys: [Aspects: String] = [

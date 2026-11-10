@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct FixStarsOrchestrator {
+public nonisolated struct FixStarsOrchestrator {
 
     // MARK: - Public API
 

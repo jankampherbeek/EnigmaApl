@@ -7,14 +7,14 @@ import Foundation
 // MARK: - Result types
 
 /// Count of OOB occurrences for one factor.
-public struct OobCount: Sendable {
+public nonisolated struct OobCount: Sendable {
     public let factor: Factors
     public let dataCount: Int
     public let controlCount: Int
 }
 
 /// Full result of an `OobWorker` run.
-public struct OobResult: Sendable {
+public nonisolated struct OobResult: Sendable {
     public let counts: [OobCount]
     /// Maximum solar declination used as the OOB threshold.
     public let obliquity: Double
@@ -23,7 +23,7 @@ public struct OobResult: Sendable {
 
 // MARK: - Errors
 
-public enum OobWorkerError: Error {
+public nonisolated enum OobWorkerError: Error {
     case equatorialNotEnabled
     case fileNotMapped
 }
@@ -37,7 +37,7 @@ public enum OobWorkerError: Error {
 /// factor id -1).  A factor is OOB when |declination| > obliquity + roundingMargin.
 /// The rounding margin (1/100th of an arc-second) prevents the Sun from being
 /// incorrectly flagged as OOB due to floating-point rounding at the solstice points.
-public struct OobWorker {
+public nonisolated struct OobWorker {
 
     /// Rounding margin: 1 arc-second in degrees.
     /// Prevents the Sun (whose declination equals the obliquity at the solstices)

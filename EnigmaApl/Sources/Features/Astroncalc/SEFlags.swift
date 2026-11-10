@@ -5,7 +5,7 @@
 import Foundation
 
 /// Calculates the flags for a calculation via the Swiss Ephemeris
-public struct SEFlags {
+public nonisolated struct SEFlags {
     
     /// Define flags based on coordinate system, observer position, and zodiac type
     /// - Parameters:

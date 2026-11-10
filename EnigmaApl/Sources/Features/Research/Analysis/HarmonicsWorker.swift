@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Result types
 
 /// Count of a harmonic conjunction: radix factor A's harmonic position conjuncts radix factor B.
-public struct HarmonicConjunctionCount: Sendable {
+public nonisolated struct HarmonicConjunctionCount: Sendable {
     public let harmonicFactor: Factors   // the factor whose harmonic was computed
     public let radixFactor: Factors      // the factor it conjuncts in the radix
     public let harmonicNumber: Int
@@ -16,7 +16,7 @@ public struct HarmonicConjunctionCount: Sendable {
 }
 
 /// Full result of a `HarmonicsWorker` run.
-public struct HarmonicsResult: Sendable {
+public nonisolated struct HarmonicsResult: Sendable {
     public let counts: [HarmonicConjunctionCount]
     public let harmonicNumber: Int
     public let skippedRecords: Int
@@ -24,7 +24,7 @@ public struct HarmonicsResult: Sendable {
 
 // MARK: - Errors
 
-public enum HarmonicsWorkerError: Error {
+public nonisolated enum HarmonicsWorkerError: Error {
     case eclipticalNotEnabled
     case fileNotMapped
 }
@@ -34,7 +34,7 @@ public enum HarmonicsWorkerError: Error {
 /// For each record, multiplies every factor's longitude by `harmonicNumber` (mod 360)
 /// and checks if the result is within `orb` of any other factor's radix longitude.
 /// Counts matches per (harmonicFactor, radixFactor) pair.
-public struct HarmonicsWorker {
+public nonisolated struct HarmonicsWorker {
 
     private let binaryFile: ResultsBinaryFile
     private let config: ResearchConfig

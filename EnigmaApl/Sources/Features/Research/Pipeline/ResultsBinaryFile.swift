@@ -5,7 +5,7 @@
 import Foundation
 
 /// Errors thrown by ResultsBinaryFile.
-public enum ResultsBinaryFileError: Error {
+public nonisolated enum ResultsBinaryFileError: Error {
     case cannotCreateFile(String)
     case cannotOpenFile(String)
     case cannotMapFile(String)
@@ -27,17 +27,17 @@ public enum ResultsBinaryFileError: Error {
 //  32      4*N   factorIds: UInt32 array (N = factorCount, max 56 = (256-32)/4)
 //  ...     pad   zero-filled to 256 bytes
 
-private let kMagic: [UInt8] = Array("ENIGMARS".utf8)
-private let kVersion: UInt32 = 1
-private let kHeaderSize = 256
+private nonisolated let kMagic: [UInt8] = Array("ENIGMARS".utf8)
+private nonisolated let kVersion: UInt32 = 1
+private nonisolated let kHeaderSize = 256
 
 // Per enabled coordinate system we store 5 Doubles (8 bytes each = 40 bytes):
 //   mainPos, deviation, distance, speedMain, speedDeviation
-private let kDoublesPerCoordSystem = 5
-private let kBytesPerCoordSystem = kDoublesPerCoordSystem * 8
+private nonisolated let kDoublesPerCoordSystem = 5
+private nonisolated let kBytesPerCoordSystem = kDoublesPerCoordSystem * 8
 
 // Fixed prefix per record: recordId (Int64 = 8 bytes) + isData (UInt8 = 1 byte) + 7 pad bytes = 16 bytes
-private let kRecordPrefix = 16
+private nonisolated let kRecordPrefix = 16
 
 /// Creates, writes to, and memory-maps `results.bin` for a research pipeline run.
 ///
@@ -45,7 +45,7 @@ private let kRecordPrefix = 16
 /// 1. `try ResultsBinaryFile.create(at:config:recordCount:)` — creates the file and writes the header
 /// 2. `file.write(record:at:position:config:)` — called once per chart in pipeline order
 /// 3. `try file.memoryMap()` — switch to read-only mmap for analysis workers
-public final class ResultsBinaryFile {
+public final nonisolated class ResultsBinaryFile {
 
     private let fileURL: URL
     private(set) var recordCount: UInt64
@@ -154,7 +154,7 @@ public final class ResultsBinaryFile {
                 "\(url.path): size \(data.count) ≠ expected \(expectedSize)"
             )
         }
-        var file = ResultsBinaryFile(url: url, recordCount: recordCount, recordSize: recordSize)
+        let file = ResultsBinaryFile(url: url, recordCount: recordCount, recordSize: recordSize)
         file.mappedData = data
         return file
     }

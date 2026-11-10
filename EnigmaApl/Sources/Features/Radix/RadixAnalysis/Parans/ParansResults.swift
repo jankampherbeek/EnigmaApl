@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: - Paran event type
 
-public enum ParanType: CaseIterable {
+public nonisolated enum ParanType: CaseIterable, Sendable {
     case rising
     case setting
     case culmination
@@ -25,7 +25,7 @@ public enum ParanType: CaseIterable {
 
 // MARK: - Body wrapper (factor or fixed star)
 
-public enum ParanBody: Equatable {
+public nonisolated enum ParanBody: Equatable, Sendable {
     case factor(Factors)
     case star(StarDefinitions)
 
@@ -41,7 +41,7 @@ public enum ParanBody: Equatable {
 
 /// All four paran transit times (JD UT) for a single body on the birth day.
 /// A nil value means the body is circumpolar or the SE calculation failed.
-public struct ParanTimesForBody {
+public nonisolated struct ParanTimesForBody {
     public let body: ParanBody
     public let rising: Double?
     public let setting: Double?
@@ -61,7 +61,7 @@ public struct ParanTimesForBody {
 // MARK: - A single paran match
 
 /// Two bodies whose transit times (of potentially different event types) fall within the configured time orb.
-public struct ParanMatch {
+public nonisolated struct ParanMatch {
     /// The first body (a fixed star, or a factor). Never a star when body2 is also a star.
     public let body1: ParanBody
     /// Event type for body1.
@@ -80,7 +80,7 @@ public struct ParanMatch {
 
 // MARK: - Full paran result
 
-public struct ParansResult {
+public nonisolated struct ParansResult {
     public let allTimes: [ParanTimesForBody]
     public let matches: [ParanMatch]
 }

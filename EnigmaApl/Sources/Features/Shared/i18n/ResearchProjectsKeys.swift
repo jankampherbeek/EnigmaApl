@@ -2,7 +2,7 @@
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 
-struct ResearchProjectsKeys {
+nonisolated struct ResearchProjectsKeys {
     private init() {}
     static let title            = "view.researchprojectsscreen.title"
     static let buttonNew        = "view.researchprojectsscreen.button.new"

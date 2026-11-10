@@ -294,9 +294,10 @@ struct ProgressiveCalendarTimelineCanvas: View {
             if case .oobEnter = event.kind { return "\u{2191}" }
             return "\u{2193}"
         }()
-        return Text(GlyphSelector.getGlyphForFactor(Self.factor(for: event.kind)))
+        let glyph = Text(GlyphSelector.getGlyphForFactor(Self.factor(for: event.kind)))
             .font(.custom("EnigmaAstrology3", size: 15))
-            + Text(" OOB" + arrow).font(.caption2)
+        let label = Text(" OOB" + arrow).font(.caption2)
+        return Text("\(glyph)\(label)")
     }
 
     private func drawBaseline(midY: CGFloat, width: CGFloat, context: GraphicsContext) {

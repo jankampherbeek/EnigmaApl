@@ -10,7 +10,7 @@ import SwissEphC
 // MARK: - Errors
 /// TODO: Implement specific error handling and remove this enum.
 /// Result of a house calculation.
-public struct HouseCalculationResult {
+public nonisolated struct HouseCalculationResult {
     /// Cusps, using index 1...12 (1...36 for Gauquelin); index 0 is not used.
     public let cusps: [Double]
     /// Ascendant, MC, ARMC, Vertex, equatorial ascendant etc., see `calculateHouses`.
@@ -21,15 +21,28 @@ public struct HouseCalculationResult {
     public let porphyryFallback: Bool
 }
 
-public enum SEError: Error {
+public nonisolated enum SEError: Error, Sendable {
     case initializationFailed(String)
     case calculationFailed(String)
     case houseCalculationFailed(Int32) // return code
 }
 
-public class SEWrapper {
+public nonisolated class SEWrapper {
 
     private var isInitialized = false
+
+    /// Swiss Ephemeris keeps its state (open ephemeris files, topocentric position, sidereal mode) in C globals
+    /// and is not thread-safe. Every call to the library goes through this lock, so calls from the main thread,
+    /// actors and background tasks never run at the same time.
+    private static let seLock = NSRecursiveLock()
+
+    /// Runs `body` while holding the Swiss Ephemeris lock. Use it for every direct `swe_*` call.
+    @discardableResult
+    static func locked<T>(_ body: () throws -> T) rethrows -> T {
+        seLock.lock()
+        defer { seLock.unlock() }
+        return try body()
+    }
 
     // Static flag to ensure path is only set once globally
     private static var pathSet = false
@@ -125,7 +138,7 @@ public class SEWrapper {
         if !SEWrapper.pathSet {
             Logger.log.info("Setting Swiss Ephemeris path to: \(sePath)")
             sePath.withCString { cString in
-                swe_set_ephe_path(cString)
+                SEWrapper.locked { swe_set_ephe_path(cString) }
             }
             SEWrapper.pathSet = true
         }
@@ -140,7 +153,7 @@ public class SEWrapper {
     /// Prepare for topocentric calculations
     /// Uses geographic longitude and latitude and height above sea-level (in meters)
     public func setTopocentric(geoLon: Double, geoLat: Double, height: Double) {
-        swe_set_topo(geoLon, geoLat, height)
+        SEWrapper.locked { swe_set_topo(geoLon, geoLat, height) }
     }
     
     
@@ -161,7 +174,7 @@ public class SEWrapper {
     {
         if (idAyanamsha >= -1 && idAyanamsha <= 39)
         {
-            swe_set_sid_mode(Int32(idAyanamsha), 0, 0);
+            SEWrapper.locked { swe_set_sid_mode(Int32(idAyanamsha), 0, 0) };
         }
     }
 
@@ -175,7 +188,7 @@ public class SEWrapper {
     ///     double tjd_ut);     /* input: Julian day number in UT */
     public func getAyanamshaOffset(jdUt: Double) -> Double
     {
-        let result = swe_get_ayanamsa_ut(jdUt)
+        let result = SEWrapper.locked { swe_get_ayanamsa_ut(jdUt) }
         return result
     }
     
@@ -196,7 +209,7 @@ public class SEWrapper {
     public func julianDay(date: AstronomicalDate, time: AstronomicalTime) -> Double {
         let gregflag = date.Gregorian ? 1 : 0
         let ut = time.HourDecimal
-        return swe_julday(Int32(date.Year), Int32(date.Month), Int32(date.Day), ut, Int32(gregflag))
+        return SEWrapper.locked { swe_julday(Int32(date.Year), Int32(date.Month), Int32(date.Day), ut, Int32(gregflag)) }
     }
     
     /// Convert Julian Day to an AstronomicalDateTime
@@ -212,7 +225,7 @@ public class SEWrapper {
         var day: Int32 = 0
         var hour: Double = 0
         
-        swe_revjul(julianDay, Int32(gregflag), &year, &month, &day, &hour)
+        SEWrapper.locked { swe_revjul(julianDay, Int32(gregflag), &year, &month, &day, &hour) }
         
         let date = AstronomicalDate(Year: Int(year), Month: Int(month), Day: Int(day), Gregorian: gregorian)
         let time = AstronomicalTime(HourDecimal: hour)
@@ -249,7 +262,7 @@ public class SEWrapper {
                 Logger.log.error("Failed to get valid pointer for Delta T calculation")
                 return
             }
-            deltaT = swe_deltat_ex(jdUt, Int32(flag), errorPtr)
+            deltaT = SEWrapper.locked { swe_deltat_ex(jdUt, Int32(flag), errorPtr) }
             if errorBuffer[0] != 0 {
                 let errorMessage = String(cString: errorPtr)
                 Logger.log.error("Error calculating Delta T: \(errorMessage)")
@@ -273,7 +286,7 @@ public class SEWrapper {
             Logger.log.error("Swiss Ephemeris not initialized")
             return 0.0
         }
-        return swe_sidtime(jdUt)
+        return SEWrapper.locked { swe_sidtime(jdUt) }
     }
 
     // MARK: - Obliquity and Nutation Calculation
@@ -306,7 +319,7 @@ public class SEWrapper {
                     Logger.log.error("Failed to get valid pointers for obliquity calculation")
                     return
                 }
-                returnCode = swe_calc_ut(jdUt, SE_ECL_NUT, SEFLG_SWIEPH, resultPtr, errorPtr)
+                returnCode = SEWrapper.locked { swe_calc_ut(jdUt, SE_ECL_NUT, SEFLG_SWIEPH, resultPtr, errorPtr) }
                 if returnCode < 0 {
                     errorMessage = String(cString: errorPtr)
                 }
@@ -367,7 +380,7 @@ public class SEWrapper {
                     return
                 }
                 
-                returnCode = swe_calc_ut(preciseJD, Int32(factor), Int32(flags), resultPtr, errorPtr)
+                returnCode = SEWrapper.locked { swe_calc_ut(preciseJD, Int32(factor), Int32(flags), resultPtr, errorPtr) }
                 
                 if returnCode < 0 {
                     errorMessage = String(cString: errorPtr)
@@ -598,7 +611,7 @@ public class SEWrapper {
                     returnCode = -1
                     return
                 }
-                returnCode = swe_houses_ex(julianDay, flags, latitude, longitude, Int32(houseSystem), cuspsPtr, ascmcPtr)
+                returnCode = SEWrapper.locked { swe_houses_ex(julianDay, flags, latitude, longitude, Int32(houseSystem), cuspsPtr, ascmcPtr) }
             }
         }
         return (returnCode, cusps, ascmc)
@@ -669,7 +682,7 @@ public class SEWrapper {
                     return
                 }
 
-                returnCode = swe_houses_armc(preciseArmc, preciseLatitude, preciseObliquity, Int32(houseSystem), cuspsPtr, ascmcPtr)
+                returnCode = SEWrapper.locked { swe_houses_armc(preciseArmc, preciseLatitude, preciseObliquity, Int32(houseSystem), cuspsPtr, ascmcPtr) }
             }
         }
 
@@ -744,7 +757,7 @@ public class SEWrapper {
                         return
                     }
                     
-                    swe_azalt(
+                    SEWrapper.locked { swe_azalt(
                         preciseJulianDay,
                         Int32(flag),
                         geoPosPtr,
@@ -752,7 +765,7 @@ public class SEWrapper {
                         atTemp,
                         equCoordinatesPtr,
                         azimuthAltitudePtr
-                    )
+                    ) }
                     
                     // Extract results from the buffer - C function modifies the memory directly
                     if azimuthAltitudeBuffer.count >= 2 {
@@ -807,7 +820,7 @@ public class SEWrapper {
                     return
                 }
                 
-                swe_cotrans(eclipticPtr, equPtr, negativeObliquity)
+                SEWrapper.locked { swe_cotrans(eclipticPtr, equPtr, negativeObliquity) }
                 
                 // Extract results from the buffer - C function modifies the memory directly
                 if equBuffer.count >= 2 {
@@ -904,7 +917,7 @@ public class SEWrapper {
                     return
                 }
                 Logger.log.info("About to call SE for orbital elements")
-                returnCode = swe_get_orbital_elements(preciseJD, Int32(planet), Int32(orbitalElementsFlags), resultPtr, errorPtr)
+                returnCode = SEWrapper.locked { swe_get_orbital_elements(preciseJD, Int32(planet), Int32(orbitalElementsFlags), resultPtr, errorPtr) }
                 Logger.log.info("Just called SE for orbital elements")
                 if returnCode < 0 {
                     errorMessage = String(cString: errorPtr)
@@ -1007,7 +1020,7 @@ public class SEWrapper {
                             Logger.log.error("Failed to get valid pointers for local solar eclipse calculation")
                             return
                         }
-                        returnCode = swe_sol_eclipse_when_loc(
+                        returnCode = SEWrapper.locked { swe_sol_eclipse_when_loc(
                             afterJD,
                             SEFLG_SWIEPH,
                             geoPosPtr,
@@ -1015,7 +1028,7 @@ public class SEWrapper {
                             attrPtr,
                             backward ? 1 : 0,
                             errPtr
-                        )
+                        ) }
                         if returnCode < 0 {
                             errorMessage = String(cString: errPtr)
                         }
@@ -1070,8 +1083,8 @@ public class SEWrapper {
             error.withUnsafeMutableBufferPointer { errBuf in
                 guard let tretPtr = tretBuf.baseAddress,
                       let errPtr  = errBuf.baseAddress else { return }
-                returnCode = swe_sol_eclipse_when_glob(afterJD, SEFLG_SWIEPH, 0, tretPtr,
-                                                       backward ? 1 : 0, errPtr)
+                returnCode = SEWrapper.locked { swe_sol_eclipse_when_glob(afterJD, SEFLG_SWIEPH, 0, tretPtr,
+                                                       backward ? 1 : 0, errPtr) }
             }
         }
         guard returnCode >= 0 else { return nil }
@@ -1099,8 +1112,8 @@ public class SEWrapper {
             error.withUnsafeMutableBufferPointer { errBuf in
                 guard let tretPtr = tretBuf.baseAddress,
                       let errPtr  = errBuf.baseAddress else { return }
-                returnCode = swe_lun_eclipse_when(afterJD, SEFLG_SWIEPH, 0, tretPtr,
-                                                  backward ? 1 : 0, errPtr)
+                returnCode = SEWrapper.locked { swe_lun_eclipse_when(afterJD, SEFLG_SWIEPH, 0, tretPtr,
+                                                  backward ? 1 : 0, errPtr) }
             }
         }
         guard returnCode >= 0 else { return nil }
@@ -1131,7 +1144,7 @@ public class SEWrapper {
                     guard let geoposPtr = geoposBuf.baseAddress,
                           let attrPtr   = attrBuf.baseAddress,
                           let errPtr    = errBuf.baseAddress else { return }
-                    returnCode = swe_sol_eclipse_where(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr)
+                    returnCode = SEWrapper.locked { swe_sol_eclipse_where(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr) }
                 }
             }
         }
@@ -1157,7 +1170,7 @@ public class SEWrapper {
                         guard let geoposPtr = geoposBuf.baseAddress,
                               let attrPtr   = attrBuf.baseAddress,
                               let errPtr    = errBuf.baseAddress else { return }
-                        returnCode = swe_lun_eclipse_how(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr)
+                        returnCode = SEWrapper.locked { swe_lun_eclipse_how(jd, SEFLG_SWIEPH, geoposPtr, attrPtr, errPtr) }
                     }
                 }
             }
@@ -1212,7 +1225,7 @@ public class SEWrapper {
                             Logger.log.error("Failed to get valid pointers for local lunar eclipse calculation")
                             return
                         }
-                        returnCode = swe_lun_eclipse_when_loc(
+                        returnCode = SEWrapper.locked { swe_lun_eclipse_when_loc(
                             afterJD,
                             SEFLG_SWIEPH,
                             geoPosPtr,
@@ -1220,7 +1233,7 @@ public class SEWrapper {
                             attrPtr,
                             backward ? 1 : 0,
                             errPtr
-                        )
+                        ) }
                         if returnCode < 0 {
                             errorMessage = String(cString: errPtr)
                         }
@@ -1274,8 +1287,8 @@ public class SEWrapper {
                 error.withUnsafeMutableBufferPointer { errBuf in
                     guard let geoPtr = geoBuf.baseAddress,
                           let errPtr = errBuf.baseAddress else { return }
-                    returnCode = swe_rise_trans(jdUt, Int32(ipl), nil, SEFLG_SWIEPH,
-                                               Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
+                    returnCode = SEWrapper.locked { swe_rise_trans(jdUt, Int32(ipl), nil, SEFLG_SWIEPH,
+                                               Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr) }
                 }
             }
         } else {
@@ -1290,8 +1303,8 @@ public class SEWrapper {
                         guard let starPtr = starBuf.baseAddress,
                               let geoPtr  = geoBuf.baseAddress,
                               let errPtr  = errBuf.baseAddress else { return }
-                        returnCode = swe_rise_trans(jdUt, 0, starPtr, SEFLG_SWIEPH,
-                                                   Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr)
+                        returnCode = SEWrapper.locked { swe_rise_trans(jdUt, 0, starPtr, SEFLG_SWIEPH,
+                                                   Int32(rsmi), geoPtr, 0.0, 0.0, &tret, errPtr) }
                     }
                 }
             }
@@ -1367,7 +1380,7 @@ public class SEWrapper {
                                 Logger.log.error("Failed to get valid pointers for apsides calculation")
                                 return
                             }
-                            returnCode = swe_nod_aps_ut(
+                            returnCode = SEWrapper.locked { swe_nod_aps_ut(
                                 preciseJD,
                                 Int32(planet),
                                 Int32(flags),
@@ -1377,7 +1390,7 @@ public class SEWrapper {
                                 xperiPtr,
                                 xaphePtr,
                                 errorPtr
-                            )
+                            ) }
                             if returnCode < 0 {
                                 errorMessage = String(cString: errorPtr)
                             }

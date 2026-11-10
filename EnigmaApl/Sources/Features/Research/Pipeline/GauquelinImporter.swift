@@ -34,7 +34,7 @@ import Foundation
 /// 1    F    17    9    1937    17    0    0    0    44N50    0W34    33    BORDEAUX
 /// 2    F    13    8    1889    12    20    40    0    48N50    2E20    75    PARIS 8E
 /// ```
-public struct GauquelinImporter: DataImporter, Sendable {
+public nonisolated struct GauquelinImporter: DataImporter, Sendable {
 
     public init() {}
 

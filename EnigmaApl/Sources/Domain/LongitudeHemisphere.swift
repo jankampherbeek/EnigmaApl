@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 // Directions in longitude: east and west
-enum LongitudeHemisphere: CaseIterable, Identifiable, Hashable {
+nonisolated enum LongitudeHemisphere: CaseIterable, Identifiable, Hashable {
     case east
     case west
 

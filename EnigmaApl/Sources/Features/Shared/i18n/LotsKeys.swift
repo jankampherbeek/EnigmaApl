@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for LotsInputScreen and LotsResultsScreen, resolved from Lots.strings.
-struct LotsKeys {
+nonisolated struct LotsKeys {
     private init() {}
 
     static let navTitle       = "view.lots.navtitle"

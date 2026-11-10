@@ -150,9 +150,7 @@
 "view.configedit.prog.solar.help.line2"    = "Définissez l'orbe pour le calcul.";
 
 // Éditeur d'orbes
-"view.configedit.orb.section.system"  = "Système d'orbes";
 "view.configedit.orb.section.values"  = "Valeurs d'orbes";
-"view.configedit.orb.system"          = "Système";
 "view.configedit.orb.aspectbase"      = "Orbe de base aspects";
 "view.configedit.orb.midpoint360"     = "Orbe points médians 360°";
 "view.configedit.orb.midpoint90"      = "Orbe points médians 90°";
@@ -164,7 +162,6 @@
 // Aide éditeur d'orbes
 "view.configedit.orb.help.tooltip"    = "Aide pour les orbes";
 "view.configedit.orb.help.groupbox"   = "Orbes";
-"view.configedit.orb.help.line1"      = "Choisissez le système d'orbes à utiliser pour le calcul des orbes effectifs.";
 "view.configedit.orb.help.line2"      = "L'orbe de base pour les aspects est le point de départ du calcul. L'orbe effectif par aspect est déterminé en combinant l'orbe de base avec les pourcentages d'orbe des paramètres de facteurs et d'aspects.";
 "view.configedit.orb.help.line3"      = "Les valeurs d'orbes pour les points médians, harmoniques et parallèles sont utilisées comme valeurs fixes.";
 

@@ -221,9 +221,6 @@
 "enum.drawingtype.dial90" = "Cadran des mi-points 90°";
 "enum.drawingtype.dial45" = "Cadran des mi-points 45°";
 // Orb systems
-"enum.orbsystem.procentual" = "Pourcentuel";
-"enum.orbsystem.fixed" = "Fixe";
-"enum.orbsystem.harmonicbased" = "Basé sur les harmoniques";
 // Primary directions
 "enum.primarymethod.placidus" = "Placidus";
 "enum.primarymethod.regiomontanus" = "Regiomontanus";

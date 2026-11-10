@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for Factors enum values.
-struct FactorKeys {
+nonisolated struct FactorKeys {
     private init() {}
 
     static let keys: [Factors: String] = [

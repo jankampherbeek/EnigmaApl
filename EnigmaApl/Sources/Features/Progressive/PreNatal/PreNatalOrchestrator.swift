@@ -6,7 +6,7 @@ import Foundation
 
 // MARK: - Domain types
 
-enum PreNatalMomentKind: Sendable {
+nonisolated enum PreNatalMomentKind: Sendable {
     case solarEclipse
     case lunarEclipse
     case ingress(factor: Factors, sign: Signs)
@@ -15,7 +15,7 @@ enum PreNatalMomentKind: Sendable {
     case aspect(kind: Aspects, factor1: Factors, factor2: Factors)
 }
 
-struct PreNatalMoment: Identifiable, Sendable {
+nonisolated struct PreNatalMoment: Identifiable, Sendable {
     let id = UUID()
     let prenatalJD: Double
     let actualJD: Double
@@ -28,7 +28,7 @@ struct PreNatalMoment: Identifiable, Sendable {
 
 // MARK: - Orchestrator
 
-struct PreNatalOrchestrator: Sendable {
+nonisolated struct PreNatalOrchestrator: Sendable {
     private static let TROPICAL_YEAR = 365.242199074
     private static let CONCEPTION_PERIOD = 273.217
     // 70 years of life per 273.217 days of gestation, scaled by tropical year

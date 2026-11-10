@@ -6,7 +6,7 @@ import Foundation
 import SwiftUI
 
 /// Localized labels and colors for `CountingsGroup`.
-enum CountingsLabels {
+nonisolated enum CountingsLabels {
     private static func t(_ key: String) -> String {
         NSLocalizedString(key, tableName: "Countings", bundle: .main, comment: "")
     }

@@ -4,7 +4,7 @@
 
 /// Localization keys for ZodiacDivisionsInputView and ZodiacDivisionsResultsView,
 /// resolved from ZodiacDivisions.strings.
-struct ZodiacDivisionsKeys {
+nonisolated struct ZodiacDivisionsKeys {
     private init() {}
 
     // ZodiacDivisionsInputView

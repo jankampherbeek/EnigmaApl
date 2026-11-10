@@ -10,12 +10,6 @@ struct OrbConfigTests {
 
     // MARK: - Default initialization
 
-    @Test("OrbConfig: default orbSystem is procentual")
-    func testDefaultOrbSystem() {
-        let config = OrbConfig()
-        #expect(config.orbSystem == .procentual)
-    }
-
     @Test("OrbConfig: default aspectBaseOrb is 10.0 degrees")
     func testDefaultAspectBaseOrb() {
         let config = OrbConfig()
@@ -52,31 +46,13 @@ struct OrbConfigTests {
         #expect(config.parallelOrb == 1.0)
     }
 
-    // MARK: - OrbSystem
-
-    @Test("OrbSystem: all cases are accepted")
-    func testAllOrbSystems() {
-        for orbSystem in OrbSystem.allCases {
-            let config = OrbConfig(orbSystem: orbSystem)
-            #expect(config.orbSystem == orbSystem)
-        }
-    }
-
-    @Test("OrbSystem: raw values are correct")
-    func testOrbSystemRawValues() {
-        #expect(OrbSystem.procentual.rawValue == 0)
-        #expect(OrbSystem.fixed.rawValue == 1)
-        #expect(OrbSystem.harmonicBased.rawValue == 2)
-    }
-
     // MARK: - Custom initialization
 
     @Test("OrbConfig: custom values are stored correctly")
     func testCustomInit() {
-        let config = OrbConfig(orbSystem: .fixed, aspectBaseOrb: 8.0,
+        let config = OrbConfig(aspectBaseOrb: 8.0,
                                midpoint360DialOrb: 1.5, midpoint90DialOrb: 1.0,
                                midpoint45DialOrb: 0.5, harmonicOrb: 1.5, parallelOrb: 0.5)
-        #expect(config.orbSystem == .fixed)
         #expect(config.aspectBaseOrb == 8.0)
         #expect(config.midpoint360DialOrb == 1.5)
         #expect(config.midpoint90DialOrb == 1.0)
@@ -87,14 +63,24 @@ struct OrbConfigTests {
 
     // MARK: - Codable
 
+    @Test("OrbConfig: JSON saved with the former orbSystem field still decodes")
+    func testDecodesLegacyJsonWithOrbSystem() throws {
+        let json = """
+            {"orbSystem":2,"aspectBaseOrb":8,"midpoint360DialOrb":1.5,"midpoint90DialOrb":1,
+             "midpoint45DialOrb":0.5,"harmonicOrb":2,"parallelOrb":1,"declinationMidpointOrb":0.75}
+            """
+        let decoded = try JSONDecoder().decode(OrbConfig.self, from: Data(json.utf8))
+        #expect(decoded.aspectBaseOrb == 8.0)
+        #expect(decoded.declinationMidpointOrb == 0.75)
+    }
+
     @Test("OrbConfig: encodes and decodes correctly")
     func testCodableRoundtrip() throws {
-        let original = OrbConfig(orbSystem: .harmonicBased, aspectBaseOrb: 10.0,
+        let original = OrbConfig(aspectBaseOrb: 10.0,
                                  midpoint360DialOrb: 1.5, midpoint90DialOrb: 1.0,
                                  midpoint45DialOrb: 0.5, harmonicOrb: 2.0, parallelOrb: 1.0)
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(OrbConfig.self, from: data)
-        #expect(decoded.orbSystem == original.orbSystem)
         #expect(decoded.aspectBaseOrb == original.aspectBaseOrb)
         #expect(decoded.midpoint360DialOrb == original.midpoint360DialOrb)
         #expect(decoded.midpoint90DialOrb == original.midpoint90DialOrb)

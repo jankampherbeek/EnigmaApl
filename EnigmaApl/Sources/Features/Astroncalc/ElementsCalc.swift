@@ -7,21 +7,21 @@ import Foundation
 // MARK: - Data Structures
 
 /// Representation of rectangular coordinates
-struct RectAngCoordinates {
+nonisolated struct RectAngCoordinates {
     let xCoord: Double
     let yCoord: Double
     let zCoord: Double
 }
 
 /// Representation of polar coordinates
-struct PolarCoordinates {
+nonisolated struct PolarCoordinates {
     let phiCoord: Double
     let thetaCoord: Double
     let rCoord: Double
 }
 
 /// Data for an orbit-definition.
-struct OrbitDefinition {
+nonisolated struct OrbitDefinition {
     let meanAnomaly: [Double]
     let eccentricity: [Double]
     let semiMajorAxis: Double
@@ -32,7 +32,7 @@ struct OrbitDefinition {
 
 // MARK: - Common Elements Calculator
 
-public struct ElementsCalc {
+public nonisolated struct ElementsCalc {
     
     public static func calculateElementsFactors(
         request: CalcRequest,
@@ -238,7 +238,7 @@ public struct ElementsCalc {
 // MARK: - Heliocentric Position Calculator
 
 /// Calculate heliocentric rectangular positions for celestial points
-struct CalcHelioPos {
+nonisolated struct CalcHelioPos {
     private var meanAnomaly2: Double = 0
     private var semiAxis: Double = 0
     private var inclination: Double = 0

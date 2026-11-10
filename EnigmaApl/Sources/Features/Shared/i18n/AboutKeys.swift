@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the About screen, resolved from About.strings.
-struct AboutKeys {
+nonisolated struct AboutKeys {
     private init() {}
 
     static let title        = "about.title"

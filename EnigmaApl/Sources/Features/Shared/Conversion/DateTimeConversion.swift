@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct DateTimeConversion {
+public nonisolated struct DateTimeConversion {
     
     /// Converts an AstronomicalDate to a formatted string.
     /// Format: "yyyy/mm/dd G" or "yyyy/mm/dd J" with leading zeros for day/month < 10.

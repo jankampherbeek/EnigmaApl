@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the Harmonic Exact Aspects feature, resolved from HarmonicExactAspects.strings.
-struct HarmonicExactAspectsKeys {
+nonisolated struct HarmonicExactAspectsKeys {
     private init() {}
 
     static let title               = "view.harmonicexactaspectsscreen.title"

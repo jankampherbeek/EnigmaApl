@@ -6,7 +6,7 @@ import Foundation
 
 /// Element/cross counts (by zodiac sign) for the factors currently active in the configuration.
 /// Unlike the BLA schema (fixed point set), this always follows the app's regular `FactorConfig`.
-enum CountingsOrchestrator {
+nonisolated enum CountingsOrchestrator {
 
     static func elementsAndCrosses(chart: FullChart, factorConfig: FactorConfig) -> (elements: [CountingsLine], crosses: [CountingsLine]) {
         let usedFactors = Set(factorConfig.factorSettings.filter { $0.isUsed }.map { $0.factor })

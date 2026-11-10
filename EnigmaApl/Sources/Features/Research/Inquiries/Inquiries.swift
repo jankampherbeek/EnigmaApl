@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Types of research inquiries that can be performed on a dataset.
-public enum Inquiries: Int, CaseIterable {
+public nonisolated enum Inquiries: Int, CaseIterable {
     case factorsInSigns = 0
     case factorsInHouses = 1
     case aspects = 2

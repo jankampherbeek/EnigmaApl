@@ -7,7 +7,7 @@ import Foundation
 // MARK: - Apogee Duval Calculator
 
 /// Calculate corrected apogee using Duval's formula
-public struct ApogeeDuvalCalc {
+public nonisolated struct ApogeeDuvalCalc {
     
     /// Calculate corrected apogee using Duval's formula
     /// - Parameters:

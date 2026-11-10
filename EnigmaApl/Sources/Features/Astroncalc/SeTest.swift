@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct SeTest {
+nonisolated struct SeTest {
     
     /// This test is disabled because it uses SwissEph which is kept for reference only.
     /// Use SEWrapper for all Swiss Ephemeris calculations.

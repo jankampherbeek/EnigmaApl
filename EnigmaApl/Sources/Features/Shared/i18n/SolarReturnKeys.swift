@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for SolarInputScreen and SolarResultsScreen, resolved from SolarReturn.strings.
-struct SolarReturnKeys {
+nonisolated struct SolarReturnKeys {
     private init() {}
 
     // Input screen

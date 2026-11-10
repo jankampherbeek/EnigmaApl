@@ -2,7 +2,7 @@
 // EnigmaApl is open source. For more information see se_license.html and License, both at the root of the application.
 // Created by Jan Kampherbeek 2026
 
-enum RoddenRating: String, CaseIterable, Identifiable {
+nonisolated enum RoddenRating: String, CaseIterable, Identifiable {
     case none = "None"
     case aa = "AA"
     case a = "A"

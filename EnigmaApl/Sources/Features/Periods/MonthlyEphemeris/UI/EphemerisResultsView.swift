@@ -317,9 +317,7 @@ private struct EphemerisTableView: View {
             if model.selectedCoordinate == .longitude {
                 let (dms, sign, _) = PositionInDegreesConversion.DoubleToDmsSign(value)
                 if let sign = sign {
-                    Text(dms)
-                    + Text(" \(GlyphSelector.getGlyphForSign(sign))")
-                        .font(.custom("EnigmaAstrology3", size: 12))
+                    Text("\(Text(dms))\(Text(" \(GlyphSelector.getGlyphForSign(sign))").font(.custom("EnigmaAstrology3", size: 12)))")
                 } else {
                     Text(dms)
                 }
@@ -479,7 +477,8 @@ private struct EphemerisGraphView: View {
     private func glyphPlacements(proxy: ChartProxy, geo: GeometryProxy) -> [GlyphPlacement] {
         let size: CGFloat = 14
         let glyphPx: CGFloat = 12
-        let plotFrame = geo[proxy.plotAreaFrame]
+        guard let plotAnchor = proxy.plotFrame else { return [] }
+        let plotFrame = geo[plotAnchor]
 
         // Skip until layout is complete — avoid division by zero in neededPad.
         guard plotFrame.width > 0,
@@ -820,9 +819,7 @@ private struct EphemerisTablePrintContent: View {
             if coordinate == .longitude {
                 let (dms, sign, _) = PositionInDegreesConversion.DoubleToDmsSign(value)
                 if let sign = sign {
-                    Text(dms)
-                    + Text(" \(GlyphSelector.getGlyphForSign(sign))")
-                        .font(.custom("EnigmaAstrology3", size: 10))
+                    Text("\(Text(dms))\(Text(" \(GlyphSelector.getGlyphForSign(sign))").font(.custom("EnigmaAstrology3", size: 10)))")
                 } else {
                     Text(dms)
                 }

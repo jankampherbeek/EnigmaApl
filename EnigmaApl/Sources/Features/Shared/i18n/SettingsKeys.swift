@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the Settings window, resolved from Settings.strings.
-struct SettingsKeys {
+nonisolated struct SettingsKeys {
     private init() {}
 
     static let title               = "view.settingsscreen.title"

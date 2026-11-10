@@ -396,7 +396,7 @@ struct EventEditScreen: View {
     }
 
     /// Converts a decimal coordinate to degrees, minutes, seconds, and a negative flag.
-    private static func toDms(_ decimal: Double) -> (Int, Int, Int, Bool) {
+    private nonisolated static func toDms(_ decimal: Double) -> (Int, Int, Int, Bool) {
         let negative = decimal < 0
         let abs = Swift.abs(decimal)
         let deg  = Int(abs)

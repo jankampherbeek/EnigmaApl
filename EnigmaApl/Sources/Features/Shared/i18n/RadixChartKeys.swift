@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for HoroscopeScreen, resolved from RadixChart.strings.
-struct RadixChartKeys {
+nonisolated struct RadixChartKeys {
     private init() {}
 
     static let noChartTitle       = "view.horoscopescreen.nochart.title"

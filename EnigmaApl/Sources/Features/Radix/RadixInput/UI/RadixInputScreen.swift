@@ -188,7 +188,7 @@ struct RadixInputScreen: View {
         let lon = dmsToDecimal(deg: longitudeDegrees ?? 0, min: longitudeMinutes ?? 0, sec: longitudeSeconds ?? 0, negative: lonHemi == .west)
         do {
             let horoscope = try repository.add(name: chartName, notes: chartDescription.isEmpty ? nil : chartDescription, source: source.isEmpty ? nil : source, roddenRating: roddenRating.rawValue, placeName: locationName.isEmpty ? nil : locationName, latitude: lat, longitude: lon)
-            try repository.addDateTime(to: horoscope, julianDate: julianDate, timeZoneIdentifier: utOffsetIdentifier(), originalInput: originalInputString())
+            _ = try repository.addDateTime(to: horoscope, julianDate: julianDate, timeZoneIdentifier: utOffsetIdentifier(), originalInput: originalInputString())
         } catch { showSaveWarning = true }
     }
 

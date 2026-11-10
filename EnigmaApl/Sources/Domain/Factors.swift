@@ -11,7 +11,7 @@ import Foundation
 /// CommonFormula: Calculation of celestial points based on a formula.
 /// Mundane: Calculation of mundane points, either via the Swiss Ephemeris of based on a formula.
 /// Lots: Calculation of Hellenistic lots.
-public enum CalculationTypes: Int, CaseIterable {
+public nonisolated enum CalculationTypes: Int, CaseIterable, Sendable {
     case Unknown = 0
     case CommonSe = 1
     case CommonElements = 2
@@ -26,7 +26,7 @@ public enum CalculationTypes: Int, CaseIterable {
 // MARK: - Factors
 
 /// Factors, lights, planets, mathematical points etc. 
-public enum Factors: Int, CaseIterable, Codable {
+public nonisolated enum Factors: Int, CaseIterable, Codable, Sendable {
     case sun = 0
     case moon = 1
     case mercury = 2
@@ -118,8 +118,6 @@ public enum Factors: Int, CaseIterable, Codable {
             return .Apsides
         case .logTimeScale, .agePoint:
             return .CommonFormulaFull
-        default:
-            return .Unknown
         }
     }
     

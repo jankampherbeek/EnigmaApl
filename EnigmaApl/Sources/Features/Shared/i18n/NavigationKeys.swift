@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the menu, the sidebar and the column titles (table Navigation).
-struct NavigationKeys {
+nonisolated struct NavigationKeys {
     private init() {}
 
     static let sidebarTitle           = "view.navigation.sidebar.title"

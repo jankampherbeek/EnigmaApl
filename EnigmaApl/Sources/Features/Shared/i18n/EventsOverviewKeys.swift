@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for EventsOverviewScreen, resolved from EventsOverview.strings.
-struct EventsOverviewKeys {
+nonisolated struct EventsOverviewKeys {
     private init() {}
 
     static let title           = "view.eventsoverviewscreen.title"

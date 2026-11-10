@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for AstronomicalCyclesScreen, resolved from AstronomicalCycles.strings.
-struct AstroCyclesKeys {
+nonisolated struct AstroCyclesKeys {
     private init() {}
 
     static let title           = "view.astrocycles.title"

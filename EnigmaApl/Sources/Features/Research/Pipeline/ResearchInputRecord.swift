@@ -6,7 +6,7 @@ import Foundation
 
 /// One row from the horoscope_data SQLite table — represents a single chart to calculate.
 /// `isData = true` means real research data; `false` means control-group data.
-public struct ResearchInputRecord: Sendable {
+public nonisolated struct ResearchInputRecord: Sendable {
     public let id: Int
     public let isData: Bool
     public let geoLat: Double

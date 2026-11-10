@@ -11,19 +11,12 @@ struct HouseSystemsTests {
     
     @Test("HouseSystems: all cases are accessible")
     func testAllHouseSystemsCases() {
-        // Test that all major cases exist
-        #expect(HouseSystems.noHouses != nil)
-        #expect(HouseSystems.placidus != nil)
-        #expect(HouseSystems.koch != nil)
-        #expect(HouseSystems.porphyri != nil)
-        #expect(HouseSystems.regiomontanus != nil)
-        #expect(HouseSystems.campanus != nil)
-        #expect(HouseSystems.alcabitius != nil)
-        #expect(HouseSystems.topoCentric != nil)
-        #expect(HouseSystems.krusinski != nil)
-        #expect(HouseSystems.apc != nil)
-        #expect(HouseSystems.morin != nil)
-        #expect(HouseSystems.wholeSign != nil)
+        // Test that all major cases are part of allCases
+        let expected: [HouseSystems] = [.noHouses, .placidus, .koch, .porphyri, .regiomontanus, .campanus,
+                                        .alcabitius, .topoCentric, .krusinski, .apc, .morin, .wholeSign]
+        for system in expected {
+            #expect(HouseSystems.allCases.contains(system), "\(system) is missing from allCases")
+        }
     }
     
     @Test("HouseSystems: allCases contains all house systems")

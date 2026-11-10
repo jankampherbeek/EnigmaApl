@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum LunarNodeTypes: Int, CaseIterable, Codable {
+public nonisolated enum LunarNodeTypes: Int, CaseIterable, Codable, Sendable {
     case meanNode = 0
     case trueNode = 1
 
@@ -20,7 +20,7 @@ public enum LunarNodeTypes: Int, CaseIterable, Codable {
     }
 }
 
-public enum LotsTypes: Int, CaseIterable, Codable {
+public nonisolated enum LotsTypes: Int, CaseIterable, Codable, Sendable {
     case sect = 0
     case noSect = 1
 
@@ -37,7 +37,7 @@ public enum LotsTypes: Int, CaseIterable, Codable {
 }
 
 /// Configuration for astrological calculation settings.
-public struct CalculationConfig: Codable, Sendable {
+public nonisolated struct CalculationConfig: Codable, Sendable {
     public let houseSystem: HouseSystems
     public let ayanamsha: Ayanamshas
     public let observerPosition: ObserverPositions

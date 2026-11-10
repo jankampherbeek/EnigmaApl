@@ -913,7 +913,6 @@ struct OrbConfigEditor: View {
 
     let config: UserConfiguration
 
-    @State private var orbSystem:        OrbSystem = .procentual
     @State private var aspectBaseDeg:    Int = 10
     @State private var aspectBaseMin:    Int = 0
     @State private var midpoint360Deg:   Int = 1
@@ -940,13 +939,6 @@ struct OrbConfigEditor: View {
             Spacer()
                 .frame(height: 4)
                 .listRowBackground(Color.clear)
-            Section {
-                Picker(t(ConfigEditKeys.orbSystem), selection: $orbSystem) {
-                    ForEach(OrbSystem.allCases, id: \.self) { system in
-                        Text(le(system.rbKey)).tag(system)
-                    }
-                }
-            }
             Section(t(ConfigEditKeys.orbSectionValues)) {
                 orbRow(label: t(ConfigEditKeys.orbAspectBase),
                        deg: $aspectBaseDeg, min: $aspectBaseMin, maxDeg: 30)
@@ -971,7 +963,6 @@ struct OrbConfigEditor: View {
                               backTitle: t(ConfigEditKeys.backToOverview))
         .sheet(isPresented: $showHelp) { OrbConfigHelpView() }
         .onAppear { loadFromConfig() }
-        .onChange(of: orbSystem) { markDirtyIfChanged() }
     }
 
     private func orbRow(label: String,
@@ -1016,7 +1007,6 @@ struct OrbConfigEditor: View {
 
     private func loadFromConfig() {
         let c = config.orbConfig
-        orbSystem = c.orbSystem
         (aspectBaseDeg, aspectBaseMin) = sexagesimalFromDouble(c.aspectBaseOrb)
         (midpoint360Deg, midpoint360Min) = sexagesimalFromDouble(c.midpoint360DialOrb)
         (midpoint90Deg,  midpoint90Min)  = sexagesimalFromDouble(c.midpoint90DialOrb)
@@ -1030,7 +1020,6 @@ struct OrbConfigEditor: View {
     /// The configuration as currently entered in this editor.
     private func editedConfig() -> OrbConfig {
         return OrbConfig(
-            orbSystem:     orbSystem,
             aspectBaseOrb: doubleFromSexagesimal(aspectBaseDeg, aspectBaseMin),
             midpoint360DialOrb: doubleFromSexagesimal(midpoint360Deg, midpoint360Min),
             midpoint90DialOrb:  doubleFromSexagesimal(midpoint90Deg,  midpoint90Min),
@@ -1074,7 +1063,6 @@ struct OrbConfigHelpView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     GroupBox(t(ConfigEditKeys.orbHelpGroupBox)) {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(t(ConfigEditKeys.orbHelpLine1))
                             Text(t(ConfigEditKeys.orbHelpLine2))
                             Text(t(ConfigEditKeys.orbHelpLine3))
                         }

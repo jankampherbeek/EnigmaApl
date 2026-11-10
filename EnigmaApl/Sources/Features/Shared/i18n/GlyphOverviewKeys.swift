@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for GlyphOverviewScreen, resolved from GlyphOverview.strings.
-struct GlyphOverviewKeys {
+nonisolated struct GlyphOverviewKeys {
     private init() {}
 
     static let title           = "view.glyphoverviewscreen.title"

@@ -15,7 +15,6 @@ struct LotsCalcTests {
         let julianDay = 2461050.5
         let factorsToUse: [Factors] = [.parsfortuna]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         
@@ -161,7 +160,6 @@ struct LotsCalcTests {
         let julianDay = 2461050.5
         let factorsToUse: [Factors] = [.parsfortuna]
         let houseSystem = 0
-        let seFlags = 258
         let latitude = 52.2180555555556
         let longitude = 6.8955555555556
         let isDayChart = false

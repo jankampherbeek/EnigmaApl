@@ -5,7 +5,7 @@
 import Foundation
 
 /// The visual layout style for the astrological chart drawing.
-public enum DrawingType: Int, CaseIterable, Codable {
+public nonisolated enum DrawingType: Int, CaseIterable, Codable, Sendable {
     case signBased = 0
     case houseBased = 1
     case french = 2
@@ -28,7 +28,7 @@ public enum DrawingType: Int, CaseIterable, Codable {
 }
 
 /// Color override for a single zodiac sign.
-public struct SignColorOverride: Codable, Equatable, Sendable {
+public nonisolated struct SignColorOverride: Codable, Equatable, Sendable {
     public let sign: Signs
     public let color: ColorConfig
 
@@ -39,7 +39,7 @@ public struct SignColorOverride: Codable, Equatable, Sendable {
 }
 
 /// Configuration for display and visual settings.
-public struct DisplayConfig: Codable, Sendable {
+public nonisolated struct DisplayConfig: Codable, Sendable {
     public let drawingType: DrawingType
     /// Color overrides for zodiac signs. Empty by default.
     public let signColors: [SignColorOverride]

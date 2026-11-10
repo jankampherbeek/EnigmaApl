@@ -5,7 +5,7 @@
 import Foundation
 
 /// The 3 crosses and 4 elements shown in the Countings screen.
-enum CountingsGroup: CaseIterable, Hashable {
+nonisolated enum CountingsGroup: CaseIterable, Hashable {
     case cardinal, fixed, mutable, fire, earth, air, water
 
     static func crossFor(sign: Int) -> CountingsGroup? {
@@ -30,7 +30,7 @@ enum CountingsGroup: CaseIterable, Hashable {
 
 /// One row of the Elements or Crosses count table: how many active factors fall in a sign
 /// belonging to this group.
-struct CountingsLine: Identifiable {
+nonisolated struct CountingsLine: Identifiable {
     var id: String { "\(group)" }
     let group: CountingsGroup
     let count: Int

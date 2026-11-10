@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for the Countings screen, resolved from Countings.strings.
-struct CountingsKeys {
+nonisolated struct CountingsKeys {
     private init() {}
 
     static let title = "view.countingsscreen.title"

@@ -6,7 +6,7 @@ import Foundation
 import SwiftUI
 
 /// A Codable color representation for use in configuration and Swift Data storage.
-public struct ColorConfig: Codable, Equatable, Sendable {
+public nonisolated struct ColorConfig: Codable, Equatable, Sendable {
     public let red: Double
     public let green: Double
     public let blue: Double
@@ -37,7 +37,7 @@ public struct ColorConfig: Codable, Equatable, Sendable {
 
 // MARK: - SwiftUI Color bridge
 
-extension Color {
+nonisolated extension Color {
     /// Creates a SwiftUI Color from a ColorConfig.
     init(_ config: ColorConfig) {
         self.init(red: config.red, green: config.green,

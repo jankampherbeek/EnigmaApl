@@ -32,7 +32,7 @@ import Foundation
 ///
 /// If the timezone indicator is `LMT`, the UTC offset is derived from the geographic longitude
 /// by dividing it by 15 (including seconds of arc).
-public struct QuickChartImporter: DataImporter, Sendable {
+public nonisolated struct QuickChartImporter: DataImporter, Sendable {
 
     public init() {}
 

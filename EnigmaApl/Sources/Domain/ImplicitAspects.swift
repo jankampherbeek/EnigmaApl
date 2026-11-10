@@ -5,7 +5,7 @@
 /// Pairs of factors with a fixed distance between them. Any aspect between them is implicit,
 /// so these pairs are omitted when calculating aspects within a single chart.
 /// Not applicable to aspects between two different charts (transits, progressions, synastry).
-enum ImplicitAspects {
+nonisolated enum ImplicitAspects {
 
     /// North Node, South Node, Dragon and Beast are all at fixed distances from each other.
     private static let nodeGroup: Set<Factors> = [.northNode, .southNode, .dragon, .beast]

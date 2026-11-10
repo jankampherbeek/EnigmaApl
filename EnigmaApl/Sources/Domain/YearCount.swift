@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 // Indication of year count
-enum YearCount: CaseIterable, Identifiable, Hashable {
+nonisolated enum YearCount: CaseIterable, Identifiable, Hashable {
     case ce
     case bc
     case astronomical

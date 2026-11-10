@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for WavesScreen, resolved from Waves.strings.
-struct WavesKeys {
+nonisolated struct WavesKeys {
     private init() {}
 
     static let title             = "view.waves.title"

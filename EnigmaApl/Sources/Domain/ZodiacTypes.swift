@@ -5,7 +5,7 @@
 import Foundation
 
 /// Zodiac types, e.g. sidereal or tropical
-public enum ZodiacTypes: Int, CaseIterable {
+public nonisolated enum ZodiacTypes: Int, CaseIterable, Sendable {
     case sidereal = 0
     case tropical = 1
     

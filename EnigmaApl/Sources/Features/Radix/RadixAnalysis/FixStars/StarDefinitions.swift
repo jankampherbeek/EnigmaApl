@@ -3,14 +3,14 @@
 // Created by Jan Kampherbeek 2026
 
 /// Indicates membership of a fixed star in the Ptolemy, Robson and Brady selection lists.
-struct StarSelectionMembership {
+nonisolated struct StarSelectionMembership {
     let inPtolemy: Bool
     let inRobson: Bool
     let inBrady: Bool
 }
 
 /// All named fixed stars available in sefstars.txt.
-public enum StarDefinitions: Codable, CaseIterable {
+public nonisolated enum StarDefinitions: Codable, CaseIterable, Sendable {
 
     case aldebaran
     case algol

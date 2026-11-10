@@ -165,9 +165,7 @@
 "view.configedit.prog.solar.help.line2"    = "Set the orb for the calculation.";
 
 // Orb editor
-"view.configedit.orb.section.system"  = "Orb System";
 "view.configedit.orb.section.values"  = "Orb Values";
-"view.configedit.orb.system"          = "System";
 "view.configedit.orb.aspectbase"      = "Aspect base orb";
 "view.configedit.orb.midpoint360"     = "Midpoint orb 360°";
 "view.configedit.orb.midpoint90"      = "Midpoint orb 90°";
@@ -179,7 +177,6 @@
 // Orb editor help
 "view.configedit.orb.help.tooltip"    = "Help for orbs";
 "view.configedit.orb.help.groupbox"   = "Orbs";
-"view.configedit.orb.help.line1"      = "Choose the orb system to use for calculating effective orbs.";
 "view.configedit.orb.help.line2"      = "The base orb for aspects is the starting point for calculation. The effective orb per aspect is determined by combining the base orb with the orb percentages from the factor and aspect settings.";
 "view.configedit.orb.help.line3"      = "The orb values for midpoints, harmonics and parallels are used as fixed values.";
 

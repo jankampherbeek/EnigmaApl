@@ -147,10 +147,11 @@ private func drawArrowLabel(
     // Rotate text to read along the shaft; flip for the left half to keep it right-side up.
     let rotDeg = mundaneAngle <= 180.0 ? (90.0 - mundaneAngle) : (270.0 - mundaneAngle)
 
-    let label = Text(dmsString + " ").font(.system(size: fontSize)).foregroundColor(Color(theme.planetGlyph))
-              + Text(GlyphSelector.getGlyphForSign(sign))
-                    .font(.custom("EnigmaAstrology3", size: glyphSize))
-                    .foregroundColor(Color(theme.planetGlyph))
+    let dmsText = Text(dmsString + " ").font(.system(size: fontSize)).foregroundColor(Color(theme.planetGlyph))
+    let signText = Text(GlyphSelector.getGlyphForSign(sign))
+        .font(.custom("EnigmaAstrology3", size: glyphSize))
+        .foregroundColor(Color(theme.planetGlyph))
+    let label = Text("\(dmsText)\(signText)")
 
     var labelCtx = ctx
     labelCtx.translateBy(x: textPoint.x, y: textPoint.y)

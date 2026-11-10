@@ -7,14 +7,14 @@ import Combine
 
 // MARK: - Domain Types
 
-enum EclipseSearchType: String, CaseIterable, Identifiable {
+nonisolated enum EclipseSearchType: String, CaseIterable, Identifiable {
     case solar = "Solar"
     case lunar = "Lunar"
     case all   = "All"
     var id: String { rawValue }
 }
 
-struct EclipseEvent: Identifiable {
+nonisolated struct EclipseEvent: Identifiable {
     enum Kind { case solar, lunar }
 
     let id            = UUID()
@@ -50,7 +50,7 @@ final class EclipsesModel: ObservableObject {
 
 // MARK: - Orchestrator
 
-final class EclipsesOrchestrator {
+final nonisolated class EclipsesOrchestrator {
     private let seWrapper: SEWrapper
 
     init(seWrapper: SEWrapper = SEWrapper()) {

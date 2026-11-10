@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for ImportExportSection enum values.
-struct ImportExportSectionKeys {
+nonisolated struct ImportExportSectionKeys {
     private init() {}
 
     static let keys: [ImportExportSection: String] = [

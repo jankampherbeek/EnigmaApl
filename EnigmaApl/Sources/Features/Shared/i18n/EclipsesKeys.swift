@@ -3,7 +3,7 @@
 // Created by Jan Kampherbeek 2026
 
 /// Localization keys for EclipsesInputScreen and EclipsesResultsScreen, resolved from Eclipses.strings.
-struct EclipsesKeys {
+nonisolated struct EclipsesKeys {
     private init() {}
     static let title            = "view.eclipses.title"
     static let startDate        = "view.eclipses.startdate"
